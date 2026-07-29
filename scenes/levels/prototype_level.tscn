@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c72sdicx7e1cx"]
+
+[ext_resource type="PackedScene" uid="uid://bw1q38b7650a1" path="res://scenes/characters/player.tscn" id="1_bwbut"]
+
+[node name="PrototypeLevel" type="Node3D" unique_id=1707930378]
+
+[node name="Floor" type="CSGBox3D" parent="." unique_id=1726636770]
+transform = Transform3D(20, 0, 0, 0, 0.2, 0, 0, 0, 20, 0, -0.1, 0)
+use_collision = true
+
+[node name="WallNorth" type="CSGBox3D" parent="." unique_id=1404617362]
+transform = Transform3D(20, 0, 0, 0, 4, 0, 0, 0, 0.2, 0, 2, -10)
+use_collision = true
+
+[node name="WallSouth" type="CSGBox3D" parent="." unique_id=1368947796]
+transform = Transform3D(20, 0, 0, 0, 4, 0, 0, 0, 0.2, 0, 2, 10)
+use_collision = true
+
+[node name="WallWest" type="CSGBox3D" parent="." unique_id=1492336492]
+transform = Transform3D(0.2, 0, 0, 0, 4, 0, 0, 0, 20, -10, 2, 0)
+use_collision = true
+
+[node name="WallEast" type="CSGBox3D" parent="." unique_id=674206880]
+transform = Transform3D(0.2, 0, 0, 0, 4, 0, 0, 0, 20, 10, 2, 0)
+use_collision = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=335082489]
+transform = Transform3D(1, 0, 0, 0, 0.81915206, 0.57357645, 0, -0.57357645, 0.81915206, 0, 8.265, 0)
+
+[node name="Player" parent="." unique_id=1961618548 instance=ExtResource("1_bwbut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
