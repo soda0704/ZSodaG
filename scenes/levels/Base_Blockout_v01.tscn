@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://bimgtstlw0es7"]
+
+[ext_resource type="PackedScene" uid="uid://bw1q38b7650a1" path="res://scenes/characters/player.tscn" id="1_b5vde"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b5vde"]
+albedo_color = Color(0.67, 0.23963667, 0.040200002, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uovnf"]
+albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b6drr"]
+albedo_color = Color(0.18243688, 0.496095, 0.28205684, 1)
+
+[node name="Node3D" type="Node3D" unique_id=1326099881]
+
+[node name="Base_Blockout_v01" type="Node3D" parent="." unique_id=294757075]
+
+[node name="Center_Hub" type="Node3D" parent="Base_Blockout_v01" unique_id=1142305586]
+
+[node name="Center_Hub_Floor" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub" unique_id=11968664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(16, 0.2, 16)
+
+[node name="Elevator_Placeholder" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub" unique_id=2091796436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+use_collision = true
+size = Vector3(6, 0.05, 6)
+material = SubResource("StandardMaterial3D_b5vde")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub/Elevator_Placeholder" unique_id=843079762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 2, -2.8)
+size = Vector3(0.4, 4, 0.4)
+material = SubResource("StandardMaterial3D_uovnf")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub/Elevator_Placeholder" unique_id=1450422139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 2, -2.8)
+size = Vector3(0.4, 4, 0.4)
+material = SubResource("StandardMaterial3D_uovnf")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub/Elevator_Placeholder" unique_id=1769135006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 2, 2.8)
+size = Vector3(0.4, 4, 0.4)
+material = SubResource("StandardMaterial3D_uovnf")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub/Elevator_Placeholder" unique_id=1608947826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 2, 2.8)
+size = Vector3(0.4, 4, 0.4)
+material = SubResource("StandardMaterial3D_uovnf")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Base_Blockout_v01/Center_Hub/Elevator_Placeholder" unique_id=1756406760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.85, 2, 0)
+size = Vector3(0.3, 4, 6)
+material = SubResource("StandardMaterial3D_b6drr")
+
+[node name="West_Entrance" type="Node3D" parent="Base_Blockout_v01" unique_id=1457487264]
+
+[node name="West_Entrance_Floor" type="CSGBox3D" parent="Base_Blockout_v01/West_Entrance" unique_id=1286363227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.1, 0)
+use_collision = true
+size = Vector3(28, 0.2, 16)
+
+[node name="West_Connector_Floor" type="CSGBox3D" parent="Base_Blockout_v01/West_Entrance" unique_id=889035786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.1, 0)
+use_collision = true
+size = Vector3(2, 0.2, 4)
+
+[node name="West_Wall_North" type="CSGBox3D" parent="Base_Blockout_v01/West_Entrance" unique_id=2129590779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.85, 2.75, 4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="West_Wall_South" type="CSGBox3D" parent="Base_Blockout_v01/West_Entrance" unique_id=846094120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.85, 2.75, -4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="North_Science" type="Node3D" parent="Base_Blockout_v01" unique_id=1363746055]
+
+[node name="North_Science_Floor" type="CSGBox3D" parent="Base_Blockout_v01/North_Science" unique_id=149070299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 18)
+use_collision = true
+size = Vector3(16, 0.2, 16)
+
+[node name="North_Connector_Floor" type="CSGBox3D" parent="Base_Blockout_v01/North_Science" unique_id=1141210328]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 9)
+use_collision = true
+size = Vector3(4, 0.2, 2)
+
+[node name="North_Wall_Left" type="CSGBox3D" parent="Base_Blockout_v01/North_Science" unique_id=850798014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 2.75, 7.85)
+use_collision = true
+size = Vector3(6.5, 5.5, 0.3)
+
+[node name="North_Wall_Right" type="CSGBox3D" parent="Base_Blockout_v01/North_Science" unique_id=1719582301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 2.75, 7.85)
+use_collision = true
+size = Vector3(6.5, 5.5, 0.3)
+
+[node name="East_Living" type="Node3D" parent="Base_Blockout_v01" unique_id=1928987753]
+
+[node name="East_Living_Floor" type="CSGBox3D" parent="Base_Blockout_v01/East_Living" unique_id=1050650908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -0.1, 0)
+use_collision = true
+size = Vector3(24, 0.2, 16)
+
+[node name="East_Connector_Floor" type="CSGBox3D" parent="Base_Blockout_v01/East_Living" unique_id=1841078308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.1, 0)
+use_collision = true
+size = Vector3(2, 0.2, 4)
+
+[node name="East_Wall_North" type="CSGBox3D" parent="Base_Blockout_v01/East_Living" unique_id=1533936718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.85, 2.75, -4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="East_Wall_South" type="CSGBox3D" parent="Base_Blockout_v01/East_Living" unique_id=1165890296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.85, 2.75, 4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="South_Technical" type="Node3D" parent="Base_Blockout_v01" unique_id=1616181831]
+
+[node name="South_Technical_Floor" type="CSGBox3D" parent="Base_Blockout_v01/South_Technical" unique_id=960449371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -18)
+use_collision = true
+size = Vector3(16, 0.2, 16)
+
+[node name="South_Connector_Floor" type="CSGBox3D" parent="Base_Blockout_v01/South_Technical" unique_id=29604141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -9)
+use_collision = true
+size = Vector3(4, 0.2, 2)
+
+[node name="South_Wall_Left" type="CSGBox3D" parent="Base_Blockout_v01/South_Technical" unique_id=1128176748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 2.75, -7.85)
+use_collision = true
+size = Vector3(6.5, 5.5, 0.3)
+
+[node name="South_Wall_Right" type="CSGBox3D" parent="Base_Blockout_v01/South_Technical" unique_id=1636747159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 2.75, -7.85)
+use_collision = true
+size = Vector3(6.5, 5.5, 0.3)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1495742297]
+transform = Transform3D(1, 0, 0, 0, -0.9612617, 0.2756373, 0, -0.2756373, -0.9612617, 0, 15.387589, 0)
+
+[node name="Player" parent="." unique_id=1961618548 instance=ExtResource("1_b5vde")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.05, 0)

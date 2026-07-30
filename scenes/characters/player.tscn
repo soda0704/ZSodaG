@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bwn6i38fob21d" path="res://scripts/characters/player.gd" id="1_rp718"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1fef"]
+radius = 0.35
+height = 1.8
 
 [node name="Player" type="CharacterBody3D" unique_id=1961618548]
 script = ExtResource("1_rp718")
@@ -16,3 +18,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=2127975598]
 current = true
+far = 500.0
