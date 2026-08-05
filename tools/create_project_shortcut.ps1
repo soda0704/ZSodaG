@@ -9,7 +9,16 @@ $gameShortcutPaths = @(
 )
 $editorShortcutPath = Join-Path $projectRoot "NorthernLab - Editor.lnk"
 $localEditor = Join-Path $PSScriptRoot ".local\godotsteam-editor\godot.exe"
+$setupScript = Join-Path $PSScriptRoot "setup_godotsteam_editor.ps1"
 $powershellExecutable = Join-Path $PSHOME "powershell.exe"
+
+if (-not (Test-Path -LiteralPath $localEditor)) {
+    & $setupScript
+}
+
+if (-not (Test-Path -LiteralPath $localEditor)) {
+    throw "GodotSteam-compatible editor was not created: $localEditor"
+}
 
 $shell = New-Object -ComObject WScript.Shell
 foreach ($gameShortcutPath in $gameShortcutPaths) {
