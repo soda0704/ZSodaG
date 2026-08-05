@@ -3,9 +3,13 @@ extends Node3D
 const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
-const FLASHLIGHT_PICKUP_SCENE := preload(
-	"res://scenes/objects/equipment/flashlight_pickup.tscn"
-)
+const ITEM_SCENES := {
+	&"flashlight": preload(
+		"res://scenes/objects/equipment/flashlight_pickup.tscn"
+	),
+	&"fuse": preload("res://scenes/objects/items/fuse_pickup.tscn"),
+	&"battery": preload("res://scenes/objects/items/battery_pickup.tscn"),
+}
 const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
 	Vector3(2.5, 0.05, 4.0),
@@ -22,22 +26,23 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 @export var gameplay_origin_path: NodePath
 
 @export_group("Gameplay Nodes")
-@export var flashlight_pickups_path := NodePath("Gameplay/FlashlightPickups")
-@export var flashlight_spawner_path := NodePath("Gameplay/FlashlightSpawner")
+@export var world_items_path := NodePath("Gameplay/WorldItems")
+@export var item_spawner_path := NodePath("Gameplay/ItemSpawner")
 @export var power_switch_path := NodePath(
 	"Gameplay/PoweredDoorSystem/DoorPowerSwitch"
 )
 @export var interactive_door_path := NodePath(
 	"Gameplay/PoweredDoorSystem/InteractiveDoor"
 )
+@export var generator_panel_path := NodePath("Gameplay/GeneratorPanel")
 
 @onready var players: Node3D = %Players
 @onready var overview_camera: Camera3D = %OverviewCamera
-@onready var flashlight_pickups: Node3D = get_node_or_null(
-	flashlight_pickups_path
+@onready var world_items: Node3D = get_node_or_null(
+	world_items_path
 ) as Node3D
-@onready var flashlight_spawner: MultiplayerSpawner = get_node_or_null(
-	flashlight_spawner_path
+@onready var item_spawner: MultiplayerSpawner = get_node_or_null(
+	item_spawner_path
 ) as MultiplayerSpawner
 @onready var power_switch: DoorPowerSwitch = get_node_or_null(
 	power_switch_path
@@ -45,19 +50,22 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 @onready var interactive_door: InteractiveDoor = get_node_or_null(
 	interactive_door_path
 ) as InteractiveDoor
+@onready var generator_panel: GeneratorPanel = get_node_or_null(
+	generator_panel_path
+) as GeneratorPanel
 @onready var gameplay_origin: Node3D = get_node_or_null(
 	gameplay_origin_path
 ) as Node3D
 
-var _initial_flashlights_spawned: bool = false
-var _next_pickup_id: int = 1
+var _initial_items_spawned: bool = false
+var _next_item_id: int = 1
 var _player_roster: Dictionary = {}
 
 
 func _ready() -> void:
 	add_to_group("network_gameplay_controller")
-	if flashlight_spawner != null:
-		flashlight_spawner.spawn_function = spawn_flashlight_from_data
+	if item_spawner != null:
+		item_spawner.spawn_function = spawn_world_item_from_data
 	SteamNetwork.session_ready.connect(_on_session_ready)
 	SteamNetwork.session_closed.connect(_on_session_closed)
 	SteamNetwork.peer_joined.connect(_on_peer_joined)
@@ -69,7 +77,7 @@ func _on_session_ready(as_host: bool) -> void:
 	if as_host:
 		spawn_player_for_peer(1)
 		if not uses_staging_lobby or CoopLobby.game_has_started:
-			spawn_initial_flashlights()
+			spawn_initial_items()
 	else:
 		_request_player_spawn.rpc_id(1)
 		_request_gameplay_state.rpc_id(1)
@@ -95,6 +103,8 @@ func _request_gameplay_state() -> void:
 		power_switch.sync_network_state_to_peer(sender_id)
 	if interactive_door != null:
 		interactive_door.sync_network_state_to_peer(sender_id)
+	if generator_panel != null:
+		generator_panel.sync_network_state_to_peer(sender_id)
 
 
 func spawn_player_for_peer(peer_id: int) -> void:
@@ -182,7 +192,7 @@ func _on_gameplay_started() -> void:
 	if not uses_staging_lobby or not multiplayer.is_server():
 		return
 
-	spawn_initial_flashlights()
+	spawn_initial_items()
 	var player_index := 0
 	for player in players.get_children():
 		if player.has_method("teleport_authoritative"):
@@ -194,73 +204,106 @@ func _on_gameplay_started() -> void:
 		player_index += 1
 
 
-func spawn_initial_flashlights() -> void:
+func spawn_initial_items() -> void:
 	if (
 		not multiplayer.is_server()
-		or flashlight_spawner == null
-		or _initial_flashlights_spawned
+		or item_spawner == null
+		or _initial_items_spawned
 	):
 		return
 
-	_initial_flashlights_spawned = true
-	spawn_flashlight_pickup(
+	_initial_items_spawned = true
+	spawn_world_item(
+		GamePlayer.FLASHLIGHT_ITEM,
 		Transform3D(Basis.IDENTITY, Vector3(-1.25, 0.12, 3.35)),
-		0.25
+		{"battery_charge": 0.25}
 	)
-	spawn_flashlight_pickup(
+	spawn_world_item(
+		GamePlayer.FLASHLIGHT_ITEM,
 		Transform3D(
 			Basis(Vector3.UP, deg_to_rad(24.0)),
 			Vector3(1.45, 0.12, 3.1)
 		),
-		1.0
+		{"battery_charge": 1.0}
 	)
+	spawn_world_item(
+		GamePlayer.FUSE_ITEM,
+		Transform3D(
+			Basis(Vector3.UP, deg_to_rad(-18.0)),
+			Vector3(2.75, 0.14, -2.65)
+		),
+		{}
+	)
+	for battery_position in [
+		Vector3(-2.75, 0.08, 3.1),
+		Vector3(-2.45, 0.08, 3.35),
+		Vector3(2.65, 0.08, -4.35),
+	]:
+		spawn_world_item(
+			GamePlayer.BATTERY_ITEM,
+			Transform3D(Basis.IDENTITY, battery_position),
+			{"charge_amount": 0.5}
+		)
 
 
-func spawn_flashlight_pickup(
+func spawn_world_item(
+	item_type: StringName,
 	spawn_transform: Transform3D,
-	battery_charge: float,
+	item_state: Dictionary,
 	linear_velocity: Vector3 = Vector3.ZERO,
 	angular_velocity: Vector3 = Vector3.ZERO
 ) -> void:
-	if not multiplayer.is_server() or flashlight_spawner == null:
+	if (
+		not multiplayer.is_server()
+		or item_spawner == null
+		or not ITEM_SCENES.has(item_type)
+	):
 		return
 
-	var pickup_name := "FlashlightPickup_%s" % _next_pickup_id
-	_next_pickup_id += 1
-	flashlight_spawner.spawn({
+	var pickup_name := "%sPickup_%s" % [
+		str(item_type).capitalize().replace(" ", ""),
+		_next_item_id,
+	]
+	_next_item_id += 1
+	item_spawner.spawn({
 		"pickup_name": pickup_name,
-		"battery_charge": clampf(battery_charge, 0.0, 1.0),
+		"item_type": item_type,
+		"item_state": item_state.duplicate(true),
 		"transform": spawn_transform,
 		"linear_velocity": linear_velocity,
 		"angular_velocity": angular_velocity,
 	})
 
 
-func spawn_flashlight_from_data(data: Variant) -> Node:
-	var pickup := (
-		FLASHLIGHT_PICKUP_SCENE.instantiate()
-		as FlashlightPickup
-	)
-	pickup.setup_spawn(data as Dictionary)
+func spawn_world_item_from_data(data: Variant) -> Node:
+	var spawn_data := data as Dictionary
+	var item_type := StringName(spawn_data.get("item_type", &""))
+	var item_scene := ITEM_SCENES.get(item_type) as PackedScene
+	if item_scene == null:
+		push_error("No pickup scene registered for item: %s" % item_type)
+		return Node3D.new()
+	var pickup := item_scene.instantiate() as WorldItemPickup
+	pickup.setup_spawn(spawn_data)
 	return pickup
 
 
 func spawn_dropped_item(item_type: StringName, item_state: Dictionary) -> void:
-	if not multiplayer.is_server() or item_type != GamePlayer.FLASHLIGHT_ITEM:
+	if not multiplayer.is_server() or not ITEM_SCENES.has(item_type):
 		return
 
 	var drop_transform := item_state.get(
 		"transform",
 		Transform3D.IDENTITY
 	) as Transform3D
-	if flashlight_pickups != null:
+	if world_items != null:
 		drop_transform = (
-			flashlight_pickups.global_transform.affine_inverse()
+			world_items.global_transform.affine_inverse()
 			* drop_transform
 		)
-	spawn_flashlight_pickup(
+	spawn_world_item(
+		item_type,
 		drop_transform,
-		float(item_state.get("battery_charge", 1.0)),
+		item_state.get("item_state", {}) as Dictionary,
 		item_state.get("linear_velocity", Vector3.ZERO) as Vector3,
 		item_state.get("angular_velocity", Vector3.ZERO) as Vector3
 	)
@@ -280,21 +323,25 @@ func _on_peer_joined(peer_id: int) -> void:
 		power_switch.call_deferred("sync_network_state_to_peer", peer_id)
 	if interactive_door != null:
 		interactive_door.call_deferred("sync_network_state_to_peer", peer_id)
+	if generator_panel != null:
+		generator_panel.call_deferred("sync_network_state_to_peer", peer_id)
 	call_deferred("send_player_roster", peer_id)
 
 
 func _on_session_closed(_reason: String) -> void:
 	for player in players.get_children():
 		player.queue_free()
-	if flashlight_pickups != null:
-		for pickup in flashlight_pickups.get_children():
+	if world_items != null:
+		for pickup in world_items.get_children():
 			pickup.queue_free()
-	_initial_flashlights_spawned = false
-	_next_pickup_id = 1
+	_initial_items_spawned = false
+	_next_item_id = 1
 	_player_roster.clear()
 	if power_switch != null:
 		power_switch.apply_power_state(false, true)
 	if interactive_door != null:
 		interactive_door.set_open(false, true)
+	if generator_panel != null:
+		generator_panel.apply_state(false, false, true)
 	overview_camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

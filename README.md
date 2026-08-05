@@ -49,3 +49,4 @@ invite-flow из библиотеки нужен собственный Steamwor
 - `Esc` — меню без локальной остановки сетевого мира.
 
 Подробности сети: `docs/technical/steam_networking.md`.
+Предметы, батарейки и генератор: `docs/technical/item_system.md`.

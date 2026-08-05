@@ -1,9 +1,15 @@
 class_name GamePlayer
 extends CharacterBody3D
 
+const NO_ITEM := &""
 const FLASHLIGHT_ITEM := &"flashlight"
+const FUSE_ITEM := &"fuse"
+const BATTERY_ITEM := &"battery"
 const FLASHLIGHT_PICKUP_SCENE := preload(
 	"res://scenes/objects/equipment/flashlight_pickup.tscn"
+)
+const FUSE_PICKUP_SCENE := preload(
+	"res://scenes/objects/items/fuse_pickup.tscn"
 )
 const INPUT_SEND_RATE := 30.0
 const SNAPSHOT_SEND_RATE := 20.0
@@ -42,6 +48,7 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @onready var body_animator: PrototypeCharacterAnimator = %BodyVisual
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
+@onready var held_fuse: Node3D = %HeldFuse
 @onready var interaction_ray: RayCast3D = %InteractionRay
 @onready var interaction_prompt_label: Label = %InteractionPromptLabel
 @onready var battery_label: Label = %BatteryLabel
@@ -88,6 +95,7 @@ var _remote_target_pitch: float = 0.0
 var _remote_crouching: bool = false
 var _has_remote_snapshot: bool = false
 var _has_flashlight: bool = false
+var _held_item_type: StringName = NO_ITEM
 var _flashlight_enabled: bool = false
 var _flashlight_malfunctioning: bool = false
 var _battery_charge: float = 0.0
@@ -136,7 +144,7 @@ func _ready() -> void:
 		flashlight.malfunction_started.connect(
 			_on_authoritative_flashlight_malfunction_started
 		)
-	apply_flashlight_inventory(false, 0.0, false)
+	apply_held_item_inventory(NO_ITEM, {})
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -577,22 +585,62 @@ func _receive_authoritative_teleport(
 	_reconciliation_offset = Vector3.ZERO
 
 
-func swap_flashlight_authoritative(next_battery_charge: float) -> float:
+func pickup_world_item_authoritative(
+	item_type: StringName,
+	item_state: Dictionary
+) -> bool:
 	if not multiplayer.is_server():
-		return -1.0
+		return false
 
-	var previous_charge := _battery_charge if _has_flashlight else -1.0
-	var next_charge := clampf(next_battery_charge, 0.0, 1.0)
-	_flashlight_malfunctioning = false
-	_receive_flashlight_inventory.rpc(
-		true,
-		next_charge,
-		next_charge > 0.0
+	if item_type == BATTERY_ITEM:
+		if _held_item_type != FLASHLIGHT_ITEM or _battery_charge >= 0.999:
+			return false
+		var charge_amount := clampf(
+			float(item_state.get("charge_amount", 0.5)),
+			0.0,
+			1.0
+		)
+		if charge_amount <= 0.0:
+			return false
+		var next_charge := minf(_battery_charge + charge_amount, 1.0)
+		_receive_held_item_inventory.rpc(
+			FLASHLIGHT_ITEM,
+			{"battery_charge": next_charge},
+			_flashlight_enabled,
+			_flashlight_malfunctioning
+		)
+		return true
+
+	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM]:
+		return false
+	var previous_item_type := _held_item_type
+	var previous_item_state := get_held_item_state()
+	var next_state := item_state.duplicate(true)
+	var enable_flashlight := (
+		item_type == FLASHLIGHT_ITEM
+		and float(next_state.get("battery_charge", 1.0)) > 0.0
 	)
-	return previous_charge
+	_receive_held_item_inventory.rpc(
+		item_type,
+		next_state,
+		enable_flashlight,
+		false
+	)
+	if previous_item_type != NO_ITEM:
+		spawn_dropped_item_authoritative(
+			previous_item_type,
+			previous_item_state
+		)
+	return true
 
 
-func get_flashlight_drop_transform() -> Transform3D:
+func get_held_item_state() -> Dictionary:
+	if _held_item_type == FLASHLIGHT_ITEM:
+		return {"battery_charge": _battery_charge}
+	return {}
+
+
+func get_held_item_drop_transform() -> Transform3D:
 	var forward := -head.global_basis.z.normalized()
 	return Transform3D(
 		head.global_basis.orthonormalized(),
@@ -600,39 +648,50 @@ func get_flashlight_drop_transform() -> Transform3D:
 	)
 
 
-func get_flashlight_drop_linear_velocity() -> Vector3:
+func get_held_item_drop_linear_velocity() -> Vector3:
 	return velocity + -head.global_basis.z.normalized() * 1.1
 
 
 func drop_current_item_authoritative() -> bool:
-	if not multiplayer.is_server() or not _has_flashlight:
+	if not multiplayer.is_server() or _held_item_type == NO_ITEM:
 		return false
 
-	var dropped_charge := _battery_charge
-	_receive_flashlight_inventory.rpc(false, 0.0, false)
-	spawn_dropped_flashlight_authoritative(dropped_charge)
+	var dropped_item_type := _held_item_type
+	var dropped_item_state := get_held_item_state()
+	_receive_held_item_inventory.rpc(NO_ITEM, {}, false, false)
+	spawn_dropped_item_authoritative(dropped_item_type, dropped_item_state)
 	return true
 
 
 func has_held_item(item_type: StringName) -> bool:
-	return item_type == FLASHLIGHT_ITEM and _has_flashlight
+	return _held_item_type == item_type
 
 
-func spawn_dropped_flashlight_authoritative(battery_charge: float) -> void:
+func consume_held_item_authoritative(item_type: StringName) -> bool:
+	if not multiplayer.is_server() or _held_item_type != item_type:
+		return false
+	_receive_held_item_inventory.rpc(NO_ITEM, {}, false, false)
+	return true
+
+
+func spawn_dropped_item_authoritative(
+	item_type: StringName,
+	item_state: Dictionary
+) -> void:
 	if not multiplayer.is_server():
 		return
 
-	var drop_transform := get_flashlight_drop_transform()
-	var drop_velocity := get_flashlight_drop_linear_velocity()
+	var drop_transform := get_held_item_drop_transform()
+	var drop_velocity := get_held_item_drop_linear_velocity()
 	var controller := get_tree().get_first_node_in_group(
 		"network_gameplay_controller"
 	)
 	if controller != null and controller.has_method("spawn_dropped_item"):
 		controller.call(
 			"spawn_dropped_item",
-			FLASHLIGHT_ITEM,
+			item_type,
 			{
-				"battery_charge": clampf(battery_charge, 0.0, 1.0),
+				"item_state": item_state.duplicate(true),
 				"transform": drop_transform,
 				"linear_velocity": drop_velocity,
 				"angular_velocity": Vector3(1.4, 0.8, -1.1),
@@ -640,14 +699,22 @@ func spawn_dropped_flashlight_authoritative(battery_charge: float) -> void:
 		)
 		return
 
-	var pickup := FLASHLIGHT_PICKUP_SCENE.instantiate() as FlashlightPickup
-	if pickup == null or get_tree().current_scene == null:
+	var pickup_scene: PackedScene = (
+		FLASHLIGHT_PICKUP_SCENE
+		if item_type == FLASHLIGHT_ITEM
+		else FUSE_PICKUP_SCENE if item_type == FUSE_ITEM else null
+	)
+	if pickup_scene == null or get_tree().current_scene == null:
 		return
-	pickup.battery_charge = clampf(battery_charge, 0.0, 1.0)
+	var pickup := pickup_scene.instantiate() as WorldItemPickup
+	pickup.setup_spawn({
+		"item_type": item_type,
+		"item_state": item_state,
+		"linear_velocity": drop_velocity,
+		"angular_velocity": Vector3(1.4, 0.8, -1.1),
+	})
 	get_tree().current_scene.add_child(pickup)
 	pickup.global_transform = drop_transform
-	pickup.linear_velocity = drop_velocity
-	pickup.angular_velocity = Vector3(1.4, 0.8, -1.1)
 
 
 func update_authoritative_flashlight_battery(delta: float) -> void:
@@ -678,6 +745,21 @@ func _receive_flashlight_inventory(
 	apply_flashlight_inventory(has_flashlight, battery_charge, enabled)
 
 
+@rpc("authority", "call_local", "reliable", 2)
+func _receive_held_item_inventory(
+	item_type: StringName,
+	item_state: Dictionary,
+	flashlight_enabled: bool = false,
+	flashlight_malfunctioning: bool = false
+) -> void:
+	apply_held_item_inventory(
+		item_type,
+		item_state,
+		flashlight_enabled,
+		flashlight_malfunctioning
+	)
+
+
 func send_snapshot_if_due(delta: float) -> void:
 	_snapshot_send_accumulator += delta
 	var interval := 1.0 / SNAPSHOT_SEND_RATE
@@ -691,6 +773,7 @@ func send_snapshot_if_due(delta: float) -> void:
 		rotation.y,
 		head.rotation.x,
 		_is_crouching,
+		_held_item_type,
 		_has_flashlight,
 		_battery_charge,
 		_flashlight_enabled,
@@ -706,15 +789,21 @@ func _receive_authoritative_state(
 	server_yaw: float,
 	server_pitch: float,
 	server_crouching: bool,
+	server_held_item_type: StringName,
 	server_has_flashlight: bool,
 	server_battery_charge: float,
 	server_flashlight_enabled: bool,
 	server_flashlight_malfunctioning: bool,
 	_acknowledged_input: int
 ) -> void:
-	apply_flashlight_inventory(
-		server_has_flashlight,
-		server_battery_charge,
+	var held_item_type := (
+		server_held_item_type
+		if server_held_item_type != NO_ITEM
+		else FLASHLIGHT_ITEM if server_has_flashlight else NO_ITEM
+	)
+	apply_held_item_inventory(
+		held_item_type,
+		{"battery_charge": server_battery_charge},
 		server_flashlight_enabled,
 		server_flashlight_malfunctioning
 	)
@@ -775,13 +864,32 @@ func apply_flashlight_inventory(
 	enabled: bool,
 	malfunctioning: bool = false
 ) -> void:
-	_has_flashlight = has_flashlight
-	_battery_charge = clampf(battery_charge, 0.0, 1.0)
+	apply_held_item_inventory(
+		FLASHLIGHT_ITEM if has_flashlight else NO_ITEM,
+		{"battery_charge": battery_charge},
+		enabled,
+		malfunctioning
+	)
+
+
+func apply_held_item_inventory(
+	item_type: StringName,
+	item_state: Dictionary,
+	flashlight_enabled: bool = false,
+	malfunctioning: bool = false
+) -> void:
+	_held_item_type = item_type
+	_has_flashlight = _held_item_type == FLASHLIGHT_ITEM
+	_battery_charge = clampf(
+		float(item_state.get("battery_charge", 0.0)),
+		0.0,
+		1.0
+	) if _has_flashlight else 0.0
 	_flashlight_malfunctioning = (
 		malfunctioning and _has_flashlight and _battery_charge > 0.0
 	)
 	_flashlight_enabled = (
-		enabled
+		flashlight_enabled
 		and _has_flashlight
 		and _battery_charge > 0.0
 		and not _flashlight_malfunctioning
@@ -795,6 +903,7 @@ func apply_flashlight_inventory(
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
 		flashlight.set_enabled(_flashlight_enabled, false)
+	held_fuse.visible = _held_item_type == FUSE_ITEM
 	update_battery_ui()
 
 

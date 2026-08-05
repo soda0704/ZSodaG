@@ -67,8 +67,11 @@ func interact(_interactor: Node) -> void:
 	set_open(state != DoorState.OPEN)
 
 
-func network_interact(_peer_id: int, _interactor: Node) -> void:
-	if not multiplayer.is_server():
+func network_interact(peer_id: int, interactor: Node) -> void:
+	if (
+		not multiplayer.is_server()
+		or int(interactor.get("owner_peer_id")) != peer_id
+	):
 		return
 	if is_locked:
 		interaction_blocked.emit("locked")

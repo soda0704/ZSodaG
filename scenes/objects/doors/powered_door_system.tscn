@@ -142,6 +142,7 @@ position = Vector3(-2.85, 1.2, 0.18)
 script = ExtResource("3_switch_script")
 door_path = NodePath("../InteractiveDoor")
 indicator_path = NodePath("../DoorStatusIndicator")
+requires_source_power = true
 
 [node name="Panel" type="MeshInstance3D" parent="DoorPowerSwitch"]
 mesh = SubResource("Mesh_switch_panel")

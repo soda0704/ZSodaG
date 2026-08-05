@@ -1,9 +1,11 @@
-[gd_scene load_steps=39 format=3]
+[gd_scene load_steps=41 format=3]
 
 [ext_resource type="Script" path="res://scripts/network/tests/mechanics_test_room.gd" id="1_controller"]
 [ext_resource type="PackedScene" path="res://scenes/objects/doors/powered_door_system.tscn" id="2_powered_door"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/lobby_start_console.tscn" id="3_console"]
 [ext_resource type="Script" path="res://scripts/network/lobby/helicopter_lobby_hud.gd" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/objects/power/generator_panel.tscn" id="5_generator"]
+[ext_resource type="Script" path="res://scripts/gameplay/power/power_grid.gd" id="6_power_grid"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.055, 0.065, 0.07, 1)
@@ -157,10 +159,11 @@ size = Vector3(1, 0.9, 0.2)
 script = ExtResource("1_controller")
 uses_staging_lobby = true
 gameplay_origin_path = NodePath("Gameplay")
-flashlight_pickups_path = NodePath("Gameplay/FlashlightPickups")
-flashlight_spawner_path = NodePath("Gameplay/FlashlightSpawner")
+world_items_path = NodePath("Gameplay/WorldItems")
+item_spawner_path = NodePath("Gameplay/ItemSpawner")
 power_switch_path = NodePath("Gameplay/PoweredDoorSystem/DoorPowerSwitch")
 interactive_door_path = NodePath("Gameplay/PoweredDoorSystem/InteractiveDoor")
+generator_panel_path = NodePath("Gameplay/GeneratorPanel")
 
 [node name="Helicopter" type="Node3D" parent="."]
 
@@ -389,10 +392,14 @@ shape = SubResource("Shape_door_header")
 
 [node name="PoweredDoorSystem" parent="Gameplay" instance=ExtResource("2_powered_door")]
 
-[node name="FlashlightPickups" type="Node3D" parent="Gameplay"]
+[node name="GeneratorPanel" parent="Gameplay" instance=ExtResource("5_generator")]
+position = Vector3(3.83, 0, -3.4)
+rotation = Vector3(0, -1.5708, 0)
 
-[node name="FlashlightSpawner" type="MultiplayerSpawner" parent="Gameplay"]
-spawn_path = NodePath("../FlashlightPickups")
+[node name="WorldItems" type="Node3D" parent="Gameplay"]
+
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]
+spawn_path = NodePath("../WorldItems")
 
 [node name="Lighting" type="Node3D" parent="Gameplay"]
 
@@ -405,10 +412,24 @@ omni_range = 5.0
 
 [node name="NorthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
 position = Vector3(0, 2.4, -3)
-light_color = Color(1, 0.72, 0.48, 1)
-light_energy = 1.65
+light_color = Color(1, 0.18, 0.08, 1)
+light_energy = 0.42
 shadow_enabled = true
 omni_range = 5.0
+
+[node name="GeneratorPoweredLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+visible = false
+position = Vector3(0, 2.35, -3.2)
+light_color = Color(0.72, 0.88, 1, 1)
+light_energy = 2.8
+shadow_enabled = true
+omni_range = 5.8
+
+[node name="PowerGrid" type="Node" parent="Gameplay"]
+script = ExtResource("6_power_grid")
+generator_path = NodePath("../GeneratorPanel")
+powered_device_paths = Array[NodePath]([NodePath("../PoweredDoorSystem/DoorPowerSwitch")])
+powered_light_paths = Array[NodePath]([NodePath("../Lighting/GeneratorPoweredLight")])
 
 [node name="Players" type="Node3D" parent="."]
 unique_name_in_owner = true

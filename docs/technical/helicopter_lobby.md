@@ -30,7 +30,9 @@ MechanicsTestRoom
 ├── Gameplay                    # геометрия тестовой зоны прямо в этой сцене
 │   ├── Geometry                # общие BoxMesh + BoxShape3D
 │   ├── PoweredDoorSystem
-│   ├── FlashlightPickups / FlashlightSpawner
+│   ├── GeneratorPanel
+│   ├── PowerGrid
+│   ├── WorldItems / ItemSpawner
 │   └── Lighting
 ├── Players                     # единый авторитетный roster без второго spawner
 ├── OverviewCamera

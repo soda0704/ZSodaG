@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bw1q38b7650a1"]
+[gd_scene load_steps=8 format=3 uid="uid://bw1q38b7650a1"]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
 [ext_resource type="Script" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
 [ext_resource type="PackedScene" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
 [ext_resource type="Script" path="res://scripts/characters/components/prototype_character_animator.gd" id="5_character_animator"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="6_fuse_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
@@ -52,6 +53,13 @@ unique_name_in_owner = true
 position = Vector3(0.18, -0.16, -0.02)
 drain_battery_locally = false
 malfunction_enabled = false
+
+[node name="HeldFuse" parent="Head" instance=ExtResource("6_fuse_model")]
+unique_name_in_owner = true
+visible = false
+position = Vector3(0.2, -0.2, -0.42)
+rotation = Vector3(0.25, -0.3, -0.25)
+scale = Vector3(1.35, 1.35, 1.35)
 
 [node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D"]
 unique_name_in_owner = true
