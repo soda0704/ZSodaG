@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/powered_door_system.tscn" id="1_powered_door"]
+
+[sub_resource type="StandardMaterial3D" id="Material_room"]
+albedo_color = Color(0.14, 0.16, 0.18, 1)
+metallic = 0.12
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.2, 0.27, 0.3, 1)
+metallic = 0.35
+roughness = 0.58
+
+[sub_resource type="Environment" id="Environment_room"]
+background_mode = 1
+background_color = Color(0.006, 0.009, 0.014, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.24, 0.29, 0.38, 1)
+ambient_light_energy = 0.62
+tonemap_mode = 2
+
+[node name="DoorGameplayArea" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_room")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, -0.1, 0)
+use_collision = true
+size = Vector3(8, 0.2, 12)
+material = SubResource("Material_room")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 3.1, 0)
+use_collision = true
+size = Vector3(8, 0.2, 12)
+material = SubResource("Material_room")
+
+[node name="WestWall" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-4.1, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 12)
+material = SubResource("Material_room")
+
+[node name="EastWall" type="CSGBox3D" parent="Geometry"]
+position = Vector3(4.1, 1.5, 0)
+use_collision = true
+size = Vector3(0.2, 3, 12)
+material = SubResource("Material_room")
+
+[node name="NorthWall" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 1.5, -6.1)
+use_collision = true
+size = Vector3(8, 3, 0.2)
+material = SubResource("Material_room")
+
+[node name="SouthWall" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 1.5, 6.1)
+use_collision = true
+size = Vector3(8, 3, 0.2)
+material = SubResource("Material_room")
+
+[node name="DividerWest" type="CSGBox3D" parent="Geometry"]
+position = Vector3(-2.25, 1.5, 0)
+use_collision = true
+size = Vector3(3.5, 3, 0.2)
+material = SubResource("Material_frame")
+
+[node name="DividerEast" type="CSGBox3D" parent="Geometry"]
+position = Vector3(2.25, 1.5, 0)
+use_collision = true
+size = Vector3(3.5, 3, 0.2)
+material = SubResource("Material_frame")
+
+[node name="DoorHeader" type="CSGBox3D" parent="Geometry"]
+position = Vector3(0, 2.55, 0)
+use_collision = true
+size = Vector3(1, 0.9, 0.2)
+material = SubResource("Material_frame")
+
+[node name="PoweredDoorSystem" parent="." instance=ExtResource("1_powered_door")]
+
+[node name="FlashlightPickups" type="Node3D" parent="."]
+
+[node name="FlashlightSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../FlashlightPickups")
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="SouthLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.4, 3)
+light_color = Color(0.58, 0.72, 1, 1)
+light_energy = 2.2
+shadow_enabled = true
+omni_range = 5.0
+
+[node name="NorthLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.4, -3)
+light_color = Color(1, 0.72, 0.48, 1)
+light_energy = 1.65
+shadow_enabled = true
+omni_range = 5.0

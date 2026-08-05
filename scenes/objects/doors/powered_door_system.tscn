@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/interactive_door.tscn" id="1_door"]
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/door_status_indicator.tscn" id="2_indicator"]
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/door_power_switch.tscn" id="3_switch"]
+
+[node name="PoweredDoorSystem" type="Node3D"]
+
+[node name="InteractiveDoor" parent="." instance=ExtResource("1_door")]
+position = Vector3(-0.5, 0, 0)
+requires_power = true
+starts_powered = false
+
+[node name="DoorStatusIndicator" parent="." instance=ExtResource("2_indicator")]
+position = Vector3(0, 2.63, 0)
+
+[node name="DoorPowerSwitch" parent="." instance=ExtResource("3_switch")]
+position = Vector3(-2.85, 1.2, 0.18)
+door_path = NodePath("../InteractiveDoor")
+indicator_path = NodePath("../DoorStatusIndicator")

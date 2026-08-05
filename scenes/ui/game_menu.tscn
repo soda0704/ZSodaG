@@ -1,0 +1,302 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/game_menu.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.035, 0.045, 0.065, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.52, 0.7, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.075, 0.105, 0.145, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.32, 0.42, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="GameMenu" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_menu")
+
+[node name="MenuRoot" type="Control" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="MenuRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.005, 0.008, 0.015, 0.82)
+
+[node name="Center" type="CenterContainer" parent="MenuRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuPanel" type="PanelContainer" parent="MenuRoot/Center"]
+custom_minimum_size = Vector2(660, 600)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Margin" type="MarginContainer" parent="MenuRoot/Center/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.82, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "NORTHERN LAB"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.68, 0.76, 1)
+theme_override_font_sizes/font_size = 15
+text = "STORY CO-OP PROTOTYPE"
+horizontal_alignment = 1
+
+[node name="SteamStatusLabel" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.52, 1)
+theme_override_font_sizes/font_size = 17
+text = "Steam: подключение..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Separator" type="HSeparator" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+layout_mode = 2
+
+[node name="MainPanel" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="ContinueButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("Style_button")
+text = "Продолжить"
+
+[node name="HostButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("Style_button")
+text = "Играть с друзьями"
+
+[node name="JoinButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("Style_button")
+text = "Подключиться к другу"
+
+[node name="ExitButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("Style_button")
+text = "Выйти"
+
+[node name="SessionPanel" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 9
+
+[node name="SessionTitle" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 1, 0.7, 1)
+theme_override_font_sizes/font_size = 26
+text = "Steam-лобби"
+horizontal_alignment = 1
+
+[node name="SessionStatusLabel" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.52, 1)
+theme_override_font_sizes/font_size = 17
+text = "Создаём лобби..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LobbyIdCaption" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "LOBBY ID — отправьте это число другу:"
+horizontal_alignment = 1
+
+[node name="LobbyIdValue" type="LineEdit" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.52, 0.86, 1, 1)
+theme_override_colors/font_uneditable_color = Color(0.52, 0.86, 1, 1)
+theme_override_font_sizes/font_size = 25
+text = "Лобби создаётся..."
+editable = false
+alignment = 1
+
+[node name="LobbyActions" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CopyLobbyIdButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel/LobbyActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Копировать Lobby ID"
+
+[node name="InviteButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel/LobbyActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Пригласить через Steam"
+
+[node name="MembersLabel" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Участники: ожидаем данные Steam..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ReadyStatusLabel" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+text = "Готовность: ожидаем подключение..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ReadyButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Готов"
+
+[node name="StartGameButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Начать игру"
+disabled = true
+
+[node name="LeaveLobbyButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Покинуть лобби"
+
+[node name="SessionBackButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SessionPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Назад"
+
+[node name="JoinPanel" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="JoinTitle" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.82, 1, 1)
+theme_override_font_sizes/font_size = 27
+text = "Подключиться к другу"
+horizontal_alignment = 1
+
+[node name="JoinInstruction" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Попросите хоста нажать «Играть с друзьями».\nОн увидит Lobby ID — вставьте это число сюда."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LobbyIdInput" type="LineEdit" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+placeholder_text = "Вставьте Lobby ID"
+alignment = 1
+virtual_keyboard_type = 2
+
+[node name="ConnectButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Подключиться"
+
+[node name="JoinBackButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Назад"
+
+[node name="FeedbackLabel" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.52, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="EscHint" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.56, 0.64, 1)
+text = "ESC — закрыть меню"
+horizontal_alignment = 1

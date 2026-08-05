@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cll50ac4xfef2"]
+
+[sub_resource type="StandardMaterial3D" id="Material_body"]
+albedo_color = Color(0.055, 0.06, 0.065, 1)
+metallic = 0.65
+roughness = 0.32
+
+[sub_resource type="BoxMesh" id="Mesh_body"]
+material = SubResource("Material_body")
+size = Vector3(0.052, 0.045, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_head"]
+material = SubResource("Material_body")
+size = Vector3(0.068, 0.058, 0.055)
+
+[sub_resource type="StandardMaterial3D" id="Material_lens"]
+transparency = 1
+albedo_color = Color(0.28, 0.23, 0.16, 0.9)
+roughness = 0.18
+
+[sub_resource type="BoxMesh" id="Mesh_lens"]
+material = SubResource("Material_lens")
+size = Vector3(0.054, 0.044, 0.009)
+
+[sub_resource type="StandardMaterial3D" id="Material_button"]
+albedo_color = Color(0.24, 0.055, 0.035, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="Mesh_button"]
+material = SubResource("Material_button")
+size = Vector3(0.025, 0.008, 0.035)
+
+[node name="FlashlightModel" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1275)
+mesh = SubResource("Mesh_head")
+
+[node name="Lens" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1595)
+mesh = SubResource("Mesh_lens")
+
+[node name="Button" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0265, -0.025)
+mesh = SubResource("Mesh_button")

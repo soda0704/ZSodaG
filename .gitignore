@@ -9,3 +9,9 @@ export_presets.cfg
 
 .vscode/
 .idea/
+
+# Project-local editor copy used to isolate GodotSteam's Steamworks DLL.
+tools/.local/
+/NorthernLab.lnk
+/NorthernLab - Godot.lnk
+/NorthernLab - Editor.lnk
