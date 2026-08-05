@@ -139,6 +139,7 @@ func _ready() -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	flashlight.drain_battery_locally = false
+	flashlight.set_process(false)
 	flashlight.malfunction_enabled = multiplayer.is_server()
 	if multiplayer.is_server():
 		flashlight.malfunction_started.connect(

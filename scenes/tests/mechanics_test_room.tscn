@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3]
+[gd_scene load_steps=44 format=3]
 
 [ext_resource type="Script" path="res://scripts/network/tests/mechanics_test_room.gd" id="1_controller"]
 [ext_resource type="PackedScene" path="res://scenes/objects/doors/powered_door_system.tscn" id="2_powered_door"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/network/lobby/helicopter_lobby_hud.gd" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/objects/power/generator_panel.tscn" id="5_generator"]
 [ext_resource type="Script" path="res://scripts/gameplay/power/power_grid.gd" id="6_power_grid"]
+[ext_resource type="Script" path="res://scripts/network/transitions/level_transition_terminal.gd" id="7_transition_terminal"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.055, 0.065, 0.07, 1)
@@ -154,6 +155,18 @@ size = Vector3(1, 0.9, 0.2)
 
 [sub_resource type="BoxShape3D" id="Shape_door_header"]
 size = Vector3(1, 0.9, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_transition_button"]
+albedo_color = Color(0.04, 0.48, 0.82, 1)
+metallic = 0.35
+roughness = 0.28
+emission_enabled = true
+emission = Color(0.015, 0.22, 0.62, 1)
+emission_energy_multiplier = 2.8
+
+[sub_resource type="BoxMesh" id="Mesh_transition_button"]
+material = SubResource("Material_transition_button")
+size = Vector3(0.46, 0.22, 0.06)
 
 [node name="MechanicsTestRoom" type="Node3D"]
 script = ExtResource("1_controller")
@@ -393,8 +406,37 @@ shape = SubResource("Shape_door_header")
 [node name="PoweredDoorSystem" parent="Gameplay" instance=ExtResource("2_powered_door")]
 
 [node name="GeneratorPanel" parent="Gameplay" instance=ExtResource("5_generator")]
-position = Vector3(3.83, 0, -3.4)
+position = Vector3(3.83, 0, 3.35)
 rotation = Vector3(0, -1.5708, 0)
+
+[node name="V3ExitTerminal" type="StaticBody3D" parent="Gameplay"]
+position = Vector3(0, 1.05, -5.85)
+script = ExtResource("7_transition_terminal")
+controller_path = NodePath("../..")
+target_label = "V3"
+
+[node name="Cabinet" type="MeshInstance3D" parent="Gameplay/V3ExitTerminal"]
+mesh = SubResource("Mesh_door_header")
+
+[node name="ActivationButton" type="MeshInstance3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, -0.08, 0.13)
+mesh = SubResource("Mesh_transition_button")
+
+[node name="Label3D" type="Label3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, 0.62, 0.14)
+text = "ПЕРЕХОД НА БАЗУ V3"
+font_size = 22
+outline_size = 7
+
+[node name="StatusLight" type="OmniLight3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, -0.08, 0.28)
+light_color = Color(0.08, 0.48, 1, 1)
+light_energy = 0.55
+shadow_enabled = false
+omni_range = 1.6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/V3ExitTerminal"]
+shape = SubResource("Shape_door_header")
 
 [node name="WorldItems" type="Node3D" parent="Gameplay"]
 
@@ -404,7 +446,7 @@ spawn_path = NodePath("../WorldItems")
 [node name="Lighting" type="Node3D" parent="Gameplay"]
 
 [node name="SouthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
-position = Vector3(0, 2.4, 3)
+position = Vector3(0.8, 2.4, 3)
 light_color = Color(0.58, 0.72, 1, 1)
 light_energy = 2.2
 shadow_enabled = true
@@ -495,7 +537,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="LobbyHud/FlightTransition/Center"]
+[node name="TransitionLabel" type="Label" parent="LobbyHud/FlightTransition/Center"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.65, 0.88, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

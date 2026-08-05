@@ -10,11 +10,21 @@ const ITEM_SCENES := {
 	&"fuse": preload("res://scenes/objects/items/fuse_pickup.tscn"),
 	&"battery": preload("res://scenes/objects/items/battery_pickup.tscn"),
 }
+const V3_LEVEL_PATH := "res://scenes/levels/Base_Blockout_v03.tscn"
 const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
 	Vector3(2.5, 0.05, 4.0),
 	Vector3(-2.5, 0.05, -4.0),
 	Vector3(2.5, 0.05, -4.0),
+]
+const V3_TEST_BRANCHES := [
+	NodePath("Helicopter"),
+	NodePath("Gameplay/Geometry"),
+	NodePath("Gameplay/PoweredDoorSystem"),
+	NodePath("Gameplay/GeneratorPanel"),
+	NodePath("Gameplay/Lighting"),
+	NodePath("Gameplay/PowerGrid"),
+	NodePath("Gameplay/V3ExitTerminal"),
 ]
 
 @export_group("Staging Lobby")
@@ -38,6 +48,7 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 
 @onready var players: Node3D = %Players
 @onready var overview_camera: Camera3D = %OverviewCamera
+@onready var lobby_hud: HelicopterLobbyHud = $LobbyHud
 @onready var world_items: Node3D = get_node_or_null(
 	world_items_path
 ) as Node3D
@@ -60,6 +71,11 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 var _initial_items_spawned: bool = false
 var _next_item_id: int = 1
 var _player_roster: Dictionary = {}
+var _entered_v3_level: bool = false
+var _v3_transition_in_progress: bool = false
+var _v3_items_spawned: bool = false
+var _v3_flashlight_transform: Transform3D = Transform3D.IDENTITY
+var _v3_spawn_positions := PackedVector3Array()
 
 
 func _ready() -> void:
@@ -99,11 +115,14 @@ func _request_gameplay_state() -> void:
 		return
 
 	var sender_id := multiplayer.get_remote_sender_id()
-	if power_switch != null:
+	if _entered_v3_level:
+		_enter_v3_level.rpc_id(sender_id)
+		return
+	if is_instance_valid(power_switch):
 		power_switch.sync_network_state_to_peer(sender_id)
-	if interactive_door != null:
+	if is_instance_valid(interactive_door):
 		interactive_door.sync_network_state_to_peer(sender_id)
-	if generator_panel != null:
+	if is_instance_valid(generator_panel):
 		generator_panel.sync_network_state_to_peer(sender_id)
 
 
@@ -175,6 +194,8 @@ func _despawn_player(peer_id: int) -> void:
 
 
 func get_spawn_position(spawn_index: int) -> Vector3:
+	if _entered_v3_level:
+		return get_v3_spawn_position(spawn_index)
 	if uses_staging_lobby and not CoopLobby.game_has_started:
 		return staging_spawn_positions[
 			spawn_index % staging_spawn_positions.size()
@@ -204,6 +225,116 @@ func _on_gameplay_started() -> void:
 		player_index += 1
 
 
+func can_enter_v3_level() -> bool:
+	return (
+		not _entered_v3_level
+		and not _v3_transition_in_progress
+		and is_instance_valid(generator_panel)
+		and generator_panel.is_powered
+		and is_instance_valid(power_switch)
+		and power_switch.is_powered
+		and is_instance_valid(interactive_door)
+		and interactive_door.state == InteractiveDoor.DoorState.OPEN
+	)
+
+
+func request_v3_transition(peer_id: int) -> void:
+	if (
+		not multiplayer.is_server()
+		or not players.has_node(str(peer_id))
+		or not can_enter_v3_level()
+	):
+		return
+	_enter_v3_level.rpc()
+
+
+@rpc("authority", "call_local", "reliable")
+func _enter_v3_level() -> void:
+	if _entered_v3_level or _v3_transition_in_progress:
+		return
+	_v3_transition_in_progress = true
+	_entered_v3_level = true
+	var transition_id := lobby_hud.show_transition_cover(
+		"ПЕРЕХОД НА БАЗУ V3..."
+	)
+	await get_tree().create_timer(0.2).timeout
+
+	var packed_level := load(V3_LEVEL_PATH) as PackedScene
+	if packed_level == null:
+		push_error("Could not load V3 level: %s" % V3_LEVEL_PATH)
+		_entered_v3_level = false
+		_v3_transition_in_progress = false
+		lobby_hud.reveal_transition_cover(transition_id)
+		return
+
+	var v3_level := packed_level.instantiate() as BaseBlockoutRuntime
+	if v3_level == null:
+		push_error("V3 root must use BaseBlockoutRuntime")
+		_entered_v3_level = false
+		_v3_transition_in_progress = false
+		lobby_hud.reveal_transition_cover(transition_id)
+		return
+	v3_level.name = "V3Level"
+	v3_level.network_runtime_managed = true
+	_v3_spawn_positions = v3_level.player_spawn_positions.duplicate()
+	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
+	add_child(v3_level)
+
+	cleanup_test_room_for_v3()
+	overview_camera.current = false
+	if multiplayer.is_server():
+		var player_index := 0
+		for player in players.get_children():
+			if player.has_method("teleport_authoritative"):
+				player.call(
+					"teleport_authoritative",
+					get_v3_spawn_position(player_index),
+					0.0
+				)
+			player_index += 1
+
+	await get_tree().process_frame
+	if multiplayer.is_server():
+		spawn_v3_world_items()
+	lobby_hud.reveal_transition_cover(transition_id)
+	_v3_transition_in_progress = false
+
+
+func get_v3_spawn_position(index: int) -> Vector3:
+	if _v3_spawn_positions.is_empty():
+		return Vector3.ZERO
+	return _v3_spawn_positions[index % _v3_spawn_positions.size()]
+
+
+func cleanup_test_room_for_v3() -> void:
+	if multiplayer.is_server() and is_instance_valid(world_items):
+		for pickup in world_items.get_children():
+			pickup.queue_free()
+	for branch_path in V3_TEST_BRANCHES:
+		var branch := get_node_or_null(branch_path)
+		if branch != null:
+			branch.free()
+
+
+func spawn_v3_world_items() -> void:
+	if (
+		not multiplayer.is_server()
+		or _v3_items_spawned
+		or not is_instance_valid(world_items)
+	):
+		return
+	_v3_items_spawned = true
+	var local_transform := (
+		world_items.global_transform.affine_inverse()
+		* _v3_flashlight_transform
+	)
+	spawn_world_item(
+		GamePlayer.FLASHLIGHT_ITEM,
+		local_transform,
+		{"battery_charge": 1.0}
+	)
+
+
 func spawn_initial_items() -> void:
 	if (
 		not multiplayer.is_server()
@@ -229,8 +360,8 @@ func spawn_initial_items() -> void:
 	spawn_world_item(
 		GamePlayer.FUSE_ITEM,
 		Transform3D(
-			Basis(Vector3.UP, deg_to_rad(-18.0)),
-			Vector3(2.75, 0.14, -2.65)
+			Basis(Vector3.UP, deg_to_rad(22.0)),
+			Vector3(2.35, 0.14, 2.35)
 		),
 		{}
 	)
@@ -319,11 +450,11 @@ func _on_peer_left(peer_id: int) -> void:
 func _on_peer_joined(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
-	if power_switch != null:
+	if is_instance_valid(power_switch):
 		power_switch.call_deferred("sync_network_state_to_peer", peer_id)
-	if interactive_door != null:
+	if is_instance_valid(interactive_door):
 		interactive_door.call_deferred("sync_network_state_to_peer", peer_id)
-	if generator_panel != null:
+	if is_instance_valid(generator_panel):
 		generator_panel.call_deferred("sync_network_state_to_peer", peer_id)
 	call_deferred("send_player_roster", peer_id)
 
@@ -331,17 +462,18 @@ func _on_peer_joined(peer_id: int) -> void:
 func _on_session_closed(_reason: String) -> void:
 	for player in players.get_children():
 		player.queue_free()
-	if world_items != null:
+	if is_instance_valid(world_items):
 		for pickup in world_items.get_children():
 			pickup.queue_free()
 	_initial_items_spawned = false
 	_next_item_id = 1
+	_v3_items_spawned = false
 	_player_roster.clear()
-	if power_switch != null:
+	if is_instance_valid(power_switch):
 		power_switch.apply_power_state(false, true)
-	if interactive_door != null:
+	if is_instance_valid(interactive_door):
 		interactive_door.set_open(false, true)
-	if generator_panel != null:
+	if is_instance_valid(generator_panel):
 		generator_panel.apply_state(false, false, true)
 	overview_camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

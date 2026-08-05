@@ -4,6 +4,10 @@ extends CanvasLayer
 @onready var lobby_id_label: Label = %LobbyIdLabel
 @onready var lobby_panel: Control = %LobbyPanel
 @onready var flight_transition: Control = %FlightTransition
+@onready var transition_label: Label = %TransitionLabel
+
+var _transition_generation: int = 0
+var _transition_tween: Tween
 
 
 func _ready() -> void:
@@ -37,11 +41,35 @@ func _on_gameplay_started() -> void:
 
 
 func play_flight_transition() -> void:
+	var transition_id := show_transition_cover("ПОДЛЁТ К БАЗЕ...")
+	await get_tree().create_timer(0.45).timeout
+	reveal_transition_cover(transition_id)
+
+
+func show_transition_cover(message: String) -> int:
+	_transition_generation += 1
+	if is_instance_valid(_transition_tween):
+		_transition_tween.kill()
+	transition_label.text = message
 	flight_transition.visible = true
 	flight_transition.modulate = Color.WHITE
-	await get_tree().create_timer(0.45).timeout
-	var tween := create_tween()
-	tween.tween_property(flight_transition, "modulate:a", 0.0, 0.8)
-	await tween.finished
+	return _transition_generation
+
+
+func reveal_transition_cover(transition_id: int) -> void:
+	if transition_id != _transition_generation:
+		return
+	if is_instance_valid(_transition_tween):
+		_transition_tween.kill()
+	_transition_tween = create_tween()
+	_transition_tween.tween_property(
+		flight_transition,
+		"modulate:a",
+		0.0,
+		0.8
+	)
+	await _transition_tween.finished
+	if transition_id != _transition_generation:
+		return
 	flight_transition.visible = false
 	flight_transition.modulate = Color.WHITE
