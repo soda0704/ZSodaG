@@ -1,7 +1,7 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=39 format=3]
 
-[ext_resource type="Script" path="res://scripts/network/tests/network_prototype.gd" id="1_controller"]
-[ext_resource type="PackedScene" path="res://scenes/tests/doors/door_gameplay_area.tscn" id="2_gameplay"]
+[ext_resource type="Script" path="res://scripts/network/tests/mechanics_test_room.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/powered_door_system.tscn" id="2_powered_door"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/lobby_start_console.tscn" id="3_console"]
 [ext_resource type="Script" path="res://scripts/network/lobby/helicopter_lobby_hud.gd" id="4_hud"]
 
@@ -100,7 +100,60 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="HelicopterLobby" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="Material_room"]
+albedo_color = Color(0.14, 0.16, 0.18, 1)
+metallic = 0.12
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.2, 0.27, 0.3, 1)
+metallic = 0.35
+roughness = 0.58
+
+[sub_resource type="Environment" id="Environment_room"]
+background_mode = 1
+background_color = Color(0.006, 0.009, 0.014, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.24, 0.29, 0.38, 1)
+ambient_light_energy = 0.62
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="Mesh_room_floor"]
+material = SubResource("Material_room")
+size = Vector3(8, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_room_floor"]
+size = Vector3(8, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_room_side"]
+material = SubResource("Material_room")
+size = Vector3(0.2, 3, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_room_side"]
+size = Vector3(0.2, 3, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_room_end"]
+material = SubResource("Material_room")
+size = Vector3(8, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_room_end"]
+size = Vector3(8, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_divider"]
+material = SubResource("Material_frame")
+size = Vector3(3.5, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_divider"]
+size = Vector3(3.5, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_door_header"]
+material = SubResource("Material_frame")
+size = Vector3(1, 0.9, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_door_header"]
+size = Vector3(1, 0.9, 0.2)
+
+[node name="MechanicsTestRoom" type="Node3D"]
 script = ExtResource("1_controller")
 uses_staging_lobby = true
 gameplay_origin_path = NodePath("Gameplay")
@@ -254,8 +307,108 @@ omni_range = 2.6
 [node name="StartConsole" parent="Helicopter" instance=ExtResource("3_console")]
 position = Vector3(0, 1.05, -2.84)
 
-[node name="Gameplay" parent="." instance=ExtResource("2_gameplay")]
+[node name="Gameplay" type="Node3D" parent="."]
 position = Vector3(0, 0, -24)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Gameplay"]
+environment = SubResource("Environment_room")
+
+[node name="Geometry" type="StaticBody3D" parent="Gameplay"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("Mesh_room_floor")
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, -0.1, 0)
+shape = SubResource("Shape_room_floor")
+
+[node name="CeilingMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 3.1, 0)
+mesh = SubResource("Mesh_room_floor")
+
+[node name="CeilingCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 3.1, 0)
+shape = SubResource("Shape_room_floor")
+
+[node name="WestWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(-4.1, 1.5, 0)
+mesh = SubResource("Mesh_room_side")
+
+[node name="WestWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(-4.1, 1.5, 0)
+shape = SubResource("Shape_room_side")
+
+[node name="EastWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(4.1, 1.5, 0)
+mesh = SubResource("Mesh_room_side")
+
+[node name="EastWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(4.1, 1.5, 0)
+shape = SubResource("Shape_room_side")
+
+[node name="NorthWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, -6.1)
+mesh = SubResource("Mesh_room_end")
+
+[node name="NorthWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, -6.1)
+shape = SubResource("Shape_room_end")
+
+[node name="SouthWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, 6.1)
+mesh = SubResource("Mesh_room_end")
+
+[node name="SouthWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, 6.1)
+shape = SubResource("Shape_room_end")
+
+[node name="DividerWestMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(-2.25, 1.5, 0)
+mesh = SubResource("Mesh_divider")
+
+[node name="DividerWestCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(-2.25, 1.5, 0)
+shape = SubResource("Shape_divider")
+
+[node name="DividerEastMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(2.25, 1.5, 0)
+mesh = SubResource("Mesh_divider")
+
+[node name="DividerEastCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(2.25, 1.5, 0)
+shape = SubResource("Shape_divider")
+
+[node name="DoorHeaderMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 2.55, 0)
+mesh = SubResource("Mesh_door_header")
+
+[node name="DoorHeaderCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 2.55, 0)
+shape = SubResource("Shape_door_header")
+
+[node name="PoweredDoorSystem" parent="Gameplay" instance=ExtResource("2_powered_door")]
+
+[node name="FlashlightPickups" type="Node3D" parent="Gameplay"]
+
+[node name="FlashlightSpawner" type="MultiplayerSpawner" parent="Gameplay"]
+spawn_path = NodePath("../FlashlightPickups")
+
+[node name="Lighting" type="Node3D" parent="Gameplay"]
+
+[node name="SouthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+position = Vector3(0, 2.4, 3)
+light_color = Color(0.58, 0.72, 1, 1)
+light_energy = 2.2
+shadow_enabled = true
+omni_range = 5.0
+
+[node name="NorthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+position = Vector3(0, 2.4, -3)
+light_color = Color(1, 0.72, 0.48, 1)
+light_energy = 1.65
+shadow_enabled = true
+omni_range = 5.0
 
 [node name="Players" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -332,3 +485,4 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "ПОДЛЁТ К БАЗЕ..."
+

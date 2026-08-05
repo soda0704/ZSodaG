@@ -1,10 +1,10 @@
 extends Node3D
 
-const NETWORK_PLAYER_SCENE := preload(
-	"res://scenes/network/host_authoritative_player.tscn"
+const PLAYER_SCENE := preload(
+	"res://scenes/characters/player.tscn"
 )
-const NETWORK_FLASHLIGHT_PICKUP_SCENE := preload(
-	"res://scenes/network/network_flashlight_pickup.tscn"
+const FLASHLIGHT_PICKUP_SCENE := preload(
+	"res://scenes/objects/equipment/flashlight_pickup.tscn"
 )
 const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
@@ -56,9 +56,9 @@ var _next_pickup_id: int = 1
 
 func _ready() -> void:
 	add_to_group("network_gameplay_controller")
-	player_spawner.spawn_function = spawn_network_player
+	player_spawner.spawn_function = spawn_player
 	if flashlight_spawner != null:
-		flashlight_spawner.spawn_function = spawn_network_flashlight
+		flashlight_spawner.spawn_function = spawn_flashlight_from_data
 	SteamNetwork.session_ready.connect(_on_session_ready)
 	SteamNetwork.session_closed.connect(_on_session_closed)
 	SteamNetwork.peer_joined.connect(_on_peer_joined)
@@ -112,11 +112,11 @@ func spawn_player_for_peer(peer_id: int) -> void:
 	})
 
 
-func spawn_network_player(data: Variant) -> Node:
+func spawn_player(data: Variant) -> Node:
 	var spawn_data := data as Dictionary
 	var player := (
-		NETWORK_PLAYER_SCENE.instantiate()
-		as HostAuthoritativeNetworkPlayer
+		PLAYER_SCENE.instantiate()
+		as GamePlayer
 	)
 	var peer_id := int(spawn_data.get("peer_id", 1))
 	player.name = str(peer_id)
@@ -201,39 +201,34 @@ func spawn_flashlight_pickup(
 	})
 
 
-func spawn_network_flashlight(data: Variant) -> Node:
+func spawn_flashlight_from_data(data: Variant) -> Node:
 	var pickup := (
-		NETWORK_FLASHLIGHT_PICKUP_SCENE.instantiate()
-		as NetworkFlashlightPickup
+		FLASHLIGHT_PICKUP_SCENE.instantiate()
+		as FlashlightPickup
 	)
 	pickup.setup_spawn(data as Dictionary)
 	return pickup
 
 
-func collect_flashlight_pickup(
-	pickup: NetworkFlashlightPickup,
-	previous_charge: float,
-	interactor: Node
-) -> void:
-	if not multiplayer.is_server() or not is_instance_valid(pickup):
+func spawn_dropped_item(item_type: StringName, item_state: Dictionary) -> void:
+	if not multiplayer.is_server() or item_type != GamePlayer.FLASHLIGHT_ITEM:
 		return
 
-	if previous_charge >= 0.0:
-		var drop_transform := interactor.call(
-			"get_flashlight_drop_transform"
-		) as Transform3D
-		if flashlight_pickups != null:
-			drop_transform = (
-				flashlight_pickups.global_transform.affine_inverse()
-				* drop_transform
-			)
-		spawn_flashlight_pickup(
-			drop_transform,
-			previous_charge,
-			interactor.call("get_flashlight_drop_linear_velocity") as Vector3,
-			Vector3(1.4, 0.8, -1.1)
+	var drop_transform := item_state.get(
+		"transform",
+		Transform3D.IDENTITY
+	) as Transform3D
+	if flashlight_pickups != null:
+		drop_transform = (
+			flashlight_pickups.global_transform.affine_inverse()
+			* drop_transform
 		)
-	pickup.queue_free()
+	spawn_flashlight_pickup(
+		drop_transform,
+		float(item_state.get("battery_charge", 1.0)),
+		item_state.get("linear_velocity", Vector3.ZERO) as Vector3,
+		item_state.get("angular_velocity", Vector3.ZERO) as Vector3
+	)
 
 
 func _on_peer_left(peer_id: int) -> void:

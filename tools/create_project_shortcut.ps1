@@ -1,7 +1,6 @@
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$gameLauncher = Join-Path $PSScriptRoot "launch_northernlab_game.ps1"
 $editorLauncher = Join-Path $PSScriptRoot "launch_northernlab_editor.ps1"
 $gameShortcutPaths = @(
     (Join-Path $projectRoot "NorthernLab.lnk"),
@@ -23,9 +22,12 @@ if (-not (Test-Path -LiteralPath $localEditor)) {
 $shell = New-Object -ComObject WScript.Shell
 foreach ($gameShortcutPath in $gameShortcutPaths) {
     $gameShortcut = $shell.CreateShortcut($gameShortcutPath)
-    $gameShortcut.TargetPath = $powershellExecutable
+    # Steam must launch the rendering process itself for Overlay injection.
+    # A PowerShell launcher creates Godot as a child process and is unreliable
+    # when the shortcut is added to the Steam library as a non-Steam game.
+    $gameShortcut.TargetPath = $localEditor
     $gameShortcut.Arguments = (
-        "-NoProfile -ExecutionPolicy Bypass -File `"$gameLauncher`""
+        "--path `"$projectRoot`""
     )
     $gameShortcut.WorkingDirectory = $projectRoot
     $gameShortcut.Description = "Start NorthernLab with GodotSteam 4.21"

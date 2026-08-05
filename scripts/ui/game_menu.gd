@@ -7,8 +7,8 @@ enum MenuView {
 	JOIN,
 }
 
-const NETWORK_PROTOTYPE_SCENE := (
-	"res://scenes/tests/network/network_prototype.tscn"
+const MECHANICS_TEST_ROOM_SCENE := (
+	"res://scenes/tests/mechanics_test_room.tscn"
 )
 
 @onready var menu_root: Control = %MenuRoot
@@ -96,7 +96,9 @@ func open_menu(view: MenuView = MenuView.MAIN) -> void:
 	menu_root.visible = true
 	show_view(view)
 	refresh_network_ui()
-	get_tree().paused = true
+	# The ESC overlay never pauses only one peer. Remote players and world
+	# simulation continue, while the local player stops because the mouse is free.
+	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
@@ -107,7 +109,7 @@ func close_menu() -> void:
 	if is_lobby_gate_active():
 		show_view(MenuView.SESSION)
 		feedback_label.text = "Дождитесь завершения подключения к Steam-лобби."
-		get_tree().paused = true
+		get_tree().paused = false
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return
 
@@ -121,6 +123,10 @@ func force_close_menu() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func is_menu_open() -> bool:
+	return menu_root.visible
 
 
 func is_lobby_gate_active() -> bool:
@@ -336,13 +342,15 @@ func ensure_network_scene() -> bool:
 	var current_scene := get_tree().current_scene
 	if (
 		current_scene != null
-		and current_scene.scene_file_path == NETWORK_PROTOTYPE_SCENE
+		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
 	):
 		return true
 
 	menu_root.visible = false
 	get_tree().paused = false
-	var change_result := get_tree().change_scene_to_file(NETWORK_PROTOTYPE_SCENE)
+	var change_result := get_tree().change_scene_to_file(
+		MECHANICS_TEST_ROOM_SCENE
+	)
 	if change_result != OK:
 		return false
 
@@ -361,8 +369,8 @@ func _on_invite_pressed() -> void:
 	if not SteamNetwork.is_overlay_enabled():
 		feedback_label.text = (
 			"Steam API работает, но Overlay не подключён к процессу игры. "
-			+ "В редакторе отправьте другу Lobby ID; Steam Invite "
-			+ "проверим в экспортированной сборке, запущенной через Steam."
+			+ "Добавьте прямой NorthernLab.lnk в библиотеку Steam и "
+			+ "запустите игру оттуда. Пока можно отправить другу Lobby ID."
 		)
 		return
 
@@ -458,7 +466,7 @@ func _recover_after_session_closed(reason: String) -> void:
 	var current_scene := get_tree().current_scene
 	if (
 		current_scene != null
-		and current_scene.scene_file_path == NETWORK_PROTOTYPE_SCENE
+		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
 	):
 		menu_root.visible = false
 		get_tree().paused = false
