@@ -100,36 +100,40 @@ func update_pose(
 	)
 	var stride := sin(_cycle) * leg_angle if moving and grounded else 0.0
 	var airborne_blend := 0.0 if grounded else 1.0
-	var jump_tuck := clampf(absf(vertical_velocity) / 5.0, 0.25, 1.0)
+	var jump_tuck := clampf(absf(vertical_velocity) / 4.0, 0.55, 1.0)
 
 	set_bone_angle(
 		BONE_THIGH_LEFT,
-		stride + _crouch_blend * 0.52 + airborne_blend * 0.18 * jump_tuck,
+		stride - _crouch_blend * 0.48 - airborne_blend * 0.38 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
 		BONE_THIGH_RIGHT,
-		-stride + _crouch_blend * 0.52 - airborne_blend * 0.12 * jump_tuck,
+		-stride - _crouch_blend * 0.48 - airborne_blend * 0.22 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
 		BONE_SHIN_LEFT,
-		maxf(-stride, 0.0) * 0.7 - _crouch_blend * 0.82,
+		maxf(-stride, 0.0) * 0.7
+			+ _crouch_blend * 0.82
+			+ airborne_blend * 0.52 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
 		BONE_SHIN_RIGHT,
-		maxf(stride, 0.0) * 0.7 - _crouch_blend * 0.82,
+		maxf(stride, 0.0) * 0.7
+			+ _crouch_blend * 0.82
+			+ airborne_blend * 0.38 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
 		BONE_UPPER_ARM_LEFT,
-		-stride * 0.72 + airborne_blend * 0.18,
+		-stride * 0.72 - airborne_blend * 0.48 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
 		BONE_UPPER_ARM_RIGHT,
-		stride * 0.72 + airborne_blend * 0.18,
+		stride * 0.72 - airborne_blend * 0.48 * jump_tuck,
 		pose_weight
 	)
 	set_bone_angle(
@@ -145,7 +149,7 @@ func update_pose(
 	)
 	position.y = lerpf(
 		position.y,
-		_base_position.y - _crouch_blend * 0.34 + step_bob,
+		_base_position.y + step_bob,
 		1.0 - exp(-12.0 * delta)
 	)
 

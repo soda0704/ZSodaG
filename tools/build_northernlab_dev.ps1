@@ -99,9 +99,17 @@ Set-Content `
     -Value "480" `
     -Encoding ASCII
 
-$revision = (& git -C $projectRoot rev-parse --short HEAD 2>$null)
-if ([string]::IsNullOrWhiteSpace($revision)) {
-    $revision = "uncommitted"
+$revision = "unavailable"
+$gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
+if ($gitCommand) {
+    $revisionOutput = (& $gitCommand.Source `
+        -C $projectRoot rev-parse --short HEAD 2>$null)
+    if (
+        $LASTEXITCODE -eq 0 -and
+        -not [string]::IsNullOrWhiteSpace($revisionOutput)
+    ) {
+        $revision = $revisionOutput.Trim()
+    }
 }
 Set-Content `
     -LiteralPath (Join-Path $outputDirectory "build_info.txt") `
