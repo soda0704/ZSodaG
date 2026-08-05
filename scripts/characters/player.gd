@@ -16,8 +16,16 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @export_group("Movement")
 @export var walk_speed: float = 4.0
 @export var sprint_speed: float = 6.5
+@export var crouch_speed: float = 2.2
 @export var acceleration: float = 14.0
-@export var jump_velocity: float = 5.0
+@export var air_control_multiplier: float = 0.28
+@export var jump_velocity: float = 4.0
+@export var fall_gravity_multiplier: float = 1.25
+@export var standing_height: float = 1.8
+@export var crouching_height: float = 1.15
+@export var standing_head_height: float = 1.65
+@export var crouching_head_height: float = 1.02
+@export var crouch_transition_speed: float = 10.0
 @export var mouse_sensitivity: float = 0.002
 
 @export_group("Flashlight")
@@ -31,7 +39,7 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @onready var head: Node3D = %Head
 @onready var camera: FirstPersonCameraMotion = %Camera3D
 @onready var collision_shape: CollisionShape3D = %CollisionShape3D
-@onready var body_mesh: MeshInstance3D = %BodyMesh
+@onready var body_animator: PrototypeCharacterAnimator = %BodyVisual
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
 @onready var interaction_ray: RayCast3D = %InteractionRay
@@ -45,6 +53,7 @@ var gravity: float = float(
 
 var _input_move: Vector2 = Vector2.ZERO
 var _input_sprint: bool = false
+var _input_crouch: bool = false
 var _input_yaw: float = 0.0
 var _input_pitch: float = 0.0
 var _jump_serial: int = 0
@@ -56,6 +65,7 @@ var _input_send_accumulator: float = 0.0
 
 var _server_move: Vector2 = Vector2.ZERO
 var _server_sprint: bool = false
+var _server_crouch: bool = false
 var _server_yaw: float = 0.0
 var _server_pitch: float = 0.0
 var _server_jump_serial: int = 0
@@ -75,12 +85,14 @@ var _remote_target_position: Vector3 = Vector3.ZERO
 var _remote_target_velocity: Vector3 = Vector3.ZERO
 var _remote_target_yaw: float = 0.0
 var _remote_target_pitch: float = 0.0
+var _remote_crouching: bool = false
 var _has_remote_snapshot: bool = false
 var _has_flashlight: bool = false
 var _flashlight_enabled: bool = false
 var _flashlight_malfunctioning: bool = false
 var _battery_charge: float = 0.0
 var _displayed_battery_percent: int = -1
+var _is_crouching: bool = false
 
 
 func setup(
@@ -100,16 +112,11 @@ func setup(
 func _ready() -> void:
 	name_label.text = player_display_name
 	name_label.modulate = avatar_color
-	var source_material := body_mesh.get_active_material(0)
-	if source_material != null:
-		var body_material := source_material.duplicate()
-		if body_material is StandardMaterial3D:
-			(body_material as StandardMaterial3D).albedo_color = avatar_color
-		body_mesh.material_override = body_material
+	body_animator.set_avatar_color(avatar_color)
 
 	var local_player := is_local_player()
 	camera.current = local_player
-	body_mesh.visible = not local_player
+	body_animator.visible = not local_player
 	name_label.visible = not local_player
 	crosshair.visible = local_player
 	interaction_prompt_label.visible = false
@@ -197,6 +204,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_local_player():
 		update_local_view_motion(delta)
+	update_character_animation(delta)
 
 
 func is_local_player() -> bool:
@@ -207,6 +215,7 @@ func collect_local_input() -> void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		_input_move = Vector2.ZERO
 		_input_sprint = false
+		_input_crouch = false
 		return
 
 	_input_move = Input.get_vector(
@@ -215,12 +224,17 @@ func collect_local_input() -> void:
 		"move_forward",
 		"move_backward"
 	)
-	_input_sprint = Input.is_action_pressed("sprint")
+	_input_crouch = Input.is_action_pressed("crouch")
+	_input_sprint = Input.is_action_pressed("sprint") and not _input_crouch
 
 
 func update_local_view_motion(delta: float) -> void:
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
-	var reference_speed := sprint_speed if _input_sprint else walk_speed
+	var reference_speed := (
+		crouch_speed
+		if _is_crouching
+		else sprint_speed if _input_sprint else walk_speed
+	)
 	var movement_ratio := horizontal_speed / maxf(reference_speed, 0.001)
 	camera.update_motion(
 		delta,
@@ -236,9 +250,51 @@ func update_local_view_motion(delta: float) -> void:
 	)
 
 
+func update_character_animation(delta: float) -> void:
+	var is_remote_client_player := (
+		not multiplayer.is_server() and not is_local_player()
+	)
+	var crouching := (
+		_remote_crouching
+		if is_remote_client_player
+		else _is_crouching
+	)
+	var animation_velocity := (
+		_remote_target_velocity if is_remote_client_player else velocity
+	)
+	var horizontal_speed := Vector2(
+		animation_velocity.x,
+		animation_velocity.z
+	).length()
+	var sprinting := (
+		horizontal_speed > walk_speed + 0.45
+		if is_remote_client_player
+		else _server_sprint if multiplayer.is_server() else _input_sprint
+	)
+	var grounded := (
+		absf(animation_velocity.y) < 0.12
+		if is_remote_client_player
+		else is_on_floor()
+	)
+	body_animator.update_pose(
+		delta,
+		horizontal_speed,
+		grounded,
+		sprinting and not crouching,
+		crouching,
+		animation_velocity.y
+	)
+	name_label.position.y = lerpf(
+		name_label.position.y,
+		1.55 if crouching else 2.05,
+		1.0 - exp(-10.0 * delta)
+	)
+
+
 func copy_local_input_to_server() -> void:
 	_server_move = _input_move
 	_server_sprint = _input_sprint
+	_server_crouch = _input_crouch
 	_server_yaw = _input_yaw
 	_server_pitch = _input_pitch
 	_server_jump_serial = _jump_serial
@@ -261,6 +317,7 @@ func send_input_if_due(delta: float) -> void:
 		_input_sequence,
 		_input_move,
 		_input_sprint,
+		_input_crouch,
 		_jump_serial,
 		_flashlight_serial,
 		_interact_serial,
@@ -275,6 +332,7 @@ func _submit_input(
 	sequence: int,
 	move_input: Vector2,
 	sprinting: bool,
+	crouching: bool,
 	jump_serial: int,
 	flashlight_serial: int,
 	interact_serial: int,
@@ -291,7 +349,8 @@ func _submit_input(
 
 	_server_last_sequence = sequence
 	_server_move = move_input.limit_length(1.0)
-	_server_sprint = sprinting
+	_server_crouch = crouching
+	_server_sprint = sprinting and not crouching
 	_server_jump_serial = maxi(jump_serial, _server_jump_serial)
 	_server_flashlight_serial = maxi(
 		flashlight_serial,
@@ -351,6 +410,7 @@ func simulate_authoritative_movement(delta: float) -> void:
 		delta,
 		_server_move,
 		_server_sprint,
+		_server_crouch,
 		should_jump,
 		_server_yaw,
 		_server_pitch
@@ -370,6 +430,7 @@ func simulate_predicted_movement(delta: float) -> void:
 		delta,
 		_input_move,
 		_input_sprint,
+		_input_crouch,
 		should_jump,
 		_input_yaw,
 		_input_pitch
@@ -380,37 +441,83 @@ func simulate_movement(
 	delta: float,
 	move_input: Vector2,
 	sprinting: bool,
+	crouching: bool,
 	should_jump: bool,
 	yaw: float,
 	pitch: float
 ) -> void:
 	rotation.y = yaw
 	head.rotation.x = pitch
+	update_crouch_state(delta, crouching)
 
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		var gravity_scale := fall_gravity_multiplier if velocity.y < 0.0 else 1.0
+		velocity.y -= gravity * gravity_scale * delta
 	elif velocity.y < 0.0:
 		velocity.y = 0.0
 
-	if should_jump and is_on_floor():
+	if should_jump and is_on_floor() and not _is_crouching:
 		velocity.y = jump_velocity
 
 	var input_direction := Vector3(move_input.x, 0.0, move_input.y)
 	var world_direction := (transform.basis * input_direction).normalized()
-	var speed := sprint_speed if sprinting else walk_speed
+	var speed := (
+		crouch_speed
+		if _is_crouching
+		else sprint_speed if sprinting else walk_speed
+	)
 	var target_velocity := world_direction * speed
+	var movement_acceleration := acceleration
+	if not is_on_floor():
+		movement_acceleration *= air_control_multiplier
 
 	velocity.x = move_toward(
 		velocity.x,
 		target_velocity.x,
-		acceleration * delta
+		movement_acceleration * delta
 	)
 	velocity.z = move_toward(
 		velocity.z,
 		target_velocity.z,
-		acceleration * delta
+		movement_acceleration * delta
 	)
 	move_and_slide()
+
+
+func update_crouch_state(delta: float, wants_to_crouch: bool) -> void:
+	if not wants_to_crouch and _is_crouching and not can_stand_up():
+		wants_to_crouch = true
+	_is_crouching = wants_to_crouch
+
+	var target_height := crouching_height if _is_crouching else standing_height
+	var target_head_height := (
+		crouching_head_height if _is_crouching else standing_head_height
+	)
+	var capsule := collision_shape.shape as CapsuleShape3D
+	if capsule != null:
+		capsule.height = move_toward(
+			capsule.height,
+			target_height,
+			crouch_transition_speed * delta
+		)
+		collision_shape.position.y = capsule.height * 0.5
+	head.position.y = move_toward(
+		head.position.y,
+		target_head_height,
+		crouch_transition_speed * delta
+	)
+
+
+func can_stand_up() -> bool:
+	if get_world_3d() == null:
+		return true
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3.UP * (crouching_height - 0.08),
+		global_position + Vector3.UP * (standing_height + 0.04),
+		collision_mask,
+		[get_rid()]
+	)
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
 
 func try_authoritative_interaction() -> void:
@@ -583,6 +690,7 @@ func send_snapshot_if_due(delta: float) -> void:
 		velocity,
 		rotation.y,
 		head.rotation.x,
+		_is_crouching,
 		_has_flashlight,
 		_battery_charge,
 		_flashlight_enabled,
@@ -597,6 +705,7 @@ func _receive_authoritative_state(
 	server_velocity: Vector3,
 	server_yaw: float,
 	server_pitch: float,
+	server_crouching: bool,
 	server_has_flashlight: bool,
 	server_battery_charge: float,
 	server_flashlight_enabled: bool,
@@ -628,6 +737,7 @@ func _receive_authoritative_state(
 	_remote_target_velocity = server_velocity
 	_remote_target_yaw = server_yaw
 	_remote_target_pitch = server_pitch
+	_remote_crouching = server_crouching
 	_has_remote_snapshot = true
 
 

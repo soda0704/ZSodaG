@@ -402,7 +402,9 @@ func _on_start_game_pressed() -> void:
 		start_game_button.disabled = true
 		session_status_label.text = "Запускаем игру для всех игроков..."
 	else:
-		feedback_label.text = "Запуск доступен только хосту активного лобби."
+		feedback_label.text = (
+			"Все подключённые игроки должны подтвердить готовность."
+		)
 	refresh_ready_ui()
 
 
@@ -448,7 +450,7 @@ func _on_lobby_members_changed(members: Array[Dictionary]) -> void:
 func _on_session_ready(as_host: bool) -> void:
 	refresh_session_ui()
 	session_status_label.text = (
-		"Лобби готово. Можно начать одному или передать Lobby ID другу."
+		"Лобби готово. Подтвердите готовность или передайте Lobby ID другу."
 		if as_host
 		else "Подключено к хосту через Steam."
 	)

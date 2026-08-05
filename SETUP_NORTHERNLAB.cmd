@@ -13,5 +13,6 @@ if errorlevel 1 (
 
 echo.
 echo NorthernLab is ready.
-echo Use NorthernLab.lnk to play or NorthernLab - Editor.lnk to edit.
+echo NorthernLab.lnk starts the development EXE directly.
+echo Use NorthernLab - Editor.lnk to edit and BUILD_NORTHERNLAB_DEV.cmd to rebuild.
 pause

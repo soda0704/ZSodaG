@@ -1,3 +1,7 @@
+param(
+    [switch]$SkipBuild
+)
+
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
@@ -9,6 +13,8 @@ $gameShortcutPaths = @(
 $editorShortcutPath = Join-Path $projectRoot "NorthernLab - Editor.lnk"
 $localEditor = Join-Path $PSScriptRoot ".local\godotsteam-editor\godot.exe"
 $setupScript = Join-Path $PSScriptRoot "setup_godotsteam_editor.ps1"
+$buildScript = Join-Path $PSScriptRoot "build_northernlab_dev.ps1"
+$gameExecutable = Join-Path $projectRoot "build\dev\NorthernLab.exe"
 $powershellExecutable = Join-Path $PSHOME "powershell.exe"
 
 if (-not (Test-Path -LiteralPath $localEditor)) {
@@ -19,21 +25,21 @@ if (-not (Test-Path -LiteralPath $localEditor)) {
     throw "GodotSteam-compatible editor was not created: $localEditor"
 }
 
+if (-not $SkipBuild -and -not (Test-Path -LiteralPath $gameExecutable)) {
+    & $buildScript
+}
+if (-not (Test-Path -LiteralPath $gameExecutable)) {
+    throw "NorthernLab development build was not created: $gameExecutable"
+}
+
 $shell = New-Object -ComObject WScript.Shell
 foreach ($gameShortcutPath in $gameShortcutPaths) {
     $gameShortcut = $shell.CreateShortcut($gameShortcutPath)
-    # Steam must launch the rendering process itself for Overlay injection.
-    # A PowerShell launcher creates Godot as a child process and is unreliable
-    # when the shortcut is added to the Steam library as a non-Steam game.
-    $gameShortcut.TargetPath = $localEditor
-    $gameShortcut.Arguments = (
-        "--path `"$projectRoot`""
-    )
-    $gameShortcut.WorkingDirectory = $projectRoot
-    $gameShortcut.Description = "Start NorthernLab with GodotSteam 4.21"
-    if (Test-Path -LiteralPath $localEditor) {
-        $gameShortcut.IconLocation = "$localEditor,0"
-    }
+    $gameShortcut.TargetPath = $gameExecutable
+    $gameShortcut.Arguments = ""
+    $gameShortcut.WorkingDirectory = Split-Path -Parent $gameExecutable
+    $gameShortcut.Description = "Start the NorthernLab development build"
+    $gameShortcut.IconLocation = "$gameExecutable,0"
     $gameShortcut.Save()
 }
 

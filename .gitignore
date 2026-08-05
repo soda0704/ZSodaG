@@ -2,7 +2,7 @@
 .import/
 
 export.cfg
-export_presets.cfg
+/build/
 
 *.tmp
 *.log
@@ -15,10 +15,11 @@ tools/.local/
 /NorthernLab.lnk
 /NorthernLab - Godot.lnk
 /NorthernLab - Editor.lnk
+/NorthernLab Dev.lnk
 
 # GodotSteam is a required project dependency, including native binaries.
 # These negations also override broad DLL/SO rules from a user's global ignore.
 !/addons/
 !/addons/godotsteam/
 !/addons/godotsteam/**
-/addons/godotsteam/**/~*.TMP
+/addons/godotsteam/**/~*

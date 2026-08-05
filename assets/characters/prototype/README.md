@@ -1,19 +1,13 @@
 # Prototype character source
 
-`scene.gltf` and `scene.bin` are the original character files supplied for the
-gameplay prototype. The mesh contains 1,832 vertices, but the export also carries
-an oversized 320-joint rig and no animations.
+`scene.gltf` and `scene.bin` are the current prototype character supplied for the
+game. It contains 409 vertices and a compact 32-bone deformation rig. The source
+does not contain animation clips.
 
-`character_visual.res` is the runtime version. It keeps the bind-pose mesh and
-material while stripping unused joints and weights. `scenes/characters/player.tscn`
-uses this resource only for remote-player visuals at a real-world height of about
-1.78 m; the local first-person player does not render its own body. The `.res` is
-self-contained and does not load the original GLTF or skeleton at runtime.
+`scenes/characters/player.tscn` instances this model directly for the remote-player
+visual at a real-world height of about 1.79 m. A lightweight procedural component
+animates the existing arm, leg and spine bones for walking, sprinting, jumping and
+crouching. The local first-person player does not render its own body.
 
-Regenerate the optimized resource after replacing the source export:
-
-```text
-godot --headless --path . --script res://tools/build_prototype_character.gd
-```
-
-An animation-ready export should replace this temporary static visual later.
+When authored animation clips arrive, they should replace the procedural poses
+without creating a second player scene or a second character model.

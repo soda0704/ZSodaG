@@ -32,7 +32,6 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 )
 
 @onready var players: Node3D = %Players
-@onready var player_spawner: MultiplayerSpawner = %PlayerSpawner
 @onready var overview_camera: Camera3D = %OverviewCamera
 @onready var flashlight_pickups: Node3D = get_node_or_null(
 	flashlight_pickups_path
@@ -52,11 +51,11 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 
 var _initial_flashlights_spawned: bool = false
 var _next_pickup_id: int = 1
+var _player_roster: Dictionary = {}
 
 
 func _ready() -> void:
 	add_to_group("network_gameplay_controller")
-	player_spawner.spawn_function = spawn_player
 	if flashlight_spawner != null:
 		flashlight_spawner.spawn_function = spawn_flashlight_from_data
 	SteamNetwork.session_ready.connect(_on_session_ready)
@@ -83,6 +82,7 @@ func _request_player_spawn() -> void:
 
 	var sender_id := multiplayer.get_remote_sender_id()
 	spawn_player_for_peer(sender_id)
+	send_player_roster(sender_id)
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -98,27 +98,32 @@ func _request_gameplay_state() -> void:
 
 
 func spawn_player_for_peer(peer_id: int) -> void:
-	if not multiplayer.is_server() or players.has_node(str(peer_id)):
+	if not multiplayer.is_server() or _player_roster.has(peer_id):
 		return
 
 	var display_name := SteamNetwork.get_peer_persona_name(peer_id)
-	var spawn_index := players.get_child_count()
+	var spawn_index := _player_roster.size()
 	var hue := fmod(float(peer_id) * 0.173, 1.0)
-	player_spawner.spawn({
+	var spawn_data := {
 		"peer_id": peer_id,
 		"display_name": display_name,
 		"position": get_spawn_position(spawn_index),
 		"color": Color.from_hsv(hue, 0.72, 0.95),
-	})
+	}
+	_player_roster[peer_id] = spawn_data
+	_spawn_player.rpc(spawn_data)
 
 
-func spawn_player(data: Variant) -> Node:
-	var spawn_data := data as Dictionary
+@rpc("authority", "call_local", "reliable")
+func _spawn_player(spawn_data: Dictionary) -> void:
+	var peer_id := int(spawn_data.get("peer_id", 1))
+	if players.has_node(str(peer_id)):
+		return
+
 	var player := (
 		PLAYER_SCENE.instantiate()
 		as GamePlayer
 	)
-	var peer_id := int(spawn_data.get("peer_id", 1))
 	player.name = str(peer_id)
 	player.setup(
 		peer_id,
@@ -126,7 +131,37 @@ func spawn_player(data: Variant) -> Node:
 		spawn_data.get("position", Vector3.ZERO) as Vector3,
 		spawn_data.get("color", Color.WHITE) as Color
 	)
-	return player
+	players.add_child(player)
+
+
+func send_player_roster(peer_id: int) -> void:
+	if not multiplayer.is_server() or peer_id <= 0:
+		return
+
+	var roster: Array[Dictionary] = []
+	for roster_peer_id_variant in _player_roster:
+		var roster_peer_id := int(roster_peer_id_variant)
+		var spawn_data := (
+			_player_roster[roster_peer_id] as Dictionary
+		).duplicate(true)
+		var player := players.get_node_or_null(str(roster_peer_id)) as GamePlayer
+		if player != null:
+			spawn_data["position"] = player.position
+		roster.append(spawn_data)
+	_receive_player_roster.rpc_id(peer_id, roster)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _receive_player_roster(roster: Array) -> void:
+	for spawn_data_variant in roster:
+		_spawn_player(spawn_data_variant as Dictionary)
+
+
+@rpc("authority", "call_local", "reliable")
+func _despawn_player(peer_id: int) -> void:
+	var player := players.get_node_or_null(str(peer_id))
+	if player != null:
+		player.queue_free()
 
 
 func get_spawn_position(spawn_index: int) -> Vector3:
@@ -234,9 +269,8 @@ func spawn_dropped_item(item_type: StringName, item_state: Dictionary) -> void:
 func _on_peer_left(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
-	var player := players.get_node_or_null(str(peer_id))
-	if player != null:
-		player.queue_free()
+	_player_roster.erase(peer_id)
+	_despawn_player.rpc(peer_id)
 
 
 func _on_peer_joined(peer_id: int) -> void:
@@ -246,6 +280,7 @@ func _on_peer_joined(peer_id: int) -> void:
 		power_switch.call_deferred("sync_network_state_to_peer", peer_id)
 	if interactive_door != null:
 		interactive_door.call_deferred("sync_network_state_to_peer", peer_id)
+	call_deferred("send_player_roster", peer_id)
 
 
 func _on_session_closed(_reason: String) -> void:
@@ -256,6 +291,7 @@ func _on_session_closed(_reason: String) -> void:
 			pickup.queue_free()
 	_initial_flashlights_spawned = false
 	_next_pickup_id = 1
+	_player_roster.clear()
 	if power_switch != null:
 		power_switch.apply_power_state(false, true)
 	if interactive_door != null:

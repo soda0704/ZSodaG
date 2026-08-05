@@ -51,11 +51,26 @@ func get_player_count() -> int:
 
 
 func can_host_start() -> bool:
-	return (
-		session_active
-		and not game_has_started
-		and multiplayer.is_server()
-	)
+	if (
+		not session_active
+		or game_has_started
+		or not multiplayer.is_server()
+	):
+		return false
+
+	# Validate the live transport peers, not only the cached dictionary. This
+	# closes the short join window where a connected peer has not reached the
+	# ready-state callback yet.
+	var connected_peer_ids: Array[int] = [multiplayer.get_unique_id()]
+	for connected_peer_id in multiplayer.get_peers():
+		connected_peer_ids.append(int(connected_peer_id))
+	for peer_id in connected_peer_ids:
+		if not ready_states.has(peer_id) or not bool(ready_states[peer_id]):
+			return false
+	for is_ready in ready_states.values():
+		if not bool(is_ready):
+			return false
+	return true
 
 
 func start_game() -> bool:

@@ -1,11 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw1q38b7650a1"]
+[gd_scene load_steps=7 format=3 uid="uid://bw1q38b7650a1"]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
 [ext_resource type="Script" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
-[ext_resource type="ArrayMesh" path="res://assets/characters/prototype/character_visual.res" id="4_character_mesh"]
+[ext_resource type="PackedScene" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
+[ext_resource type="Script" path="res://scripts/characters/components/prototype_character_animator.gd" id="5_character_animator"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+resource_local_to_scene = true
 radius = 0.35
 height = 1.8
 
@@ -19,11 +21,13 @@ unique_name_in_owner = true
 position = Vector3(0, 0.9, 0)
 shape = SubResource("CapsuleShape_player")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
+[node name="BodyVisual" type="Node3D" parent="."]
 unique_name_in_owner = true
 rotation = Vector3(0, 3.14159, 0)
-scale = Vector3(0.8, 0.8, 0.8)
-mesh = ExtResource("4_character_mesh")
+scale = Vector3(0.013, 0.013, 0.013)
+script = ExtResource("5_character_animator")
+
+[node name="CharacterModel" parent="BodyVisual" instance=ExtResource("4_character_model")]
 
 [node name="NameLabel" type="Label3D" parent="."]
 unique_name_in_owner = true

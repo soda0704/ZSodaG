@@ -15,6 +15,7 @@ func _ready() -> void:
 	action_button.material_override = _button_material
 	SteamNetwork.session_ready.connect(_on_session_ready)
 	SteamNetwork.session_closed.connect(_on_session_closed)
+	CoopLobby.ready_state_changed.connect(_on_ready_state_changed)
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
 	refresh_visual()
 
@@ -23,7 +24,11 @@ func get_interaction_prompt() -> String:
 	if CoopLobby.game_has_started:
 		return "Вылет уже начат"
 	if multiplayer.is_server():
-		return "Начать вылет на базу"
+		return (
+			"Начать вылет на базу"
+			if CoopLobby.can_host_start()
+			else "Сначала все должны подтвердить готовность"
+		)
 	return "Только хост может начать вылет"
 
 
@@ -50,6 +55,10 @@ func _on_session_closed(_reason: String) -> void:
 	refresh_visual()
 
 
+func _on_ready_state_changed(_ready_states: Dictionary) -> void:
+	refresh_visual()
+
+
 func refresh_visual() -> void:
 	var started := CoopLobby.game_has_started
 	var color := (
@@ -62,4 +71,11 @@ func refresh_visual() -> void:
 	_button_material.emission = color
 	_button_material.emission_energy_multiplier = 3.0
 	status_label.visible = not started
-	status_label.text = "ВЫЛЕТ НАЧАТ" if started else "ВЫЛЕТ НА БАЗУ"
+	if multiplayer.is_server():
+		status_label.text = (
+			"ВЫЛЕТ НА БАЗУ"
+			if CoopLobby.can_host_start()
+			else "НУЖНА ГОТОВНОСТЬ"
+		)
+	else:
+		status_label.text = "ОЖИДАНИЕ ХОСТА"
