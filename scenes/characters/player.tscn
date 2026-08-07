@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bw1q38b7650a1"]
+[gd_scene format=3 uid="uid://bw1q38b7650a1"]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]

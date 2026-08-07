@@ -28,6 +28,16 @@ window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[file_customization]
+
+folder_colors={
+"res://docs/handoffs/": "red",
+"res://scenes/levels/": "red",
+"res://scenes/objects/elevator/": "red",
+"res://scenes/tests/": "red",
+"res://scripts/gameplay/elevator/": "red"
+}
+
 [input]
 
 move_forward={
@@ -94,6 +104,7 @@ steam/lobby_tag="northern_lab_story_coop_v1"
 
 [physics]
 
+common/physics_interpolation=true
 3d/physics_engine="Jolt Physics"
 
 [rendering]
