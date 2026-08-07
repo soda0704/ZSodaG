@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://integration_test.gd" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/objects/elevator/elevator_functional_blockout.tscn" id="2_elevator"]
+
+[sub_resource type="Environment" id="Environment_test"]
+background_mode = 1
+background_color = Color(0.015, 0.022, 0.032, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.3, 0.38, 0.5, 1)
+ambient_light_energy = 0.62
+reflected_light_source = 2
+
+[node name="ElevatorArtIntegrationTest" type="Node3D"]
+script = ExtResource("1_test")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_test")
+
+[node name="ElevatorFunctionalBlockout" parent="." instance=ExtResource("2_elevator")]
+unlocked_floor_index = 5
+travel_speed = 120.0
+travel_start_stop_time = 0.0
+door_animation_duration = 0.05
+arrival_alignment_duration = 0.01
+require_all_connected_players = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.72, -0.65, 0)
+light_color = Color(0.72, 0.84, 1, 1)
+light_energy = 1.45
+shadow_enabled = true
+
+[node name="LandingFill" type="OmniLight3D" parent="."]
+position = Vector3(-7, 4, 2)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.0
+omni_range = 11.0
+
+[node name="ReviewCamera" type="Camera3D" parent="."]
+position = Vector3(-12, 4.8, 7.8)
+current = true
+fov = 54.0

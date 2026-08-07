@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_cabin_visual_blockout.tscn" id="1_cabin"]
+
+[sub_resource type="Environment" id="Environment_review"]
+background_mode = 1
+background_color = Color(0.018, 0.024, 0.032, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.28, 0.34, 0.42, 1)
+ambient_light_energy = 0.58
+reflected_light_source = 2
+
+[sub_resource type="StandardMaterial3D" id="Material_review_floor"]
+albedo_color = Color(0.055, 0.065, 0.075, 1)
+metallic = 0.15
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="Mesh_review_floor"]
+material = SubResource("Material_review_floor")
+size = Vector3(16, 0.1, 16)
+
+[node name="ElevatorCabinArtReview" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_review")
+
+[node name="ReviewFloor" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.15, 0)
+mesh = SubResource("Mesh_review_floor")
+
+[node name="ElevatorCabinVisualBlockout" parent="." instance=ExtResource("1_cabin")]
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.78, -0.62, 0)
+light_color = Color(0.74, 0.84, 1, 1)
+light_energy = 1.45
+shadow_enabled = true
+
+[node name="WestFill" type="OmniLight3D" parent="."]
+position = Vector3(-5.5, 3.2, -3.8)
+light_color = Color(1, 0.48, 0.22, 1)
+light_energy = 5.2
+omni_range = 11.0
+shadow_enabled = true
+
+[node name="InteriorFill" type="OmniLight3D" parent="."]
+position = Vector3(-1.4, 3.0, 0)
+light_color = Color(0.56, 0.76, 1, 1)
+light_energy = 3.1
+omni_range = 7.5
+
+[node name="ReviewCamera" type="Camera3D" parent="."]
+position = Vector3(-10, 6, 9)
+rotation = Vector3(-0.2967, -0.8378, 0)
+current = true
+fov = 52.0
+
+[node name="InteriorReviewCamera" type="Camera3D" parent="."]
+position = Vector3(-9.5, 2.35, 0)
+rotation = Vector3(-0.035, -1.5708, 0)
+fov = 58.0
+
+[node name="RoofReviewCamera" type="Camera3D" parent="."]
+position = Vector3(-7.5, 7.2, 7)
+rotation = Vector3(-0.24, -0.82, 0)
+fov = 48.0

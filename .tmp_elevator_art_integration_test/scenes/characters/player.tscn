@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://bw1q38b7650a1"]
+
+[ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
+[ext_resource type="Script" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
+[ext_resource type="PackedScene" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
+[ext_resource type="Script" path="res://scripts/characters/components/prototype_character_animator.gd" id="5_character_animator"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="6_fuse_model"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+resource_local_to_scene = true
+radius = 0.35
+height = 1.8
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0.9, 0)
+shape = SubResource("CapsuleShape_player")
+
+[node name="BodyVisual" type="Node3D" parent="."]
+unique_name_in_owner = true
+rotation = Vector3(0, 3.14159, 0)
+scale = Vector3(0.013, 0.013, 0.013)
+script = ExtResource("5_character_animator")
+
+[node name="CharacterModel" parent="BodyVisual" instance=ExtResource("4_character_model")]
+
+[node name="NameLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 2.05, 0)
+billboard = 1
+text = "Player"
+font_size = 32
+outline_size = 8
+no_depth_test = false
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 1.65, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
+far = 150.0
+script = ExtResource("3_camera_motion")
+
+[node name="Flashlight" parent="Head" instance=ExtResource("2_flashlight")]
+unique_name_in_owner = true
+position = Vector3(0.18, -0.16, -0.02)
+drain_battery_locally = false
+malfunction_enabled = false
+
+[node name="HeldFuse" parent="Head" instance=ExtResource("6_fuse_model")]
+unique_name_in_owner = true
+visible = false
+position = Vector3(0.2, -0.2, -0.42)
+rotation = Vector3(0.25, -0.3, -0.25)
+scale = Vector3(1.35, 1.35, 1.35)
+
+[node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D"]
+unique_name_in_owner = true
+enabled = true
+target_position = Vector3(0, 0, -3)
+collision_mask = 5
+collide_with_areas = true
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Crosshair" type="CenterContainer" parent="PlayerUI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CrosshairLabel" type="Label" parent="PlayerUI/Crosshair"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.72, 0.9)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 18
+text = "+"
+
+[node name="PromptContainer" type="CenterContainer" parent="PlayerUI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = 42.0
+offset_right = 260.0
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="InteractionPromptLabel" type="Label" parent="PlayerUI/PromptContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "[E] Взаимодействовать"
+horizontal_alignment = 1
+
+[node name="BatteryLabel" type="Label" parent="PlayerUI"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 62.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.86, 0.58, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "БАТАРЕЯ: 100%"
+horizontal_alignment = 2

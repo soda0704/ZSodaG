@@ -1,0 +1,792 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_structural_steel"]
+albedo_color = Color(0.075, 0.09, 0.105, 1)
+metallic = 0.72
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="Material_wall_panel"]
+albedo_color = Color(0.215, 0.245, 0.275, 1)
+metallic = 0.42
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.11, 0.125, 0.135, 1)
+metallic = 0.58
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Material_hazard_orange"]
+albedo_color = Color(0.82, 0.255, 0.035, 1)
+metallic = 0.25
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Material_service_green"]
+albedo_color = Color(0.12, 0.34, 0.2, 1)
+metallic = 0.42
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Material_rubber"]
+albedo_color = Color(0.025, 0.03, 0.035, 1)
+roughness = 0.92
+
+[sub_resource type="StandardMaterial3D" id="Material_control_panel"]
+albedo_color = Color(0.035, 0.055, 0.07, 1)
+metallic = 0.62
+roughness = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_light_emissive"]
+albedo_color = Color(0.62, 0.78, 0.92, 1)
+emission_enabled = true
+emission = Color(0.42, 0.7, 1, 1)
+emission_energy_multiplier = 3.2
+roughness = 0.28
+
+[sub_resource type="StandardMaterial3D" id="Material_sign_plate"]
+albedo_color = Color(0.7, 0.73, 0.72, 1)
+metallic = 0.5
+roughness = 0.42
+
+[sub_resource type="StandardMaterial3D" id="Material_galvanized"]
+albedo_color = Color(0.34, 0.39, 0.42, 1)
+metallic = 0.76
+roughness = 0.34
+
+[sub_resource type="BoxMesh" id="Mesh_corner_post"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.18, 4.2, 0.18)
+
+[sub_resource type="BoxMesh" id="Mesh_frame_beam_x"]
+material = SubResource("Material_structural_steel")
+size = Vector3(5.94, 0.2, 0.18)
+
+[sub_resource type="BoxMesh" id="Mesh_frame_beam_z"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.18, 0.2, 5.94)
+
+[sub_resource type="BoxMesh" id="Mesh_floor_base"]
+material = SubResource("Material_structural_steel")
+size = Vector3(6, 0.18, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_floor_tread"]
+material = SubResource("Material_floor")
+size = Vector3(5.62, 0.035, 5.62)
+
+[sub_resource type="BoxMesh" id="Mesh_floor_hazard_strip"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.22, 0.045, 5.5)
+
+[sub_resource type="BoxMesh" id="Mesh_floor_panel_seam"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.026, 0.012, 5.36)
+
+[sub_resource type="BoxMesh" id="Mesh_threshold_inlay"]
+material = SubResource("Material_rubber")
+size = Vector3(0.42, 0.018, 5.28)
+
+[sub_resource type="BoxMesh" id="Mesh_side_panel"]
+material = SubResource("Material_wall_panel")
+size = Vector3(1.93, 3.9, 0.08)
+
+[sub_resource type="BoxMesh" id="Mesh_back_panel"]
+material = SubResource("Material_wall_panel")
+size = Vector3(0.08, 3.9, 1.93)
+
+[sub_resource type="BoxMesh" id="Mesh_panel_seam_vertical"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.055, 3.9, 0.04)
+
+[sub_resource type="BoxMesh" id="Mesh_back_seam_vertical"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.04, 3.9, 0.055)
+
+[sub_resource type="BoxMesh" id="Mesh_side_brace"]
+material = SubResource("Material_structural_steel")
+size = Vector3(4.45, 0.12, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_back_brace"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.12, 0.12, 4.45)
+
+[sub_resource type="BoxMesh" id="Mesh_roof_plate"]
+material = SubResource("Material_wall_panel")
+size = Vector3(5.72, 0.14, 5.72)
+
+[sub_resource type="BoxMesh" id="Mesh_roof_service_beam_x"]
+material = SubResource("Material_service_green")
+size = Vector3(4.4, 0.18, 0.22)
+
+[sub_resource type="BoxMesh" id="Mesh_roof_service_beam_z"]
+material = SubResource("Material_service_green")
+size = Vector3(0.22, 0.18, 4.4)
+
+[sub_resource type="BoxMesh" id="Mesh_door_jamb"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.16, 4.05, 0.16)
+
+[sub_resource type="BoxMesh" id="Mesh_door_header"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.16, 0.18, 5.62)
+
+[sub_resource type="CylinderMesh" id="Mesh_handrail"]
+material = SubResource("Material_structural_steel")
+top_radius = 0.055
+bottom_radius = 0.055
+height = 4.45
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Mesh_handrail_short"]
+material = SubResource("Material_structural_steel")
+top_radius = 0.055
+bottom_radius = 0.055
+height = 2.4
+radial_segments = 12
+rings = 1
+
+[sub_resource type="BoxMesh" id="Mesh_handrail_mount_z"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.16, 0.16, 0.22)
+
+[sub_resource type="BoxMesh" id="Mesh_handrail_mount_x"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.22, 0.16, 0.16)
+
+[sub_resource type="BoxMesh" id="Mesh_corner_bumper"]
+material = SubResource("Material_rubber")
+size = Vector3(0.2, 1.45, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_panel_housing"]
+material = SubResource("Material_control_panel")
+size = Vector3(2.1, 1.8, 0.14)
+
+[sub_resource type="BoxMesh" id="Mesh_panel_inset"]
+material = SubResource("Material_structural_steel")
+size = Vector3(1.82, 1.52, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_panel_display"]
+material = SubResource("Material_light_emissive")
+size = Vector3(0.82, 0.27, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_panel_button"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.25, 0.25, 0.045)
+
+[sub_resource type="BoxMesh" id="Mesh_light_housing"]
+material = SubResource("Material_structural_steel")
+size = Vector3(2.45, 0.12, 0.42)
+
+[sub_resource type="BoxMesh" id="Mesh_light_panel"]
+material = SubResource("Material_light_emissive")
+size = Vector3(2.18, 0.035, 0.25)
+
+[sub_resource type="BoxMesh" id="Mesh_light_guard"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.07, 0.055, 0.36)
+
+[sub_resource type="BoxMesh" id="Mesh_ceiling_service_panel"]
+material = SubResource("Material_control_panel")
+size = Vector3(2.4, 0.05, 1.0)
+
+[sub_resource type="BoxMesh" id="Mesh_ceiling_vent_slot"]
+material = SubResource("Material_rubber")
+size = Vector3(1.7, 0.025, 0.045)
+
+[sub_resource type="BoxMesh" id="Mesh_door_seal_vertical"]
+material = SubResource("Material_rubber")
+size = Vector3(0.08, 3.74, 0.13)
+
+[sub_resource type="BoxMesh" id="Mesh_door_seal_header"]
+material = SubResource("Material_rubber")
+size = Vector3(0.08, 0.13, 5.49)
+
+[sub_resource type="BoxMesh" id="Mesh_motor_skid"]
+material = SubResource("Material_structural_steel")
+size = Vector3(3.5, 0.16, 2.35)
+
+[sub_resource type="BoxMesh" id="Mesh_motor_body"]
+material = SubResource("Material_service_green")
+size = Vector3(2.7, 1, 1.7)
+
+[sub_resource type="CylinderMesh" id="Mesh_motor_end_cap"]
+material = SubResource("Material_galvanized")
+top_radius = 0.63
+bottom_radius = 0.63
+height = 0.22
+radial_segments = 16
+rings = 1
+
+[sub_resource type="BoxMesh" id="Mesh_motor_rib"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.11, 1.08, 1.78)
+
+[sub_resource type="BoxMesh" id="Mesh_motor_mount"]
+material = SubResource("Material_rubber")
+size = Vector3(0.42, 0.12, 0.35)
+
+[sub_resource type="BoxMesh" id="Mesh_motor_terminal_box"]
+material = SubResource("Material_control_panel")
+size = Vector3(0.62, 0.2, 0.58)
+
+[sub_resource type="BoxMesh" id="Mesh_motor_terminal_lid"]
+material = SubResource("Material_sign_plate")
+size = Vector3(0.5, 0.035, 0.46)
+
+[sub_resource type="BoxMesh" id="Mesh_cable_anchor_base"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.8, 0.16, 1.6)
+
+[sub_resource type="BoxMesh" id="Mesh_cable_anchor_cheek"]
+material = SubResource("Material_service_green")
+size = Vector3(0.7, 0.72, 0.18)
+
+[sub_resource type="BoxMesh" id="Mesh_cable_anchor_bridge"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.7, 0.16, 1.2)
+
+[sub_resource type="CylinderMesh" id="Mesh_cable_anchor_pin"]
+material = SubResource("Material_galvanized")
+top_radius = 0.18
+bottom_radius = 0.18
+height = 1.1
+radial_segments = 12
+rings = 1
+
+[sub_resource type="BoxMesh" id="Mesh_cable_anchor_stripe"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.045, 0.1, 1.16)
+
+[sub_resource type="BoxMesh" id="Mesh_service_cover"]
+material = SubResource("Material_service_green")
+size = Vector3(0.035, 1.15, 1.45)
+
+[sub_resource type="BoxMesh" id="Mesh_service_cover_rib"]
+material = SubResource("Material_structural_steel")
+size = Vector3(0.05, 0.08, 1.2)
+
+[sub_resource type="BoxMesh" id="Mesh_sign_plate"]
+material = SubResource("Material_sign_plate")
+size = Vector3(1.4, 0.58, 0.035)
+
+[node name="ElevatorCabinVisualBlockout" type="Node3D"]
+
+[node name="StructuralFrame" type="Node3D" parent="."]
+
+[node name="NorthWestPost" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(-2.91, 2.1, -2.91)
+mesh = SubResource("Mesh_corner_post")
+
+[node name="NorthEastPost" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(2.91, 2.1, -2.91)
+mesh = SubResource("Mesh_corner_post")
+
+[node name="SouthWestPost" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(-2.91, 2.1, 2.91)
+mesh = SubResource("Mesh_corner_post")
+
+[node name="SouthEastPost" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(2.91, 2.1, 2.91)
+mesh = SubResource("Mesh_corner_post")
+
+[node name="LowerNorthBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(0, 0.14, -2.91)
+mesh = SubResource("Mesh_frame_beam_x")
+
+[node name="LowerSouthBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(0, 0.14, 2.91)
+mesh = SubResource("Mesh_frame_beam_x")
+
+[node name="LowerWestBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(-2.91, 0.14, 0)
+mesh = SubResource("Mesh_frame_beam_z")
+
+[node name="LowerEastBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(2.91, 0.14, 0)
+mesh = SubResource("Mesh_frame_beam_z")
+
+[node name="UpperNorthBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(0, 4.08, -2.91)
+mesh = SubResource("Mesh_frame_beam_x")
+
+[node name="UpperSouthBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(0, 4.08, 2.91)
+mesh = SubResource("Mesh_frame_beam_x")
+
+[node name="UpperWestBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(-2.91, 4.08, 0)
+mesh = SubResource("Mesh_frame_beam_z")
+
+[node name="UpperEastBeam" type="MeshInstance3D" parent="StructuralFrame"]
+position = Vector3(2.91, 4.08, 0)
+mesh = SubResource("Mesh_frame_beam_z")
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="StructuralBase" type="MeshInstance3D" parent="Floor"]
+position = Vector3(0, 0.02, 0)
+mesh = SubResource("Mesh_floor_base")
+
+[node name="TreadPlate" type="MeshInstance3D" parent="Floor"]
+position = Vector3(0, 0.128, 0)
+mesh = SubResource("Mesh_floor_tread")
+
+[node name="WestHazardStrip" type="MeshInstance3D" parent="Floor"]
+position = Vector3(-2.82, 0.138, 0)
+mesh = SubResource("Mesh_floor_hazard_strip")
+
+[node name="WestThresholdInlay" type="MeshInstance3D" parent="Floor"]
+position = Vector3(-2.57, 0.151, 0)
+mesh = SubResource("Mesh_threshold_inlay")
+
+[node name="FloorPanelSeamWestInner" type="MeshInstance3D" parent="Floor"]
+position = Vector3(-0.94, 0.151, 0)
+mesh = SubResource("Mesh_floor_panel_seam")
+
+[node name="FloorPanelSeamEastInner" type="MeshInstance3D" parent="Floor"]
+position = Vector3(0.94, 0.151, 0)
+mesh = SubResource("Mesh_floor_panel_seam")
+
+[node name="WallPanels" type="Node3D" parent="."]
+
+[node name="NorthPanelWest" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(-1.9, 2.1, -2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="NorthPanelCenter" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(0, 2.1, -2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="NorthPanelEast" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(1.9, 2.1, -2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="SouthPanelWest" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(-1.9, 2.1, 2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="SouthPanelCenter" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(0, 2.1, 2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="SouthPanelEast" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(1.9, 2.1, 2.855)
+mesh = SubResource("Mesh_side_panel")
+
+[node name="EastPanelNorth" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(2.855, 2.1, -1.9)
+mesh = SubResource("Mesh_back_panel")
+
+[node name="EastPanelCenter" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(2.855, 2.1, 0)
+mesh = SubResource("Mesh_back_panel")
+
+[node name="EastPanelSouth" type="MeshInstance3D" parent="WallPanels"]
+position = Vector3(2.855, 2.1, 1.9)
+mesh = SubResource("Mesh_back_panel")
+
+[node name="PanelSeams" type="Node3D" parent="."]
+
+[node name="NorthSeamWest" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(-0.95, 2.1, -2.795)
+mesh = SubResource("Mesh_panel_seam_vertical")
+
+[node name="NorthSeamEast" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(0.95, 2.1, -2.795)
+mesh = SubResource("Mesh_panel_seam_vertical")
+
+[node name="SouthSeamWest" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(-0.95, 2.1, 2.795)
+mesh = SubResource("Mesh_panel_seam_vertical")
+
+[node name="SouthSeamEast" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(0.95, 2.1, 2.795)
+mesh = SubResource("Mesh_panel_seam_vertical")
+
+[node name="EastSeamNorth" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(2.795, 2.1, -0.95)
+mesh = SubResource("Mesh_back_seam_vertical")
+
+[node name="EastSeamSouth" type="MeshInstance3D" parent="PanelSeams"]
+position = Vector3(2.795, 2.1, 0.95)
+mesh = SubResource("Mesh_back_seam_vertical")
+
+[node name="ExteriorBracing" type="Node3D" parent="."]
+
+[node name="NorthBrace" type="MeshInstance3D" parent="ExteriorBracing"]
+position = Vector3(0, 2.05, -2.94)
+rotation = Vector3(0, 0, 0.68)
+mesh = SubResource("Mesh_side_brace")
+
+[node name="SouthBrace" type="MeshInstance3D" parent="ExteriorBracing"]
+position = Vector3(0, 2.05, 2.94)
+rotation = Vector3(0, 0, -0.68)
+mesh = SubResource("Mesh_side_brace")
+
+[node name="EastBrace" type="MeshInstance3D" parent="ExteriorBracing"]
+position = Vector3(2.94, 2.05, 0)
+rotation = Vector3(0.68, 0, 0)
+mesh = SubResource("Mesh_back_brace")
+
+[node name="Roof" type="Node3D" parent="."]
+
+[node name="RoofPlate" type="MeshInstance3D" parent="Roof"]
+position = Vector3(0, 4.1, 0)
+mesh = SubResource("Mesh_roof_plate")
+
+[node name="ServiceBeamNorth" type="MeshInstance3D" parent="Roof"]
+position = Vector3(0, 4.25, -1.65)
+mesh = SubResource("Mesh_roof_service_beam_x")
+
+[node name="ServiceBeamSouth" type="MeshInstance3D" parent="Roof"]
+position = Vector3(0, 4.25, 1.65)
+mesh = SubResource("Mesh_roof_service_beam_x")
+
+[node name="ServiceBeamWest" type="MeshInstance3D" parent="Roof"]
+position = Vector3(-1.65, 4.25, 0)
+mesh = SubResource("Mesh_roof_service_beam_z")
+
+[node name="ServiceBeamEast" type="MeshInstance3D" parent="Roof"]
+position = Vector3(1.65, 4.25, 0)
+mesh = SubResource("Mesh_roof_service_beam_z")
+
+[node name="WestDoorFrame" type="Node3D" parent="."]
+
+[node name="NorthJamb" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.97, 2.025, -2.79)
+mesh = SubResource("Mesh_door_jamb")
+
+[node name="SouthJamb" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.97, 2.025, 2.79)
+mesh = SubResource("Mesh_door_jamb")
+
+[node name="Header" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.97, 4.02, 0)
+mesh = SubResource("Mesh_door_header")
+
+[node name="NorthInnerSeal" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.875, 2, -2.69)
+mesh = SubResource("Mesh_door_seal_vertical")
+
+[node name="SouthInnerSeal" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.875, 2, 2.69)
+mesh = SubResource("Mesh_door_seal_vertical")
+
+[node name="HeaderInnerSeal" type="MeshInstance3D" parent="WestDoorFrame"]
+position = Vector3(-2.875, 3.91, 0)
+mesh = SubResource("Mesh_door_seal_header")
+
+[node name="ArtSockets" type="Node3D" parent="."]
+
+[node name="DoorVisualSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(-2.88, 0, 0)
+
+[node name="InteriorControlPanelSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(-1.35, 1.55, 2.62)
+
+[node name="CabinLightSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(0, 3.78, 0)
+
+[node name="HoistMotorSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(0, 4.9, 0)
+
+[node name="CableAttachmentSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(2.1, 4.7, 0)
+
+[node name="InteriorProtection" type="Node3D" parent="."]
+
+[node name="NorthHandrail" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(0.15, 1.16, -2.7)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_handrail")
+
+[node name="NorthHandrailMountWest" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(-1.88, 1.16, -2.74)
+mesh = SubResource("Mesh_handrail_mount_z")
+
+[node name="NorthHandrailMountEast" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.18, 1.16, -2.74)
+mesh = SubResource("Mesh_handrail_mount_z")
+
+[node name="SouthHandrail" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(1.35, 1.16, 2.7)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_handrail_short")
+
+[node name="SouthHandrailMountWest" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(0.25, 1.16, 2.74)
+mesh = SubResource("Mesh_handrail_mount_z")
+
+[node name="SouthHandrailMountEast" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.45, 1.16, 2.74)
+mesh = SubResource("Mesh_handrail_mount_z")
+
+[node name="EastHandrail" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.7, 1.16, 0)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Mesh_handrail")
+
+[node name="EastHandrailMountNorth" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.74, 1.16, -2.03)
+mesh = SubResource("Mesh_handrail_mount_x")
+
+[node name="EastHandrailMountSouth" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.74, 1.16, 2.03)
+mesh = SubResource("Mesh_handrail_mount_x")
+
+[node name="NorthWestBumper" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(-2.72, 0.86, -2.72)
+mesh = SubResource("Mesh_corner_bumper")
+
+[node name="NorthEastBumper" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.72, 0.86, -2.72)
+mesh = SubResource("Mesh_corner_bumper")
+
+[node name="SouthWestBumper" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(-2.72, 0.86, 2.72)
+mesh = SubResource("Mesh_corner_bumper")
+
+[node name="SouthEastBumper" type="MeshInstance3D" parent="InteriorProtection"]
+position = Vector3(2.72, 0.86, 2.72)
+mesh = SubResource("Mesh_corner_bumper")
+
+[node name="ControlPanelVisual" type="Node3D" parent="."]
+
+[node name="Housing" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.35, 1.55, 2.72)
+mesh = SubResource("Mesh_panel_housing")
+
+[node name="Inset" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.35, 1.55, 2.632)
+mesh = SubResource("Mesh_panel_inset")
+
+[node name="FloorDisplay" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.35, 2.08, 2.603)
+mesh = SubResource("Mesh_panel_display")
+
+[node name="Button0" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.76, 1.61, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Button1" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.35, 1.61, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Button2" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-0.94, 1.61, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Button3" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.76, 1.2, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Button4" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-1.35, 1.2, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Button5" type="MeshInstance3D" parent="ControlPanelVisual"]
+position = Vector3(-0.94, 1.2, 2.592)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="LightingModules" type="Node3D" parent="."]
+
+[node name="NorthHousing" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.92, -1.55)
+mesh = SubResource("Mesh_light_housing")
+
+[node name="NorthPanel" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.85, -1.55)
+mesh = SubResource("Mesh_light_panel")
+
+[node name="SouthHousing" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.92, 1.55)
+mesh = SubResource("Mesh_light_housing")
+
+[node name="SouthPanel" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.85, 1.55)
+mesh = SubResource("Mesh_light_panel")
+
+[node name="NorthGuardWest" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(-0.78, 3.81, -1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="NorthGuardCenter" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.81, -1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="NorthGuardEast" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0.78, 3.81, -1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="SouthGuardWest" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(-0.78, 3.81, 1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="SouthGuardCenter" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0, 3.81, 1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="SouthGuardEast" type="MeshInstance3D" parent="LightingModules"]
+position = Vector3(0.78, 3.81, 1.55)
+mesh = SubResource("Mesh_light_guard")
+
+[node name="NorthWorkLight" type="OmniLight3D" parent="LightingModules"]
+position = Vector3(0, 3.62, -1.55)
+light_color = Color(0.62, 0.8, 1, 1)
+light_energy = 1.65
+omni_range = 4.8
+omni_attenuation = 1.35
+
+[node name="SouthWorkLight" type="OmniLight3D" parent="LightingModules"]
+position = Vector3(0, 3.62, 1.55)
+light_color = Color(0.62, 0.8, 1, 1)
+light_energy = 1.65
+omni_range = 4.8
+omni_attenuation = 1.35
+
+[node name="CeilingServiceModule" type="Node3D" parent="."]
+
+[node name="ServicePanel" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.995, 0)
+mesh = SubResource("Mesh_ceiling_service_panel")
+
+[node name="VentSlotNorthOuter" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.965, -0.3)
+mesh = SubResource("Mesh_ceiling_vent_slot")
+
+[node name="VentSlotNorthInner" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.965, -0.15)
+mesh = SubResource("Mesh_ceiling_vent_slot")
+
+[node name="VentSlotCenter" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.965, 0)
+mesh = SubResource("Mesh_ceiling_vent_slot")
+
+[node name="VentSlotSouthInner" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.965, 0.15)
+mesh = SubResource("Mesh_ceiling_vent_slot")
+
+[node name="VentSlotSouthOuter" type="MeshInstance3D" parent="CeilingServiceModule"]
+position = Vector3(0, 3.965, 0.3)
+mesh = SubResource("Mesh_ceiling_vent_slot")
+
+[node name="RoofEquipmentVisualBlockout" type="Node3D" parent="."]
+
+[node name="HoistMotorSkid" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0, 4.37, 0)
+mesh = SubResource("Mesh_motor_skid")
+
+[node name="HoistMotorMountNorthWest" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(-1.08, 4.47, -0.62)
+mesh = SubResource("Mesh_motor_mount")
+
+[node name="HoistMotorMountNorthEast" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(1.08, 4.47, -0.62)
+mesh = SubResource("Mesh_motor_mount")
+
+[node name="HoistMotorMountSouthWest" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(-1.08, 4.47, 0.62)
+mesh = SubResource("Mesh_motor_mount")
+
+[node name="HoistMotorMountSouthEast" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(1.08, 4.47, 0.62)
+mesh = SubResource("Mesh_motor_mount")
+
+[node name="HoistMotorBody" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0, 4.98, 0)
+mesh = SubResource("Mesh_motor_body")
+
+[node name="HoistMotorWestCap" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(-1.46, 4.97, 0)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_motor_end_cap")
+
+[node name="HoistMotorEastCap" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(1.46, 4.97, 0)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_motor_end_cap")
+
+[node name="HoistMotorRibWestOuter" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(-0.9, 4.98, 0)
+mesh = SubResource("Mesh_motor_rib")
+
+[node name="HoistMotorRibWestInner" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(-0.45, 4.98, 0)
+mesh = SubResource("Mesh_motor_rib")
+
+[node name="HoistMotorRibCenter" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0, 4.98, 0)
+mesh = SubResource("Mesh_motor_rib")
+
+[node name="HoistMotorRibEastInner" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0.45, 4.98, 0)
+mesh = SubResource("Mesh_motor_rib")
+
+[node name="HoistMotorRibEastOuter" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0.9, 4.98, 0)
+mesh = SubResource("Mesh_motor_rib")
+
+[node name="HoistMotorTerminalBox" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0.55, 5.49, 0.48)
+mesh = SubResource("Mesh_motor_terminal_box")
+
+[node name="HoistMotorTerminalLid" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(0.55, 5.572, 0.48)
+mesh = SubResource("Mesh_motor_terminal_lid")
+
+[node name="CableAttachmentBase" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(2.1, 4.37, 0)
+mesh = SubResource("Mesh_cable_anchor_base")
+
+[node name="CableAttachmentNorthCheek" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(2.1, 4.81, -0.61)
+mesh = SubResource("Mesh_cable_anchor_cheek")
+
+[node name="CableAttachmentSouthCheek" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(2.1, 4.81, 0.61)
+mesh = SubResource("Mesh_cable_anchor_cheek")
+
+[node name="CableAttachmentBridge" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(2.1, 4.53, 0)
+mesh = SubResource("Mesh_cable_anchor_bridge")
+
+[node name="CableAttachmentPin" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(2.1, 4.93, 0)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Mesh_cable_anchor_pin")
+
+[node name="CableAttachmentSafetyStripe" type="MeshInstance3D" parent="RoofEquipmentVisualBlockout"]
+position = Vector3(1.708, 4.53, 0)
+mesh = SubResource("Mesh_cable_anchor_stripe")
+
+[node name="ServiceDetails" type="Node3D" parent="."]
+
+[node name="EastServiceCover" type="MeshInstance3D" parent="ServiceDetails"]
+position = Vector3(2.79, 2.55, 1.45)
+mesh = SubResource("Mesh_service_cover")
+
+[node name="EastServiceCoverRibLower" type="MeshInstance3D" parent="ServiceDetails"]
+position = Vector3(2.765, 2.25, 1.45)
+mesh = SubResource("Mesh_service_cover_rib")
+
+[node name="EastServiceCoverRibUpper" type="MeshInstance3D" parent="ServiceDetails"]
+position = Vector3(2.765, 2.85, 1.45)
+mesh = SubResource("Mesh_service_cover_rib")
+
+[node name="LoadSignPlate" type="MeshInstance3D" parent="ServiceDetails"]
+position = Vector3(1.9, 2.75, -2.75)
+mesh = SubResource("Mesh_sign_plate")
+
+[node name="LoadSignText" type="Label3D" parent="ServiceDetails"]
+position = Vector3(1.9, 2.75, -2.72)
+text = "MAX LOAD 2500 KG\n12 PERSONS"
+font_size = 38
+outline_size = 6
+
+[node name="LiftIdPlate" type="MeshInstance3D" parent="ServiceDetails"]
+position = Vector3(-1.9, 3.15, -2.75)
+mesh = SubResource("Mesh_sign_plate")
+
+[node name="LiftIdText" type="Label3D" parent="ServiceDetails"]
+position = Vector3(-1.9, 3.15, -2.72)
+text = "NORTHERNLAB\nFREIGHT LIFT E-01"
+font_size = 34
+outline_size = 6

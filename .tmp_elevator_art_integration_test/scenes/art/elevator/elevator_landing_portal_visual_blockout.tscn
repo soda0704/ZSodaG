@@ -1,0 +1,185 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.07, 0.085, 0.1, 1)
+metallic = 0.72
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Material_hazard_orange"]
+albedo_color = Color(0.84, 0.26, 0.035, 1)
+metallic = 0.24
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Material_rubber"]
+albedo_color = Color(0.02, 0.025, 0.03, 1)
+roughness = 0.92
+
+[sub_resource type="StandardMaterial3D" id="Material_panel"]
+albedo_color = Color(0.035, 0.055, 0.07, 1)
+metallic = 0.66
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Material_display"]
+albedo_color = Color(0.06, 0.13, 0.2, 1)
+emission_enabled = true
+emission = Color(0.12, 0.42, 0.78, 1)
+emission_energy_multiplier = 1.6
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="Mesh_portal_jamb"]
+material = SubResource("Material_frame")
+size = Vector3(0.32, 4.2, 0.32)
+
+[sub_resource type="BoxMesh" id="Mesh_portal_header"]
+material = SubResource("Material_frame")
+size = Vector3(0.32, 0.35, 6.04)
+
+[sub_resource type="BoxMesh" id="Mesh_portal_foot"]
+material = SubResource("Material_frame")
+size = Vector3(0.7, 0.16, 0.7)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_trim_vertical"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.12, 3.9, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_trim_header"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.12, 0.12, 5.52)
+
+[sub_resource type="BoxMesh" id="Mesh_threshold"]
+material = SubResource("Material_hazard_orange")
+size = Vector3(0.35, 0.05, 5.4)
+
+[sub_resource type="BoxMesh" id="Mesh_threshold_inlay"]
+material = SubResource("Material_rubber")
+size = Vector3(0.18, 0.02, 5.1)
+
+[sub_resource type="BoxMesh" id="Mesh_indicator_housing"]
+material = SubResource("Material_panel")
+size = Vector3(0.22, 0.64, 2.1)
+
+[sub_resource type="BoxMesh" id="Mesh_indicator_display"]
+material = SubResource("Material_display")
+size = Vector3(0.035, 0.4, 1.75)
+
+[sub_resource type="BoxMesh" id="Mesh_call_housing"]
+material = SubResource("Material_panel")
+size = Vector3(0.18, 1, 0.6)
+
+[sub_resource type="BoxMesh" id="Mesh_call_inset"]
+material = SubResource("Material_frame")
+size = Vector3(0.035, 0.76, 0.42)
+
+[sub_resource type="CylinderMesh" id="Mesh_call_button"]
+material = SubResource("Material_hazard_orange")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.06
+radial_segments = 16
+rings = 1
+
+[sub_resource type="BoxMesh" id="Mesh_safety_light"]
+material = SubResource("Material_display")
+size = Vector3(0.04, 0.18, 0.3)
+
+[node name="ElevatorLandingPortalVisualBlockout" type="Node3D"]
+
+[node name="PortalFrame" type="Node3D" parent="."]
+
+[node name="NorthJamb" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.34, 2.1, -2.86)
+mesh = SubResource("Mesh_portal_jamb")
+
+[node name="SouthJamb" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.34, 2.1, 2.86)
+mesh = SubResource("Mesh_portal_jamb")
+
+[node name="Header" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.34, 4.175, 0)
+mesh = SubResource("Mesh_portal_header")
+
+[node name="NorthFoot" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.34, 0.08, -2.86)
+mesh = SubResource("Mesh_portal_foot")
+
+[node name="SouthFoot" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.34, 0.08, 2.86)
+mesh = SubResource("Mesh_portal_foot")
+
+[node name="NorthInnerTrim" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.29, 1.95, -2.7)
+mesh = SubResource("Mesh_inner_trim_vertical")
+
+[node name="SouthInnerTrim" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.29, 1.95, 2.7)
+mesh = SubResource("Mesh_inner_trim_vertical")
+
+[node name="HeaderInnerTrim" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3.29, 3.9, 0)
+mesh = SubResource("Mesh_inner_trim_header")
+
+[node name="LandingThreshold" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-3, 0.025, 0)
+mesh = SubResource("Mesh_threshold")
+
+[node name="ThresholdInlay" type="MeshInstance3D" parent="PortalFrame"]
+position = Vector3(-2.89, 0.058, 0)
+mesh = SubResource("Mesh_threshold_inlay")
+
+[node name="FloorIndicatorVisual" type="Node3D" parent="."]
+
+[node name="Housing" type="MeshInstance3D" parent="FloorIndicatorVisual"]
+position = Vector3(-3.46, 4.58, 0)
+mesh = SubResource("Mesh_indicator_housing")
+
+[node name="Display" type="MeshInstance3D" parent="FloorIndicatorVisual"]
+position = Vector3(-3.588, 4.58, 0)
+mesh = SubResource("Mesh_indicator_display")
+
+[node name="FloorIndicatorText" type="Label3D" parent="FloorIndicatorVisual"]
+position = Vector3(-3.62, 4.58, 0)
+rotation = Vector3(0, -1.5708, 0)
+text = "LEVEL 00"
+font_size = 52
+outline_size = 7
+
+[node name="NorthSafetyLight" type="MeshInstance3D" parent="FloorIndicatorVisual"]
+position = Vector3(-3.53, 4.15, -2.35)
+mesh = SubResource("Mesh_safety_light")
+
+[node name="SouthSafetyLight" type="MeshInstance3D" parent="FloorIndicatorVisual"]
+position = Vector3(-3.53, 4.15, 2.35)
+mesh = SubResource("Mesh_safety_light")
+
+[node name="CallPanelVisual" type="Node3D" parent="."]
+
+[node name="Housing" type="MeshInstance3D" parent="CallPanelVisual"]
+position = Vector3(-3.46, 1.35, -2.75)
+mesh = SubResource("Mesh_call_housing")
+
+[node name="Inset" type="MeshInstance3D" parent="CallPanelVisual"]
+position = Vector3(-3.575, 1.35, -2.75)
+mesh = SubResource("Mesh_call_inset")
+
+[node name="ButtonPlaceholder" type="MeshInstance3D" parent="CallPanelVisual"]
+position = Vector3(-3.62, 1.18, -2.75)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_call_button")
+
+[node name="CallLabel" type="Label3D" parent="CallPanelVisual"]
+position = Vector3(-3.62, 1.57, -2.75)
+rotation = Vector3(0, -1.5708, 0)
+text = "CALL"
+font_size = 28
+outline_size = 5
+
+[node name="ArtSockets" type="Node3D" parent="."]
+
+[node name="LandingDoorVisualSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(-3.15, 0, 0)
+
+[node name="CallButtonSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(-3.62, 1.18, -2.75)
+
+[node name="FloorIndicatorSocket" type="Marker3D" parent="ArtSockets"]
+position = Vector3(-3.62, 4.58, 0)

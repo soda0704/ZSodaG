@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bn80xmc6easko"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_shaft_module_visual_blockout.tscn" id="1_shaft"]
+[ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_landing_portal_visual_blockout.tscn" id="2_portal"]
+[ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_cabin_visual_blockout.tscn" id="3_cabin"]
+
+[sub_resource type="Environment" id="Environment_review"]
+background_mode = 1
+background_color = Color(0.012, 0.018, 0.026, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.22, 0.3, 0.4, 1)
+ambient_light_energy = 0.5
+reflected_light_source = 2
+
+[sub_resource type="StandardMaterial3D" id="Material_landing_floor"]
+albedo_color = Color(0.07, 0.08, 0.09, 1)
+metallic = 0.28
+roughness = 0.68
+
+[sub_resource type="BoxMesh" id="Mesh_landing_floor"]
+material = SubResource("Material_landing_floor")
+size = Vector3(8, 0.1, 8)
+
+[node name="ElevatorShaftLandingArtReview" type="Node3D" unique_id=1166329633]
+editor_description = "Общая art-сборка лифта. Модули шахты используют верхний стыковочный пояс, полноразмерные диагонали и закреплённый на South-East стойке ServiceRoute."
+metadata/art_revision = "functional_integration_v03"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=493374998]
+environment = SubResource("Environment_review")
+
+[node name="ShaftModuleSurface" parent="." unique_id=1501603005 instance=ExtResource("1_shaft")]
+editor_description = "Нижний 6-метровый модуль шахты: диагонали доведены до стоек, ServiceRoute установлен на кронштейнах."
+
+[node name="ShaftModuleUpper" parent="." unique_id=2070605119 instance=ExtResource("1_shaft")]
+editor_description = "Верхний 6-метровый модуль шахты: живой экземпляр общей модульной сцены."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="LandingPortalSurface" parent="." unique_id=1819341406 instance=ExtResource("2_portal")]
+
+[node name="ElevatorCabinVisualBlockout" parent="." unique_id=1386778077 instance=ExtResource("3_cabin")]
+
+[node name="LandingFloorReference" type="MeshInstance3D" parent="." unique_id=747105314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -0.05, 0)
+mesh = SubResource("Mesh_landing_floor")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="." unique_id=1422464600]
+transform = Transform3D(0.7960838, 0.39905062, -0.4549826, 0, 0.7518057, 0.65938467, 0.6051864, -0.5249255, 0.5985004, 0, 0, 0)
+light_color = Color(0.7, 0.82, 1, 1)
+light_energy = 1.35
+shadow_enabled = true
+
+[node name="LandingFill" type="OmniLight3D" parent="." unique_id=1941356385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 3.5, 0)
+light_color = Color(0.72, 0.84, 1, 1)
+light_energy = 3.2
+shadow_enabled = true
+omni_range = 9.0
+
+[node name="LandingReviewCamera" type="Camera3D" parent="." unique_id=811439984]
+transform = Transform3D(0.62161, 0.14023869, -0.77067125, 0, 0.9838437, 0.17902958, 0.7833269, -0.11128658, 0.6115671, -12, 4.6, 7.8)
+current = true
+fov = 54.0
+
+[node name="ShaftReviewCamera" type="Camera3D" parent="." unique_id=944456107]
+transform = Transform3D(0.6748758, -0.1968295, 0.7111968, 0, 0.96377087, 0.26673144, -0.7379314, -0.18001059, 0.6504256, 9, 7.5, 9)
+fov = 52.0

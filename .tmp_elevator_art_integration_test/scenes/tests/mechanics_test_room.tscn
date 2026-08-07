@@ -1,0 +1,547 @@
+[gd_scene load_steps=44 format=3]
+
+[ext_resource type="Script" path="res://scripts/network/tests/mechanics_test_room.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://scenes/objects/doors/powered_door_system.tscn" id="2_powered_door"]
+[ext_resource type="PackedScene" path="res://scenes/objects/lobby/lobby_start_console.tscn" id="3_console"]
+[ext_resource type="Script" path="res://scripts/network/lobby/helicopter_lobby_hud.gd" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/objects/power/generator_panel.tscn" id="5_generator"]
+[ext_resource type="Script" path="res://scripts/gameplay/power/power_grid.gd" id="6_power_grid"]
+[ext_resource type="Script" path="res://scripts/network/transitions/level_transition_terminal.gd" id="7_transition_terminal"]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.055, 0.065, 0.07, 1)
+metallic = 0.65
+roughness = 0.48
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+material = SubResource("Material_floor")
+size = Vector3(2.8, 0.14, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_floor"]
+size = Vector3(2.8, 0.14, 6)
+
+[sub_resource type="StandardMaterial3D" id="Material_wall"]
+albedo_color = Color(0.075, 0.09, 0.095, 1)
+metallic = 0.72
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="Mesh_side"]
+material = SubResource("Material_wall")
+size = Vector3(0.12, 2.25, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_side"]
+size = Vector3(0.12, 2.25, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_roof"]
+material = SubResource("Material_wall")
+size = Vector3(2.8, 0.12, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_roof"]
+size = Vector3(2.8, 0.12, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_bulkhead"]
+material = SubResource("Material_wall")
+size = Vector3(2.8, 2.25, 0.12)
+
+[sub_resource type="BoxShape3D" id="Shape_bulkhead"]
+size = Vector3(2.8, 2.25, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="Material_bench"]
+albedo_color = Color(0.12, 0.15, 0.13, 1)
+metallic = 0.18
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="Mesh_bench_seat"]
+material = SubResource("Material_bench")
+size = Vector3(0.38, 0.12, 3.4)
+
+[sub_resource type="BoxShape3D" id="Shape_bench_seat"]
+size = Vector3(0.38, 0.12, 3.4)
+
+[sub_resource type="BoxMesh" id="Mesh_bench_back"]
+material = SubResource("Material_bench")
+size = Vector3(0.12, 0.82, 3.4)
+
+[sub_resource type="StandardMaterial3D" id="Material_window"]
+albedo_color = Color(0.025, 0.15, 0.22, 1)
+metallic = 0.25
+roughness = 0.18
+emission_enabled = true
+emission = Color(0.04, 0.32, 0.5, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="BoxMesh" id="Mesh_front_window"]
+material = SubResource("Material_window")
+size = Vector3(1.55, 0.62, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_side_window"]
+material = SubResource("Material_window")
+size = Vector3(0.035, 0.72, 1.35)
+
+[sub_resource type="StandardMaterial3D" id="Material_rib"]
+albedo_color = Color(0.18, 0.22, 0.23, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_rib_vertical"]
+material = SubResource("Material_rib")
+size = Vector3(0.08, 2.08, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_rib_overhead"]
+material = SubResource("Material_rib")
+size = Vector3(2.62, 0.08, 0.12)
+
+[sub_resource type="StyleBoxFlat" id="Style_lobby_panel"]
+bg_color = Color(0.015, 0.025, 0.032, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.48, 0.58, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StandardMaterial3D" id="Material_room"]
+albedo_color = Color(0.14, 0.16, 0.18, 1)
+metallic = 0.12
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.2, 0.27, 0.3, 1)
+metallic = 0.35
+roughness = 0.58
+
+[sub_resource type="Environment" id="Environment_room"]
+background_mode = 1
+background_color = Color(0.006, 0.009, 0.014, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.24, 0.29, 0.38, 1)
+ambient_light_energy = 0.62
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="Mesh_room_floor"]
+material = SubResource("Material_room")
+size = Vector3(8, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_room_floor"]
+size = Vector3(8, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_room_side"]
+material = SubResource("Material_room")
+size = Vector3(0.2, 3, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_room_side"]
+size = Vector3(0.2, 3, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_room_end"]
+material = SubResource("Material_room")
+size = Vector3(8, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_room_end"]
+size = Vector3(8, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_divider"]
+material = SubResource("Material_frame")
+size = Vector3(3.5, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_divider"]
+size = Vector3(3.5, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="Mesh_door_header"]
+material = SubResource("Material_frame")
+size = Vector3(1, 0.9, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_door_header"]
+size = Vector3(1, 0.9, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_transition_button"]
+albedo_color = Color(0.04, 0.48, 0.82, 1)
+metallic = 0.35
+roughness = 0.28
+emission_enabled = true
+emission = Color(0.015, 0.22, 0.62, 1)
+emission_energy_multiplier = 2.8
+
+[sub_resource type="BoxMesh" id="Mesh_transition_button"]
+material = SubResource("Material_transition_button")
+size = Vector3(0.46, 0.22, 0.06)
+
+[node name="MechanicsTestRoom" type="Node3D"]
+script = ExtResource("1_controller")
+uses_staging_lobby = true
+gameplay_origin_path = NodePath("Gameplay")
+world_items_path = NodePath("Gameplay/WorldItems")
+item_spawner_path = NodePath("Gameplay/ItemSpawner")
+power_switch_path = NodePath("Gameplay/PoweredDoorSystem/DoorPowerSwitch")
+interactive_door_path = NodePath("Gameplay/PoweredDoorSystem/InteractiveDoor")
+generator_panel_path = NodePath("Gameplay/GeneratorPanel")
+
+[node name="Helicopter" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/Floor"]
+position = Vector3(0, -0.07, 0)
+mesh = SubResource("Mesh_floor")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/Floor"]
+position = Vector3(0, -0.07, 0)
+shape = SubResource("Shape_floor")
+
+[node name="Ceiling" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/Ceiling"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_roof")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/Ceiling"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_roof")
+
+[node name="LeftWall" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/LeftWall"]
+position = Vector3(-1.4, 1.1, 0)
+mesh = SubResource("Mesh_side")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/LeftWall"]
+position = Vector3(-1.4, 1.1, 0)
+shape = SubResource("Shape_side")
+
+[node name="RightWall" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/RightWall"]
+position = Vector3(1.4, 1.1, 0)
+mesh = SubResource("Mesh_side")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/RightWall"]
+position = Vector3(1.4, 1.1, 0)
+shape = SubResource("Shape_side")
+
+[node name="FrontBulkhead" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/FrontBulkhead"]
+position = Vector3(0, 1.1, -3)
+mesh = SubResource("Mesh_bulkhead")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/FrontBulkhead"]
+position = Vector3(0, 1.1, -3)
+shape = SubResource("Shape_bulkhead")
+
+[node name="RearBulkhead" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Helicopter/RearBulkhead"]
+position = Vector3(0, 1.1, 3)
+mesh = SubResource("Mesh_bulkhead")
+
+[node name="Collision" type="CollisionShape3D" parent="Helicopter/RearBulkhead"]
+position = Vector3(0, 1.1, 3)
+shape = SubResource("Shape_bulkhead")
+
+[node name="LeftBench" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Seat" type="MeshInstance3D" parent="Helicopter/LeftBench"]
+position = Vector3(-1.14, 0.42, 0.35)
+mesh = SubResource("Mesh_bench_seat")
+
+[node name="SeatCollision" type="CollisionShape3D" parent="Helicopter/LeftBench"]
+position = Vector3(-1.14, 0.42, 0.35)
+shape = SubResource("Shape_bench_seat")
+
+[node name="Back" type="MeshInstance3D" parent="Helicopter/LeftBench"]
+position = Vector3(-1.31, 0.83, 0.35)
+mesh = SubResource("Mesh_bench_back")
+
+[node name="RightBench" type="StaticBody3D" parent="Helicopter"]
+
+[node name="Seat" type="MeshInstance3D" parent="Helicopter/RightBench"]
+position = Vector3(1.14, 0.42, 0.35)
+mesh = SubResource("Mesh_bench_seat")
+
+[node name="SeatCollision" type="CollisionShape3D" parent="Helicopter/RightBench"]
+position = Vector3(1.14, 0.42, 0.35)
+shape = SubResource("Shape_bench_seat")
+
+[node name="Back" type="MeshInstance3D" parent="Helicopter/RightBench"]
+position = Vector3(1.31, 0.83, 0.35)
+mesh = SubResource("Mesh_bench_back")
+
+[node name="FrontWindow" type="MeshInstance3D" parent="Helicopter"]
+position = Vector3(0, 1.68, -2.932)
+mesh = SubResource("Mesh_front_window")
+
+[node name="LeftWindow" type="MeshInstance3D" parent="Helicopter"]
+position = Vector3(-1.332, 1.48, -1.0)
+mesh = SubResource("Mesh_side_window")
+
+[node name="RightWindow" type="MeshInstance3D" parent="Helicopter"]
+position = Vector3(1.332, 1.48, -1.0)
+mesh = SubResource("Mesh_side_window")
+
+[node name="Ribs" type="Node3D" parent="Helicopter"]
+
+[node name="LeftFront" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(-1.33, 1.1, -1.8)
+mesh = SubResource("Mesh_rib_vertical")
+
+[node name="RightFront" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(1.33, 1.1, -1.8)
+mesh = SubResource("Mesh_rib_vertical")
+
+[node name="OverheadFront" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(0, 2.17, -1.8)
+mesh = SubResource("Mesh_rib_overhead")
+
+[node name="LeftRear" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(-1.33, 1.1, 1.8)
+mesh = SubResource("Mesh_rib_vertical")
+
+[node name="RightRear" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(1.33, 1.1, 1.8)
+mesh = SubResource("Mesh_rib_vertical")
+
+[node name="OverheadRear" type="MeshInstance3D" parent="Helicopter/Ribs"]
+position = Vector3(0, 2.17, 1.8)
+mesh = SubResource("Mesh_rib_overhead")
+
+[node name="CabinLight" type="OmniLight3D" parent="Helicopter"]
+position = Vector3(0, 2.02, 0.3)
+light_color = Color(0.58, 0.78, 1, 1)
+light_energy = 1.35
+shadow_enabled = false
+omni_range = 4.0
+
+[node name="EmergencyLight" type="OmniLight3D" parent="Helicopter"]
+position = Vector3(0, 1.95, -2.1)
+light_color = Color(1, 0.08, 0.025, 1)
+light_energy = 0.85
+shadow_enabled = false
+omni_range = 2.6
+
+[node name="StartConsole" parent="Helicopter" instance=ExtResource("3_console")]
+position = Vector3(0, 1.05, -2.84)
+
+[node name="Gameplay" type="Node3D" parent="."]
+position = Vector3(0, 0, -24)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Gameplay"]
+environment = SubResource("Environment_room")
+
+[node name="Geometry" type="StaticBody3D" parent="Gameplay"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("Mesh_room_floor")
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, -0.1, 0)
+shape = SubResource("Shape_room_floor")
+
+[node name="CeilingMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 3.1, 0)
+mesh = SubResource("Mesh_room_floor")
+
+[node name="CeilingCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 3.1, 0)
+shape = SubResource("Shape_room_floor")
+
+[node name="WestWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(-4.1, 1.5, 0)
+mesh = SubResource("Mesh_room_side")
+
+[node name="WestWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(-4.1, 1.5, 0)
+shape = SubResource("Shape_room_side")
+
+[node name="EastWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(4.1, 1.5, 0)
+mesh = SubResource("Mesh_room_side")
+
+[node name="EastWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(4.1, 1.5, 0)
+shape = SubResource("Shape_room_side")
+
+[node name="NorthWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, -6.1)
+mesh = SubResource("Mesh_room_end")
+
+[node name="NorthWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, -6.1)
+shape = SubResource("Shape_room_end")
+
+[node name="SouthWallMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, 6.1)
+mesh = SubResource("Mesh_room_end")
+
+[node name="SouthWallCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 1.5, 6.1)
+shape = SubResource("Shape_room_end")
+
+[node name="DividerWestMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(-2.25, 1.5, 0)
+mesh = SubResource("Mesh_divider")
+
+[node name="DividerWestCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(-2.25, 1.5, 0)
+shape = SubResource("Shape_divider")
+
+[node name="DividerEastMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(2.25, 1.5, 0)
+mesh = SubResource("Mesh_divider")
+
+[node name="DividerEastCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(2.25, 1.5, 0)
+shape = SubResource("Shape_divider")
+
+[node name="DoorHeaderMesh" type="MeshInstance3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 2.55, 0)
+mesh = SubResource("Mesh_door_header")
+
+[node name="DoorHeaderCollision" type="CollisionShape3D" parent="Gameplay/Geometry"]
+position = Vector3(0, 2.55, 0)
+shape = SubResource("Shape_door_header")
+
+[node name="PoweredDoorSystem" parent="Gameplay" instance=ExtResource("2_powered_door")]
+
+[node name="GeneratorPanel" parent="Gameplay" instance=ExtResource("5_generator")]
+position = Vector3(3.83, 0, 3.35)
+rotation = Vector3(0, -1.5708, 0)
+
+[node name="V3ExitTerminal" type="StaticBody3D" parent="Gameplay"]
+position = Vector3(0, 1.05, -5.85)
+script = ExtResource("7_transition_terminal")
+controller_path = NodePath("../..")
+target_label = "V3"
+
+[node name="Cabinet" type="MeshInstance3D" parent="Gameplay/V3ExitTerminal"]
+mesh = SubResource("Mesh_door_header")
+
+[node name="ActivationButton" type="MeshInstance3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, -0.08, 0.13)
+mesh = SubResource("Mesh_transition_button")
+
+[node name="Label3D" type="Label3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, 0.62, 0.14)
+text = "ПЕРЕХОД НА БАЗУ V3"
+font_size = 22
+outline_size = 7
+
+[node name="StatusLight" type="OmniLight3D" parent="Gameplay/V3ExitTerminal"]
+position = Vector3(0, -0.08, 0.28)
+light_color = Color(0.08, 0.48, 1, 1)
+light_energy = 0.55
+shadow_enabled = false
+omni_range = 1.6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gameplay/V3ExitTerminal"]
+shape = SubResource("Shape_door_header")
+
+[node name="WorldItems" type="Node3D" parent="Gameplay"]
+
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]
+spawn_path = NodePath("../WorldItems")
+
+[node name="Lighting" type="Node3D" parent="Gameplay"]
+
+[node name="SouthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+position = Vector3(0.8, 2.4, 3)
+light_color = Color(0.58, 0.72, 1, 1)
+light_energy = 2.2
+shadow_enabled = true
+omni_range = 5.0
+
+[node name="NorthLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+position = Vector3(0, 2.4, -3)
+light_color = Color(1, 0.18, 0.08, 1)
+light_energy = 0.42
+shadow_enabled = true
+omni_range = 5.0
+
+[node name="GeneratorPoweredLight" type="OmniLight3D" parent="Gameplay/Lighting"]
+visible = false
+position = Vector3(0, 2.35, -3.2)
+light_color = Color(0.72, 0.88, 1, 1)
+light_energy = 2.8
+shadow_enabled = true
+omni_range = 5.8
+
+[node name="PowerGrid" type="Node" parent="Gameplay"]
+script = ExtResource("6_power_grid")
+generator_path = NodePath("../GeneratorPanel")
+powered_device_paths = Array[NodePath]([NodePath("../PoweredDoorSystem/DoorPowerSwitch")])
+powered_light_paths = Array[NodePath]([NodePath("../Lighting/GeneratorPoweredLight")])
+
+[node name="Players" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="OverviewCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 4.8, 7.5)
+rotation = Vector3(-0.436332, 0, 0)
+current = true
+far = 80.0
+
+[node name="LobbyHud" type="CanvasLayer" parent="."]
+layer = 20
+script = ExtResource("4_hud")
+
+[node name="LobbyPanel" type="PanelContainer" parent="LobbyHud"]
+unique_name_in_owner = true
+offset_left = 22.0
+offset_top = 20.0
+offset_right = 470.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("Style_lobby_panel")
+
+[node name="Margin" type="MarginContainer" parent="LobbyHud/LobbyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="LobbyHud/LobbyPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LobbyIdLabel" type="Label" parent="LobbyHud/LobbyPanel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.38, 1)
+theme_override_font_sizes/font_size = 18
+text = "LOBBY ID: —"
+
+[node name="MenuHint" type="Label" parent="LobbyHud/LobbyPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.93, 1, 1)
+text = "ESC — меню лобби"
+
+[node name="FlightTransition" type="ColorRect" parent="LobbyHud"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.002, 0.004, 0.006, 1)
+
+[node name="Center" type="CenterContainer" parent="LobbyHud/FlightTransition"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TransitionLabel" type="Label" parent="LobbyHud/FlightTransition/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.88, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "ПОДЛЁТ К БАЗЕ..."

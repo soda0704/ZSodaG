@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://boo3pvgq3wxvu"]
+
+[ext_resource type="PackedScene" uid="uid://cll50ac4xfef2" path="res://scenes/objects/equipment/flashlight_model.tscn" id="1_model"]
+[ext_resource type="Script" uid="uid://cjvlp1oauosdf" path="res://scripts/gameplay/equipment/flashlight_pickup.gd" id="2_pickup"]
+
+[sub_resource type="BoxShape3D" id="Shape_pickup"]
+size = Vector3(0.075, 0.065, 0.26)
+
+[node name="FlashlightPickup" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 1
+mass = 0.35
+linear_damp = 0.35
+angular_damp = 1.2
+script = ExtResource("2_pickup")
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_pickup")

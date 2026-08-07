@@ -1,0 +1,129 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/power/generator_panel.gd" id="1_generator"]
+
+[sub_resource type="StandardMaterial3D" id="Material_cabinet"]
+albedo_color = Color(0.11, 0.15, 0.13, 1)
+metallic = 0.7
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="Mesh_cabinet"]
+material = SubResource("Material_cabinet")
+size = Vector3(1.15, 1.45, 0.28)
+
+[sub_resource type="BoxShape3D" id="Shape_cabinet"]
+size = Vector3(1.2, 1.5, 0.34)
+
+[sub_resource type="StandardMaterial3D" id="Material_face"]
+albedo_color = Color(0.18, 0.23, 0.2, 1)
+metallic = 0.45
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="Mesh_face"]
+material = SubResource("Material_face")
+size = Vector3(0.95, 1.2, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="Material_socket"]
+resource_local_to_scene = true
+albedo_color = Color(0.035, 0.04, 0.045, 1)
+metallic = 0.55
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="Mesh_socket"]
+material = SubResource("Material_socket")
+size = Vector3(0.42, 0.16, 0.07)
+
+[sub_resource type="StandardMaterial3D" id="Material_indicator"]
+resource_local_to_scene = true
+albedo_color = Color(0.45, 0.02, 0.01, 1)
+emission_enabled = true
+emission = Color(0.95, 0.04, 0.015, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="Mesh_indicator"]
+material = SubResource("Material_indicator")
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.035
+radial_segments = 16
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Material_switch"]
+albedo_color = Color(0.78, 0.13, 0.045, 1)
+metallic = 0.25
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Mesh_switch"]
+material = SubResource("Material_switch")
+size = Vector3(0.11, 0.34, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.035, 0.045, 0.042, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_frame_horizontal"]
+material = SubResource("Material_frame")
+size = Vector3(1.24, 0.07, 0.36)
+
+[sub_resource type="BoxMesh" id="Mesh_frame_vertical"]
+material = SubResource("Material_frame")
+size = Vector3(0.07, 1.52, 0.36)
+
+[node name="GeneratorPanel" type="StaticBody3D"]
+script = ExtResource("1_generator")
+
+[node name="Cabinet" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.86, 0)
+mesh = SubResource("Mesh_cabinet")
+
+[node name="Face" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.86, 0.161)
+mesh = SubResource("Mesh_face")
+
+[node name="TopFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.61, 0)
+mesh = SubResource("Mesh_frame_horizontal")
+
+[node name="BottomFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.11, 0)
+mesh = SubResource("Mesh_frame_horizontal")
+
+[node name="LeftFrame" type="MeshInstance3D" parent="."]
+position = Vector3(-0.61, 0.86, 0)
+mesh = SubResource("Mesh_frame_vertical")
+
+[node name="RightFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0.61, 0.86, 0)
+mesh = SubResource("Mesh_frame_vertical")
+
+[node name="FuseSocket" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(-0.22, 1.05, 0.215)
+mesh = SubResource("Mesh_socket")
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0.32, 1.27, 0.205)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("Mesh_indicator")
+
+[node name="SwitchPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0.28, 0.83, 0.235)
+rotation = Vector3(-0.558505, 0, 0)
+
+[node name="Switch" type="MeshInstance3D" parent="SwitchPivot"]
+position = Vector3(0, 0.12, 0)
+mesh = SubResource("Mesh_switch")
+
+[node name="StatusLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 1.76, 0.06)
+text = "НЕТ ПРЕДОХРАНИТЕЛЯ"
+font_size = 24
+outline_size = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.86, 0)
+shape = SubResource("Shape_cabinet")
