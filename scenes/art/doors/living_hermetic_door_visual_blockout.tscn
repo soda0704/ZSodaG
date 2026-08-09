@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://ccnqa7qlnpcc8"]
+
+[ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="1_standard_door"]
+
+[sub_resource type="StandardMaterial3D" id="Material_hermetic_housing"]
+albedo_color = Color(0.035, 0.045, 0.05, 1)
+metallic = 0.62
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Mesh_status_housing"]
+material = SubResource("Material_hermetic_housing")
+size = Vector3(0.12, 0.24, 0.07)
+
+[sub_resource type="StandardMaterial3D" id="Material_hermetic_red"]
+albedo_color = Color(0.5, 0.035, 0.025, 1)
+roughness = 0.25
+emission_enabled = true
+emission = Color(0.72, 0.025, 0.015, 1)
+emission_energy_multiplier = 1.1
+
+[sub_resource type="BoxMesh" id="Mesh_status_red"]
+material = SubResource("Material_hermetic_red")
+size = Vector3(0.055, 0.14, 0.025)
+
+[sub_resource type="BoxMesh" id="Mesh_compact_panel"]
+material = SubResource("Material_hermetic_housing")
+size = Vector3(0.22, 0.34, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_hermetic_green"]
+albedo_color = Color(0.08, 0.38, 0.14, 1)
+roughness = 0.24
+emission_enabled = true
+emission = Color(0.08, 0.48, 0.15, 1)
+emission_energy_multiplier = 1.15
+
+[sub_resource type="BoxMesh" id="Mesh_compact_screen"]
+material = SubResource("Material_hermetic_green")
+size = Vector3(0.12, 0.08, 0.025)
+
+[node name="LivingHermeticDoorVisualBlockout" unique_id=991716183 instance=ExtResource("1_standard_door")]
+editor_description = "Inherited 3x3 m opaque hermetic entrance door for East Living Hub_Common. ClosedPreview is enabled for art review; no scripts or leaf collision."
+
+[node name="HermeticStatusIndicators" type="Node3D" parent="DoorAssembly/Frame" parent_id_path=PackedInt32Array(2033192663) index="8" unique_id=591088093]
+
+[node name="LeftLowerHousing" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="0" unique_id=1879709288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48, 0.55, 0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/LeftLowerHousing" index="0" unique_id=1395704483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="LeftUpperHousing" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="1" unique_id=1343166229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48, 2.1, 0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/LeftUpperHousing" index="0" unique_id=842456043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="RightLowerHousing" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="2" unique_id=77225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 0.55, 0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/RightLowerHousing" index="0" unique_id=1183287739]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="RightUpperHousing" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="3" unique_id=728721259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 2.1, 0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/RightUpperHousing" index="0" unique_id=242457208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="LeftLowerHousingBack" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="4" unique_id=1019388411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48, 0.55, -0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/LeftLowerHousingBack" index="0" unique_id=1841255753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="LeftUpperHousingBack" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="5" unique_id=2087791670]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48, 2.1, -0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/LeftUpperHousingBack" index="0" unique_id=1893699477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="RightLowerHousingBack" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="6" unique_id=1227479017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 0.55, -0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/RightLowerHousingBack" index="0" unique_id=2008061179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="RightUpperHousingBack" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators" index="7" unique_id=29517690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 2.1, -0.2)
+mesh = SubResource("Mesh_status_housing")
+
+[node name="Lamp" type="MeshInstance3D" parent="DoorAssembly/Frame/HermeticStatusIndicators/RightUpperHousingBack" index="0" unique_id=1765178178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.048)
+mesh = SubResource("Mesh_status_red")
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="1" unique_id=1783800639]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="2" unique_id=1933071615]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="8"]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="1" unique_id=1461725038]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="2" unique_id=1098336828]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="8"]
+visible = false
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+visible = false
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+visible = false
+
+[node name="CompactAccessPanel" type="Node3D" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="6" unique_id=920145541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.72, 1.4833132, 0.2)
+
+[node name="Housing" type="MeshInstance3D" parent="DoorAssembly/CompactAccessPanel" index="0" unique_id=1485596524]
+mesh = SubResource("Mesh_compact_panel")
+
+[node name="PoweredIndicator" type="MeshInstance3D" parent="DoorAssembly/CompactAccessPanel" index="1" unique_id=1500640442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.063)
+mesh = SubResource("Mesh_compact_screen")
+
+[node name="BackCompactAccessPanel" type="Node3D" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="7" unique_id=1051055605]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.72, 1.483, -0.2)
+
+[node name="Housing" type="MeshInstance3D" parent="DoorAssembly/BackCompactAccessPanel" index="0" unique_id=209854279]
+mesh = SubResource("Mesh_compact_panel")
+
+[node name="PoweredIndicator" type="MeshInstance3D" parent="DoorAssembly/BackCompactAccessPanel" index="1" unique_id=1620815418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.063)
+mesh = SubResource("Mesh_compact_screen")
+
+[node name="AccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="4" unique_id=377674031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.72, 1.4833132, 0.26)
+
+[node name="BackAccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.72, 1.483, -0.26)

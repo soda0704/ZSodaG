@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://r0l282ty6b2e"]
+
+[ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="1_standard_door"]
+
+[node name="CommonProtectedStandardDoorVisualBlockout" unique_id=1263805492 instance=ExtResource("1_standard_door")]
+editor_description = "Common_Protected fitting variant. Shared standard door geometry with both access panels mounted on the adjacent corridor walls at local X +/-1.5 m."
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7661426, 1.4283692, 0.14)
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.3691065, 1.55, -0.7398206)
+
+[node name="AccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="4" unique_id=377674031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7661426, 1.4283692, 0.22)
+
+[node name="BackAccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="5"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.4491065, 1.55, -0.7398206)

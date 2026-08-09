@@ -536,27 +536,27 @@ Z = -9
 
 ```text
 Base_Blockout_v03
+├── Blockout_Floor_Guides
+├── Power_State_Lighting_Blockout
 ├── Center_Hub
 │   ├── Shared_Structure
-│   ├── Elevator_Placeholder
+│   ├── Elevator_Functional_Blockout
 │   ├── Hub_Lobby_Blockout
 │   │   ├── Seating
 │   │   ├── Wayfinding
 │   │   ├── Safety
-│   │   ├── Cargo_Staging
-│   │   ├── Circulation
 │   │   └── Ceiling_Fixtures
 │   ├── Hub_Signage_Blockout
 │   ├── Hub_Defense_Blockout
-│   └── Lighting
+│   ├── Day1_Environmental_Story_Blockout
+│   └── Gameplay_Sockets
 ├── West_Entrance
 │   ├── Shared_Structure
 │   ├── Transitions
 │   ├── Garage
 │   ├── Equipment_Room
 │   ├── Decontamination
-│   ├── West_Connector
-│   └── Lighting
+│   └── West_Connector
 ├── North_Science
 │   ├── Shared_Structure
 │   ├── Entrance_Transition
@@ -564,8 +564,7 @@ Base_Blockout_v03
 │   ├── Briefing_Room
 │   ├── Research_Lab
 │   ├── Isolation_Room
-│   ├── North_Connector
-│   └── Lighting
+│   └── North_Connector
 ├── East_Living
 │   ├── Shared_Structure
 │   ├── Transitions
@@ -573,16 +572,14 @@ Base_Blockout_v03
 │   ├── Protected_Corridor
 │   ├── Sleeping_Quarters
 │   ├── Medical_Room
-│   ├── East_Connector
-│   └── Lighting
+│   └── East_Connector
 ├── South_Technical
 │   ├── Shared_Structure
 │   ├── Transitions
 │   ├── Storage_Generator_Divider
 │   ├── Storage_Room
 │   ├── Generator_Room
-│   ├── South_Connector
-│   └── Lighting
+│   └── South_Connector
 ```
 
 На корне уровня находится `BaseBlockoutRuntime`. При самостоятельном запуске он
@@ -594,6 +591,10 @@ Base_Blockout_v03
 Вся геометрия распределена по секторам и функциональным группам. Общие полы,
 стены и потолки находятся в `Shared_Structure`; переходы и дверные сокеты — в
 группах переходов; наполнение комнат — внутри соответствующих помещений.
+Маршрутные направляющие собраны в общем `Blockout_Floor_Guides`, а источники света
+и аварийное освещение — в `Power_State_Lighting_Blockout`. Пустые локальные
+контейнеры `Circulation` и `Lighting` не сохраняются; локальный `Lighting` остаётся
+только там, где в нём действительно лежат корпуса потолочных светильников.
 Интерактивная логика пока не встроена в CSG-геометрию: двери, лифт и остальные
 механизмы должны подключаться отдельными переиспользуемыми сценами.
 
@@ -1518,3 +1519,23 @@ docs/
 отдельной сценой; текущий `Elevator_Placeholder` используется как пространственный
 эталон и удаляется только после успешной стыковки, проверки дверей, коллизий и
 перемещения между пятью этажами.
+
+## 39. East Living — фиксация дверных панелей
+
+Ручная расстановка панелей доступа четырёх дверей `Hub_Common`,
+`Common_Protected`, `Corridor_Sleeping` и `Corridor_Medical`, сохранённая
+10.08.2026, принята как эталон. Итоговые положения находятся в специализированных
+сценах дверей в `scenes/art/doors`; общая сцена базы не содержит временных
+переопределений панелей. Точки взаимодействия синхронизированы с фактическими
+положениями терминалов и вынесены перед их лицевой поверхностью.
+
+При замене блокинга финальными моделями расположение терминалов и соответствующих
+точек взаимодействия сохраняется. Подробные координаты и правила наследования
+зафиксированы в `docs/art/doors/first_floor_door_concepts.md` и
+`docs/handoffs/base_first_floor_blockout.md`.
+
+Техническая уборка `East_Living` удалила старые CSG-консоль и статусную деталь
+медицинского входа, которые дублировали терминал новой двери. Структурные
+перемычки проёмов сохранены. Аудит четырёх дверных сцен не обнаружил
+неиспользуемых ресурсов, старых скриптов или лишних коллизий; скрытые узлы в них
+обслуживают необходимые открытые, закрытые и наследуемые варианты.

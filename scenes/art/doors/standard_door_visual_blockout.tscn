@@ -28,22 +28,14 @@ albedo_color = Color(0.38, 0.41, 0.42, 1)
 metallic = 0.58
 roughness = 0.44
 
-[sub_resource type="BoxMesh" id="Mesh_leaf"]
+[sub_resource type="BoxMesh" id="Mesh_open_leaf_edge"]
 material = SubResource("Material_leaf")
-size = Vector3(1.19, 2.68, 0.14)
+size = Vector3(0.08, 2.68, 0.06)
 
 [sub_resource type="StandardMaterial3D" id="Material_living_accent"]
 albedo_color = Color(0.26, 0.43, 0.29, 1)
 metallic = 0.32
 roughness = 0.46
-
-[sub_resource type="BoxMesh" id="Mesh_leaf_accent"]
-material = SubResource("Material_living_accent")
-size = Vector3(0.88, 0.12, 0.035)
-
-[sub_resource type="BoxMesh" id="Mesh_open_leaf_edge"]
-material = SubResource("Material_leaf")
-size = Vector3(0.08, 2.68, 0.06)
 
 [sub_resource type="BoxMesh" id="Mesh_open_leaf_edge_accent"]
 material = SubResource("Material_living_accent")
@@ -54,6 +46,26 @@ albedo_color = Color(0.045, 0.055, 0.06, 1)
 metallic = 0.5
 roughness = 0.5
 
+[sub_resource type="BoxMesh" id="Mesh_inner_frame_post"]
+material = SubResource("Material_recess")
+size = Vector3(0.1, 2.62, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_frame_header"]
+material = SubResource("Material_recess")
+size = Vector3(2.44, 0.1, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_frame_sill"]
+material = SubResource("Material_recess")
+size = Vector3(2.44, 0.08, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_frame_corner"]
+material = SubResource("Material_recess")
+size = Vector3(0.22, 0.08, 0.12)
+
+[sub_resource type="BoxMesh" id="Mesh_frame_joint"]
+material = SubResource("Material_recess")
+size = Vector3(0.3, 0.025, 0.025)
+
 [sub_resource type="BoxMesh" id="Mesh_seal_vertical"]
 material = SubResource("Material_recess")
 size = Vector3(0.04, 2.7, 0.025)
@@ -62,9 +74,21 @@ size = Vector3(0.04, 2.7, 0.025)
 material = SubResource("Material_recess")
 size = Vector3(2.4, 0.04, 0.025)
 
+[sub_resource type="BoxMesh" id="Mesh_leaf"]
+material = SubResource("Material_leaf")
+size = Vector3(1.19, 2.68, 0.14)
+
 [sub_resource type="BoxMesh" id="Mesh_leaf_recess"]
 material = SubResource("Material_recess")
 size = Vector3(0.94, 2.36, 0.025)
+
+[sub_resource type="BoxMesh" id="Mesh_leaf_upper_panel"]
+material = SubResource("Material_leaf")
+size = Vector3(0.82, 1.35, 0.018)
+
+[sub_resource type="BoxMesh" id="Mesh_leaf_lower_panel"]
+material = SubResource("Material_leaf")
+size = Vector3(0.82, 0.52, 0.018)
 
 [sub_resource type="BoxMesh" id="Mesh_window_border"]
 material = SubResource("Material_recess")
@@ -80,6 +104,14 @@ roughness = 0.18
 material = SubResource("Material_glass")
 size = Vector3(0.22, 1, 0.045)
 
+[sub_resource type="BoxMesh" id="Mesh_leaf_accent"]
+material = SubResource("Material_living_accent")
+size = Vector3(0.88, 0.12, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_accent_slash"]
+material = SubResource("Material_leaf")
+size = Vector3(0.035, 0.14, 0.02)
+
 [sub_resource type="BoxMesh" id="Mesh_center_seal"]
 material = SubResource("Material_recess")
 size = Vector3(0.025, 2.68, 0.025)
@@ -88,6 +120,11 @@ size = Vector3(0.025, 2.68, 0.025)
 albedo_color = Color(0.035, 0.045, 0.05, 1)
 metallic = 0.64
 roughness = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_panel_key"]
+albedo_color = Color(0.34, 0.37, 0.38, 1)
+metallic = 0.4
+roughness = 0.5
 
 [sub_resource type="BoxMesh" id="Mesh_panel_housing"]
 material = SubResource("Material_panel")
@@ -109,8 +146,8 @@ material = SubResource("Material_indicator")
 size = Vector3(0.2, 0.08, 0.025)
 
 [sub_resource type="BoxMesh" id="Mesh_panel_button"]
-material = SubResource("Material_living_accent")
-size = Vector3(0.14, 0.14, 0.04)
+material = SubResource("Material_panel_key")
+size = Vector3(0.045, 0.045, 0.04)
 
 [sub_resource type="BoxMesh" id="Mesh_panel_reader"]
 material = SubResource("Material_recess")
@@ -135,6 +172,94 @@ mesh = SubResource("Mesh_frame_post")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85, 0)
 mesh = SubResource("Mesh_frame_header")
 
+[node name="InnerRecessTrim" type="Node3D" parent="DoorAssembly/Frame"]
+
+[node name="LeftPost" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.35, 0.17)
+mesh = SubResource("Mesh_inner_frame_post")
+
+[node name="RightPost" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.35, 0.17)
+mesh = SubResource("Mesh_inner_frame_post")
+
+[node name="Header" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.68, 0.17)
+mesh = SubResource("Mesh_inner_frame_header")
+
+[node name="Sill" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.17)
+mesh = SubResource("Mesh_inner_frame_sill")
+
+[node name="LeftUpperChamfer" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(0.7071068, -0.7071068, 0, 0.7071068, 0.7071068, 0, 0, 0, 1, -1.19, 2.63, 0.17)
+mesh = SubResource("Mesh_inner_frame_corner")
+
+[node name="RightUpperChamfer" type="MeshInstance3D" parent="DoorAssembly/Frame/InnerRecessTrim"]
+transform = Transform3D(0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 0, 0, 1, 1.19, 2.63, 0.17)
+mesh = SubResource("Mesh_inner_frame_corner")
+
+[node name="FramePanelJoints" type="Node3D" parent="DoorAssembly/Frame"]
+
+[node name="LeftLowerJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/FramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0.48, 0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="LeftUpperJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/FramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 2.52, 0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="RightLowerJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/FramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0.48, 0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="RightUpperJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/FramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 2.52, 0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="BackInnerRecessTrim" type="Node3D" parent="DoorAssembly/Frame"]
+
+[node name="LeftPost" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.35, -0.17)
+mesh = SubResource("Mesh_inner_frame_post")
+
+[node name="RightPost" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.35, -0.17)
+mesh = SubResource("Mesh_inner_frame_post")
+
+[node name="Header" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.68, -0.17)
+mesh = SubResource("Mesh_inner_frame_header")
+
+[node name="Sill" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.17)
+mesh = SubResource("Mesh_inner_frame_sill")
+
+[node name="LeftUpperChamfer" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 0, 0, 1, -1.19, 2.63, -0.17)
+mesh = SubResource("Mesh_inner_frame_corner")
+
+[node name="RightUpperChamfer" type="MeshInstance3D" parent="DoorAssembly/Frame/BackInnerRecessTrim"]
+transform = Transform3D(0.7071068, -0.7071068, 0, 0.7071068, 0.7071068, 0, 0, 0, 1, 1.19, 2.63, -0.17)
+mesh = SubResource("Mesh_inner_frame_corner")
+
+[node name="BackFramePanelJoints" type="Node3D" parent="DoorAssembly/Frame"]
+
+[node name="LeftLowerJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/BackFramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0.48, -0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="LeftUpperJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/BackFramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 2.52, -0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="RightLowerJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/BackFramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0.48, -0.163)
+mesh = SubResource("Mesh_frame_joint")
+
+[node name="RightUpperJoint" type="MeshInstance3D" parent="DoorAssembly/Frame/BackFramePanelJoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 2.52, -0.163)
+mesh = SubResource("Mesh_frame_joint")
+
 [node name="FrameCollision" type="StaticBody3D" parent="DoorAssembly/Frame" unique_id=816681479]
 
 [node name="LeftJambCollision" type="CollisionShape3D" parent="DoorAssembly/Frame/FrameCollision" unique_id=1705381499]
@@ -152,52 +277,59 @@ shape = SubResource("Shape_frame_header")
 [node name="SidePockets" type="Node3D" parent="DoorAssembly" unique_id=176522707]
 
 [node name="LeftPocket" type="MeshInstance3D" parent="DoorAssembly/SidePockets" unique_id=1569929748]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.4, 0.09)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.4, 0.065)
 mesh = SubResource("Mesh_pocket")
 
 [node name="RightPocket" type="MeshInstance3D" parent="DoorAssembly/SidePockets" unique_id=134397560]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.4, 0.09)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.4, 0.065)
+mesh = SubResource("Mesh_pocket")
+
+[node name="LeftPocketBack" type="MeshInstance3D" parent="DoorAssembly/SidePockets"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.4, -0.065)
+mesh = SubResource("Mesh_pocket")
+
+[node name="RightPocketBack" type="MeshInstance3D" parent="DoorAssembly/SidePockets"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.4, -0.065)
 mesh = SubResource("Mesh_pocket")
 
 [node name="OpenPreview" type="Node3D" parent="DoorAssembly" unique_id=1070349547]
 editor_description = "Default fitting state: leaves fully retracted into the side pockets."
 
-[node name="LeftLeaf" type="MeshInstance3D" parent="DoorAssembly/OpenPreview" unique_id=1607581854]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85, 1.35, 0)
-visible = false
-mesh = SubResource("Mesh_leaf")
-
-[node name="LeftAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf" unique_id=1017529566]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.085)
-mesh = SubResource("Mesh_leaf_accent")
-
-[node name="RightLeaf" type="MeshInstance3D" parent="DoorAssembly/OpenPreview" unique_id=637521477]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.85, 1.35, 0)
-visible = false
-mesh = SubResource("Mesh_leaf")
-
-[node name="RightAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf" unique_id=1273705811]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.085)
-mesh = SubResource("Mesh_leaf_accent")
-
 [node name="LeftVisibleLeafEdge" type="MeshInstance3D" parent="DoorAssembly/OpenPreview" unique_id=1724677441]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.16, 1.35, 0.12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.16, 1.35, 0.095)
 mesh = SubResource("Mesh_open_leaf_edge")
 
 [node name="Accent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftVisibleLeafEdge" unique_id=1420525194]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.045)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.035)
 mesh = SubResource("Mesh_open_leaf_edge_accent")
 
 [node name="RightVisibleLeafEdge" type="MeshInstance3D" parent="DoorAssembly/OpenPreview" unique_id=1066623096]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16, 1.35, 0.12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16, 1.35, 0.095)
 mesh = SubResource("Mesh_open_leaf_edge")
 
 [node name="Accent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightVisibleLeafEdge" unique_id=1066002732]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.045)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.035)
+mesh = SubResource("Mesh_open_leaf_edge_accent")
+
+[node name="LeftVisibleLeafEdgeBack" type="MeshInstance3D" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.16, 1.35, -0.095)
+mesh = SubResource("Mesh_open_leaf_edge")
+
+[node name="Accent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftVisibleLeafEdgeBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.035)
+mesh = SubResource("Mesh_open_leaf_edge_accent")
+
+[node name="RightVisibleLeafEdgeBack" type="MeshInstance3D" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16, 1.35, -0.095)
+mesh = SubResource("Mesh_open_leaf_edge")
+
+[node name="Accent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightVisibleLeafEdgeBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.035)
 mesh = SubResource("Mesh_open_leaf_edge_accent")
 
 [node name="ClosedPreview" type="Node3D" parent="DoorAssembly" unique_id=82381216]
 editor_description = "Closed art-review state. Enable this node and disable OpenPreview in the source scene. The preview leaves intentionally have no collision."
+visible = false
 
 [node name="PerimeterSeals" type="Node3D" parent="DoorAssembly/ClosedPreview" unique_id=454810512]
 
@@ -237,6 +369,62 @@ mesh = SubResource("Mesh_window_glass")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.5, 0.105)
 mesh = SubResource("Mesh_leaf_accent")
 
+[node name="UpperPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.103)
+mesh = SubResource("Mesh_leaf_upper_panel")
+
+[node name="LowerPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, 0.103)
+mesh = SubResource("Mesh_leaf_lower_panel")
+
+[node name="Slash01" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/Accent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, -0.32, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash02" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/Accent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, -0.24, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash03" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/Accent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, -0.16, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="BackRecess" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.085)
+mesh = SubResource("Mesh_leaf_recess")
+
+[node name="BackWindowBorder" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.25, -0.102)
+mesh = SubResource("Mesh_window_border")
+
+[node name="BackWindowGlass" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.25, -0.125)
+mesh = SubResource("Mesh_window_glass")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.5, -0.105)
+mesh = SubResource("Mesh_leaf_accent")
+
+[node name="Slash01" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/BackAccent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, -0.32, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash02" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/BackAccent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, -0.24, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash03" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf/BackAccent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, -0.16, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="BackUpperPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.103)
+mesh = SubResource("Mesh_leaf_upper_panel")
+
+[node name="BackLowerPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, -0.103)
+mesh = SubResource("Mesh_leaf_lower_panel")
+
 [node name="RightLeaf" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview" unique_id=1649691520]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.595, 1.35, 0)
 mesh = SubResource("Mesh_leaf")
@@ -257,8 +445,68 @@ mesh = SubResource("Mesh_window_glass")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.5, 0.105)
 mesh = SubResource("Mesh_leaf_accent")
 
+[node name="UpperPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.103)
+mesh = SubResource("Mesh_leaf_upper_panel")
+
+[node name="LowerPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, 0.103)
+mesh = SubResource("Mesh_leaf_lower_panel")
+
+[node name="Slash01" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/Accent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, 0.16, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash02" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/Accent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, 0.24, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash03" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/Accent"]
+transform = Transform3D(0.9659258, -0.258819, 0, 0.258819, 0.9659258, 0, 0, 0, 1, 0.32, 0, 0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="BackRecess" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.085)
+mesh = SubResource("Mesh_leaf_recess")
+
+[node name="BackWindowBorder" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.25, -0.102)
+mesh = SubResource("Mesh_window_border")
+
+[node name="BackWindowGlass" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.25, -0.125)
+mesh = SubResource("Mesh_window_glass")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.5, -0.105)
+mesh = SubResource("Mesh_leaf_accent")
+
+[node name="Slash01" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/BackAccent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, 0.16, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash02" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/BackAccent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, 0.24, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="Slash03" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf/BackAccent"]
+transform = Transform3D(0.9659258, 0.258819, 0, -0.258819, 0.9659258, 0, 0, 0, 1, 0.32, 0, -0.03)
+mesh = SubResource("Mesh_accent_slash")
+
+[node name="BackUpperPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.103)
+mesh = SubResource("Mesh_leaf_upper_panel")
+
+[node name="BackLowerPanel" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.96, -0.103)
+mesh = SubResource("Mesh_leaf_lower_panel")
+
 [node name="CenterOverlapSeal" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview" unique_id=2016324648]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.082)
+mesh = SubResource("Mesh_center_seal")
+
+[node name="BackCenterOverlapSeal" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -0.082)
 mesh = SubResource("Mesh_center_seal")
 
 [node name="AccessPanel" type="Node3D" parent="DoorAssembly" unique_id=739675324]
@@ -276,10 +524,96 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.115)
 mesh = SubResource("Mesh_panel_indicator")
 
 [node name="PhysicalButton" type="MeshInstance3D" parent="DoorAssembly/AccessPanel" unique_id=1814435337]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.125)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key02" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key03" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key04" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key05" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key06" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key07" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key08" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key09" type="MeshInstance3D" parent="DoorAssembly/AccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.125)
 mesh = SubResource("Mesh_panel_button")
 
 [node name="InactiveReader" type="MeshInstance3D" parent="DoorAssembly/AccessPanel" unique_id=734890335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0.115)
+mesh = SubResource("Mesh_panel_reader")
+
+[node name="BackAccessPanel" type="Node3D" parent="DoorAssembly"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 1.35, -0.14)
+
+[node name="Housing" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+mesh = SubResource("Mesh_panel_housing")
+
+[node name="Inset" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.085)
+mesh = SubResource("Mesh_panel_inset")
+
+[node name="StatusIndicator" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.115)
+mesh = SubResource("Mesh_panel_indicator")
+
+[node name="PhysicalButton" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key02" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key03" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key04" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key05" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key06" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key07" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key08" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="Key09" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.125)
+mesh = SubResource("Mesh_panel_button")
+
+[node name="InactiveReader" type="MeshInstance3D" parent="DoorAssembly/BackAccessPanel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0.115)
 mesh = SubResource("Mesh_panel_reader")
 
@@ -300,3 +634,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.85, 1.35, 0)
 
 [node name="AccessPanelInteractionSocket" type="Marker3D" parent="AnimationSockets" unique_id=377674031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.35, 0.22)
+
+[node name="BackAccessPanelInteractionSocket" type="Marker3D" parent="AnimationSockets"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 1.35, -0.22)

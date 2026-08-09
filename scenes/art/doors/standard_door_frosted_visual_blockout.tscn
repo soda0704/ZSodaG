@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dew173wl8gco2"]
+
+[ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="1_standard_door"]
+
+[sub_resource type="StandardMaterial3D" id="Material_frosted_glass"]
+transparency = 1
+albedo_color = Color(0.42, 0.56, 0.58, 0.9)
+metallic = 0.08
+roughness = 0.78
+
+[node name="StandardDoorFrostedVisualBlockout" unique_id=646062132 instance=ExtResource("1_standard_door")]
+editor_description = "Inherited 3x3 m living-section standard door variant for Corridor_Sleeping. Geometry and collision come from the standard door; only the closed-preview window material is overridden with frosted glass."
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="2" unique_id=1933071615]
+material_override = SubResource("Material_frosted_glass")
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="8"]
+material_override = SubResource("Material_frosted_glass")
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="2" unique_id=1098336828]
+material_override = SubResource("Material_frosted_glass")
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="8"]
+material_override = SubResource("Material_frosted_glass")
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.800153, 1.55, 0.14)
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.75, 1.35, -0.14)
+
+[node name="AccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="4" unique_id=377674031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.800153, 1.55, 0.22)
+
+[node name="BackAccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.75, 1.35, -0.22)

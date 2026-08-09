@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d2f2qx027hi0m"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/living_hermetic_door_visual_blockout.tscn" id="1_living_hermetic"]
+
+[sub_resource type="BoxShape3D" id="Shape_medical_day1_blocker"]
+size = Vector3(2.4, 2.7, 0.12)
+
+[node name="MedicalHermeticDoorVisualBlockout" unique_id=657486669 instance=ExtResource("1_living_hermetic")]
+editor_description = "Inherited 3x3 m opaque medical hermetic door for Corridor_Medical. Closed for Day 1 art and route state. MedicalDay1Blocker is a simple temporary collision for the programmer to disable after the first sleep."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = false
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = true
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7923057, 1.55, 0.14)
+visible = true
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.7661171, 1.35, -0.14)
+visible = true
+
+[node name="CompactAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="6"]
+visible = false
+
+[node name="BackCompactAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="7"]
+visible = false
+
+[node name="AccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="4" unique_id=377674031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7923057, 1.55, 0.22)
+
+[node name="BackAccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.7661171, 1.35, -0.22)
+
+[node name="MedicalDay1Blocker" type="StaticBody3D" parent="." index="2" unique_id=1700908947]
+editor_description = "Temporary Day 1 route blocker. Disable its CollisionShape3D after the first sleep when medical access becomes available."
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MedicalDay1Blocker" index="0" unique_id=1893673590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+shape = SubResource("Shape_medical_day1_blocker")
