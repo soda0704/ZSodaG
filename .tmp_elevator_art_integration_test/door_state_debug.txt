@@ -1,2 +1,0 @@
-cabin is_open=true position=(0.0, 4.08, 0.0) scale=(1.0, 0.03, 1.0)
-landing is_open=true position=(0.0, 4.08, 0.0) scale=(1.0, 0.03, 1.0)

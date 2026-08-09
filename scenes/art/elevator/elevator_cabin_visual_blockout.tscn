@@ -163,14 +163,6 @@ size = Vector3(2.1, 1.8, 0.14)
 material = SubResource("Material_structural_steel")
 size = Vector3(1.82, 1.52, 0.035)
 
-[sub_resource type="BoxMesh" id="Mesh_panel_display"]
-material = SubResource("Material_light_emissive")
-size = Vector3(0.82, 0.27, 0.035)
-
-[sub_resource type="BoxMesh" id="Mesh_panel_button"]
-material = SubResource("Material_hazard_orange")
-size = Vector3(0.25, 0.25, 0.045)
-
 [sub_resource type="BoxMesh" id="Mesh_light_housing"]
 material = SubResource("Material_structural_steel")
 size = Vector3(2.45, 0.12, 0.42)
@@ -557,34 +549,6 @@ mesh = SubResource("Mesh_panel_housing")
 [node name="Inset" type="MeshInstance3D" parent="ControlPanelVisual"]
 position = Vector3(-1.35, 1.55, 2.632)
 mesh = SubResource("Mesh_panel_inset")
-
-[node name="FloorDisplay" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-1.35, 2.08, 2.603)
-mesh = SubResource("Mesh_panel_display")
-
-[node name="Button0" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-1.76, 1.61, 2.592)
-mesh = SubResource("Mesh_panel_button")
-
-[node name="Button1" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-1.35, 1.61, 2.592)
-mesh = SubResource("Mesh_panel_button")
-
-[node name="Button2" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-0.94, 1.61, 2.592)
-mesh = SubResource("Mesh_panel_button")
-
-[node name="Button3" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-1.76, 1.2, 2.592)
-mesh = SubResource("Mesh_panel_button")
-
-[node name="Button4" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-1.35, 1.2, 2.592)
-mesh = SubResource("Mesh_panel_button")
-
-[node name="Button5" type="MeshInstance3D" parent="ControlPanelVisual"]
-position = Vector3(-0.94, 1.2, 2.592)
-mesh = SubResource("Mesh_panel_button")
 
 [node name="LightingModules" type="Node3D" parent="."]
 

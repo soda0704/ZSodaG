@@ -6,6 +6,7 @@ export.cfg
 
 *.tmp
 *.log
+/.tmp_elevator_art_integration_test/
 
 .vscode/
 .idea/
