@@ -1,0 +1,202 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/science_standard_door_visual_blockout.tscn" id="1_science"]
+
+[sub_resource type="StandardMaterial3D" id="Material_latch_housing"]
+albedo_color = Color(0.055, 0.06, 0.065, 1)
+metallic = 0.62
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="Material_warning_amber"]
+albedo_color = Color(0.82, 0.38, 0.035, 1)
+metallic = 0.35
+roughness = 0.34
+emission_enabled = true
+emission = Color(0.52, 0.16, 0.01, 1)
+emission_energy_multiplier = 0.42
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+size = Vector3(1, 1, 1)
+
+[node name="ScienceResearchIsolationDoorVisualBlockout" instance=ExtResource("1_science")]
+editor_description = "Heavy opaque Research to Isolation containment door. OpenPreview is enabled for the first-floor route state. Amber mechanical latch details distinguish it from the standard laboratory door."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = true
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="1" unique_id=1783800639]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="2" unique_id=1933071615]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="8"]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="1" unique_id=1461725038]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="2" unique_id=1098336828]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" index="8"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="StatusIndicator" parent="DoorAssembly/AccessPanel" parent_id_path=PackedInt32Array(739675324) index="2" unique_id=1896220164]
+material_override = SubResource("Material_warning_amber")
+
+[node name="StatusIndicator" parent="DoorAssembly/BackAccessPanel" index="2"]
+material_override = SubResource("Material_warning_amber")
+
+[node name="FrontLatchHousing" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, 0.43, -0.05, 0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWarningInsert" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, 0.43, 0.03, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLatchHousing" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, 0.43, -0.05, -0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWarningInsert" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, 0.43, 0.03, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.18, 0.05, 0, -0.05, 0.18, 0, 0, 0, 0.025, 0.4, -1.04, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/LeftLeaf"]
+transform = Transform3D(0.18, -0.05, 0, 0.05, 0.18, 0, 0, 0, 0.025, 0.4, -1.04, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLatchHousing" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, -0.43, -0.05, 0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWarningInsert" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, -0.43, 0.03, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLatchHousing" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, -0.43, -0.05, -0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWarningInsert" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, -0.43, 0.03, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.18, -0.05, 0, 0.05, 0.18, 0, 0, 0, 0.025, -0.4, -1.04, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/ClosedPreview/RightLeaf"]
+transform = Transform3D(0.18, 0.05, 0, -0.05, 0.18, 0, 0, 0, 0.025, -0.4, -1.04, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLatchHousing" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, 0.43, -0.05, 0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWarningInsert" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, 0.43, 0.03, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLatchHousing" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, 0.43, -0.05, -0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWarningInsert" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, 0.43, 0.03, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.18, 0.05, 0, -0.05, 0.18, 0, 0, 0, 0.025, 0.4, -1.04, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.18, -0.05, 0, 0.05, 0.18, 0, 0, 0, 0.025, 0.4, -1.04, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLatchHousing" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, -0.43, -0.05, 0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWarningInsert" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, -0.43, 0.03, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLatchHousing" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 0.46, 0, 0, 0, 0.045, -0.43, -0.05, -0.115)
+material_override = SubResource("Material_latch_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWarningInsert" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.025, -0.43, 0.03, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.18, -0.05, 0, 0.05, 0.18, 0, 0, 0, 0.025, -0.4, -1.04, 0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerWarningTab" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.18, 0.05, 0, -0.05, 0.18, 0, 0, 0, 0.025, -0.4, -1.04, -0.14)
+material_override = SubResource("Material_warning_amber")
+mesh = SubResource("Mesh_unit")

@@ -1,0 +1,272 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="1_standard"]
+
+[sub_resource type="StandardMaterial3D" id="Material_science_blue"]
+albedo_color = Color(0.055, 0.29, 0.66, 1)
+metallic = 0.42
+roughness = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_science_leaf"]
+albedo_color = Color(0.38, 0.41, 0.42, 1)
+metallic = 0.58
+roughness = 0.44
+
+[sub_resource type="StandardMaterial3D" id="Material_science_recess"]
+albedo_color = Color(0.045, 0.055, 0.06, 1)
+metallic = 0.5
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Material_science_glass"]
+transparency = 1
+albedo_color = Color(0.11, 0.22, 0.28, 0.72)
+metallic = 0.18
+roughness = 0.18
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+size = Vector3(1, 1, 1)
+
+[node name="ScienceStandardDoorVisualBlockout" instance=ExtResource("1_standard")]
+editor_description = "Shared North Science 3 x 3 m door family. ClosedPreview and OpenPreview use full leaves with the same depth. Art-only, without leaf collision or animation."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = false
+
+[node name="LeftVisibleLeafEdge" parent="DoorAssembly/OpenPreview" parent_id_path=PackedInt32Array(1070349547) index="0" unique_id=1724677441]
+visible = false
+
+[node name="RightVisibleLeafEdge" parent="DoorAssembly/OpenPreview" parent_id_path=PackedInt32Array(1070349547) index="1" unique_id=1066623096]
+visible = false
+
+[node name="LeftVisibleLeafEdgeBack" parent="DoorAssembly/OpenPreview" parent_id_path=PackedInt32Array(1070349547) index="2"]
+visible = false
+
+[node name="RightVisibleLeafEdgeBack" parent="DoorAssembly/OpenPreview" parent_id_path=PackedInt32Array(1070349547) index="3"]
+visible = false
+
+[node name="LeftLeaf" type="Node3D" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, -1.85, 1.35, 0)
+
+[node name="Body" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(1.19, 0, 0, 0, 2.68, 0, 0, 0, 0.14, 0, 0, 0)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontRecess" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.94, 0, 0, 0, 2.36, 0, 0, 0, 0.025, 0, 0, 0.085)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontUpperPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 1.35, 0, 0, 0, 0.018, 0, 0.42, 0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 0.52, 0, 0, 0, 0.018, 0, -0.96, 0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWindowBorder" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.3, 0, 0, 0, 1.08, 0, 0, 0, 0.035, 0.2, 0.25, 0.102)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWindowGlass" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.045, 0.2, 0.25, 0.125)
+material_override = SubResource("Material_science_glass")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.88, 0, 0, 0, 0.12, 0, 0, 0, 0.035, -0.02, -0.2, 0.105)
+material_override = SubResource("Material_science_blue")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash01" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, -0.34, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash02" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, -0.26, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash03" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, -0.18, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackRecess" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.94, 0, 0, 0, 2.36, 0, 0, 0, 0.025, 0, 0, -0.085)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackUpperPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 1.35, 0, 0, 0, 0.018, 0, 0.42, -0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 0.52, 0, 0, 0, 0.018, 0, -0.96, -0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWindowBorder" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.3, 0, 0, 0, 1.08, 0, 0, 0, 0.035, 0.2, 0.25, -0.102)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWindowGlass" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.045, 0.2, 0.25, -0.125)
+material_override = SubResource("Material_science_glass")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.88, 0, 0, 0, 0.12, 0, 0, 0, 0.035, -0.02, -0.2, -0.105)
+material_override = SubResource("Material_science_blue")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash01" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, -0.34, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash02" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, -0.26, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash03" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, -0.18, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="RightLeaf" type="Node3D" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, 1.85, 1.35, 0)
+
+[node name="Body" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(1.19, 0, 0, 0, 2.68, 0, 0, 0, 0.14, 0, 0, 0)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontRecess" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.94, 0, 0, 0, 2.36, 0, 0, 0, 0.025, 0, 0, 0.085)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontUpperPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 1.35, 0, 0, 0, 0.018, 0, 0.42, 0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLowerPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 0.52, 0, 0, 0, 0.018, 0, -0.96, 0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWindowBorder" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.3, 0, 0, 0, 1.08, 0, 0, 0, 0.035, -0.2, 0.25, 0.102)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWindowGlass" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.045, -0.2, 0.25, 0.125)
+material_override = SubResource("Material_science_glass")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.88, 0, 0, 0, 0.12, 0, 0, 0, 0.035, 0.02, -0.2, 0.105)
+material_override = SubResource("Material_science_blue")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash01" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, 0.18, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash02" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, 0.26, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontSlash03" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, -0.00905867, 0, 0.0362347, 0.13523, 0, 0, 0, 0.02, 0.34, -0.2, 0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackRecess" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.94, 0, 0, 0, 2.36, 0, 0, 0, 0.025, 0, 0, -0.085)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackUpperPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 1.35, 0, 0, 0, 0.018, 0, 0.42, -0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLowerPanel" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.82, 0, 0, 0, 0.52, 0, 0, 0, 0.018, 0, -0.96, -0.103)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWindowBorder" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.3, 0, 0, 0, 1.08, 0, 0, 0, 0.035, -0.2, 0.25, -0.102)
+material_override = SubResource("Material_science_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWindowGlass" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.22, 0, 0, 0, 1, 0, 0, 0, 0.045, -0.2, 0.25, -0.125)
+material_override = SubResource("Material_science_glass")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.88, 0, 0, 0, 0.12, 0, 0, 0, 0.035, 0.02, -0.2, -0.105)
+material_override = SubResource("Material_science_blue")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash01" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, 0.18, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash02" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, 0.26, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackSlash03" type="MeshInstance3D" parent="DoorAssembly/OpenPreview/RightLeaf"]
+transform = Transform3D(0.0338074, 0.00905867, 0, -0.0362347, 0.13523, 0, 0, 0, 0.02, 0.34, -0.2, -0.135)
+material_override = SubResource("Material_science_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = true
+
+[node name="LeftLeaf" parent="DoorAssembly/ClosedPreview" parent_id_path=PackedInt32Array(82381216) index="1" unique_id=664867289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, -0.595, 1.35, 0)
+
+[node name="Accent" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="3" unique_id=1065245072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.2, 0.105)
+material_override = SubResource("Material_science_blue")
+
+[node name="BackAccent" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.2, -0.105)
+material_override = SubResource("Material_science_blue")
+
+[node name="RightLeaf" parent="DoorAssembly/ClosedPreview" parent_id_path=PackedInt32Array(82381216) index="2" unique_id=1649691520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, 0.595, 1.35, 0)
+
+[node name="Accent" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="3" unique_id=547877825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.2, 0.105)
+material_override = SubResource("Material_science_blue")
+
+[node name="BackAccent" parent="DoorAssembly/ClosedPreview/RightLeaf" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.2, -0.105)
+material_override = SubResource("Material_science_blue")
+
+[node name="StatusIndicator" parent="DoorAssembly/AccessPanel" parent_id_path=PackedInt32Array(739675324) index="2" unique_id=1896220164]
+material_override = SubResource("Material_science_blue")
+
+[node name="StatusIndicator" parent="DoorAssembly/BackAccessPanel" index="2"]
+material_override = SubResource("Material_science_blue")

@@ -1,0 +1,152 @@
+[gd_scene format=3 uid="uid://lsm2iwy57ki4"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/west_access_terminal_visual_blockout.tscn" id="1_terminal"]
+
+[sub_resource type="StandardMaterial3D" id="Material_frame"]
+albedo_color = Color(0.055, 0.06, 0.065, 1)
+metallic = 0.68
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+
+[sub_resource type="StandardMaterial3D" id="Material_recess"]
+albedo_color = Color(0.045, 0.05, 0.055, 1)
+metallic = 0.48
+roughness = 0.48
+
+[sub_resource type="BoxShape3D" id="Shape_post"]
+size = Vector3(0.18, 2.4, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_header"]
+size = Vector3(1.18, 0.18, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Material_leaf"]
+albedo_color = Color(0.38, 0.4, 0.41, 1)
+metallic = 0.56
+roughness = 0.44
+
+[sub_resource type="StandardMaterial3D" id="Material_orange"]
+albedo_color = Color(0.78, 0.28, 0.045, 1)
+metallic = 0.38
+roughness = 0.38
+
+[node name="WestPedestrianInnerDoorVisualBlockout" type="Node3D" unique_id=1613544218]
+editor_description = "Art-only 1.54 x 2.40 m single sliding pedestrian door. OpenState is enabled for Day 1; ClosedState remains in the same scene. Full leaves use the same thickness."
+
+[node name="DoorAssembly" type="Node3D" parent="." unique_id=1900063353]
+
+[node name="Frame" type="Node3D" parent="DoorAssembly" unique_id=1434269506]
+
+[node name="LeftPost" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=1586200195]
+transform = Transform3D(0.18, 0, 0, 0, 2.4, 0, 0, 0, 0.3, -0.68, 1.2, 0)
+material_override = SubResource("Material_frame")
+mesh = SubResource("Mesh_unit")
+
+[node name="RightPost" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=160761464]
+transform = Transform3D(0.18, 0, 0, 0, 2.4, 0, 0, 0, 0.3, 0.68, 1.2, 0)
+material_override = SubResource("Material_frame")
+mesh = SubResource("Mesh_unit")
+
+[node name="Header" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=1367373878]
+transform = Transform3D(1.54, 0, 0, 0, 0.18, 0, 0, 0, 0.3, 0, 2.31, 0)
+material_override = SubResource("Material_frame")
+mesh = SubResource("Mesh_unit")
+
+[node name="InnerLeftTrim" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=1657922967]
+transform = Transform3D(0.08, 0, 0, 0, 2.16, 0, 0, 0, 0.34, -0.57, 1.12, 0)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="InnerRightTrim" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=1898405324]
+transform = Transform3D(0.08, 0, 0, 0, 2.16, 0, 0, 0, 0.34, 0.57, 1.12, 0)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="InnerHeaderTrim" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=647862311]
+transform = Transform3D(1.14, 0, 0, 0, 0.08, 0, 0, 0, 0.34, 0, 2.2, 0)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrameCollision" type="StaticBody3D" parent="DoorAssembly/Frame" unique_id=1390066293]
+
+[node name="LeftPostCollision" type="CollisionShape3D" parent="DoorAssembly/Frame/FrameCollision" unique_id=1957862049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68, 1.2, 0)
+shape = SubResource("Shape_post")
+
+[node name="RightPostCollision" type="CollisionShape3D" parent="DoorAssembly/Frame/FrameCollision" unique_id=1593738827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 1.2, 0)
+shape = SubResource("Shape_post")
+
+[node name="HeaderCollision" type="CollisionShape3D" parent="DoorAssembly/Frame/FrameCollision" unique_id=1044019290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.31, 0)
+shape = SubResource("Shape_header")
+
+[node name="DoorStates" type="Node3D" parent="DoorAssembly" unique_id=1109258940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, 0, 0, 0)
+
+[node name="ClosedState" type="Node3D" parent="DoorAssembly/DoorStates" unique_id=1446116875]
+visible = false
+
+[node name="Leaf" type="Node3D" parent="DoorAssembly/DoorStates/ClosedState" unique_id=1307988509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
+
+[node name="Body" type="MeshInstance3D" parent="DoorAssembly/DoorStates/ClosedState/Leaf" unique_id=1325725406]
+transform = Transform3D(1.12, 0, 0, 0, 2.16, 0, 0, 0, 0.14, 0, 0, 0)
+material_override = SubResource("Material_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontPanel" type="MeshInstance3D" parent="DoorAssembly/DoorStates/ClosedState/Leaf" unique_id=1786428213]
+transform = Transform3D(0.88, 0, 0, 0, 1.82, 0, 0, 0, 0.025, 0, 0, 0.095)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackPanel" type="MeshInstance3D" parent="DoorAssembly/DoorStates/ClosedState/Leaf" unique_id=1738705005]
+transform = Transform3D(0.88, 0, 0, 0, 1.82, 0, 0, 0, 0.025, 0, 0, -0.095)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontAccent" type="MeshInstance3D" parent="DoorAssembly/DoorStates/ClosedState/Leaf" unique_id=443619802]
+transform = Transform3D(0.94, 0, 0, 0, 0.14, 0, 0, 0, 0.035, 0.05, -0.15, 0.13)
+material_override = SubResource("Material_orange")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/DoorStates/ClosedState/Leaf" unique_id=905964078]
+transform = Transform3D(0.94, 0, 0, 0, 0.14, 0, 0, 0, 0.035, 0.05, -0.15, -0.13)
+material_override = SubResource("Material_orange")
+mesh = SubResource("Mesh_unit")
+
+[node name="OpenState" type="Node3D" parent="DoorAssembly/DoorStates" unique_id=852896429]
+
+[node name="Leaf" type="Node3D" parent="DoorAssembly/DoorStates/OpenState" unique_id=354614939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18, 1.12, 0)
+
+[node name="Body" type="MeshInstance3D" parent="DoorAssembly/DoorStates/OpenState/Leaf" unique_id=647027343]
+transform = Transform3D(1.12, 0, 0, 0, 2.16, 0, 0, 0, 0.14, 0, 0, 0)
+material_override = SubResource("Material_leaf")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontPanel" type="MeshInstance3D" parent="DoorAssembly/DoorStates/OpenState/Leaf" unique_id=1863843558]
+transform = Transform3D(0.88, 0, 0, 0, 1.82, 0, 0, 0, 0.025, 0, 0, 0.095)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackPanel" type="MeshInstance3D" parent="DoorAssembly/DoorStates/OpenState/Leaf" unique_id=157152463]
+transform = Transform3D(0.88, 0, 0, 0, 1.82, 0, 0, 0, 0.025, 0, 0, -0.095)
+material_override = SubResource("Material_recess")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontAccent" type="MeshInstance3D" parent="DoorAssembly/DoorStates/OpenState/Leaf" unique_id=1311970101]
+transform = Transform3D(0.94, 0, 0, 0, 0.14, 0, 0, 0, 0.035, 0.05, -0.15, 0.13)
+material_override = SubResource("Material_orange")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackAccent" type="MeshInstance3D" parent="DoorAssembly/DoorStates/OpenState/Leaf" unique_id=421822413]
+transform = Transform3D(0.94, 0, 0, 0, 0.14, 0, 0, 0, 0.035, 0.05, -0.15, -0.13)
+material_override = SubResource("Material_orange")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontAccessTerminal" parent="DoorAssembly" unique_id=505773445 instance=ExtResource("1_terminal")]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 1, 1.2, 0.19)
+
+[node name="BackAccessTerminal" parent="DoorAssembly" unique_id=1093612649 instance=ExtResource("1_terminal")]
+transform = Transform3D(-0.78, 0, -6.818976e-08, 0, 0.78, 0, 6.818976e-08, 0, -0.78, 1, 1.2, -0.18)

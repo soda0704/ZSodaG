@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/science_standard_door_visual_blockout.tscn" id="1_base"]
+
+[sub_resource type="StandardMaterial3D" id="Material_west_orange"]
+albedo_color = Color(0.78, 0.28, 0.045, 1)
+metallic = 0.38
+roughness = 0.38
+
+[node name="WestStandardDoubleDoorVisualBlockout" instance=ExtResource("1_base")]
+editor_description = "Shared West Entrance double sliding door family. Full leaves have the same thickness in OpenPreview and ClosedPreview. Orange section accents and terminals are visible on both sides."
+
+[node name="FrontAccent" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+material_override = SubResource("Material_west_orange")
+
+[node name="BackAccent" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+material_override = SubResource("Material_west_orange")
+
+[node name="FrontAccent" parent="DoorAssembly/OpenPreview/RightLeaf"]
+material_override = SubResource("Material_west_orange")
+
+[node name="BackAccent" parent="DoorAssembly/OpenPreview/RightLeaf"]
+material_override = SubResource("Material_west_orange")
+
+[node name="Accent" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="3" unique_id=1065245072]
+material_override = SubResource("Material_west_orange")
+
+[node name="BackAccent" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="9"]
+material_override = SubResource("Material_west_orange")
+
+[node name="Accent" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="3" unique_id=547877825]
+material_override = SubResource("Material_west_orange")
+
+[node name="BackAccent" parent="DoorAssembly/ClosedPreview/RightLeaf" index="9"]
+material_override = SubResource("Material_west_orange")
+
+[node name="StatusIndicator" parent="DoorAssembly/AccessPanel" parent_id_path=PackedInt32Array(739675324) index="2" unique_id=1896220164]
+material_override = SubResource("Material_west_orange")
+
+[node name="StatusIndicator" parent="DoorAssembly/BackAccessPanel" index="2"]
+material_override = SubResource("Material_west_orange")

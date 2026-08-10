@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://cxjbvw0xj5jq7"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/science_standard_door_visual_blockout.tscn" id="1_science"]
+
+[sub_resource type="StandardMaterial3D" id="Material_locked_red"]
+albedo_color = Color(0.62, 0.035, 0.02, 1)
+roughness = 0.28
+emission_enabled = true
+emission = Color(0.78, 0.025, 0.012, 1)
+emission_energy_multiplier = 1.15
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+
+[node name="ScienceEntranceDoorVisualBlockout" unique_id=280663906 instance=ExtResource("1_science")]
+editor_description = "Opaque reinforced Hub to North Science door. Closed on Day 1. Its temporary passage collision is centralized in Base_Blockout_v03/Day1_Door_Collisions; gameplay unlocking is handed to the programmer."
+
+[node name="Day1LockedIndicators" type="Node3D" parent="DoorAssembly/Frame" parent_id_path=PackedInt32Array(2033192663) index="8" unique_id=602057625]
+
+[node name="FrontLeftLower" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="0" unique_id=544569181]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, -1.48, 0.55, 0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontLeftUpper" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="1" unique_id=1130666455]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, -1.48, 2.35, 0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontRightLower" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="2" unique_id=2077611085]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, 1.48, 0.55, 0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontRightUpper" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="3" unique_id=1331494589]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, 1.48, 2.35, 0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLeftLower" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="4" unique_id=813343401]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, -1.48, 0.55, -0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackLeftUpper" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="5" unique_id=1662848894]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, -1.48, 2.35, -0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackRightLower" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="6" unique_id=745334721]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, 1.48, 0.55, -0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackRightUpper" type="MeshInstance3D" parent="DoorAssembly/Frame/Day1LockedIndicators" index="7" unique_id=758302176]
+transform = Transform3D(0.08, 0, 0, 0, 0.18, 0, 0, 0, 0.025, 1.48, 2.35, -0.2)
+material_override = SubResource("Material_locked_red")
+mesh = SubResource("Mesh_unit")
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="1" unique_id=1783800639]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="2" unique_id=1933071615]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="8"]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="1" unique_id=1461725038]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="2" unique_id=1098336828]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="8"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7430527, 1.35, 0.14)
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1.7953713, 1.35, -0.14)
+
+[node name="StatusIndicator" parent="DoorAssembly/AccessPanel" parent_id_path=PackedInt32Array(739675324) index="2" unique_id=1896220164]
+material_override = SubResource("Material_locked_red")
+
+[node name="StatusIndicator" parent="DoorAssembly/BackAccessPanel" index="2"]
+material_override = SubResource("Material_locked_red")

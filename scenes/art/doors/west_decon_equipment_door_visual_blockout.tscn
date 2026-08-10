@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/west_standard_double_door_visual_blockout.tscn" id="1_west"]
+
+[node name="WestDeconEquipmentDoorVisualBlockout" instance=ExtResource("1_west")]
+editor_description = "Independent opaque Decon to Equipment airlock door. Day 1 state is fully open. Inherits the standard West family directly, so Hub to Decon frame and panel overrides cannot propagate here."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = true
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="1" unique_id=1783800639]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" parent_id_path=PackedInt32Array(664867289) index="2" unique_id=1933071615]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="8"]
+visible = false
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="1" unique_id=1461725038]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" parent_id_path=PackedInt32Array(1649691520) index="2" unique_id=1098336828]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" index="8"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf"]
+visible = false
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf"]
+visible = false

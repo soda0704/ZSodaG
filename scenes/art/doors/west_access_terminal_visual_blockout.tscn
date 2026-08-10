@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/door_access_terminal_visual_blockout.tscn" id="1_terminal"]
+
+[sub_resource type="StandardMaterial3D" id="Material_west_screen"]
+albedo_color = Color(0.72, 0.24, 0.035, 1)
+emission_enabled = true
+emission = Color(0.58, 0.14, 0.012, 1)
+emission_energy_multiplier = 0.75
+
+[node name="WestAccessTerminalVisualBlockout" instance=ExtResource("1_terminal")]
+editor_description = "West Entrance art-only access terminal with orange status screen. Interaction behavior is implemented by the programmer."
+
+[node name="Screen" parent="."]
+material_override = SubResource("Material_west_screen")

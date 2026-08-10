@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/west_standard_double_door_visual_blockout.tscn" id="1_west"]
+
+[node name="WestGarageColdWarmDoorVisualBlockout" instance=ExtResource("1_west")]
+editor_description = "Compact insulated Cold to Warm garage door with narrow windows. Day 1 state is slightly open."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = false
+
+[node name="LeftLeaf" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, -0.72, 1.35, 0)
+
+[node name="RightLeaf" parent="DoorAssembly/OpenPreview"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, 0.72, 1.35, 0)
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = true

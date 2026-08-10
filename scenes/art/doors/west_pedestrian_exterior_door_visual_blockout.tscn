@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://it181pifpibu"]
+
+[ext_resource type="PackedScene" uid="uid://lsm2iwy57ki4" path="res://scenes/art/doors/west_pedestrian_inner_door_visual_blockout.tscn" id="1_inner"]
+
+[sub_resource type="StandardMaterial3D" id="Material_exterior_armor"]
+albedo_color = Color(0.035, 0.04, 0.045, 1)
+metallic = 0.72
+roughness = 0.34
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+
+[sub_resource type="StandardMaterial3D" id="Material_warning"]
+albedo_color = Color(0.82, 0.32, 0.035, 1)
+emission_enabled = true
+emission = Color(0.55, 0.14, 0.01, 1)
+emission_energy_multiplier = 0.45
+
+[node name="WestPedestrianExteriorDoorVisualBlockout" unique_id=1185835413 instance=ExtResource("1_inner")]
+editor_description = "Heavy exterior 1.54 x 3.00 m single sliding pedestrian door. Day 1 state is fully open. The scene is scaled vertically at installation."
+
+[node name="ExteriorArmor" type="Node3D" parent="DoorAssembly/Frame" parent_id_path=PackedInt32Array(1434269506) index="7" unique_id=1292919445]
+
+[node name="LeftArmor" type="MeshInstance3D" parent="DoorAssembly/Frame/ExteriorArmor" index="0" unique_id=1402095953]
+transform = Transform3D(0.07, 0, 0, 0, 2.15, 0, 0, 0, 0.05, -0.73, 1.1, 0.18)
+material_override = SubResource("Material_exterior_armor")
+mesh = SubResource("Mesh_unit")
+
+[node name="RightArmor" type="MeshInstance3D" parent="DoorAssembly/Frame/ExteriorArmor" index="1" unique_id=1821052764]
+transform = Transform3D(0.07, 0, 0, 0, 2.15, 0, 0, 0, 0.05, 0.73, 1.1, 0.18)
+material_override = SubResource("Material_exterior_armor")
+mesh = SubResource("Mesh_unit")
+
+[node name="FrontWarningLamp" type="MeshInstance3D" parent="DoorAssembly/Frame/ExteriorArmor" index="2" unique_id=498806310]
+transform = Transform3D(0.08, 0, 0, 0, 0.16, 0, 0, 0, 0.025, 0.73, 1.75, 0.22)
+material_override = SubResource("Material_warning")
+mesh = SubResource("Mesh_unit")
+
+[node name="BackWarningLamp" type="MeshInstance3D" parent="DoorAssembly/Frame/ExteriorArmor" index="3" unique_id=1937928064]
+transform = Transform3D(0.08, 0, 0, 0, 0.16, 0, 0, 0, 0.025, -0.73, 1.75, -0.22)
+material_override = SubResource("Material_warning")
+mesh = SubResource("Mesh_unit")
+
+[node name="Leaf" parent="DoorAssembly/DoorStates/OpenState" parent_id_path=PackedInt32Array(852896429) index="0" unique_id=354614939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18, 1.12, 0)
+
+[node name="FrontAccessTerminal" parent="DoorAssembly" parent_id_path=PackedInt32Array(1900063353) index="2" unique_id=505773445]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 1, 1.2, 0.19)
+
+[node name="BackAccessTerminal" parent="DoorAssembly" parent_id_path=PackedInt32Array(1900063353) index="3" unique_id=1093612649]
+transform = Transform3D(-3.409488e-08, 0, 0.78, 0, 0.78, 0, -0.78, 0, -3.409488e-08, -1.058368, 1.2, -0.7371504)

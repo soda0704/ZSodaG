@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_housing"]
+albedo_color = Color(0.045, 0.05, 0.055, 1)
+metallic = 0.62
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Material_inset"]
+albedo_color = Color(0.11, 0.12, 0.125, 1)
+metallic = 0.4
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.09, 0.34, 0.58, 1)
+emission_enabled = true
+emission = Color(0.04, 0.22, 0.52, 1)
+emission_energy_multiplier = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Material_key"]
+albedo_color = Color(0.22, 0.23, 0.24, 1)
+metallic = 0.35
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="Mesh_unit"]
+size = Vector3(1, 1, 1)
+
+[node name="DoorAccessTerminalVisualBlockout" type="Node3D"]
+editor_description = "Reusable art-only access terminal. Interaction behavior and indicator states are implemented by the programmer."
+
+[node name="Housing" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.34, 0, 0, 0, 0.82, 0, 0, 0, 0.16, 0, 0, 0)
+material_override = SubResource("Material_housing")
+mesh = SubResource("Mesh_unit")
+
+[node name="ScreenInset" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.24, 0, 0, 0, 0.16, 0, 0, 0, 0.025, 0, 0.25, 0.095)
+material_override = SubResource("Material_inset")
+mesh = SubResource("Mesh_unit")
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.18, 0, 0, 0, 0.08, 0, 0, 0, 0.02, 0, 0.25, 0.12)
+material_override = SubResource("Material_screen")
+mesh = SubResource("Mesh_unit")
+
+[node name="KeypadInset" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.24, 0, 0, 0, 0.28, 0, 0, 0, 0.025, 0, -0.02, 0.095)
+material_override = SubResource("Material_inset")
+mesh = SubResource("Mesh_unit")
+
+[node name="KeyRow01" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.17, 0, 0, 0, 0.035, 0, 0, 0, 0.02, 0, 0.07, 0.12)
+material_override = SubResource("Material_key")
+mesh = SubResource("Mesh_unit")
+
+[node name="KeyRow02" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.17, 0, 0, 0, 0.035, 0, 0, 0, 0.02, 0, 0, 0.12)
+material_override = SubResource("Material_key")
+mesh = SubResource("Mesh_unit")
+
+[node name="KeyRow03" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.17, 0, 0, 0, 0.035, 0, 0, 0, 0.02, 0, -0.07, 0.12)
+material_override = SubResource("Material_key")
+mesh = SubResource("Mesh_unit")
+
+[node name="Reader" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.12, 0, 0, 0, 0.025, 0, -0.27, 0.095)
+material_override = SubResource("Material_inset")
+mesh = SubResource("Mesh_unit")
+
+[node name="InteractionSocket" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)

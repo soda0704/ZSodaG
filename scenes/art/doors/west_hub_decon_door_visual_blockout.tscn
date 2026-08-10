@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://cfp4aig1yq0x3"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/west_standard_double_door_visual_blockout.tscn" id="1_west"]
+
+[node name="WestHubDeconDoorVisualBlockout" unique_id=572230963 instance=ExtResource("1_west")]
+editor_description = "Wide opaque Hub to Decon hermetic door. Day 1 state is fully open. ClosedPreview remains available in the same scene."
+
+[node name="Frame" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="0" unique_id=2033192663]
+transform = Transform3D(1.36, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="SidePockets" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="1" unique_id=176522707]
+transform = Transform3D(1.36, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = true
+
+[node name="LeftLeaf" parent="DoorAssembly/OpenPreview" index="4"]
+transform = Transform3D(1.3714286, 0, 0, 0, 1, 0, 0, 0, 0.96, -2.856, 1.35, 0)
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf" index="4"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf" index="5"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/LeftLeaf" index="13"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/LeftLeaf" index="14"]
+visible = false
+
+[node name="RightLeaf" parent="DoorAssembly/OpenPreview" index="5"]
+transform = Transform3D(1.3714286, 0, 0, 0, 1, 0, 0, 0, 0.96, 2.856, 1.35, 0)
+
+[node name="FrontWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf" index="4"]
+visible = false
+
+[node name="FrontWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf" index="5"]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/OpenPreview/RightLeaf" index="13"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/OpenPreview/RightLeaf" index="14"]
+visible = false
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = false
+
+[node name="LeftSeal" parent="DoorAssembly/ClosedPreview/PerimeterSeals" parent_id_path=PackedInt32Array(454810512) index="0" unique_id=1785195563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.632, 1.35, -0.082)
+
+[node name="RightSeal" parent="DoorAssembly/ClosedPreview/PerimeterSeals" parent_id_path=PackedInt32Array(454810512) index="1" unique_id=2123163653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.632, 1.35, -0.082)
+
+[node name="TopSeal" parent="DoorAssembly/ClosedPreview/PerimeterSeals" parent_id_path=PackedInt32Array(454810512) index="2" unique_id=1148887560]
+transform = Transform3D(1.36, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.68, -0.082)
+
+[node name="BottomSeal" parent="DoorAssembly/ClosedPreview/PerimeterSeals" parent_id_path=PackedInt32Array(454810512) index="3" unique_id=588633237]
+transform = Transform3D(1.36, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.082)
+
+[node name="LeftLeaf" parent="DoorAssembly/ClosedPreview" index="1" unique_id=664867289]
+transform = Transform3D(1.3714286, 0, 0, 0, 1, 0, 0, 0, 0.96, -0.816, 1.35, 0)
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="1" unique_id=1783800639]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="2" unique_id=1933071615]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/LeftLeaf" index="8"]
+visible = false
+
+[node name="RightLeaf" parent="DoorAssembly/ClosedPreview" index="2" unique_id=1649691520]
+transform = Transform3D(1.3714286, 0, 0, 0, 1, 0, 0, 0, 0.96, 0.816, 1.35, 0)
+
+[node name="WindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" index="1" unique_id=1461725038]
+visible = false
+
+[node name="WindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" index="2" unique_id=1098336828]
+visible = false
+
+[node name="BackWindowBorder" parent="DoorAssembly/ClosedPreview/RightLeaf" index="7"]
+visible = false
+
+[node name="BackWindowGlass" parent="DoorAssembly/ClosedPreview/RightLeaf" index="8"]
+visible = false
+
+[node name="AccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="4" unique_id=739675324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3653097, 1.35, 0.14)
+
+[node name="BackAccessPanel" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="5"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 1.35, -0.6676701)
+
+[node name="LeftLeafClosedSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="0" unique_id=917305595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.816, 1.35, 0)
+
+[node name="LeftLeafOpenSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="1" unique_id=636338764]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.856, 1.35, 0)
+
+[node name="RightLeafClosedSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="2" unique_id=211738430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.816, 1.35, 0)
+
+[node name="RightLeafOpenSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="3" unique_id=1973469374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.856, 1.35, 0)
+
+[node name="AccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="4" unique_id=377674031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3653097, 1.35, 0.22)
+
+[node name="BackAccessPanelInteractionSocket" parent="AnimationSockets" parent_id_path=PackedInt32Array(2009637698) index="5"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.08, 1.35, -0.6676701)

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/science_standard_door_visual_blockout.tscn" id="1_science"]
+
+[node name="ScienceBriefingResearchDoorVisualBlockout" instance=ExtResource("1_science")]
+editor_description = "North Science Briefing to Research double sliding door with two narrow observation windows and access terminals on both sides. OpenPreview is enabled for the first-floor route state; ClosedPreview remains in the same inherited scene."
+
+[node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
+visible = true
+
+[node name="ClosedPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="3" unique_id=82381216]
+visible = false
