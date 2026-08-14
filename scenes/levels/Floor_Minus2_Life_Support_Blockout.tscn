@@ -1,0 +1,1154 @@
+[gd_scene format=3 uid="uid://byj0se8cnrgbt"]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.28, 0.32, 0.35, 1)
+metallic = 0.18
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Material_pit"]
+albedo_color = Color(0.12, 0.16, 0.18, 1)
+metallic = 0.16
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_structure"]
+albedo_color = Color(0.64, 0.68, 0.7, 1)
+metallic = 0.2
+roughness = 0.68
+
+[sub_resource type="StandardMaterial3D" id="Material_machinery"]
+albedo_color = Color(0.18, 0.48, 0.52, 1)
+metallic = 0.24
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="Material_water"]
+transparency = 1
+albedo_color = Color(0.08, 0.42, 0.55, 0.72)
+metallic = 0.04
+roughness = 0.12
+
+[sub_resource type="StandardMaterial3D" id="Material_hazard"]
+albedo_color = Color(0.94, 0.52, 0.09, 1)
+metallic = 0.12
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Material_operations"]
+albedo_color = Color(0.26, 0.54, 0.72, 1)
+metallic = 0.16
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.26, 0.72, 0.92, 1)
+emission_enabled = true
+emission = Color(0.08, 0.48, 0.88, 1)
+emission_energy_multiplier = 1.55
+
+[sub_resource type="StandardMaterial3D" id="Material_warning"]
+albedo_color = Color(1, 0.3, 0.06, 1)
+emission_enabled = true
+emission = Color(0.9, 0.1, 0.015, 1)
+emission_energy_multiplier = 1.3
+
+[node name="Floor_Minus2_Life_Support_Blockout" type="Node3D" unique_id=1525163854]
+editor_description = "Floor -2 life-support infrastructure. One main level wraps around a recessed water-treatment reservoir, while an elevated inspection bridge and a flooded return channel introduce controlled verticality. The floor does not duplicate the Floor 0 generator or Floor -1 security functions."
+
+[node name="Structure" type="Node3D" parent="." unique_id=1808372766]
+
+[node name="Floors" type="Node3D" parent="Structure" unique_id=1872670895]
+
+[node name="Entry_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=1443310487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.75, -0.15, 0)
+use_collision = true
+size = Vector3(9.5, 0.3, 12)
+material = SubResource("Material_floor")
+
+[node name="North_Gallery_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=934831488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.15, -16)
+use_collision = true
+size = Vector3(35.5, 0.3, 12)
+material = SubResource("Material_floor")
+
+[node name="South_Main_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=5171701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.15, 13.5)
+use_collision = true
+size = Vector3(35.5, 0.3, 7)
+material = SubResource("Material_floor")
+
+[node name="South_Service_Ledge" type="CSGBox3D" parent="Structure/Floors" unique_id=2115333398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.15, 21)
+use_collision = true
+size = Vector3(35.5, 0.3, 2)
+material = SubResource("Material_floor")
+
+[node name="East_Gallery_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=2054036448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.75, -0.15, 0)
+use_collision = true
+size = Vector3(8.5, 0.3, 20)
+material = SubResource("Material_floor")
+
+[node name="West_Gallery_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=1090951658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, -0.15, 0)
+use_collision = true
+size = Vector3(10, 0.3, 20)
+material = SubResource("Material_floor")
+
+[node name="Emergency_Annex_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=1632059207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, -0.15, 0)
+use_collision = true
+size = Vector3(8, 0.3, 24)
+material = SubResource("Material_floor")
+
+[node name="Reservoir_Pit_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=362522775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, -2.35, 0)
+use_collision = true
+size = Vector3(17, 0.3, 20)
+material = SubResource("Material_pit")
+
+[node name="Flooded_Channel_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=902411023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -1.8, 18.5)
+use_collision = true
+size = Vector3(35.5, 0.3, 3)
+material = SubResource("Material_pit")
+
+[node name="Ceilings" type="Node3D" parent="Structure" unique_id=442802602]
+editor_description = "Temporary ceilings. Hide while editing the plan from above."
+
+[node name="Entry_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=1911242502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 7.35, 0)
+use_collision = true
+size = Vector3(8, 0.3, 12)
+material = SubResource("Material_structure")
+
+[node name="Main_Hall_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=1605704881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, 7.35, 0)
+use_collision = true
+size = Vector3(35.5, 0.3, 44)
+material = SubResource("Material_structure")
+
+[node name="Emergency_Annex_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=493872240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 7.35, 0)
+use_collision = true
+size = Vector3(8, 0.3, 24)
+material = SubResource("Material_structure")
+
+[node name="Elevator_Entry_Sleeve" type="Node3D" parent="Structure"]
+editor_description = "Short enclosed transition joining Floor -2 directly to the elevator portal. The integrated floor continues beneath it to the cabin threshold; no separate landing platform is used."
+
+[node name="North_Wall" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 2.1, -3.25)
+use_collision = true
+size = Vector3(1.15, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Wall" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 2.1, 3.1)
+use_collision = true
+size = Vector3(1.15, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 4.35, 0)
+use_collision = true
+size = Vector3(1.15, 0.3, 6.2)
+material = SubResource("Material_structure")
+
+[node name="North_Accent" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 1.05, -3.09)
+size = Vector3(1, 0.12, 0.06)
+material = SubResource("Material_hazard")
+
+[node name="South_Accent" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 1.05, 2.94)
+size = Vector3(1, 0.12, 0.06)
+material = SubResource("Material_hazard")
+
+[node name="Ceiling_Light" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 4.18, 0)
+size = Vector3(0.8, 0.06, 2.4)
+material = SubResource("Material_screen")
+
+[node name="Floor_Guide" type="CSGBox3D" parent="Structure/Elevator_Entry_Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.925, 0.02, 0)
+size = Vector3(1, 0.04, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="Perimeter_Walls" type="Node3D" parent="Structure" unique_id=1210301482]
+
+[node name="Entry_East_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1666837529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3.6, -4.625)
+use_collision = true
+size = Vector3(0.3, 7.2, 2.75)
+material = SubResource("Material_structure")
+
+[node name="Entry_East_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=963830339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3.6, 4.625)
+use_collision = true
+size = Vector3(0.3, 7.2, 2.75)
+material = SubResource("Material_structure")
+
+[node name="Entry_East_Header" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=873485632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 5.7, 0)
+use_collision = true
+size = Vector3(0.3, 3, 6.5)
+material = SubResource("Material_structure")
+
+[node name="Entry_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1003903802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 3.6, -6)
+use_collision = true
+size = Vector3(8, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Entry_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=192165241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 3.6, 6)
+use_collision = true
+size = Vector3(8, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Entry_North_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1438074757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 3.6, -14)
+use_collision = true
+size = Vector3(0.3, 7.2, 16)
+material = SubResource("Material_structure")
+
+[node name="Entry_South_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=878013157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 3.6, 14)
+use_collision = true
+size = Vector3(0.3, 7.2, 16)
+material = SubResource("Material_structure")
+
+[node name="Main_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1285070992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, 3.6, -22)
+use_collision = true
+size = Vector3(35.5, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Main_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=401926776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, 3.6, 22)
+use_collision = true
+size = Vector3(35.5, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Annex_North_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1669213316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 3.6, -17)
+use_collision = true
+size = Vector3(0.3, 7.2, 10)
+material = SubResource("Material_structure")
+
+[node name="Annex_South_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1111097786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 3.6, 17)
+use_collision = true
+size = Vector3(0.3, 7.2, 10)
+material = SubResource("Material_structure")
+
+[node name="Annex_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=432727844]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 3.6, -12)
+use_collision = true
+size = Vector3(8, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Annex_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=2040822247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 3.6, 12)
+use_collision = true
+size = Vector3(8, 7.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Annex_West_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1955575459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 3.6, 0)
+use_collision = true
+size = Vector3(0.3, 7.2, 24)
+material = SubResource("Material_structure")
+
+[node name="Reservoir_Pit_Walls" type="Node3D" parent="Structure" unique_id=1814166822]
+
+[node name="North_Wall" type="CSGBox3D" parent="Structure/Reservoir_Pit_Walls" unique_id=1344476019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, -1.1, -10)
+use_collision = true
+size = Vector3(17, 2.2, 0.3)
+material = SubResource("Material_pit")
+
+[node name="South_Wall" type="CSGBox3D" parent="Structure/Reservoir_Pit_Walls" unique_id=1134817935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, -1.1, 10)
+use_collision = true
+size = Vector3(17, 2.2, 0.3)
+material = SubResource("Material_pit")
+
+[node name="East_Wall" type="CSGBox3D" parent="Structure/Reservoir_Pit_Walls" unique_id=646372643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -1.1, 0)
+use_collision = true
+size = Vector3(0.3, 2.2, 20)
+material = SubResource("Material_pit")
+
+[node name="West_Wall" type="CSGBox3D" parent="Structure/Reservoir_Pit_Walls" unique_id=1541982470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, -1.1, 0)
+use_collision = true
+size = Vector3(0.3, 2.2, 20)
+material = SubResource("Material_pit")
+
+[node name="Flooded_Channel_Walls" type="Node3D" parent="Structure" unique_id=394950489]
+
+[node name="North_Wall" type="CSGBox3D" parent="Structure/Flooded_Channel_Walls" unique_id=1125525611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.9, 17)
+use_collision = true
+size = Vector3(35.5, 1.8, 0.3)
+material = SubResource("Material_pit")
+
+[node name="South_Wall" type="CSGBox3D" parent="Structure/Flooded_Channel_Walls" unique_id=1837072821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.9, 20)
+use_collision = true
+size = Vector3(35.5, 1.8, 0.3)
+material = SubResource("Material_pit")
+
+[node name="Water" type="Node3D" parent="." unique_id=1797548869]
+
+[node name="Central_Reservoir_Body" type="CSGCylinder3D" parent="Water" unique_id=191392418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, -1.35, 0)
+use_collision = true
+radius = 7.0
+height = 1.7
+sides = 24
+material = SubResource("Material_machinery")
+
+[node name="Central_Reservoir_Water" type="CSGCylinder3D" parent="Water" unique_id=10872343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, -0.46, 0)
+radius = 6.7
+height = 0.08
+sides = 32
+material = SubResource("Material_water")
+
+[node name="Flooded_Return_Channel" type="CSGBox3D" parent="Water" unique_id=318217949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, -0.55, 18.5)
+size = Vector3(35, 0.08, 2.6)
+material = SubResource("Material_water")
+
+[node name="Safety_Rails" type="Node3D" parent="." unique_id=351881132]
+editor_description = "Flush modular safety perimeter. Reservoir corners meet face-to-face, while the east and west openings terminate exactly at the ramp rail faces."
+
+[node name="Reservoir_North_Rail" type="CSGBox3D" parent="Safety_Rails" unique_id=693923747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 0.7, -9.82)
+use_collision = true
+size = Vector3(17.2, 1.4, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Reservoir_South_Rail" type="CSGBox3D" parent="Safety_Rails" unique_id=2126263213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 0.7, 9.82)
+use_collision = true
+size = Vector3(17.2, 1.4, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Reservoir_East_Rail_North" type="CSGBox3D" parent="Safety_Rails" unique_id=309653182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.82, 0.7, -5.56)
+use_collision = true
+size = Vector3(0.16, 1.4, 8.36)
+material = SubResource("Material_hazard")
+
+[node name="Reservoir_East_Rail_South" type="CSGBox3D" parent="Safety_Rails" unique_id=1835898922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.82, 0.7, 5.56)
+use_collision = true
+size = Vector3(0.16, 1.4, 8.36)
+material = SubResource("Material_hazard")
+
+[node name="Reservoir_West_Rail_North" type="CSGBox3D" parent="Safety_Rails" unique_id=1724562313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.18, 0.7, -5.56)
+use_collision = true
+size = Vector3(0.16, 1.4, 8.36)
+material = SubResource("Material_hazard")
+
+[node name="Reservoir_West_Rail_South" type="CSGBox3D" parent="Safety_Rails" unique_id=82898576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.18, 0.7, 5.56)
+use_collision = true
+size = Vector3(0.16, 1.4, 8.36)
+material = SubResource("Material_hazard")
+
+[node name="Flooded_Channel_Main_Rail" type="CSGBox3D" parent="Safety_Rails" unique_id=1428543006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.25, 0.7, 16.82)
+use_collision = true
+size = Vector3(35.5, 1.4, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Elevated_Inspection_Route" type="Node3D" parent="." unique_id=14534389]
+editor_description = "Optional elevated inspection crossing. The primary ground route remains available on both sides of the reservoir."
+
+[node name="Central_Bridge" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1513700028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.075, 0)
+use_collision = true
+size = Vector3(17, 0.25, 2.8)
+material = SubResource("Material_structure")
+
+[node name="East_Ramp" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1675415813]
+transform = Transform3D(0.939, 0.344, 0, -0.344, 0.939, 0, 0, 0, 1, -25, 0.982, 0)
+use_collision = true
+size = Vector3(6.39, 0.25, 2.8)
+material = SubResource("Material_structure")
+
+[node name="West_Ramp" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1738384682]
+transform = Transform3D(0.939, -0.344, 0, 0.344, 0.939, 0, 0, 0, 1, -48, 0.982, 0)
+use_collision = true
+size = Vector3(6.39, 0.25, 2.8)
+material = SubResource("Material_structure")
+
+[node name="East_Ramp_North_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1126597610]
+transform = Transform3D(0.939, 0.344, 0, -0.344, 0.939, 0, 0, 0, 1, -24.701, 1.799, -1.32)
+use_collision = true
+size = Vector3(6.39, 1.49, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="East_Ramp_South_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=631348066]
+transform = Transform3D(0.939, 0.344, 0, -0.344, 0.939, 0, 0, 0, 1, -24.701, 1.799, 1.32)
+use_collision = true
+size = Vector3(6.39, 1.49, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="West_Ramp_North_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=539124284]
+transform = Transform3D(0.939, -0.344, 0, 0.344, 0.939, 0, 0, 0, 1, -48.299, 1.799, -1.32)
+use_collision = true
+size = Vector3(6.39, 1.49, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="West_Ramp_South_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=102327944]
+transform = Transform3D(0.939, -0.344, 0, 0.344, 0.939, 0, 0, 0, 1, -48.299, 1.799, 1.32)
+use_collision = true
+size = Vector3(6.39, 1.49, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="Bridge_North_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=751065190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.9, -1.32)
+use_collision = true
+size = Vector3(17, 1.4, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="Bridge_South_Rail" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1682345960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.9, 1.32)
+use_collision = true
+size = Vector3(17, 1.4, 0.12)
+material = SubResource("Material_hazard")
+
+[node name="Bridge_Structure" type="Node3D" parent="Elevated_Inspection_Route"]
+editor_description = "Load-bearing blockout beneath the inspection bridge. The reservoir retaining wall remains continuous; only the upper safety rail is interrupted at the ramps."
+
+[node name="North_Underbeam" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 1.82, -1.05)
+use_collision = true
+size = Vector3(17, 0.25, 0.25)
+material = SubResource("Material_machinery")
+
+[node name="South_Underbeam" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 1.82, 1.05)
+use_collision = true
+size = Vector3(17, 0.25, 0.25)
+material = SubResource("Material_machinery")
+
+[node name="East_Frame_Crossbeam" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.7, 0)
+use_collision = true
+size = Vector3(0.35, 0.3, 2.35)
+material = SubResource("Material_machinery")
+
+[node name="West_Frame_Crossbeam" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 1.7, 0)
+use_collision = true
+size = Vector3(0.35, 0.3, 2.35)
+material = SubResource("Material_machinery")
+
+[node name="East_Frame_North_Pier" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -0.25, -1.05)
+use_collision = true
+size = Vector3(0.35, 3.9, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="East_Frame_South_Pier" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -0.25, 1.05)
+use_collision = true
+size = Vector3(0.35, 3.9, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="West_Frame_North_Pier" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -0.25, -1.05)
+use_collision = true
+size = Vector3(0.35, 3.9, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="West_Frame_South_Pier" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -0.25, 1.05)
+use_collision = true
+size = Vector3(0.35, 3.9, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="Deck_Grating_01" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Deck_Grating_02" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.4, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Deck_Grating_03" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.8, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Deck_Grating_04" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.2, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Deck_Grating_05" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.6, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Deck_Grating_06" type="CSGBox3D" parent="Elevated_Inspection_Route/Bridge_Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.215, 0)
+size = Vector3(0.08, 0.03, 2.5)
+material = SubResource("Material_operations")
+
+[node name="Life_Support_Equipment" type="Node3D" parent="." unique_id=1382017228]
+
+[node name="North_Filtration_Array" type="Node3D" parent="Life_Support_Equipment" unique_id=700222470]
+
+[node name="Filter_Column_01" type="CSGCylinder3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=324423645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2, -16)
+use_collision = true
+radius = 1.1
+height = 4.0
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Filter_Column_02" type="CSGCylinder3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=630058049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -16)
+use_collision = true
+radius = 1.1
+height = 4.0
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Filter_Column_03" type="CSGCylinder3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=1593083988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2, -16)
+use_collision = true
+radius = 1.1
+height = 4.0
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Filter_Column_04" type="CSGCylinder3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=416532519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 2, -16)
+use_collision = true
+radius = 1.1
+height = 4.0
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Filter_Column_05" type="CSGCylinder3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=408342070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2, -16)
+use_collision = true
+radius = 1.1
+height = 4.0
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Filter_Header" type="CSGBox3D" parent="Life_Support_Equipment/North_Filtration_Array" unique_id=1401739432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4.225, -16)
+size = Vector3(26.2, 0.45, 0.7)
+material = SubResource("Material_operations")
+
+[node name="South_Pump_Manifold" type="Node3D" parent="Life_Support_Equipment" unique_id=262964303]
+
+[node name="Pump_Skid_01" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=1256816063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.75, 14.3)
+use_collision = true
+size = Vector3(4.5, 1.5, 3)
+material = SubResource("Material_operations")
+
+[node name="Pump_Skid_02" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=1391840440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.75, 14.3)
+use_collision = true
+size = Vector3(4.5, 1.5, 3)
+material = SubResource("Material_operations")
+
+[node name="Pump_Skid_03" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=1528380994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.75, 14.3)
+use_collision = true
+size = Vector3(4.5, 1.5, 3)
+material = SubResource("Material_operations")
+
+[node name="Pump_Skid_04" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=1195012197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0.75, 14.3)
+use_collision = true
+size = Vector3(4.5, 1.5, 3)
+material = SubResource("Material_operations")
+
+[node name="Pump_Status_01" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=952974811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.6, 12.76)
+size = Vector3(2.4, 0.65, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Pump_Status_02" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=1693302172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.6, 12.76)
+size = Vector3(2.4, 0.65, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Pump_Status_03" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=380737944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 1.6, 12.76)
+size = Vector3(2.4, 0.65, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Pump_Status_04" type="CSGBox3D" parent="Life_Support_Equipment/South_Pump_Manifold" unique_id=596525579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 1.6, 12.76)
+size = Vector3(2.4, 0.65, 0.08)
+material = SubResource("Material_screen")
+
+[node name="West_Air_Scrubbers" type="Node3D" parent="Life_Support_Equipment" unique_id=1759655687]
+
+[node name="Air_Scrubber_North" type="CSGCylinder3D" parent="Life_Support_Equipment/West_Air_Scrubbers" unique_id=1478033232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 2.2, -6)
+use_collision = true
+radius = 1.35
+height = 4.4
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="Air_Scrubber_South" type="CSGCylinder3D" parent="Life_Support_Equipment/West_Air_Scrubbers" unique_id=469110430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 2.2, 6)
+use_collision = true
+radius = 1.35
+height = 4.4
+sides = 16
+material = SubResource("Material_machinery")
+
+[node name="East_Water_Quality_Station" type="Node3D" parent="Life_Support_Equipment" unique_id=1084071428]
+
+[node name="Quality_Console" type="CSGBox3D" parent="Life_Support_Equipment/East_Water_Quality_Station" unique_id=413535309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 0.65, -8)
+use_collision = true
+size = Vector3(1.2, 1.3, 3.2)
+material = SubResource("Material_operations")
+
+[node name="Quality_Display" type="CSGBox3D" parent="Life_Support_Equipment/East_Water_Quality_Station" unique_id=1509559576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.89, 1.4, -8)
+size = Vector3(0.08, 0.85, 2.5)
+material = SubResource("Material_screen")
+
+[node name="Secondary_Infrastructure" type="Node3D" parent="."]
+editor_description = "Secondary architectural detail for Floor -2. It explains water, air and electrical flow while keeping all primary circulation lanes clear."
+
+[node name="North_Filter_Services" type="Node3D" parent="Secondary_Infrastructure"]
+
+[node name="Rear_Inlet_Header" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1.25, -19.15)
+use_collision = true
+size = Vector3(26.2, 0.45, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="Filter_01_Branch" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.25, -18.1)
+use_collision = true
+size = Vector3(0.45, 0.45, 2.1)
+material = SubResource("Material_machinery")
+
+[node name="Filter_02_Branch" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1.25, -18.1)
+use_collision = true
+size = Vector3(0.45, 0.45, 2.1)
+material = SubResource("Material_machinery")
+
+[node name="Filter_03_Branch" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1.25, -18.1)
+use_collision = true
+size = Vector3(0.45, 0.45, 2.1)
+material = SubResource("Material_machinery")
+
+[node name="Filter_04_Branch" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 1.25, -18.1)
+use_collision = true
+size = Vector3(0.45, 0.45, 2.1)
+material = SubResource("Material_machinery")
+
+[node name="Filter_05_Branch" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 1.25, -18.1)
+use_collision = true
+size = Vector3(0.45, 0.45, 2.1)
+material = SubResource("Material_machinery")
+
+[node name="Filter_01_Valve" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.55, -18.1)
+size = Vector3(0.8, 0.55, 0.8)
+material = SubResource("Material_hazard")
+
+[node name="Filter_02_Valve" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1.55, -18.1)
+size = Vector3(0.8, 0.55, 0.8)
+material = SubResource("Material_hazard")
+
+[node name="Filter_03_Valve" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1.55, -18.1)
+size = Vector3(0.8, 0.55, 0.8)
+material = SubResource("Material_hazard")
+
+[node name="Filter_04_Valve" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 1.55, -18.1)
+size = Vector3(0.8, 0.55, 0.8)
+material = SubResource("Material_hazard")
+
+[node name="Filter_05_Valve" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 1.55, -18.1)
+size = Vector3(0.8, 0.55, 0.8)
+material = SubResource("Material_hazard")
+
+[node name="Filter_01_Gauge" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2.45, -14.86)
+size = Vector3(0.75, 0.5, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Filter_02_Gauge" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.45, -14.86)
+size = Vector3(0.75, 0.5, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Filter_03_Gauge" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.45, -14.86)
+size = Vector3(0.75, 0.5, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Filter_04_Gauge" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 2.45, -14.86)
+size = Vector3(0.75, 0.5, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Filter_05_Gauge" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2.45, -14.86)
+size = Vector3(0.75, 0.5, 0.08)
+material = SubResource("Material_warning")
+
+[node name="North_Cable_Tray" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.9, -12.2)
+size = Vector3(28, 0.18, 0.5)
+material = SubResource("Material_machinery")
+
+[node name="North_Tray_Hanger_East" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 6.55, -12.2)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="North_Tray_Hanger_Center" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6.55, -12.2)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="North_Tray_Hanger_West" type="CSGBox3D" parent="Secondary_Infrastructure/North_Filter_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 6.55, -12.2)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="South_Pump_Services" type="Node3D" parent="Secondary_Infrastructure"]
+
+[node name="Discharge_Header" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.55, 16.15)
+use_collision = true
+size = Vector3(29, 0.45, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="Pump_01_Link" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.5, 15.975)
+size = Vector3(0.45, 0.45, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="Pump_02_Link" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.5, 15.975)
+size = Vector3(0.45, 0.45, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="Pump_03_Link" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 1.5, 15.975)
+size = Vector3(0.45, 0.45, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="Pump_04_Link" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 1.5, 15.975)
+size = Vector3(0.45, 0.45, 0.35)
+material = SubResource("Material_machinery")
+
+[node name="Pump_01_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2.025, 16.15)
+use_collision = true
+size = Vector3(0.45, 1.05, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="Pump_02_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2.025, 16.15)
+use_collision = true
+size = Vector3(0.45, 1.05, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="Pump_03_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.025, 16.15)
+use_collision = true
+size = Vector3(0.45, 1.05, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="Pump_04_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2.025, 16.15)
+use_collision = true
+size = Vector3(0.45, 1.05, 0.45)
+material = SubResource("Material_machinery")
+
+[node name="East_Trunk_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.75, 16.15)
+use_collision = true
+size = Vector3(0.55, 2.4, 0.55)
+material = SubResource("Material_operations")
+
+[node name="West_Trunk_Riser" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 3.75, 16.15)
+use_collision = true
+size = Vector3(0.55, 2.4, 0.55)
+material = SubResource("Material_operations")
+
+[node name="East_Overhead_Trunk" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 4.75, 12.75)
+use_collision = true
+size = Vector3(0.55, 0.55, 6.8)
+material = SubResource("Material_operations")
+
+[node name="West_Overhead_Trunk" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 4.75, 12.75)
+use_collision = true
+size = Vector3(0.55, 0.55, 6.8)
+material = SubResource("Material_operations")
+
+[node name="East_Reservoir_Downpipe" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2.375, 9.35)
+use_collision = true
+size = Vector3(0.55, 4.75, 0.55)
+material = SubResource("Material_operations")
+
+[node name="West_Reservoir_Downpipe" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.375, 9.35)
+use_collision = true
+size = Vector3(0.55, 4.75, 0.55)
+material = SubResource("Material_operations")
+
+[node name="Pump_01_Drain_Grate" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.018, 16.35)
+size = Vector3(4.5, 0.036, 0.35)
+material = SubResource("Material_pit")
+
+[node name="Pump_02_Drain_Grate" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.018, 16.35)
+size = Vector3(4.5, 0.036, 0.35)
+material = SubResource("Material_pit")
+
+[node name="Pump_03_Drain_Grate" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.018, 16.35)
+size = Vector3(4.5, 0.036, 0.35)
+material = SubResource("Material_pit")
+
+[node name="Pump_04_Drain_Grate" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0.018, 16.35)
+size = Vector3(4.5, 0.036, 0.35)
+material = SubResource("Material_pit")
+
+[node name="South_Cable_Tray" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.9, 15.7)
+size = Vector3(29, 0.18, 0.5)
+material = SubResource("Material_machinery")
+
+[node name="South_Tray_Hanger_East" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 6.55, 15.7)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="South_Tray_Hanger_Center" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 6.55, 15.7)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="South_Tray_Hanger_West" type="CSGBox3D" parent="Secondary_Infrastructure/South_Pump_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 6.55, 15.7)
+size = Vector3(0.15, 1.3, 0.15)
+material = SubResource("Material_machinery")
+
+[node name="West_Air_Services" type="Node3D" parent="Secondary_Infrastructure"]
+
+[node name="North_Scrubber_Riser_Duct" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 5.8, -6)
+use_collision = true
+size = Vector3(1.4, 2.8, 1.4)
+material = SubResource("Material_machinery")
+
+[node name="South_Scrubber_Riser_Duct" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 5.8, 6)
+use_collision = true
+size = Vector3(1.4, 2.8, 1.4)
+material = SubResource("Material_machinery")
+
+[node name="North_Overhead_Duct" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 6.4, -6)
+use_collision = true
+size = Vector3(5, 1, 1.4)
+material = SubResource("Material_structure")
+
+[node name="South_Overhead_Duct" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 6.4, 6)
+use_collision = true
+size = Vector3(5, 1, 1.4)
+material = SubResource("Material_structure")
+
+[node name="West_Cross_Duct" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.5, 6.4, 0)
+use_collision = true
+size = Vector3(1, 1, 12)
+material = SubResource("Material_structure")
+
+[node name="North_Scrubber_Status" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.61, 2.4, -6)
+size = Vector3(0.08, 0.7, 0.9)
+material = SubResource("Material_screen")
+
+[node name="South_Scrubber_Status" type="CSGBox3D" parent="Secondary_Infrastructure/West_Air_Services"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.61, 2.4, 6)
+size = Vector3(0.08, 0.7, 0.9)
+material = SubResource("Material_warning")
+
+[node name="Structural_Rhythm" type="Node3D" parent="Secondary_Infrastructure"]
+
+[node name="North_Wall_Rib_01" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.5, -21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="North_Wall_Rib_02" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.5, -21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="North_Wall_Rib_03" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 3.5, -21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="North_Wall_Rib_04" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 3.5, -21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="South_Wall_Rib_01" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.5, 21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="South_Wall_Rib_02" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.5, 21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="South_Wall_Rib_03" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 3.5, 21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="South_Wall_Rib_04" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 3.5, 21.75)
+size = Vector3(0.35, 7, 0.22)
+material = SubResource("Material_machinery")
+
+[node name="Ceiling_Crossbeam_01" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 7.12, 0)
+size = Vector3(0.35, 0.3, 44)
+material = SubResource("Material_machinery")
+
+[node name="Ceiling_Crossbeam_02" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 7.12, 0)
+size = Vector3(0.35, 0.3, 44)
+material = SubResource("Material_machinery")
+
+[node name="Ceiling_Crossbeam_03" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 7.12, 0)
+size = Vector3(0.35, 0.3, 44)
+material = SubResource("Material_machinery")
+
+[node name="Ceiling_Crossbeam_04" type="CSGBox3D" parent="Secondary_Infrastructure/Structural_Rhythm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 7.12, 0)
+size = Vector3(0.35, 0.3, 44)
+material = SubResource("Material_machinery")
+
+[node name="Floor_Service_Details" type="Node3D" parent="Secondary_Infrastructure"]
+
+[node name="Entry_Service_Details" type="Node3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+
+[node name="Sample_Kit_Cabinet" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 1.2, -5.48)
+use_collision = true
+size = Vector3(3, 2.4, 0.7)
+material = SubResource("Material_machinery")
+
+[node name="Sample_Kit_Status" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 1.55, -5.09)
+size = Vector3(2, 0.5, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Process_Overview_Backboard" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 2.35, 5.78)
+size = Vector3(5, 2.4, 0.12)
+material = SubResource("Material_operations")
+
+[node name="Water_Status_Panel" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.1, 2.35, 5.7)
+size = Vector3(1.25, 1.6, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Air_Status_Panel" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 2.35, 5.7)
+size = Vector3(1.25, 1.6, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Return_Status_Panel" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details/Entry_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9, 2.35, 5.7)
+size = Vector3(1.25, 1.6, 0.08)
+material = SubResource("Material_warning")
+
+[node name="North_Grate_East" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.018, -11.2)
+size = Vector3(8, 0.036, 1)
+material = SubResource("Material_pit")
+
+[node name="North_Grate_Center" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.018, -11.2)
+size = Vector3(8, 0.036, 1)
+material = SubResource("Material_pit")
+
+[node name="North_Grate_West" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 0.018, -11.2)
+size = Vector3(8, 0.036, 1)
+material = SubResource("Material_pit")
+
+[node name="Pump_04_Service_Crate" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 0.4, 14.2)
+use_collision = true
+size = Vector3(1.5, 0.8, 1.2)
+material = SubResource("Material_machinery")
+
+[node name="Spare_Pipe_A" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 0.14, 15.35)
+size = Vector3(3, 0.22, 0.22)
+material = SubResource("Material_operations")
+
+[node name="Spare_Pipe_B" type="CSGBox3D" parent="Secondary_Infrastructure/Floor_Service_Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 0.38, 15.35)
+size = Vector3(3, 0.22, 0.22)
+material = SubResource("Material_operations")
+
+[node name="Damaged_Return_Line" type="Node3D" parent="Secondary_Infrastructure"]
+editor_description = "Localized damage beat above the already flooded return channel. It suggests declining infrastructure without turning the entire floor into a collapsed disaster zone."
+
+[node name="Return_Pipe_West_Segment" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 3.8, 20.7)
+size = Vector3(20, 0.35, 0.35)
+material = SubResource("Material_operations")
+
+[node name="Return_Pipe_East_Segment" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, 3.8, 20.7)
+size = Vector3(14.5, 0.35, 0.35)
+material = SubResource("Material_operations")
+
+[node name="West_Broken_Drop" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.2, 20.7)
+size = Vector3(0.35, 1.2, 0.35)
+material = SubResource("Material_warning")
+
+[node name="East_Broken_Drop" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 3.2, 20.7)
+size = Vector3(0.35, 1.2, 0.35)
+material = SubResource("Material_warning")
+
+[node name="Leak_Spray" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 2.55, 20.25)
+size = Vector3(1.2, 0.14, 0.7)
+material = SubResource("Material_water")
+
+[node name="Leak_Stream" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 1.05, 19.5)
+size = Vector3(0.22, 3.1, 0.22)
+material = SubResource("Material_water")
+
+[node name="Pump_02_Leak_Puddle" type="CSGBox3D" parent="Secondary_Infrastructure/Damaged_Return_Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0.025, 16.05)
+size = Vector3(1.8, 0.05, 0.8)
+material = SubResource("Material_water")
+
+[node name="Emergency_Service_Annex" type="Node3D" parent="." unique_id=162326749]
+editor_description = "Sealed placeholder for a future vertical emergency route. Its exact connection to the upper floor is intentionally deferred."
+
+[node name="Sealed_Emergency_Shaft" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=1521576120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 3.6, 0)
+use_collision = true
+size = Vector3(3.2, 7.2, 5)
+material = SubResource("Material_pit")
+
+[node name="Emergency_Shaft_Door" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=1531267120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.34, 2.1, 0)
+use_collision = true
+size = Vector3(0.12, 4.2, 3.2)
+material = SubResource("Material_warning")
+
+[node name="Emergency_Access_Console" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=147999307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58.6, 1.1, -3.4)
+use_collision = true
+size = Vector3(1, 2.2, 1.4)
+material = SubResource("Material_operations")
+
+[node name="Emergency_Access_Display" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=1690889705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58.06, 1.35, -3.4)
+size = Vector3(0.08, 0.9, 0.8)
+material = SubResource("Material_warning")
+
+[node name="Service_Locker_North" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=49721482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.2, 1.25, -11.05)
+use_collision = true
+size = Vector3(3, 2.5, 1.6)
+material = SubResource("Material_machinery")
+
+[node name="Service_Locker_South" type="CSGBox3D" parent="Emergency_Service_Annex" unique_id=14058135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.2, 1.25, 11.05)
+use_collision = true
+size = Vector3(3, 2.5, 1.6)
+material = SubResource("Material_machinery")
+
+[node name="Door_Sockets" type="Node3D" parent="." unique_id=153033837]
+editor_description = "Placement markers only. Door art and gameplay logic are deferred."
+
+[node name="Elevator_Landing_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1895458436]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -11.5, 0, 0)
+
+[node name="Emergency_Route_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1332187694]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -59.34, 0, 0)
+
+[node name="Lighting_Blockout" type="Node3D" parent="." unique_id=92768837]
+editor_description = "Temporary orientation lighting only. Final lighting is deferred."
+
+[node name="Entry_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1936082851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 5.8, 0)
+light_color = Color(0.35, 0.66, 0.88, 1)
+omni_range = 10.0
+
+[node name="Reservoir_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1573523111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 5.8, 0)
+light_color = Color(0.16, 0.64, 0.8, 1)
+light_energy = 1.35
+omni_range = 15.0
+
+[node name="North_Filtration_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=501625067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.8, -16)
+light_color = Color(0.3, 0.68, 0.86, 1)
+omni_range = 12.0
+
+[node name="South_Pump_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1586210567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.8, 14)
+light_color = Color(0.82, 0.42, 0.14, 1)
+light_energy = 0.9
+omni_range = 12.0
+
+[node name="Emergency_Annex_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1692313299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 5.8, 0)
+light_color = Color(0.84, 0.2, 0.08, 1)
+light_energy = 0.85
+omni_range = 9.0

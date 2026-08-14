@@ -54,4 +54,3 @@ invite-flow из библиотеки нужен собственный Steamwor
 
 Подробности сети: `docs/technical/steam_networking.md`.
 Предметы, батарейки и генератор: `docs/technical/item_system.md`.
-Сетевой переход в V3: `docs/technical/v3_network_transition.md`.

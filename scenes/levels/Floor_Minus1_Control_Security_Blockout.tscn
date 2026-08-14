@@ -1,0 +1,1645 @@
+[gd_scene format=3 uid="uid://bbuu44pf3d8rd"]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.3, 0.34, 0.38, 1)
+metallic = 0.2
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="Material_structure"]
+albedo_color = Color(0.68, 0.71, 0.74, 1)
+metallic = 0.22
+roughness = 0.67
+
+[sub_resource type="StandardMaterial3D" id="Material_security_glass"]
+transparency = 1
+albedo_color = Color(0.42, 0.64, 0.72, 0.38)
+metallic = 0.08
+roughness = 0.16
+
+[sub_resource type="StandardMaterial3D" id="Material_security"]
+albedo_color = Color(0.9, 0.48, 0.1, 1)
+metallic = 0.22
+roughness = 0.56
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.28, 0.7, 0.92, 1)
+emission_enabled = true
+emission = Color(0.08, 0.5, 0.9, 1)
+emission_energy_multiplier = 1.7
+
+[sub_resource type="StandardMaterial3D" id="Material_data"]
+albedo_color = Color(0.2, 0.5, 0.53, 1)
+metallic = 0.2
+roughness = 0.56
+
+[sub_resource type="StandardMaterial3D" id="Material_warning"]
+albedo_color = Color(1, 0.38, 0.07, 1)
+emission_enabled = true
+emission = Color(0.92, 0.14, 0.02, 1)
+emission_energy_multiplier = 1.35
+
+[sub_resource type="StandardMaterial3D" id="Material_emergency"]
+albedo_color = Color(0.72, 0.24, 0.14, 1)
+metallic = 0.16
+roughness = 0.62
+
+[sub_resource type="StandardMaterial3D" id="Material_operations"]
+albedo_color = Color(0.28, 0.52, 0.68, 1)
+metallic = 0.18
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="Material_offline"]
+albedo_color = Color(0.16, 0.18, 0.2, 1)
+metallic = 0.08
+roughness = 0.8
+
+[node name="Floor_Minus1_Control_Security_Blockout" type="Node3D" unique_id=1893479038]
+editor_description = "Floor -1 control and security level. After the compact elevator checkpoint, circulation splits into north and south branches around a protected network core, then rejoins before the faceted command center. No living, medical, scientific, generator, garage or ordinary storage functions are repeated from Floor 0."
+
+[node name="Structure" type="Node3D" parent="." unique_id=156630140]
+
+[node name="Floors" type="Node3D" parent="Structure" unique_id=1708366279]
+
+[node name="Main_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=662148550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.15, 0)
+use_collision = true
+size = Vector3(40, 0.3, 36)
+material = SubResource("Material_floor")
+
+[node name="Entry_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=1414313252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.25, -0.15, 0)
+use_collision = true
+size = Vector3(9.5, 0.3, 28)
+material = SubResource("Material_floor")
+
+[node name="Command_Wing_Floor" type="CSGBox3D" parent="Structure/Floors" unique_id=2059932155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, -0.15, 0)
+use_collision = true
+size = Vector3(13, 0.3, 20)
+material = SubResource("Material_floor")
+
+[node name="Ceilings" type="Node3D" parent="Structure" unique_id=979230393]
+editor_description = "Temporary blockout ceilings. Hide this node while editing the plan from above."
+
+[node name="Main_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=1157842333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.55, 0)
+use_collision = true
+size = Vector3(40, 0.3, 36)
+material = SubResource("Material_structure")
+
+[node name="Entry_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=1761047539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5.55, 0)
+use_collision = true
+size = Vector3(8, 0.3, 28)
+material = SubResource("Material_structure")
+
+[node name="Command_Wing_Ceiling" type="CSGBox3D" parent="Structure/Ceilings" unique_id=1349497610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 5.55, 0)
+use_collision = true
+size = Vector3(13, 0.3, 20)
+material = SubResource("Material_structure")
+
+[node name="Perimeter_Walls" type="Node3D" parent="Structure" unique_id=378511773]
+
+[node name="Main_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=378693408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.7, -14)
+use_collision = true
+size = Vector3(8, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Branch_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=905502885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.7, -18)
+use_collision = true
+size = Vector3(40, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Main_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1699188572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.7, 14)
+use_collision = true
+size = Vector3(8, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Branch_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=16276227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.7, 18)
+use_collision = true
+size = Vector3(40, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_Wall_North" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=579970356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2.7, -8.625)
+use_collision = true
+size = Vector3(0.3, 5.4, 10.75)
+material = SubResource("Material_structure")
+
+[node name="East_Wall_South" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1787097895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2.7, 8.625)
+use_collision = true
+size = Vector3(0.3, 5.4, 10.75)
+material = SubResource("Material_structure")
+
+[node name="East_Elevator_Header" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=301025577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4.7, 0)
+use_collision = true
+size = Vector3(0.3, 1.4, 6.5)
+material = SubResource("Material_structure")
+
+[node name="North_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1018576772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, -12)
+use_collision = true
+size = Vector3(0.3, 5.4, 12)
+material = SubResource("Material_structure")
+
+[node name="South_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1063884868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, 12)
+use_collision = true
+size = Vector3(0.3, 5.4, 12)
+material = SubResource("Material_structure")
+
+[node name="Entry_North_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1381017622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, -16)
+use_collision = true
+size = Vector3(0.3, 5.4, 4)
+material = SubResource("Material_structure")
+
+[node name="Entry_South_Step_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=694282666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, 16)
+use_collision = true
+size = Vector3(0.3, 5.4, 4)
+material = SubResource("Material_structure")
+
+[node name="Command_North_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=531574497]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 2.7, -10)
+use_collision = true
+size = Vector3(5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Command_South_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1977936402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 2.7, 10)
+use_collision = true
+size = Vector3(5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Command_West_Wall" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1724773947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69, 2.7, 0)
+use_collision = true
+size = Vector3(0.3, 5.4, 12)
+material = SubResource("Material_structure")
+
+[node name="Command_North_East_Chamfer" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1289176332]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -58, 2.7, -8)
+use_collision = true
+size = Vector3(5.65685, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Command_North_West_Chamfer" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1565660774]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -67, 2.7, -8)
+use_collision = true
+size = Vector3(5.65685, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Command_South_East_Chamfer" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=943744145]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -58, 2.7, 8)
+use_collision = true
+size = Vector3(5.65685, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Command_South_West_Chamfer" type="CSGBox3D" parent="Structure/Perimeter_Walls" unique_id=1964270189]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -67, 2.7, 8)
+use_collision = true
+size = Vector3(5.65685, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Elevator_Landing_Connector" type="Node3D" parent="Structure" unique_id=486097435]
+editor_description = "One-metre structural sleeve joining Floor -1 directly to the elevator portal. The integrated floor continues beneath it to the cabin threshold; no separate landing platform is used."
+
+[node name="North_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=1377608075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.7, -3.25)
+use_collision = true
+size = Vector3(1, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=127655340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.7, 3.25)
+use_collision = true
+size = Vector3(1, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Header" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=326414633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 4.7, 0)
+use_collision = true
+size = Vector3(1, 1.4, 6.5)
+material = SubResource("Material_structure")
+
+[node name="Elevator_Checkpoint" type="Node3D" parent="." unique_id=240114576]
+editor_description = "Compact controlled arrival zone. Players leave the short landing, pass two side clearance kiosks and immediately see the illuminated command display at the far end of the control spine."
+
+[node name="Lobby_North_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=299077891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.65, 2.7, -5)
+use_collision = true
+size = Vector3(2.7, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Window_West_Column" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=2052177432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.425, 2.7, -5)
+use_collision = true
+size = Vector3(0.55, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Window_East_Column" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1789796780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.275, 2.7, -5)
+use_collision = true
+size = Vector3(0.55, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Window_Sill" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=801566579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 0.55, -5)
+use_collision = true
+size = Vector3(1.6, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Window_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=2005335358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 4.35, -5)
+use_collision = true
+size = Vector3(1.6, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Window_Glass" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=261962467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 2.2, -5)
+use_collision = true
+size = Vector3(1.6, 2.2, 0.08)
+material = SubResource("Material_security_glass")
+
+[node name="Lobby_North_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=407123610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.35, -5)
+use_collision = true
+size = Vector3(2.6, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Lobby_South_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1812938111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.65, 2.7, 5)
+use_collision = true
+size = Vector3(2.7, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Lobby_South_Wall_East" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1903184775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 2.7, 5)
+use_collision = true
+size = Vector3(2.7, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Lobby_South_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1114070996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.35, 5)
+use_collision = true
+size = Vector3(2.6, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Lobby_West_Wall_North" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=204354903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, -3.6)
+use_collision = true
+size = Vector3(0.3, 5.4, 2.8)
+material = SubResource("Material_structure")
+
+[node name="Lobby_West_Wall_South" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1837976983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, 3.6)
+use_collision = true
+size = Vector3(0.3, 5.4, 2.8)
+material = SubResource("Material_structure")
+
+[node name="Lobby_West_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=468348148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.35, 0)
+use_collision = true
+size = Vector3(0.3, 2.1, 4.4)
+material = SubResource("Material_structure")
+
+[node name="North_Clearance_Kiosk" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=882576411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0.7, -3.65)
+use_collision = true
+size = Vector3(0.45, 1.4, 0.7)
+material = SubResource("Material_security")
+
+[node name="South_Clearance_Kiosk" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1715087769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0.7, 3.65)
+use_collision = true
+size = Vector3(0.45, 1.4, 0.7)
+material = SubResource("Material_security")
+
+[node name="North_Clearance_Display" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=516075587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.95, 0.88, -3.65)
+size = Vector3(0.05, 0.46, 0.42)
+material = SubResource("Material_screen")
+
+[node name="South_Clearance_Display" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1250687015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.95, 0.88, 3.65)
+size = Vector3(0.05, 0.46, 0.42)
+material = SubResource("Material_screen")
+
+[node name="Control_Spine" type="Node3D" parent="." unique_id=715627057]
+editor_description = "Room-front walls for the split north and south circulation branches. The former straight control spine is intentionally blocked by the protected network core."
+
+[node name="North_Wall" type="Node3D" parent="Control_Spine" unique_id=1917672890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="East_Segment" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=1948959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 2.7, -2.2)
+use_collision = true
+size = Vector3(5.5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Middle_Segment" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=252812017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2.7, -2.2)
+use_collision = true
+size = Vector3(10, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_Segment" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=371512319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 2.7, -2.2)
+use_collision = true
+size = Vector3(11, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Far_West_Segment" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=1669941034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.75, 2.7, -2.2)
+use_collision = true
+size = Vector3(4.5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Surveillance_Door_Header" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=742072796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4.35, -2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Record_Gallery_Door_Header" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=251302265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4.35, -2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Data_Vault_Door_Header" type="CSGBox3D" parent="Control_Spine/North_Wall" unique_id=76695198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 4.35, -2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Wall" type="Node3D" parent="Control_Spine" unique_id=1209887359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="East_Segment" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=2136939483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 2.7, 2.2)
+use_collision = true
+size = Vector3(5.5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Middle_Segment" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=2031774111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2.7, 2.2)
+use_collision = true
+size = Vector3(10, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_Segment" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=2088838559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 2.7, 2.2)
+use_collision = true
+size = Vector3(11, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Far_West_Segment" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=834538920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.75, 2.7, 2.2)
+use_collision = true
+size = Vector3(4.5, 5.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Emergency_Door_Header" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=472910972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4.35, 2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Response_Gallery_Door_Header" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=2072038134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 4.35, 2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Access_Systems_Door_Header" type="CSGBox3D" parent="Control_Spine/South_Wall" unique_id=1982507388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 4.35, 2.2)
+use_collision = true
+size = Vector3(3, 2.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Protected_Network_Core" type="Node3D" parent="." unique_id=879964638]
+editor_description = "Sealed octagonal infrastructure core. It blocks the former straight route, creates the north/south circulation split and provides controlled glimpses of the lower-floor network backbone through collision glass."
+
+[node name="North_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1230058589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.55, -2.7)
+use_collision = true
+size = Vector3(18, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="North_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=295741262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.5, -2.7)
+use_collision = true
+size = Vector3(18, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=636661960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.65, -2.7)
+use_collision = true
+size = Vector3(18, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1242005465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.55, 2.7)
+use_collision = true
+size = Vector3(18, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1456894717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.5, 2.7)
+use_collision = true
+size = Vector3(18, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=146998003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.65, 2.7)
+use_collision = true
+size = Vector3(18, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_North_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1880747914]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -24, 0.55, -1.35)
+use_collision = true
+size = Vector3(4.826, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_North_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1509231277]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -24, 2.5, -1.35)
+use_collision = true
+size = Vector3(4.826, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="East_North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=2132987929]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -24, 4.65, -1.35)
+use_collision = true
+size = Vector3(4.826, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_South_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1537395147]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -24, 0.55, 1.35)
+use_collision = true
+size = Vector3(4.826, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_South_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=846957977]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -24, 2.5, 1.35)
+use_collision = true
+size = Vector3(4.826, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="East_South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=394031153]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -24, 4.65, 1.35)
+use_collision = true
+size = Vector3(4.826, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_North_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1953174208]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -46, 0.55, -1.35)
+use_collision = true
+size = Vector3(4.826, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_North_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1836144667]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -46, 2.5, -1.35)
+use_collision = true
+size = Vector3(4.826, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="West_North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=971463344]
+transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -46, 4.65, -1.35)
+use_collision = true
+size = Vector3(4.826, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_South_Sill" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1926594847]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -46, 0.55, 1.35)
+use_collision = true
+size = Vector3(4.826, 1.1, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_South_Glass" type="CSGBox3D" parent="Protected_Network_Core" unique_id=790543003]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -46, 2.5, 1.35)
+use_collision = true
+size = Vector3(4.826, 2.8, 0.12)
+material = SubResource("Material_security_glass")
+
+[node name="West_South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1714107610]
+transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -46, 4.65, 1.35)
+use_collision = true
+size = Vector3(4.826, 1.5, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Core_Backbone_01" type="CSGBox3D" parent="Protected_Network_Core" unique_id=391088463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 1.7, 0)
+size = Vector3(1.4, 3.4, 1.4)
+material = SubResource("Material_data")
+
+[node name="Core_Backbone_02" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1607567312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1.7, 0)
+size = Vector3(1.4, 3.4, 1.4)
+material = SubResource("Material_data")
+
+[node name="Core_Backbone_03" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1128216717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1.7, 0)
+size = Vector3(1.4, 3.4, 1.4)
+material = SubResource("Material_data")
+
+[node name="Core_North_Status_01" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1588129665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, -0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Core_North_Status_02" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1392435241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2, -0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Core_North_Status_03" type="CSGBox3D" parent="Protected_Network_Core" unique_id=462052658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Core_South_Status_01" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1425724886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Core_South_Status_02" type="CSGBox3D" parent="Protected_Network_Core" unique_id=2086696735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2, 0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Core_South_Status_03" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1641557611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 0.74)
+size = Vector3(0.8, 1.2, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Core_Ceiling_Backbone" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1290775597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.34, 0)
+size = Vector3(18, 0.12, 0.5)
+material = SubResource("Material_data")
+
+[node name="Security_Post" type="Node3D" parent="." unique_id=1143109229]
+editor_description = "Guard post and personnel-clearance station. This is not a reception area."
+
+[node name="West_Divider" type="CSGBox3D" parent="Security_Post" unique_id=251327482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, -9.5)
+use_collision = true
+size = Vector3(0.3, 5.4, 9)
+material = SubResource("Material_structure")
+
+[node name="Guard_Console" type="CSGBox3D" parent="Security_Post" unique_id=1896679087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, -8)
+use_collision = true
+size = Vector3(4, 1, 1.1)
+material = SubResource("Material_security")
+
+[node name="Guard_Access_Terminal" type="CSGBox3D" parent="Security_Post" unique_id=654979081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.25, -7.49)
+size = Vector3(2.1, 0.7, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Emergency_Lockdown_Button" type="CSGBox3D" parent="Security_Post" unique_id=436954389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.55, 1.06, -8)
+size = Vector3(0.34, 0.12, 0.34)
+material = SubResource("Material_warning")
+
+[node name="Emergency_Equipment_Cabinet" type="CSGBox3D" parent="Security_Post" unique_id=2128909693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3, 1.1, -11.2)
+use_collision = true
+size = Vector3(1.1, 2.2, 1.6)
+material = SubResource("Material_emergency")
+
+[node name="Emergency_Equipment_Status" type="CSGBox3D" parent="Security_Post" unique_id=191350139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.72, 1.45, -11.2)
+size = Vector3(0.06, 0.7, 0.8)
+material = SubResource("Material_warning")
+
+[node name="Guard_Display_Backboard" type="CSGBox3D" parent="Security_Post" unique_id=1589601906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.6, -13.79)
+size = Vector3(5.5, 2.2, 0.12)
+material = SubResource("Material_operations")
+
+[node name="Guard_Display_01" type="CSGBox3D" parent="Security_Post" unique_id=439360434]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 2.6, -13.69)
+size = Vector3(1.2, 1.3, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Guard_Display_02" type="CSGBox3D" parent="Security_Post" unique_id=1468562071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.6, -13.69)
+size = Vector3(1.2, 1.3, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Guard_Display_03" type="CSGBox3D" parent="Security_Post" unique_id=2145719978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 2.6, -13.69)
+size = Vector3(1.2, 1.3, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Communications_Uplink" type="Node3D" parent="." unique_id=711111178]
+editor_description = "External and inter-floor communications. Distinct from the generator and technical workshop on Floor 0."
+
+[node name="West_Divider" type="CSGBox3D" parent="Communications_Uplink" unique_id=798044367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, 9.5)
+use_collision = true
+size = Vector3(0.3, 5.4, 9)
+material = SubResource("Material_structure")
+
+[node name="Uplink_Rack_East" type="CSGBox3D" parent="Communications_Uplink" unique_id=1119104296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 1.35, 11.8)
+use_collision = true
+size = Vector3(1.4, 2.7, 3.1)
+material = SubResource("Material_data")
+
+[node name="Uplink_Rack_West" type="CSGBox3D" parent="Communications_Uplink" unique_id=1308049148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8, 1.35, 11.8)
+use_collision = true
+size = Vector3(1.4, 2.7, 3.1)
+material = SubResource("Material_data")
+
+[node name="Communications_Console" type="CSGBox3D" parent="Communications_Uplink" unique_id=2087883943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.75, 0.55, 7.4)
+use_collision = true
+size = Vector3(1.2, 1.1, 3.4)
+material = SubResource("Material_operations")
+
+[node name="Communications_Console_Display" type="CSGBox3D" parent="Communications_Uplink" unique_id=281287947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.39, 1.35, 7.4)
+size = Vector3(0.08, 0.7, 2.2)
+material = SubResource("Material_screen")
+
+[node name="Voice_Diagnostics_Console" type="CSGBox3D" parent="Communications_Uplink" unique_id=1101052222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.25, 0.55, 7.4)
+use_collision = true
+size = Vector3(1.2, 1.1, 3.4)
+material = SubResource("Material_operations")
+
+[node name="Voice_Diagnostics_Display" type="CSGBox3D" parent="Communications_Uplink" unique_id=19065142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.61, 1.35, 7.4)
+size = Vector3(0.08, 0.7, 2.2)
+material = SubResource("Material_warning")
+
+[node name="Signal_Status_Display" type="CSGBox3D" parent="Communications_Uplink" unique_id=467864465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.2, 13.8)
+size = Vector3(4.8, 0.8, 0.1)
+material = SubResource("Material_warning")
+
+[node name="Uplink_Rack_Status_East" type="CSGBox3D" parent="Communications_Uplink" unique_id=859859224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 1.7, 10.21)
+size = Vector3(0.8, 1.1, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Uplink_Rack_Status_West" type="CSGBox3D" parent="Communications_Uplink" unique_id=438255626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8, 1.7, 10.21)
+size = Vector3(0.8, 1.1, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Emergency_Beacon_Controller" type="CSGBox3D" parent="Communications_Uplink" unique_id=1547136364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.2, 13.25)
+use_collision = true
+size = Vector3(1.8, 2.4, 1.2)
+material = SubResource("Material_security")
+
+[node name="Emergency_Beacon_Status" type="CSGBox3D" parent="Communications_Uplink" unique_id=1983026603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.55, 12.61)
+size = Vector3(1.1, 0.8, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Uplink_Ceiling_Services" type="Node3D" parent="Communications_Uplink" unique_id=1702396988]
+
+[node name="Cross_Bus" type="CSGBox3D" parent="Communications_Uplink/Uplink_Ceiling_Services" unique_id=1394962744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5.34, 10)
+size = Vector3(7, 0.12, 0.35)
+material = SubResource("Material_data")
+
+[node name="East_Branch" type="CSGBox3D" parent="Communications_Uplink/Uplink_Ceiling_Services" unique_id=1786587043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 5.34, 11.8)
+size = Vector3(0.35, 0.12, 3.6)
+material = SubResource("Material_data")
+
+[node name="West_Branch" type="CSGBox3D" parent="Communications_Uplink/Uplink_Ceiling_Services" unique_id=469017887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8, 5.34, 11.8)
+size = Vector3(0.35, 0.12, 3.6)
+material = SubResource("Material_data")
+
+[node name="Surveillance_Center" type="Node3D" parent="." unique_id=1242932973]
+editor_description = "Live security monitoring room. The central 4.5 m aisle remains clear between two primary operator stations; a third supervisor station is attached to the lower-floor status wall. The main video wall contains nine channels."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Data_Vault_Divider" type="CSGBox3D" parent="Surveillance_Center" unique_id=396965452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.7, -8.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 11.8)
+material = SubResource("Material_structure")
+
+[node name="Video_Wall_Backboard" type="CSGBox3D" parent="Surveillance_Center" unique_id=1610715359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2.7, -13.79)
+size = Vector3(12, 4, 0.12)
+material = SubResource("Material_operations")
+
+[node name="Video_Wall_Left" type="CSGBox3D" parent="Surveillance_Center" unique_id=1137539972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.75, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Video_Wall_Center" type="CSGBox3D" parent="Surveillance_Center" unique_id=1735543603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 3.75, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Video_Wall_Right" type="CSGBox3D" parent="Surveillance_Center" unique_id=1450003922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3.75, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Video_Wall_Bottom_Left" type="CSGBox3D" parent="Surveillance_Center" unique_id=1347416813]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2.7, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Video_Wall_Bottom_Center_Offline" type="CSGBox3D" parent="Surveillance_Center" unique_id=92398882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2.7, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_offline")
+
+[node name="Video_Wall_Bottom_Right" type="CSGBox3D" parent="Surveillance_Center" unique_id=785116622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 2.7, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Video_Wall_Lower_Left" type="CSGBox3D" parent="Surveillance_Center" unique_id=555152281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 1.65, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Video_Wall_Lower_Center_Offline" type="CSGBox3D" parent="Surveillance_Center" unique_id=1825796258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.65, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_offline")
+
+[node name="Video_Wall_Lower_Right" type="CSGBox3D" parent="Surveillance_Center" unique_id=1492555992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.65, -13.69)
+size = Vector3(3.2, 0.78, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Camera_Feed_Failure_Bar" type="CSGBox3D" parent="Surveillance_Center" unique_id=763374735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 1.07, -13.69)
+size = Vector3(8.8, 0.12, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Operator_Console_01" type="CSGBox3D" parent="Surveillance_Center" unique_id=146734790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.5, -9)
+use_collision = true
+size = Vector3(3.5, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Operator_Console_02" type="CSGBox3D" parent="Surveillance_Center" unique_id=1326797587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.5, -9)
+use_collision = true
+size = Vector3(3.5, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Operator_Display_01" type="CSGBox3D" parent="Surveillance_Center" unique_id=232160576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 1.25, -9.51)
+size = Vector3(2.1, 0.7, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Operator_Display_02" type="CSGBox3D" parent="Surveillance_Center" unique_id=1646467572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.25, -9.51)
+size = Vector3(2.1, 0.7, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Operator_Seat_01" type="CSGBox3D" parent="Surveillance_Center" unique_id=1794866207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.35, -7.8)
+use_collision = true
+size = Vector3(1, 0.7, 0.8)
+material = SubResource("Material_operations")
+
+[node name="Operator_Seat_02" type="CSGBox3D" parent="Surveillance_Center" unique_id=570478117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.35, -7.8)
+use_collision = true
+size = Vector3(1, 0.7, 0.8)
+material = SubResource("Material_operations")
+
+[node name="Supervisor_Console" type="CSGBox3D" parent="Surveillance_Center" unique_id=517566029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.2, 0.5, -5.8)
+use_collision = true
+size = Vector3(1.3, 1, 3.4)
+material = SubResource("Material_security")
+
+[node name="Supervisor_Display" type="CSGBox3D" parent="Surveillance_Center" unique_id=1437480641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.51, 1.35, -5.8)
+size = Vector3(0.08, 0.8, 2.2)
+material = SubResource("Material_screen")
+
+[node name="Supervisor_Seat" type="CSGBox3D" parent="Surveillance_Center" unique_id=314325207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.75, 0.35, -5.8)
+use_collision = true
+size = Vector3(1, 0.7, 0.9)
+material = SubResource("Material_operations")
+
+[node name="Lower_Floors_Status_Backboard" type="CSGBox3D" parent="Surveillance_Center" unique_id=173928840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.79, 2.5, -5.8)
+size = Vector3(0.12, 2.4, 4.5)
+material = SubResource("Material_operations")
+
+[node name="Lower_Floors_Status_Display" type="CSGBox3D" parent="Surveillance_Center" unique_id=2001173271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.69, 2.5, -5.8)
+size = Vector3(0.08, 1.7, 3.6)
+material = SubResource("Material_warning")
+
+[node name="Backup_Recorder_Console" type="CSGBox3D" parent="Surveillance_Center" unique_id=561851628]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.75, 0.55, -5.3)
+use_collision = true
+size = Vector3(1.2, 1.1, 2.5)
+material = SubResource("Material_data")
+
+[node name="Backup_Recorder_Status" type="CSGBox3D" parent="Surveillance_Center" unique_id=1951474002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.39, 1.35, -5.3)
+size = Vector3(0.08, 0.7, 1.5)
+material = SubResource("Material_screen")
+
+[node name="Camera_Routing_Rack_North" type="CSGBox3D" parent="Surveillance_Center" unique_id=41350915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.65, 1.4, -12.25)
+use_collision = true
+size = Vector3(1, 2.8, 1.5)
+material = SubResource("Material_data")
+
+[node name="Camera_Routing_Rack_South" type="CSGBox3D" parent="Surveillance_Center" unique_id=253176807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.65, 1.4, -10.25)
+use_collision = true
+size = Vector3(1, 2.8, 1.5)
+material = SubResource("Material_data")
+
+[node name="Camera_Routing_Status_North" type="CSGBox3D" parent="Surveillance_Center" unique_id=1183183479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.19, 1.65, -12.25)
+size = Vector3(0.08, 0.8, 0.8)
+material = SubResource("Material_screen")
+
+[node name="Camera_Routing_Status_South" type="CSGBox3D" parent="Surveillance_Center" unique_id=1568588768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.19, 1.65, -10.25)
+size = Vector3(0.08, 0.8, 0.8)
+material = SubResource("Material_warning")
+
+[node name="Ceiling_Services" type="Node3D" parent="Surveillance_Center" unique_id=1361096042]
+
+[node name="West_Cable_Trunk" type="CSGBox3D" parent="Surveillance_Center/Ceiling_Services" unique_id=1103302977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 5.34, -8.2)
+size = Vector3(0.35, 0.12, 9.5)
+material = SubResource("Material_data")
+
+[node name="East_Cable_Trunk" type="CSGBox3D" parent="Surveillance_Center/Ceiling_Services" unique_id=824565816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 5.34, -8.2)
+size = Vector3(0.35, 0.12, 9.5)
+material = SubResource("Material_data")
+
+[node name="Video_Wall_Cable_Header" type="CSGBox3D" parent="Surveillance_Center/Ceiling_Services" unique_id=1205285901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 5.34, -12.8)
+size = Vector3(12, 0.12, 0.35)
+material = SubResource("Material_operations")
+
+[node name="Floor_Cable_Routes" type="Node3D" parent="Surveillance_Center" unique_id=1451008485]
+
+[node name="Operator_01_Cable_Route" type="CSGBox3D" parent="Surveillance_Center/Floor_Cable_Routes" unique_id=608179398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.025, -11.7)
+size = Vector3(0.35, 0.03, 4.3)
+material = SubResource("Material_data")
+
+[node name="Operator_02_Cable_Route" type="CSGBox3D" parent="Surveillance_Center/Floor_Cable_Routes" unique_id=875363456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.025, -11.7)
+size = Vector3(0.35, 0.03, 4.3)
+material = SubResource("Material_data")
+
+[node name="Incident_Record_Gallery" type="Node3D" parent="." unique_id=946857448]
+editor_description = "Long review gallery between live surveillance and the protected data vault. It slows the transition from current events to restricted historical records without duplicating a generic office or archive."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Vault_Divider" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1455105445]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 2.7, -8.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 11.8)
+material = SubResource("Material_structure")
+
+[node name="Incident_Timeline_Backboard" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=366358540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 2.65, -13.79)
+size = Vector3(11, 2.2, 0.12)
+material = SubResource("Material_operations")
+
+[node name="Incident_Timeline_Display_East" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1983390590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 2.65, -13.69)
+size = Vector3(3.2, 1.35, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Incident_Timeline_Display_Center" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=224160217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 2.65, -13.69)
+size = Vector3(2.8, 1.35, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Incident_Timeline_Display_West" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=536555052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5, 2.65, -13.69)
+size = Vector3(3.2, 1.35, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Review_Console_East" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1926462450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8, 0.5, -7.5)
+use_collision = true
+size = Vector3(4, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Review_Console_West" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1331747493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2, 0.5, -7.5)
+use_collision = true
+size = Vector3(4, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Incident_Reconstruction_Table" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=2127429254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.45, -10.4)
+use_collision = true
+size = Vector3(6, 0.9, 1.8)
+material = SubResource("Material_operations")
+
+[node name="Incident_Reconstruction_Display" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1470426875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.93, -10.4)
+size = Vector3(5, 0.06, 1.2)
+material = SubResource("Material_screen")
+
+[node name="Record_Extraction_Tower" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=563465444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.3, 1.25, -5.2)
+use_collision = true
+size = Vector3(1.1, 2.5, 2.2)
+material = SubResource("Material_data")
+
+[node name="Record_Extraction_Status" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1016632422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.71, 1.55, -5.2)
+size = Vector3(0.08, 0.9, 1.2)
+material = SubResource("Material_warning")
+
+[node name="Incident_Ceiling_Bus" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=1471314254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 5.34, -10.4)
+size = Vector3(12, 0.12, 0.35)
+material = SubResource("Material_data")
+
+[node name="Incident_Table_Floor_Feed" type="CSGBox3D" parent="Incident_Record_Gallery" unique_id=150935240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.025, -12.1)
+size = Vector3(0.35, 0.03, 3.4)
+material = SubResource("Material_data")
+
+[node name="Secure_Data_Vault" type="Node3D" parent="." unique_id=525385897]
+editor_description = "Protected evidence and recording storage, not a general-purpose warehouse."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Evidence_Core_01" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=683988941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.2, 1.4, -9.5)
+use_collision = true
+size = Vector3(1.1, 2.8, 6)
+material = SubResource("Material_data")
+
+[node name="Evidence_Core_02" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1741126225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 1.4, -9.5)
+use_collision = true
+size = Vector3(1.1, 2.8, 6)
+material = SubResource("Material_data")
+
+[node name="Evidence_Core_03" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=569873741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 1.4, -9.5)
+use_collision = true
+size = Vector3(1.1, 2.8, 6)
+material = SubResource("Material_data")
+
+[node name="Vault_Audit_Console" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1910862945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.5, -4.2)
+use_collision = true
+size = Vector3(3.2, 1, 0.9)
+material = SubResource("Material_operations")
+
+[node name="Vault_Audit_Display" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=302314843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1.2, -4.61)
+size = Vector3(2.2, 0.6, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Evidence_Core_Status_01" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1968869690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.2, 1.65, -6.46)
+size = Vector3(0.7, 1.1, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Evidence_Core_Status_02" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1902078812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 1.65, -6.46)
+size = Vector3(0.7, 1.1, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Evidence_Core_Status_03" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=864981293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 1.65, -6.46)
+size = Vector3(0.7, 1.1, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Encryption_Key_Terminal" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=676418389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.3, 1.1, -4.8)
+use_collision = true
+size = Vector3(1.1, 2.2, 2)
+material = SubResource("Material_security")
+
+[node name="Encryption_Key_Status" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=578949645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.71, 1.45, -4.8)
+size = Vector3(0.08, 0.8, 1.1)
+material = SubResource("Material_warning")
+
+[node name="Vault_Suppression_Bus" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1333513273]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 5.34, -9.5)
+size = Vector3(10, 0.12, 0.4)
+material = SubResource("Material_emergency")
+
+[node name="Vault_Suppression_Branch_01" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=291164244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.2, 5.34, -9.5)
+size = Vector3(0.25, 0.12, 6.5)
+material = SubResource("Material_emergency")
+
+[node name="Vault_Suppression_Branch_02" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1416502147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 5.34, -9.5)
+size = Vector3(0.25, 0.12, 6.5)
+material = SubResource("Material_emergency")
+
+[node name="Vault_Suppression_Branch_03" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1611356836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 5.34, -9.5)
+size = Vector3(0.25, 0.12, 6.5)
+material = SubResource("Material_emergency")
+
+[node name="Emergency_Coordination" type="Node3D" parent="." unique_id=1198849373]
+editor_description = "Incident response room for evacuation and crisis coordination, not a generic meeting room."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Access_Systems_Divider" type="CSGBox3D" parent="Emergency_Coordination" unique_id=937131840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.7, 8.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 11.8)
+material = SubResource("Material_structure")
+
+[node name="Incident_Map_Backboard" type="CSGBox3D" parent="Emergency_Coordination" unique_id=1049858608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 2.6, 13.79)
+size = Vector3(7.5, 2.2, 0.12)
+material = SubResource("Material_emergency")
+
+[node name="Incident_Map_Display" type="CSGBox3D" parent="Emergency_Coordination" unique_id=265893532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 2.6, 13.69)
+size = Vector3(6.4, 1.35, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Crisis_Table" type="CSGBox3D" parent="Emergency_Coordination" unique_id=2008220779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.45, 8.5)
+use_collision = true
+size = Vector3(4.8, 0.9, 2)
+material = SubResource("Material_operations")
+
+[node name="Crisis_Table_Display" type="CSGBox3D" parent="Emergency_Coordination" unique_id=493838403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.93, 8.5)
+size = Vector3(3.9, 0.06, 1.3)
+material = SubResource("Material_screen")
+
+[node name="Crisis_Seat_North" type="CSGBox3D" parent="Emergency_Coordination" unique_id=614263081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.45, 6.85)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="Crisis_Seat_South" type="CSGBox3D" parent="Emergency_Coordination" unique_id=546864547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.45, 10.15)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="West_Response_Console" type="CSGBox3D" parent="Emergency_Coordination" unique_id=675328013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.2, 0.55, 6.2)
+use_collision = true
+size = Vector3(1.3, 1.1, 2.8)
+material = SubResource("Material_emergency")
+
+[node name="West_Response_Display" type="CSGBox3D" parent="Emergency_Coordination" unique_id=1879300232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.51, 1.15, 6.2)
+size = Vector3(0.08, 0.8, 2.05)
+material = SubResource("Material_warning")
+
+[node name="Evacuation_Console" type="CSGBox3D" parent="Emergency_Coordination" unique_id=1943569896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3, 0.65, 11.5)
+use_collision = true
+size = Vector3(1.1, 1.3, 3)
+material = SubResource("Material_emergency")
+
+[node name="Evacuation_Console_Display" type="CSGBox3D" parent="Emergency_Coordination" unique_id=822767147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.89, 1.3, 11.5)
+size = Vector3(0.08, 0.8, 2.2)
+material = SubResource("Material_warning")
+
+[node name="Emergency_Route_Ceiling_Bus" type="CSGBox3D" parent="Emergency_Coordination" unique_id=1710695051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 5.34, 8.1)
+size = Vector3(13.4, 0.12, 0.35)
+material = SubResource("Material_emergency")
+
+[node name="Emergency_Route_Ceiling_Branch" type="CSGBox3D" parent="Emergency_Coordination" unique_id=997247765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 5.34, 11)
+size = Vector3(0.35, 0.12, 5.8)
+material = SubResource("Material_emergency")
+
+[node name="Response_Coordination_Gallery" type="Node3D" parent="." unique_id=1909462316]
+editor_description = "Long inter-floor response gallery. Status consoles and evacuation boards create a second deliberate traversal layer before access-control systems."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Access_Control_Divider" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=924163558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 2.7, 8.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 11.8)
+material = SubResource("Material_structure")
+
+[node name="Response_Status_Backboard" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=1714629706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 2.65, 13.79)
+size = Vector3(11, 2.2, 0.12)
+material = SubResource("Material_emergency")
+
+[node name="Response_Status_Display_East" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=598646029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 2.65, 13.69)
+size = Vector3(3.2, 1.35, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Response_Status_Display_Center" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=2101734370]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 2.65, 13.69)
+size = Vector3(2.8, 1.35, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Response_Status_Display_West" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=730600921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5, 2.65, 13.69)
+size = Vector3(3.2, 1.35, 0.08)
+material = SubResource("Material_warning")
+
+[node name="Coordination_Console_East" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=1506576515]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8, 0.5, 7.5)
+use_collision = true
+size = Vector3(4, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Coordination_Console_West" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=1783806388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2, 0.5, 7.5)
+use_collision = true
+size = Vector3(4, 1, 1.1)
+material = SubResource("Material_operations")
+
+[node name="Coordination_Console_East_Display" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=749044547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8, 1.05, 8.09)
+size = Vector3(3.2, 0.7, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Coordination_Console_West_Display" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=384181036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2, 1.05, 8.09)
+size = Vector3(3.2, 0.7, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Interfloor_Response_Table" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=734967886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.45, 10.45)
+use_collision = true
+size = Vector3(6, 0.9, 1.8)
+material = SubResource("Material_operations")
+
+[node name="Interfloor_Response_Display" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=2121680625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.93, 10.45)
+size = Vector3(5, 0.06, 1.1)
+material = SubResource("Material_warning")
+
+[node name="Response_Routing_Tower" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=1752214424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.3, 1.3, 4.8)
+use_collision = true
+size = Vector3(1.1, 2.6, 2.2)
+material = SubResource("Material_security")
+
+[node name="Response_Routing_Tower_Display" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=451005351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.71, 1.5, 4.8)
+size = Vector3(0.08, 1.4, 1.5)
+material = SubResource("Material_warning")
+
+[node name="Response_Ceiling_Bus" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=1168644961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 5.34, 10.5)
+size = Vector3(13.4, 0.12, 0.35)
+material = SubResource("Material_emergency")
+
+[node name="Response_Floor_Feed" type="CSGBox3D" parent="Response_Coordination_Gallery" unique_id=39807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.025, 6)
+size = Vector3(0.28, 0.03, 6.8)
+material = SubResource("Material_warning")
+
+[node name="Access_Control_Systems" type="Node3D" parent="." unique_id=1674965484]
+editor_description = "Controls clearance permissions for lower floors. It does not duplicate the elevator movement controller."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Controller_Cabinet_01" type="CSGBox3D" parent="Access_Control_Systems" unique_id=876183414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.2, 1.4, 12.9)
+use_collision = true
+size = Vector3(1.6, 2.8, 1.4)
+material = SubResource("Material_security")
+
+[node name="Controller_Cabinet_02" type="CSGBox3D" parent="Access_Control_Systems" unique_id=160377731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 1.4, 12.9)
+use_collision = true
+size = Vector3(1.6, 2.8, 1.4)
+material = SubResource("Material_security")
+
+[node name="Controller_Cabinet_03" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1023857510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 1.4, 12.9)
+use_collision = true
+size = Vector3(1.6, 2.8, 1.4)
+material = SubResource("Material_security")
+
+[node name="Authorization_Console" type="CSGBox3D" parent="Access_Control_Systems" unique_id=516724333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.55, 7.3)
+use_collision = true
+size = Vector3(4.2, 1.1, 1.2)
+material = SubResource("Material_operations")
+
+[node name="Authorization_Display" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1181620171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1.65, 7.82)
+size = Vector3(2.8, 1.2, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Controller_Status_01" type="CSGBox3D" parent="Access_Control_Systems" unique_id=738823763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.2, 1.65, 12.16)
+size = Vector3(1.1, 1.4, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Controller_Status_02" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1429497292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 1.65, 12.16)
+size = Vector3(1.1, 1.4, 0.08)
+material = SubResource("Material_screen")
+
+[node name="Controller_Status_03" type="CSGBox3D" parent="Access_Control_Systems" unique_id=590671795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 1.65, 12.16)
+size = Vector3(1.1, 1.4, 0.08)
+material = SubResource("Material_warning")
+
+[node name="West_Clearance_Verifier" type="CSGBox3D" parent="Access_Control_Systems" unique_id=226039218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.3, 1.1, 5)
+use_collision = true
+size = Vector3(1.1, 2.2, 2.2)
+material = SubResource("Material_security")
+
+[node name="West_Clearance_Verifier_Display" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1491959324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.71, 1.25, 5)
+size = Vector3(0.08, 1.25, 1.5)
+material = SubResource("Material_screen")
+
+[node name="East_Clearance_Verifier" type="CSGBox3D" parent="Access_Control_Systems" unique_id=250231150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.7, 1.1, 5)
+use_collision = true
+size = Vector3(1.1, 2.2, 2.2)
+material = SubResource("Material_security")
+
+[node name="East_Clearance_Verifier_Display" type="CSGBox3D" parent="Access_Control_Systems" unique_id=913847176]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.29, 1.25, 5)
+size = Vector3(0.08, 1.25, 1.5)
+material = SubResource("Material_screen")
+
+[node name="Access_Control_Ceiling_Bus" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1820929454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 5.34, 10)
+size = Vector3(11.4, 0.12, 0.35)
+material = SubResource("Material_screen")
+
+[node name="Access_Control_Ceiling_Trunk" type="CSGBox3D" parent="Access_Control_Systems" unique_id=1390986893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 5.34, 7.5)
+size = Vector3(0.35, 0.12, 5)
+material = SubResource("Material_screen")
+
+[node name="Command_Center" type="Node3D" parent="." unique_id=1685767426]
+editor_description = "Faceted primary focal room of Floor -1. The protected core hides the room from the elevator; the west status wall is revealed only after the north and south branches rejoin."
+
+[node name="Entrance_North_Wall" type="CSGBox3D" parent="Command_Center" unique_id=2125453854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, -4.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 3.8)
+material = SubResource("Material_structure")
+
+[node name="Entrance_South_Wall" type="CSGBox3D" parent="Command_Center" unique_id=1868241444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, 4.1)
+use_collision = true
+size = Vector3(0.3, 5.4, 3.8)
+material = SubResource("Material_structure")
+
+[node name="Entrance_Header" type="CSGBox3D" parent="Command_Center" unique_id=396313795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 4.35, 0)
+use_collision = true
+size = Vector3(0.3, 2.1, 4.4)
+material = SubResource("Material_structure")
+
+[node name="Primary_Status_Wall" type="CSGBox3D" parent="Command_Center" unique_id=1208177720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.79, 2.7, 0)
+size = Vector3(0.12, 2.6, 7.6)
+material = SubResource("Material_operations")
+
+[node name="Primary_Status_Display" type="CSGBox3D" parent="Command_Center" unique_id=1369375212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.69, 2.7, 0)
+size = Vector3(0.08, 1.8, 6.6)
+material = SubResource("Material_screen")
+
+[node name="Command_Table" type="CSGCylinder3D" parent="Command_Center" unique_id=389161568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 0.4, 0)
+use_collision = true
+radius = 2.1
+height = 0.8
+sides = 16
+material = SubResource("Material_operations")
+
+[node name="Command_Table_Display" type="CSGCylinder3D" parent="Command_Center" unique_id=909920293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 0.82, 0)
+radius = 1.45
+height = 0.06
+sides = 16
+material = SubResource("Material_screen")
+
+[node name="Command_Floor_Status_Disc" type="CSGCylinder3D" parent="Command_Center" unique_id=218637576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 0.025, 0)
+radius = 3.15
+height = 0.03
+sides = 24
+material = SubResource("Material_screen")
+
+[node name="North_Command_Console" type="CSGBox3D" parent="Command_Center" unique_id=787405105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 0.48, -7.2)
+use_collision = true
+size = Vector3(4.5, 0.96, 1)
+material = SubResource("Material_operations")
+
+[node name="South_Command_Console" type="CSGBox3D" parent="Command_Center" unique_id=1430355785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 0.48, 7.2)
+use_collision = true
+size = Vector3(4.5, 0.96, 1)
+material = SubResource("Material_operations")
+
+[node name="North_Command_Display" type="CSGBox3D" parent="Command_Center" unique_id=1037717890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 2.6, -9.8)
+size = Vector3(5.5, 1.6, 0.1)
+material = SubResource("Material_screen")
+
+[node name="South_Command_Display" type="CSGBox3D" parent="Command_Center" unique_id=1973879653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 2.6, 9.8)
+size = Vector3(5.5, 1.6, 0.1)
+material = SubResource("Material_screen")
+
+[node name="North_Command_Seat_West" type="CSGBox3D" parent="Command_Center" unique_id=2024497556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.7, 0.45, -6.25)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="North_Command_Seat_East" type="CSGBox3D" parent="Command_Center" unique_id=1964239825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.3, 0.45, -6.25)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="South_Command_Seat_West" type="CSGBox3D" parent="Command_Center" unique_id=821778292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.7, 0.45, 6.25)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="South_Command_Seat_East" type="CSGBox3D" parent="Command_Center" unique_id=1637061091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.3, 0.45, 6.25)
+use_collision = true
+size = Vector3(0.9, 0.9, 0.8)
+material = SubResource("Material_security")
+
+[node name="West_Command_Tower_North" type="CSGBox3D" parent="Command_Center" unique_id=990734656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.3, 1.4, -4.9)
+use_collision = true
+size = Vector3(1.1, 2.8, 2)
+material = SubResource("Material_operations")
+
+[node name="West_Command_Tower_North_Display" type="CSGBox3D" parent="Command_Center" unique_id=74496970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.71, 1.65, -4.9)
+size = Vector3(0.08, 1.55, 1.35)
+material = SubResource("Material_warning")
+
+[node name="West_Command_Tower_South" type="CSGBox3D" parent="Command_Center" unique_id=1150827493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.3, 1.4, 4.9)
+use_collision = true
+size = Vector3(1.1, 2.8, 2)
+material = SubResource("Material_operations")
+
+[node name="West_Command_Tower_South_Display" type="CSGBox3D" parent="Command_Center" unique_id=983102212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.71, 1.65, 4.9)
+size = Vector3(0.08, 1.55, 1.35)
+material = SubResource("Material_warning")
+
+[node name="Command_Ceiling_Cross_Long" type="CSGBox3D" parent="Command_Center" unique_id=1635624969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 5.34, 0)
+size = Vector3(10.8, 0.12, 0.4)
+material = SubResource("Material_operations")
+
+[node name="Command_Ceiling_Cross_Wide" type="CSGBox3D" parent="Command_Center" unique_id=268185514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 5.34, 0)
+size = Vector3(0.4, 0.12, 18.8)
+material = SubResource("Material_operations")
+
+[node name="Visual_Identity" type="Node3D" parent="." unique_id=1443164992]
+editor_description = "Persistent blockout identity: the cyan line now divides around the protected network core and rejoins at the faceted command center. The orange clearance boundary remains local to the checkpoint."
+
+[node name="Lobby_Control_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=751642602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.025, 0)
+size = Vector3(8, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_Mid_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=709677492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.025, -4.4)
+size = Vector3(22, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_East_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=1031691263]
+transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -20, 0.025, -2.2)
+size = Vector3(9.13, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_West_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=195520847]
+transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -50, 0.025, -2.2)
+size = Vector3(9.13, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_Mid_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=915425695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.025, 4.4)
+size = Vector3(22, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_East_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=752240489]
+transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -20, 0.025, 2.2)
+size = Vector3(9.13, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_West_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=2139342774]
+transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -50, 0.025, 2.2)
+size = Vector3(9.13, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="Rejoin_Control_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=190569587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0.025, 0)
+size = Vector3(2, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="Command_Control_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=589746736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.675, 0.025, 0)
+size = Vector3(3.35, 0.03, 0.22)
+material = SubResource("Material_screen")
+
+[node name="Checkpoint_Warning_Inlay" type="CSGBox3D" parent="Visual_Identity" unique_id=313806458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0.028, 0)
+size = Vector3(0.22, 0.035, 4.4)
+material = SubResource("Material_warning")
+
+[node name="Lobby_Ceiling_Spine" type="CSGBox3D" parent="Visual_Identity" unique_id=1873810623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5.34, 0)
+size = Vector3(7, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1390293486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.34, -4.4)
+size = Vector3(22, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1030332084]
+transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -20, 5.34, -2.2)
+size = Vector3(9.13, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="North_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1048237417]
+transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -50, 5.34, -2.2)
+size = Vector3(9.13, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=2050566490]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.34, 4.4)
+size = Vector3(22, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1330503729]
+transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -20, 5.34, 2.2)
+size = Vector3(9.13, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="South_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1999123730]
+transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -50, 5.34, 2.2)
+size = Vector3(9.13, 0.12, 0.34)
+material = SubResource("Material_screen")
+
+[node name="Command_Ceiling_Focus" type="CSGBox3D" parent="Visual_Identity" unique_id=1185707004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 5.26, 0)
+size = Vector3(9, 0.08, 4.5)
+material = SubResource("Material_screen")
+
+[node name="Door_Sockets" type="Node3D" parent="." unique_id=1565982141]
+editor_description = "Placement markers only. Door art and functional door logic are deferred until the architecture is approved."
+
+[node name="Elevator_Landing_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1808359410]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -8, 0, 0)
+
+[node name="Checkpoint_Spine_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=2114293373]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -16, 0, 0)
+
+[node name="Security_Post_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=351346739]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -5)
+
+[node name="Communications_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1199539119]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -12, 0, 5)
+
+[node name="Surveillance_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=735320087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -6.2)
+
+[node name="Data_Vault_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1482276618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, -6.2)
+
+[node name="Incident_Record_Gallery_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1877400919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6.2)
+
+[node name="Emergency_Coordination_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1956786723]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -23, 0, 6.2)
+
+[node name="Access_Systems_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=716644057]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -50, 0, 6.2)
+
+[node name="Response_Coordination_Gallery_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=998258951]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -36, 0, 6.2)
+
+[node name="Command_Center_Door_Socket" type="Marker3D" parent="Door_Sockets" unique_id=1213841024]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -56, 0, 0)
+
+[node name="Lighting_Blockout" type="Node3D" parent="." unique_id=458453068]
+editor_description = "Temporary orientation lighting only. Final lighting pass is deferred."
+
+[node name="Checkpoint_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1216928674]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3.8, 0)
+light_color = Color(0.95, 0.32, 0.08, 1)
+light_energy = 1.1
+omni_range = 8.0
+
+[node name="Spine_Light_East" type="OmniLight3D" parent="Lighting_Blockout" unique_id=727513860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3.8, 0)
+light_color = Color(0.2, 0.58, 0.9, 1)
+light_energy = 1.05
+omni_range = 9.0
+
+[node name="Spine_Light_Mid" type="OmniLight3D" parent="Lighting_Blockout" unique_id=646575456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, -4.4)
+light_color = Color(0.2, 0.58, 0.9, 1)
+light_energy = 1.05
+omni_range = 9.0
+
+[node name="Spine_Light_West" type="OmniLight3D" parent="Lighting_Blockout" unique_id=942414168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, 4.4)
+light_color = Color(0.2, 0.58, 0.9, 1)
+light_energy = 1.05
+omni_range = 9.0
+
+[node name="North_Operations_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1107470167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.8, -13)
+light_color = Color(0.24, 0.64, 0.86, 1)
+light_energy = 0.9
+omni_range = 9.0
+
+[node name="South_Operations_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2094216755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.8, 13)
+light_color = Color(0.82, 0.3, 0.12, 1)
+light_energy = 0.85
+omni_range = 9.0
+
+[node name="North_Gallery_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=657083602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 3.8, -13)
+light_color = Color(0.2, 0.58, 0.9, 1)
+light_energy = 0.9
+omni_range = 9.0
+
+[node name="South_Gallery_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2089206126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 3.8, 13)
+light_color = Color(0.82, 0.3, 0.12, 1)
+light_energy = 0.85
+omni_range = 9.0
+
+[node name="North_Secure_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1693917900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.8, -13)
+light_color = Color(0.16, 0.52, 0.7, 1)
+light_energy = 0.82
+omni_range = 9.0
+
+[node name="South_Secure_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=765201707]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.8, 13)
+light_color = Color(0.72, 0.24, 0.1, 1)
+light_energy = 0.8
+omni_range = 9.0
+
+[node name="Command_Center_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1668029252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 3.8, 0)
+light_color = Color(0.16, 0.62, 0.96, 1)
+light_energy = 1.45
+omni_range = 11.0
+
+[node name="Branch_Rejoin_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=59776752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.8, 0)
+light_color = Color(0.2, 0.58, 0.9, 1)
+light_energy = 1.05
+omni_range = 9.0

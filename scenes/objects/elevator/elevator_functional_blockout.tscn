@@ -8,10 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://b4hb3jy1ee7lp" path="res://scenes/art/elevator/elevator_landing_portal_visual_blockout.tscn" id="6_portal_art"]
 
 [sub_resource type="BoxShape3D" id="Shape_support"]
-size = Vector3(0.4, 66, 0.4)
+size = Vector3(0.4, 96, 0.4)
 
 [sub_resource type="BoxShape3D" id="Shape_guide_rail"]
-size = Vector3(0.18, 66, 0.28)
+size = Vector3(0.18, 96, 0.28)
 
 [sub_resource type="BoxShape3D" id="Shape_top_beam_x"]
 size = Vector3(6.8, 0.4, 0.4)
@@ -72,31 +72,32 @@ size = Vector3(0.36, 1, 0.6)
 
 [node name="ElevatorFunctionalBlockout" type="Node3D" unique_id=499149087]
 script = ExtResource("1_controller")
+floor_spacing = 18.0
 
 [node name="Shaft" type="StaticBody3D" parent="." unique_id=1499420216]
 
 [node name="NorthWestSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=607562478]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -27, -3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -42, -3.2)
 shape = SubResource("Shape_support")
 
 [node name="NorthEastSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=393382150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -27, -3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -42, -3.2)
 shape = SubResource("Shape_support")
 
 [node name="SouthWestSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=1757138940]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -27, 3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -42, 3.2)
 shape = SubResource("Shape_support")
 
 [node name="SouthEastSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=228286956]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -27, 3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -42, 3.2)
 shape = SubResource("Shape_support")
 
 [node name="EastNorthGuideRailCollision" type="CollisionShape3D" parent="Shaft" unique_id=1836467420]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -27, -1.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -42, -1.8)
 shape = SubResource("Shape_guide_rail")
 
 [node name="EastSouthGuideRailCollision" type="CollisionShape3D" parent="Shaft" unique_id=39374196]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -27, 1.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -42, 1.8)
 shape = SubResource("Shape_guide_rail")
 
 [node name="TopNorthBeamCollision" type="CollisionShape3D" parent="Shaft" unique_id=1080060384]
@@ -116,6 +117,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 6, 0)
 shape = SubResource("Shape_top_beam_z")
 
 [node name="ShaftVisualArt" type="Node3D" parent="Shaft" unique_id=1085645589]
+
+[node name="ModuleMinus90" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
+
+[node name="ModuleMinus84" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -84, 0)
+
+[node name="ModuleMinus78" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -78, 0)
+
+[node name="ModuleMinus72" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
+
+[node name="ModuleMinus66" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -66, 0)
 
 [node name="ModuleMinus60" parent="Shaft/ShaftVisualArt" unique_id=1612398922 instance=ExtResource("5_shaft_art")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -60, 0)
@@ -154,19 +170,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0)
 [node name="Surface" type="Marker3D" parent="Shaft/FloorStops" unique_id=487537640]
 
 [node name="FloorMinus1" type="Marker3D" parent="Shaft/FloorStops" unique_id=1475121281]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18, 0)
 
 [node name="FloorMinus2" type="Marker3D" parent="Shaft/FloorStops" unique_id=1065291502]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -24, 0)
-
-[node name="FloorMinus3" type="Marker3D" parent="Shaft/FloorStops" unique_id=310574382]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -36, 0)
 
+[node name="FloorMinus3" type="Marker3D" parent="Shaft/FloorStops" unique_id=310574382]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
+
 [node name="FloorMinus4" type="Marker3D" parent="Shaft/FloorStops" unique_id=1120978693]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
 
 [node name="FloorMinus5" type="Marker3D" parent="Shaft/FloorStops" unique_id=323480412]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -60, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
 
 [node name="CabinMoving" type="AnimatableBody3D" parent="." unique_id=67625921]
 unique_name_in_owner = true
@@ -382,18 +398,9 @@ text = "SURFACE 0"
 font_size = 40
 
 [node name="Floor_1" type="Node3D" parent="Landings" unique_id=452483705]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_1" unique_id=1332228441 instance=ExtResource("6_portal_art")]
-
-[node name="Platform" type="StaticBody3D" parent="Landings/Floor_1" unique_id=1495737870]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -0.1, 0)
-
-[node name="Mesh" type="MeshInstance3D" parent="Landings/Floor_1/Platform" unique_id=1052253759]
-mesh = SubResource("Mesh_landing_platform")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_1/Platform" unique_id=1378705893]
-shape = SubResource("Shape_landing_platform")
 
 [node name="Threshold" type="StaticBody3D" parent="Landings/Floor_1" unique_id=641151467]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, 0)
@@ -420,18 +427,9 @@ text = "FLOOR -1"
 font_size = 48
 
 [node name="Floor_2" type="Node3D" parent="Landings" unique_id=687360534]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -24, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -36, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_2" unique_id=2134185726 instance=ExtResource("6_portal_art")]
-
-[node name="Platform" type="StaticBody3D" parent="Landings/Floor_2" unique_id=748638363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -0.1, 0)
-
-[node name="Mesh" type="MeshInstance3D" parent="Landings/Floor_2/Platform" unique_id=238185775]
-mesh = SubResource("Mesh_landing_platform")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_2/Platform" unique_id=124138208]
-shape = SubResource("Shape_landing_platform")
 
 [node name="Threshold" type="StaticBody3D" parent="Landings/Floor_2" unique_id=2138483377]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, 0)
@@ -458,7 +456,7 @@ text = "FLOOR -2"
 font_size = 48
 
 [node name="Floor_3" type="Node3D" parent="Landings" unique_id=1066087227]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -36, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_3" unique_id=1376337754 instance=ExtResource("6_portal_art")]
 
@@ -496,7 +494,7 @@ text = "FLOOR -3"
 font_size = 48
 
 [node name="Floor_4" type="Node3D" parent="Landings" unique_id=1928124505]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_4" unique_id=124525444 instance=ExtResource("6_portal_art")]
 
@@ -534,7 +532,7 @@ text = "FLOOR -4"
 font_size = 48
 
 [node name="Floor_5" type="Node3D" parent="Landings" unique_id=807751333]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -60, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_5" unique_id=1767455741 instance=ExtResource("6_portal_art")]
 

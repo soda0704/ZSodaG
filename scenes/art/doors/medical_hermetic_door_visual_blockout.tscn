@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/art/doors/living_hermetic_door_visual_blockout.tscn" id="1_living_hermetic"]
 
 [node name="MedicalHermeticDoorVisualBlockout" unique_id=657486669 instance=ExtResource("1_living_hermetic")]
-editor_description = "Inherited 3x3 m opaque medical hermetic door for Corridor_Medical. Closed for Day 1 art and route state. Its temporary passage collision is centralized in Base_Blockout_v03/Day1_Door_Collisions."
+editor_description = "Inherited 3x3 m opaque medical hermetic door for Corridor_Medical. Closed for Day 1 art and route state. Its temporary passage collision is centralized in Floor_0_Base_Blockout/Day1_Door_Collisions."
 
 [node name="OpenPreview" parent="DoorAssembly" parent_id_path=PackedInt32Array(729841088) index="2" unique_id=1070349547]
 visible = false
