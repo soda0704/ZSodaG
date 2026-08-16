@@ -460,15 +460,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_3" unique_id=1376337754 instance=ExtResource("6_portal_art")]
 
-[node name="Platform" type="StaticBody3D" parent="Landings/Floor_3" unique_id=1650906542]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -0.1, 0)
-
-[node name="Mesh" type="MeshInstance3D" parent="Landings/Floor_3/Platform" unique_id=523603601]
-mesh = SubResource("Mesh_landing_platform")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_3/Platform" unique_id=908399741]
-shape = SubResource("Shape_landing_platform")
-
 [node name="Threshold" type="StaticBody3D" parent="Landings/Floor_3" unique_id=1961399973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, 0)
 
