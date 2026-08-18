@@ -1,1521 +1,1711 @@
 [gd_scene format=3 uid="uid://ba3rasslhfoo"]
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
-albedo_color = Color(0.25, 0.29, 0.31, 1)
+albedo_color = Color(0.24, 0.28, 0.3, 1)
 metallic = 0.16
 roughness = 0.78
 
 [sub_resource type="StandardMaterial3D" id="Material_structure"]
-albedo_color = Color(0.72, 0.75, 0.74, 1)
+albedo_color = Color(0.7, 0.74, 0.75, 1)
 metallic = 0.12
-roughness = 0.68
+roughness = 0.66
 
 [sub_resource type="StandardMaterial3D" id="Material_trim"]
-albedo_color = Color(0.12, 0.34, 0.37, 1)
-metallic = 0.24
-roughness = 0.55
+albedo_color = Color(0.08, 0.2, 0.23, 1)
+metallic = 0.28
+roughness = 0.52
 
-[sub_resource type="StandardMaterial3D" id="Material_dark"]
-albedo_color = Color(0.07, 0.09, 0.1, 1)
-metallic = 0.2
-roughness = 0.62
-
-[sub_resource type="StandardMaterial3D" id="Material_locked"]
-albedo_color = Color(0.72, 0.08, 0.045, 1)
+[sub_resource type="StandardMaterial3D" id="Material_warning"]
+albedo_color = Color(0.92, 0.38, 0.08, 1)
 emission_enabled = true
-emission = Color(0.55, 0.025, 0.01, 1)
-emission_energy_multiplier = 1.25
+emission = Color(0.58, 0.12, 0.01, 1)
+emission_energy_multiplier = 1.05
 
 [sub_resource type="StandardMaterial3D" id="Material_screen"]
-albedo_color = Color(0.12, 0.72, 0.76, 1)
+albedo_color = Color(0.16, 0.72, 0.86, 1)
 emission_enabled = true
-emission = Color(0.03, 0.54, 0.58, 1)
-emission_energy_multiplier = 1.4
+emission = Color(0.03, 0.48, 0.68, 1)
+emission_energy_multiplier = 1.35
 
-[sub_resource type="StandardMaterial3D" id="Material_suit"]
-albedo_color = Color(0.88, 0.62, 0.16, 1)
-metallic = 0.08
-roughness = 0.7
+[sub_resource type="StandardMaterial3D" id="Material_dark"]
+albedo_color = Color(0.035, 0.055, 0.065, 1)
+metallic = 0.3
+roughness = 0.5
 
-[sub_resource type="StandardMaterial3D" id="Material_reagent"]
+[sub_resource type="StandardMaterial3D" id="Material_glass"]
 transparency = 1
-albedo_color = Color(0.18, 0.78, 0.42, 0.7)
-roughness = 0.18
+albedo_color = Color(0.12, 0.52, 0.62, 0.32)
+metallic = 0.04
+roughness = 0.12
+
+[sub_resource type="StandardMaterial3D" id="Material_bio"]
+albedo_color = Color(0.14, 0.72, 0.54, 1)
+roughness = 0.46
 emission_enabled = true
-emission = Color(0.04, 0.34, 0.12, 1)
-emission_energy_multiplier = 0.7
+emission = Color(0.025, 0.28, 0.18, 1)
+emission_energy_multiplier = 0.55
 
-[sub_resource type="StandardMaterial3D" id="Material_protected_glass"]
-transparency = 1
-albedo_color = Color(0.12, 0.32, 0.34, 0.48)
-metallic = 0.06
-roughness = 0.16
+[node name="Floor_Minus3_Biocontainment_Blockout" type="Node3D" unique_id=1526355325]
+editor_description = "Floor -3 biocontainment rebuild based on the approved laboratory references. Stages 01-03 form the compact elevator arrival, shared sanitation room, and glass corridor. Stage 04 adds the central laboratory, Stage 05 the cold capsule vault, Stage 06 the accessible two-level damaged containment block, and Stage 07 closes the route through the east monitoring and incident-analysis gallery."
 
-[node name="Floor_Minus3_Biocontainment_Blockout" type="Node3D" unique_id=740111249]
-editor_description = "Floor -3 staged rebuild. Stage 01 contains the elevator arrival. Stages 02-03 contain the clean suit room and failed treatment chamber. Stage 04 adds the ventilation bypass. Stage 05 adds the service observation room. Stage 06 adds the containment gallery. Stages 07-08 connect both access routes. Stages 09-10 add the contaminated-suit treatment and doffing rooms."
+[node name="Approved_Stage_01_Elevator_Arrival" type="Node3D" parent="." unique_id=842602311]
+editor_description = "First approved review fragment. The elevator opens directly into a compact, low-ceiling sterile vestibule. The single doorway opposite the cabin is reserved for the shared entry/exit sanitation block."
 
-[node name="Approved_Stage_01_Elevator_Arrival" type="Node3D" parent="." unique_id=1826312440]
-editor_description = "Approved first fragment: direct elevator threshold, compact arrival room, wall terminal, open normal-route doorway on the player's right, and a sealed low ventilation hatch on the left."
+[node name="Structure" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=945607714]
 
-[node name="Structure" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=1307681940]
-
-[node name="Arrival_Floor" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=520111053]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.75, -0.15, 0)
+[node name="Arrival_Floor" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1211630870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -0.15, 0)
 use_collision = true
-size = Vector3(6.5, 0.3, 6)
+size = Vector3(5, 0.3, 5.8)
 material = SubResource("Material_floor")
 
-[node name="Arrival_Ceiling" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1352091489]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.75, 4.5, 0)
+[node name="Arrival_Ceiling" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=348979539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.2, 0)
 use_collision = true
-size = Vector3(6.5, 0.3, 6)
+size = Vector3(5, 0.3, 5.8)
 material = SubResource("Material_structure")
 
-[node name="West_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1207445087]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2.25, 0)
+[node name="North_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1763259380]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.1, -2.9)
 use_collision = true
-size = Vector3(0.3, 4.5, 6)
+size = Vector3(5, 4.2, 0.3)
 material = SubResource("Material_structure")
 
-[node name="North_East_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1069472206]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.25, -3)
+[node name="South_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1949300739]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.1, 2.9)
 use_collision = true
-size = Vector3(2, 4.5, 0.3)
+size = Vector3(5, 4.2, 0.3)
 material = SubResource("Material_structure")
 
-[node name="North_West_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=309282499]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.25, 2.25, -3)
+[node name="Sanitation_Opening_North_Segment" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=2134006772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 2.1, -2.05)
 use_collision = true
-size = Vector3(1.5, 4.5, 0.3)
+size = Vector3(0.3, 4.2, 1.7)
 material = SubResource("Material_structure")
 
-[node name="North_Door_Header" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1690026140]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.05, -3)
+[node name="Sanitation_Opening_South_Segment" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=2139638347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 2.1, 2.05)
+use_collision = true
+size = Vector3(0.3, 4.2, 1.7)
+material = SubResource("Material_structure")
+
+[node name="Sanitation_Opening_Header" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1515866434]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 3.75, 0)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="Elevator_Interface_Header" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1602168732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 3.95, 0)
+use_collision = true
+size = Vector3(0.3, 0.5, 5.8)
+material = SubResource("Material_trim")
+
+[node name="Interior_Trim" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=46236976]
+
+[node name="North_Wall_Band_West" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Interior_Trim" unique_id=1020914254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.85, 1.05, -2.73)
+size = Vector3(2.7, 0.16, 0.05)
+material = SubResource("Material_trim")
+
+[node name="North_Wall_Band_East" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Interior_Trim" unique_id=2101798850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.2, 1.05, -2.73)
+size = Vector3(0.8, 0.16, 0.05)
+material = SubResource("Material_trim")
+
+[node name="South_Wall_Band" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Interior_Trim" unique_id=205828580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.05, 2.73)
+size = Vector3(4.4, 0.16, 0.05)
+material = SubResource("Material_trim")
+
+[node name="Ceiling_Rib_West" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Interior_Trim" unique_id=2025094427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.35, 3.98, 0)
+size = Vector3(0.22, 0.22, 5.45)
+material = SubResource("Material_trim")
+
+[node name="Ceiling_Rib_East" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Interior_Trim" unique_id=2067494548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.65, 3.98, 0)
+size = Vector3(0.22, 0.22, 5.45)
+material = SubResource("Material_trim")
+
+[node name="Navigation_Guide" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=535894552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.1, 0.02, 0)
+size = Vector3(3.8, 0.04, 0.16)
+material = SubResource("Material_warning")
+
+[node name="Sanitation_Status" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=1468589040]
+editor_description = "Non-functional blockout indicator for the shared sanitation route. Gameplay interaction remains the programmer's responsibility."
+
+[node name="Status_Body" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Sanitation_Status" unique_id=1689899120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.28, 1.55, -1.75)
+use_collision = true
+size = Vector3(0.28, 1.45, 0.75)
+material = SubResource("Material_trim")
+
+[node name="Status_Screen" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Sanitation_Status" unique_id=730887833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.12, 1.72, -1.75)
+size = Vector3(0.05, 0.56, 0.55)
+material = SubResource("Material_screen")
+
+[node name="Status_Warning" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Sanitation_Status" unique_id=1257310263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.11, 1.18, -1.75)
+size = Vector3(0.05, 0.12, 0.38)
+material = SubResource("Material_warning")
+
+[node name="Temporary_Lighting" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=214106054]
+
+[node name="Ceiling_Light_North" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Temporary_Lighting" unique_id=806293679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.02, -1.15)
+size = Vector3(1.6, 0.04, 0.45)
+material = SubResource("Material_screen")
+
+[node name="Ceiling_Light_South" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Temporary_Lighting" unique_id=42707392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.02, 1.15)
+size = Vector3(1.6, 0.04, 0.45)
+material = SubResource("Material_screen")
+
+[node name="Future_Shared_Sanitation_Connection" type="Marker3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=595830088]
+editor_description = "Approved forward connection point. The shared bidirectional sanitation block will be built here only after the elevator arrival is reviewed."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, 0, 0)
+
+[node name="Stage_02_Shared_Sanitation_Room_Blockout" type="Node3D" parent="." unique_id=426087299]
+editor_description = "Compact shared entry/exit sanitation room for a maximum of two players. The same straight route is used in both directions. Suit storage, return cabinets, spray frame, drains, and status equipment remain non-functional blockout landmarks."
+
+[node name="Structure" type="Node3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=1648623368]
+
+[node name="Sanitation_Floor" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=1988479152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, -0.15, 0)
+use_collision = true
+size = Vector3(6, 0.3, 6)
+material = SubResource("Material_floor")
+
+[node name="Sanitation_Ceiling" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=464386261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4.2, 0)
+use_collision = true
+size = Vector3(6, 0.3, 6)
+material = SubResource("Material_structure")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=1386028007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 2.1, -3)
+use_collision = true
+size = Vector3(6, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=975804465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 2.1, 3)
+use_collision = true
+size = Vector3(6, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Observation_Opening_North_Segment" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=1934508465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 2.1, -2.1)
+use_collision = true
+size = Vector3(0.3, 4.2, 1.8)
+material = SubResource("Material_structure")
+
+[node name="Observation_Opening_South_Segment" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=1280309317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 2.1, 2.1)
+use_collision = true
+size = Vector3(0.3, 4.2, 1.8)
+material = SubResource("Material_structure")
+
+[node name="Observation_Opening_Header" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Structure" unique_id=2102488949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 3.75, 0)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="Suit_Stations" type="Node3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=429612574]
+editor_description = "Two clean suit docks on the north side and two used-suit return cabinets on the south side preserve a clear central route for one or two players."
+
+[node name="Clean_Suit_Dock_A" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=568195660]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 1.35, -2.42)
+use_collision = true
+size = Vector3(1.2, 2.7, 0.72)
+material = SubResource("Material_trim")
+
+[node name="Clean_Suit_Dock_B" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=823230565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.25, 1.35, -2.42)
+use_collision = true
+size = Vector3(1.2, 2.7, 0.72)
+material = SubResource("Material_trim")
+
+[node name="Clean_Suit_Glow_A" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=1300876203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 1.55, -2.04)
+size = Vector3(0.72, 1.55, 0.04)
+material = SubResource("Material_screen")
+
+[node name="Clean_Suit_Glow_B" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=1185691937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.25, 1.55, -2.04)
+size = Vector3(0.72, 1.55, 0.04)
+material = SubResource("Material_screen")
+
+[node name="Used_Suit_Return_A" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=2052501821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 1.2, 2.42)
+use_collision = true
+size = Vector3(1.2, 2.4, 0.72)
+material = SubResource("Material_dark")
+
+[node name="Used_Suit_Return_B" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=937095009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.25, 1.2, 2.42)
+use_collision = true
+size = Vector3(1.2, 2.4, 0.72)
+material = SubResource("Material_dark")
+
+[node name="Return_Status_A" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=1336099169]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 1.55, 2.04)
+size = Vector3(0.65, 0.28, 0.04)
+material = SubResource("Material_warning")
+
+[node name="Return_Status_B" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Suit_Stations" unique_id=966715427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.25, 1.55, 2.04)
+size = Vector3(0.65, 0.28, 0.04)
+material = SubResource("Material_warning")
+
+[node name="Treatment_Frame" type="Node3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=667231780]
+
+[node name="North_Spray_Rail" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Treatment_Frame" unique_id=1248139546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.45, 1.8, -1.45)
+size = Vector3(0.18, 3.6, 0.18)
+material = SubResource("Material_warning")
+
+[node name="South_Spray_Rail" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Treatment_Frame" unique_id=462498421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.45, 1.8, 1.45)
+size = Vector3(0.18, 3.6, 0.18)
+material = SubResource("Material_warning")
+
+[node name="Overhead_Manifold" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Treatment_Frame" unique_id=567962003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.45, 3.55, 0)
+size = Vector3(0.22, 0.18, 3.08)
+material = SubResource("Material_warning")
+
+[node name="Drain_North" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Treatment_Frame" unique_id=1102204659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.45, 0.02, -0.78)
+size = Vector3(1.1, 0.04, 0.35)
+material = SubResource("Material_dark")
+
+[node name="Drain_South" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout/Treatment_Frame" unique_id=964903717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.45, 0.02, 0.78)
+size = Vector3(1.1, 0.04, 0.35)
+material = SubResource("Material_dark")
+
+[node name="Sanitation_Floor_Guide" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=1993764487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0.02, 0)
+size = Vector3(5.2, 0.04, 0.16)
+material = SubResource("Material_warning")
+
+[node name="Sanitation_Ceiling_Light" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=876417324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4.02, 0)
+size = Vector3(2.4, 0.04, 0.65)
+material = SubResource("Material_screen")
+
+[node name="Stage_03_Glass_Observation_Corridor_Blockout" type="Node3D" parent="." unique_id=1129681558]
+editor_description = "L-shaped observation corridor that breaks the direct sightline from the elevator. Three sealed sample bays are visible through glass on the inside of the turn. The corridor is mostly intact; only the final bay shows an early warning state."
+
+[node name="Corridor_Structure" type="Node3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=85293787]
+
+[node name="West_Leg_Floor" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=270834675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, -0.15, 0)
+use_collision = true
+size = Vector3(3.5, 0.3, 3)
+material = SubResource("Material_floor")
+
+[node name="West_Leg_Ceiling" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=1753895872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, 4.2, 0)
+use_collision = true
+size = Vector3(3.5, 0.3, 3)
+material = SubResource("Material_structure")
+
+[node name="West_Leg_North_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=930559356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, 2.1, -1.5)
+use_collision = true
+size = Vector3(3.5, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_Leg_South_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=685859865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.75, 2.1, 1.5)
+use_collision = true
+size = Vector3(6.5, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="North_Leg_Floor" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=325365133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, -0.15, -4.25)
+use_collision = true
+size = Vector3(3, 0.3, 11.5)
+material = SubResource("Material_floor")
+
+[node name="North_Leg_Ceiling" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=292734640]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.2, -4.25)
+use_collision = true
+size = Vector3(3, 0.3, 11.5)
+material = SubResource("Material_structure")
+
+[node name="North_Leg_West_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=1702064699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 2.1, -4.25)
+use_collision = true
+size = Vector3(0.3, 4.2, 11.5)
+material = SubResource("Material_structure")
+
+[node name="Future_Lab_Opening_Header" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Corridor_Structure" unique_id=488570872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.75, -10)
 use_collision = true
 size = Vector3(3, 0.9, 0.3)
-material = SubResource("Material_structure")
-
-[node name="South_East_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=2145488368]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.1, 2.25, 3)
-use_collision = true
-size = Vector3(3.2, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="South_West_Wall" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=897724944]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.15, 2.25, 3)
-use_collision = true
-size = Vector3(1.7, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="South_Hatch_Header" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1640232925]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 2.95, 3)
-use_collision = true
-size = Vector3(1.6, 3.1, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Elevator_Interface_Header" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Structure" unique_id=1090351749]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.55, 4.15, 0)
-use_collision = true
-size = Vector3(0.3, 0.7, 6)
 material = SubResource("Material_trim")
 
-[node name="Normal_Route_Right" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=2143274011]
-editor_description = "Open blockout doorway for the normal sanitation route. Full-sized door placeholders are intentionally omitted until the layout is approved."
+[node name="Sealed_Display_Bays" type="Node3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=931816918]
+editor_description = "Three inaccessible sample bays establish the laboratory identity before the central lab is revealed. They are scenery and containment blockout, not separate playable rooms."
 
-[node name="Emergency_Route_Left" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=1918911378]
-editor_description = "Sealed low ventilation hatch. The future emergency crawl route will begin at floor level here and bypass the failed sanitation chamber. Movement mechanics are intentionally not implemented in blockout."
-
-[node name="Service_Hatch" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Emergency_Route_Left" unique_id=745061988]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.7, 3.03)
+[node name="Display_Bay_Floor" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1315009902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, -0.15, -6)
 use_collision = true
-size = Vector3(1.6, 1.4, 0.16)
+size = Vector3(3.5, 0.3, 8)
 material = SubResource("Material_dark")
 
-[node name="Service_Hatch_Warning" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Emergency_Route_Left" unique_id=1931718296]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 1.18, 2.92)
-size = Vector3(0.72, 0.08, 0.05)
-material = SubResource("Material_locked")
-
-[node name="Vent_Grille_Slat_Upper" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Emergency_Route_Left" unique_id=2122103509]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.92, 2.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Vent_Grille_Slat_Middle" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Emergency_Route_Left" unique_id=1636648629]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.68, 2.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Vent_Grille_Slat_Lower" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Emergency_Route_Left" unique_id=1554026897]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0.44, 2.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Access_Terminal" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=1065462929]
-editor_description = "Wall terminal replaces a redundant second guard post. It communicates sanitation lockout and maintenance access status."
-
-[node name="Terminal_Body" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Access_Terminal" unique_id=1468843234]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.78, 1.55, -0.9)
+[node name="Display_Bay_Ceiling" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1323171227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, 4.2, -6)
 use_collision = true
-size = Vector3(0.28, 1.8, 1.1)
+size = Vector3(3.5, 0.3, 8)
 material = SubResource("Material_dark")
 
-[node name="Terminal_Screen" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Access_Terminal" unique_id=167991824]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.62, 1.8, -0.9)
-size = Vector3(0.05, 0.62, 0.82)
+[node name="Display_Bay_Back_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=78348833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 2.1, -6)
+use_collision = true
+size = Vector3(0.3, 4.2, 8)
+material = SubResource("Material_dark")
+
+[node name="Display_Bay_South_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1352041998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, 2.1, -2)
+use_collision = true
+size = Vector3(3.5, 4.2, 0.3)
+material = SubResource("Material_dark")
+
+[node name="Display_Bay_North_Wall" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=280032038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.25, 2.1, -10)
+use_collision = true
+size = Vector3(3.5, 4.2, 0.3)
+material = SubResource("Material_dark")
+
+[node name="Observation_Glass_A" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=2111149927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.96, 1.9, -3.25)
+use_collision = true
+size = Vector3(0.08, 3.5, 2.3)
+material = SubResource("Material_glass")
+
+[node name="Observation_Glass_B" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=737189477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.96, 1.9, -6)
+use_collision = true
+size = Vector3(0.08, 3.5, 2.6)
+material = SubResource("Material_glass")
+
+[node name="Observation_Glass_C" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1052861649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.96, 1.9, -8.65)
+use_collision = true
+size = Vector3(0.08, 3.5, 2.5)
+material = SubResource("Material_glass")
+
+[node name="Glass_Frame_South" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1931334904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.94, 2.1, -2)
+size = Vector3(0.18, 4.2, 0.18)
+material = SubResource("Material_trim")
+
+[node name="Glass_Frame_A_B" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=174988485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.94, 2.1, -4.55)
+size = Vector3(0.18, 4.2, 0.3)
+material = SubResource("Material_trim")
+
+[node name="Glass_Frame_B_C" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1154387862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.94, 2.1, -7.35)
+size = Vector3(0.18, 4.2, 0.3)
+material = SubResource("Material_trim")
+
+[node name="Glass_Frame_North" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=1836543071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.94, 2.1, -10)
+size = Vector3(0.18, 4.2, 0.18)
+material = SubResource("Material_trim")
+
+[node name="Sample_Pod_A" type="Node3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=2096956598]
+
+[node name="Housing" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_A" unique_id=274700265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 1.6, -3.25)
+radius = 0.72
+height = 3.2
+sides = 24
+material = SubResource("Material_glass")
+
+[node name="Biological_Sample" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_A" unique_id=829523048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 1.45, -3.25)
+radius = 0.3
+height = 1.45
+sides = 12
+material = SubResource("Material_bio")
+
+[node name="Base" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_A" unique_id=396269356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 0.18, -3.25)
+radius = 0.86
+height = 0.36
+sides = 24
+material = SubResource("Material_trim")
+
+[node name="Sample_Pod_B" type="Node3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=889903455]
+
+[node name="Housing" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_B" unique_id=1074438128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 1.6, -6)
+radius = 0.72
+height = 3.2
+sides = 24
+material = SubResource("Material_glass")
+
+[node name="Biological_Sample" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_B" unique_id=570260637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 1.4, -6)
+radius = 0.36
+height = 1.55
+sides = 12
+material = SubResource("Material_bio")
+
+[node name="Base" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_B" unique_id=2092501581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 0.18, -6)
+radius = 0.86
+height = 0.36
+sides = 24
+material = SubResource("Material_trim")
+
+[node name="Sample_Pod_C" type="Node3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays" unique_id=2114568734]
+
+[node name="Housing" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_C" unique_id=1027394476]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 1.6, -8.65)
+radius = 0.72
+height = 3.2
+sides = 24
+material = SubResource("Material_glass")
+
+[node name="Biological_Sample" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_C" unique_id=683123300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.08, 1.25, -8.65)
+radius = 0.4
+height = 1.65
+sides = 12
+material = SubResource("Material_bio")
+
+[node name="Base" type="CSGCylinder3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_C" unique_id=1713762918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 0.18, -8.65)
+radius = 0.86
+height = 0.36
+sides = 24
+material = SubResource("Material_warning")
+
+[node name="Final_Bay_Warning" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout/Sealed_Display_Bays/Sample_Pod_C" unique_id=1291719205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.88, 2.85, -8.65)
+size = Vector3(0.05, 0.2, 0.8)
+material = SubResource("Material_warning")
+
+[node name="Observation_Floor_Guide_West" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=1472666966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.1, 0.02, 0)
+size = Vector3(2.8, 0.04, 0.14)
 material = SubResource("Material_screen")
 
-[node name="Terminal_Lock_Indicator" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Access_Terminal" unique_id=1052006512]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.61, 1.18, -0.9)
-size = Vector3(0.05, 0.14, 0.48)
-material = SubResource("Material_locked")
-
-[node name="Navigation_Guides" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=539876498]
-
-[node name="Normal_Route_Floor_Guide" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Navigation_Guides" unique_id=1348756170]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.02, -2.4)
-size = Vector3(2.3, 0.04, 0.14)
-material = SubResource("Material_trim")
-
-[node name="Emergency_Route_Floor_Guide" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Navigation_Guides" unique_id=239888152]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2, 0.02, 2.4)
-size = Vector3(1.6, 0.04, 0.14)
-material = SubResource("Material_locked")
-
-[node name="Temporary_Lighting_Blockout" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=96336791]
-
-[node name="Ceiling_Light" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Temporary_Lighting_Blockout" unique_id=1784658844]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.75, 4.32, 0)
-size = Vector3(2.2, 0.06, 0.7)
+[node name="Observation_Floor_Guide_North" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=1731985069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.02, -5.1)
+size = Vector3(0.14, 0.04, 8.8)
 material = SubResource("Material_screen")
 
-[node name="Stage_02_Clean_Suit_Room_Blockout" type="Node3D" parent="." unique_id=351848668]
-editor_description = "Compact two-person clean entry room. Players reach it through the right-hand sanitation door and short connector. This room only covers suit issue and donning; treatment chambers are intentionally deferred."
-
-[node name="Connector" type="Node3D" parent="Stage_02_Clean_Suit_Room_Blockout" unique_id=961344177]
-
-[node name="Connector_Floor" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Connector" unique_id=1740803762]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -0.15, -4.5)
-use_collision = true
-size = Vector3(3, 0.3, 3)
-material = SubResource("Material_floor")
-
-[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Connector" unique_id=574034272]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.5, -4.5)
-visible = false
-use_collision = true
-size = Vector3(3, 0.3, 3)
-material = SubResource("Material_structure")
-
-[node name="Connector_West_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Connector" unique_id=1336966554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 2.25, -4.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 3)
-material = SubResource("Material_structure")
-
-[node name="Connector_East_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Connector" unique_id=75873067]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2.25, -4.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 3)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room" type="Node3D" parent="Stage_02_Clean_Suit_Room_Blockout" unique_id=1210780213]
-
-[node name="Suit_Room_Floor" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=108178622]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -0.15, -8.5)
-use_collision = true
-size = Vector3(5, 0.3, 5)
-material = SubResource("Material_floor")
-
-[node name="Suit_Room_Ceiling" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=883120494]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.5, -8.5)
-visible = false
-use_collision = true
-size = Vector3(5, 0.3, 5)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_East_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=536191810]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 2.25, -8.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 5)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_West_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=1918093232]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 2.25, -8.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 5)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_North_West_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=1580932928]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.25, -11)
-use_collision = true
-size = Vector3(1, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_North_East_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=1688061492]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2.25, -11)
-use_collision = true
-size = Vector3(1, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_Decon_Header" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=976149247]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.05, -11)
-use_collision = true
-size = Vector3(3, 0.9, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_South_East_Wall" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=2072716279]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.25, -6)
-use_collision = true
-size = Vector3(2, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Suit_Room_Entry_Header" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Room" unique_id=183908678]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.05, -6)
-use_collision = true
-size = Vector3(3, 0.9, 0.3)
-material = SubResource("Material_trim")
-
-[node name="Suit_Equipment" type="Node3D" parent="Stage_02_Clean_Suit_Room_Blockout" unique_id=46995572]
-editor_description = "Two clearly separated protective-suit stations sized for the game's maximum two-player group."
-
-[node name="Suit_Dock_A" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=1002125236]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 1.4, -7.45)
-use_collision = true
-size = Vector3(0.65, 2.8, 1.35)
-material = SubResource("Material_suit")
-
-[node name="Suit_Dock_B" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=295217281]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.975, 1.4, -9.25)
-use_collision = true
-size = Vector3(0.65, 2.8, 1.35)
-material = SubResource("Material_suit")
-
-[node name="Suit_Pad_A" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=1724027056]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.55, 0.02, -7.45)
-size = Vector3(1, 0.04, 1.35)
-material = SubResource("Material_trim")
-
-[node name="Suit_Pad_B" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=534336052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.55, 0.02, -9.25)
-size = Vector3(1, 0.04, 1.35)
-material = SubResource("Material_trim")
-
-[node name="Donning_Bench" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=2115601629]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.55, 0.42, -9.6)
-use_collision = true
-size = Vector3(1.25, 0.84, 1.9)
-material = SubResource("Material_trim")
-
-[node name="Suit_Status_Terminal" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=1909683015]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.18, 1.65, -7.6)
-use_collision = true
-size = Vector3(0.3, 1.4, 1.2)
-material = SubResource("Material_dark")
-
-[node name="Suit_Status_Screen" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Suit_Equipment" unique_id=801718471]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.01, 1.83, -7.6)
-size = Vector3(0.05, 0.55, 0.88)
+[node name="Observation_Light_South" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=417492238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -2.6)
+size = Vector3(0.7, 0.04, 1.4)
 material = SubResource("Material_screen")
 
-[node name="Temporary_Lighting" type="Node3D" parent="Stage_02_Clean_Suit_Room_Blockout" unique_id=792618809]
-
-[node name="Connector_Light" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Temporary_Lighting" unique_id=199459938]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.32, -4.5)
-size = Vector3(1.4, 0.06, 0.45)
+[node name="Observation_Light_North" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=1485215189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -7.4)
+size = Vector3(0.7, 0.04, 1.4)
 material = SubResource("Material_screen")
 
-[node name="Suit_Room_Light" type="CSGBox3D" parent="Stage_02_Clean_Suit_Room_Blockout/Temporary_Lighting" unique_id=1136999563]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.32, -8.5)
-size = Vector3(2.2, 0.06, 0.7)
+[node name="Future_Central_Lab_Connection" type="Marker3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=434280344]
+editor_description = "Approved route endpoint for the future central experimental laboratory."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0, -10.15)
+
+[node name="Stage_04_Central_Experimental_Laboratory_Blockout" type="Node3D" parent="." unique_id=1380993317]
+editor_description = "Primary landmark of Floor -3. A freestanding central containment chamber can be circled on all sides. Six dense analysis positions occupy the perimeter without blocking circulation. The staggered west and east openings connect the capsule-storage and monitoring branches."
+
+[node name="Laboratory_Structure" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=775722924]
+
+[node name="Laboratory_Floor" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=1299339448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, -0.15, -15.5)
+use_collision = true
+size = Vector3(13, 0.3, 11)
+material = SubResource("Material_floor")
+
+[node name="Laboratory_Ceiling" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=1571347343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.2, -15.5)
+use_collision = true
+size = Vector3(13, 0.3, 11)
+material = SubResource("Material_structure")
+
+[node name="South_Wall_West_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=868206979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, 2.1, -10)
+use_collision = true
+size = Vector3(5, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Wall_East_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=1537743051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.75, 2.1, -10)
+use_collision = true
+size = Vector3(1.5, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=86281675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2.1, -21)
+use_collision = true
+size = Vector3(13, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_Wall_North_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=632519506]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, -19.35)
+use_collision = true
+size = Vector3(0.3, 4.2, 3.3)
+material = SubResource("Material_structure")
+
+[node name="West_Wall_South_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=296773045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2.1, -12.65)
+use_collision = true
+size = Vector3(0.3, 4.2, 5.3)
+material = SubResource("Material_structure")
+
+[node name="West_Capsule_Branch_Header" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=354130731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 3.75, -16.5)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=1207459563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2.1, -18.1)
+use_collision = true
+size = Vector3(0.3, 4.2, 5.8)
+material = SubResource("Material_structure")
+
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=2046606417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2.1, -11.4)
+use_collision = true
+size = Vector3(0.3, 4.2, 2.8)
+material = SubResource("Material_structure")
+
+[node name="East_Monitoring_Branch_Header" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Laboratory_Structure" unique_id=424506521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 3.75, -14)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="Central_Biological_Chamber" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=251054632]
+editor_description = "The central chamber contains an unidentified non-humanoid biological mass. It establishes the link to deeper floors without revealing the main creature."
+
+[node name="Lower_Base" type="CSGCylinder3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=70380040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.22, -16)
+use_collision = true
+radius = 2.05
+height = 0.44
+sides = 32
+material = SubResource("Material_trim")
+
+[node name="Containment_Glass" type="CSGCylinder3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=1396655237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.9, -16)
+use_collision = true
+radius = 1.62
+height = 3.35
+sides = 32
+material = SubResource("Material_glass")
+
+[node name="Upper_Cap" type="CSGCylinder3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=1363107530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.62, -16)
+radius = 2.05
+height = 0.34
+sides = 32
+material = SubResource("Material_trim")
+
+[node name="Upper_Light_Core" type="CSGCylinder3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=497484257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.78, -16)
+radius = 1.45
+height = 0.08
+sides = 32
 material = SubResource("Material_screen")
 
-[node name="Stage_03_Failed_Common_Decon_Chamber_Blockout" type="Node3D" parent="." unique_id=860122978]
-editor_description = "One shared two-person treatment chamber. Broken spray equipment and reagent leakage explain the failed normal route. Full-sized door placeholders are intentionally omitted during layout work."
+[node name="Bio_Mass_Core" type="CSGSphere3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=1984616872]
+transform = Transform3D(1.25, 0, 0, 0, 1.55, 0, 0, 0, 1.05, -29.5, 1.82, -16)
+radius = 0.62
+radial_segments = 20
+rings = 12
+material = SubResource("Material_bio")
 
-[node name="Chamber_Structure" type="Node3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout" unique_id=1119597358]
+[node name="Bio_Mass_Lobe_West" type="CSGSphere3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=1125326990]
+transform = Transform3D(0.85, 0, 0, 0, 1.15, 0, 0, 0, 0.8, -30.15, 2.05, -16.15)
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
 
-[node name="Chamber_Floor" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=864904136]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -0.15, -13)
-use_collision = true
-size = Vector3(3, 0.3, 4)
-material = SubResource("Material_floor")
+[node name="Bio_Mass_Lobe_East" type="CSGSphere3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=270842760]
+transform = Transform3D(0.75, 0, 0, 0, 1.05, 0, 0, 0, 0.95, -28.88, 1.55, -15.82)
+radius = 0.52
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
 
-[node name="Chamber_Ceiling" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=777791884]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.5, -13)
-visible = false
-use_collision = true
-size = Vector3(3, 0.3, 4)
-material = SubResource("Material_structure")
+[node name="Bio_Mass_Lower_Lobe" type="CSGSphere3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=627608321]
+transform = Transform3D(0.9, 0, 0, 0, 0.75, 0, 0, 0, 1.1, -29.35, 1.05, -16.18)
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
 
-[node name="Chamber_West_Wall_North_Segment" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=40175605]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 2.25, -14.35)
-use_collision = true
-size = Vector3(0.3, 4.5, 1.3)
-material = SubResource("Material_structure")
-
-[node name="Chamber_West_Wall_South_Segment" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=1330730896]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 2.25, -11.65)
-use_collision = true
-size = Vector3(0.3, 4.5, 1.3)
-material = SubResource("Material_structure")
-
-[node name="Chamber_Inspection_Opening_Header" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=297790593]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 2.95, -13)
-use_collision = true
-size = Vector3(0.3, 3.1, 1.4)
-material = SubResource("Material_structure")
-
-[node name="Chamber_East_Wall" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=1564788453]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.25, -13)
-use_collision = true
-size = Vector3(0.3, 4.5, 4)
-material = SubResource("Material_structure")
-
-[node name="Chamber_Inner_Header" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Chamber_Structure" unique_id=1646863951]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.05, -15)
-use_collision = true
-size = Vector3(3, 0.9, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Treatment_Equipment" type="Node3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout" unique_id=1811241381]
-
-[node name="West_Spray_Riser" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=476088257]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.23, 1.85, -14)
-size = Vector3(0.16, 3.7, 0.16)
-material = SubResource("Material_trim")
-
-[node name="East_Spray_Riser" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=1613438697]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.77, 1.85, -14)
-size = Vector3(0.16, 3.7, 0.16)
-material = SubResource("Material_trim")
-
-[node name="Overhead_Spray_Manifold" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=641454104]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3.65, -14)
-size = Vector3(2.55, 0.16, 0.16)
-material = SubResource("Material_trim")
-
-[node name="Spray_Nozzle_A" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=142938880]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, -16.62, 3.42, -14)
-size = Vector3(0.22, 0.48, 0.22)
-material = SubResource("Material_suit")
-
-[node name="Broken_Spray_Nozzle_B" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=1228793972]
-transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, -15.32, 3.22, -13.82)
-size = Vector3(0.22, 0.62, 0.22)
-material = SubResource("Material_locked")
-
-[node name="Central_Drain_Grate" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=1881034561]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.02, -14)
-size = Vector3(2.35, 0.04, 0.85)
+[node name="Support_West" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=449143774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.28, 1.95, -16)
+size = Vector3(0.18, 3.35, 0.28)
 material = SubResource("Material_dark")
 
-[node name="Reagent_Leak_Main" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=346202412]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.55, 0.045, -12.65)
-size = Vector3(1.25, 0.03, 0.72)
-material = SubResource("Material_reagent")
-
-[node name="Reagent_Leak_Trail" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Treatment_Equipment" unique_id=721904225]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -15.78, 0.047, -13.18)
-size = Vector3(0.45, 0.025, 0.8)
-material = SubResource("Material_reagent")
-
-[node name="Temporary_Failure_Lighting" type="Node3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout" unique_id=877182288]
-
-[node name="Chamber_Warning_Light" type="CSGBox3D" parent="Stage_03_Failed_Common_Decon_Chamber_Blockout/Temporary_Failure_Lighting" unique_id=1440235655]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.32, -13)
-size = Vector3(1.4, 0.06, 0.55)
-material = SubResource("Material_locked")
-
-[node name="Stage_04_Emergency_Ventilation_Blockout" type="Node3D" parent="." unique_id=1836606977]
-editor_description = "Low 1.4 m high emergency ventilation bypass. The route turns around the sanitation block, passes the failed chamber through a sealed inspection branch, and ends at the future service-room connection. Crouch/crawl programming is not included."
-
-[node name="Hatch_Access_Leg" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=1136366278]
-
-[node name="Access_Leg_Floor" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Hatch_Access_Leg" unique_id=1258582563]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.15, -0.1, 3.8)
-use_collision = true
-size = Vector3(4.9, 0.2, 1.6)
-material = SubResource("Material_floor")
-
-[node name="Access_Leg_Ceiling" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Hatch_Access_Leg" unique_id=1582660710]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.15, 1.5, 3.8)
-use_collision = true
-size = Vector3(4.9, 0.2, 1.6)
+[node name="Support_East" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=136802569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.72, 1.95, -16)
+size = Vector3(0.18, 3.35, 0.28)
 material = SubResource("Material_dark")
 
-[node name="Access_Leg_South_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Hatch_Access_Leg" unique_id=1908116233]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.15, 0.7, 4.6)
-use_collision = true
-size = Vector3(4.9, 1.4, 0.16)
+[node name="Support_North" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=638104094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.95, -17.78)
+size = Vector3(0.28, 3.35, 0.18)
 material = SubResource("Material_dark")
 
-[node name="Access_Leg_East_End_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Hatch_Access_Leg" unique_id=921052946]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.7, 0.7, 3.8)
-use_collision = true
-size = Vector3(0.16, 1.4, 1.6)
+[node name="Support_South" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Central_Biological_Chamber" unique_id=1289690485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.95, -14.22)
+size = Vector3(0.28, 3.35, 0.18)
 material = SubResource("Material_dark")
 
-[node name="Main_Bypass_Leg" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=1931208630]
+[node name="Perimeter_Workstations" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=816208432]
+editor_description = "Three deliberate laboratory zones face the central chamber: a three-seat analysis bank on the north wall, a west sample-preparation counter, and an east monitoring counter. Side counters stop well before their respective branch openings."
 
-[node name="Main_Bypass_Floor" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Main_Bypass_Leg" unique_id=811958483]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, -0.1, -6.2)
-use_collision = true
-size = Vector3(1.6, 0.2, 21.6)
-material = SubResource("Material_floor")
+[node name="North_Analysis_Bank" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations" unique_id=1942121227]
 
-[node name="Main_Bypass_Ceiling" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Main_Bypass_Leg" unique_id=2044002635]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.5, -6.2)
+[node name="Analysis_Desk_A" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=1310367938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0.48, -20.15)
 use_collision = true
-size = Vector3(1.6, 0.2, 21.6)
+size = Vector3(2.5, 0.96, 1.1)
 material = SubResource("Material_dark")
 
-[node name="Main_Bypass_West_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Main_Bypass_Leg" unique_id=1709498322]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6, 0.7, -6.2)
+[node name="Analysis_Desk_B" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=1554905523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.48, -20.15)
 use_collision = true
-size = Vector3(0.16, 1.4, 21.6)
+size = Vector3(2.5, 0.96, 1.1)
 material = SubResource("Material_dark")
 
-[node name="Main_Bypass_East_Wall_South" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Main_Bypass_Leg" unique_id=2072627577]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.7, -4.65)
+[node name="Analysis_Desk_C" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=1342726111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.48, -20.15)
 use_collision = true
-size = Vector3(0.16, 1.4, 15.3)
+size = Vector3(2.5, 0.96, 1.1)
 material = SubResource("Material_dark")
 
-[node name="Main_Bypass_East_Wall_North" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Main_Bypass_Leg" unique_id=1699775641]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.7, -15.35)
-use_collision = true
-size = Vector3(0.16, 1.4, 3.3)
-material = SubResource("Material_dark")
-
-[node name="Inspection_Branch" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=924716532]
-editor_description = "Short sealed side branch giving a low view into the failed treatment chamber without allowing entry."
-
-[node name="Inspection_Branch_Floor" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1035233160]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, -0.1, -13)
-use_collision = true
-size = Vector3(2.5, 0.2, 1.4)
-material = SubResource("Material_floor")
-
-[node name="Inspection_Branch_Ceiling" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=2135608614]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 1.5, -13)
-use_collision = true
-size = Vector3(2.5, 0.2, 1.4)
-material = SubResource("Material_dark")
-
-[node name="Inspection_Branch_North_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1408548538]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 0.7, -13.7)
-use_collision = true
-size = Vector3(2.5, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="Inspection_Branch_South_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=642640959]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 0.7, -12.3)
-use_collision = true
-size = Vector3(2.5, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="Chamber_Inspection_Grille_Frame_Top" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1820310548]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.55, 1.29, -13)
-use_collision = true
-size = Vector3(0.1, 0.12, 1.3)
-material = SubResource("Material_trim")
-
-[node name="Chamber_Inspection_Grille_Frame_Bottom" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=785881232]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.55, 0.11, -13)
-use_collision = true
-size = Vector3(0.1, 0.12, 1.3)
-material = SubResource("Material_trim")
-
-[node name="Chamber_Inspection_Grille_Frame_North" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1258147511]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.55, 0.7, -13.59)
-use_collision = true
-size = Vector3(0.1, 1.3, 0.12)
-material = SubResource("Material_trim")
-
-[node name="Chamber_Inspection_Grille_Frame_South" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1719545077]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.55, 0.7, -12.41)
-use_collision = true
-size = Vector3(0.1, 1.3, 0.12)
-material = SubResource("Material_trim")
-
-[node name="Chamber_Inspection_Grille_Collision_Blocker" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=1120794372]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.56, 0.7, -13)
-visible = false
-use_collision = true
-size = Vector3(0.08, 1.3, 1.3)
-
-[node name="Chamber_Inspection_Grille_Slit_A" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=868809752]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.48, 0.45, -13)
-size = Vector3(0.05, 0.08, 0.95)
-material = SubResource("Material_dark")
-
-[node name="Chamber_Inspection_Grille_Slit_B" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=282330877]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.48, 0.7, -13)
-size = Vector3(0.05, 0.08, 0.95)
-material = SubResource("Material_dark")
-
-[node name="Chamber_Inspection_Grille_Slit_C" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Inspection_Branch" unique_id=726894554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.48, 0.95, -13)
-size = Vector3(0.05, 0.08, 0.95)
-material = SubResource("Material_dark")
-
-[node name="Closed_Side_Branches" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=867790223]
-editor_description = "Two visibly connected but sealed ventilation branches. They imply a wider duct network without adding extra playable routes at this stage."
-
-[node name="West_Filter_Branch_Floor" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1614574127]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, -0.1, -2.5)
-use_collision = true
-size = Vector3(3, 0.2, 1.4)
-material = SubResource("Material_floor")
-
-[node name="West_Filter_Branch_Ceiling" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1380693802]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 1.5, -2.5)
-use_collision = true
-size = Vector3(3, 0.2, 1.4)
-material = SubResource("Material_dark")
-
-[node name="West_Filter_Branch_North_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=777240411]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0.7, -3.2)
-use_collision = true
-size = Vector3(3, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="West_Filter_Branch_South_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=283675063]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1, 0.7, -1.8)
-use_collision = true
-size = Vector3(3, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="West_Filter_Branch_End_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=980889055]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.6, 0.7, -2.5)
-use_collision = true
-size = Vector3(0.16, 1.4, 1.4)
-material = SubResource("Material_dark")
-
-[node name="West_Filter_Branch_Closed_Hatch" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1647156922]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.44, 0.7, -2.5)
-use_collision = true
-size = Vector3(0.16, 1.4, 1.4)
-material = SubResource("Material_dark")
-
-[node name="West_Filter_Branch_Status" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1300048215]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.335, 1.18, -2.5)
-size = Vector3(0.05, 0.08, 0.72)
-material = SubResource("Material_locked")
-
-[node name="West_Filter_Branch_Slat_Upper" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1332858745]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.335, 0.92, -2.5)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="West_Filter_Branch_Slat_Middle" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1467591100]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.335, 0.68, -2.5)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="West_Filter_Branch_Slat_Lower" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=590450110]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.335, 0.44, -2.5)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="East_Service_Branch_Floor" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=784434736]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.25, -0.1, -8)
-use_collision = true
-size = Vector3(1.5, 0.2, 1.4)
-material = SubResource("Material_floor")
-
-[node name="East_Service_Branch_Ceiling" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1466235029]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.25, 1.5, -8)
-use_collision = true
-size = Vector3(1.5, 0.2, 1.4)
-material = SubResource("Material_dark")
-
-[node name="East_Service_Branch_North_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=609084112]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.25, 0.7, -8.7)
-use_collision = true
-size = Vector3(1.5, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="East_Service_Branch_South_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1333498147]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.25, 0.7, -7.3)
-use_collision = true
-size = Vector3(1.5, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="East_Service_Branch_End_Wall" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=290477344]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.5, 0.7, -8)
-use_collision = true
-size = Vector3(0.16, 1.4, 1.4)
-material = SubResource("Material_dark")
-
-[node name="East_Service_Branch_Closed_Hatch" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=2009654425]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.16, 0.7, -8)
-use_collision = true
-size = Vector3(0.16, 1.4, 1.4)
-material = SubResource("Material_dark")
-
-[node name="East_Service_Branch_Status" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=206423531]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.265, 1.18, -8)
-size = Vector3(0.05, 0.08, 0.72)
-material = SubResource("Material_locked")
-
-[node name="East_Service_Branch_Slat_Upper" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=1143317845]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.265, 0.92, -8)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="East_Service_Branch_Slat_Middle" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=352973949]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.265, 0.68, -8)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="East_Service_Branch_Slat_Lower" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Closed_Side_Branches" unique_id=388759835]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.265, 0.44, -8)
-size = Vector3(0.05, 0.07, 1.05)
-material = SubResource("Material_trim")
-
-[node name="Future_Service_Room_Connection" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=1967282143]
-editor_description = "Closed end of Stage 04. Replace with the service observation room only after the ventilation route is approved."
-
-[node name="Future_Service_Room_Exit_Panel" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Future_Service_Room_Connection" unique_id=1215996896]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.7, -17.03)
-use_collision = true
-size = Vector3(1.6, 1.4, 0.16)
-material = SubResource("Material_dark")
-
-[node name="Future_Service_Room_Status" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Future_Service_Room_Connection" unique_id=67605451]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.18, -16.92)
-size = Vector3(0.72, 0.08, 0.05)
-material = SubResource("Material_locked")
-
-[node name="Future_Service_Room_Grille_Slat_Upper" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Future_Service_Room_Connection" unique_id=1911069259]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.92, -16.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Future_Service_Room_Grille_Slat_Middle" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Future_Service_Room_Connection" unique_id=1281011443]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.68, -16.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Future_Service_Room_Grille_Slat_Lower" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Future_Service_Room_Connection" unique_id=692447937]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.44, -16.92)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Temporary_Vent_Lighting" type="Node3D" parent="Stage_04_Emergency_Ventilation_Blockout" unique_id=395932239]
-
-[node name="Access_Elbow_Light" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Temporary_Vent_Lighting" unique_id=1896635353]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.38, 3.6)
-size = Vector3(0.6, 0.04, 0.28)
+[node name="Analysis_Screen_A" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=918764165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 1.3, -19.56)
+size = Vector3(1.85, 0.76, 0.08)
 material = SubResource("Material_screen")
 
-[node name="Mid_Bypass_Light" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Temporary_Vent_Lighting" unique_id=186268979]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.38, -5)
-size = Vector3(0.6, 0.04, 0.28)
+[node name="Analysis_Screen_B" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=967191960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.3, -19.56)
+size = Vector3(1.85, 0.76, 0.08)
 material = SubResource("Material_screen")
 
-[node name="Inspection_Branch_Light" type="CSGBox3D" parent="Stage_04_Emergency_Ventilation_Blockout/Temporary_Vent_Lighting" unique_id=1218700139]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.75, 1.38, -13)
-size = Vector3(0.7, 0.04, 0.28)
-material = SubResource("Material_locked")
+[node name="Analysis_Screen_C" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/North_Analysis_Bank" unique_id=2112286352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 1.3, -19.56)
+size = Vector3(1.85, 0.76, 0.08)
+material = SubResource("Material_screen")
 
-[node name="Stage_05_Service_Observation_Room_Blockout" type="Node3D" parent="." unique_id=660912119]
-editor_description = "Compact safe pause after the ventilation bypass. The room provides standing space, diagnostics, and a protected observation window. A temporary opaque blocker prevents a view into unbuilt space."
+[node name="West_Sample_Preparation" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations" unique_id=1484884239]
 
-[node name="Service_Room_Structure" type="Node3D" parent="Stage_05_Service_Observation_Room_Blockout" unique_id=102835476]
-
-[node name="Service_Room_Floor" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1230251785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, -0.15, -19.5)
+[node name="Preparation_Counter" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/West_Sample_Preparation" unique_id=1872690546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.2, 0.5, -12.5)
 use_collision = true
-size = Vector3(4, 0.3, 5)
-material = SubResource("Material_floor")
-
-[node name="Service_Room_Ceiling" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1394595300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.5, -19.5)
-use_collision = true
-size = Vector3(4, 0.3, 5)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_West_Wall" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1682988202]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.8, 2.25, -19.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 5)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_East_Wall_South_Segment" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=879787631]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8, 2.25, -18.15)
-use_collision = true
-size = Vector3(0.3, 4.5, 2.3)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_East_Wall_North_Segment" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1119626258]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8, 2.25, -21.75)
-use_collision = true
-size = Vector3(0.3, 4.5, 0.5)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_East_Passage_Header" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1056713722]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.8, 4.05, -20.4)
-use_collision = true
-size = Vector3(0.3, 0.9, 2.2)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_South_West_Wall" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=206386600]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.2, 2.25, -17)
-use_collision = true
-size = Vector3(1.2, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_South_East_Wall" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=805468791]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.4, 2.25, -17)
-use_collision = true
-size = Vector3(1.2, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Service_Room_Hatch_Header" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=627690415]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 2.95, -17)
-use_collision = true
-size = Vector3(1.6, 3.1, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Observation_Window_Sill" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=387491944]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.5, -22)
-use_collision = true
-size = Vector3(4, 1, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Observation_Window_Header" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=275758774]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 3.85, -22)
-use_collision = true
-size = Vector3(4, 1.3, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Observation_Window_West_Jamb" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1772750347]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.55, 2.1, -22)
-use_collision = true
-size = Vector3(0.5, 2.2, 0.3)
-material = SubResource("Material_trim")
-
-[node name="Observation_Window_East_Jamb" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Structure" unique_id=1169741004]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.05, 2.1, -22)
-use_collision = true
-size = Vector3(0.5, 2.2, 0.3)
-material = SubResource("Material_trim")
-
-[node name="Protected_Observation_Glass" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout" unique_id=704339266]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 2.1, -22.02)
-use_collision = true
-size = Vector3(3, 2.2, 0.08)
-material = SubResource("Material_protected_glass")
-
-[node name="Service_Room_Hatch_Interior_Details" type="Node3D" parent="Stage_05_Service_Observation_Room_Blockout" unique_id=96032988]
-editor_description = "Interior face of the ventilation exit, matching the entrance and duct-side exit style."
-
-[node name="Service_Room_Hatch_Status" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Hatch_Interior_Details" unique_id=1174899555]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.18, -17.14)
-size = Vector3(0.72, 0.08, 0.05)
-material = SubResource("Material_locked")
-
-[node name="Service_Room_Hatch_Slat_Upper" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Hatch_Interior_Details" unique_id=1973802661]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.92, -17.14)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Service_Room_Hatch_Slat_Middle" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Hatch_Interior_Details" unique_id=814001637]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.68, -17.14)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Service_Room_Hatch_Slat_Lower" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Hatch_Interior_Details" unique_id=1401347715]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.44, -17.14)
-size = Vector3(1.22, 0.07, 0.05)
-material = SubResource("Material_trim")
-
-[node name="Service_Room_Equipment" type="Node3D" parent="Stage_05_Service_Observation_Room_Blockout" unique_id=948789524]
-
-[node name="Service_Terminal_Body" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Equipment" unique_id=653364046]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.12, 1.55, -18.1)
-use_collision = true
-size = Vector3(0.3, 1.8, 1.1)
+size = Vector3(1.2, 1, 3.2)
 material = SubResource("Material_dark")
 
-[node name="Service_Terminal_Screen" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Equipment" unique_id=1687781697]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.29, 1.78, -18.1)
-size = Vector3(0.05, 0.62, 0.82)
+[node name="Preparation_Screen_A" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/West_Sample_Preparation" unique_id=1215718982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.56, 1.28, -13.3)
+size = Vector3(0.08, 0.72, 1.1)
 material = SubResource("Material_screen")
 
-[node name="Diagnostic_Cabinet" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Equipment" unique_id=170126446]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.32, 0.9, -20.45)
-use_collision = true
-size = Vector3(0.6, 1.8, 1.2)
-material = SubResource("Material_trim")
-
-[node name="Hatch_Stand_Clear_Pad" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Service_Room_Equipment" unique_id=1320867652]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.02, -17.75)
-size = Vector3(2, 0.04, 1)
-material = SubResource("Material_trim")
-
-[node name="Temporary_Service_Room_Lighting" type="Node3D" parent="Stage_05_Service_Observation_Room_Blockout" unique_id=986320084]
-
-[node name="Service_Room_Ceiling_Light" type="CSGBox3D" parent="Stage_05_Service_Observation_Room_Blockout/Temporary_Service_Room_Lighting" unique_id=1749421939]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.32, -19.4)
-size = Vector3(1.8, 0.06, 0.65)
+[node name="Preparation_Screen_B" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/West_Sample_Preparation" unique_id=2095349424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.56, 1.28, -11.7)
+size = Vector3(0.08, 0.72, 1.1)
 material = SubResource("Material_screen")
 
-[node name="Stage_06_Containment_Gallery_Blockout" type="Node3D" parent="." unique_id=436272215]
-editor_description = "Compact asymmetric containment gallery visible from the service-room window. Three small sealed cells occupy the west side, observation consoles occupy the east side, and one large damaged chamber terminates the view. No additional floor rooms are included."
+[node name="East_Monitoring_Station" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations" unique_id=1991518737]
 
-[node name="Gallery_Structure" type="Node3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=1773909845]
-
-[node name="Gallery_Floor" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=1179417469]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, -0.15, -29)
+[node name="Monitoring_Counter" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/East_Monitoring_Station" unique_id=1466242355]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 0.5, -18.2)
 use_collision = true
-size = Vector3(6, 0.3, 14)
-material = SubResource("Material_floor")
-
-[node name="Gallery_Ceiling" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=1317895230]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.5, -29)
-use_collision = true
-size = Vector3(6, 0.3, 14)
-material = SubResource("Material_structure")
-
-[node name="Gallery_East_Wall_North" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=41840393]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8, 2.25, -30)
-use_collision = true
-size = Vector3(0.3, 4.5, 12)
-material = SubResource("Material_structure")
-
-[node name="Gallery_South_West_Infill" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=2055582175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.3, 2.25, -22)
-use_collision = true
-size = Vector3(1, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Gallery_South_East_Infill" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=211950931]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 2.25, -22)
-use_collision = true
-size = Vector3(1, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Gallery_West_Wall_South_End" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=1388028615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 2.25, -22.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 1)
-material = SubResource("Material_structure")
-
-[node name="Gallery_West_Wall_A_B" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=303280618]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 2.25, -26.75)
-use_collision = true
-size = Vector3(0.3, 4.5, 1.5)
-material = SubResource("Material_structure")
-
-[node name="Gallery_West_Wall_B_C" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=2049073069]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 2.25, -31.25)
-use_collision = true
-size = Vector3(0.3, 4.5, 1.5)
-material = SubResource("Material_structure")
-
-[node name="Gallery_West_Wall_North_End" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Gallery_Structure" unique_id=827378433]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 2.25, -35.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 1)
-material = SubResource("Material_structure")
-
-[node name="Small_Containment_Cells" type="Node3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=1777488735]
-
-[node name="Cell_A_Floor" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=2146587330]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, -0.15, -24.5)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_floor")
-
-[node name="Cell_A_Ceiling" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=454475935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 4.5, -24.5)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_A_Back_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1671476533]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.8, 2.25, -24.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_A_South_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1306178870]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -23)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_A_North_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=633641048]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -26)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_A_Front_Header" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1093566217]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 4.05, -24.5)
-use_collision = true
-size = Vector3(0.3, 0.9, 3)
-material = SubResource("Material_trim")
-
-[node name="Cell_A_Glass" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1195403587]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.82, 1.8, -24.5)
-use_collision = true
-size = Vector3(0.08, 3.6, 3)
-material = SubResource("Material_protected_glass")
-
-[node name="Cell_A_Platform" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1645420662]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.25, -24.5)
-size = Vector3(2.4, 0.5, 1.2)
-material = SubResource("Material_trim")
-
-[node name="Cell_B_Floor" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1152292305]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, -0.15, -29)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_floor")
-
-[node name="Cell_B_Ceiling" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1404889584]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 4.5, -29)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_B_Back_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1463080413]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.8, 2.25, -29)
-use_collision = true
-size = Vector3(0.3, 4.5, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_B_South_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1627650292]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -27.5)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_B_North_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1079635436]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -30.5)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_B_Front_Header" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=185999087]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 4.05, -29)
-use_collision = true
-size = Vector3(0.3, 0.9, 3)
-material = SubResource("Material_trim")
-
-[node name="Cell_B_Glass" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1495544129]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.82, 1.8, -29)
-use_collision = true
-size = Vector3(0.08, 3.6, 3)
-material = SubResource("Material_protected_glass")
-
-[node name="Cell_B_Platform" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=554159043]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.25, -29)
-size = Vector3(2.4, 0.5, 1.2)
-material = SubResource("Material_trim")
-
-[node name="Cell_C_Floor" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=2083466463]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, -0.15, -33.5)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_floor")
-
-[node name="Cell_C_Ceiling" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1607360656]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 4.5, -33.5)
-use_collision = true
-size = Vector3(4, 0.3, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_C_Back_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=16717627]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.8, 2.25, -33.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 3)
-material = SubResource("Material_structure")
-
-[node name="Cell_C_South_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=316354337]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -32)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_C_North_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1765149238]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8, 2.25, -35)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Cell_C_Front_Header" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1721710488]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 4.05, -33.5)
-use_collision = true
-size = Vector3(0.3, 0.9, 3)
-material = SubResource("Material_trim")
-
-[node name="Cell_C_Glass" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1217539037]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.82, 1.8, -33.5)
-use_collision = true
-size = Vector3(0.08, 3.6, 3)
-material = SubResource("Material_protected_glass")
-
-[node name="Cell_C_Platform" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Small_Containment_Cells" unique_id=1283126615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.25, -33.5)
-size = Vector3(2.4, 0.5, 1.2)
-material = SubResource("Material_trim")
-
-[node name="Observation_Consoles" type="Node3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=573870528]
-
-[node name="Console_A_Body" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=526132558]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 1.1, -25.1)
-use_collision = true
-size = Vector3(0.6, 2.2, 1.8)
+size = Vector3(1.2, 1, 3.2)
 material = SubResource("Material_dark")
 
-[node name="Console_A_Screen" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=2108605431]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.62, 1.42, -25.1)
-size = Vector3(0.05, 0.78, 1.38)
+[node name="Monitoring_Screen_A" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/East_Monitoring_Station" unique_id=1481187180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.44, 1.28, -19)
+size = Vector3(0.08, 0.72, 1.1)
 material = SubResource("Material_screen")
 
-[node name="Console_B_Body" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=924605426]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 1.1, -29)
-use_collision = true
-size = Vector3(0.6, 2.2, 1.8)
-material = SubResource("Material_dark")
-
-[node name="Console_B_Screen" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=222403534]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.62, 1.42, -29)
-size = Vector3(0.05, 0.78, 1.38)
+[node name="Monitoring_Screen_B" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout/Perimeter_Workstations/East_Monitoring_Station" unique_id=2067544552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.44, 1.28, -17.4)
+size = Vector3(0.08, 0.72, 1.1)
 material = SubResource("Material_screen")
 
-[node name="Console_C_Body" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=1327822185]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 1.1, -33.5)
-use_collision = true
-size = Vector3(0.6, 2.2, 1.8)
-material = SubResource("Material_dark")
-
-[node name="Console_C_Screen" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Observation_Consoles" unique_id=1896855059]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.62, 1.42, -33.5)
-size = Vector3(0.05, 0.78, 1.38)
+[node name="Floor_Ring_North" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1617682187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.02, -18.35)
+size = Vector3(5.7, 0.04, 0.14)
 material = SubResource("Material_screen")
 
-[node name="Gallery_Wayfinding_Strip" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=1076338789]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.02, -29)
-size = Vector3(0.12, 0.04, 12)
-material = SubResource("Material_trim")
+[node name="Floor_Ring_South" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=313438489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.02, -13.65)
+size = Vector3(5.7, 0.04, 0.14)
+material = SubResource("Material_screen")
 
-[node name="Large_Damaged_Chamber" type="Node3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=1634120272]
-editor_description = "Main visual accent at the end of the gallery. The chamber is larger than the side cells, but remains compact and sealed by a damaged glass barrier plus an invisible collision blocker."
+[node name="Floor_Ring_West" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1549769605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.35, 0.02, -16)
+size = Vector3(0.14, 0.04, 4.55)
+material = SubResource("Material_screen")
 
-[node name="Large_Chamber_Floor" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1039273973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, -0.15, -38.5)
+[node name="Floor_Ring_East" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=272094712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.65, 0.02, -16)
+size = Vector3(0.14, 0.04, 4.55)
+material = SubResource("Material_screen")
+
+[node name="Central_Ceiling_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=637367363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -16)
+size = Vector3(4.6, 0.04, 4.6)
+material = SubResource("Material_screen")
+
+[node name="West_Branch_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1367945504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.55, 4.02, -16.5)
+size = Vector3(1.2, 0.04, 0.6)
+material = SubResource("Material_screen")
+
+[node name="East_Branch_Warning_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1337823883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.45, 4.02, -14)
+size = Vector3(1.2, 0.04, 0.6)
+material = SubResource("Material_warning")
+
+[node name="Future_West_Capsule_Storage_Connection" type="Marker3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1670267402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.15, 0, -16.5)
+
+[node name="Stage_05_Cold_Capsule_Storage_Vault_Blockout" type="Node3D" parent="." unique_id=381067381]
+editor_description = "Cold-storage branch inspired by the approved large-capsule reference. Three prominent preservation pods line the west wall. Refrigeration machinery occupies the east wall, while the center remains a deliberate transfer aisle leading toward the future damaged containment block."
+
+[node name="West_Connector" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=993701339]
+
+[node name="Connector_Floor" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/West_Connector" unique_id=1520215547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, -0.15, -16.5)
 use_collision = true
-size = Vector3(6, 0.3, 5)
+size = Vector3(3, 0.3, 2.4)
 material = SubResource("Material_floor")
 
-[node name="Large_Chamber_Ceiling" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1570810145]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.5, -38.5)
+[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/West_Connector" unique_id=2136571758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 4.2, -16.5)
 use_collision = true
-size = Vector3(6, 0.3, 5)
+size = Vector3(3, 0.3, 2.4)
 material = SubResource("Material_structure")
 
-[node name="Large_Chamber_West_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1533328367]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8, 2.25, -38.5)
+[node name="Connector_North_Wall" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/West_Connector" unique_id=1967081669]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 2.1, -17.7)
 use_collision = true
-size = Vector3(0.3, 4.5, 5)
+size = Vector3(3, 4.2, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Large_Chamber_East_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=37286616]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8, 2.25, -38.5)
+[node name="Connector_South_Wall" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/West_Connector" unique_id=1376453054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 2.1, -15.3)
 use_collision = true
-size = Vector3(0.3, 4.5, 5)
+size = Vector3(3, 4.2, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Large_Chamber_North_Wall" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=2083159812]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 2.25, -41)
+[node name="Vault_Structure" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1468851768]
+
+[node name="Vault_Floor" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=614240039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, -0.15, -17)
 use_collision = true
-size = Vector3(6, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Large_Chamber_Front_Header" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1757849228]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.05, -36)
-use_collision = true
-size = Vector3(6, 0.9, 0.3)
-material = SubResource("Material_trim")
-
-[node name="Damaged_Glass_Left" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1892086922]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4, 1.8, -36.02)
-use_collision = true
-size = Vector3(2.8, 3.6, 0.08)
-material = SubResource("Material_protected_glass")
-
-[node name="Damaged_Glass_Right" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=202711183]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.2, 1.8, -36.02)
-use_collision = true
-size = Vector3(2.8, 3.6, 0.08)
-material = SubResource("Material_protected_glass")
-
-[node name="Large_Chamber_Glass_Collision_Blocker" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1819652146]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 1.8, -36.03)
-use_collision = true
-size = Vector3(6, 3.6, 0.08)
-
-[node name="Glass_Fracture_Marker_A" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1181971153]
-transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, -21.12, 2.05, -35.94)
-size = Vector3(0.06, 1.15, 0.04)
-material = SubResource("Material_locked")
-
-[node name="Glass_Fracture_Marker_B" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=224846513]
-transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -20.62, 1.55, -35.94)
-size = Vector3(0.06, 0.9, 0.04)
-material = SubResource("Material_locked")
-
-[node name="Large_Chamber_Central_Platform" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=2050721557]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 0.3, -38.8)
-use_collision = true
-size = Vector3(3.2, 0.6, 2.2)
-material = SubResource("Material_trim")
-
-[node name="Restraint_Frame_West" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1235495083]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.9, 1.4, -38.8)
-size = Vector3(0.18, 2.2, 0.18)
-material = SubResource("Material_dark")
-
-[node name="Broken_Restraint_Frame_East" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=2017872899]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -19.75, 1.15, -38.72)
-size = Vector3(0.18, 1.9, 0.18)
-material = SubResource("Material_locked")
-
-[node name="Large_Chamber_Back_Warning" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Large_Damaged_Chamber" unique_id=1795593114]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 2.1, -40.82)
-size = Vector3(2.4, 0.5, 0.05)
-material = SubResource("Material_locked")
-
-[node name="Temporary_Gallery_Lighting" type="Node3D" parent="Stage_06_Containment_Gallery_Blockout" unique_id=1345981414]
-
-[node name="Gallery_Light_South" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Temporary_Gallery_Lighting" unique_id=194503606]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.32, -24.5)
-size = Vector3(1.6, 0.06, 0.55)
-material = SubResource("Material_screen")
-
-[node name="Gallery_Light_Center" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Temporary_Gallery_Lighting" unique_id=220789366]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.32, -29)
-size = Vector3(1.6, 0.06, 0.55)
-material = SubResource("Material_screen")
-
-[node name="Gallery_Light_North" type="CSGBox3D" parent="Stage_06_Containment_Gallery_Blockout/Temporary_Gallery_Lighting" unique_id=1319194331]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 4.32, -33.5)
-size = Vector3(1.6, 0.06, 0.55)
-material = SubResource("Material_locked")
-
-[node name="Stage_07_Service_To_Gallery_Open_Passage" type="Node3D" parent="." unique_id=364175590]
-editor_description = "Open doorless passage on the right side of the service observation room. The route turns left into the beginning of the containment gallery so the observation window remains the first reveal."
-
-[node name="East_Connector_Leg" type="Node3D" parent="Stage_07_Service_To_Gallery_Open_Passage" unique_id=1533843745]
-
-[node name="East_Connector_Floor" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/East_Connector_Leg" unique_id=706220508]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6, -0.15, -20.4)
-use_collision = true
-size = Vector3(2.4, 0.3, 2.2)
+size = Vector3(8, 0.3, 9)
 material = SubResource("Material_floor")
 
-[node name="East_Connector_Ceiling" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/East_Connector_Leg" unique_id=1453927044]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6, 4.5, -20.4)
+[node name="Vault_Ceiling" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=505744848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 4.2, -17)
 use_collision = true
-size = Vector3(2.4, 0.3, 2.2)
+size = Vector3(8, 0.3, 9)
 material = SubResource("Material_structure")
 
-[node name="East_Connector_South_Wall" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/East_Connector_Leg" unique_id=33932843]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.15, 2.25, -19.3)
+[node name="West_Wall" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=1525758451]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47, 2.1, -17)
 use_collision = true
-size = Vector3(1.3, 4.5, 0.3)
+size = Vector3(0.3, 4.2, 9)
 material = SubResource("Material_structure")
 
-[node name="East_Connector_North_Wall_Short" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/East_Connector_Leg" unique_id=1673936408]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 2.25, -21.5)
+[node name="South_Wall" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=656419943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 2.1, -12.5)
 use_collision = true
-size = Vector3(1, 4.5, 0.3)
+size = Vector3(8, 4.2, 0.3)
 material = SubResource("Material_structure")
 
-[node name="North_Turn_Leg" type="Node3D" parent="Stage_07_Service_To_Gallery_Open_Passage" unique_id=585657041]
-
-[node name="North_Turn_Floor" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/North_Turn_Leg" unique_id=1073232435]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.15, -0.15, -22.2)
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=538038668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 2.1, -19.6)
 use_collision = true
-size = Vector3(3.3, 0.3, 3.6)
-material = SubResource("Material_floor")
-
-[node name="North_Turn_Ceiling" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/North_Turn_Leg" unique_id=110883548]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.15, 4.5, -22.2)
-use_collision = true
-size = Vector3(3.3, 0.3, 3.6)
+size = Vector3(0.3, 4.2, 3.8)
 material = SubResource("Material_structure")
 
-[node name="North_Turn_East_Wall" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/North_Turn_Leg" unique_id=1856069986]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.25, -22.2)
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=710713294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 2.1, -13.9)
 use_collision = true
-size = Vector3(0.3, 4.5, 3.6)
+size = Vector3(0.3, 4.2, 2.8)
 material = SubResource("Material_structure")
 
-[node name="North_Turn_West_Wall_Short" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/North_Turn_Leg" unique_id=1964828777]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8, 2.25, -21.75)
+[node name="Lab_Entry_Header" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=2025338429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 3.75, -16.5)
 use_collision = true
-size = Vector3(0.3, 4.5, 0.5)
-material = SubResource("Material_structure")
-
-[node name="Passage_Navigation_Guides" type="Node3D" parent="Stage_07_Service_To_Gallery_Open_Passage" unique_id=795413099]
-
-[node name="East_Connector_Guide" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/Passage_Navigation_Guides" unique_id=1109511501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.65, 0.02, -20.4)
-size = Vector3(1.75, 0.04, 0.12)
+size = Vector3(0.3, 0.9, 2.4)
 material = SubResource("Material_trim")
 
-[node name="North_Turn_Guide" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/Passage_Navigation_Guides" unique_id=1794827860]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.15, 0.02, -22.3)
-size = Vector3(0.12, 0.04, 2.8)
+[node name="North_Wall_West_Segment" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=652771238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.6, 2.1, -21.5)
+use_collision = true
+size = Vector3(2.8, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="North_Wall_East_Segment" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=989472033]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.4, 2.1, -21.5)
+use_collision = true
+size = Vector3(2.8, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Damaged_Block_Opening_Header" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Vault_Structure" unique_id=720633522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 3.75, -21.5)
+use_collision = true
+size = Vector3(2.4, 0.9, 0.3)
 material = SubResource("Material_trim")
 
-[node name="Temporary_Passage_Lighting" type="Node3D" parent="Stage_07_Service_To_Gallery_Open_Passage" unique_id=1611431402]
+[node name="Preservation_Pods" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1593564241]
+editor_description = "Three large preservation capsules form one ordered equipment row. Pod C is powered but reports an unstable state; no containment breach is shown this early in the floor."
 
-[node name="East_Connector_Light" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/Temporary_Passage_Lighting" unique_id=2116805187]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6, 4.32, -20.4)
-size = Vector3(1.1, 0.06, 0.45)
-material = SubResource("Material_screen")
+[node name="Pod_A" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods" unique_id=680740381]
 
-[node name="North_Turn_Light" type="CSGBox3D" parent="Stage_07_Service_To_Gallery_Open_Passage/Temporary_Passage_Lighting" unique_id=52596086]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.15, 4.32, -22.5)
-size = Vector3(0.8, 0.06, 0.7)
-material = SubResource("Material_screen")
-
-[node name="Stage_08_Normal_Route_To_Gallery_Connector" type="Node3D" parent="." unique_id=1745090435]
-editor_description = "Compact open corridor continuing from the failed common treatment chamber to the Stage 07 junction. It completes the normal sanitation route without adding doors or another room."
-
-[node name="Normal_Connector_Structure" type="Node3D" parent="Stage_08_Normal_Route_To_Gallery_Connector" unique_id=748928183]
-
-[node name="Normal_Connector_Floor" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector/Normal_Connector_Structure" unique_id=1238278497]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -0.15, -17.7)
+[node name="Base" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=939745465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 0.2, -14.4)
 use_collision = true
-size = Vector3(3, 0.3, 5.4)
-material = SubResource("Material_floor")
-
-[node name="Normal_Connector_Ceiling" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector/Normal_Connector_Structure" unique_id=1185297792]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.5, -17.7)
-visible = false
-use_collision = true
-size = Vector3(3, 0.3, 5.4)
-material = SubResource("Material_structure")
-
-[node name="Normal_Connector_West_Wall" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector/Normal_Connector_Structure" unique_id=1301624607]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 2.25, -17.15)
-use_collision = true
-size = Vector3(0.3, 4.5, 4.3)
-material = SubResource("Material_structure")
-
-[node name="Normal_Connector_East_Wall" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector/Normal_Connector_Structure" unique_id=470744047]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.25, -17.7)
-use_collision = true
-size = Vector3(0.3, 4.5, 5.4)
-material = SubResource("Material_structure")
-
-[node name="Normal_Connector_Guide" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector" unique_id=1636293198]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.02, -17.7)
-size = Vector3(0.12, 0.04, 4.8)
+radius = 1.12
+height = 0.4
+sides = 28
 material = SubResource("Material_trim")
 
-[node name="Normal_Connector_Light" type="CSGBox3D" parent="Stage_08_Normal_Route_To_Gallery_Connector" unique_id=2116572163]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.32, -17.7)
-size = Vector3(0.9, 0.06, 1.2)
-material = SubResource("Material_screen")
-
-[node name="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout" type="Node3D" parent="." unique_id=2023281411]
-editor_description = "First part of the separate contaminated return line. This sealed two-person chamber treats protective suits before doffing. Its west wall is shared with the existing common treatment chamber; the doffing room and return connection are intentionally deferred."
-
-[node name="Contaminated_Chamber_Structure" type="Node3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout" unique_id=209123192]
-
-[node name="Contaminated_Chamber_Floor" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=1829769269]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -0.15, -13)
+[node name="Glass" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=1751533527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 1.72, -14.4)
 use_collision = true
-size = Vector3(3, 0.3, 4)
-material = SubResource("Material_floor")
+radius = 0.88
+height = 3.0
+sides = 28
+material = SubResource("Material_glass")
 
-[node name="Contaminated_Chamber_Ceiling" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=1350967936]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.5, -13)
-visible = false
-use_collision = true
-size = Vector3(3, 0.3, 4)
-material = SubResource("Material_structure")
-
-[node name="Contaminated_Chamber_East_Wall" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=1425939003]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 2.25, -13)
-use_collision = true
-size = Vector3(0.3, 4.5, 4)
-material = SubResource("Material_structure")
-
-[node name="Contaminated_Chamber_North_Wall" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=845332344]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 2.25, -15)
-use_collision = true
-size = Vector3(3, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Contaminated_Chamber_South_West_Wall" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=1517105148]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2.25, -11)
-use_collision = true
-size = Vector3(1, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Contaminated_Chamber_Doffing_Header" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Chamber_Structure" unique_id=1172504126]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.05, -11)
-use_collision = true
-size = Vector3(2, 0.9, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Contaminated_Treatment_Equipment" type="Node3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout" unique_id=22480718]
-editor_description = "Higher-pressure suit treatment blockout: two side rails, overhead manifold, wide floor drain, and contaminated-waste collection module."
-
-[node name="Contaminated_West_Spray_Rail" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=89837847]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.2, 1.85, -13)
-size = Vector3(0.18, 3.7, 0.18)
-material = SubResource("Material_suit")
-
-[node name="Contaminated_East_Spray_Rail" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=414029505]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.8, 1.85, -13)
-size = Vector3(0.18, 3.7, 0.18)
-material = SubResource("Material_suit")
-
-[node name="Contaminated_Overhead_Manifold" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=1362202589]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 3.65, -13)
-size = Vector3(2.5, 0.18, 0.18)
-material = SubResource("Material_suit")
-
-[node name="Contaminated_Nozzle_A" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=2117559030]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.65, 3.38, -13)
-size = Vector3(0.22, 0.5, 0.22)
-material = SubResource("Material_locked")
-
-[node name="Contaminated_Nozzle_B" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=1891856170]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.35, 3.38, -13)
-size = Vector3(0.22, 0.5, 0.22)
-material = SubResource("Material_locked")
-
-[node name="Contaminated_Wide_Drain" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=1077011797]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.02, -13)
-size = Vector3(2.35, 0.04, 1.6)
-material = SubResource("Material_dark")
-
-[node name="Contaminated_Waste_Collector" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=790816437]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9, 0.75, -14.15)
-use_collision = true
-size = Vector3(0.5, 1.5, 1.1)
-material = SubResource("Material_dark")
-
-[node name="Contaminated_Waste_Status" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout/Contaminated_Treatment_Equipment" unique_id=1294753994]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.17, 0.95, -14.15)
-size = Vector3(0.05, 0.24, 0.7)
-material = SubResource("Material_locked")
-
-[node name="Contaminated_Chamber_Warning_Light" type="CSGBox3D" parent="Stage_09_Contaminated_Suit_Treatment_Chamber_Blockout" unique_id=369702734]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.32, -13)
-size = Vector3(1.4, 0.06, 0.55)
-material = SubResource("Material_locked")
-
-[node name="Stage_10_Contaminated_Suit_Doffing_Room_Blockout" type="Node3D" parent="." unique_id=1152441186]
-editor_description = "Terminal room of the contaminated return line. Staff enter from the treatment chamber, remove processed suits at two stations, deposit waste, and return through the same controlled route. The west wall is shared with the clean suit room."
-
-[node name="Doffing_Room_Structure" type="Node3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout" unique_id=37704489]
-
-[node name="Doffing_Room_Floor" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Room_Structure" unique_id=676259024]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, -0.15, -8.5)
-use_collision = true
-size = Vector3(4, 0.3, 5)
-material = SubResource("Material_floor")
-
-[node name="Doffing_Room_Ceiling" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Room_Structure" unique_id=2076091302]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 4.5, -8.5)
-visible = false
-use_collision = true
-size = Vector3(4, 0.3, 5)
-material = SubResource("Material_structure")
-
-[node name="Doffing_Room_East_Wall" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Room_Structure" unique_id=1962860034]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 2.25, -8.5)
-use_collision = true
-size = Vector3(0.3, 4.5, 5)
-material = SubResource("Material_structure")
-
-[node name="Doffing_Room_North_East_Wall" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Room_Structure" unique_id=2054718590]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 2.25, -11)
-use_collision = true
-size = Vector3(2, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Doffing_Room_South_Wall" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Room_Structure" unique_id=1491568976]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 2.25, -6)
-use_collision = true
-size = Vector3(4, 4.5, 0.3)
-material = SubResource("Material_structure")
-
-[node name="Doffing_Equipment" type="Node3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout" unique_id=898734750]
-editor_description = "Two doffing positions, a central bench, sealed disposal bins, extraction grille, and local status terminal."
-
-[node name="Doffing_Station_A" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1582903213]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.35, -7.65)
-use_collision = true
-size = Vector3(0.6, 2.7, 1.3)
-material = SubResource("Material_suit")
-
-[node name="Doffing_Station_B" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1214670669]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.35, -9.35)
-use_collision = true
-size = Vector3(0.6, 2.7, 1.3)
-material = SubResource("Material_suit")
-
-[node name="Doffing_Pad_A" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1400326880]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.65, 0.02, -7.65)
-size = Vector3(1, 0.04, 1.3)
-material = SubResource("Material_locked")
-
-[node name="Doffing_Pad_B" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1295190345]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.65, 0.02, -9.35)
-size = Vector3(1, 0.04, 1.3)
-material = SubResource("Material_locked")
-
-[node name="Doffing_Bench" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1544789250]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9, 0.42, -8.55)
-use_collision = true
-size = Vector3(0.8, 0.84, 2)
+[node name="Cap" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=1276423158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.35, -14.4)
+radius = 1.12
+height = 0.36
+sides = 28
 material = SubResource("Material_trim")
 
-[node name="Suit_Disposal_Bin_A" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=1373779346]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.05, 0.55, -6.55)
-use_collision = true
-size = Vector3(0.8, 1.1, 0.7)
+[node name="Sample" type="CSGSphere3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=1061745226]
+transform = Transform3D(0.9, 0, 0, 0, 1.35, 0, 0, 0, 0.8, -45.55, 1.65, -14.4)
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
+
+[node name="Status_Body" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=693630179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 1.35, -14.4)
+size = Vector3(0.28, 0.95, 0.72)
 material = SubResource("Material_dark")
 
-[node name="Suit_Disposal_Bin_B" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=178277697]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.95, 0.55, -6.55)
-use_collision = true
-size = Vector3(0.8, 1.1, 0.7)
-material = SubResource("Material_dark")
-
-[node name="Doffing_Status_Terminal" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=847566062]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3, 1.6, -10.68)
-use_collision = true
-size = Vector3(1.1, 1.5, 0.3)
-material = SubResource("Material_dark")
-
-[node name="Doffing_Status_Screen" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=674540094]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3, 1.8, -10.51)
-size = Vector3(0.82, 0.58, 0.05)
+[node name="Status_Screen" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_A" unique_id=89474464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.34, 1.45, -14.4)
+size = Vector3(0.05, 0.48, 0.5)
 material = SubResource("Material_screen")
 
-[node name="Doffing_Extraction_Grille" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout/Doffing_Equipment" unique_id=764955451]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.82, 3.15, -8.35)
-size = Vector3(0.3, 1.1, 1.8)
+[node name="Pod_B" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods" unique_id=1522220484]
+
+[node name="Base" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=2045172605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 0.2, -17)
+use_collision = true
+radius = 1.12
+height = 0.4
+sides = 28
+material = SubResource("Material_trim")
+
+[node name="Glass" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=1202384291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 1.72, -17)
+use_collision = true
+radius = 0.88
+height = 3.0
+sides = 28
+material = SubResource("Material_glass")
+
+[node name="Cap" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=1485456500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.35, -17)
+radius = 1.12
+height = 0.36
+sides = 28
+material = SubResource("Material_trim")
+
+[node name="Sample" type="CSGSphere3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=767351402]
+transform = Transform3D(1.05, 0, 0, 0, 1.15, 0, 0, 0, 0.85, -45.55, 1.55, -17)
+radius = 0.55
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
+
+[node name="Status_Body" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=1477006581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 1.35, -17)
+size = Vector3(0.28, 0.95, 0.72)
 material = SubResource("Material_dark")
 
-[node name="Doffing_Room_Ceiling_Light" type="CSGBox3D" parent="Stage_10_Contaminated_Suit_Doffing_Room_Blockout" unique_id=1161043970]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 4.32, -8.5)
-size = Vector3(1.6, 0.06, 0.6)
+[node name="Status_Screen" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_B" unique_id=1535948714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.34, 1.45, -17)
+size = Vector3(0.05, 0.48, 0.5)
 material = SubResource("Material_screen")
+
+[node name="Pod_C" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods" unique_id=633693585]
+
+[node name="Base" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=77277090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 0.2, -19.6)
+use_collision = true
+radius = 1.12
+height = 0.4
+sides = 28
+material = SubResource("Material_trim")
+
+[node name="Glass" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=924414172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 1.72, -19.6)
+use_collision = true
+radius = 0.88
+height = 3.0
+sides = 28
+material = SubResource("Material_glass")
+
+[node name="Cap" type="CSGCylinder3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=176926687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.35, -19.6)
+radius = 1.12
+height = 0.36
+sides = 28
+material = SubResource("Material_trim")
+
+[node name="Sample" type="CSGSphere3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=1961046724]
+transform = Transform3D(1.1, 0, 0, 0, 1.45, 0, 0, 0, 0.9, -45.55, 1.58, -19.6)
+radius = 0.58
+radial_segments = 18
+rings = 10
+material = SubResource("Material_bio")
+
+[node name="Status_Body" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=827963741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 1.35, -19.6)
+size = Vector3(0.28, 0.95, 0.72)
+material = SubResource("Material_dark")
+
+[node name="Status_Screen" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Preservation_Pods/Pod_C" unique_id=1282762634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.34, 1.45, -19.6)
+size = Vector3(0.05, 0.48, 0.5)
+material = SubResource("Material_warning")
+
+[node name="Coolant_Manifold" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1417752706]
+
+[node name="Main_Line" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Coolant_Manifold" unique_id=1870078294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.74, -17)
+size = Vector3(0.24, 0.24, 7.3)
+material = SubResource("Material_screen")
+
+[node name="Drop_A" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Coolant_Manifold" unique_id=1501817450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.56, -14.4)
+size = Vector3(0.2, 0.24, 0.2)
+material = SubResource("Material_screen")
+
+[node name="Drop_B" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Coolant_Manifold" unique_id=90057019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.56, -17)
+size = Vector3(0.2, 0.24, 0.2)
+material = SubResource("Material_screen")
+
+[node name="Drop_C" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Coolant_Manifold" unique_id=341286385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.55, 3.56, -19.6)
+size = Vector3(0.2, 0.24, 0.2)
+material = SubResource("Material_warning")
+
+[node name="Refrigeration_Equipment" type="Node3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1779196730]
+
+[node name="North_Refrigeration_Unit" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Refrigeration_Equipment" unique_id=1922931921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7, 1.3, -19.25)
+use_collision = true
+size = Vector3(1.1, 2.6, 2.1)
+material = SubResource("Material_trim")
+
+[node name="North_Unit_Display" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Refrigeration_Equipment" unique_id=1881709042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.27, 1.55, -19.25)
+size = Vector3(0.05, 0.58, 1.3)
+material = SubResource("Material_screen")
+
+[node name="South_Refrigeration_Unit" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Refrigeration_Equipment" unique_id=1714046672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7, 1.3, -13.8)
+use_collision = true
+size = Vector3(1.1, 2.6, 2.1)
+material = SubResource("Material_trim")
+
+[node name="South_Unit_Display" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout/Refrigeration_Equipment" unique_id=2042426561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.27, 1.55, -13.8)
+size = Vector3(0.05, 0.58, 1.3)
+material = SubResource("Material_screen")
+
+[node name="Transfer_Aisle_Guide" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=95018636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.25, 0.02, -17)
+size = Vector3(0.14, 0.04, 7.6)
+material = SubResource("Material_screen")
+
+[node name="Connector_Guide" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=476103103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 0.02, -16.5)
+size = Vector3(2.5, 0.04, 0.14)
+material = SubResource("Material_screen")
+
+[node name="Vault_Light_South" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1404267179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.02, -14.6)
+size = Vector3(1.6, 0.04, 0.6)
+material = SubResource("Material_screen")
+
+[node name="Vault_Light_North" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=682930805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.02, -19.4)
+size = Vector3(1.6, 0.04, 0.6)
+material = SubResource("Material_screen")
+
+[node name="Future_Damaged_Containment_Connection" type="Marker3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1873568778]
+editor_description = "Future north route toward the damaged multi-level containment block."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 0, -21.65)
+
+[node name="Stage_06_Damaged_Multilevel_Containment_Blockout" type="Node3D" parent="." unique_id=2057740826]
+editor_description = "Accessible damaged containment block. A continuous upper perimeter surrounds a recessed lower floor. A broad seven-step stair provides the only vertical transition. The east opening connects to the monitoring branch and closes the internal floor loop."
+
+[node name="Upper_Galleries" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=355070725]
+
+[node name="South_Entry_Ledge" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Upper_Galleries" unique_id=1714529356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.15, -22.5)
+use_collision = true
+size = Vector3(22, 0.3, 2)
+material = SubResource("Material_floor")
+
+[node name="West_Gallery" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Upper_Galleries" unique_id=960036722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, -0.15, -27.25)
+use_collision = true
+size = Vector3(3.5, 0.3, 7.5)
+material = SubResource("Material_floor")
+
+[node name="East_Gallery" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Upper_Galleries" unique_id=1755943856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.75, -0.15, -27.25)
+use_collision = true
+size = Vector3(3.5, 0.3, 7.5)
+material = SubResource("Material_floor")
+
+[node name="North_Gallery" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Upper_Galleries" unique_id=1610022436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.15, -32)
+use_collision = true
+size = Vector3(22, 0.3, 2)
+material = SubResource("Material_floor")
+
+[node name="Lower_Containment_Floor" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=691724919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -2.55, -27.25)
+use_collision = true
+size = Vector3(15, 0.3, 7.5)
+material = SubResource("Material_dark")
+
+[node name="Outer_Structure" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=229682611]
+
+[node name="West_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=619283997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47, 0.9, -27.25)
+use_collision = true
+size = Vector3(0.3, 6.6, 11.5)
+material = SubResource("Material_structure")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1378487239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.9, -33)
+use_collision = true
+size = Vector3(22, 6.6, 0.3)
+material = SubResource("Material_structure")
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=2000641958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.9, -30.6)
+use_collision = true
+size = Vector3(0.3, 6.6, 4.8)
+material = SubResource("Material_structure")
+
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1067762105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.9, -23.65)
+use_collision = true
+size = Vector3(0.3, 6.6, 4.3)
+material = SubResource("Material_structure")
+
+[node name="Monitoring_Opening_Header" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=865239970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 3.75, -27)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="East_Opening_Lower_Foundation" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=695444070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -1.2, -27)
+use_collision = true
+size = Vector3(0.3, 2.4, 2.4)
+material = SubResource("Material_dark")
+
+[node name="South_Upper_Wall_Extension" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=2077567322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2.1, -21.5)
+use_collision = true
+size = Vector3(14, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="South_Lower_Foundation" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=2002929882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -1.2, -21.5)
+use_collision = true
+size = Vector3(22, 2.4, 0.3)
+material = SubResource("Material_dark")
+
+[node name="Stairwell_Retaining_Wall_West" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1797254110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, -1.2, -23.5)
+use_collision = true
+size = Vector3(12, 2.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Stairwell_Retaining_Wall_East" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=813524665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, -1.2, -23.5)
+use_collision = true
+size = Vector3(1, 2.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Pit_West_Retaining_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1159119845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5, -1.2, -27.25)
+use_collision = true
+size = Vector3(0.3, 2.4, 7.5)
+material = SubResource("Material_structure")
+
+[node name="Pit_East_Retaining_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1287722380]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5, -1.2, -27.25)
+use_collision = true
+size = Vector3(0.3, 2.4, 7.5)
+material = SubResource("Material_structure")
+
+[node name="Pit_North_Retaining_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Outer_Structure" unique_id=1257001801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -1.2, -31)
+use_collision = true
+size = Vector3(15, 2.4, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Broken_Ceiling" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=582057915]
+editor_description = "Four ceiling plates leave a deliberate central breach. A dark raised backing closes the breach from the exterior world and represents the damaged service cavity above."
+
+[node name="Ceiling_West" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=1343591459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 4.2, -27.25)
+use_collision = true
+size = Vector3(8, 0.3, 11.5)
+material = SubResource("Material_structure")
+
+[node name="Ceiling_East" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=857871231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 4.2, -27.25)
+use_collision = true
+size = Vector3(6, 0.3, 11.5)
+material = SubResource("Material_structure")
+
+[node name="Ceiling_Central_South" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=528124410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.2, -23.25)
+use_collision = true
+size = Vector3(8, 0.3, 3.5)
+material = SubResource("Material_structure")
+
+[node name="Ceiling_Central_North" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=807107109]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.2, -31)
+use_collision = true
+size = Vector3(8, 0.3, 4)
+material = SubResource("Material_structure")
+
+[node name="Breach_Backdrop" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=460999381]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.15, -27)
+use_collision = true
+size = Vector3(8.2, 0.3, 4.2)
+material = SubResource("Material_dark")
+
+[node name="Breach_Cavity_West_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=769574582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 4.675, -27)
+use_collision = true
+size = Vector3(0.2, 0.65, 4.2)
+material = SubResource("Material_dark")
+
+[node name="Breach_Cavity_East_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=1167900131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 4.675, -27)
+use_collision = true
+size = Vector3(0.2, 0.65, 4.2)
+material = SubResource("Material_dark")
+
+[node name="Breach_Cavity_South_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=1307137011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.675, -25)
+use_collision = true
+size = Vector3(8.2, 0.65, 0.2)
+material = SubResource("Material_dark")
+
+[node name="Breach_Cavity_North_Wall" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Broken_Ceiling" unique_id=2093024949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.675, -29)
+use_collision = true
+size = Vector3(8.2, 0.65, 0.2)
+material = SubResource("Material_dark")
+
+[node name="Straight_Safety_Barriers" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1887006787]
+editor_description = "Low straight guard panels sit directly on the upper floor. The south barrier is split only for the stair opening."
+
+[node name="West_Guard" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Straight_Safety_Barriers" unique_id=1208998240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5, 0.5, -27.25)
+use_collision = true
+size = Vector3(0.14, 1, 7.5)
+material = SubResource("Material_warning")
+
+[node name="East_Guard" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Straight_Safety_Barriers" unique_id=414448759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.5, 0.5, -27.25)
+use_collision = true
+size = Vector3(0.14, 1, 7.5)
+material = SubResource("Material_warning")
+
+[node name="North_Guard" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Straight_Safety_Barriers" unique_id=1160254514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.5, -31)
+use_collision = true
+size = Vector3(15, 1, 0.14)
+material = SubResource("Material_warning")
+
+[node name="South_Guard_West" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Straight_Safety_Barriers" unique_id=1193836691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 0.5, -23.5)
+use_collision = true
+size = Vector3(12, 1, 0.14)
+material = SubResource("Material_warning")
+
+[node name="South_Guard_East" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Straight_Safety_Barriers" unique_id=142976815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 0.5, -23.5)
+use_collision = true
+size = Vector3(1, 1, 0.14)
+material = SubResource("Material_warning")
+
+[node name="Lower_Access_Stair" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=69590818]
+editor_description = "Two-meter-wide normal stair. Seven 0.3-meter drops bridge the upper floor to the lower containment floor; the lower floor itself forms the eighth landing."
+
+[node name="Step_01" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=899273795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -1.35, -23.725)
+use_collision = true
+size = Vector3(2, 2.1, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_02" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=470296882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -1.5, -24.175)
+use_collision = true
+size = Vector3(2, 1.8, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_03" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=2080838409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -1.65, -24.625)
+use_collision = true
+size = Vector3(2, 1.5, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_04" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=1167726524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -1.8, -25.075)
+use_collision = true
+size = Vector3(2, 1.2, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_05" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=1850763456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -1.95, -25.525)
+use_collision = true
+size = Vector3(2, 0.9, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_06" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=1982282010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -2.1, -25.975)
+use_collision = true
+size = Vector3(2, 0.6, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Step_07" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Access_Stair" unique_id=1638279358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, -2.25, -26.425)
+use_collision = true
+size = Vector3(2, 0.3, 0.45)
+material = SubResource("Material_structure")
+
+[node name="Ruptured_Lower_Chamber" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1495146834]
+editor_description = "The lower landmark is a failed containment base with one missing support and displaced organic residue. It suggests an escape without depicting the floor's main creature."
+
+[node name="Broken_Base" type="CSGCylinder3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=1317793166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -2.25, -27.5)
+use_collision = true
+radius = 2.15
+height = 0.3
+sides = 28
+material = SubResource("Material_trim")
+
+[node name="Broken_Upper_Ring" type="CSGCylinder3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=1855189331]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.55, -27.5)
+radius = 1.85
+height = 0.22
+sides = 28
+material = SubResource("Material_dark")
+
+[node name="West_Support" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=411243875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.75, -0.8, -27.5)
+size = Vector3(0.22, 2.7, 0.28)
+material = SubResource("Material_warning")
+
+[node name="East_Support" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=1365918224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.25, -0.8, -27.5)
+size = Vector3(0.22, 2.7, 0.28)
+material = SubResource("Material_dark")
+
+[node name="North_Support" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=2063999941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.8, -29.25)
+size = Vector3(0.28, 2.7, 0.22)
+material = SubResource("Material_dark")
+
+[node name="Escaped_Residue_A" type="CSGSphere3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=238899520]
+transform = Transform3D(1.4, 0, 0, 0, 0.35, 0, 0, 0, 0.7, -37.1, -2.32, -26.4)
+radius = 0.48
+radial_segments = 16
+rings = 8
+material = SubResource("Material_bio")
+
+[node name="Escaped_Residue_B" type="CSGSphere3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Ruptured_Lower_Chamber" unique_id=2038535914]
+transform = Transform3D(0.8, 0, 0, 0, 0.25, 0, 0, 0, 1.3, -38.05, -2.34, -25.9)
+radius = 0.42
+radial_segments = 16
+rings = 8
+material = SubResource("Material_bio")
+
+[node name="Lower_Inspection_Equipment" type="Node3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1823654844]
+
+[node name="West_Inspection_Console" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Inspection_Equipment" unique_id=1043345806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, -1.9, -29.6)
+use_collision = true
+size = Vector3(1.6, 1, 1.1)
+material = SubResource("Material_dark")
+
+[node name="West_Console_Screen" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Inspection_Equipment" unique_id=953667611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, -1.15, -29.02)
+size = Vector3(1.15, 0.62, 0.06)
+material = SubResource("Material_warning")
+
+[node name="East_Inspection_Console" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Inspection_Equipment" unique_id=94461988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2, -1.9, -29.6)
+use_collision = true
+size = Vector3(1.6, 1, 1.1)
+material = SubResource("Material_dark")
+
+[node name="East_Console_Screen" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout/Lower_Inspection_Equipment" unique_id=1774969348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2, -1.15, -29.02)
+size = Vector3(1.15, 0.62, 0.06)
+material = SubResource("Material_screen")
+
+[node name="Upper_West_Light" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1009018005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.2, 4.02, -27)
+size = Vector3(0.65, 0.04, 2.2)
+material = SubResource("Material_screen")
+
+[node name="Upper_East_Warning_Light" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=104964384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.8, 4.02, -27)
+size = Vector3(0.65, 0.04, 2.2)
+material = SubResource("Material_warning")
+
+[node name="Lower_Floor_Guide" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1107641444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7, -2.38, -27.5)
+size = Vector3(3.8, 0.04, 0.14)
+material = SubResource("Material_warning")
+
+[node name="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" type="Node3D" parent="." unique_id=177572292]
+editor_description = "Final east-side branch. A compact control gallery supervises the central biological chamber, while the northern incident-analysis bay records the damaged containment block. The two zones close the internal loop without introducing another oversized room."
+
+[node name="Structure" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" unique_id=603613457]
+
+[node name="Gallery_Floor" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=1689134304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -0.15, -20.6)
+use_collision = true
+size = Vector3(6, 0.3, 15.2)
+material = SubResource("Material_floor")
+
+[node name="Gallery_Ceiling" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=382520932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.2, -20.6)
+use_collision = true
+size = Vector3(6, 0.3, 15.2)
+material = SubResource("Material_structure")
+
+[node name="East_Wall" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=1775300509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 2.1, -20.6)
+use_collision = true
+size = Vector3(0.3, 4.2, 15.2)
+material = SubResource("Material_structure")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=1762970866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2.1, -13)
+use_collision = true
+size = Vector3(6, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=1392086401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2.1, -28.2)
+use_collision = true
+size = Vector3(6, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="West_Wall_Between_Openings" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=493481783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2.1, -20.5)
+use_collision = true
+size = Vector3(0.3, 4.2, 10.6)
+material = SubResource("Material_structure")
+
+[node name="Lab_Opening_Header" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=666487106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 3.75, -14)
+use_collision = true
+size = Vector3(0.3, 0.9, 2.4)
+material = SubResource("Material_trim")
+
+[node name="Damaged_Block_Connector" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure" unique_id=1040101529]
+
+[node name="Connector_Floor" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure/Damaged_Block_Connector" unique_id=1442623382]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.15, -27)
+use_collision = true
+size = Vector3(2, 0.3, 2.4)
+material = SubResource("Material_floor")
+
+[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure/Damaged_Block_Connector" unique_id=1442446007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 4.2, -27)
+use_collision = true
+size = Vector3(2, 0.3, 2.4)
+material = SubResource("Material_structure")
+
+[node name="Connector_North_Wall" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure/Damaged_Block_Connector" unique_id=933012915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2.1, -28.2)
+use_collision = true
+size = Vector3(2, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Connector_South_Wall" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Structure/Damaged_Block_Connector" unique_id=697565214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2.1, -25.8)
+use_collision = true
+size = Vector3(2, 4.2, 0.3)
+material = SubResource("Material_structure")
+
+[node name="Zone_Divider" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" unique_id=765713138]
+editor_description = "A framed internal threshold separates normal monitoring from the increasingly damaged incident-analysis zone while preserving a 2.4-meter clear passage."
+
+[node name="Divider_West" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Zone_Divider" unique_id=1215826541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1, 2.1, -20.5)
+use_collision = true
+size = Vector3(1.8, 4.2, 0.3)
+material = SubResource("Material_glass")
+
+[node name="Divider_East" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Zone_Divider" unique_id=1116451779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.9, 2.1, -20.5)
+use_collision = true
+size = Vector3(1.8, 4.2, 0.3)
+material = SubResource("Material_glass")
+
+[node name="Divider_Header" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Zone_Divider" unique_id=111530321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.75, -20.5)
+use_collision = true
+size = Vector3(2.4, 0.9, 0.3)
+material = SubResource("Material_trim")
+
+[node name="South_Containment_Control_Gallery" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" unique_id=1612704855]
+editor_description = "Three ordered control stations face west toward the central laboratory. The west half of the room remains a clear circulation lane between the lab and the northern incident bay."
+
+[node name="Control_Desk_A" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=164590508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.15, 0.5, -15.2)
+use_collision = true
+size = Vector3(1.7, 1, 1.45)
+material = SubResource("Material_dark")
+
+[node name="Control_Desk_B" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=1422835027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.15, 0.5, -17.35)
+use_collision = true
+size = Vector3(1.7, 1, 1.45)
+material = SubResource("Material_dark")
+
+[node name="Control_Desk_C" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=1956639378]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.15, 0.5, -19.35)
+use_collision = true
+size = Vector3(1.7, 1, 1.25)
+material = SubResource("Material_dark")
+
+[node name="Control_Screen_A" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=971452840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.04, 1.28, -15.2)
+size = Vector3(0.08, 0.72, 1.05)
+material = SubResource("Material_screen")
+
+[node name="Control_Screen_B" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=1739696432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.04, 1.28, -17.35)
+size = Vector3(0.08, 0.72, 1.05)
+material = SubResource("Material_screen")
+
+[node name="Control_Screen_C" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=311940687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.04, 1.28, -19.35)
+size = Vector3(0.08, 0.72, 0.9)
+material = SubResource("Material_warning")
+
+[node name="Central_Status_Display" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/South_Containment_Control_Gallery" unique_id=759291754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2.35, -13.18)
+size = Vector3(3.3, 1.25, 0.08)
+material = SubResource("Material_screen")
+
+[node name="North_Incident_Analysis_Bay" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" unique_id=957056717]
+editor_description = "A focused incident-review table and sealed evidence column support the damaged containment narrative. Equipment stays to the east and center, leaving the west side clear for the loop route."
+
+[node name="Incident_Review_Table" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=367637483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3, 0.5, -23.3)
+use_collision = true
+size = Vector3(2.2, 1, 1.5)
+material = SubResource("Material_dark")
+
+[node name="Incident_Table_Display" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=526301175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3, 1.04, -23.3)
+size = Vector3(1.65, 0.06, 1.05)
+material = SubResource("Material_warning")
+
+[node name="Evidence_Column_Base" type="CSGCylinder3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=543789271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.45, 0.16, -26.25)
+use_collision = true
+radius = 0.9
+height = 0.32
+sides = 24
+material = SubResource("Material_trim")
+
+[node name="Evidence_Column_Glass" type="CSGCylinder3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=1441820872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.45, 1.55, -26.25)
+use_collision = true
+radius = 0.7
+height = 2.65
+sides = 24
+material = SubResource("Material_glass")
+
+[node name="Evidence_Column_Cap" type="CSGCylinder3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=699987645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.45, 2.94, -26.25)
+radius = 0.9
+height = 0.28
+sides = 24
+material = SubResource("Material_trim")
+
+[node name="Evidence_Residue" type="CSGSphere3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=2140429437]
+transform = Transform3D(0.8, 0, 0, 0, 1.15, 0, 0, 0, 0.7, -18.45, 1.38, -26.25)
+radius = 0.42
+radial_segments = 16
+rings = 9
+material = SubResource("Material_bio")
+
+[node name="Incident_Wall_Display_A" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=1209237815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.18, 2.25, -22.15)
+size = Vector3(0.06, 1.25, 1.6)
+material = SubResource("Material_screen")
+
+[node name="Incident_Wall_Display_B" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/North_Incident_Analysis_Bay" unique_id=575104882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.18, 2.25, -24.2)
+size = Vector3(0.06, 1.25, 1.45)
+material = SubResource("Material_warning")
+
+[node name="Route_And_Ceiling_Fixtures" type="Node3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout" unique_id=1041677594]
+
+[node name="South_Route_Guide" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=189889110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6, 0.02, -17)
+size = Vector3(0.14, 0.04, 6.8)
+material = SubResource("Material_screen")
+
+[node name="North_Route_Guide" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=1435566862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6, 0.02, -24.1)
+size = Vector3(0.14, 0.04, 6.7)
+material = SubResource("Material_warning")
+
+[node name="Control_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=2100734656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -16.8)
+size = Vector3(2.4, 0.04, 0.65)
+material = SubResource("Material_screen")
+
+[node name="Divider_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=77382672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -20.25)
+size = Vector3(2.4, 0.04, 0.65)
+material = SubResource("Material_screen")
+
+[node name="Incident_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=844714294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -24.25)
+size = Vector3(2.4, 0.04, 0.65)
+material = SubResource("Material_warning")
+
+[node name="Floor_Lighting_Blockout" type="Node3D" parent="." unique_id=670894966]
+editor_description = "Temporary blockout illumination. Cool laboratory light establishes navigation and room hierarchy; dim red emergency light is restricted to the damaged containment and incident-analysis zones. Final art lighting remains a later pass."
+
+[node name="Arrival_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=102545468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3.65, 0)
+light_color = Color(0.62, 0.82, 0.92, 1)
+light_energy = 0.75
+omni_range = 5.8
+
+[node name="Sanitation_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1726326900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 3.65, 0)
+light_color = Color(0.66, 0.86, 0.96, 1)
+light_energy = 0.9
+omni_range = 6.5
+
+[node name="Observation_Corridor_Light_West" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1695995424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.55, -1.2)
+light_color = Color(0.48, 0.74, 0.9, 1)
+light_energy = 0.75
+omni_range = 6.5
+
+[node name="Observation_Corridor_Light_North" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=2041688155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.55, -7)
+light_color = Color(0.42, 0.72, 0.9, 1)
+light_energy = 0.78
+omni_range = 7.0
+
+[node name="Central_Lab_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=384399478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.55, -16)
+light_color = Color(0.5, 0.82, 0.96, 1)
+light_energy = 1.05
+omni_range = 8.5
+
+[node name="Central_Chamber_Key_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1036554546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2.2, -16)
+light_color = Color(0.18, 0.78, 0.68, 1)
+light_energy = 0.65
+omni_range = 4.0
+
+[node name="Capsule_Vault_Light_South" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1816271563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 3.55, -14.5)
+light_color = Color(0.3, 0.68, 0.9, 1)
+light_energy = 0.82
+omni_range = 6.3
+
+[node name="Capsule_Vault_Light_North" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1715765456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 3.55, -19.4)
+light_color = Color(0.28, 0.64, 0.88, 1)
+light_energy = 0.82
+omni_range = 6.3
+
+[node name="Damaged_Block_Upper_West_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1479647740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 3.4, -27)
+light_color = Color(0.3, 0.62, 0.78, 1)
+light_energy = 0.65
+omni_range = 6.2
+
+[node name="Damaged_Block_Upper_East_Emergency_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1088509775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3.3, -27)
+light_color = Color(0.95, 0.16, 0.08, 1)
+light_energy = 0.78
+omni_range = 6.5
+
+[node name="Damaged_Block_Lower_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=420806702]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.65, -27.5)
+light_color = Color(0.72, 0.16, 0.09, 1)
+light_energy = 0.62
+omni_range = 7.0
+
+[node name="East_Control_Gallery_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=494600042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.55, -16.8)
+light_color = Color(0.46, 0.76, 0.92, 1)
+light_energy = 0.85
+omni_range = 6.4
+
+[node name="East_Gallery_Threshold_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1509844622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.45, -20.5)
+light_color = Color(0.4, 0.68, 0.86, 1)
+light_energy = 0.58
+
+[node name="Incident_Analysis_Emergency_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=651797417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.35, -24.7)
+light_color = Color(0.92, 0.22, 0.1, 1)
+light_energy = 0.72
+omni_range = 6.0

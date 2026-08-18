@@ -459,6 +459,10 @@ font_size = 48
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
 [node name="LandingPortalArt" parent="Landings/Floor_3" unique_id=1376337754 instance=ExtResource("6_portal_art")]
+editable_children = true
+
+[node name="CallPanelVisual" parent="Landings/Floor_3/LandingPortalArt" index="2"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.8, 0, -6.21)
 
 [node name="Threshold" type="StaticBody3D" parent="Landings/Floor_3" unique_id=1961399973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, 0)
@@ -470,7 +474,7 @@ shape = SubResource("Shape_threshold")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.15, 0, 0)
 
 [node name="CallButton" type="StaticBody3D" parent="Landings/Floor_3" unique_id=1398857316]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.46, 1.35, -2.75)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.55, 1.35, -2.75)
 script = ExtResource("2_button")
 floor_index = 3
 is_call_button = true

@@ -56,7 +56,7 @@ albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76o8y"]
 albedo_color = Color(1, 0, 0, 1)
 
-[node name="Floor_0_Base_Blockout" type="Node3D"]
+[node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
 editor_description = "Отдельная сцена нулевого этажа базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные этажи принадлежат сборочной сцене Base_Blockout_v03."
 
 [node name="Day1_Door_Collisions" type="Node3D" parent="." unique_id=1527685363]
@@ -1913,6 +1913,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 [node name="Technical_Hub_Storage_Door_Visual_Prototype" parent="South_Technical/Transitions/Hub_Storage" unique_id=1182363176 instance=ExtResource("8_technical_hub_storage_door_visual")]
 editor_description = "Closed visual prototype for the 3 x 3 m Hub to Storage reinforced hermetic door. Art-only: no scripts, leaf collision or animation. The two DoorLeaves nodes are the future moving parts."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.003)
+visible = false
 
 [node name="Storage_Generator" type="Node3D" parent="South_Technical/Transitions" unique_id=1506319244]
 
@@ -1922,6 +1923,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 18)
 [node name="Technical_Storage_Generator_Door_Visual_Prototype" parent="South_Technical/Transitions/Storage_Generator" unique_id=1392108524 instance=ExtResource("9_technical_storage_generator_door_visual")]
 editor_description = "3.04 x 3 m fire-rated hermetic door for Storage to Generator. Closed art prototype based on the approved South Technical reference."
 transform = Transform3D(1.0133333, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 18.003)
+visible = false
 
 [node name="Storage_Generator_Divider" type="Node3D" parent="South_Technical" unique_id=1839719057]
 
@@ -2447,6 +2449,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 1.5)
 
 [node name="Medical_Hermetic_Door_Visual_Prototype" parent="East_Living/Transitions/Corridor_Medical" unique_id=56035408 instance=ExtResource("6_medical_hermetic_door_visual")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 1.515)
+visible = false
 
 [node name="Common_Room" type="Node3D" parent="East_Living" unique_id=1956063123]
 
@@ -3124,6 +3127,7 @@ size = Vector3(16, 0.3, 16)
 
 [node name="Science_Entrance_Door_Visual_Prototype" parent="North_Science/Entrance_Transition" unique_id=1721816136 instance=ExtResource("10_science_entrance_door_visual")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.003)
+visible = false
 
 [node name="Door_Socket" type="Marker3D" parent="North_Science/Entrance_Transition" unique_id=1440466112]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
