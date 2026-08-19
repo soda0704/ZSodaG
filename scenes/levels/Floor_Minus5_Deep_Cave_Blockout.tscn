@@ -1,0 +1,576 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.19, 0.22, 0.23, 1)
+metallic = 0.12
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Material_concrete"]
+albedo_color = Color(0.42, 0.45, 0.46, 1)
+metallic = 0.03
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_steel"]
+albedo_color = Color(0.075, 0.09, 0.1, 1)
+metallic = 0.5
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Material_hazard"]
+albedo_color = Color(0.9, 0.42, 0.055, 1)
+metallic = 0.12
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Material_rock"]
+albedo_color = Color(0.12, 0.145, 0.15, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="Material_wet_rock"]
+albedo_color = Color(0.07, 0.095, 0.105, 1)
+metallic = 0.05
+roughness = 0.36
+
+[sub_resource type="StandardMaterial3D" id="Material_cold_light"]
+albedo_color = Color(0.38, 0.72, 0.82, 1)
+emission_enabled = true
+emission = Color(0.17, 0.56, 0.72, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="StandardMaterial3D" id="Material_warm_light"]
+albedo_color = Color(1, 0.56, 0.18, 1)
+emission_enabled = true
+emission = Color(1, 0.28, 0.055, 1)
+emission_energy_multiplier = 2.6
+
+[sub_resource type="StandardMaterial3D" id="Material_blood"]
+albedo_color = Color(0.23, 0.008, 0.012, 1)
+metallic = 0.02
+roughness = 0.44
+
+[node name="Floor_Minus5_Deep_Cave_Blockout" type="Node3D" unique_id=147903812]
+editor_description = "Separately streamed Floor -5 cave module, loaded while the expedition winch cage descends from Floor -4. It is not a stop of the main base elevator."
+
+[node name="Winch_Descent_Cave_Shell" type="Node3D" parent="." unique_id=938415762]
+editor_description = "Natural rock surrounds the complete 72 meter winch descent. Stacked, offset shell bands avoid the appearance of a straight manufactured shaft and widen into the open arrival clearing at the bottom."
+
+[node name="Upper_Band_North_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=1468203957]
+transform = Transform3D(0.988, -0.035, -0.15, 0.02, 0.994, -0.109, 0.153, 0.105, 0.983, -18.4, 63, -7)
+use_collision = true
+size = Vector3(14, 19, 2.6)
+material = SubResource("Material_rock")
+
+[node name="Upper_Band_South_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=185039274]
+transform = Transform3D(0.981, 0.05, 0.187, -0.07, 0.992, 0.106, -0.18, -0.117, 0.977, -18.8, 62.5, 7.3)
+use_collision = true
+size = Vector3(14.5, 20, 2.8)
+material = SubResource("Material_rock")
+
+[node name="Upper_Band_Rear_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=629175403]
+transform = Transform3D(0.984, 0.04, -0.17, -0.06, 0.991, -0.12, 0.164, 0.128, 0.978, -10.7, 63, 0.1)
+use_collision = true
+size = Vector3(2.8, 19, 14)
+material = SubResource("Material_rock")
+
+[node name="Upper_Band_Outer_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=2074169582]
+transform = Transform3D(0.986, -0.025, 0.163, 0.045, 0.992, -0.116, -0.159, 0.122, 0.98, -27, 62.8, -0.2)
+use_collision = true
+size = Vector3(2.9, 19.5, 14.5)
+material = SubResource("Material_rock")
+
+[node name="Middle_Band_North_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=371680942]
+transform = Transform3D(0.971, 0.04, 0.236, -0.07, 0.989, 0.13, -0.228, -0.142, 0.963, -17.5, 43.5, -7.8)
+use_collision = true
+size = Vector3(16.5, 22, 3.2)
+material = SubResource("Material_rock")
+
+[node name="Middle_Band_South_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=1745082369]
+transform = Transform3D(0.978, -0.045, -0.204, 0.07, 0.991, 0.117, 0.197, -0.129, 0.972, -18.2, 43, 7.7)
+use_collision = true
+size = Vector3(15.5, 21.5, 3)
+material = SubResource("Material_rock")
+
+[node name="Middle_Band_Rear_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=502938147]
+transform = Transform3D(0.973, -0.06, 0.223, 0.085, 0.991, -0.103, -0.214, 0.119, 0.969, -9.2, 43.4, 0.3)
+use_collision = true
+size = Vector3(3.2, 21.8, 15.5)
+material = SubResource("Material_rock")
+
+[node name="Middle_Band_Outer_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=1183640925]
+transform = Transform3D(0.969, 0.055, -0.241, -0.08, 0.992, -0.096, 0.234, 0.112, 0.966, -27.8, 43.2, -0.1)
+use_collision = true
+size = Vector3(3.4, 22, 16)
+material = SubResource("Material_rock")
+
+[node name="Lower_Band_North_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=816509273]
+transform = Transform3D(0.982, -0.04, -0.182, 0.065, 0.988, 0.14, 0.174, -0.149, 0.973, -19.3, 23, -9.3)
+use_collision = true
+size = Vector3(19, 21, 3.5)
+material = SubResource("Material_rock")
+
+[node name="Lower_Band_South_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=1908463257]
+transform = Transform3D(0.975, 0.055, 0.215, -0.085, 0.987, 0.135, -0.205, -0.15, 0.967, -18.7, 22.7, 9.1)
+use_collision = true
+size = Vector3(18.5, 21.5, 3.4)
+material = SubResource("Material_rock")
+
+[node name="Lower_Band_Rear_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=157930648]
+transform = Transform3D(0.977, 0.045, -0.205, -0.075, 0.986, -0.147, 0.196, 0.159, 0.968, -8, 23, -0.2)
+use_collision = true
+size = Vector3(3.5, 21, 18)
+material = SubResource("Material_rock")
+
+[node name="Lower_Band_Outer_Wall" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=2047815369]
+transform = Transform3D(0.976, -0.05, 0.212, 0.08, 0.988, -0.13, -0.203, 0.144, 0.969, -29.7, 25, 0.4)
+use_collision = true
+size = Vector3(3.6, 17, 18.5)
+material = SubResource("Material_rock")
+
+[node name="Bottom_Clearing_North_Flare" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=438615907]
+transform = Transform3D(0.965, 0.07, 0.252, -0.11, 0.982, 0.151, -0.237, -0.174, 0.956, -23, 7.5, -10.2)
+use_collision = true
+size = Vector3(24, 14, 4)
+material = SubResource("Material_rock")
+
+[node name="Bottom_Clearing_South_Flare" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=1296407385]
+transform = Transform3D(0.97, -0.065, -0.232, 0.1, 0.984, 0.145, 0.219, -0.164, 0.962, -22.2, 7.2, 10.1)
+use_collision = true
+size = Vector3(23, 14, 4)
+material = SubResource("Material_rock")
+
+[node name="Bottom_Clearing_Rear_Flare" type="CSGBox3D" parent="Winch_Descent_Cave_Shell" unique_id=703582164]
+transform = Transform3D(0.972, 0.05, -0.228, -0.09, 0.981, -0.173, 0.215, 0.189, 0.958, -7.2, 7.5, 0)
+use_collision = true
+size = Vector3(4, 14, 20)
+material = SubResource("Material_rock")
+
+[node name="Shaft_Rock_Ledges" type="Node3D" parent="Winch_Descent_Cave_Shell" unique_id=1630529478]
+
+[node name="North_Ledge_Upper" type="CSGBox3D" parent="Winch_Descent_Cave_Shell/Shaft_Rock_Ledges" unique_id=285764103]
+transform = Transform3D(0.95, 0.08, -0.3, -0.03, 0.986, 0.163, 0.309, -0.145, 0.94, -20, 54, -5.8)
+use_collision = true
+size = Vector3(5.5, 1.3, 3.2)
+material = SubResource("Material_rock")
+
+[node name="South_Ledge_Middle" type="CSGBox3D" parent="Winch_Descent_Cave_Shell/Shaft_Rock_Ledges" unique_id=1958307462]
+transform = Transform3D(0.93, -0.1, 0.354, 0.16, 0.975, -0.156, -0.331, 0.202, 0.922, -16.7, 36, 6.1)
+use_collision = true
+size = Vector3(6, 1.5, 3.4)
+material = SubResource("Material_rock")
+
+[node name="Rear_Ledge_Lower" type="CSGBox3D" parent="Winch_Descent_Cave_Shell/Shaft_Rock_Ledges" unique_id=941276350]
+transform = Transform3D(0.978, 0.14, -0.155, -0.08, 0.938, 0.338, 0.194, -0.317, 0.928, -10.2, 17, -1.8)
+use_collision = true
+size = Vector3(3.8, 1.8, 5.2)
+material = SubResource("Material_rock")
+
+[node name="Descent_Lighting_Blockout" type="Node3D" parent="Winch_Descent_Cave_Shell" unique_id=1176409283]
+editor_description = "Only three weak maintenance lamps punctuate the long descent; most of the rock remains in darkness."
+
+[node name="Upper_Descent_Light" type="OmniLight3D" parent="Winch_Descent_Cave_Shell/Descent_Lighting_Blockout" unique_id=691530274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 58, -4.5)
+light_color = Color(0.38, 0.58, 0.62, 1)
+light_energy = 0.72
+omni_range = 8
+shadow_enabled = true
+
+[node name="Middle_Descent_Light" type="OmniLight3D" parent="Winch_Descent_Cave_Shell/Descent_Lighting_Blockout" unique_id=1548903761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.5, 34, 5.4)
+light_color = Color(0.76, 0.22, 0.08, 1)
+light_energy = 0.55
+omni_range = 7
+shadow_enabled = true
+
+[node name="Lower_Descent_Light" type="OmniLight3D" parent="Winch_Descent_Cave_Shell/Descent_Lighting_Blockout" unique_id=175360842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 12, -6.5)
+light_color = Color(0.42, 0.62, 0.66, 1)
+light_energy = 0.6
+omni_range = 8
+shadow_enabled = true
+
+[node name="Stage_01_Winch_Cage_Open_Cavern_Arrival" type="Node3D" parent="." unique_id=991236704]
+editor_description = "The Floor -4 winch cage lands directly in a broad natural staging cavern. There is no enclosed vestibule: the first view is an open chamber with a high dark vault and equipment arranged along its perimeter."
+
+[node name="Open_Cavern_Landing" type="Node3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival" unique_id=1663028591]
+
+[node name="Arrival_Floor" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Open_Cavern_Landing" unique_id=114783250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.25, -0.15, 0)
+use_collision = true
+size = Vector3(7.5, 0.3, 15)
+material = SubResource("Material_wet_rock")
+
+[node name="High_Cavern_Vault" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Open_Cavern_Landing" unique_id=2103745588]
+transform = Transform3D(0.995, 0.055, -0.08, -0.045, 0.992, 0.118, 0.086, -0.114, 0.99, -24.6, 11.8, -0.2)
+use_collision = true
+size = Vector3(9.5, 2.4, 17)
+material = SubResource("Material_rock")
+
+[node name="North_Cavern_Shoulder" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Open_Cavern_Landing" unique_id=185047392]
+transform = Transform3D(0.99, -0.03, -0.137, 0.05, 0.988, 0.145, 0.131, -0.151, 0.98, -24.4, 5.2, -8)
+use_collision = true
+size = Vector3(8.5, 10.8, 2)
+material = SubResource("Material_rock")
+
+[node name="South_Cavern_Shoulder" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Open_Cavern_Landing" unique_id=1260459711]
+transform = Transform3D(0.985, 0.04, 0.168, -0.06, 0.991, 0.119, -0.162, -0.127, 0.979, -24.2, 5, 8)
+use_collision = true
+size = Vector3(8.5, 10.5, 2.1)
+material = SubResource("Material_rock")
+
+[node name="Lower_Winch_Landing" type="Node3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival" unique_id=761324098]
+editor_description = "Blockout of the lower winch landing. The deck represents the same moving cage shown at Floor -4 and will later become a shared moving scene. Guides align vertically with the Floor -4 cage shaft."
+
+[node name="Cage_Deck_Preview" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Lower_Winch_Landing" unique_id=1984306752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, -0.04, 0)
+use_collision = true
+size = Vector3(3.7, 0.22, 4.5)
+material = SubResource("Material_steel")
+
+[node name="Cage_North_Side" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Lower_Winch_Landing" unique_id=537019284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, 1.5, -2.25)
+use_collision = true
+size = Vector3(3.7, 2.8, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Cage_South_Side" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Lower_Winch_Landing" unique_id=1462759038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, 1.5, 2.25)
+use_collision = true
+size = Vector3(3.7, 2.8, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Cage_Rear_Wall" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Lower_Winch_Landing" unique_id=286471905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8, 1.5, 0)
+use_collision = true
+size = Vector3(0.12, 2.8, 4.5)
+material = SubResource("Material_steel")
+
+[node name="Cage_Protective_Roof" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Lower_Winch_Landing" unique_id=1298034671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, 3.05, 0)
+use_collision = true
+size = Vector3(3.7, 0.14, 4.5)
+material = SubResource("Material_concrete")
+
+[node name="Arrival_Services" type="Node3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival" unique_id=1542789063]
+editor_description = "Wall-mounted services preserve a clear two-player route through the center of the landing."
+
+[node name="Depth_Status_Backplate" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Services" unique_id=193740256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.5, 1.45, -6.85)
+size = Vector3(1.4, 2.1, 0.22)
+material = SubResource("Material_steel")
+
+[node name="Depth_Status_Screen" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Services" unique_id=1712395864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.5, 1.68, -6.71)
+size = Vector3(1.08, 0.68, 0.06)
+material = SubResource("Material_cold_light")
+
+[node name="Emergency_Equipment_Cabinet" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Services" unique_id=1165987340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2, 1.15, 6.65)
+use_collision = true
+size = Vector3(1.8, 2.3, 0.55)
+material = SubResource("Material_steel")
+
+[node name="Cabinet_Warning_Tab" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Services" unique_id=508164973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2, 1.5, 6.34)
+size = Vector3(1.3, 0.18, 0.08)
+material = SubResource("Material_hazard")
+
+[node name="Arrival_Floor_Guide" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Services" unique_id=930742615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.25, 0.02, 0)
+size = Vector3(6.6, 0.04, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Arrival_Lighting" type="Node3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival" unique_id=743285160]
+
+[node name="Suspended_Shaft_Light_Blockout" type="CSGBox3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Lighting" unique_id=1384725069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.3, 5.8, 0)
+size = Vector3(1.8, 0.16, 0.46)
+material = SubResource("Material_cold_light")
+
+[node name="Arrival_OmniLight" type="OmniLight3D" parent="Stage_01_Winch_Cage_Open_Cavern_Arrival/Arrival_Lighting" unique_id=207614395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.8, 5.2, 0)
+light_color = Color(0.5, 0.76, 0.84, 1)
+light_energy = 2
+omni_range = 10
+shadow_enabled = true
+
+[node name="Stage_02_Industrial_Receiving_Cavern" type="Node3D" parent="." unique_id=1084267593]
+editor_description = "A functional underground expedition receiving area. A clear central lane serves people and compact equipment; power, storage and lifting gear stay against the perimeter. The room is carved from rock rather than built as a square base chamber."
+
+[node name="Walkable_Surface" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=1672304890]
+
+[node name="Receiving_Floor_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Walkable_Surface" unique_id=1053946728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, -0.18, 0)
+use_collision = true
+size = Vector3(7, 0.36, 15.5)
+material = SubResource("Material_wet_rock")
+
+[node name="Receiving_Floor_Center" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Walkable_Surface" unique_id=197324681]
+transform = Transform3D(0.992, 0, -0.125, 0, 1, 0, 0.125, 0, 0.992, -36.2, -0.28, -0.45)
+use_collision = true
+size = Vector3(5.4, 0.46, 16)
+material = SubResource("Material_wet_rock")
+
+[node name="Receiving_Floor_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Walkable_Surface" unique_id=1259083744]
+transform = Transform3D(0.976, 0, -0.218, 0, 1, 0, 0.218, 0, 0.976, -40.3, -0.48, -1.25)
+use_collision = true
+size = Vector3(4, 0.58, 13.5)
+material = SubResource("Material_wet_rock")
+
+[node name="Rock_Envelope" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=1497360258]
+
+[node name="North_Rock_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=625014389]
+transform = Transform3D(0.996, -0.035, -0.08, 0.03, 0.997, -0.063, 0.082, 0.06, 0.995, -31.9, 5.2, -8.25)
+use_collision = true
+size = Vector3(8.2, 10.5, 2)
+material = SubResource("Material_rock")
+
+[node name="North_Rock_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=2039716450]
+transform = Transform3D(0.974, 0.02, -0.226, 0, 0.996, 0.087, 0.227, -0.085, 0.97, -38.8, 5.4, -8.1)
+use_collision = true
+size = Vector3(7, 11, 2.2)
+material = SubResource("Material_rock")
+
+[node name="South_Rock_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=358106924]
+transform = Transform3D(0.992, 0.04, 0.119, -0.026, 0.992, -0.124, -0.123, 0.12, 0.985, -31.8, 5.1, 8.2)
+use_collision = true
+size = Vector3(8.5, 10.4, 2.1)
+material = SubResource("Material_rock")
+
+[node name="South_Rock_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=729416835]
+transform = Transform3D(0.968, -0.025, 0.25, 0.047, 0.995, -0.083, -0.247, 0.092, 0.965, -38.9, 5.25, 7.45)
+use_collision = true
+size = Vector3(7.2, 10.8, 2.2)
+material = SubResource("Material_rock")
+
+[node name="Ceiling_Rock_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=1834502796]
+transform = Transform3D(0.998, 0.05, -0.028, -0.047, 0.993, 0.106, 0.033, -0.104, 0.994, -32.5, 11.2, 0)
+use_collision = true
+size = Vector3(9, 2.2, 17)
+material = SubResource("Material_rock")
+
+[node name="Ceiling_Rock_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=492173608]
+transform = Transform3D(0.99, -0.08, -0.116, 0.067, 0.992, -0.106, 0.124, 0.096, 0.988, -39.2, 11.6, -0.5)
+use_collision = true
+size = Vector3(6.2, 2.4, 15)
+material = SubResource("Material_rock")
+
+[node name="North_Ledge" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=1276309485]
+transform = Transform3D(0.985, -0.04, -0.167, 0.016, 0.99, -0.139, 0.171, 0.134, 0.976, -36.8, 0.55, -6.95)
+use_collision = true
+size = Vector3(5.8, 1.15, 1.8)
+material = SubResource("Material_rock")
+
+[node name="South_Ledge" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Rock_Envelope" unique_id=156820493]
+transform = Transform3D(0.978, 0.02, 0.207, 0.005, 0.993, -0.119, -0.208, 0.117, 0.971, -34.7, 0.42, 6.95)
+use_collision = true
+size = Vector3(4.8, 0.9, 1.7)
+material = SubResource("Material_rock")
+
+[node name="Reinforcement_Frames" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=1685097204]
+editor_description = "Three anchored portal frames show how the receiving cavern was stabilized without turning it into a rectangular room."
+
+[node name="Frame_East_North_Post" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=816432957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.2, 3.5, -6.55)
+size = Vector3(0.32, 7, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Frame_East_South_Post" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=1359027416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.2, 3.5, 6.55)
+size = Vector3(0.32, 7, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Frame_East_Header" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=196084327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.2, 6.82, 0)
+size = Vector3(0.36, 0.36, 13.4)
+material = SubResource("Material_steel")
+
+[node name="Frame_Center_North_Post" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=1076529834]
+transform = Transform3D(0.992, 0, -0.125, 0, 1, 0, 0.125, 0, 0.992, -35.95, 3.6, -6.7)
+size = Vector3(0.32, 7.2, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Frame_Center_South_Post" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=442931760]
+transform = Transform3D(0.992, 0, -0.125, 0, 1, 0, 0.125, 0, 0.992, -34.3, 3.6, 6.35)
+size = Vector3(0.32, 7.2, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Frame_Center_Header" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Reinforcement_Frames" unique_id=2048751936]
+transform = Transform3D(0.992, 0, -0.125, 0, 1, 0, 0.125, 0, 0.992, -35.12, 7.02, -0.18)
+size = Vector3(0.36, 0.36, 13.5)
+material = SubResource("Material_steel")
+
+[node name="Receiving_Functional_Equipment" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=972145368]
+editor_description = "Equipment is arranged in perimeter work zones. The central 3.2 meter lane remains clear for two players and a compact expedition carrier."
+
+[node name="North_Power_Pack" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=1480269531]
+transform = Transform3D(0.996, 0, -0.087, 0, 1, 0, 0.087, 0, 0.996, -31.8, 0.75, -5.9)
+use_collision = true
+size = Vector3(2.8, 1.5, 1.3)
+material = SubResource("Material_steel")
+
+[node name="Power_Pack_Status" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=725190684]
+transform = Transform3D(0.996, 0, -0.087, 0, 1, 0, 0.087, 0, 0.996, -31.65, 1, -5.2)
+size = Vector3(1.7, 0.34, 0.08)
+material = SubResource("Material_warm_light")
+
+[node name="North_Cable_Reel" type="CSGCylinder3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=175430296]
+transform = Transform3D(0, 1, 0, 1, 0, 0, 0, 0, -1, -34.35, 0.72, -5.9)
+use_collision = true
+radius = 0.72
+height = 0.85
+sides = 16
+material = SubResource("Material_steel")
+
+[node name="South_Expedition_Crate_A" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=1213098647]
+transform = Transform3D(0.996, 0, 0.087, 0, 1, 0, -0.087, 0, 0.996, -31.4, 0.55, 5.8)
+use_collision = true
+size = Vector3(1.8, 1.1, 1.25)
+material = SubResource("Material_concrete")
+
+[node name="South_Expedition_Crate_B" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=846321095]
+transform = Transform3D(0.985, 0, 0.174, 0, 1, 0, -0.174, 0, 0.985, -33.35, 0.42, 6)
+use_collision = true
+size = Vector3(1.45, 0.84, 1.1)
+material = SubResource("Material_concrete")
+
+[node name="Wall_Tool_Rack_Back" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=1896342705]
+transform = Transform3D(0.978, 0, 0.208, 0, 1, 0, -0.208, 0, 0.978, -36.5, 1.45, 6)
+size = Vector3(3, 2.2, 0.2)
+material = SubResource("Material_steel")
+
+[node name="Tool_Rack_Shelf_Low" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=609475328]
+transform = Transform3D(0.978, 0, 0.208, 0, 1, 0, -0.208, 0, 0.978, -36.5, 0.72, 5.85)
+size = Vector3(2.7, 0.12, 0.58)
+material = SubResource("Material_hazard")
+
+[node name="Tool_Rack_Shelf_High" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=416928753]
+transform = Transform3D(0.978, 0, 0.208, 0, 1, 0, -0.208, 0, 0.978, -36.5, 1.72, 5.85)
+size = Vector3(2.7, 0.12, 0.58)
+material = SubResource("Material_hazard")
+
+[node name="Abandoned_Utility_Carrier" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment" unique_id=1598072436]
+editor_description = "A compact battery carrier parked in its perimeter bay. It does not obstruct the main route."
+
+[node name="Carrier_Body" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment/Abandoned_Utility_Carrier" unique_id=206173859]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -39, 0.58, -5.25)
+use_collision = true
+size = Vector3(2.9, 0.9, 1.55)
+material = SubResource("Material_hazard")
+
+[node name="Carrier_Cargo_Deck" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Functional_Equipment/Abandoned_Utility_Carrier" unique_id=1305942784]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -39.25, 1.08, -5.34)
+size = Vector3(1.65, 0.14, 1.35)
+material = SubResource("Material_steel")
+
+[node name="Story_And_Route_Cues" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=1172894602]
+
+[node name="Main_Route_Guide_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Story_And_Route_Cues" unique_id=382064195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.4, 0.025, 0)
+size = Vector3(7.5, 0.05, 0.14)
+material = SubResource("Material_hazard")
+
+[node name="Main_Route_Guide_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Story_And_Route_Cues" unique_id=2007315496]
+transform = Transform3D(0.976, 0, -0.218, 0, 1, 0, 0.218, 0, 0.976, -39.1, -0.18, -0.88)
+size = Vector3(5.8, 0.05, 0.14)
+material = SubResource("Material_hazard")
+
+[node name="Blood_Drag_Trail_East" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Story_And_Route_Cues" unique_id=946370128]
+transform = Transform3D(0.996, 0, -0.087, 0, 1, 0, 0.087, 0, 0.996, -35.7, 0.045, 1.05)
+size = Vector3(4.4, 0.035, 0.22)
+material = SubResource("Material_blood")
+
+[node name="Blood_Drag_Trail_West" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Story_And_Route_Cues" unique_id=1826094357]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -39.5, -0.13, 0.45)
+size = Vector3(3.8, 0.035, 0.18)
+material = SubResource("Material_blood")
+
+[node name="Receiving_Lighting" type="Node3D" parent="Stage_02_Industrial_Receiving_Cavern" unique_id=531987264]
+editor_description = "Sparse practical lighting leaves the western cave threshold deliberately underlit."
+
+[node name="East_Work_Lamp" type="CSGBox3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Lighting" unique_id=1453297806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.25, 6.45, 0)
+size = Vector3(0.18, 0.2, 2.2)
+material = SubResource("Material_cold_light")
+
+[node name="East_Work_OmniLight" type="OmniLight3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Lighting" unique_id=698152430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.6, 6, 0)
+light_color = Color(0.45, 0.7, 0.78, 1)
+light_energy = 3.1
+omni_range = 10
+shadow_enabled = true
+
+[node name="Power_Bay_Warning_Lamp" type="CSGSphere3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Lighting" unique_id=173942605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.7, 2.55, -6.3)
+radius = 0.16
+radial_segments = 12
+rings = 6
+material = SubResource("Material_warm_light")
+
+[node name="Power_Bay_OmniLight" type="OmniLight3D" parent="Stage_02_Industrial_Receiving_Cavern/Receiving_Lighting" unique_id=1254609738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.7, 2.55, -6.05)
+light_color = Color(1, 0.25, 0.06, 1)
+light_energy = 1.25
+omni_range = 5
+shadow_enabled = true
+
+[node name="Stage_03_Long_Cave_Threshold_Preview" type="Node3D" parent="." unique_id=964108352]
+editor_description = "Only the mouth of the future long cave route. The next approved stage will continue from this marker with elevation changes, side burrows, ledges and alternating compressed and open spaces."
+
+[node name="Threshold_Floor_East" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=1378450926]
+transform = Transform3D(0.94, -0.03, -0.34, 0, 0.996, -0.087, 0.342, 0.082, 0.936, -43.15, -0.62, -1.9)
+use_collision = true
+size = Vector3(4.5, 0.7, 5.8)
+material = SubResource("Material_wet_rock")
+
+[node name="Threshold_Floor_West" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=402671985]
+transform = Transform3D(0.866, -0.05, -0.497, 0, 0.995, -0.1, 0.5, 0.087, 0.862, -46.65, -1.15, -4.05)
+use_collision = true
+size = Vector3(4.2, 0.8, 4.8)
+material = SubResource("Material_wet_rock")
+
+[node name="Threshold_North_Rock" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=1842037695]
+transform = Transform3D(0.9, 0.06, -0.432, -0.11, 0.99, -0.091, 0.422, 0.13, 0.897, -44.7, 2.65, -5.3)
+use_collision = true
+size = Vector3(8.5, 7.2, 2.4)
+material = SubResource("Material_rock")
+
+[node name="Threshold_South_Rock" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=1137864209]
+transform = Transform3D(0.91, -0.08, -0.406, 0.12, 0.989, 0.075, 0.396, -0.117, 0.911, -44.2, 2.5, 1.3)
+use_collision = true
+size = Vector3(8.2, 6.8, 2.5)
+material = SubResource("Material_rock")
+
+[node name="Threshold_Ceiling_Rock" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=617934280]
+transform = Transform3D(0.91, 0.13, -0.392, -0.07, 0.983, 0.17, 0.407, -0.127, 0.905, -44.4, 5.6, -2.15)
+use_collision = true
+size = Vector3(8, 2.5, 7.2)
+material = SubResource("Material_rock")
+
+[node name="Threshold_Support_North_Post" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=2083651472]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -42.5, 2.3, -4.35)
+size = Vector3(0.32, 4.8, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Threshold_Support_South_Post" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=375820946]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -40.7, 2.3, 0.6)
+size = Vector3(0.32, 4.8, 0.32)
+material = SubResource("Material_steel")
+
+[node name="Threshold_Support_Header" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=1286047935]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -41.6, 4.55, -1.88)
+size = Vector3(0.36, 0.36, 5.7)
+material = SubResource("Material_steel")
+
+[node name="Last_Work_Light" type="CSGBox3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=890216347]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, -41.7, 4.3, -1.85)
+size = Vector3(0.14, 0.18, 1.2)
+material = SubResource("Material_warm_light")
+
+[node name="Last_Work_OmniLight" type="OmniLight3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=1523906841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.2, 3.85, -2.1)
+light_color = Color(1, 0.42, 0.13, 1)
+light_energy = 1.6
+omni_range = 6.5
+shadow_enabled = true
+
+[node name="Next_Long_Tunnel_Connection" type="Marker3D" parent="Stage_03_Long_Cave_Threshold_Preview" unique_id=290761438]
+transform = Transform3D(0.866, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866, -48.35, -0.75, -5.1)
+editor_description = "Continue the approved main cave route from this marker."

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://byj0se8cnrgbt" path="res://scenes/levels/Floor_Minus2_Life_Support_Blockout.tscn" id="5_floor_minus2"]
 [ext_resource type="PackedScene" uid="uid://ba3rasslhfoo" path="res://scenes/levels/Floor_Minus3_Biocontainment_Blockout.tscn" id="6_floor_minus3"]
 [ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus4_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
+[ext_resource type="PackedScene" path="res://scenes/levels/Floor_Minus5_Deep_Cave_Blockout.tscn" id="8_floor_minus5"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные этажи подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры этажей."
@@ -30,3 +31,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, -54, 0)
 
 [node name="Floor_Minus4_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)
+
+[node name="Streamed_Level_Modules_Blockout" type="Node3D" parent="."]
+editor_description = "Modules shown here for blockout review. Runtime loading and unloading remains programmer-owned."
+
+[node name="Floor_Minus5_Deep_Cave_Blockout" parent="Streamed_Level_Modules_Blockout" instance=ExtResource("8_floor_minus5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -33.5, -144, -39.65)

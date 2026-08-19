@@ -1098,15 +1098,48 @@ size = Vector3(0.12, 3.4, 0.12)
 material = SubResource("Material_steel")
 
 [node name="West_Cage_Guide" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=994724530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2, -5.5, -21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2, -32.5, -21)
 use_collision = true
-size = Vector3(0.25, 25, 0.35)
+size = Vector3(0.25, 79, 0.35)
 material = SubResource("Material_steel")
 
 [node name="East_Cage_Guide" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=190291863]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.8, -5.5, -21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.8, -32.5, -21)
 use_collision = true
-size = Vector3(0.25, 25, 0.35)
+size = Vector3(0.25, 79, 0.35)
+material = SubResource("Material_steel")
+
+[node name="Deep_Winch_Shaft_Rhythm" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1649320758]
+editor_description = "Repeated guide brackets communicate the approximately 72 meter cage descent to the separately streamed cave module. They sit behind the cage travel envelope and do not cross its path."
+
+[node name="Guide_Tie_Minus12" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=507826341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -12, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Guide_Tie_Minus24" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1936854270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -24, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Guide_Tie_Minus36" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=721943586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -36, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Guide_Tie_Minus48" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1380572946]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -48, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Guide_Tie_Minus60" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1057369248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -60, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Guide_Tie_Minus72" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=2046391587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -71.7, -23.35)
+size = Vector3(5.65, 0.28, 0.28)
 material = SubResource("Material_steel")
 
 [node name="Winch_Service_Access" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=170880398]
@@ -1446,7 +1479,7 @@ size = Vector3(0.75, 0.5, 0.5)
 material = SubResource("Material_steel")
 
 [node name="Future_Floor_Minus5_Shaft_Transition" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=791906619]
-editor_description = "Reserved vertical transition into Floor -5. Open and detail only after the complete Floor -4 layout and cargo route are approved."
+editor_description = "Winch handoff to the separately streamed Floor -5 cave module. The programmer-owned loader should stream that module during the cage descent."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)
 
 [node name="Lighting_Blockout" type="Node3D" parent="." unique_id=838118527]
