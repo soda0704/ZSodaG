@@ -6,13 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://bbuu44pf3d8rd" path="res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn" id="4_floor_minus1"]
 [ext_resource type="PackedScene" uid="uid://byj0se8cnrgbt" path="res://scenes/levels/Floor_Minus2_Life_Support_Blockout.tscn" id="5_floor_minus2"]
 [ext_resource type="PackedScene" uid="uid://ba3rasslhfoo" path="res://scenes/levels/Floor_Minus3_Biocontainment_Blockout.tscn" id="6_floor_minus3"]
+[ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus4_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные этажи подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры этажей."
 script = ExtResource("1_runtime")
 
 [node name="Elevator_Functional_Blockout" parent="." unique_id=1503923236 instance=ExtResource("2_elevator")]
-unlocked_floor_index = 3
+unlocked_floor_index = 4
 require_all_connected_players = false
 use_built_in_surface_platform = false
 
@@ -26,3 +27,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -36, 0)
 
 [node name="Floor_Minus3_Biocontainment_Blockout" parent="." unique_id=268431243 instance=ExtResource("6_floor_minus3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, -54, 0)
+
+[node name="Floor_Minus4_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)

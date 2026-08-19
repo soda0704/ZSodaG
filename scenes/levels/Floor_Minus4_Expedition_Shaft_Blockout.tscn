@@ -1,0 +1,1518 @@
+[gd_scene format=3 uid="uid://c23ke48vjsxok"]
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.25, 0.28, 0.3, 1)
+metallic = 0.16
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Material_concrete"]
+albedo_color = Color(0.58, 0.61, 0.62, 1)
+metallic = 0.04
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="Material_steel"]
+albedo_color = Color(0.08, 0.11, 0.12, 1)
+metallic = 0.46
+roughness = 0.48
+
+[sub_resource type="StandardMaterial3D" id="Material_hazard"]
+albedo_color = Color(0.92, 0.52, 0.08, 1)
+metallic = 0.14
+roughness = 0.58
+
+[sub_resource type="StandardMaterial3D" id="Material_screen"]
+albedo_color = Color(0.24, 0.72, 0.9, 1)
+emission_enabled = true
+emission = Color(0.05, 0.5, 0.82, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="StandardMaterial3D" id="Material_ice"]
+transparency = 1
+albedo_color = Color(0.42, 0.72, 0.82, 0.45)
+metallic = 0.02
+roughness = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Material_rock"]
+albedo_color = Color(0.27, 0.3, 0.31, 1)
+roughness = 0.98
+
+[node name="Floor_Minus4_Expedition_Shaft_Blockout" type="Node3D" unique_id=924861012]
+editor_description = "Floor -4 underground expedition and shaft-support level. The route begins with the elevator arrival, expedition checkpoint, frozen-cargo approach and dispatch control, then reaches the primary winch hall above the sealed expedition shaft."
+
+[node name="Stage_01_Elevator_Expedition_Arrival" type="Node3D" parent="." unique_id=636721704]
+editor_description = "Compact controlled arrival. The elevator opens directly into a concrete-and-steel expedition vestibule; no separate landing platform is used. The opposite opening leads into the equipment and air-status checkpoint."
+
+[node name="Structure" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival" unique_id=1141929092]
+
+[node name="Arrival_Floor" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=99444617]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, -0.15, 0)
+use_collision = true
+size = Vector3(6.5, 0.3, 7)
+material = SubResource("Material_floor")
+
+[node name="Arrival_Ceiling" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=376185793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 4.6, 0)
+use_collision = true
+size = Vector3(6.5, 0.3, 7)
+material = SubResource("Material_concrete")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=1132077753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 2.3, -3.5)
+use_collision = true
+size = Vector3(6.5, 4.6, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=1592722256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 2.3, 3.5)
+use_collision = true
+size = Vector3(6.5, 4.6, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Elevator_Interface_Header" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=2137321319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.05, -0.022583008)
+use_collision = true
+size = Vector3(0.3, 1.1, 7.1882324)
+material = SubResource("Material_steel")
+
+[node name="Arrival_Architectural_Rhythm" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival" unique_id=2027186190]
+
+[node name="North_Ceiling_Truss" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Arrival_Architectural_Rhythm" unique_id=1957094366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.24248, 4.34, -2.5)
+size = Vector3(6.3978515, 0.22, 0.22)
+material = SubResource("Material_steel")
+
+[node name="South_Ceiling_Truss" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Arrival_Architectural_Rhythm" unique_id=813082067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.24492, 4.34, 2.5)
+size = Vector3(6.322656, 0.22, 0.22)
+material = SubResource("Material_steel")
+
+[node name="Ceiling_Cross_Truss_East" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Arrival_Architectural_Rhythm" unique_id=1353080906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2, 4.34, 0.06046152)
+size = Vector3(0.22, 0.22, 7.0261965)
+material = SubResource("Material_steel")
+
+[node name="Ceiling_Cross_Truss_West" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Arrival_Architectural_Rhythm" unique_id=860320352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.3, 4.34, 0.030328274)
+size = Vector3(0.22, 0.22, 6.9859743)
+material = SubResource("Material_steel")
+
+[node name="Floor_Hazard_Boundary" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Arrival_Architectural_Rhythm" unique_id=1300860661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3, 0.02, 0)
+size = Vector3(0.18, 0.04, 5.6)
+material = SubResource("Material_hazard")
+
+[node name="Expedition_Status_Station" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival" unique_id=1248005261]
+editor_description = "Non-functional air, depth, and expedition-status landmark. Interaction remains programmer-owned."
+
+[node name="Status_Body" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Expedition_Status_Station" unique_id=685710355]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.9, 1.45, -3.28)
+use_collision = true
+size = Vector3(1, 1.9, 0.35)
+material = SubResource("Material_steel")
+
+[node name="Depth_Display" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Expedition_Status_Station" unique_id=1047257357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.9, 1.72, -3.08)
+size = Vector3(0.72, 0.72, 0.05)
+material = SubResource("Material_screen")
+
+[node name="Warning_Display" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Expedition_Status_Station" unique_id=2043743254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.9, 0.95, -3.08)
+size = Vector3(0.72, 0.18, 0.05)
+material = SubResource("Material_hazard")
+
+[node name="Stage_02_Expedition_Checkpoint" type="Node3D" parent="." unique_id=1762513379]
+editor_description = "Shared expedition checkpoint with separate outbound equipment and dirty-return cues. The widened west opening supports an electric cargo tug plus a protected pedestrian lane without repeating Floor -3 biological decontamination."
+
+[node name="Structure" type="Node3D" parent="Stage_02_Expedition_Checkpoint" unique_id=90000801]
+
+[node name="Checkpoint_Floor" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=759448469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, -0.15, 0)
+use_collision = true
+size = Vector3(7, 0.3, 8)
+material = SubResource("Material_floor")
+
+[node name="Checkpoint_Ceiling" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=251512214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 4.6, 0)
+use_collision = true
+size = Vector3(7, 0.3, 8)
+material = SubResource("Material_concrete")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1423132491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2.3, -4)
+use_collision = true
+size = Vector3(7, 4.6, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1807232950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2.3, 4)
+use_collision = true
+size = Vector3(7, 4.6, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=415851525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.3, -2.6)
+use_collision = true
+size = Vector3(0.3, 4.6, 2.8)
+material = SubResource("Material_concrete")
+
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1682681990]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.3, 2.6)
+use_collision = true
+size = Vector3(0.3, 4.6, 2.8)
+material = SubResource("Material_concrete")
+
+[node name="East_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1816257021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 4.05, 0)
+use_collision = true
+size = Vector3(0.3, 1.1, 2.4)
+material = SubResource("Material_steel")
+
+[node name="West_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=2086428484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 2.3, -3.75)
+use_collision = true
+size = Vector3(0.3, 4.6, 0.5)
+material = SubResource("Material_concrete")
+
+[node name="West_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1527425673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 2.3, 2.5)
+use_collision = true
+size = Vector3(0.3, 4.6, 3)
+material = SubResource("Material_concrete")
+
+[node name="Cargo_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=22630667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 4.05, -1.25)
+use_collision = true
+size = Vector3(0.3, 1.1, 4.5)
+material = SubResource("Material_steel")
+
+[node name="Expedition_Equipment" type="Node3D" parent="Stage_02_Expedition_Checkpoint" unique_id=1849171662]
+
+[node name="Respirator_Locker_A" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1709061978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1, 1.35, -3.35)
+use_collision = true
+size = Vector3(1.25, 2.7, 0.9)
+material = SubResource("Material_steel")
+
+[node name="Respirator_Locker_B" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=168822849]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.65, 1.35, -3.35)
+use_collision = true
+size = Vector3(1.25, 2.7, 0.9)
+material = SubResource("Material_steel")
+
+[node name="Locker_Status_A" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=20932961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1, 1.55, -2.88)
+size = Vector3(0.7, 0.32, 0.05)
+material = SubResource("Material_screen")
+
+[node name="Locker_Status_B" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=208586741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.65, 1.55, -2.88)
+size = Vector3(0.7, 0.32, 0.05)
+material = SubResource("Material_screen")
+
+[node name="Rescue_Pack_Cabinet" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1119040174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9, 1.25, 3.35)
+use_collision = true
+size = Vector3(2.2, 2.5, 0.9)
+material = SubResource("Material_steel")
+
+[node name="Rescue_Pack_Status" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=193963367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9, 1.55, 2.88)
+size = Vector3(1.4, 0.38, 0.05)
+material = SubResource("Material_hazard")
+
+[node name="Air_Quality_Console" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1595910439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.15, 0.55, 3.2)
+use_collision = true
+size = Vector3(2.4, 1.1, 1.2)
+material = SubResource("Material_steel")
+
+[node name="Air_Quality_Display" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1244595123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.15, 1.2, 2.58)
+size = Vector3(1.7, 0.62, 0.06)
+material = SubResource("Material_screen")
+
+[node name="Outbound_Equipment_Bench" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1686584998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.3, 0.42, 0.9)
+use_collision = true
+size = Vector3(2.6, 0.84, 0.72)
+material = SubResource("Material_concrete")
+
+[node name="Dirty_Return_Boot_Tray" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=1202158825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.35, 0.08, 2.05)
+size = Vector3(1.8, 0.12, 1.1)
+material = SubResource("Material_hazard")
+
+[node name="Dirty_Return_Gear_Rack" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Expedition_Equipment" unique_id=549318784]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.2, 1.4, 2)
+use_collision = true
+size = Vector3(0.42, 2.3, 1.4)
+material = SubResource("Material_steel")
+
+[node name="Checkpoint_Floor_Guide_East" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint" unique_id=283887826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.45, 0.02, 0)
+size = Vector3(3.4, 0.04, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Checkpoint_Floor_Guide_Turn" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint" unique_id=1221139120]
+transform = Transform3D(0.906, 0, 0.423, 0, 1, 0, -0.423, 0, 0.906, -28.5, 0.02, -1)
+size = Vector3(3.6, 0.04, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Stage_03_Cargo_Transfer_Approach" type="Node3D" parent="." unique_id=1383570292]
+editor_description = "Mixed expedition route sized for a compact battery-electric cargo tug. A protected pedestrian lane runs along the south side; overhead handling equipment supports loading without committing the finished floor to fixed rails."
+
+[node name="Structure" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach" unique_id=1887657140]
+
+[node name="Cargo_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=727624982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -0.15, -1.5)
+use_collision = true
+size = Vector3(9, 0.3, 5)
+material = SubResource("Material_floor")
+
+[node name="Cargo_Ceiling" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=2126878829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.8, -1.5)
+use_collision = true
+size = Vector3(9, 0.3, 5)
+material = SubResource("Material_concrete")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=70940926]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.4, -4)
+use_collision = true
+size = Vector3(9, 4.8, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=1791114367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.4, 1)
+use_collision = true
+size = Vector3(9, 4.8, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Cargo_And_Pedestrian_Lanes" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach" unique_id=405944801]
+editor_description = "The cargo lane and pedestrian lane remain separate through the connector. Floor markings are blockout guides, not final decals."
+
+[node name="Cargo_Lane_North_Edge" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=817793571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.025, -3.45)
+size = Vector3(8.5, 0.05, 0.14)
+material = SubResource("Material_hazard")
+
+[node name="Cargo_Lane_South_Edge" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=234286187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.025, -1.2)
+size = Vector3(8.5, 0.05, 0.14)
+material = SubResource("Material_hazard")
+
+[node name="Protected_Walkway_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=1474469377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.02, 0.027880825)
+size = Vector3(9, 0.04, 1.5442383)
+material = SubResource("Material_concrete")
+
+[node name="Walkway_Separation_Rail" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=223428510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1, -0.61897206)
+use_collision = true
+size = Vector3(8.2, 0.16, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Walkway_Post_East" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=965327934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2, 0.55, -0.61897206)
+use_collision = true
+size = Vector3(0.16, 1.1, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Walkway_Post_Center" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=2043249633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.55, -0.61897206)
+use_collision = true
+size = Vector3(0.16, 1.1, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Walkway_Post_West" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=1683666069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.8, 0.55, -0.61897206)
+use_collision = true
+size = Vector3(0.16, 1.1, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="Overhead_Lifting_Frame" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach" unique_id=1864364855]
+
+[node name="North_Post_East" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=138026897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.2, 2.15, -3.7565243)
+size = Vector3(0.24, 4.3, 0.24)
+material = SubResource("Material_steel")
+
+[node name="South_Post_East" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=937010591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.2, 2.15, -0.92)
+size = Vector3(0.24, 4.3, 0.24)
+material = SubResource("Material_steel")
+
+[node name="North_Post_West" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=1183972822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.6, 2.15, -3.7565243)
+size = Vector3(0.24, 4.3, 0.24)
+material = SubResource("Material_steel")
+
+[node name="South_Post_West" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=1865859226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.6, 2.15, -0.92)
+size = Vector3(0.24, 4.3, 0.24)
+material = SubResource("Material_steel")
+
+[node name="East_Crossbeam" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=1974876322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.2, 4.3, -2.364668)
+size = Vector3(0.3, 0.3, 3.1293359)
+material = SubResource("Material_steel")
+
+[node name="West_Crossbeam" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=1488649185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.6, 4.3, -2.3863964)
+size = Vector3(0.3, 0.3, 3.172793)
+material = SubResource("Material_steel")
+
+[node name="South_Overhead_Rail" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Overhead_Lifting_Frame" unique_id=792389214]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.9, 4.3, -0.92)
+size = Vector3(5.7, 0.24, 0.24)
+material = SubResource("Material_steel")
+
+[node name="Electric_Cargo_Tug_Prototype" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach" unique_id=144602441]
+editor_description = "Compact battery-electric cargo tug and locking cradle. It replaces the disconnected rail fragments and establishes the required turning envelope for the complete floor route."
+
+[node name="Cradle_Base" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Electric_Cargo_Tug_Prototype" unique_id=185774931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.3, 0.32, -2.25)
+use_collision = true
+size = Vector3(2.8, 0.45, 1.9)
+material = SubResource("Material_steel")
+
+[node name="Frozen_Cargo_Proxy" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Electric_Cargo_Tug_Prototype" unique_id=1574109453]
+transform = Transform3D(0.966, 0.15, 0.211, -0.107, 0.974, -0.201, -0.236, 0.171, 0.956, -35.3, 1.05, -2.25)
+size = Vector3(2.05, 1.2, 1.25)
+material = SubResource("Material_ice")
+
+[node name="Drive_Module" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Electric_Cargo_Tug_Prototype" unique_id=960577580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.55, 0.55, -2.25)
+use_collision = true
+size = Vector3(0.7, 1.1, 1.35)
+material = SubResource("Material_hazard")
+
+[node name="Tow_Wheel_North" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Electric_Cargo_Tug_Prototype" unique_id=1738451280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.16, -3.12)
+size = Vector3(0.45, 0.32, 0.18)
+material = SubResource("Material_steel")
+
+[node name="Tow_Wheel_South" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Electric_Cargo_Tug_Prototype" unique_id=1412285242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.35, 0.16, -1.38)
+size = Vector3(0.45, 0.32, 0.18)
+material = SubResource("Material_steel")
+
+[node name="Stage_04_Cargo_Dispatch_And_Expedition_Control" type="Node3D" parent="." unique_id=1086844996]
+editor_description = "Intermediate cargo-dispatch hall. A battery-electric tug enters from the east, turns north inside a protected maneuvering envelope, and transfers cargo toward the shaft while expedition control supervises the route."
+
+[node name="Structure" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=2079462774]
+
+[node name="Dispatch_Floor" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=471088226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, -0.15, -2)
+use_collision = true
+size = Vector3(11.5, 0.3, 10)
+material = SubResource("Material_floor")
+
+[node name="Dispatch_Ceiling" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=464380563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 6.2, -2)
+use_collision = true
+size = Vector3(11.5, 0.3, 10)
+material = SubResource("Material_concrete")
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=675858077]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 3.1, -5.5)
+use_collision = true
+size = Vector3(0.3, 6.2, 3)
+material = SubResource("Material_concrete")
+
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=881835205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 3.1, 2)
+use_collision = true
+size = Vector3(0.3, 6.2, 2)
+material = SubResource("Material_concrete")
+
+[node name="Cargo_Approach_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=759304848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 5.5, -1.5)
+use_collision = true
+size = Vector3(0.3, 1.4, 5)
+material = SubResource("Material_steel")
+
+[node name="South_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1829192559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 3.1, 3)
+use_collision = true
+size = Vector3(11.5, 6.2, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="West_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1028015250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.1, -2)
+use_collision = true
+size = Vector3(0.3, 6.2, 10)
+material = SubResource("Material_concrete")
+
+[node name="North_Wall_West_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=813410676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.1, -7)
+use_collision = true
+size = Vector3(2, 6.2, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="North_Wall_East_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1388560430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.75, 3.1, -7)
+use_collision = true
+size = Vector3(6.5, 6.2, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Winch_Route_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=154226690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 5.2, -7)
+use_collision = true
+size = Vector3(3, 2, 0.3)
+material = SubResource("Material_steel")
+
+[node name="Deferred_Cargo_Transport_Route" type="Marker3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=867985531]
+editor_description = "DEFERRED UNTIL FLOOR -4 BLOCKOUT IS COMPLETE: verify one continuous battery-tug route from the main elevator to the shaft cage. Do not restore isolated rail fragments."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 0, -2.4)
+
+[node name="Cargo_Maneuvering_Lane" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=1583029181]
+editor_description = "Temporary floor guides preserve the tug turning envelope and the northbound approach to the shaft."
+
+[node name="East_West_Lane" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Cargo_Maneuvering_Lane" unique_id=970439185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.1, 0.02, -2.25)
+size = Vector3(7.2, 0.04, 2.3)
+material = SubResource("Material_concrete")
+
+[node name="Northbound_Lane" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Cargo_Maneuvering_Lane" unique_id=808569966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.025, -4.75)
+size = Vector3(2.3, 0.05, 4.5)
+material = SubResource("Material_concrete")
+
+[node name="Cargo_Staging_Pad" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Cargo_Maneuvering_Lane" unique_id=1200861934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.7, 0.03, -5.1)
+size = Vector3(3.2, 0.06, 2.4)
+material = SubResource("Material_hazard")
+
+[node name="Expedition_Control_Booth" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=1673036467]
+editor_description = "Two-person shaft logistics booth. It supervises cargo movement and expedition status without duplicating Floor -1 security command."
+
+[node name="West_Glass" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=790225680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.15, 2.81615, 0.45)
+use_collision = true
+size = Vector3(2.7, 4.2323, 0.12)
+material = SubResource("Material_ice")
+
+[node name="East_Glass" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=1815154624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.6, 2.802539, 0.45)
+use_collision = true
+size = Vector3(3.2, 4.205078, 0.12)
+material = SubResource("Material_ice")
+
+[node name="Glass_Sill" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=275934747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.75, 0.55, 0.45)
+use_collision = true
+size = Vector3(7.5, 1.1, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Glass_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=703492084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.29651, 5.532275, 0.45)
+use_collision = true
+size = Vector3(11.470947, 1.3993164, 0.3)
+material = SubResource("Material_steel")
+
+[node name="Control_Desk_A" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=1155482913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.3, 0.55, 1.8)
+use_collision = true
+size = Vector3(2.2, 1.1, 1.2)
+material = SubResource("Material_steel")
+
+[node name="Control_Desk_B" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=1012547747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.2, 0.55, 1.8)
+use_collision = true
+size = Vector3(2.2, 1.1, 1.2)
+material = SubResource("Material_steel")
+
+[node name="Control_Display_A" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=165107656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.3, 1.35, 1.17)
+size = Vector3(1.6, 0.72, 0.06)
+material = SubResource("Material_screen")
+
+[node name="Control_Display_B" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=1173578868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.2, 1.35, 1.17)
+size = Vector3(1.6, 0.72, 0.06)
+material = SubResource("Material_hazard")
+
+[node name="Core_Sample_Storage" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=186811106]
+editor_description = "Compact wall-side storage for ice and rock cores collected below. Racks stay outside the main cargo turning envelope."
+
+[node name="Core_Rack_A" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Core_Sample_Storage" unique_id=117245136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.15, 1.25, -3.4)
+use_collision = true
+size = Vector3(1.35, 2.5, 2.2)
+material = SubResource("Material_steel")
+
+[node name="Core_Rack_B" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Core_Sample_Storage" unique_id=775677861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.15, 1.25, -0.9)
+use_collision = true
+size = Vector3(1.35, 2.5, 2.2)
+material = SubResource("Material_steel")
+
+[node name="Frozen_Core_A" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Core_Sample_Storage" unique_id=403862401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.44, 1.7, -3.4)
+size = Vector3(0.06, 0.45, 1.45)
+material = SubResource("Material_ice")
+
+[node name="Frozen_Core_B" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Core_Sample_Storage" unique_id=1809344233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.44, 1.7, -0.9)
+size = Vector3(0.06, 0.45, 1.45)
+material = SubResource("Material_ice")
+
+[node name="Overhead_Dispatch_Gantry" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=1153871430]
+
+[node name="East_Crossbeam" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=332434325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 5.65, -2)
+size = Vector3(0.36, 0.36, 9.7)
+material = SubResource("Material_steel")
+
+[node name="Center_Crossbeam" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=332711109]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 5.65, -2)
+size = Vector3(0.36, 0.36, 9.7)
+material = SubResource("Material_steel")
+
+[node name="West_Crossbeam" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=1709595461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.1, 5.65, -2)
+size = Vector3(0.36, 0.36, 9.7)
+material = SubResource("Material_steel")
+
+[node name="North_Longitudinal_Beam" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=193061702]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 5.65, -5.8)
+size = Vector3(11.2, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="South_Longitudinal_Beam" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=202143266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 5.65, 1.8)
+size = Vector3(11.2, 0.28, 0.28)
+material = SubResource("Material_steel")
+
+[node name="Bridge_Trolley" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=1534318075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 5.3, -2.2)
+size = Vector3(1.2, 0.42, 0.9)
+material = SubResource("Material_hazard")
+
+[node name="Chain_Hoist_Blockout" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=254488978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 4, -2.2)
+size = Vector3(0.12, 2.4, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Cargo_Hook_Blockout" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Overhead_Dispatch_Gantry" unique_id=2041971354]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 2.75, -2.2)
+size = Vector3(0.42, 0.28, 0.42)
+material = SubResource("Material_hazard")
+
+[node name="Stage_05_Primary_Winch_And_Shaft_Hall" type="Node3D" parent="." unique_id=1513967044]
+editor_description = "Primary Floor -4 shaft station. The cage and head sheave occupy the tall rock hall, while the drum, drive and brakes sit in a separate east machine room. All geometry remains functional blockout rather than final machinery art."
+
+[node name="Rock_Lined_Connector" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1296355643]
+
+[node name="Connector_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=1364927748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -9.5)
+use_collision = true
+size = Vector3(3, 0.3, 5)
+material = SubResource("Material_floor")
+
+[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=1602681314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 4.8, -9.5)
+use_collision = true
+size = Vector3(3, 0.3, 5)
+material = SubResource("Material_rock")
+
+[node name="Connector_West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=198110085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 2.4, -9.5)
+use_collision = true
+size = Vector3(0.3, 4.8, 5)
+material = SubResource("Material_rock")
+
+[node name="Connector_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=759008291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 2.4, -9.5)
+use_collision = true
+size = Vector3(0.3, 4.8, 5)
+material = SubResource("Material_rock")
+
+[node name="Shaft_Fire_Isolation_Blockout" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=259372110]
+editor_description = "Open fire-and-smoke bulkhead between expedition control and the shaft hall. The leaves are parked for traversal during blockout."
+
+[node name="West_Frame_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=354402250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.82, 1.8, -11.8)
+use_collision = true
+size = Vector3(0.24, 3.6, 0.28)
+material = SubResource("Material_hazard")
+
+[node name="East_Frame_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=1564694066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.18, 1.8, -11.8)
+use_collision = true
+size = Vector3(0.24, 3.6, 0.28)
+material = SubResource("Material_hazard")
+
+[node name="Frame_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=920711873]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.5, -11.8)
+use_collision = true
+size = Vector3(2.8, 0.24, 0.28)
+material = SubResource("Material_hazard")
+
+[node name="Frame_Upper_Infill" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=1548554198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 4.13, -11.8)
+use_collision = true
+size = Vector3(2.8, 1.02, 0.28)
+material = SubResource("Material_steel")
+
+[node name="West_Open_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=406603212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.84, 1.7, -10.95)
+size = Vector3(0.12, 3.2, 1.45)
+material = SubResource("Material_steel")
+
+[node name="East_Open_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Shaft_Fire_Isolation_Blockout" unique_id=2083851310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.16, 1.7, -10.95)
+size = Vector3(0.12, 3.2, 1.45)
+material = SubResource("Material_steel")
+
+[node name="Hall_Structure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=520766238]
+
+[node name="South_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=760841242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -15)
+use_collision = true
+size = Vector3(17, 0.3, 6)
+material = SubResource("Material_floor")
+
+[node name="North_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=619975082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -26)
+use_collision = true
+size = Vector3(17, 0.3, 4)
+material = SubResource("Material_floor")
+
+[node name="West_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1957516147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.25, -0.15, -21)
+use_collision = true
+size = Vector3(5.5, 0.3, 6)
+material = SubResource("Material_floor")
+
+[node name="East_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1009947897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.75, -0.15, -21)
+use_collision = true
+size = Vector3(5.5, 0.3, 6)
+material = SubResource("Material_floor")
+
+[node name="Hall_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1637295536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 9.5, -20)
+use_collision = true
+size = Vector3(17, 0.4, 16)
+material = SubResource("Material_rock")
+
+[node name="South_Wall_West_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=175863055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 4.75, -12)
+use_collision = true
+size = Vector3(7, 9.5, 0.3)
+material = SubResource("Material_rock")
+
+[node name="South_Wall_East_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1355149000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.75, -12)
+use_collision = true
+size = Vector3(7, 9.5, 0.3)
+material = SubResource("Material_rock")
+
+[node name="Connector_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1931354314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.15, -12)
+use_collision = true
+size = Vector3(3, 4.7, 0.3)
+material = SubResource("Material_steel")
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1747107193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.40496, 4.75, -28)
+use_collision = true
+size = Vector3(17, 9.5, 0.3)
+material = SubResource("Material_rock")
+
+[node name="West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1667895722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 4.75, -20)
+use_collision = true
+size = Vector3(0.3, 9.5, 16)
+material = SubResource("Material_rock")
+
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1920580594]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 4.75, -15)
+use_collision = true
+size = Vector3(0.3, 9.5, 6)
+material = SubResource("Material_rock")
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=414045956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 4.75, -26)
+use_collision = true
+size = Vector3(0.3, 9.5, 4)
+material = SubResource("Material_rock")
+
+[node name="Machine_Room_Opening_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=826215226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 7.5683103, -21)
+use_collision = true
+size = Vector3(0.3, 3.863379, 6)
+material = SubResource("Material_steel")
+
+[node name="Hoist_Machine_Room" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1097119036]
+editor_description = "Separate fire-resistant room for the floor-mounted winding drum, electric drive, service brake and redundant emergency brake."
+
+[node name="Machine_Room_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=136644504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, -0.15, -21)
+use_collision = true
+size = Vector3(12, 0.3, 10)
+material = SubResource("Material_floor")
+
+[node name="Machine_Room_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1801546389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.07251, 5.621073, -21)
+use_collision = true
+size = Vector3(12.14502, 0.3, 10)
+material = SubResource("Material_concrete")
+
+[node name="Machine_Room_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1771566902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.1, -21)
+use_collision = true
+size = Vector3(0.3, 6.2, 10)
+material = SubResource("Material_concrete")
+
+[node name="Machine_Room_North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1860649677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 3.1, -26)
+use_collision = true
+size = Vector3(12, 6.2, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Machine_Room_South_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1178870726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 3.1, -16)
+use_collision = true
+size = Vector3(12, 6.2, 0.3)
+material = SubResource("Material_concrete")
+
+[node name="Drum_Foundation" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=34143902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1, 0.18, -21)
+use_collision = true
+size = Vector3(4.8, 0.36, 3.6)
+material = SubResource("Material_concrete")
+
+[node name="Floor_Mounted_Winding_Drum" type="CSGCylinder3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1758708860]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -33.1, 1.75, -21)
+radius = 1.35
+height = 3.4
+sides = 24
+material = SubResource("Material_steel")
+
+[node name="South_Drum_Pedestal" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1722943741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1, 0.9, -22.95)
+use_collision = true
+size = Vector3(1.2, 1.8, 0.7)
+material = SubResource("Material_hazard")
+
+[node name="North_Drum_Pedestal" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=401791997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1, 0.9, -19.05)
+use_collision = true
+size = Vector3(1.2, 1.8, 0.7)
+material = SubResource("Material_hazard")
+
+[node name="Electric_Drive_Motor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1674916057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.8, 1.15, -21)
+use_collision = true
+size = Vector3(2.2, 2.1, 2.5)
+material = SubResource("Material_steel")
+
+[node name="Service_Brake_Housing" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1367405570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.25, 1.25, -22.5)
+use_collision = true
+size = Vector3(1.3, 2.2, 1.2)
+material = SubResource("Material_hazard")
+
+[node name="Emergency_Brake_Housing" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=495321849]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.25, 1.25, -19.5)
+use_collision = true
+size = Vector3(1.3, 2.2, 1.2)
+material = SubResource("Material_hazard")
+
+[node name="Machine_To_Head_Rope" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=713412127]
+transform = Transform3D(-0.9407514, -0.33869138, 0, 0.33869138, -0.9407514, 0, 0, 0, 1, -39.7, 5.325, -21)
+size = Vector3(14.25, 0.12, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Machine_Room_Walkway" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=417225619]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0.04, -23.45)
+size = Vector3(10, 0.06, 1.05)
+material = SubResource("Material_floor")
+
+[node name="Machine_Room_South_Walkway" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=799135295]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0.04, -18.55)
+size = Vector3(10, 0.06, 1.05)
+material = SubResource("Material_floor")
+
+[node name="Machine_Room_Fire_Door_Blockout" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=488647670]
+editor_description = "Fire separation between the hoist machinery and the open shaft hall. Leaves are parked open for layout review."
+
+[node name="South_Frame_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Machine_Room_Fire_Door_Blockout" unique_id=573102010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.96, 3, -18.15)
+size = Vector3(0.35, 6, 0.3)
+material = SubResource("Material_hazard")
+
+[node name="North_Frame_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Machine_Room_Fire_Door_Blockout" unique_id=1202002253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.96049, 3, -23.85)
+size = Vector3(0.35, 6, 0.3)
+material = SubResource("Material_hazard")
+
+[node name="South_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Machine_Room_Fire_Door_Blockout" unique_id=175567920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.82, 2.8, -16.7)
+size = Vector3(0.18, 5.6, 2.6)
+material = SubResource("Material_steel")
+
+[node name="North_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Machine_Room_Fire_Door_Blockout" unique_id=863178133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.82, 2.8, -25.3)
+size = Vector3(0.18, 5.6, 2.6)
+material = SubResource("Material_steel")
+
+[node name="Shaft_Cage_Prototype" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1785062772]
+editor_description = "Walkable cargo-and-personnel cage shown at the Floor -4 landing. It fills the shaft opening during blockout and can later become a separate moving scene controlled by gameplay code."
+
+[node name="Cage_Loading_Deck" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1331100405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.04, -21)
+use_collision = true
+size = Vector3(4.8, 0.22, 4.2)
+material = SubResource("Material_steel")
+
+[node name="North_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=125386265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.09, -24.08)
+size = Vector3(6.2, 0.05, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="South_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=351165408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.09, -17.92)
+size = Vector3(6.2, 0.05, 0.16)
+material = SubResource("Material_hazard")
+
+[node name="West_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1807175098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.58, 0.09, -21)
+size = Vector3(0.16, 0.05, 6.2)
+material = SubResource("Material_hazard")
+
+[node name="East_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=666030668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.42, 0.09, -21)
+size = Vector3(0.16, 0.05, 6.2)
+material = SubResource("Material_hazard")
+
+[node name="West_Front_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=803966287]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.65, -19.15)
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("Material_steel")
+
+[node name="East_Front_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=361529264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.65, -19.15)
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("Material_steel")
+
+[node name="West_Rear_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=816478414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.65, -22.85)
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("Material_steel")
+
+[node name="East_Rear_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=529252374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.65, -22.85)
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("Material_steel")
+
+[node name="West_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=81467959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.5, -21)
+use_collision = true
+size = Vector3(0.12, 2.6, 3.7)
+material = SubResource("Material_steel")
+
+[node name="East_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=45341524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.5, -21)
+use_collision = true
+size = Vector3(0.12, 2.6, 3.7)
+material = SubResource("Material_steel")
+
+[node name="Rear_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=340999925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.5, -22.85)
+use_collision = true
+size = Vector3(4.5, 2.6, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Cage_Roof_West_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=128604052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 3.25, -21)
+size = Vector3(0.18, 0.18, 3.9)
+material = SubResource("Material_steel")
+
+[node name="Cage_Roof_East_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1867560090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 3.25, -21)
+size = Vector3(0.18, 0.18, 3.9)
+material = SubResource("Material_steel")
+
+[node name="Cage_Roof_Crossbeam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1522885450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.25, -21)
+size = Vector3(4.7, 0.22, 0.22)
+material = SubResource("Material_steel")
+
+[node name="Cage_Protective_Roof" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1955831806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.18, -21)
+use_collision = true
+size = Vector3(4.5, 0.12, 3.7)
+material = SubResource("Material_concrete")
+
+[node name="Cage_Crosshead" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1133843464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.55, -21)
+size = Vector3(2.2, 0.5, 0.55)
+material = SubResource("Material_hazard")
+
+[node name="Cage_West_Open_Gate_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=867325264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.68, 1.5, -20.275)
+size = Vector3(0.12, 2.8, 2.25)
+material = SubResource("Material_hazard")
+
+[node name="Cage_East_Open_Gate_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1983753383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.32, 1.5, -20.275)
+size = Vector3(0.12, 2.8, 2.25)
+material = SubResource("Material_hazard")
+
+[node name="Landing_Safety_Enclosure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=878539772]
+editor_description = "Fixed landing protection remains on Floor -4 when the cage travels down. The south interlocked gate is shown open for blockout traversal and must close whenever the cage leaves the landing."
+
+[node name="Deployed_Landing_Bridge_Plate" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1626464714]
+editor_description = "Retractable bridge plate shown deployed in blockout. It closes the safety clearance between the fixed landing floor and the cage deck."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.015, -18.48)
+use_collision = true
+size = Vector3(4.5, 0.09, 1.05)
+material = SubResource("Material_hazard")
+
+[node name="West_Landing_Barrier" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1678319262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.75, 1.2, -21)
+use_collision = true
+size = Vector3(0.18, 2.4, 6.5)
+material = SubResource("Material_hazard")
+
+[node name="East_Landing_Barrier" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=819467893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.25, 1.2, -21)
+use_collision = true
+size = Vector3(0.18, 2.4, 6.5)
+material = SubResource("Material_hazard")
+
+[node name="North_Landing_Barrier" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1123550310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.2, -24.25)
+use_collision = true
+size = Vector3(6.5, 2.4, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="South_Gate_West_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1525603058]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.55, 1.4, -19.25)
+size = Vector3(0.18, 2.8, 3)
+material = SubResource("Material_hazard")
+
+[node name="South_Gate_East_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=2132846368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.45, 1.4, -19.25)
+size = Vector3(0.18, 2.8, 3)
+material = SubResource("Material_hazard")
+
+[node name="South_West_Landing_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=337165958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.75, 1.3, -17.75)
+use_collision = true
+size = Vector3(0.22, 2.6, 0.22)
+material = SubResource("Material_hazard")
+
+[node name="South_East_Landing_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=2015050460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.25, 1.3, -17.75)
+use_collision = true
+size = Vector3(0.22, 2.6, 0.22)
+material = SubResource("Material_hazard")
+
+[node name="North_West_Landing_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=187013259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.75, 1.3, -24.25)
+use_collision = true
+size = Vector3(0.22, 2.6, 0.22)
+material = SubResource("Material_hazard")
+
+[node name="North_East_Landing_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=2029603863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.25, 1.3, -24.25)
+use_collision = true
+size = Vector3(0.22, 2.6, 0.22)
+material = SubResource("Material_hazard")
+
+[node name="Primary_Winch_Frame" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1650337171]
+
+[node name="South_West_Column" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1746610149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 4.4, -16.5)
+use_collision = true
+size = Vector3(0.65, 8.8, 0.65)
+material = SubResource("Material_steel")
+
+[node name="South_East_Column" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1219981621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 4.4, -16.5)
+use_collision = true
+size = Vector3(0.65, 8.8, 0.65)
+material = SubResource("Material_steel")
+
+[node name="North_West_Column" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=363192348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 4.4, -25.5)
+use_collision = true
+size = Vector3(0.65, 8.8, 0.65)
+material = SubResource("Material_steel")
+
+[node name="North_East_Column" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=694324400]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 4.4, -25.5)
+use_collision = true
+size = Vector3(0.65, 8.8, 0.65)
+material = SubResource("Material_steel")
+
+[node name="South_Top_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1942275261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 8.8, -16.5)
+size = Vector3(9.65, 0.65, 0.65)
+material = SubResource("Material_steel")
+
+[node name="North_Top_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1524456296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 8.8, -25.5)
+size = Vector3(9.65, 0.65, 0.65)
+material = SubResource("Material_steel")
+
+[node name="West_Top_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=165743280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 8.8, -21)
+size = Vector3(0.65, 0.65, 9)
+material = SubResource("Material_steel")
+
+[node name="East_Top_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1771815846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 8.8, -21)
+size = Vector3(0.65, 0.65, 9)
+material = SubResource("Material_steel")
+
+[node name="South_Sheave_Support_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=262726437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.25, -21.6)
+size = Vector3(16.7, 0.5, 0.5)
+material = SubResource("Material_steel")
+
+[node name="North_Sheave_Support_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=418075607]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.25, -20.4)
+size = Vector3(16.7, 0.5, 0.5)
+material = SubResource("Material_steel")
+
+[node name="East_Sheave_Wall_Bearing" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1455688170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.35, 7.25, -21)
+size = Vector3(0.4, 1.1, 2)
+material = SubResource("Material_hazard")
+
+[node name="Head_Deflection_Sheave" type="CSGCylinder3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=1653584604]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -47.5, 7.75, -21)
+radius = 1.15
+height = 0.55
+sides = 28
+material = SubResource("Material_hazard")
+
+[node name="Vertical_Head_Rope" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=425531425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 5.25, -21)
+size = Vector3(0.12, 3.4, 0.12)
+material = SubResource("Material_steel")
+
+[node name="West_Cage_Guide" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=994724530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2, -5.5, -21)
+use_collision = true
+size = Vector3(0.25, 25, 0.35)
+material = SubResource("Material_steel")
+
+[node name="East_Cage_Guide" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=190291863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.8, -5.5, -21)
+use_collision = true
+size = Vector3(0.25, 25, 0.35)
+material = SubResource("Material_steel")
+
+[node name="Winch_Service_Access" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=170880398]
+editor_description = "Raised maintenance catwalk serves the head sheave bearings. The ladder remains outside the cage travel envelope and uses blockout-scale rung spacing."
+
+[node name="Service_Catwalk" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=391515850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.412987, 6.15, -23.3)
+use_collision = true
+size = Vector3(15.025976, 0.2, 1.6)
+material = SubResource("Material_floor")
+
+[node name="Catwalk_North_Wall_Extension" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=977423967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.99292, 6.15, -25.175104)
+use_collision = true
+size = Vector3(1.8141601, 0.2, 5.3497925)
+material = SubResource("Material_floor")
+
+[node name="Catwalk_North_Rail" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=118131355]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.574085, 6.8, -23.932753)
+size = Vector3(9.651831, 0.18, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_North_Rail_West_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1141206219]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.8874, 6.8, -23.932753)
+size = Vector3(3.9748046, 0.18, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_South_Rail" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1990352827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.536083, 6.8, -22.645016)
+size = Vector3(16.808496, 0.18, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_Extension_West_Rail" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=28784756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75496, 6.8, -25.846937)
+size = Vector3(0.18, 0.18, 3.806128)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_Center_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=269069737]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.4, 6.65, -23.932753)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_East_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1673391753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75, 6.65, -23.9)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_South_Center_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1879292851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 6.65, -22.645016)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_South_East_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=2074863216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.28912, 6.65, -22.645016)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_North_Ladder_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=13493898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.9, 6.65, -23.932753)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_North_Toe_Board" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=126630773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.595264, 6.33, -23.932753)
+size = Vector3(9.609472, 0.3, 0.1)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_North_Toe_Board_West_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=206897698]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.89668, 6.33, -23.932753)
+size = Vector3(3.9933593, 0.3, 0.1)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_South_Toe_Board" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=851567459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.501507, 6.33, -22.645016)
+size = Vector3(16.774256, 0.3, 0.1)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_Extension_West_Toe_Board" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=2012529749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75496, 6.33, -25.826796)
+size = Vector3(0.1, 0.3, 3.8464112)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_Extension_West_Center_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=429139248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75496, 6.65, -25.875)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_Extension_West_Wall_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1958812148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75496, 6.65, -27.72)
+size = Vector3(0.18, 1.2, 0.18)
+material = SubResource("Material_hazard")
+
+[node name="Catwalk_West_Bracket" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1573560550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.65, 5.7, -23.3)
+size = Vector3(0.4, 0.9, 1.6)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_North_Support_Girder" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=2090611221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.362633, 5.92, -23.9)
+size = Vector3(16.674732, 0.36, 0.3)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_South_Support_Girder" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1695202625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.379295, 5.92, -22.7)
+size = Vector3(16.641407, 0.36, 0.3)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_West_Frame_Tie" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=95359964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 5.9870825, -24.087793)
+size = Vector3(0.45, 0.45, 2.824414)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_East_Frame_Tie" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1967380189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 5.982646, -24.043257)
+size = Vector3(0.45, 0.45, 2.9134889)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_Extension_West_Support_Girder" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=425682448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.75, 5.9454436, -25.22)
+size = Vector3(0.3, 0.36, 5.182068)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_Extension_East_Support_Girder" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1836708696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.45, 5.9, -25.22)
+size = Vector3(0.3, 0.27765626, 5.260742)
+material = SubResource("Material_steel")
+
+[node name="Catwalk_North_Wall_Bracket" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1591504745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.1, 5.7, -27.65)
+size = Vector3(1.6, 0.9, 0.4)
+material = SubResource("Material_steel")
+
+[node name="Ladder_West_Rail" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=131787370]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.6, 3.6, -23.732107)
+size = Vector3(0.12, 7.2, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_East_Rail" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1937705309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.6, -23.732107)
+size = Vector3(0.12, 7.2, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_01" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=159018080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 0.35, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_02" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=541367714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 0.75, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_03" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1033687282]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 1.15, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_04" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=2081318032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 1.55, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_05" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=980344507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 1.95, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_06" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1094543526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 2.35, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_07" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=19920869]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 2.75, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_08" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1044523015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 3.15, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_09" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=795470550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 3.55, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_10" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1553129982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 3.95, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_11" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1164376178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 4.35, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_12" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1232607954]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 4.75, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_13" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=447154856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 5.15, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_14" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=29037428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 5.55, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_15" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1167541988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 5.95, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Ladder_Rung_16" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Service_Access" unique_id=1764276344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.3, 6.35, -23.732107)
+size = Vector3(0.72, 0.1, 0.12)
+material = SubResource("Material_steel")
+
+[node name="Winch_Power_And_Braking" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1293486502]
+editor_description = "Machine-room power, local disconnect and redundant brake control blockout. Final cable trays and conduit are deferred to the modular-art pass."
+
+[node name="Drive_Power_Cabinet" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Power_And_Braking" unique_id=574358709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.5, 1.35, -23.7)
+use_collision = true
+size = Vector3(0.7, 2.7, 2.4)
+material = SubResource("Material_steel")
+
+[node name="Emergency_Brake_Cabinet" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Power_And_Braking" unique_id=1072301235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.5, 1.15, -18.5)
+use_collision = true
+size = Vector3(0.7, 2.3, 2)
+material = SubResource("Material_hazard")
+
+[node name="Local_Lockout_Disconnect" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Power_And_Braking" unique_id=1927856041]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.55, 1.45, -17)
+size = Vector3(0.45, 1.4, 0.9)
+material = SubResource("Material_hazard")
+
+[node name="Shaft_Signaling_And_Interlocks" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1896692058]
+editor_description = "Blockout positions for the independent cage signal, landing-gate interlock, emergency stop and voice communication. Gameplay behavior is intentionally deferred."
+
+[node name="Landing_Status_Panel" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Signaling_And_Interlocks" unique_id=745607293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 1.55, -16.08)
+size = Vector3(0.9, 1.5, 0.18)
+material = SubResource("Material_steel")
+
+[node name="Landing_Status_Display" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Signaling_And_Interlocks" unique_id=1549037225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 1.75, -15.97)
+size = Vector3(0.58, 0.48, 0.04)
+material = SubResource("Material_screen")
+
+[node name="Emergency_Stop_Blockout" type="CSGCylinder3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Signaling_And_Interlocks" unique_id=1307788184]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -43, 1.15, -15.91)
+radius = 0.16
+height = 0.12
+sides = 16
+material = SubResource("Material_hazard")
+
+[node name="Shaft_Intercom_Blockout" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Signaling_And_Interlocks" unique_id=650405279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2, 1.5, -12.22)
+size = Vector3(0.75, 1.2, 0.18)
+material = SubResource("Material_steel")
+
+[node name="Cage_Position_Indicator" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Signaling_And_Interlocks" unique_id=277708978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 3.2, -12.21)
+size = Vector3(1.4, 0.62, 0.12)
+material = SubResource("Material_screen")
+
+[node name="Shaft_Safety_Infrastructure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=657918442]
+editor_description = "Coarse blockout for ventilation, drainage, firefighting and a reserved emergency manway. These elements establish functional clearances without final pipe or prop detail."
+
+[node name="West_Exhaust_Duct" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=1060865373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.45, 7.349962, -20)
+size = Vector3(0.8, 0.8, 12)
+material = SubResource("Material_steel")
+
+[node name="North_Exhaust_Fan_Housing" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=1308579993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.7, 6.2, -27.55)
+size = Vector3(3.4, 2.1, 0.6)
+material = SubResource("Material_steel")
+
+[node name="South_Drain_Trench" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=389662429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.025, -17.45)
+size = Vector3(6.8, 0.05, 0.35)
+material = SubResource("Material_steel")
+
+[node name="East_Sump_Grate" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=233455116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.2, 0.025, -25.4)
+size = Vector3(2.2, 0.05, 1.2)
+material = SubResource("Material_steel")
+
+[node name="Fire_Response_Cabinet" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=1803827734]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.575, 1.25, -14.4)
+use_collision = true
+size = Vector3(0.55, 2.5, 1.5)
+material = SubResource("Material_hazard")
+
+[node name="Future_Emergency_Manway_Hatch" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=1482891713]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 1.55, -27.78)
+size = Vector3(2.2, 3.1, 0.22)
+material = SubResource("Material_hazard")
+
+[node name="Future_Emergency_Manway_Interface" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=860993430]
+editor_description = "Reserved independent emergency egress route toward Floor -5. It remains sealed until the lower mine layout is authored."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 1.4, -27.6)
+
+[node name="Clear_Cargo_Transfer_Envelope" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=178765171]
+editor_description = "Keep the 3 m wide route from the south connector to the cage entrance unobstructed for the battery-electric cargo tug. No fixed rails are planned through the occupied rooms."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -15)
+
+[node name="Winch_Operator_Station" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1341177850]
+editor_description = "Non-functional blockout station for supervising the shaft cage and logging recovered material."
+
+[node name="Operator_Console" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" unique_id=2034797921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.1, 0.65, -15.2)
+use_collision = true
+size = Vector3(1.6, 1.3, 2.8)
+material = SubResource("Material_steel")
+
+[node name="Operator_Display" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" unique_id=236050843]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -40.94, 1.35, -15.2)
+size = Vector3(1.8, 0.75, 0.06)
+material = SubResource("Material_screen")
+
+[node name="Brake_Status_Column" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" unique_id=1844254808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.15, 0.95, -13.4)
+size = Vector3(0.65, 1.9, 0.45)
+material = SubResource("Material_hazard")
+
+[node name="Signal_Bell_And_Intercom" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" unique_id=536284341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.15, 2.15, -13.4)
+size = Vector3(0.75, 0.5, 0.5)
+material = SubResource("Material_steel")
+
+[node name="Future_Floor_Minus5_Shaft_Transition" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=791906619]
+editor_description = "Reserved vertical transition into Floor -5. Open and detail only after the complete Floor -4 layout and cargo route are approved."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)
+
+[node name="Lighting_Blockout" type="Node3D" parent="." unique_id=838118527]
+editor_description = "Temporary review lighting. Cool white light marks controlled expedition space; warmer industrial light begins at the cargo route."
+
+[node name="Arrival_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=52698170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 3.7, 0)
+light_color = Color(0.64, 0.82, 0.92, 1)
+light_energy = 0.8
+omni_range = 6.0
+
+[node name="Checkpoint_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=231490597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.7, 0)
+light_color = Color(0.52, 0.76, 0.88, 1)
+light_energy = 0.82
+omni_range = 6.5
+
+[node name="Cargo_Approach_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1659035104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, -2)
+light_color = Color(0.9, 0.62, 0.28, 1)
+light_energy = 0.78
+omni_range = 7.0
+
+[node name="Dispatch_Hall_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=709517094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 5.25, -3)
+light_color = Color(0.76, 0.72, 0.58, 1)
+light_energy = 0.92
+omni_range = 8.5
+
+[node name="Expedition_Control_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1213612801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.75, 3.7, 1.8)
+light_color = Color(0.42, 0.7, 0.88, 1)
+light_energy = 0.68
+
+[node name="Rock_Connector_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=103687471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.8, -9.5)
+light_color = Color(0.86, 0.6, 0.3, 1)
+light_energy = 0.72
+omni_range = 5.5
+
+[node name="Winch_Hall_Key_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1591026049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 8.35, -20.5)
+light_color = Color(0.66, 0.78, 0.82, 1)
+light_energy = 1.05
+omni_range = 11.0
+
+[node name="Shaft_Seal_Warning_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1043210817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.2, -21)
+light_color = Color(0.95, 0.28, 0.08, 1)
+light_energy = 0.55
+omni_range = 4.5
+
+[node name="Machine_Room_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2117271784]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 4.9, -21)
+light_color = Color(0.72, 0.82, 0.84, 1)
+light_energy = 0.9
+omni_range = 8.0
+
+[node name="Head_Sheave_Task_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=590961260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.9, -23.7)
+light_color = Color(0.85, 0.72, 0.42, 1)
+light_energy = 0.55
+omni_range = 4.5
+
+[node name="Emergency_Manway_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1122553288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 2.4, -26.8)
+light_color = Color(0.88, 0.22, 0.12, 1)
+light_energy = 0.42
+omni_range = 3.5
