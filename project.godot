@@ -31,10 +31,6 @@ window/stretch/aspect="expand"
 [file_customization]
 
 folder_colors={
-"res://docs/art/": "red",
-"res://docs/art/doors/": "red",
-"res://docs/art/elevator/": "red",
-"res://docs/handoffs/": "red",
 "res://scenes/art/": "red",
 "res://scenes/art/doors/": "red",
 "res://scenes/art/elevator/": "red",

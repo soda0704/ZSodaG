@@ -1109,39 +1109,6 @@ use_collision = true
 size = Vector3(0.25, 79, 0.35)
 material = SubResource("Material_steel")
 
-[node name="Deep_Winch_Shaft_Rhythm" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1649320758]
-editor_description = "Repeated guide brackets communicate the approximately 72 meter cage descent to the separately streamed cave module. They sit behind the cage travel envelope and do not cross its path."
-
-[node name="Guide_Tie_Minus12" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=507826341]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -12, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
-[node name="Guide_Tie_Minus24" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1936854270]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -24, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
-[node name="Guide_Tie_Minus36" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=721943586]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -36, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
-[node name="Guide_Tie_Minus48" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1380572946]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -48, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
-[node name="Guide_Tie_Minus60" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=1057369248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -60, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
-[node name="Guide_Tie_Minus72" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Deep_Winch_Shaft_Rhythm" unique_id=2046391587]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -71.7, -23.35)
-size = Vector3(5.65, 0.28, 0.28)
-material = SubResource("Material_steel")
-
 [node name="Winch_Service_Access" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=170880398]
 editor_description = "Raised maintenance catwalk serves the head sheave bearings. The ladder remains outside the cage travel envelope and uses blockout-scale rung spacing."
 
@@ -1441,15 +1408,6 @@ use_collision = true
 size = Vector3(0.55, 2.5, 1.5)
 material = SubResource("Material_hazard")
 
-[node name="Future_Emergency_Manway_Hatch" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=1482891713]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 1.55, -27.78)
-size = Vector3(2.2, 3.1, 0.22)
-material = SubResource("Material_hazard")
-
-[node name="Future_Emergency_Manway_Interface" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Safety_Infrastructure" unique_id=860993430]
-editor_description = "Reserved independent emergency egress route toward Floor -5. It remains sealed until the lower mine layout is authored."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 1.4, -27.6)
-
 [node name="Clear_Cargo_Transfer_Envelope" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=178765171]
 editor_description = "Keep the 3 m wide route from the south connector to the cage entrance unobstructed for the battery-electric cargo tug. No fixed rails are planned through the occupied rooms."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -15)
@@ -1478,9 +1436,431 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.15, 2.15, -13.4)
 size = Vector3(0.75, 0.5, 0.5)
 material = SubResource("Material_steel")
 
-[node name="Future_Floor_Minus5_Shaft_Transition" type="Marker3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=791906619]
-editor_description = "Winch handoff to the separately streamed Floor -5 cave module. The programmer-owned loader should stream that module during the cage descent."
+[node name="Winch_Shaft_Blockout" type="Node3D" parent="." unique_id=1562905024]
+editor_description = "Organic 72 m natural shaft for the separate winch cage. Human construction is limited to the upper landing collar and essential hoist equipment; the descent below is irregular rock without repeating structural walls or beams."
+
+[node name="Upper_Landing_Collar" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=1996546146]
+editor_description = "Short engineered collar around the first 3 m of the shaft. This is the last clearly human-built structure visible during the descent."
+
+[node name="North_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=549592649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -1.6661004, -24.214684)
+use_collision = true
+size = Vector3(6.7, 3, 0.35)
+material = SubResource("Material_concrete")
+
+[node name="South_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=1472681703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -1.6661004, -17.802692)
+use_collision = true
+size = Vector3(6.7, 3, 0.35)
+material = SubResource("Material_concrete")
+
+[node name="West_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=302249305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.762104, -1.6661004, -21)
+use_collision = true
+size = Vector3(0.35, 3, 6)
+material = SubResource("Material_concrete")
+
+[node name="East_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=635715229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.226856, -1.6661004, -21)
+use_collision = true
+size = Vector3(0.35, 3, 6)
+material = SubResource("Material_concrete")
+
+[node name="Upper_Natural_Transition" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=563625823]
+editor_description = "First 9 m of exposed natural shaft below the collar. Offset rock masses break the rectangular silhouette while preserving the winch cage clearance."
+
+[node name="North_Rock_Upper" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=538026627]
+transform = Transform3D(0.996195, -0.00607968, 0.0869434, 0, 0.997564, 0.0697565, -0.0871557, -0.069491, 0.993768, -47.85, -5.2, -24.8)
+use_collision = true
+size = Vector3(7.5, 4.7, 1.45)
+material = SubResource("Material_rock")
+
+[node name="North_Rock_Lower" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=1319869243]
+transform = Transform3D(0.990268, 0.0109146, -0.138745, 0, 0.996917, 0.0784591, 0.139173, -0.077695, 0.987215, -47.1, -9.55, -25.15)
+use_collision = true
+size = Vector3(8.2, 5, 1.7)
+material = SubResource("Material_rock")
+
+[node name="South_Rock_Upper" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=754906643]
+transform = Transform3D(0.992546, -0.0074379, -0.121642, 0, 0.998135, -0.0610485, 0.121869, 0.0605934, 0.990695, -47.15, -5.05, -17.25)
+use_collision = true
+size = Vector3(7.1, 4.5, 1.35)
+material = SubResource("Material_rock")
+
+[node name="South_Rock_Lower" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=1573718878]
+transform = Transform3D(0.997564, -0.00486453, 0.0695866, 0, 0.997564, 0.0697565, -0.0697565, -0.0695866, 0.995134, -47.75, -9.45, -16.9)
+use_collision = true
+size = Vector3(8.5, 5.2, 1.8)
+material = SubResource("Material_rock")
+
+[node name="West_Rock_Upper" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=345795203]
+transform = Transform3D(0.993768, -0.069491, -0.0871557, 0.0697565, 0.997564, 0, 0.0869434, -0.00607968, 0.996195, -51.25, -5.35, -21.15)
+use_collision = true
+size = Vector3(1.45, 4.8, 6.8)
+material = SubResource("Material_rock")
+
+[node name="West_Rock_Lower" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=489397708]
+transform = Transform3D(0.990737, 0.0863075, 0.104825, -0.0871557, 0.996195, 0, -0.104426, -0.00910024, 0.994493, -51.55, -9.65, -20.75)
+use_collision = true
+size = Vector3(1.75, 5.1, 7.7)
+material = SubResource("Material_rock")
+
+[node name="East_Rock_Upper" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=1991062815]
+transform = Transform3D(0.995134, 0.0695866, 0.0697565, -0.0697565, 0.997564, 0, -0.0695866, -0.00486453, 0.997564, -43.8, -5.15, -20.7)
+use_collision = true
+size = Vector3(1.4, 4.6, 7.2)
+material = SubResource("Material_rock")
+
+[node name="East_Rock_Lower" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Natural_Transition" unique_id=160181785]
+transform = Transform3D(0.987215, -0.077695, -0.139173, 0.0784591, 0.996917, 0, 0.138745, -0.0109146, 0.990268, -43.35, -9.5, -21.35)
+use_collision = true
+size = Vector3(1.8, 5.15, 8.1)
+material = SubResource("Material_rock")
+
+[node name="Mid_Shaft_Expansion" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=394998734]
+editor_description = "Irregular natural expansion from 12 m to 40 m below Floor -4. The cage keeps a straight vertical route while the surrounding rock opens from roughly 7 m to 12 m across."
+
+[node name="North_Shoulder" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=547461854]
+transform = Transform3D(0.99415046, -0.041796394, -0.09958893, 0.03490716, 0.9969401, -0.06994285, 0.10220756, 0.06605734, 0.9925674, -47.9, -15.4, -25.55)
+use_collision = true
+size = Vector3(8.8, 7.2, 2.2)
+material = SubResource("Material_rock")
+
+[node name="North_Fracture" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=1942991391]
+transform = Transform3D(0.9888941, 0.051720116, 0.13933212, -0.05987333, 0.99669117, 0.054972276, -0.13602792, -0.06270404, 0.9887187, -46.9, -23.8, -26.65)
+use_collision = true
+size = Vector3(10.4, 10.2, 3.1)
+material = SubResource("Material_rock")
+
+[node name="North_Deep_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=1169471139]
+transform = Transform3D(0.99586064, -0.043453507, -0.07983379, 0.03994885, 0.9981886, -0.044984818, 0.081643924, 0.04160934, 0.9957926, -48.2, -34.2, -27.45)
+use_collision = true
+size = Vector3(11.6, 11.5, 3.6)
+material = SubResource("Material_rock")
+
+[node name="South_Shoulder" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=1070252055]
+transform = Transform3D(0.99269277, 0.017044246, 0.119459406, -0.024944609, 0.9975764, 0.064954236, -0.11806279, -0.06745947, 0.9907121, -47.1, -15.8, -16.25)
+use_collision = true
+size = Vector3(9.2, 7.8, 2.1)
+material = SubResource("Material_rock")
+
+[node name="South_Broken_Face" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=616984165]
+transform = Transform3D(0.99197084, -0.06339966, -0.1094272, 0.05479646, 0.99529445, -0.07991469, 0.11397884, 0.07327682, 0.99077713, -48.15, -25.1, -15.25)
+use_collision = true
+size = Vector3(10.8, 11.2, 3.3)
+material = SubResource("Material_rock")
+
+[node name="South_Deep_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=299675106]
+transform = Transform3D(0.9963141, 0.041865, 0.074869774, -0.044948835, 0.9981886, 0.039989334, -0.07306, -0.043207247, 0.9963912, -46.75, -35.2, -14.6)
+use_collision = true
+size = Vector3(12.2, 10.5, 3.8)
+material = SubResource("Material_rock")
+
+[node name="West_Shoulder" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=261098201]
+transform = Transform3D(0.9937601, 0.07787681, 0.07985076, -0.074869774, 0.9963912, -0.039989334, -0.082676835, 0.033761397, 0.9960044, -52.35, -16.2, -21.25)
+use_collision = true
+size = Vector3(2.15, 8.4, 8.7)
+material = SubResource("Material_rock")
+
+[node name="West_Recess" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=474416611]
+transform = Transform3D(0.99664694, -0.049996547, -0.06477164, 0.05481774, 0.9956809, 0.07492971, 0.060745656, -0.0782291, 0.99508303, -53.45, -25.8, -20.35)
+use_collision = true
+size = Vector3(3.1, 11, 10.4)
+material = SubResource("Material_rock")
+
+[node name="West_Deep_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=887218226]
+transform = Transform3D(0.99418527, 0.040800784, 0.09965377, -0.034929886, 0.9975892, -0.059964005, -0.10186011, 0.056134436, 0.9932137, -54.25, -35.4, -21.65)
+use_collision = true
+size = Vector3(3.7, 10.8, 12)
+material = SubResource("Material_rock")
+
+[node name="East_Shoulder" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=1978748429]
+transform = Transform3D(0.9941413, -0.060208783, -0.08976623, 0.06487306, 0.99664116, 0.04997917, 0.08645554, -0.055509765, 0.99470806, -42.55, -15.5, -20.55)
+use_collision = true
+size = Vector3(2.2, 7.5, 9.1)
+material = SubResource("Material_rock")
+
+[node name="East_Hollow_Face" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=291303840]
+transform = Transform3D(0.99730414, 0.048757818, 0.05483765, -0.04487465, 0.9965412, -0.06994285, -0.058058236, 0.06729347, 0.9960426, -41.25, -24.3, -21.65)
+use_collision = true
+size = Vector3(3.2, 10.8, 10.8)
+material = SubResource("Material_rock")
+
+[node name="East_Deep_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=1494017006]
+transform = Transform3D(0.993657, -0.024878075, -0.10966717, 0.029965134, 0.9985382, 0.044984818, 0.108387716, -0.04798567, 0.9929499, -40.7, -34.9, -20.45)
+use_collision = true
+size = Vector3(3.8, 11.4, 12.4)
+material = SubResource("Material_rock")
+
+[node name="Depth_26m_Landmark_Ledge" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=803671936]
+editor_description = "Primary natural depth landmark. A broad fractured shelf reaches toward the cage route without crossing its travel clearance."
+transform = Transform3D(0.98318976, -0.08936818, -0.15922064, 0.084845684, 0.99577945, -0.034992855, 0.16167589, 0.020895433, 0.98662263, -49.15, -26.2, -25.5)
+use_collision = true
+size = Vector3(5.8, 2.25, 2.75)
+material = SubResource("Material_rock")
+
+[node name="Lower_Shaft_Cavern_Opening" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=2066598391]
+editor_description = "Final natural descent from 40 m to 68 m below Floor -4. The rock briefly opens around the moving cage, then closes into the safe arrival hub without revealing the later tectonic quarry."
+
+[node name="North_Lower_Throat" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1755382064]
+transform = Transform3D(0.9939888, 0.045273233, 0.099682465, -0.039928865, 0.9976892, -0.054972276, -0.101940885, 0.05066162, 0.99349964, -47, -44.2, -28.7)
+use_collision = true
+size = Vector3(13.5, 9.8, 4.2)
+material = SubResource("Material_rock")
+
+[node name="North_Cavern_Lip" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1847845517]
+transform = Transform3D(0.99176764, -0.0462166, -0.11941903, 0.05483765, 0.9960426, 0.06994285, 0.11571392, -0.07591572, 0.99037725, -48.6, -53.8, -30.4)
+use_collision = true
+size = Vector3(17, 11.5, 4.8)
+material = SubResource("Material_rock")
+
+[node name="North_Cavern_Roof_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1125166862]
+transform = Transform3D(0.99683, 0.038051598, 0.069872044, -0.03495743, 0.99837583, -0.044984818, -0.071470305, 0.042399667, 0.9965412, -46.6, -63, -32.1)
+use_collision = true
+size = Vector3(21, 8.5, 5.4)
+material = SubResource("Material_rock")
+
+[node name="South_Lower_Throat" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1567677426]
+transform = Transform3D(0.9959576, -0.02977883, -0.084744915, 0.034929886, 0.9975892, 0.059964005, 0.08275495, -0.06268174, 0.9945967, -48.1, -44.7, -13.3)
+use_collision = true
+size = Vector3(14.2, 10.4, 4)
+material = SubResource("Material_rock")
+
+[node name="South_Cavern_Lip" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1315356780]
+transform = Transform3D(0.99230283, 0.057892475, 0.10946969, -0.04983867, 0.9959426, -0.07492971, -0.11336339, 0.068897136, 0.9911619, -46.7, -54.5, -11.6)
+use_collision = true
+size = Vector3(18.5, 11.8, 4.9)
+material = SubResource("Material_rock")
+
+[node name="South_Cavern_Face" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1029408239]
+transform = Transform3D(0.9969949, -0.042294975, -0.06490228, 0.044948835, 0.9981886, 0.039989334, 0.06309337, -0.04278644, 0.99709004, -49, -63.5, -9.9)
+use_collision = true
+size = Vector3(22, 8.2, 5.6)
+material = SubResource("Material_rock")
+
+[node name="West_Lower_Throat" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=653102332]
+transform = Transform3D(0.9954921, 0.05120695, 0.07983379, -0.054916628, 0.9974771, 0.044984818, -0.07732884, -0.049166232, 0.9957926, -55.6, -44.4, -20.6)
+use_collision = true
+size = Vector3(4.2, 10.1, 14.8)
+material = SubResource("Material_rock")
+
+[node name="West_Cavern_Lip" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=918434380]
+transform = Transform3D(0.99394894, -0.04626897, -0.0996226, 0.039904885, 0.99709004, -0.064954236, 0.10233807, 0.060585763, 0.992903, -57.5, -54.1, -22)
+use_collision = true
+size = Vector3(5, 11.7, 18)
+material = SubResource("Material_rock")
+
+[node name="West_Cavern_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=716670858]
+transform = Transform3D(0.9977045, 0.03163555, 0.05987333, -0.03493994, 0.9978764, 0.054972276, -0.058007106, -0.05693806, 0.99669117, -59.2, -63.2, -19.8)
+use_collision = true
+size = Vector3(5.8, 8.8, 22.5)
+material = SubResource("Material_rock")
+
+[node name="East_Lower_Throat" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1820655540]
+transform = Transform3D(0.9951698, -0.06353362, -0.07483607, 0.059889067, 0.99695307, -0.04997917, 0.0777834, 0.045255903, 0.9959426, -39.5, -44.8, -21.5)
+use_collision = true
+size = Vector3(4.1, 10.5, 15.2)
+material = SubResource("Material_rock")
+
+[node name="East_Cavern_Lip" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1162385763]
+transform = Transform3D(0.9947816, 0.03815411, 0.09462486, -0.04487465, 0.9965412, 0.06994285, -0.09162896, -0.07382412, 0.99305296, -37.5, -54.8, -20)
+use_collision = true
+size = Vector3(5.1, 12, 18.8)
+material = SubResource("Material_rock")
+
+[node name="East_Cavern_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=407831028]
+transform = Transform3D(0.99779946, -0.0371369, -0.054928303, 0.034964863, 0.99858814, -0.039989334, 0.056335837, 0.037980776, 0.9976892, -35.8, -63.3, -22.1)
+use_collision = true
+size = Vector3(5.9, 8.6, 23)
+material = SubResource("Material_rock")
+
+[node name="Floor_Minus5_Safe_Arrival_Hub" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=1700728366]
+editor_description = "Safe but raw natural pocket around the stalled cage. The cage and cable are the only human elements. Four uneven fissures feed one connected looping maze; the later tectonic quarry remains hidden."
+
+[node name="Broken_Floor_North" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=693383112]
+position = Vector3(-48, -72.4, -26.8)
+rotation = Vector3(0.012, -0.055, -0.018)
+use_collision = true
+size = Vector3(17, 0.8, 5.6)
+material = SubResource("Material_rock")
+
+[node name="Broken_Floor_South" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1716864382]
+position = Vector3(-47, -72.45, -14.8)
+rotation = Vector3(-0.016, 0.07, 0.012)
+use_collision = true
+size = Vector3(19, 0.95, 6.2)
+material = SubResource("Material_rock")
+
+[node name="Broken_Floor_West" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=850636474]
+position = Vector3(-54.1, -72.5, -20.7)
+rotation = Vector3(0.01, 0.04, -0.02)
+use_collision = true
+size = Vector3(7.2, 1.05, 7.1)
+material = SubResource("Material_rock")
+
+[node name="Broken_Floor_East" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=68987444]
+position = Vector3(-40.7, -72.32, -21.3)
+rotation = Vector3(-0.012, -0.065, 0.018)
+use_collision = true
+size = Vector3(7.6, 0.85, 6.9)
+material = SubResource("Material_rock")
+
+[node name="Northwest_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=402586664]
+position = Vector3(-55, -68.3, -29)
+rotation = Vector3(0.055, 0.14, -0.07)
+use_collision = true
+size = Vector3(9, 8.4, 4.6)
+material = SubResource("Material_rock")
+
+[node name="Northeast_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=526694105]
+position = Vector3(-42, -68.8, -30.1)
+rotation = Vector3(-0.075, -0.1, 0.045)
+use_collision = true
+size = Vector3(9, 7.4, 5.1)
+material = SubResource("Material_rock")
+
+[node name="Southwest_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=534830477]
+position = Vector3(-53, -68.5, -11.1)
+rotation = Vector3(-0.06, -0.12, 0.05)
+use_collision = true
+size = Vector3(10, 8.2, 4.8)
+material = SubResource("Material_rock")
+
+[node name="Southeast_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1786382166]
+position = Vector3(-39.5, -68, -9.8)
+rotation = Vector3(0.07, 0.13, -0.06)
+use_collision = true
+size = Vector3(9, 8.7, 5.5)
+material = SubResource("Material_rock")
+
+[node name="West_North_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1054831078]
+position = Vector3(-59.2, -68.1, -26)
+rotation = Vector3(-0.045, 0.085, -0.065)
+use_collision = true
+size = Vector3(4.7, 8.8, 9)
+material = SubResource("Material_rock")
+
+[node name="West_South_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1995456966]
+position = Vector3(-60, -68.7, -13.4)
+rotation = Vector3(0.08, -0.06, 0.04)
+use_collision = true
+size = Vector3(5.2, 7.5, 7.2)
+material = SubResource("Material_rock")
+
+[node name="East_North_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1231472132]
+position = Vector3(-35.4, -68.8, -29)
+rotation = Vector3(0.06, -0.09, 0.05)
+use_collision = true
+size = Vector3(5, 7.2, 8.2)
+material = SubResource("Material_rock")
+
+[node name="East_South_Rock_Mass" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1373941210]
+position = Vector3(-36.4, -68.2, -16.4)
+rotation = Vector3(-0.055, 0.11, -0.045)
+use_collision = true
+size = Vector3(4.6, 8.4, 9)
+material = SubResource("Material_rock")
+
+[node name="Northwest_Fissure_Floor" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=359552289]
+position = Vector3(-49, -72.5, -34.6)
+rotation = Vector3(0.008, -0.18, -0.012)
+use_collision = true
+size = Vector3(3.6, 0.75, 9)
+material = SubResource("Material_rock")
+
+[node name="South_Fissure_Floor" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1700813226]
+position = Vector3(-44.7, -72.55, -7.5)
+rotation = Vector3(-0.012, 0.2, 0.01)
+use_collision = true
+size = Vector3(3.2, 0.8, 9)
+material = SubResource("Material_rock")
+
+[node name="West_Fissure_Floor" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=1856402392]
+position = Vector3(-63.2, -72.45, -18.6)
+rotation = Vector3(0.01, 0.1, -0.014)
+use_collision = true
+size = Vector3(10, 0.8, 3.5)
+material = SubResource("Material_rock")
+
+[node name="East_Fissure_Floor" type="CSGBox3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=312211090]
+position = Vector3(-32.8, -72.3, -23)
+rotation = Vector3(-0.008, -0.13, 0.012)
+use_collision = true
+size = Vector3(10.5, 0.7, 3.3)
+material = SubResource("Material_rock")
+
+[node name="Maze_Entrance_Markers" type="Node3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=186387211]
+editor_description = "Four uneven natural fissures of equal gameplay importance connect to one looping maze. Their silhouettes differ, and some loops return to this pocket from another side."
+
+[node name="Northwest_Fissure" type="Marker3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub/Maze_Entrance_Markers" unique_id=2009252325]
+position = Vector3(-49, -71.8, -31.5)
+rotation = Vector3(0, -0.18, 0)
+
+[node name="South_Fissure" type="Marker3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub/Maze_Entrance_Markers" unique_id=517299716]
+position = Vector3(-44.7, -71.8, -10.5)
+rotation = Vector3(0, 0.2, 0)
+
+[node name="West_Fissure" type="Marker3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub/Maze_Entrance_Markers" unique_id=2035104549]
+position = Vector3(-58.5, -71.8, -18.6)
+rotation = Vector3(0, 0.1, 0)
+
+[node name="East_Fissure" type="Marker3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub/Maze_Entrance_Markers" unique_id=743551809]
+position = Vector3(-37.7, -71.8, -23)
+rotation = Vector3(0, -0.13, 0)
+
+[node name="Winch_Disabled_State_Contract" type="Node3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=2078938353]
+editor_description = "After arrival the exposed mechanism simply becomes unresponsive. The cage remains in the irregular safe pocket, but return to Floor -4 is temporarily unavailable."
+
+[node name="Northwest_Hanging_Rock" type="CSGSphere3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub"]
+position = Vector3(-55.8, -65.2, -26.8)
+scale = Vector3(2.8, 1.7, 2.2)
+use_collision = true
+radius = 1.0
+radial_segments = 12
+rings = 6
+material = SubResource("Material_rock")
+
+[node name="South_Root_Rock" type="CSGSphere3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub"]
+position = Vector3(-50.8, -70.2, -11.7)
+scale = Vector3(3.2, 2.1, 1.8)
+use_collision = true
+radius = 1.0
+radial_segments = 10
+rings = 5
+material = SubResource("Material_rock")
+
+[node name="Shaft_Review_Lighting" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=1414262496]
+editor_description = "Temporary non-diegetic blockout lighting for judging the descent silhouette. Replace or remove during the final lighting pass."
+
+[node name="Middle_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=1365654408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.5, -27, -20)
+light_color = Color(0.34, 0.46, 0.5, 1)
+light_energy = 0.38
+shadow_enabled = true
+omni_range = 15.0
+
+[node name="Cavern_Mouth_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=724165422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, -53, -18)
+light_color = Color(0.26, 0.38, 0.4, 1)
+light_energy = 0.44
+shadow_enabled = true
+omni_range = 21.0
+
+[node name="Arrival_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=415442251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, -68.8, -19.5)
+light_color = Color(0.3, 0.42, 0.39, 1)
+light_energy = 0.26
+shadow_enabled = true
+omni_range = 9.0
+
+[node name="Winch_Cage_Travel_Contract" type="Node3D" parent="." unique_id=1492284378]
+editor_description = "LD contract for the separate winch cage. The cage travels vertically 72 m between Floor -4 and the future Floor -5; this route is independent from the main base elevator."
+
+[node name="FloorMinus4Departure" type="Marker3D" parent="Winch_Cage_Travel_Contract" unique_id=1856677647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)
+
+[node name="FloorMinus5Arrival" type="Marker3D" parent="Winch_Cage_Travel_Contract" unique_id=724029691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -72, -21)
 
 [node name="Lighting_Blockout" type="Node3D" parent="." unique_id=838118527]
 editor_description = "Temporary review lighting. Cool white light marks controlled expedition space; warmer industrial light begins at the cargo route."

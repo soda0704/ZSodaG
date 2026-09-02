@@ -1,6 +1,8 @@
 class_name FunctionalElevatorController
 extends Node3D
 
+const MAX_FLOOR_INDEX: int = 4
+
 signal state_changed(next_state: int)
 signal floor_changed(floor_index: int)
 signal interaction_blocked(reason: String)
@@ -17,7 +19,7 @@ enum ElevatorState {
 	FAULT,
 }
 
-@export_range(1, 5, 1) var unlocked_floor_index: int = 1
+@export_range(1, 4, 1) var unlocked_floor_index: int = 1
 @export var floor_spacing: float = 12.0
 @export var travel_speed: float = 3.5
 @export var travel_start_stop_time: float = 1.5
@@ -57,7 +59,7 @@ var _cabin_motion_trip_serial: int = 0
 
 func _ready() -> void:
 	is_powered = starts_powered
-	unlocked_floor_index = clampi(unlocked_floor_index, 1, 5)
+	unlocked_floor_index = clampi(unlocked_floor_index, 1, MAX_FLOOR_INDEX)
 	passenger_area.body_entered.connect(_on_passenger_body_entered)
 	passenger_area.body_exited.connect(_on_passenger_body_exited)
 	door_safety_area.body_entered.connect(_on_door_safety_body_entered)
@@ -67,7 +69,7 @@ func _ready() -> void:
 	cabin.position.y = _get_floor_y(current_floor_index)
 	cabin.reset_physics_interpolation()
 	cabin_door.animation_duration = door_animation_duration
-	for floor_index in 6:
+	for floor_index in MAX_FLOOR_INDEX + 1:
 		var landing_door := _get_landing_door(floor_index)
 		if is_instance_valid(landing_door):
 			landing_door.animation_duration = door_animation_duration
@@ -103,7 +105,7 @@ func _physics_process(delta: float) -> void:
 
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
-	if floor_index < 0 or floor_index > 5:
+	if floor_index < 0 or floor_index > MAX_FLOOR_INDEX:
 		return "Неизвестный этаж"
 	if not is_powered:
 		return "Лифт обесточен"
@@ -180,7 +182,7 @@ func _can_accept_destination(destination_floor_index: int) -> bool:
 	if not is_powered:
 		interaction_blocked.emit("unpowered")
 		return false
-	if destination_floor_index < 0 or destination_floor_index > 5:
+	if destination_floor_index < 0 or destination_floor_index > MAX_FLOOR_INDEX:
 		interaction_blocked.emit("invalid_floor")
 		return false
 	if destination_floor_index > unlocked_floor_index:
@@ -292,7 +294,11 @@ func _abort_departure() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _apply_unlocked_floor(next_unlocked_floor_index: int) -> void:
-	unlocked_floor_index = clampi(next_unlocked_floor_index, 1, 5)
+	unlocked_floor_index = clampi(
+		next_unlocked_floor_index,
+		1,
+		MAX_FLOOR_INDEX
+	)
 	_refresh_displays()
 
 
@@ -325,13 +331,17 @@ func _receive_network_snapshot(
 	next_unlocked_floor_index: int,
 	cabin_y: float
 ) -> void:
-	current_floor_index = clampi(next_floor_index, 0, 5)
+	current_floor_index = clampi(next_floor_index, 0, MAX_FLOOR_INDEX)
 	is_powered = powered
-	unlocked_floor_index = clampi(next_unlocked_floor_index, 1, 5)
+	unlocked_floor_index = clampi(
+		next_unlocked_floor_index,
+		1,
+		MAX_FLOOR_INDEX
+	)
 	cabin.position.y = cabin_y
 	cabin.reset_physics_interpolation()
 	_set_state(next_state as ElevatorState)
-	for floor_index in 6:
+	for floor_index in MAX_FLOOR_INDEX + 1:
 		var landing_door := _get_landing_door(floor_index)
 		if is_instance_valid(landing_door):
 			landing_door.set_open(

@@ -53,7 +53,6 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @onready var interaction_prompt_label: Label = %InteractionPromptLabel
 @onready var battery_label: Label = %BatteryLabel
 @onready var crosshair: Control = %Crosshair
-@onready var death_overlay: Control = %DeathOverlay
 
 var gravity: float = float(
 	ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -102,7 +101,6 @@ var _flashlight_malfunctioning: bool = false
 var _battery_charge: float = 0.0
 var _displayed_battery_percent: int = -1
 var _is_crouching: bool = false
-var _is_dead: bool = false
 
 
 func setup(
@@ -133,7 +131,6 @@ func _ready() -> void:
 	crosshair.visible = local_player
 	interaction_prompt_label.visible = false
 	battery_label.visible = false
-	death_overlay.visible = false
 
 	if not multiplayer.is_server() and not local_player:
 		collision_shape.set_deferred("disabled", true)
@@ -203,10 +200,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if _is_dead:
-		velocity = Vector3.ZERO
-		return
-
 	if is_local_player():
 		collect_local_input()
 		refresh_interaction_prompt()
@@ -577,26 +570,6 @@ func teleport_authoritative(
 	if not multiplayer.is_server():
 		return
 	_receive_authoritative_teleport.rpc(next_global_position, next_yaw)
-
-
-func show_fall_death_authoritative() -> void:
-	if multiplayer.is_server():
-		_receive_fall_death_state.rpc(true)
-
-
-func hide_fall_death_authoritative() -> void:
-	if multiplayer.is_server():
-		_receive_fall_death_state.rpc(false)
-
-
-@rpc("authority", "call_local", "reliable", 2)
-func _receive_fall_death_state(dead: bool) -> void:
-	_is_dead = dead
-	velocity = Vector3.ZERO
-	if is_local_player():
-		death_overlay.visible = dead
-		crosshair.visible = not dead
-		interaction_prompt_label.visible = false
 
 
 @rpc("authority", "call_local", "reliable", 2)

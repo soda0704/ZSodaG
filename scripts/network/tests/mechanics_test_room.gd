@@ -38,10 +38,6 @@ const V3_TEST_BRANCHES := [
 @export var gameplay_origin_path: NodePath
 
 @export_group("Gameplay Nodes")
-# Floors are spaced by 18 m: -5 is at Y=-90 and a future -7 is at Y=-126.
-# Keep the fallback plane below both the current laboratory and that expansion.
-@export var kill_plane_y: float = -140.0
-@export_range(0.25, 10.0, 0.25) var respawn_delay_seconds: float = 1.5
 @export var world_items_path := NodePath("Gameplay/WorldItems")
 @export var item_spawner_path := NodePath("Gameplay/ItemSpawner")
 @export var power_switch_path := NodePath(
@@ -86,7 +82,6 @@ var _v3_spawn_yaws := PackedFloat32Array()
 var _base_gameplay_controller: BaseGameplayController
 var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
-var _respawning_peers: Dictionary = {}
 
 
 func _ready() -> void:
@@ -98,45 +93,6 @@ func _ready() -> void:
 	SteamNetwork.peer_joined.connect(_on_peer_joined)
 	SteamNetwork.peer_left.connect(_on_peer_left)
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
-
-
-func _physics_process(_delta: float) -> void:
-	if not multiplayer.is_server():
-		return
-	for player_node in players.get_children():
-		var player := player_node as GamePlayer
-		if (
-			player != null
-			and player.global_position.y < kill_plane_y
-			and not _respawning_peers.has(player.owner_peer_id)
-		):
-			begin_fall_respawn(player.owner_peer_id)
-
-
-func begin_fall_respawn(peer_id: int) -> void:
-	_respawning_peers[peer_id] = true
-	var player := players.get_node_or_null(str(peer_id)) as GamePlayer
-	if player == null:
-		_respawning_peers.erase(peer_id)
-		return
-	player.show_fall_death_authoritative()
-	await get_tree().create_timer(respawn_delay_seconds).timeout
-	player = players.get_node_or_null(str(peer_id)) as GamePlayer
-	if player != null:
-		player.teleport_authoritative(
-			get_respawn_position(peer_id),
-			get_respawn_yaw(peer_id)
-		)
-		player.hide_fall_death_authoritative()
-	_respawning_peers.erase(peer_id)
-
-
-func get_respawn_position(peer_id: int) -> Vector3:
-	return get_spawn_position(get_peer_spawn_index(peer_id))
-
-
-func get_respawn_yaw(peer_id: int) -> float:
-	return get_spawn_yaw(get_peer_spawn_index(peer_id))
 
 
 func start_standalone_game() -> void:
@@ -616,7 +572,6 @@ func _on_session_closed(_reason: String) -> void:
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()
-	_respawning_peers.clear()
 	if is_instance_valid(power_switch):
 		power_switch.apply_power_state(false, true)
 	if is_instance_valid(interactive_door):
