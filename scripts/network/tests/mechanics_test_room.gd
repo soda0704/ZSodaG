@@ -32,6 +32,8 @@ const V3_TEST_BRANCHES := [
 @export var staging_spawn_positions := PackedVector3Array([
 	Vector3(-0.4, 0.05, 0.85),
 	Vector3(0.4, 0.05, 0.85),
+	Vector3(-0.4, 0.05, -0.15),
+	Vector3(0.4, 0.05, -0.15),
 ])
 @export var gameplay_origin_path: NodePath
 
@@ -80,6 +82,9 @@ var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
 var _v3_flashlight_transform: Transform3D = Transform3D.IDENTITY
 var _v3_spawn_positions := PackedVector3Array()
+var _v3_spawn_yaws := PackedFloat32Array()
+var _base_gameplay_controller: BaseGameplayController
+var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
 var _respawning_peers: Dictionary = {}
 
@@ -118,16 +123,20 @@ func begin_fall_respawn(peer_id: int) -> void:
 	await get_tree().create_timer(respawn_delay_seconds).timeout
 	player = players.get_node_or_null(str(peer_id)) as GamePlayer
 	if player != null:
-		player.teleport_authoritative(get_respawn_position(peer_id), 0.0)
+		player.teleport_authoritative(
+			get_respawn_position(peer_id),
+			get_respawn_yaw(peer_id)
+		)
 		player.hide_fall_death_authoritative()
 	_respawning_peers.erase(peer_id)
 
 
 func get_respawn_position(peer_id: int) -> Vector3:
-	var peer_ids := _player_roster.keys()
-	peer_ids.sort()
-	var spawn_index := peer_ids.find(peer_id)
-	return get_spawn_position(maxi(spawn_index, 0))
+	return get_spawn_position(get_peer_spawn_index(peer_id))
+
+
+func get_respawn_yaw(peer_id: int) -> float:
+	return get_spawn_yaw(get_peer_spawn_index(peer_id))
 
 
 func start_standalone_game() -> void:
@@ -178,6 +187,19 @@ func _request_gameplay_state() -> void:
 		generator_panel.sync_network_state_to_peer(sender_id)
 
 
+@rpc("any_peer", "call_remote", "reliable")
+func _request_v3_runtime_state() -> void:
+	if not multiplayer.is_server() or not _entered_v3_level:
+		return
+	var sender_id := multiplayer.get_remote_sender_id()
+	if not multiplayer.get_peers().has(sender_id):
+		return
+	if is_instance_valid(_base_gameplay_controller):
+		_base_gameplay_controller.sync_network_state_to_peer(sender_id)
+	if is_instance_valid(_v3_elevator_controller):
+		_v3_elevator_controller.sync_network_state_to_peer(sender_id)
+
+
 func spawn_player_for_peer(peer_id: int) -> void:
 	if not multiplayer.is_server() or _player_roster.has(peer_id):
 		return
@@ -187,12 +209,14 @@ func spawn_player_for_peer(peer_id: int) -> void:
 		if _standalone_mode
 		else SteamNetwork.get_peer_persona_name(peer_id)
 	)
-	var spawn_index := _player_roster.size()
+	var spawn_index := get_available_spawn_index()
 	var hue := fmod(float(peer_id) * 0.173, 1.0)
 	var spawn_data := {
 		"peer_id": peer_id,
 		"display_name": display_name,
 		"position": get_spawn_position(spawn_index),
+		"yaw": get_spawn_yaw(spawn_index),
+		"spawn_index": spawn_index,
 		"color": Color.from_hsv(hue, 0.72, 0.95),
 	}
 	_player_roster[peer_id] = spawn_data
@@ -217,7 +241,8 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 		peer_id,
 		str(spawn_data.get("display_name", "Player")),
 		spawn_data.get("position", Vector3.ZERO) as Vector3,
-		spawn_data.get("color", Color.WHITE) as Color
+		spawn_data.get("color", Color.WHITE) as Color,
+		float(spawn_data.get("yaw", 0.0))
 	)
 	players.add_child(player)
 
@@ -272,20 +297,49 @@ func get_spawn_position(spawn_index: int) -> Vector3:
 	return local_position
 
 
+func get_spawn_yaw(spawn_index: int) -> float:
+	if _entered_v3_level:
+		return get_v3_spawn_yaw(spawn_index)
+	return 0.0
+
+
+func get_available_spawn_index() -> int:
+	var used_spawn_indices: Array[int] = []
+	for spawn_data_variant in _player_roster.values():
+		var spawn_data := spawn_data_variant as Dictionary
+		var spawn_index := int(spawn_data.get("spawn_index", -1))
+		if spawn_index >= 0 and not used_spawn_indices.has(spawn_index):
+			used_spawn_indices.append(spawn_index)
+	for spawn_index in DEFAULT_GAMEPLAY_SPAWN_POSITIONS.size():
+		if not used_spawn_indices.has(spawn_index):
+			return spawn_index
+	return _player_roster.size() % DEFAULT_GAMEPLAY_SPAWN_POSITIONS.size()
+
+
+func get_peer_spawn_index(peer_id: int) -> int:
+	var spawn_data := _player_roster.get(peer_id, {}) as Dictionary
+	if spawn_data.has("spawn_index"):
+		return maxi(int(spawn_data["spawn_index"]), 0)
+	var peer_ids := _player_roster.keys()
+	peer_ids.sort()
+	return maxi(peer_ids.find(peer_id), 0)
+
+
 func _on_gameplay_started() -> void:
 	if not uses_staging_lobby or not multiplayer.is_server():
 		return
 
 	spawn_initial_items()
-	var player_index := 0
 	for player in players.get_children():
 		if player.has_method("teleport_authoritative"):
+			var spawn_index := get_peer_spawn_index(
+				int(player.get("owner_peer_id"))
+			)
 			player.call(
 				"teleport_authoritative",
-				get_spawn_position(player_index),
+				get_spawn_position(spawn_index),
 				0.0
 			)
-		player_index += 1
 
 
 func can_enter_v3_level() -> bool:
@@ -339,26 +393,41 @@ func _enter_v3_level() -> void:
 		return
 	v3_level.name = "V3Level"
 	v3_level.network_runtime_managed = true
-	_v3_spawn_positions = v3_level.player_spawn_positions.duplicate()
 	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
 	add_child(v3_level)
+	_v3_spawn_positions = PackedVector3Array()
+	_v3_spawn_yaws = PackedFloat32Array()
+	for spawn_index in v3_level.get_player_spawn_count():
+		_v3_spawn_positions.append(
+			v3_level.get_player_spawn_position(spawn_index)
+		)
+		_v3_spawn_yaws.append(v3_level.get_player_spawn_yaw(spawn_index))
+	_base_gameplay_controller = v3_level.get_node_or_null(
+		"BaseGameplayController"
+	) as BaseGameplayController
+	_v3_elevator_controller = v3_level.get_node_or_null(
+		"Elevator_Functional_Blockout"
+	) as FunctionalElevatorController
 
 	cleanup_test_room_for_v3()
 	overview_camera.current = false
 	if multiplayer.is_server():
-		var player_index := 0
 		for player in players.get_children():
 			if player.has_method("teleport_authoritative"):
+				var spawn_index := get_peer_spawn_index(
+					int(player.get("owner_peer_id"))
+				)
 				player.call(
 					"teleport_authoritative",
-					get_v3_spawn_position(player_index),
-					0.0
+					get_v3_spawn_position(spawn_index),
+					get_v3_spawn_yaw(spawn_index)
 				)
-			player_index += 1
 
 	await get_tree().process_frame
 	if multiplayer.is_server():
 		spawn_v3_world_items()
+	else:
+		_request_v3_runtime_state.rpc_id(1)
 	lobby_hud.reveal_transition_cover(transition_id)
 	_v3_transition_in_progress = false
 
@@ -367,6 +436,12 @@ func get_v3_spawn_position(index: int) -> Vector3:
 	if _v3_spawn_positions.is_empty():
 		return Vector3.ZERO
 	return _v3_spawn_positions[index % _v3_spawn_positions.size()]
+
+
+func get_v3_spawn_yaw(index: int) -> float:
+	if _v3_spawn_yaws.is_empty():
+		return 0.0
+	return _v3_spawn_yaws[index % _v3_spawn_yaws.size()]
 
 
 func cleanup_test_room_for_v3() -> void:
@@ -536,6 +611,10 @@ func _on_session_closed(_reason: String) -> void:
 	_initial_items_spawned = false
 	_next_item_id = 1
 	_v3_items_spawned = false
+	_v3_spawn_positions = PackedVector3Array()
+	_v3_spawn_yaws = PackedFloat32Array()
+	_base_gameplay_controller = null
+	_v3_elevator_controller = null
 	_player_roster.clear()
 	_respawning_peers.clear()
 	if is_instance_valid(power_switch):

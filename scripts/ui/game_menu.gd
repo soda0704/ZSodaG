@@ -552,8 +552,8 @@ func refresh_ready_ui() -> void:
 		)
 		ready_lines.append("• %s — %s" % [player_name, state_text])
 
-	if CoopLobby.get_player_count() < CoopLobby.REQUIRED_PLAYERS:
-		ready_lines.append("• Второй игрок сможет подключиться позже.")
+	if CoopLobby.get_player_count() < CoopLobby.MAX_PLAYERS:
+		ready_lines.append("• Другие игроки смогут подключиться позже.")
 	ready_status_label.text = "Готовность:\n%s" % "\n".join(ready_lines)
 
 	ready_button.disabled = false

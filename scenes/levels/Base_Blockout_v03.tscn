@@ -8,10 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://ba3rasslhfoo" path="res://scenes/levels/Floor_Minus3_Biocontainment_Blockout.tscn" id="6_floor_minus3"]
 [ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus4_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
 [ext_resource type="PackedScene" path="res://scenes/levels/Floor_Minus5_Deep_Cave_Blockout.tscn" id="8_floor_minus5"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_gameplay_controller.gd" id="9_base_gameplay"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные этажи подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры этажей."
 script = ExtResource("1_runtime")
+
+[node name="BaseGameplayController" type="Node" parent="."]
+script = ExtResource("9_base_gameplay")
 
 [node name="Elevator_Functional_Blockout" parent="." unique_id=1503923236 instance=ExtResource("2_elevator")]
 unlocked_floor_index = 4

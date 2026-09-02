@@ -12,7 +12,7 @@ ambient_light_energy = 0.65
 
 [node name="ElevatorFunctionalTest" type="Node3D" unique_id=2001615337]
 script = ExtResource("1_runtime")
-player_spawn_positions = PackedVector3Array(-5.8, 0.05, 0, -6.8, 0.05, 0)
+player_spawn_positions = PackedVector3Array(-5.8, 0.05, 0, -6.8, 0.05, 0, -5.8, 0.05, -1, -6.8, 0.05, -1)
 standalone_flashlight_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 0.12, -1.4)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1310841907]

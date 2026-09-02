@@ -109,14 +109,16 @@ func setup(
 	peer_id: int,
 	display_name_value: String,
 	spawn_position: Vector3,
-	color: Color
+	color: Color,
+	spawn_yaw: float = 0.0
 ) -> void:
 	owner_peer_id = peer_id
 	player_display_name = display_name_value.left(32)
 	position = spawn_position
 	avatar_color = color
-	_input_yaw = rotation.y
-	_server_yaw = rotation.y
+	rotation.y = spawn_yaw
+	_input_yaw = spawn_yaw
+	_server_yaw = spawn_yaw
 
 
 func _ready() -> void:

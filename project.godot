@@ -105,7 +105,7 @@ pause={
 [network]
 
 steam/app_id=480
-steam/lobby_max_members=2
+steam/lobby_max_members=4
 steam/lobby_tag="northern_lab_story_coop_v1"
 
 [physics]

@@ -5,7 +5,7 @@
 NorthernLab использует сюжетный кооператив с авторитетным хостом:
 
 - хост создаёт Steam Lobby и симулирует игровой мир;
-- второй игрок подключается по Lobby ID или Steam Invite;
+- до трёх дополнительных игроков подключаются по Lobby ID или Steam Invite;
 - `SteamMultiplayerPeer` передаёт трафик через Steam Networking Sockets;
 - `server_relay = true` позволяет Steam Datagram Relay обходить NAT;
 - выделенный сервер для текущего кооператива не нужен.
