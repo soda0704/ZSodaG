@@ -5,22 +5,36 @@ enum MenuView {
 	MAIN,
 	SESSION,
 	JOIN,
+	SETTINGS,
 }
 
 const MECHANICS_TEST_ROOM_SCENE := (
 	"res://scenes/tests/mechanics_test_room.tscn"
 )
+const SETTINGS_DIRECTORY := "NorthernLab"
+const SETTINGS_FILE := "launcher_settings.json"
+const RESOLUTIONS := [
+	Vector2i(1280, 720),
+	Vector2i(1366, 768),
+	Vector2i(1600, 900),
+	Vector2i(1920, 1080),
+	Vector2i(2560, 1440),
+	Vector2i(3840, 2160),
+]
+const WINDOW_MODES := ["fullscreen", "windowed", "maximized"]
 
 @onready var menu_root: Control = %MenuRoot
 @onready var main_panel: VBoxContainer = %MainPanel
 @onready var session_panel: VBoxContainer = %SessionPanel
 @onready var join_panel: VBoxContainer = %JoinPanel
+@onready var settings_panel: VBoxContainer = %SettingsPanel
 
 @onready var steam_status_label: Label = %SteamStatusLabel
 @onready var feedback_label: Label = %FeedbackLabel
 @onready var continue_button: Button = %ContinueButton
 @onready var host_button: Button = %HostButton
 @onready var join_button: Button = %JoinButton
+@onready var settings_button: Button = %SettingsButton
 @onready var exit_button: Button = %ExitButton
 
 @onready var session_status_label: Label = %SessionStatusLabel
@@ -38,8 +52,23 @@ const MECHANICS_TEST_ROOM_SCENE := (
 @onready var connect_button: Button = %ConnectButton
 @onready var join_back_button: Button = %JoinBackButton
 
+@onready var resolution_option: OptionButton = %ResolutionOption
+@onready var window_mode_option: OptionButton = %WindowModeOption
+@onready var screen_option: OptionButton = %ScreenOption
+@onready var vsync_check: CheckButton = %VSyncCheck
+@onready var master_volume_slider: HSlider = %MasterVolumeSlider
+@onready var master_volume_value: Label = %MasterVolumeValue
+@onready var music_volume_slider: HSlider = %MusicVolumeSlider
+@onready var music_volume_value: Label = %MusicVolumeValue
+@onready var mouse_sensitivity_slider: HSlider = %MouseSensitivitySlider
+@onready var mouse_sensitivity_value: Label = %MouseSensitivityValue
+@onready var settings_back_button: Button = %SettingsBackButton
+
 var _current_view: MenuView = MenuView.MAIN
 var _transition_in_progress: bool = false
+var _settings_return_to_main_scene: bool = false
+var _settings_data: Dictionary = {}
+var _mouse_sensitivity_multiplier: float = 1.0
 
 
 func _ready() -> void:
@@ -47,17 +76,27 @@ func _ready() -> void:
 	menu_root.visible = false
 	connect_ui_signals()
 	connect_network_signals()
+	initialize_settings()
 	refresh_network_ui()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var current_scene := get_tree().current_scene
+	var is_main_scene := (
+		current_scene != null and current_scene.is_in_group("main_menu")
+	)
 	if (
 		event.is_action_pressed("pause")
 		and not (event is InputEventKey and event.echo)
 		and not _transition_in_progress
 	):
+		if is_main_scene and not menu_root.visible:
+			return
 		if menu_root.visible:
-			close_menu()
+			if _current_view == MenuView.SETTINGS:
+				close_settings()
+			else:
+				close_menu()
 		else:
 			open_menu(MenuView.MAIN)
 		get_viewport().set_input_as_handled()
@@ -67,7 +106,8 @@ func connect_ui_signals() -> void:
 	continue_button.pressed.connect(close_menu)
 	host_button.pressed.connect(_on_host_pressed)
 	join_button.pressed.connect(_on_join_pressed)
-	exit_button.pressed.connect(_on_exit_pressed)
+	settings_button.pressed.connect(open_settings)
+	exit_button.pressed.connect(_on_return_to_main_menu_pressed)
 
 	copy_lobby_id_button.pressed.connect(_on_copy_lobby_id_pressed)
 	invite_button.pressed.connect(_on_invite_pressed)
@@ -79,6 +119,17 @@ func connect_ui_signals() -> void:
 	connect_button.pressed.connect(_on_connect_pressed)
 	lobby_id_input.text_submitted.connect(_on_lobby_id_submitted)
 	join_back_button.pressed.connect(show_view.bind(MenuView.MAIN))
+
+	resolution_option.item_selected.connect(_on_display_setting_changed)
+	window_mode_option.item_selected.connect(_on_display_setting_changed)
+	screen_option.item_selected.connect(_on_display_setting_changed)
+	vsync_check.toggled.connect(_on_vsync_toggled)
+	master_volume_slider.value_changed.connect(_on_master_volume_changed)
+	music_volume_slider.value_changed.connect(_on_music_volume_changed)
+	mouse_sensitivity_slider.value_changed.connect(
+		_on_mouse_sensitivity_changed
+	)
+	settings_back_button.pressed.connect(close_settings)
 
 
 func connect_network_signals() -> void:
@@ -100,6 +151,23 @@ func open_menu(view: MenuView = MenuView.MAIN) -> void:
 	# simulation continue, while the local player stops because the mouse is free.
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func open_settings() -> void:
+	var current_scene := get_tree().current_scene
+	_settings_return_to_main_scene = (
+		current_scene != null and current_scene.is_in_group("main_menu")
+	)
+	open_menu(MenuView.SETTINGS)
+	resolution_option.grab_focus()
+
+
+func close_settings() -> void:
+	if _settings_return_to_main_scene:
+		force_close_menu()
+		return
+	show_view(MenuView.MAIN)
+	settings_button.grab_focus()
 
 
 func close_menu() -> void:
@@ -137,11 +205,36 @@ func is_lobby_gate_active() -> bool:
 	]
 
 
+func start_standalone_flow() -> void:
+	_transition_in_progress = true
+	menu_root.visible = false
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+	var change_result := get_tree().change_scene_to_file(
+		MECHANICS_TEST_ROOM_SCENE
+	)
+	if change_result != OK:
+		_transition_in_progress = false
+		open_menu(MenuView.MAIN)
+		feedback_label.text = "Не удалось открыть тестовую комнату."
+		return
+
+	await get_tree().scene_changed
+	var gameplay_controller := get_tree().current_scene
+	if gameplay_controller != null and gameplay_controller.has_method(
+		"start_standalone_game"
+	):
+		gameplay_controller.call("start_standalone_game")
+	_transition_in_progress = false
+
+
 func show_view(view: MenuView) -> void:
 	_current_view = view
 	main_panel.visible = view == MenuView.MAIN
 	session_panel.visible = view == MenuView.SESSION
 	join_panel.visible = view == MenuView.JOIN
+	settings_panel.visible = view == MenuView.SETTINGS
 	feedback_label.text = ""
 
 	if view == MenuView.JOIN:
@@ -149,6 +242,247 @@ func show_view(view: MenuView) -> void:
 		lobby_id_input.select_all()
 	elif view == MenuView.SESSION:
 		refresh_session_ui()
+	elif view == MenuView.SETTINGS:
+		refresh_settings_ui()
+
+
+func initialize_settings() -> void:
+	ensure_music_bus()
+	populate_settings_options()
+	_settings_data = load_settings_data()
+	apply_settings_data()
+	refresh_settings_ui()
+
+
+func populate_settings_options() -> void:
+	resolution_option.clear()
+	for resolution in RESOLUTIONS:
+		resolution_option.add_item("%d × %d" % [resolution.x, resolution.y])
+
+	window_mode_option.clear()
+	for label in ["Полный экран", "Оконный", "Развёрнутое окно"]:
+		window_mode_option.add_item(label)
+
+	screen_option.clear()
+	var is_headless := DisplayServer.get_name() == "headless"
+	var screen_count := (
+		1 if is_headless else maxi(DisplayServer.get_screen_count(), 1)
+	)
+	for screen_index in screen_count:
+		var screen_size := (
+			Vector2i(1920, 1080)
+			if is_headless
+			else DisplayServer.screen_get_size(screen_index)
+		)
+		screen_option.add_item(
+			"Монитор %d — %d × %d" % [
+				screen_index + 1,
+				screen_size.x,
+				screen_size.y,
+			]
+		)
+
+
+func get_settings_path() -> String:
+	var local_app_data := OS.get_environment("LOCALAPPDATA")
+	if local_app_data.is_empty():
+		return "user://%s" % SETTINGS_FILE
+	return local_app_data.path_join(SETTINGS_DIRECTORY).path_join(SETTINGS_FILE)
+
+
+func load_settings_data() -> Dictionary:
+	var defaults := {
+		"Resolution": "1920x1080",
+		"WindowMode": "fullscreen",
+		"Screen": 0,
+		"VSync": true,
+		"MasterVolume": 80.0,
+		"MusicVolume": 70.0,
+		"MouseSensitivity": 1.0,
+	}
+	var path := get_settings_path()
+	if not FileAccess.file_exists(path):
+		return defaults
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return defaults
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if parsed is Dictionary:
+		for key in (parsed as Dictionary):
+			defaults[key] = (parsed as Dictionary)[key]
+	return defaults
+
+
+func save_settings_data() -> void:
+	var path := get_settings_path()
+	var directory := path.get_base_dir()
+	if not DirAccess.dir_exists_absolute(directory):
+		DirAccess.make_dir_recursive_absolute(directory)
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_warning("Could not save settings to %s" % path)
+		return
+	file.store_string(JSON.stringify(_settings_data, "  "))
+
+
+func apply_settings_data() -> void:
+	var resolution := parse_resolution(
+		str(_settings_data.get("Resolution", "1920x1080"))
+	)
+	var window_mode := str(
+		_settings_data.get("WindowMode", "fullscreen")
+	)
+	var screen := clampi(
+		int(_settings_data.get("Screen", 0)),
+		0,
+		maxi(DisplayServer.get_screen_count() - 1, 0)
+	)
+	var vsync_enabled := bool(_settings_data.get("VSync", true))
+
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_current_screen(screen)
+		match window_mode:
+			"windowed":
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+				DisplayServer.window_set_size(resolution)
+			"maximized":
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+			_:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_vsync_mode(
+			DisplayServer.VSYNC_ENABLED
+			if vsync_enabled
+			else DisplayServer.VSYNC_DISABLED
+		)
+
+	var volume_percent := clampf(
+		float(_settings_data.get("MasterVolume", 80.0)),
+		0.0,
+		100.0
+	)
+	var master_bus := AudioServer.get_bus_index("Master")
+	if master_bus >= 0:
+		AudioServer.set_bus_mute(master_bus, volume_percent <= 0.0)
+		AudioServer.set_bus_volume_db(
+			master_bus,
+			linear_to_db(maxf(volume_percent / 100.0, 0.0001))
+		)
+	var music_percent := clampf(
+		float(_settings_data.get("MusicVolume", 70.0)),
+		0.0,
+		100.0
+	)
+	var music_bus := AudioServer.get_bus_index("Music")
+	if music_bus >= 0:
+		AudioServer.set_bus_mute(music_bus, music_percent <= 0.0)
+		AudioServer.set_bus_volume_db(
+			music_bus,
+			linear_to_db(maxf(music_percent / 100.0, 0.0001))
+		)
+	_mouse_sensitivity_multiplier = clampf(
+		float(_settings_data.get("MouseSensitivity", 1.0)),
+		0.25,
+		2.5
+	)
+
+
+func refresh_settings_ui() -> void:
+	var resolution_text := str(
+		_settings_data.get("Resolution", "1920x1080")
+	)
+	var resolution_index := 0
+	for index in RESOLUTIONS.size():
+		if resolution_to_text(RESOLUTIONS[index]) == resolution_text:
+			resolution_index = index
+			break
+	resolution_option.select(resolution_index)
+
+	var window_mode := str(
+		_settings_data.get("WindowMode", "fullscreen")
+	)
+	window_mode_option.select(maxi(WINDOW_MODES.find(window_mode), 0))
+	screen_option.select(clampi(
+		int(_settings_data.get("Screen", 0)),
+		0,
+		maxi(screen_option.item_count - 1, 0)
+	))
+	vsync_check.button_pressed = bool(_settings_data.get("VSync", true))
+	master_volume_slider.value = float(
+		_settings_data.get("MasterVolume", 80.0)
+	)
+	music_volume_slider.value = float(
+		_settings_data.get("MusicVolume", 70.0)
+	)
+	mouse_sensitivity_slider.value = float(
+		_settings_data.get("MouseSensitivity", 1.0)
+	)
+	refresh_settings_value_labels()
+
+
+func parse_resolution(value: String) -> Vector2i:
+	var parts := value.to_lower().split("x")
+	if parts.size() != 2:
+		return Vector2i(1920, 1080)
+	return Vector2i(maxi(int(parts[0]), 640), maxi(int(parts[1]), 360))
+
+
+func resolution_to_text(value: Vector2i) -> String:
+	return "%dx%d" % [value.x, value.y]
+
+
+func refresh_settings_value_labels() -> void:
+	master_volume_value.text = "%d%%" % int(master_volume_slider.value)
+	music_volume_value.text = "%d%%" % int(music_volume_slider.value)
+	mouse_sensitivity_value.text = "%.2f×" % mouse_sensitivity_slider.value
+
+
+func ensure_music_bus() -> void:
+	if AudioServer.get_bus_index("Music") >= 0:
+		return
+	AudioServer.add_bus()
+	var music_bus := AudioServer.bus_count - 1
+	AudioServer.set_bus_name(music_bus, "Music")
+	AudioServer.set_bus_send(music_bus, "Master")
+
+
+func get_mouse_sensitivity_multiplier() -> float:
+	return _mouse_sensitivity_multiplier
+
+
+func _on_display_setting_changed(_index: int) -> void:
+	var resolution: Vector2i = RESOLUTIONS[resolution_option.selected]
+	_settings_data["Resolution"] = resolution_to_text(resolution)
+	_settings_data["WindowMode"] = WINDOW_MODES[window_mode_option.selected]
+	_settings_data["Screen"] = screen_option.selected
+	apply_settings_data()
+	save_settings_data()
+
+
+func _on_vsync_toggled(enabled: bool) -> void:
+	_settings_data["VSync"] = enabled
+	apply_settings_data()
+	save_settings_data()
+
+
+func _on_master_volume_changed(value: float) -> void:
+	_settings_data["MasterVolume"] = value
+	apply_settings_data()
+	refresh_settings_value_labels()
+	save_settings_data()
+
+
+func _on_music_volume_changed(value: float) -> void:
+	_settings_data["MusicVolume"] = value
+	apply_settings_data()
+	refresh_settings_value_labels()
+	save_settings_data()
+
+
+func _on_mouse_sensitivity_changed(value: float) -> void:
+	_settings_data["MouseSensitivity"] = value
+	_mouse_sensitivity_multiplier = value
+	refresh_settings_value_labels()
+	save_settings_data()
 
 
 func refresh_network_ui() -> void:
@@ -409,16 +743,25 @@ func _on_start_game_pressed() -> void:
 
 
 func _on_leave_lobby_pressed() -> void:
-	SteamNetwork.leave_session("Вы покинули Steam-лобби.")
-	show_view(MenuView.MAIN)
-	refresh_network_ui()
+	return_to_main_menu("Вы покинули Steam-лобби.")
 
 
-func _on_exit_pressed() -> void:
-	if SteamNetwork.has_active_session():
-		SteamNetwork.leave_session("Игра закрывается.")
+func _on_return_to_main_menu_pressed() -> void:
+	return_to_main_menu("Возврат из экспедиции.")
+
+
+func return_to_main_menu(reason: String = "") -> void:
+	if _transition_in_progress:
+		return
+	_transition_in_progress = true
+	menu_root.visible = false
 	get_tree().paused = false
-	get_tree().quit()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+	if SteamNetwork.has_active_session():
+		SteamNetwork.leave_session(reason)
+		return
+	call_deferred("_finish_return_to_main_menu", reason)
 
 
 func _on_network_state_changed(
@@ -459,19 +802,14 @@ func _on_session_ready(as_host: bool) -> void:
 
 
 func _on_session_closed(reason: String) -> void:
-	_transition_in_progress = false
 	refresh_network_ui()
-	call_deferred("_recover_after_session_closed", reason)
+	_transition_in_progress = true
+	call_deferred("_finish_return_to_main_menu", reason)
 
 
-func _recover_after_session_closed(reason: String) -> void:
+func _finish_return_to_main_menu(reason: String) -> void:
 	var current_scene := get_tree().current_scene
-	if (
-		current_scene != null
-		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
-	):
-		menu_root.visible = false
-		get_tree().paused = false
+	if current_scene != null and not current_scene.is_in_group("main_menu"):
 		var main_scene := str(
 			ProjectSettings.get_setting("application/run/main_scene", "")
 		)
@@ -480,8 +818,11 @@ func _recover_after_session_closed(reason: String) -> void:
 			if change_result == OK:
 				await get_tree().scene_changed
 
-	open_menu(MenuView.MAIN)
-	feedback_label.text = reason
+	_transition_in_progress = false
+	force_close_menu()
+	current_scene = get_tree().current_scene
+	if current_scene != null and current_scene.has_method("show_status"):
+		current_scene.call("show_status", reason)
 
 
 func _on_invite_join_requested(requested_lobby_id: int) -> void:

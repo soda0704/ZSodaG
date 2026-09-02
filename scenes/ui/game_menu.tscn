@@ -60,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MenuPanel" type="PanelContainer" parent="MenuRoot/Center"]
-custom_minimum_size = Vector2(660, 600)
+custom_minimum_size = Vector2(660, 660)
 layout_mode = 2
 theme_override_styles/panel = SubResource("Style_panel")
 
@@ -131,13 +131,21 @@ theme_override_font_sizes/font_size = 21
 theme_override_styles/normal = SubResource("Style_button")
 text = "Подключиться к другу"
 
+[node name="SettingsButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("Style_button")
+text = "Настройки"
+
 [node name="ExitButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/MainPanel"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
 theme_override_styles/normal = SubResource("Style_button")
-text = "Выйти"
+text = "В главное меню"
 
 [node name="SessionPanel" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
 unique_name_in_owner = true
@@ -281,6 +289,175 @@ theme_override_font_sizes/font_size = 20
 text = "Подключиться"
 
 [node name="JoinBackButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/JoinPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Назад"
+
+[node name="SettingsPanel" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 9
+
+[node name="SettingsTitle" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.32, 0.24, 1)
+theme_override_font_sizes/font_size = 28
+text = "НАСТРОЙКИ"
+horizontal_alignment = 1
+
+[node name="ResolutionRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/ResolutionRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Разрешение"
+vertical_alignment = 1
+
+[node name="ResolutionOption" type="OptionButton" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/ResolutionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WindowModeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/WindowModeRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Режим окна"
+vertical_alignment = 1
+
+[node name="WindowModeOption" type="OptionButton" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/WindowModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScreenRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/ScreenRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Монитор"
+vertical_alignment = 1
+
+[node name="ScreenOption" type="OptionButton" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/ScreenRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSyncCheck" type="CheckButton" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Вертикальная синхронизация"
+
+[node name="VolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/VolumeRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Общая громкость"
+vertical_alignment = 1
+
+[node name="MasterVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="MasterVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/VolumeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+text = "80%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/MusicRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Музыка"
+vertical_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/MusicRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+step = 1.0
+value = 70.0
+
+[node name="MusicVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/MusicRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+text = "70%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SensitivityRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SensitivityRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Чувствительность мыши"
+vertical_alignment = 1
+
+[node name="MouseSensitivitySlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SensitivityRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.25
+max_value = 2.5
+step = 0.05
+value = 1.0
+
+[node name="MouseSensitivityValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SensitivityRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+text = "1.00×"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SettingsHint" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.64, 0.7, 1)
+text = "Изменения применяются и сохраняются сразу."
+horizontal_alignment = 1
+
+[node name="SettingsBackButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2

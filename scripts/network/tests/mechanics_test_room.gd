@@ -36,6 +36,10 @@ const V3_TEST_BRANCHES := [
 @export var gameplay_origin_path: NodePath
 
 @export_group("Gameplay Nodes")
+# Floors are spaced by 18 m: -5 is at Y=-90 and a future -7 is at Y=-126.
+# Keep the fallback plane below both the current laboratory and that expansion.
+@export var kill_plane_y: float = -140.0
+@export_range(0.25, 10.0, 0.25) var respawn_delay_seconds: float = 1.5
 @export var world_items_path := NodePath("Gameplay/WorldItems")
 @export var item_spawner_path := NodePath("Gameplay/ItemSpawner")
 @export var power_switch_path := NodePath(
@@ -76,6 +80,8 @@ var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
 var _v3_flashlight_transform: Transform3D = Transform3D.IDENTITY
 var _v3_spawn_positions := PackedVector3Array()
+var _standalone_mode: bool = false
+var _respawning_peers: Dictionary = {}
 
 
 func _ready() -> void:
@@ -87,6 +93,52 @@ func _ready() -> void:
 	SteamNetwork.peer_joined.connect(_on_peer_joined)
 	SteamNetwork.peer_left.connect(_on_peer_left)
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
+
+
+func _physics_process(_delta: float) -> void:
+	if not multiplayer.is_server():
+		return
+	for player_node in players.get_children():
+		var player := player_node as GamePlayer
+		if (
+			player != null
+			and player.global_position.y < kill_plane_y
+			and not _respawning_peers.has(player.owner_peer_id)
+		):
+			begin_fall_respawn(player.owner_peer_id)
+
+
+func begin_fall_respawn(peer_id: int) -> void:
+	_respawning_peers[peer_id] = true
+	var player := players.get_node_or_null(str(peer_id)) as GamePlayer
+	if player == null:
+		_respawning_peers.erase(peer_id)
+		return
+	player.show_fall_death_authoritative()
+	await get_tree().create_timer(respawn_delay_seconds).timeout
+	player = players.get_node_or_null(str(peer_id)) as GamePlayer
+	if player != null:
+		player.teleport_authoritative(get_respawn_position(peer_id), 0.0)
+		player.hide_fall_death_authoritative()
+	_respawning_peers.erase(peer_id)
+
+
+func get_respawn_position(peer_id: int) -> Vector3:
+	var peer_ids := _player_roster.keys()
+	peer_ids.sort()
+	var spawn_index := peer_ids.find(peer_id)
+	return get_spawn_position(maxi(spawn_index, 0))
+
+
+func start_standalone_game() -> void:
+	if not multiplayer.is_server() or not _player_roster.is_empty():
+		return
+	_standalone_mode = true
+	lobby_hud.visible = false
+	overview_camera.current = false
+	GameMenu.force_close_menu()
+	spawn_player_for_peer(multiplayer.get_unique_id())
+	spawn_initial_items()
 
 
 func _on_session_ready(as_host: bool) -> void:
@@ -130,7 +182,11 @@ func spawn_player_for_peer(peer_id: int) -> void:
 	if not multiplayer.is_server() or _player_roster.has(peer_id):
 		return
 
-	var display_name := SteamNetwork.get_peer_persona_name(peer_id)
+	var display_name := (
+		SteamNetwork.local_user_name
+		if _standalone_mode
+		else SteamNetwork.get_peer_persona_name(peer_id)
+	)
 	var spawn_index := _player_roster.size()
 	var hue := fmod(float(peer_id) * 0.173, 1.0)
 	var spawn_data := {
@@ -140,7 +196,10 @@ func spawn_player_for_peer(peer_id: int) -> void:
 		"color": Color.from_hsv(hue, 0.72, 0.95),
 	}
 	_player_roster[peer_id] = spawn_data
-	_spawn_player.rpc(spawn_data)
+	if _standalone_mode:
+		_spawn_player(spawn_data)
+	else:
+		_spawn_player.rpc(spawn_data)
 
 
 @rpc("authority", "call_local", "reliable")
@@ -196,7 +255,11 @@ func _despawn_player(peer_id: int) -> void:
 func get_spawn_position(spawn_index: int) -> Vector3:
 	if _entered_v3_level:
 		return get_v3_spawn_position(spawn_index)
-	if uses_staging_lobby and not CoopLobby.game_has_started:
+	if (
+		uses_staging_lobby
+		and not CoopLobby.game_has_started
+		and not _standalone_mode
+	):
 		return staging_spawn_positions[
 			spawn_index % staging_spawn_positions.size()
 		]
@@ -396,14 +459,19 @@ func spawn_world_item(
 		_next_item_id,
 	]
 	_next_item_id += 1
-	item_spawner.spawn({
+	var spawn_data := {
 		"pickup_name": pickup_name,
 		"item_type": item_type,
 		"item_state": item_state.duplicate(true),
 		"transform": spawn_transform,
 		"linear_velocity": linear_velocity,
 		"angular_velocity": angular_velocity,
-	})
+	}
+	if _standalone_mode:
+		var pickup := spawn_world_item_from_data(spawn_data)
+		world_items.add_child(pickup)
+	else:
+		item_spawner.spawn(spawn_data)
 
 
 func spawn_world_item_from_data(data: Variant) -> Node:
@@ -469,6 +537,7 @@ func _on_session_closed(_reason: String) -> void:
 	_next_item_id = 1
 	_v3_items_spawned = false
 	_player_roster.clear()
+	_respawning_peers.clear()
 	if is_instance_valid(power_switch):
 		power_switch.apply_power_state(false, true)
 	if is_instance_valid(interactive_door):
