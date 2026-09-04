@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_can"]
+albedo_color = Color(0.52, 0.075, 0.025, 1)
+metallic = 0.3
+roughness = 0.46
+
+[sub_resource type="StandardMaterial3D" id="Material_dark"]
+albedo_color = Color(0.055, 0.06, 0.055, 1)
+metallic = 0.65
+roughness = 0.34
+
+[sub_resource type="BoxMesh" id="Mesh_body"]
+material = SubResource("Material_can")
+size = Vector3(0.46, 0.58, 0.24)
+
+[sub_resource type="BoxMesh" id="Mesh_handle"]
+material = SubResource("Material_dark")
+size = Vector3(0.25, 0.07, 0.08)
+
+[sub_resource type="CylinderMesh" id="Mesh_cap"]
+material = SubResource("Material_dark")
+top_radius = 0.055
+bottom_radius = 0.055
+height = 0.09
+radial_segments = 12
+
+[sub_resource type="BoxMesh" id="Mesh_mark"]
+material = SubResource("Material_dark")
+size = Vector3(0.28, 0.045, 0.012)
+
+[node name="FuelCanModel" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_body")
+
+[node name="Handle" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("Mesh_handle")
+
+[node name="Cap" type="MeshInstance3D" parent="."]
+position = Vector3(0.16, 0.34, 0)
+rotation = Vector3(0, 0, 1.5708)
+mesh = SubResource("Mesh_cap")
+
+[node name="MarkA" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.126)
+rotation = Vector3(0, 0, 0.65)
+mesh = SubResource("Mesh_mark")
+
+[node name="MarkB" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.127)
+rotation = Vector3(0, 0, -0.65)
+mesh = SubResource("Mesh_mark")

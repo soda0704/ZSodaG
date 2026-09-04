@@ -131,17 +131,35 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 44.0
-offset_top = -174.0
+offset_top = -221.0
 offset_right = 516.0
-offset_bottom = 174.0
+offset_bottom = 221.0
 grow_vertical = 2
 theme_override_constants/separation = 8
+
+[node name="ContinueGameButton" type="Button" parent="MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_neighbor_top = NodePath("../ExitButton")
+theme_override_colors/font_color = Color(0.92, 0.94, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.36, 0.39, 0.41, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("Style_button_normal")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+theme_override_styles/focus = SubResource("Style_button_focus")
+theme_override_styles/disabled = SubResource("Style_disabled")
+text = "ПРОДОЛЖИТЬ"
+alignment = 0
+disabled = true
 
 [node name="SinglePlayerButton" type="Button" parent="MenuButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
-focus_neighbor_top = NodePath("../ExitButton")
 theme_override_colors/font_color = Color(0.92, 0.94, 0.95, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
@@ -150,8 +168,25 @@ theme_override_styles/normal = SubResource("Style_button_normal")
 theme_override_styles/hover = SubResource("Style_button_hover")
 theme_override_styles/pressed = SubResource("Style_button_pressed")
 theme_override_styles/focus = SubResource("Style_button_focus")
-text = "ОДИНОЧНАЯ ИГРА"
+text = "НОВАЯ ИГРА"
 alignment = 0
+
+[node name="DeleteSaveButton" type="Button" parent="MenuButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.73, 0.76, 1)
+theme_override_colors/font_hover_color = Color(1, 0.45, 0.38, 1)
+theme_override_colors/font_disabled_color = Color(0.36, 0.39, 0.41, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button_normal")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+theme_override_styles/focus = SubResource("Style_button_focus")
+theme_override_styles/disabled = SubResource("Style_disabled")
+text = "УДАЛИТЬ СОХРАНЕНИЕ"
+alignment = 0
+disabled = true
 
 [node name="HostButton" type="Button" parent="MenuButtons"]
 unique_name_in_owner = true
@@ -206,7 +241,7 @@ alignment = 0
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../SinglePlayerButton")
+focus_neighbor_bottom = NodePath("../ContinueGameButton")
 theme_override_colors/font_color = Color(0.68, 0.73, 0.76, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
@@ -246,6 +281,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.94, 0.95, 1)
 theme_override_font_sizes/font_size = 18
 text = "STEAM STATUS"
+
+[node name="SaveStatusLabel" type="Label" parent="ProfileCard/ProfileContent"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.68, 0.38, 1)
+theme_override_font_sizes/font_size = 13
+text = "CHECKPOINT НЕ НАЙДЕН"
+autowrap_mode = 2
 
 [node name="NewsCard" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -305,3 +348,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+
+[node name="NewGameConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Новая игра"
+dialog_text = "Начать новую игру? Текущий checkpoint будет удалён."
+ok_button_text = "Начать заново"
+cancel_button_text = "Отмена"
+
+[node name="DeleteSaveConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Удалить сохранение"
+dialog_text = "Удалить текущий checkpoint? Это действие нельзя отменить."
+ok_button_text = "Удалить"
+cancel_button_text = "Отмена"

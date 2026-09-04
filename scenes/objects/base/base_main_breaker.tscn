@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_main_breaker.gd" id="1_script"]
+
+[sub_resource type="StandardMaterial3D" id="Material_panel"]
+albedo_color = Color(0.1, 0.12, 0.13, 1)
+metallic = 0.7
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Material_lever"]
+albedo_color = Color(0.82, 0.18, 0.035, 1)
+roughness = 0.38
+
+[sub_resource type="StandardMaterial3D" id="Material_indicator"]
+albedo_color = Color(0.32, 0.025, 0.01, 1)
+emission_enabled = true
+emission = Color(0.95, 0.08, 0.02, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="Mesh_panel"]
+material = SubResource("Material_panel")
+size = Vector3(0.95, 1.1, 0.16)
+
+[sub_resource type="BoxMesh" id="Mesh_indicator"]
+material = SubResource("Material_indicator")
+size = Vector3(0.62, 0.13, 0.035)
+
+[sub_resource type="BoxMesh" id="Mesh_lever"]
+material = SubResource("Material_lever")
+size = Vector3(0.12, 0.55, 0.12)
+
+[sub_resource type="BoxShape3D" id="Shape_panel"]
+size = Vector3(0.95, 1.1, 0.22)
+
+[node name="BaseMainBreaker" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_script")
+
+[node name="Panel" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_panel")
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0.39, -0.1)
+mesh = SubResource("Mesh_indicator")
+
+[node name="LeverPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0, -0.14)
+
+[node name="Lever" type="MeshInstance3D" parent="LeverPivot"]
+position = Vector3(0, 0.22, 0)
+mesh = SubResource("Mesh_lever")
+
+[node name="StatusLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -0.43, -0.1)
+rotation = Vector3(0, 3.14159, 0)
+text = "ГЛАВНЫЙ ЩИТ: ВЫКЛ"
+font_size = 25
+outline_size = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_panel")

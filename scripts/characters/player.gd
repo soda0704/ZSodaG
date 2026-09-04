@@ -5,11 +5,15 @@ const NO_ITEM := &""
 const FLASHLIGHT_ITEM := &"flashlight"
 const FUSE_ITEM := &"fuse"
 const BATTERY_ITEM := &"battery"
+const FUEL_ITEM := &"fuel_can"
 const FLASHLIGHT_PICKUP_SCENE := preload(
 	"res://scenes/objects/equipment/flashlight_pickup.tscn"
 )
 const FUSE_PICKUP_SCENE := preload(
 	"res://scenes/objects/items/fuse_pickup.tscn"
+)
+const FUEL_PICKUP_SCENE := preload(
+	"res://scenes/objects/items/fuel_can_pickup.tscn"
 )
 const INPUT_SEND_RATE := 30.0
 const SNAPSHOT_SEND_RATE := 20.0
@@ -33,6 +37,7 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @export var crouching_head_height: float = 1.02
 @export var crouch_transition_speed: float = 10.0
 @export var mouse_sensitivity: float = 0.002
+@export var controller_look_speed: float = 2.4
 
 @export_group("Flashlight")
 @export_range(5.0, 1800.0, 1.0) var battery_duration_seconds: float = 120.0
@@ -49,6 +54,7 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
 @onready var held_fuse: Node3D = %HeldFuse
+@onready var held_fuel_can: Node3D = %HeldFuelCan
 @onready var interaction_ray: RayCast3D = %InteractionRay
 @onready var interaction_prompt_label: Label = %InteractionPromptLabel
 @onready var battery_label: Label = %BatteryLabel
@@ -202,6 +208,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if is_local_player():
 		collect_local_input()
+		collect_local_look(delta)
 		refresh_interaction_prompt()
 
 	if multiplayer.is_server():
@@ -233,14 +240,58 @@ func collect_local_input() -> void:
 		_input_crouch = false
 		return
 
-	_input_move = Input.get_vector(
+	var godot_move := Input.get_vector(
 		"move_left",
 		"move_right",
 		"move_forward",
 		"move_backward"
 	)
+	var steam_move := _get_steam_input_vector(&"get_gameplay_move")
+	_input_move = (
+		steam_move
+		if steam_move.length_squared() > godot_move.length_squared()
+		else godot_move
+	)
 	_input_crouch = Input.is_action_pressed("crouch")
 	_input_sprint = Input.is_action_pressed("sprint") and not _input_crouch
+
+
+func collect_local_look(delta: float) -> void:
+	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		return
+	var sensitivity_multiplier := GameMenu.get_mouse_sensitivity_multiplier()
+	var godot_look := Input.get_vector(
+		"look_left",
+		"look_right",
+		"look_up",
+		"look_down"
+	)
+	var look_radians := (
+		godot_look
+		* controller_look_speed
+		* sensitivity_multiplier
+		* delta
+	)
+	var steam_look := _get_steam_input_vector(&"get_gameplay_look")
+	look_radians += steam_look * mouse_sensitivity * sensitivity_multiplier
+	if look_radians.is_zero_approx():
+		return
+	_input_yaw = wrapf(_input_yaw - look_radians.x, -PI, PI)
+	_input_pitch = clampf(
+		_input_pitch - look_radians.y,
+		deg_to_rad(-85.0),
+		deg_to_rad(85.0)
+	)
+	var look_impulse := look_radians / maxf(mouse_sensitivity, 0.00001)
+	camera.add_look_impulse(look_impulse)
+	flashlight.add_look_impulse(look_impulse)
+
+
+func _get_steam_input_vector(method_name: StringName) -> Vector2:
+	var steam_input := get_node_or_null("/root/SteamInput")
+	if steam_input == null or not steam_input.has_method(method_name):
+		return Vector2.ZERO
+	return steam_input.call(method_name) as Vector2
 
 
 func update_local_view_motion(delta: float) -> void:
@@ -618,7 +669,7 @@ func pickup_world_item_authoritative(
 		)
 		return true
 
-	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM]:
+	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM]:
 		return false
 	var previous_item_type := _held_item_type
 	var previous_item_state := get_held_item_state()
@@ -660,13 +711,28 @@ func get_held_item_drop_linear_velocity() -> Vector3:
 
 
 func drop_current_item_authoritative() -> bool:
+	return drop_current_item_at_authoritative(
+		get_held_item_drop_transform(),
+		get_held_item_drop_linear_velocity()
+	)
+
+
+func drop_current_item_at_authoritative(
+	drop_transform: Transform3D,
+	drop_velocity: Vector3 = Vector3.ZERO
+) -> bool:
 	if not multiplayer.is_server() or _held_item_type == NO_ITEM:
 		return false
 
 	var dropped_item_type := _held_item_type
 	var dropped_item_state := get_held_item_state()
 	_receive_held_item_inventory.rpc(NO_ITEM, {}, false, false)
-	spawn_dropped_item_authoritative(dropped_item_type, dropped_item_state)
+	spawn_dropped_item_authoritative(
+		dropped_item_type,
+		dropped_item_state,
+		drop_transform,
+		drop_velocity
+	)
 	return true
 
 
@@ -683,13 +749,19 @@ func consume_held_item_authoritative(item_type: StringName) -> bool:
 
 func spawn_dropped_item_authoritative(
 	item_type: StringName,
-	item_state: Dictionary
+	item_state: Dictionary,
+	drop_transform_override: Variant = null,
+	linear_velocity_override: Variant = null
 ) -> void:
 	if not multiplayer.is_server():
 		return
 
 	var drop_transform := get_held_item_drop_transform()
+	if drop_transform_override is Transform3D:
+		drop_transform = drop_transform_override as Transform3D
 	var drop_velocity := get_held_item_drop_linear_velocity()
+	if linear_velocity_override is Vector3:
+		drop_velocity = linear_velocity_override as Vector3
 	var controller := get_tree().get_first_node_in_group(
 		"network_gameplay_controller"
 	)
@@ -709,7 +781,9 @@ func spawn_dropped_item_authoritative(
 	var pickup_scene: PackedScene = (
 		FLASHLIGHT_PICKUP_SCENE
 		if item_type == FLASHLIGHT_ITEM
-		else FUSE_PICKUP_SCENE if item_type == FUSE_ITEM else null
+		else FUSE_PICKUP_SCENE
+		if item_type == FUSE_ITEM
+		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM else null
 	)
 	if pickup_scene == null or get_tree().current_scene == null:
 		return
@@ -911,6 +985,7 @@ func apply_held_item_inventory(
 			flashlight.cancel_malfunction()
 		flashlight.set_enabled(_flashlight_enabled, false)
 	held_fuse.visible = _held_item_type == FUSE_ITEM
+	held_fuel_can.visible = _held_item_type == FUEL_ITEM
 	update_battery_ui()
 
 

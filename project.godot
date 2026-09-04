@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 SteamNetwork="*res://scripts/network/steam/steam_network_service.gd"
 CoopLobby="*res://scripts/network/lobby/coop_lobby_service.gd"
 GameMenu="*res://scenes/ui/game_menu.tscn"
+SteamInput="*res://scripts/input/steam_input_service.gd"
 
 [display]
 
@@ -101,7 +102,7 @@ pause={
 [network]
 
 steam/app_id=480
-steam/lobby_max_members=4
+steam/lobby_max_members=2
 steam/lobby_tag="northern_lab_story_coop_v1"
 
 [physics]

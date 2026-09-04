@@ -337,6 +337,10 @@ function Invoke-DevelopmentBuild {
         -LiteralPath (Join-Path $outputDirectory "steam_appid.txt") `
         -Value "480" `
         -Encoding ASCII
+    Copy-Item `
+        -LiteralPath (Join-Path $projectRoot "game_actions_480.vdf") `
+        -Destination (Join-Path $outputDirectory "game_actions_480.vdf") `
+        -Force
 
     $revision = "unavailable"
     $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue

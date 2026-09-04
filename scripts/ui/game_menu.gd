@@ -85,8 +85,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	var is_main_scene := (
 		current_scene != null and current_scene.is_in_group("main_menu")
 	)
+	var pause_requested := event.is_action_pressed("pause")
+	var menu_back_requested := (
+		menu_root.visible and event.is_action_pressed("ui_cancel")
+	)
 	if (
-		event.is_action_pressed("pause")
+		(pause_requested or menu_back_requested)
 		and not (event is InputEventKey and event.echo)
 		and not _transition_in_progress
 	):
@@ -237,11 +241,14 @@ func show_view(view: MenuView) -> void:
 	settings_panel.visible = view == MenuView.SETTINGS
 	feedback_label.text = ""
 
-	if view == MenuView.JOIN:
+	if view == MenuView.MAIN:
+		continue_button.grab_focus()
+	elif view == MenuView.JOIN:
 		lobby_id_input.grab_focus()
 		lobby_id_input.select_all()
 	elif view == MenuView.SESSION:
 		refresh_session_ui()
+		ready_button.grab_focus()
 	elif view == MenuView.SETTINGS:
 		refresh_settings_ui()
 
@@ -553,7 +560,7 @@ func refresh_ready_ui() -> void:
 		ready_lines.append("• %s — %s" % [player_name, state_text])
 
 	if CoopLobby.get_player_count() < CoopLobby.MAX_PLAYERS:
-		ready_lines.append("• Другие игроки смогут подключиться позже.")
+		ready_lines.append("• Второй игрок сможет подключиться позже.")
 	ready_status_label.text = "Готовность:\n%s" % "\n".join(ready_lines)
 
 	ready_button.disabled = false

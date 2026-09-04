@@ -83,6 +83,8 @@ func get_interaction_prompt() -> String:
 			)
 		&"fuse":
 			return "Поднять предохранитель"
+		&"fuel_can":
+			return "Поднять канистру с топливом"
 	return "Поднять %s" % display_name
 
 

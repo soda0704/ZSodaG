@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://lsm2iwy57ki4" path="res://scenes/art/doors/west_pedestrian_inner_door_visual_blockout.tscn" id="17_west_pedestrian_inner_door_visual"]
 [ext_resource type="PackedScene" uid="uid://it181pifpibu" path="res://scenes/art/doors/west_pedestrian_exterior_door_visual_blockout.tscn" id="18_west_pedestrian_exterior_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/west_vehicle_exterior_gate_visual_blockout.tscn" id="19_west_vehicle_gate_visual"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/base_fuel_socket.tscn" id="20_base_fuel_socket"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/base_main_breaker.tscn" id="21_base_main_breaker"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/base_end_day_bunk.tscn" id="22_end_day_bunk"]
 
 [sub_resource type="BoxShape3D" id="Shape_day1_west_vehicle_gate_blocker"]
 size = Vector3(5.56, 3.55, 0.14)
@@ -40,6 +43,17 @@ albedo_color = Color(0.08, 0.52, 0.24, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_technical"]
 albedo_color = Color(0.82, 0.16, 0.04, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_tank"]
+albedo_color = Color(0.32, 0.085, 0.012, 1)
+metallic = 0.55
+roughness = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_hazard"]
+albedo_color = Color(0.95, 0.48, 0.035, 1)
+emission_enabled = true
+emission = Color(0.72, 0.18, 0.01, 1)
+emission_energy_multiplier = 1.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_science_containment"]
 albedo_color = Color(0.78, 0.16, 0.035, 1)
@@ -593,6 +607,7 @@ editor_description = "Слои освещения для проверки сос
 
 [node name="Standard_Lighting_Blockout" type="Node3D" parent="Power_State_Lighting_Blockout" unique_id=16357671]
 editor_description = "Штатные источники света. Выключены для стартового состояния первого дня; после запуска главного щита должны включаться программно."
+visible = false
 
 [node name="Center_Hub" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=72392302]
 
@@ -1421,7 +1436,7 @@ use_collision = true
 size = Vector3(28.3, 0.2, 16.3)
 
 [node name="Day1_Arrival_Platform" type="CSGBox3D" parent="West_Entrance/Shared_Structure"]
-editor_description = "Наружная площадка появления до четырёх игроков. Стыкуется с пешеходным входом без ступени."
+editor_description = "Наружная площадка появления до двух игроков. Стыкуется с пешеходным входом без ступени."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.65, -0.1, 3)
 use_collision = true
 size = Vector3(3, 0.2, 2)
@@ -1841,14 +1856,6 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -39.5, 0.05, 2.5)
 editor_description = "Точка прибытия второго игрока в первый день."
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -39.5, 0.05, 3.5)
 
-[node name="Day1_Player_03_Arrival_Spawn" type="Marker3D" parent="West_Entrance/Gameplay_Sockets/Arrival_And_Exterior"]
-editor_description = "Точка прибытия третьего игрока в первый день."
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -40.4, 0.05, 2.5)
-
-[node name="Day1_Player_04_Arrival_Spawn" type="Marker3D" parent="West_Entrance/Gameplay_Sockets/Arrival_And_Exterior"]
-editor_description = "Точка прибытия четвёртого игрока в первый день."
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -40.4, 0.05, 3.5)
-
 [node name="Forest_Exit_Socket" type="Marker3D" parent="West_Entrance/Gameplay_Sockets/Arrival_And_Exterior" unique_id=248237407]
 editor_description = "Переход между базой и игровой территорией леса."
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -39, 0.05, 3)
@@ -2188,6 +2195,25 @@ material = SubResource("StandardMaterial3D_hub_technical")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.25, 25.25)
 use_collision = true
 size = Vector3(2, 2.5, 1.2)
+material = SubResource("StandardMaterial3D_fuel_tank")
+
+[node name="Technical_Fuel_Tank_Hazard_Band_Left" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 1.25, 24.62)
+size = Vector3(0.18, 2.3, 0.06)
+material = SubResource("StandardMaterial3D_fuel_hazard")
+
+[node name="Technical_Fuel_Tank_Hazard_Band_Right" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.25, 24.62)
+size = Vector3(0.18, 2.3, 0.06)
+material = SubResource("StandardMaterial3D_fuel_hazard")
+
+[node name="Technical_Fuel_Tank_Header" type="Label3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
+position = Vector3(-5.5, 2.88, 24.59)
+rotation = Vector3(0, 3.14159, 0)
+text = "ТОПЛИВНЫЙ БАК\nЗАПРАВКА  ↓"
+font_size = 42
+outline_size = 10
+modulate = Color(1, 0.63, 0.18, 1)
 
 [node name="Technical_Fuel_Containment_North_Blockout" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling" unique_id=1597013005]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.015, 24.45)
@@ -2360,13 +2386,22 @@ material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Power_And_Maintenance" type="Node3D" parent="South_Technical/Gameplay_Sockets" unique_id=2050478136]
 
+[node name="Day1_Fuel_Can_Spawn" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance"]
+editor_description = "Временная точка появления канистры в генераторной, рядом с генератором."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.36, 19.2)
+
 [node name="Day1_Fuel_Fill_Socket" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=2112662514]
 editor_description = "Заправка генератора в первый день; также подходит для ежедневного пополнения топлива."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.2, 24.45)
 
+[node name="FuelFillInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Fuel_Fill_Socket" instance=ExtResource("20_base_fuel_socket")]
+
 [node name="Day1_Main_Breaker_Activation_Socket" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=185821466]
 editor_description = "Главный щит: после топлива включает питание и освещение всей базы."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05, 1.3, 22)
+
+[node name="MainBreakerInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Main_Breaker_Activation_Socket" instance=ExtResource("21_base_main_breaker")]
+rotation = Vector3(0, 1.5708, 0)
 
 [node name="Daily_Generator_Service_Socket" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=1970960599]
 editor_description = "Ежедневное обслуживание: диагностика, предохранитель, перезапуск или другая сменная операция."
@@ -2748,7 +2783,7 @@ size = Vector3(2.7, 0.1, 0.18)
 material = SubResource("StandardMaterial3D_hub_living")
 
 [node name="End_Day_Bunks_Blockout" type="Node3D" parent="East_Living/Sleeping_Quarters/Beds" unique_id=195393144]
-editor_description = "Две назначенные нижние койки для завершения дня. Панели намеренно не светятся; активное состояние позже показывает игровая логика."
+editor_description = "Две назначенные нижние койки для завершения дня. Интерактивные панели показывают доступность и готовность каждого игрока."
 
 [node name="End_Day_Bunk_Player_01_Visual_Blockout" type="CSGBox3D" parent="East_Living/Sleeping_Quarters/Beds/End_Day_Bunks_Blockout" unique_id=1607935349]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.95, -6.35)
@@ -3073,9 +3108,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0.05, -5.4)
 editor_description = "Готовность первого игрока завершить день и создать чекпоинт."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.95, -6.25)
 
+[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Socket" instance=ExtResource("22_end_day_bunk")]
+
 [node name="End_Day_Bunk_Player_02_Socket" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint" unique_id=751908430]
 editor_description = "Готовность второго игрока завершить день. В кооперативе требуются оба игрока."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.95, -6.25)
+
+[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Socket" instance=ExtResource("22_end_day_bunk")]
+assigned_player_slot = 1
+
+[node name="End_Day_Bunk_Player_01_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint"]
+editor_description = "Предмет первого игрока после выхода из сессии."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.4, -5.55)
+
+[node name="End_Day_Bunk_Player_02_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint"]
+editor_description = "Предмет второго игрока после выхода из сессии."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.4, -5.55)
 
 [node name="Day2_Unlocks" type="Node3D" parent="East_Living/Gameplay_Sockets" unique_id=1513644790]
 

@@ -1,0 +1,98 @@
+"In Game Actions"
+{
+	"actions"
+	{
+		"Gameplay"
+		{
+			"title"		"#Set_Gameplay"
+			"StickPadGyro"
+			{
+				"move"
+				{
+					"title"		"#Action_Move"
+					"input_mode"		"joystick_move"
+				}
+				"look"
+				{
+					"title"		"#Action_Look"
+					"input_mode"		"absolute_mouse"
+				}
+			}
+			"AnalogTrigger"
+			{
+			}
+			"Button"
+			{
+				"jump"		"#Action_Jump"
+				"interact"		"#Action_Interact"
+				"flashlight"		"#Action_Flashlight"
+				"drop_item"		"#Action_DropItem"
+				"sprint"		"#Action_Sprint"
+				"crouch"		"#Action_Crouch"
+				"pause"		"#Action_Pause"
+			}
+		}
+		"Menu"
+		{
+			"title"		"#Set_Menu"
+			"StickPadGyro"
+			{
+			}
+			"AnalogTrigger"
+			{
+			}
+			"Button"
+			{
+				"menu_accept"		"#Action_MenuAccept"
+				"menu_cancel"		"#Action_MenuCancel"
+				"menu_up"		"#Action_MenuUp"
+				"menu_down"		"#Action_MenuDown"
+				"menu_left"		"#Action_MenuLeft"
+				"menu_right"		"#Action_MenuRight"
+			}
+		}
+	}
+	"localization"
+	{
+		"english"
+		{
+			"Set_Gameplay"		"Gameplay"
+			"Set_Menu"		"Menus"
+			"Action_Move"		"Move"
+			"Action_Look"		"Look"
+			"Action_Jump"		"Jump"
+			"Action_Interact"		"Interact"
+			"Action_Flashlight"		"Flashlight"
+			"Action_DropItem"		"Drop item"
+			"Action_Sprint"		"Sprint"
+			"Action_Crouch"		"Crouch"
+			"Action_Pause"		"Pause"
+			"Action_MenuAccept"		"Confirm"
+			"Action_MenuCancel"		"Back"
+			"Action_MenuUp"		"Up"
+			"Action_MenuDown"		"Down"
+			"Action_MenuLeft"		"Left"
+			"Action_MenuRight"		"Right"
+		}
+		"russian"
+		{
+			"Set_Gameplay"		"Игра"
+			"Set_Menu"		"Меню"
+			"Action_Move"		"Движение"
+			"Action_Look"		"Камера"
+			"Action_Jump"		"Прыжок"
+			"Action_Interact"		"Взаимодействие"
+			"Action_Flashlight"		"Фонарик"
+			"Action_DropItem"		"Бросить предмет"
+			"Action_Sprint"		"Бег"
+			"Action_Crouch"		"Присесть"
+			"Action_Pause"		"Пауза"
+			"Action_MenuAccept"		"Подтвердить"
+			"Action_MenuCancel"		"Назад"
+			"Action_MenuUp"		"Вверх"
+			"Action_MenuDown"		"Вниз"
+			"Action_MenuLeft"		"Влево"
+			"Action_MenuRight"		"Вправо"
+		}
+	}
+}

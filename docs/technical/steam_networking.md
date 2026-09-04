@@ -5,7 +5,7 @@
 NorthernLab использует сюжетный кооператив с авторитетным хостом:
 
 - хост создаёт Steam Lobby и симулирует игровой мир;
-- до трёх дополнительных игроков подключаются по Lobby ID или Steam Invite;
+- второй игрок подключается по Lobby ID или Steam Invite;
 - `SteamMultiplayerPeer` передаёт трафик через Steam Networking Sockets;
 - `server_relay = true` позволяет Steam Datagram Relay обходить NAT;
 - выделенный сервер для текущего кооператива не нужен.
@@ -18,10 +18,34 @@ Steam Lobby отвечает за поиск сессии и участнико�
 - `addons/godotsteam/` — GodotSteam GDExtension 4.21 и Steamworks SDK 1.65;
 - `scripts/network/steam/steam_network_service.gd` — Steam, Lobby и transport peer;
 - `scripts/network/lobby/coop_lobby_service.gd` — готовность и старт;
+- `scripts/input/steam_input_service.gd` — Steam Input и обычный joypad fallback;
+- `game_actions_480.vdf` — действия `Gameplay` и `Menu` для dev AppID 480;
 - `scripts/network/tests/mechanics_test_room.gd` — сетевой roster и gameplay spawn;
 - `scripts/characters/player.gd` и `scenes/characters/player.tscn` — единый игрок;
 - `scripts/ui/game_menu.gd` и `scenes/ui/game_menu.tscn` — ESC/Steam flow;
 - `scenes/tests/mechanics_test_room.tscn` — единственная тестовая gameplay-сцена.
+
+## Steam Input и геймпад
+
+`SteamInputService` загружает action manifest через GodotSteam 4.21 и использует
+два контекста. `Gameplay` содержит движение, камеру, прыжок, взаимодействие,
+фонарик, выброс предмета, бег, приседание и паузу. `Menu` содержит навигацию,
+подтверждение и возврат. Контекст переключается автоматически между персонажем,
+главным меню и overlay-меню.
+
+На время разработки AppID 480 используется файл `game_actions_480.vdf`. После
+получения собственного AppID файл необходимо переименовать и опубликовать в Steamworks
+вместе с официальными раскладками. Локальный manifest может быть отклонён Spacewar
+при запуске не из Steam — это не блокирует управление: сервис всегда добавляет
+обычный Godot joypad fallback, который также принимает виртуальный XInput-контроллер
+Steam Input Legacy Mode.
+
+Fallback-раскладка: левый stick — движение, правый — камера, `A` — прыжок,
+`B` — присесть/назад в открытом меню, `X` — взаимодействие, `Y` — фонарик,
+`RB` — бросить предмет, нажатие левого stick — бег, `Start` — пауза. Меню
+управляется левым stick или D-pad, подтверждается `A`. В кооперативе каждый peer
+опрашивает только свой локальный контроллер, после чего существующий сетевой код
+передаёт input snapshot авторитетному хосту.
 
 ## Готовность и первый spawn
 
@@ -50,6 +74,12 @@ peer ID, поэтому ранний и повторный пакеты не с�
 - player snapshot: `20 Hz`, `unreliable_ordered`;
 - движущийся фонарик: до `10 Hz`, затем финальный snapshot при sleep;
 - roster, готовность и критические состояния: `reliable`.
+
+После перехода в production V3 поздний клиент отдельно запрашивает snapshots
+базы и лифта. Snapshot лифта содержит активную цель и остаток текущей фазы, так
+что подключение во время закрытия дверей, движения, прибытия или открытия не
+оставляет кабину на промежуточной высоте. Локальное сохранение прогресса читает
+только хост; клиентская копия состояния всегда приходит от хоста.
 
 ## Development EXE
 

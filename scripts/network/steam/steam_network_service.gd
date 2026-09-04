@@ -26,7 +26,7 @@ enum SessionState {
 }
 
 const DEFAULT_APP_ID := 480
-const DEFAULT_MAX_MEMBERS := 4
+const DEFAULT_MAX_MEMBERS := 2
 const DEFAULT_LOBBY_TAG := "northern_lab_story_coop_v1"
 const NETWORK_VERSION := "1"
 const STEAM_API_INIT_RESULT_OK := 0
@@ -147,7 +147,7 @@ func create_friends_lobby() -> bool:
 	_steam.call(
 		"createLobby",
 		LOBBY_TYPE_FRIENDS_ONLY,
-		clampi(max_members, 2, 4)
+		clampi(max_members, 2, DEFAULT_MAX_MEMBERS)
 	)
 	return true
 

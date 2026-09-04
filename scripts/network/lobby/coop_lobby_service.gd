@@ -4,7 +4,7 @@ extends Node
 signal ready_state_changed(ready_states: Dictionary)
 signal gameplay_started
 
-const MAX_PLAYERS := 4
+const MAX_PLAYERS := 2
 
 var ready_states: Dictionary = {}
 var session_active: bool = false

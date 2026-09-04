@@ -5,12 +5,13 @@ const PLAYER_SCENE := preload("res://scenes/characters/player.tscn")
 const FLASHLIGHT_PICKUP_SCENE := preload(
 	"res://scenes/objects/equipment/flashlight_pickup.tscn"
 )
+const FUEL_PICKUP_SCENE := preload(
+	"res://scenes/objects/items/fuel_can_pickup.tscn"
+)
 
 @export var player_spawn_positions := PackedVector3Array([
 	Vector3(0.35, 0.05, -5.2),
 	Vector3(1.45, 0.05, -5.2),
-	Vector3(0.35, 0.05, -6.4),
-	Vector3(1.45, 0.05, -6.4),
 ])
 @export var player_spawn_marker_paths: Array[NodePath] = [
 	NodePath(
@@ -21,19 +22,25 @@ const FLASHLIGHT_PICKUP_SCENE := preload(
 		"Floor_0_Base_Blockout/West_Entrance/Gameplay_Sockets/"
 		+ "Arrival_And_Exterior/Day1_Player_02_Arrival_Spawn"
 	),
-	NodePath(
-		"Floor_0_Base_Blockout/West_Entrance/Gameplay_Sockets/"
-		+ "Arrival_And_Exterior/Day1_Player_03_Arrival_Spawn"
-	),
-	NodePath(
-		"Floor_0_Base_Blockout/West_Entrance/Gameplay_Sockets/"
-		+ "Arrival_And_Exterior/Day1_Player_04_Arrival_Spawn"
-	),
 ]
 @export var standalone_flashlight_transform := Transform3D(
 	Basis.IDENTITY,
 	Vector3(4.6, 0.1, -4.8)
 )
+@export var fuel_can_spawn_marker_path := NodePath(
+	"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
+	+ "Power_And_Maintenance/Day1_Fuel_Can_Spawn"
+)
+@export var bunk_item_drop_marker_paths: Array[NodePath] = [
+	NodePath(
+		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
+		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Item_Drop"
+	),
+	NodePath(
+		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
+		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Item_Drop"
+	),
+]
 
 var network_runtime_managed: bool = false
 
@@ -79,6 +86,25 @@ func get_player_spawn_marker(index: int) -> Marker3D:
 	return get_node_or_null(marker_path) as Marker3D
 
 
+func get_fuel_can_spawn_transform() -> Transform3D:
+	var marker := get_node_or_null(fuel_can_spawn_marker_path) as Marker3D
+	if marker != null:
+		return marker.global_transform
+	return Transform3D(Basis.IDENTITY, Vector3(-3.2, 0.36, 19.2))
+
+
+func get_bunk_item_drop_transform(player_slot: int) -> Transform3D:
+	if not bunk_item_drop_marker_paths.is_empty():
+		var marker_path := bunk_item_drop_marker_paths[
+			clampi(player_slot, 0, bunk_item_drop_marker_paths.size() - 1)
+		]
+		var marker := get_node_or_null(marker_path) as Marker3D
+		if marker != null:
+			return marker.global_transform
+	var fallback_x := 23.25 if player_slot <= 0 else 28.0
+	return Transform3D(Basis.IDENTITY, Vector3(fallback_x, 0.4, -5.55))
+
+
 func spawn_standalone_gameplay() -> void:
 	if get_node_or_null("RuntimePlayers") == null:
 		var runtime_players := Node3D.new()
@@ -105,3 +131,13 @@ func spawn_standalone_gameplay() -> void:
 			"transform": standalone_flashlight_transform,
 		})
 		add_child(flashlight)
+
+	if get_node_or_null("StandaloneFuelCan") == null:
+		var fuel_can := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
+		fuel_can.setup_spawn({
+			"pickup_name": "StandaloneFuelCan",
+			"item_type": GamePlayer.FUEL_ITEM,
+			"item_state": {},
+		})
+		add_child(fuel_can)
+		fuel_can.global_transform = get_fuel_can_spawn_transform()

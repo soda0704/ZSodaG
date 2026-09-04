@@ -9,13 +9,12 @@ const ITEM_SCENES := {
 	),
 	&"fuse": preload("res://scenes/objects/items/fuse_pickup.tscn"),
 	&"battery": preload("res://scenes/objects/items/battery_pickup.tscn"),
+	&"fuel_can": preload("res://scenes/objects/items/fuel_can_pickup.tscn"),
 }
 const V3_LEVEL_PATH := "res://scenes/levels/Base_Blockout_v03.tscn"
 const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
 	Vector3(2.5, 0.05, 4.0),
-	Vector3(-2.5, 0.05, -4.0),
-	Vector3(2.5, 0.05, -4.0),
 ]
 const V3_TEST_BRANCHES := [
 	NodePath("Helicopter"),
@@ -32,8 +31,6 @@ const V3_TEST_BRANCHES := [
 @export var staging_spawn_positions := PackedVector3Array([
 	Vector3(-0.4, 0.05, 0.85),
 	Vector3(0.4, 0.05, 0.85),
-	Vector3(-0.4, 0.05, -0.15),
-	Vector3(0.4, 0.05, -0.15),
 ])
 @export var gameplay_origin_path: NodePath
 
@@ -77,6 +74,7 @@ var _entered_v3_level: bool = false
 var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
 var _v3_flashlight_transform: Transform3D = Transform3D.IDENTITY
+var _v3_fuel_can_transform: Transform3D = Transform3D.IDENTITY
 var _v3_spawn_positions := PackedVector3Array()
 var _v3_spawn_yaws := PackedFloat32Array()
 var _base_gameplay_controller: BaseGameplayController
@@ -157,7 +155,11 @@ func _request_v3_runtime_state() -> void:
 
 
 func spawn_player_for_peer(peer_id: int) -> void:
-	if not multiplayer.is_server() or _player_roster.has(peer_id):
+	if (
+		not multiplayer.is_server()
+		or _player_roster.has(peer_id)
+		or _player_roster.size() >= CoopLobby.MAX_PLAYERS
+	):
 		return
 
 	var display_name := (
@@ -278,7 +280,7 @@ func get_peer_spawn_index(peer_id: int) -> int:
 		return maxi(int(spawn_data["spawn_index"]), 0)
 	var peer_ids := _player_roster.keys()
 	peer_ids.sort()
-	return maxi(peer_ids.find(peer_id), 0)
+	return peer_ids.find(peer_id)
 
 
 func _on_gameplay_started() -> void:
@@ -351,6 +353,7 @@ func _enter_v3_level() -> void:
 	v3_level.network_runtime_managed = true
 	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
 	add_child(v3_level)
+	_v3_fuel_can_transform = v3_level.get_fuel_can_spawn_transform()
 	_v3_spawn_positions = PackedVector3Array()
 	_v3_spawn_yaws = PackedFloat32Array()
 	for spawn_index in v3_level.get_player_spawn_count():
@@ -426,6 +429,15 @@ func spawn_v3_world_items() -> void:
 		GamePlayer.FLASHLIGHT_ITEM,
 		local_transform,
 		{"battery_charge": 1.0}
+	)
+	var local_fuel_transform := (
+		world_items.global_transform.affine_inverse()
+		* _v3_fuel_can_transform
+	)
+	spawn_world_item(
+		GamePlayer.FUEL_ITEM,
+		local_fuel_transform,
+		{}
 	)
 
 
@@ -542,6 +554,30 @@ func spawn_dropped_item(item_type: StringName, item_state: Dictionary) -> void:
 func _on_peer_left(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
+	var departing_player := players.get_node_or_null(str(peer_id))
+	if (
+		departing_player != null
+		and departing_player.has_method("drop_current_item_at_authoritative")
+		and _entered_v3_level
+	):
+		var v3_level := get_node_or_null("V3Level")
+		if v3_level != null and v3_level.has_method(
+			"get_bunk_item_drop_transform"
+		):
+			departing_player.call(
+				"drop_current_item_at_authoritative",
+				v3_level.call(
+					"get_bunk_item_drop_transform",
+					get_peer_spawn_index(peer_id)
+				)
+			)
+		else:
+			departing_player.call("drop_current_item_authoritative")
+	elif (
+		departing_player != null
+		and departing_player.has_method("drop_current_item_authoritative")
+	):
+		departing_player.call("drop_current_item_authoritative")
 	_player_roster.erase(peer_id)
 	_despawn_player.rpc(peer_id)
 
@@ -569,6 +605,7 @@ func _on_session_closed(_reason: String) -> void:
 	_v3_items_spawned = false
 	_v3_spawn_positions = PackedVector3Array()
 	_v3_spawn_yaws = PackedFloat32Array()
+	_v3_fuel_can_transform = Transform3D.IDENTITY
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()
