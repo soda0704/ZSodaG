@@ -20,6 +20,7 @@ SteamNetwork="*res://scripts/network/steam/steam_network_service.gd"
 CoopLobby="*res://scripts/network/lobby/coop_lobby_service.gd"
 GameMenu="*res://scenes/ui/game_menu.tscn"
 SteamInput="*res://scripts/input/steam_input_service.gd"
+QuestJournal="*res://scenes/ui/quest_journal.tscn"
 
 [display]
 
@@ -91,6 +92,11 @@ flashlight={
 drop_item={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":71,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+journal={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":74,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 pause={

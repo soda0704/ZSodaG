@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_end_day_bunk.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_bunk_sleep_surface.gd" id="2_sleep_surface"]
 
 [sub_resource type="StandardMaterial3D" id="Material_panel"]
 albedo_color = Color(0.08, 0.11, 0.1, 1)
@@ -41,6 +42,34 @@ ring_segments = 12
 
 [sub_resource type="BoxShape3D" id="Shape_panel"]
 size = Vector3(1.15, 0.42, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="Material_bed_frame"]
+albedo_color = Color(0.12, 0.15, 0.16, 1)
+metallic = 0.8
+roughness = 0.32
+
+[sub_resource type="StandardMaterial3D" id="Material_mattress"]
+albedo_color = Color(0.18, 0.28, 0.34, 1)
+roughness = 0.86
+
+[sub_resource type="StandardMaterial3D" id="Material_pillow"]
+albedo_color = Color(0.72, 0.73, 0.67, 1)
+roughness = 0.94
+
+[sub_resource type="BoxMesh" id="Mesh_bed_frame"]
+material = SubResource("Material_bed_frame")
+size = Vector3(1.62, 0.1, 2.05)
+
+[sub_resource type="BoxMesh" id="Mesh_mattress"]
+material = SubResource("Material_mattress")
+size = Vector3(1.48, 0.16, 1.9)
+
+[sub_resource type="BoxMesh" id="Mesh_pillow"]
+material = SubResource("Material_pillow")
+size = Vector3(0.92, 0.2, 0.42)
+
+[sub_resource type="BoxShape3D" id="Shape_sleep_surface"]
+size = Vector3(1.48, 0.24, 1.9)
 
 [node name="BaseEndDayBunk" type="StaticBody3D"]
 collision_layer = 4
@@ -84,3 +113,37 @@ modulate = Color(0.12, 0.085, 0.045, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("Shape_panel")
+
+[node name="BedPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -0.25, 0.16)
+rotation = Vector3(-1.5708, 0, 0)
+
+[node name="Frame" type="MeshInstance3D" parent="BedPivot"]
+position = Vector3(0, 0, 1.025)
+mesh = SubResource("Mesh_bed_frame")
+
+[node name="Mattress" type="MeshInstance3D" parent="BedPivot"]
+position = Vector3(0, 0.13, 1)
+mesh = SubResource("Mesh_mattress")
+
+[node name="Pillow" type="MeshInstance3D" parent="BedPivot"]
+unique_name_in_owner = true
+position = Vector3(0, 0.29, 0.32)
+mesh = SubResource("Mesh_pillow")
+
+[node name="SleepSurface" type="StaticBody3D" parent="BedPivot"]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_sleep_surface")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BedPivot/SleepSurface"]
+unique_name_in_owner = true
+position = Vector3(0, 0.22, 1)
+shape = SubResource("Shape_sleep_surface")
+disabled = true
+
+[node name="SleepPose" type="Marker3D" parent="BedPivot"]
+unique_name_in_owner = true
+position = Vector3(0, 0.22, 1.62)

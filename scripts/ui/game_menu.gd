@@ -86,6 +86,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		current_scene != null and current_scene.is_in_group("main_menu")
 	)
 	var pause_requested := event.is_action_pressed("pause")
+	var quest_journal := get_node_or_null("/root/QuestJournal")
+	if (
+		quest_journal != null
+		and bool(quest_journal.call("is_journal_open"))
+		and (pause_requested or event.is_action_pressed("ui_cancel"))
+		and not (event is InputEventKey and event.echo)
+	):
+		quest_journal.call("close_journal")
+		get_viewport().set_input_as_handled()
+		return
 	var menu_back_requested := (
 		menu_root.visible and event.is_action_pressed("ui_cancel")
 	)
@@ -148,6 +158,9 @@ func connect_network_signals() -> void:
 
 
 func open_menu(view: MenuView = MenuView.MAIN) -> void:
+	var quest_journal := get_node_or_null("/root/QuestJournal")
+	if quest_journal != null:
+		quest_journal.call("force_close")
 	menu_root.visible = true
 	show_view(view)
 	refresh_network_ui()

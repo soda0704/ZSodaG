@@ -42,9 +42,17 @@ func _bind_runtime() -> void:
 	_apply_day(_gameplay_controller.day_index)
 
 
-func _on_end_day_consensus_reached(_completed_day_index: int) -> void:
-	if multiplayer.is_server() and _gameplay_controller != null:
-		_gameplay_controller.advance_day_authoritative()
+func _on_end_day_consensus_reached(completed_day_index: int) -> void:
+	if not multiplayer.is_server() or _gameplay_controller == null:
+		return
+	await get_tree().create_timer(1.1).timeout
+	if (
+		_gameplay_controller.day_index != completed_day_index
+		or not _gameplay_controller.are_all_connected_players_sleeping()
+		or not _gameplay_controller.advance_day_authoritative()
+	):
+		return
+	_wake_players_for_new_day()
 
 
 func _on_day_changed(next_day_index: int) -> void:
@@ -66,3 +74,20 @@ func _apply_day(next_day_index: int) -> void:
 			)
 	if multiplayer.is_server() and _elevator_controller != null:
 		_elevator_controller.set_day(next_day_index)
+
+
+func _wake_players_for_new_day() -> void:
+	var level_root := get_parent()
+	if level_root == null or not level_root.has_method("get_day_start_transform"):
+		return
+	for peer_id in _gameplay_controller.get_connected_player_peer_ids():
+		var player := _gameplay_controller.get_player_node(peer_id)
+		if player == null or not player.has_method("leave_bunk_sleep_authoritative"):
+			player = level_root.get_node_or_null("RuntimePlayers/%d" % peer_id)
+		if player == null or not player.has_method("leave_bunk_sleep_authoritative"):
+			continue
+		var player_slot := _gameplay_controller.get_player_slot(peer_id)
+		player.call(
+			"leave_bunk_sleep_authoritative",
+			level_root.call("get_day_start_transform", player_slot)
+		)

@@ -7,6 +7,7 @@ signal day_changed(day_index: int)
 signal fuel_state_changed(is_fueled: bool)
 signal power_state_changed(is_powered: bool)
 signal end_day_ready_changed(ready_peer_ids: Array[int])
+signal sleeping_state_changed(sleeping_peer_ids: Array[int])
 signal end_day_consensus_reached(day_index: int)
 
 enum BasePhase {
@@ -29,6 +30,7 @@ var phase: BasePhase = BasePhase.ARRIVAL
 var fuel_delivered: bool = false
 var main_breaker_on: bool = false
 var end_day_ready_peer_ids: Array[int] = []
+var sleeping_peer_ids: Array[int] = []
 var _end_day_consensus_announced: bool = false
 
 
@@ -52,6 +54,7 @@ func _ready() -> void:
 		BasePhase.ARRIVAL,
 		false,
 		false,
+		[],
 		[]
 	)
 	if multiplayer.is_server():
@@ -67,7 +70,8 @@ func get_snapshot() -> Dictionary:
 		phase,
 		fuel_delivered,
 		main_breaker_on,
-		end_day_ready_peer_ids
+		end_day_ready_peer_ids,
+		sleeping_peer_ids
 	)
 
 
@@ -83,7 +87,8 @@ func deliver_fuel_authoritative(peer_id: int) -> bool:
 			next_phase,
 			true,
 			main_breaker_on,
-			end_day_ready_peer_ids
+			end_day_ready_peer_ids,
+			sleeping_peer_ids
 		)
 	)
 	return true
@@ -102,7 +107,8 @@ func activate_main_breaker_authoritative(peer_id: int) -> bool:
 			BasePhase.ACTIVE_DAY,
 			true,
 			true,
-			end_day_ready_peer_ids
+			end_day_ready_peer_ids,
+			sleeping_peer_ids
 		)
 	)
 	return true
@@ -116,10 +122,12 @@ func set_end_day_ready_authoritative(peer_id: int, is_ready: bool) -> bool:
 		return false
 
 	var next_ready_peer_ids := end_day_ready_peer_ids.duplicate()
+	var next_sleeping_peer_ids := sleeping_peer_ids.duplicate()
 	if is_ready and not next_ready_peer_ids.has(peer_id):
 		next_ready_peer_ids.append(peer_id)
 	elif not is_ready:
 		next_ready_peer_ids.erase(peer_id)
+		next_sleeping_peer_ids.erase(peer_id)
 	next_ready_peer_ids.sort()
 
 	var next_phase := (
@@ -133,9 +141,34 @@ func set_end_day_ready_authoritative(peer_id: int, is_ready: bool) -> bool:
 			next_phase,
 			fuel_delivered,
 			main_breaker_on,
-			next_ready_peer_ids
+			next_ready_peer_ids,
+			next_sleeping_peer_ids
 		)
 	)
+	return true
+
+
+func set_peer_sleeping_authoritative(peer_id: int, is_sleeping: bool) -> bool:
+	if (
+		not _can_mutate_for_peer(peer_id)
+		or phase != BasePhase.ENDING_DAY
+		or not end_day_ready_peer_ids.has(peer_id)
+	):
+		return false
+	var next_sleeping_peer_ids := sleeping_peer_ids.duplicate()
+	if is_sleeping and not next_sleeping_peer_ids.has(peer_id):
+		next_sleeping_peer_ids.append(peer_id)
+	elif not is_sleeping:
+		next_sleeping_peer_ids.erase(peer_id)
+	next_sleeping_peer_ids.sort()
+	_broadcast_snapshot(_make_snapshot(
+		day_index,
+		phase,
+		fuel_delivered,
+		main_breaker_on,
+		end_day_ready_peer_ids,
+		next_sleeping_peer_ids
+	))
 	return true
 
 
@@ -153,6 +186,19 @@ func are_all_connected_players_ready() -> bool:
 
 func is_peer_ready_to_end_day(peer_id: int) -> bool:
 	return end_day_ready_peer_ids.has(peer_id)
+
+
+func is_peer_sleeping(peer_id: int) -> bool:
+	return sleeping_peer_ids.has(peer_id)
+
+
+func are_all_connected_players_sleeping() -> bool:
+	if sleeping_peer_ids.is_empty():
+		return false
+	for peer_id in get_connected_player_peer_ids():
+		if not sleeping_peer_ids.has(peer_id):
+			return false
+	return true
 
 
 func get_connected_player_peer_ids() -> Array[int]:
@@ -186,11 +232,15 @@ func get_player_display_name(peer_id: int) -> String:
 	return "Игрок %d" % (get_player_slot(peer_id) + 1)
 
 
+func get_player_node(peer_id: int) -> Node:
+	return _find_player_node(peer_id)
+
+
 func reset_day_one_authoritative() -> bool:
 	if not multiplayer.is_server():
 		return false
 	_broadcast_snapshot(
-		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [])
+		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [], [])
 	)
 	return true
 
@@ -198,7 +248,7 @@ func reset_day_one_authoritative() -> bool:
 func advance_day_authoritative() -> bool:
 	if (
 		not multiplayer.is_server()
-		or not are_all_connected_players_ready()
+		or not are_all_connected_players_sleeping()
 		or day_index >= 5
 	):
 		return false
@@ -208,6 +258,7 @@ func advance_day_authoritative() -> bool:
 			BasePhase.ACTIVE_DAY,
 			fuel_delivered,
 			main_breaker_on,
+			[],
 			[]
 		)
 	)
@@ -251,6 +302,7 @@ func load_saved_snapshot() -> Dictionary:
 		saved_phase,
 		saved_fuel,
 		saved_power,
+		[],
 		[]
 	)
 
@@ -330,6 +382,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 	var previous_fuel := fuel_delivered
 	var previous_power := main_breaker_on
 	var previous_ready := end_day_ready_peer_ids.duplicate()
+	var previous_sleeping := sleeping_peer_ids.duplicate()
 
 	day_index = clampi(int(snapshot.get("day_index", FIRST_DAY)), 1, 5)
 	phase = clampi(
@@ -344,6 +397,9 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 	end_day_ready_peer_ids = _normalize_peer_ids(
 		snapshot.get("end_day_ready_peer_ids", []) as Array
 	)
+	sleeping_peer_ids = _normalize_peer_ids(
+		snapshot.get("sleeping_peer_ids", []) as Array
+	)
 
 	if force_signals or previous_day != day_index:
 		day_changed.emit(day_index)
@@ -355,6 +411,8 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 		power_state_changed.emit(main_breaker_on)
 	if force_signals or previous_ready != end_day_ready_peer_ids:
 		end_day_ready_changed.emit(end_day_ready_peer_ids.duplicate())
+	if force_signals or previous_sleeping != sleeping_peer_ids:
+		sleeping_state_changed.emit(sleeping_peer_ids.duplicate())
 	snapshot_changed.emit(get_snapshot())
 	if multiplayer.is_server():
 		save_progress_authoritative()
@@ -365,7 +423,8 @@ func _make_snapshot(
 	next_phase: BasePhase,
 	next_fuel_delivered: bool,
 	next_main_breaker_on: bool,
-	next_ready_peer_ids: Array
+	next_ready_peer_ids: Array,
+	next_sleeping_peer_ids: Array = []
 ) -> Dictionary:
 	return {
 		"day_index": clampi(next_day_index, 1, 5),
@@ -373,6 +432,7 @@ func _make_snapshot(
 		"fuel_delivered": next_fuel_delivered,
 		"main_breaker_on": next_main_breaker_on and next_fuel_delivered,
 		"end_day_ready_peer_ids": _normalize_peer_ids(next_ready_peer_ids),
+		"sleeping_peer_ids": _normalize_peer_ids(next_sleeping_peer_ids),
 	}
 
 
@@ -401,6 +461,7 @@ func _make_persistent_snapshot() -> Dictionary:
 		persistent_phase,
 		fuel_delivered,
 		main_breaker_on,
+		[],
 		[]
 	)
 
@@ -462,7 +523,9 @@ func _on_peer_left(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
 	var next_ready_peer_ids := end_day_ready_peer_ids.duplicate()
+	var next_sleeping_peer_ids := sleeping_peer_ids.duplicate()
 	next_ready_peer_ids.erase(peer_id)
+	next_sleeping_peer_ids.erase(peer_id)
 	var next_phase := (
 		BasePhase.ENDING_DAY
 		if not next_ready_peer_ids.is_empty()
@@ -474,7 +537,8 @@ func _on_peer_left(peer_id: int) -> void:
 			next_phase,
 			fuel_delivered,
 			main_breaker_on,
-			next_ready_peer_ids
+			next_ready_peer_ids,
+			next_sleeping_peer_ids
 		)
 	)
 	call_deferred("_refresh_roster_dependent_state")
@@ -496,7 +560,7 @@ func _update_end_day_consensus_signal() -> void:
 		return
 	var has_consensus := (
 		phase == BasePhase.ENDING_DAY
-		and are_all_connected_players_ready()
+		and are_all_connected_players_sleeping()
 	)
 	if has_consensus and not _end_day_consensus_announced:
 		_end_day_consensus_announced = true

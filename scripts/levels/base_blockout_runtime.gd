@@ -41,6 +41,16 @@ const FUEL_PICKUP_SCENE := preload(
 		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Item_Drop"
 	),
 ]
+@export var day_start_marker_paths: Array[NodePath] = [
+	NodePath(
+		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
+		+ "Sleep_And_Checkpoint/Day_Start_Player_01_Spawn"
+	),
+	NodePath(
+		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
+		+ "Sleep_And_Checkpoint/Day_Start_Player_02_Spawn"
+	),
+]
 
 var network_runtime_managed: bool = false
 
@@ -103,6 +113,18 @@ func get_bunk_item_drop_transform(player_slot: int) -> Transform3D:
 			return marker.global_transform
 	var fallback_x := 23.25 if player_slot <= 0 else 28.0
 	return Transform3D(Basis.IDENTITY, Vector3(fallback_x, 0.4, -5.55))
+
+
+func get_day_start_transform(player_slot: int) -> Transform3D:
+	if not day_start_marker_paths.is_empty():
+		var marker_path := day_start_marker_paths[
+			clampi(player_slot, 0, day_start_marker_paths.size() - 1)
+		]
+		var marker := get_node_or_null(marker_path) as Marker3D
+		if marker != null:
+			return marker.global_transform
+	var fallback_x := 23.0 if player_slot <= 0 else 27.0
+	return Transform3D(Basis.IDENTITY, Vector3(fallback_x, 0.05, -5.4))
 
 
 func spawn_standalone_gameplay() -> void:

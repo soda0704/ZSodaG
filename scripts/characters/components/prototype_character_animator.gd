@@ -21,6 +21,7 @@ var _base_rotations: Dictionary = {}
 var _base_position: Vector3
 var _cycle: float = 0.0
 var _crouch_blend: float = 0.0
+var _sleeping: bool = false
 
 
 func _ready() -> void:
@@ -71,6 +72,10 @@ func set_avatar_color(color: Color) -> void:
 	_mesh.material_override = material
 
 
+func set_sleeping(is_sleeping: bool) -> void:
+	_sleeping = is_sleeping
+
+
 func update_pose(
 	delta: float,
 	horizontal_speed: float,
@@ -80,6 +85,27 @@ func update_pose(
 	vertical_velocity: float
 ) -> void:
 	if _skeleton == null or not visible:
+		return
+	var rotation_weight := 1.0 - exp(-6.0 * delta)
+	rotation.x = lerp_angle(
+		rotation.x,
+		-PI * 0.5 if _sleeping else 0.0,
+		rotation_weight
+	)
+	if _sleeping:
+		var sleep_pose_weight := 1.0 - exp(-5.0 * delta)
+		set_bone_angle(BONE_THIGH_LEFT, -0.08, sleep_pose_weight)
+		set_bone_angle(BONE_THIGH_RIGHT, 0.08, sleep_pose_weight)
+		set_bone_angle(BONE_SHIN_LEFT, 0.12, sleep_pose_weight)
+		set_bone_angle(BONE_SHIN_RIGHT, 0.06, sleep_pose_weight)
+		set_bone_angle(BONE_UPPER_ARM_LEFT, -0.16, sleep_pose_weight)
+		set_bone_angle(BONE_UPPER_ARM_RIGHT, 0.16, sleep_pose_weight)
+		set_bone_angle(BONE_SPINE, 0.02, sleep_pose_weight)
+		position.y = lerpf(
+			position.y,
+			_base_position.y + 0.12,
+			1.0 - exp(-8.0 * delta)
+		)
 		return
 
 	var moving := horizontal_speed > 0.12

@@ -8,9 +8,15 @@ const MAX_NAME_TAG_CHARACTERS := 14
 @onready var indicator: MeshInstance3D = %Indicator
 @onready var status_label: Label3D = %StatusLabel
 @onready var name_tag_label: Label3D = %NameTagLabel
+@onready var bed_pivot: Node3D = %BedPivot
+@onready var sleep_surface_collision: CollisionShape3D = (
+	%SleepSurface.get_node("CollisionShape3D") as CollisionShape3D
+)
+@onready var sleep_pose: Marker3D = %SleepPose
 
 var _controller: BaseGameplayController
 var _indicator_material: StandardMaterial3D
+var _bed_target_angle := -PI * 0.5
 
 
 func _ready() -> void:
@@ -18,7 +24,16 @@ func _ready() -> void:
 		indicator.get_active_material(0).duplicate() as StandardMaterial3D
 	)
 	indicator.material_override = _indicator_material
+	set_process(true)
 	call_deferred("_bind_controller")
+
+
+func _process(delta: float) -> void:
+	bed_pivot.rotation.x = move_toward(
+		bed_pivot.rotation.x,
+		_bed_target_angle,
+		delta * 2.8
+	)
 
 
 func get_interaction_prompt() -> String:
@@ -35,8 +50,22 @@ func get_interaction_prompt() -> String:
 	if controller.get_player_slot(local_peer_id) != assigned_player_slot:
 		return "Койка другого игрока"
 	if controller.is_peer_ready_to_end_day(local_peer_id):
-		return "Отменить завершение дня"
-	return "Подтвердить завершение дня"
+		if controller.is_peer_sleeping(local_peer_id):
+			return "Вы уже легли спать"
+		return "Убрать готовность"
+	return "Подготовить койку"
+
+
+func get_sleep_interaction_prompt() -> String:
+	var controller := _get_controller()
+	var local_peer_id := multiplayer.get_unique_id()
+	if controller == null or controller.get_player_slot(local_peer_id) != assigned_player_slot:
+		return "Койка другого игрока"
+	if not controller.is_peer_ready_to_end_day(local_peer_id):
+		return "Сначала подготовьте койку"
+	if controller.is_peer_sleeping(local_peer_id):
+		return "Вы уже спите"
+	return "Лечь спать"
 
 
 func interact(interactor: Node) -> void:
@@ -54,12 +83,36 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		controller == null
 		or controller.get_player_slot(peer_id) != assigned_player_slot
+		or controller.is_peer_sleeping(peer_id)
 	):
 		return
 	controller.set_end_day_ready_authoritative(
 		peer_id,
 		not controller.is_peer_ready_to_end_day(peer_id)
 	)
+
+
+func network_sleep_interact(peer_id: int, interactor: Node) -> void:
+	if (
+		not multiplayer.is_server()
+		or interactor == null
+		or int(interactor.get("owner_peer_id")) != peer_id
+	):
+		return
+	var controller := _get_controller()
+	if (
+		controller == null
+		or controller.get_player_slot(peer_id) != assigned_player_slot
+		or not controller.is_peer_ready_to_end_day(peer_id)
+		or controller.is_peer_sleeping(peer_id)
+	):
+		return
+	if controller.set_peer_sleeping_authoritative(peer_id, true):
+		if interactor.has_method("enter_bunk_sleep_authoritative"):
+			interactor.call(
+				"enter_bunk_sleep_authoritative",
+				sleep_pose.global_transform
+			)
 
 
 func _bind_controller() -> void:
@@ -105,9 +158,16 @@ func _refresh_visuals() -> void:
 		is_available
 		and controller.is_peer_ready_to_end_day(assigned_peer_id)
 	)
+	var is_sleeping := (
+		is_ready and controller.is_peer_sleeping(assigned_peer_id)
+	)
+	_bed_target_angle = 0.0 if is_ready else -PI * 0.5
+	sleep_surface_collision.set_deferred("disabled", not is_ready or is_sleeping)
 
 	var color := Color(0.22, 0.25, 0.28, 1.0)
-	if is_ready:
+	if is_sleeping:
+		color = Color(0.18, 0.48, 1.0, 1.0)
+	elif is_ready:
 		color = Color(0.08, 0.95, 0.24, 1.0)
 	elif is_available:
 		color = Color(1.0, 0.55, 0.04, 1.0)
@@ -123,8 +183,10 @@ func _refresh_visuals() -> void:
 		name_tag_label.set_meta("full_player_name", "")
 	elif not is_available:
 		status_label.text = "ИГРОК %d: НЕДОСТУПНО" % player_number
+	elif is_sleeping:
+		status_label.text = "ИГРОК %d: СПИТ" % player_number
 	elif is_ready:
-		status_label.text = "ИГРОК %d: ГОТОВ" % player_number
+		status_label.text = "ИГРОК %d: ГОТОВ — ЛОЖИТЕСЬ" % player_number
 	else:
 		status_label.text = "ИГРОК %d: ОЖИДАНИЕ" % player_number
 	if assigned_peer_id > 0:

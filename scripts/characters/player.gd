@@ -107,6 +107,7 @@ var _flashlight_malfunctioning: bool = false
 var _battery_charge: float = 0.0
 var _displayed_battery_percent: int = -1
 var _is_crouching: bool = false
+var _is_sleeping_in_bunk: bool = false
 
 
 func setup(
@@ -158,6 +159,8 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_local_player():
+		return
+	if _is_sleeping_in_bunk or _is_journal_open():
 		return
 
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
@@ -234,7 +237,11 @@ func is_local_player() -> bool:
 
 
 func collect_local_input() -> void:
-	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+	if (
+		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
+		or _is_sleeping_in_bunk
+		or _is_journal_open()
+	):
 		_input_move = Vector2.ZERO
 		_input_sprint = false
 		_input_crouch = false
@@ -257,7 +264,11 @@ func collect_local_input() -> void:
 
 
 func collect_local_look(delta: float) -> void:
-	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+	if (
+		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
+		or _is_sleeping_in_bunk
+		or _is_journal_open()
+	):
 		return
 	var sensitivity_multiplier := GameMenu.get_mouse_sensitivity_multiplier()
 	var godot_look := Input.get_vector(
@@ -317,6 +328,7 @@ func update_local_view_motion(delta: float) -> void:
 
 
 func update_character_animation(delta: float) -> void:
+	body_animator.set_sleeping(_is_sleeping_in_bunk)
 	var is_remote_client_player := (
 		not multiplayer.is_server() and not is_local_player()
 	)
@@ -350,6 +362,7 @@ func update_character_animation(delta: float) -> void:
 		crouching,
 		animation_velocity.y
 	)
+	name_label.visible = not is_local_player() and not _is_sleeping_in_bunk
 	name_label.position.y = lerpf(
 		name_label.position.y,
 		1.55 if crouching else 2.05,
@@ -436,6 +449,13 @@ func _submit_input(
 
 
 func simulate_authoritative_movement(delta: float) -> void:
+	if _is_sleeping_in_bunk:
+		velocity = Vector3.ZERO
+		_server_consumed_jump_serial = _server_jump_serial
+		_server_consumed_flashlight_serial = _server_flashlight_serial
+		_server_consumed_interact_serial = _server_interact_serial
+		_server_consumed_drop_item_serial = _server_drop_item_serial
+		return
 	var should_jump := _server_jump_serial != _server_consumed_jump_serial
 	if should_jump:
 		_server_consumed_jump_serial = _server_jump_serial
@@ -488,6 +508,10 @@ func simulate_authoritative_movement(delta: float) -> void:
 
 
 func simulate_predicted_movement(delta: float) -> void:
+	if _is_sleeping_in_bunk:
+		velocity = Vector3.ZERO
+		_client_consumed_jump_serial = _jump_serial
+		return
 	var should_jump := _jump_serial != _client_consumed_jump_serial
 	if should_jump:
 		_client_consumed_jump_serial = _jump_serial
@@ -597,7 +621,12 @@ func try_authoritative_interaction() -> void:
 
 
 func refresh_interaction_prompt() -> void:
-	if not is_local_player() or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+	if (
+		not is_local_player()
+		or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
+		or _is_sleeping_in_bunk
+		or _is_journal_open()
+	):
 		interaction_prompt_label.visible = false
 		return
 
@@ -614,6 +643,11 @@ func refresh_interaction_prompt() -> void:
 	interaction_prompt_label.visible = true
 
 
+func _is_journal_open() -> bool:
+	var journal := get_node_or_null("/root/QuestJournal")
+	return journal != null and bool(journal.call("is_journal_open"))
+
+
 func teleport_authoritative(
 	next_global_position: Vector3,
 	next_yaw: float = 0.0
@@ -621,6 +655,51 @@ func teleport_authoritative(
 	if not multiplayer.is_server():
 		return
 	_receive_authoritative_teleport.rpc(next_global_position, next_yaw)
+
+
+func enter_bunk_sleep_authoritative(sleep_transform: Transform3D) -> void:
+	if multiplayer.is_server():
+		_receive_bunk_sleep_state.rpc(true, sleep_transform)
+
+
+func leave_bunk_sleep_authoritative(wake_transform: Transform3D) -> void:
+	if multiplayer.is_server():
+		_receive_bunk_sleep_state.rpc(false, wake_transform)
+
+
+func is_sleeping_in_bunk() -> bool:
+	return _is_sleeping_in_bunk
+
+
+@rpc("authority", "call_local", "reliable", 2)
+func _receive_bunk_sleep_state(
+	is_sleeping: bool,
+	target_transform: Transform3D
+) -> void:
+	_is_sleeping_in_bunk = is_sleeping
+	global_position = target_transform.origin
+	rotation.y = target_transform.basis.get_euler().y
+	velocity = Vector3.ZERO
+	_reconciliation_offset = Vector3.ZERO
+	_input_move = Vector2.ZERO
+	_server_move = Vector2.ZERO
+	_is_crouching = false
+	collision_shape.set_deferred(
+		"disabled",
+		is_sleeping or (not multiplayer.is_server() and not is_local_player())
+	)
+	if is_sleeping:
+		head.position = Vector3(0, 0.28, -1.22)
+		head.rotation = Vector3(-PI * 0.5, 0, 0)
+		_input_pitch = -PI * 0.5
+		_server_pitch = -PI * 0.5
+	else:
+		head.position = Vector3(0, standing_head_height, 0)
+		head.rotation = Vector3.ZERO
+		_input_yaw = rotation.y
+		_server_yaw = rotation.y
+		_input_pitch = 0.0
+		_server_pitch = 0.0
 
 
 @rpc("authority", "call_local", "reliable", 2)

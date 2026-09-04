@@ -11,6 +11,7 @@ const DIGITAL_GAMEPLAY_ACTIONS := {
 	&"interact": &"interact",
 	&"flashlight": &"flashlight",
 	&"drop_item": &"drop_item",
+	&"journal": &"journal",
 	&"sprint": &"sprint",
 	&"crouch": &"crouch",
 	&"pause": &"pause",
@@ -255,6 +256,7 @@ func _ensure_godot_joypad_fallback() -> void:
 	_add_joy_button(&"interact", JOY_BUTTON_X)
 	_add_joy_button(&"flashlight", JOY_BUTTON_Y)
 	_add_joy_button(&"drop_item", JOY_BUTTON_RIGHT_SHOULDER)
+	_add_joy_button(&"journal", JOY_BUTTON_BACK)
 	_add_joy_button(&"sprint", JOY_BUTTON_LEFT_STICK)
 	_add_joy_button(&"pause", JOY_BUTTON_START)
 	_add_joy_button(&"ui_accept", JOY_BUTTON_A)

@@ -39,6 +39,7 @@ func _run() -> void:
 		&"interact",
 		&"flashlight",
 		&"drop_item",
+		&"journal",
 		&"sprint",
 		&"crouch",
 		&"pause",
@@ -209,6 +210,29 @@ func _run() -> void:
 		"BaseGameplayController"
 	) as BaseGameplayController
 	_assert(controller != null, "BaseGameplayController must exist")
+	var quest_journal := root.get_node_or_null("QuestJournal")
+	_assert(quest_journal != null, "Shared quest journal must be autoloaded")
+	quest_journal.call("open_journal")
+	_assert(
+		bool(quest_journal.call("is_journal_open"))
+		and str(quest_journal.get_node(
+			"JournalRoot/NotebookPivot/Page/Margin/Content/ObjectiveLabel"
+		).text) == "Вернуть базу к жизни"
+		and str(quest_journal.get_node(
+			"JournalRoot/NotebookPivot/Page/Margin/Content/TasksLabel"
+		).text).contains("Заправить топливный бак"),
+		"Journal must show the shared Day 1 base objective"
+	)
+	var journal_escape := InputEventAction.new()
+	journal_escape.action = &"pause"
+	journal_escape.pressed = true
+	game_menu.call("_unhandled_input", journal_escape)
+	await create_timer(0.2).timeout
+	_assert(
+		not bool(quest_journal.call("is_journal_open"))
+		and not bool(game_menu.call("is_menu_open")),
+		"Escape must close the journal without opening the pause menu"
+	)
 	var day_one_collision_root := base_level.get_node_or_null(
 		"Floor_0_Base_Blockout/Day1_Door_Collisions"
 	) as Node3D
@@ -477,17 +501,54 @@ func _run() -> void:
 	)
 	_assert(
 		str(bunk_one.call("get_interaction_prompt"))
-		== "Подтвердить завершение дня",
-		"Powered first bunk must allow the solo player to confirm"
+		== "Подготовить койку",
+		"Powered first bunk must allow the solo player to prepare it"
+	)
+	_assert(
+		bunk_one.get_node_or_null("BedPivot/Pillow") != null,
+		"End-day bunk must include a pillow"
 	)
 	bunk_one.call("network_interact", 1, standalone_player)
 	await process_frame
-	await physics_frame
+	_assert(
+		controller.is_peer_ready_to_end_day(1)
+		and not controller.is_peer_sleeping(1)
+		and str(bunk_one.call("get_interaction_prompt")) == "Убрать готовность"
+		and str(bunk_one.call("get_sleep_interaction_prompt")) == "Лечь спать",
+		"Prepared bunk must offer sleep separately from readiness cancellation"
+	)
+	bunk_one.call("network_interact", 1, standalone_player)
+	_assert(
+		not controller.is_peer_ready_to_end_day(1),
+		"Prepared player must be able to cancel readiness from the panel"
+	)
+	bunk_one.call("network_interact", 1, standalone_player)
+	bunk_one.call("network_sleep_interact", 1, standalone_player)
+	_assert(
+		controller.is_peer_sleeping(1)
+		and bool(standalone_player.call("is_sleeping_in_bunk")),
+		"Solo player must enter the bunk sleep pose"
+	)
+	var flashlight_serial_before_sleep_input := int(
+		standalone_player.get("_flashlight_serial")
+	)
+	var sleeping_flashlight_input := InputEventAction.new()
+	sleeping_flashlight_input.action = &"flashlight"
+	sleeping_flashlight_input.pressed = true
+	standalone_player.call("_unhandled_input", sleeping_flashlight_input)
+	_assert(
+		int(standalone_player.get("_flashlight_serial"))
+		== flashlight_serial_before_sleep_input,
+		"Sleeping player must ignore flashlight input instead of buffering it"
+	)
+	await create_timer(1.25).timeout
 	_assert(
 		controller.day_index == 2
 		and controller.phase == BaseGameplayController.BasePhase.ACTIVE_DAY
-		and controller.end_day_ready_peer_ids.is_empty(),
-		"Solo confirmation must finish the sleep and begin Day 2"
+		and controller.end_day_ready_peer_ids.is_empty()
+		and controller.sleeping_peer_ids.is_empty()
+		and not bool(standalone_player.call("is_sleeping_in_bunk")),
+		"Solo sleep must finish, wake the player and begin Day 2"
 	)
 	for collision_shape in day_one_collision_shapes:
 		_assert(
@@ -509,7 +570,8 @@ func _run() -> void:
 		== int(BaseGameplayController.BasePhase.ACTIVE_DAY)
 		and bool(saved_snapshot.get("fuel_delivered", false))
 		and bool(saved_snapshot.get("main_breaker_on", false))
-		and (saved_snapshot.get("end_day_ready_peer_ids", []) as Array).is_empty(),
+		and (saved_snapshot.get("end_day_ready_peer_ids", []) as Array).is_empty()
+		and (saved_snapshot.get("sleeping_peer_ids", []) as Array).is_empty(),
 		"Saved checkpoint must restore Day 2 without transient ready flags"
 	)
 	var reload_host := Node.new()
@@ -601,11 +663,17 @@ func _run() -> void:
 		"One confirmation must not satisfy a two-player ready gate"
 	)
 	bunk_two.call("network_interact", 2, second_interactor)
-	await process_frame
-	await physics_frame
+	bunk_one.call("network_sleep_interact", 1, standalone_player)
+	bunk_two.call("network_sleep_interact", 2, second_interactor)
+	_assert(
+		controller.are_all_connected_players_sleeping(),
+		"Both prepared co-op players must be able to lie down"
+	)
+	await create_timer(1.25).timeout
 	_assert(
 		controller.day_index == 2
-		and controller.end_day_ready_peer_ids.is_empty(),
+		and controller.end_day_ready_peer_ids.is_empty()
+		and controller.sleeping_peer_ids.is_empty(),
 		"Both connected players must finish the co-op sleep"
 	)
 	_assert(
@@ -623,6 +691,7 @@ func _run() -> void:
 			"fuel_delivered": false,
 			"main_breaker_on": false,
 			"end_day_ready_peer_ids": [],
+			"sleeping_peer_ids": [],
 		},
 		"Reset snapshot must be canonical"
 	)
@@ -800,11 +869,17 @@ func _run() -> void:
 		"Network host readiness must wait for the second connected player"
 	)
 	network_bunk_two.call("network_interact", 5, second_network_player)
-	await process_frame
-	await physics_frame
+	network_bunk_one.call("network_sleep_interact", 1, network_player)
+	network_bunk_two.call("network_sleep_interact", 5, second_network_player)
+	_assert(
+		network_base_controller.are_all_connected_players_sleeping(),
+		"Network sleep must wait until both prepared players lie down"
+	)
+	await create_timer(1.25).timeout
 	_assert(
 		network_base_controller.day_index == 2
-		and network_base_controller.end_day_ready_peer_ids.is_empty(),
+		and network_base_controller.end_day_ready_peer_ids.is_empty()
+		and network_base_controller.sleeping_peer_ids.is_empty(),
 		"Both network players must advance the authoritative state to Day 2"
 	)
 	_assert(
