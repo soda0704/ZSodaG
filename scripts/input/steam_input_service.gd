@@ -2,6 +2,9 @@ class_name SteamInputService
 extends Node
 
 signal availability_changed(is_available: bool)
+signal input_device_changed
+
+const STEAM_EVENT_DEVICE := -77
 
 const MANIFEST_PATH := "res://game_actions_480.vdf"
 const GAMEPLAY_ACTION_SET := &"Gameplay"
@@ -10,6 +13,7 @@ const DIGITAL_GAMEPLAY_ACTIONS := {
 	&"jump": &"jump",
 	&"interact": &"interact",
 	&"flashlight": &"flashlight",
+	&"replace_battery": &"replace_battery",
 	&"drop_item": &"drop_item",
 	&"journal": &"journal",
 	&"sprint": &"sprint",
@@ -36,6 +40,9 @@ var _digital_action_handles: Dictionary = {}
 var _emitted_action_states: Dictionary = {}
 var _using_menu_action_set: bool = true
 var _known_controller_handles: Array = []
+var using_controller: bool = false
+var controller_family: String = "playstation"
+var _recent_controller_presses: Dictionary = {}
 
 
 func _ready() -> void:
@@ -77,6 +84,72 @@ func _process(_delta: float) -> void:
 		_release_all_actions()
 		_activate_current_action_set()
 	_poll_digital_actions()
+
+
+func _input(event: InputEvent) -> void:
+	if is_controller_event(event):
+		if (event is InputEventJoypadMotion and absf(event.axis_value) < 0.25) or not (event is InputEventJoypadMotion or event.is_pressed()):
+			return
+		# DualSense-first glyphs also when Steam exposes it as virtual XInput.
+		controller_family = str(ProjectSettings.get_setting("northern_lab/input/controller_glyphs", "playstation"))
+		_set_using_controller(true)
+		# Some Steam configurations expose both a native action and its raw
+		# button. Consume only cross-source duplicates, not quick repeat taps.
+		if event.is_pressed():
+			for action: StringName in DIGITAL_GAMEPLAY_ACTIONS.values() + DIGITAL_MENU_ACTIONS.values():
+				if not event.is_action_pressed(action):
+					continue
+				var native := event.device == STEAM_EVENT_DEVICE
+				var previous: Dictionary = _recent_controller_presses.get(action, {})
+				var now := Time.get_ticks_msec()
+				if not previous.is_empty() and bool(previous.native) != native and now - int(previous.time) < 80:
+					get_viewport().set_input_as_handled()
+					return
+				_recent_controller_presses[action] = {"native": native, "time": now}
+	elif (event is InputEventKey and event.pressed) or (event is InputEventMouseButton and event.pressed) or (event is InputEventMouseMotion and event.relative.length() > 2.0):
+		_set_using_controller(false)
+
+
+func is_controller_event(event: InputEvent) -> bool:
+	return event is InputEventJoypadButton or event is InputEventJoypadMotion or (event is InputEventAction and event.device == STEAM_EVENT_DEVICE)
+
+
+func _set_using_controller(value: bool) -> void:
+	if using_controller == value:
+		return
+	using_controller = value
+	input_device_changed.emit()
+
+
+func get_action_hint(action: StringName) -> String:
+	if using_controller:
+		var ps := controller_family == "playstation"
+		var labels := {
+			&"interact": "□" if ps else "X",
+			&"jump": "×" if ps else "A",
+			&"crouch": "○" if ps else "B",
+			&"ui_cancel": "○" if ps else "B",
+			&"ui_accept": "×" if ps else "A",
+			&"flashlight": "△" if ps else "Y",
+			&"sprint": "L3" if ps else "LS",
+			&"journal": "Touchpad / Create" if ps else "View",
+			&"pause": "Options" if ps else "Menu",
+			&"replace_battery": "↑",
+			&"drop_item": "↓",
+		}
+		return "[%s]" % labels.get(action, str(action))
+	if InputMap.has_action(action):
+		for event in InputMap.action_get_events(action):
+			if event is InputEventKey:
+				return "[%s]" % OS.get_keycode_string(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
+	return "[Esc]" if action == &"ui_cancel" else "[%s]" % str(action)
+
+
+func get_controls_hint() -> String:
+	return "%s действие · %s прыжок · %s бег%s · %s присесть\n%s достать / убрать фонарик · %s батарейка · %s бросить из рук" % [
+		get_action_hint(&"interact"), get_action_hint(&"jump"), get_action_hint(&"sprint"),
+		" (нажатие)" if using_controller else " (удерживать)", get_action_hint(&"crouch"),
+		get_action_hint(&"flashlight"), get_action_hint(&"replace_battery"), get_action_hint(&"drop_item")]
 
 
 func initialize_native_input() -> bool:
@@ -178,6 +251,8 @@ func _read_analog_action(action_handle: int) -> Vector2:
 		)
 		if value.length_squared() > strongest_value.length_squared():
 			strongest_value = value
+	if strongest_value.length() > 0.25:
+		_set_using_controller(true)
 	return strongest_value
 
 
@@ -213,6 +288,7 @@ func _emit_action_state(action: StringName, is_pressed: bool) -> void:
 		return
 	_emitted_action_states[action] = is_pressed
 	var event := InputEventAction.new()
+	event.device = STEAM_EVENT_DEVICE
 	event.action = action
 	event.pressed = is_pressed
 	event.strength = 1.0 if is_pressed else 0.0
@@ -255,8 +331,14 @@ func _ensure_godot_joypad_fallback() -> void:
 	_add_joy_button(&"crouch", JOY_BUTTON_B)
 	_add_joy_button(&"interact", JOY_BUTTON_X)
 	_add_joy_button(&"flashlight", JOY_BUTTON_Y)
-	_add_joy_button(&"drop_item", JOY_BUTTON_RIGHT_SHOULDER)
+	_add_joy_button(&"replace_battery", JOY_BUTTON_DPAD_UP)
+	var battery_key := InputEventKey.new()
+	battery_key.physical_keycode = KEY_R
+	if not InputMap.action_has_event(&"replace_battery", battery_key):
+		InputMap.action_add_event(&"replace_battery", battery_key)
+	_add_joy_button(&"drop_item", JOY_BUTTON_DPAD_DOWN)
 	_add_joy_button(&"journal", JOY_BUTTON_BACK)
+	_add_joy_button(&"journal", JOY_BUTTON_TOUCHPAD)
 	_add_joy_button(&"sprint", JOY_BUTTON_LEFT_STICK)
 	_add_joy_button(&"pause", JOY_BUTTON_START)
 	_add_joy_button(&"ui_accept", JOY_BUTTON_A)

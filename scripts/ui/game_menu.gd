@@ -69,6 +69,8 @@ var _transition_in_progress: bool = false
 var _settings_return_to_main_scene: bool = false
 var _settings_data: Dictionary = {}
 var _mouse_sensitivity_multiplier: float = 1.0
+var _host_choice: ConfirmationDialog
+var _host_reset: ConfirmationDialog
 
 
 func _ready() -> void:
@@ -222,7 +224,8 @@ func is_lobby_gate_active() -> bool:
 	]
 
 
-func start_standalone_flow() -> void:
+func start_standalone_flow(resume_checkpoint: bool = false) -> void:
+	BaseGameplayController.save_scope = "solo"
 	_transition_in_progress = true
 	menu_root.visible = false
 	get_tree().paused = false
@@ -243,6 +246,8 @@ func start_standalone_flow() -> void:
 		"start_standalone_game"
 	):
 		gameplay_controller.call("start_standalone_game")
+		if resume_checkpoint:
+			await gameplay_controller.call("_enter_v3_level")
 	_transition_in_progress = false
 
 
@@ -635,6 +640,53 @@ func _on_host_pressed() -> void:
 func start_host_flow() -> void:
 	if _transition_in_progress:
 		return
+	# Explicitly choose the co-op checkpoint without touching the solo slot.
+	var previous_scope := BaseGameplayController.save_scope
+	BaseGameplayController.save_scope = "coop"
+	var summary := BaseGameplayController.get_saved_progress_summary()
+	var has_save := BaseGameplayController.has_progress_save_file()
+	BaseGameplayController.save_scope = previous_scope
+	if not has_save:
+		_begin_host_session(false)
+		return
+	if not is_instance_valid(_host_choice):
+		_host_choice = ConfirmationDialog.new()
+		_host_choice.title = "Кооперативная экспедиция"
+		_host_choice.ok_button_text = "Продолжить"
+		_host_choice.cancel_button_text = "Отмена"
+		_host_choice.add_button("Новая кооп-игра", true, "new")
+		_host_choice.confirmed.connect(_begin_host_session.bind(true))
+		_host_choice.custom_action.connect(_confirm_new_coop_game)
+		add_child(_host_choice)
+	_host_choice.dialog_text = (
+		"Кооп-checkpoint: день %d. Одиночный прогресс хранится отдельно." % int(summary.get("day_index", 1))
+		if not summary.is_empty() else "Кооп-checkpoint повреждён. Можно начать новую кооп-игру."
+	)
+	_host_choice.get_ok_button().disabled = summary.is_empty()
+	_host_choice.popup_centered()
+
+
+func _confirm_new_coop_game(_action: StringName) -> void:
+	_host_choice.hide()
+	if not is_instance_valid(_host_reset):
+		_host_reset = ConfirmationDialog.new()
+		_host_reset.title = "Новая кооп-игра"
+		_host_reset.dialog_text = "Удалить кооп-checkpoint и начать заново? Одиночное сохранение останется."
+		_host_reset.ok_button_text = "Начать заново"
+		_host_reset.cancel_button_text = "Отмена"
+		_host_reset.confirmed.connect(_begin_host_session.bind(false))
+		add_child(_host_reset)
+	_host_reset.popup_centered()
+
+
+func _begin_host_session(resume_checkpoint: bool) -> void:
+	if _transition_in_progress:
+		return
+	BaseGameplayController.save_scope = "coop"
+	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
+		open_menu(MenuView.MAIN)
+		feedback_label.text = "Не удалось очистить кооп-checkpoint."
+		return
 
 	_transition_in_progress = true
 	feedback_label.text = "Открываем сетевую тестовую комнату..."
@@ -645,6 +697,8 @@ func start_host_flow() -> void:
 	if not scene_ready:
 		session_status_label.text = "Не удалось открыть сетевую комнату."
 		return
+	var controller := get_tree().current_scene
+	controller.set("resume_base_on_start", resume_checkpoint)
 
 	session_status_label.text = "Создаём Steam-лобби..."
 	if not SteamNetwork.create_friends_lobby():
@@ -698,7 +752,9 @@ func ensure_network_scene() -> bool:
 		current_scene != null
 		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
 	):
-		return true
+		# A running standalone world or previous Steam session must not be reused.
+		if get_tree().get_first_node_in_group("local_player") == null:
+			return true
 
 	menu_root.visible = false
 	get_tree().paused = false
@@ -723,7 +779,7 @@ func _on_invite_pressed() -> void:
 	if not SteamNetwork.is_overlay_enabled():
 		feedback_label.text = (
 			"Steam API работает, но Overlay не подключён к процессу игры. "
-			+ "Добавьте прямой NorthernLab.lnk в библиотеку Steam и "
+			+ "Добавьте build/windows-dev/NorthernLab.exe в библиотеку Steam и "
 			+ "запустите игру оттуда. Пока можно отправить другу Lobby ID."
 		)
 		return
@@ -773,6 +829,9 @@ func _on_return_to_main_menu_pressed() -> void:
 func return_to_main_menu(reason: String = "") -> void:
 	if _transition_in_progress:
 		return
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("save_inventory_checkpoint"):
+		world.call("save_inventory_checkpoint")
 	_transition_in_progress = true
 	menu_root.visible = false
 	get_tree().paused = false

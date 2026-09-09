@@ -158,7 +158,9 @@ func request_call(destination_floor_index: int) -> bool:
 func set_day(day_index: int) -> void:
 	if not multiplayer.is_server():
 		return
-	_apply_unlocked_floor.rpc(clampi(day_index - 1, 0, MAX_FLOOR_INDEX))
+	var next_floor := clampi(day_index - 1, 0, MAX_FLOOR_INDEX)
+	if next_floor != unlocked_floor_index:
+		_apply_unlocked_floor.rpc(next_floor)
 
 
 func set_powered(value: bool) -> void:

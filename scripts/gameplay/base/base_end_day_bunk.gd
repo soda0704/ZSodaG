@@ -45,6 +45,8 @@ func get_interaction_prompt() -> String:
 		BaseGameplayController.BasePhase.ENDING_DAY,
 	]:
 		return "Сначала восстановите питание"
+	if not controller.can_end_current_day():
+		return "Сначала доставьте ключ на базу" if controller.day_index == 2 else "Конец доступного прототипа"
 
 	var local_peer_id := multiplayer.get_unique_id()
 	if controller.get_player_slot(local_peer_id) != assigned_player_slot:

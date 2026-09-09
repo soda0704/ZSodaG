@@ -53,6 +53,9 @@ var _bob_phase: float = 0.0
 var _look_rotation: Vector3 = Vector3.ZERO
 var _lens_material: StandardMaterial3D
 var _flicker_step: int = 0
+var _equip_tween: Tween
+var _equipped: bool = false
+var _equip_offset: float = 0.0
 
 
 func _ready() -> void:
@@ -130,6 +133,28 @@ func set_available(value: bool, emit_signal: bool = true) -> void:
 
 	if emit_signal:
 		availability_changed.emit(is_available)
+
+
+func set_equipped(value: bool) -> void:
+	if value == _equipped:
+		return
+	_equipped = value
+	if _equip_tween != null and _equip_tween.is_valid():
+		_equip_tween.kill()
+	set_available(true, false)
+	if value:
+		_equip_offset = 0.28
+	else:
+		set_enabled(false, false)
+	_equip_tween = create_tween()
+	_equip_tween.tween_method(_set_equip_offset, _equip_offset, 0.0 if value else 0.28, 0.18)
+	if not value:
+		_equip_tween.tween_callback(func(): set_available(false, false))
+
+
+func _set_equip_offset(value: float) -> void:
+	_equip_offset = value
+	position.y = _rest_position.y - value
 
 
 func set_enabled(value: bool, emit_signal: bool = true) -> void:
@@ -310,7 +335,7 @@ func update_motion(
 	var look_return_weight := 1.0 - exp(-look_return_speed * delta)
 	_look_rotation = _look_rotation.lerp(Vector3.ZERO, look_return_weight)
 
-	var target_position := _rest_position + bob_position
+	var target_position := _rest_position + bob_position + Vector3.DOWN * _equip_offset
 	var target_rotation := _rest_rotation + bob_rotation + _look_rotation
 	var smoothing_weight := 1.0 - exp(-motion_smoothing * delta)
 

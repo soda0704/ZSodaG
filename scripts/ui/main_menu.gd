@@ -20,6 +20,7 @@ var _transition_in_progress: bool = false
 
 
 func _ready() -> void:
+	BaseGameplayController.save_scope = "solo"
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	GameMenu.force_close_menu()
 
@@ -108,7 +109,7 @@ func _on_continue_game_pressed() -> void:
 	):
 		return
 	await begin_transition("ЗАГРУЗКА СОХРАНЁННОЙ ЭКСПЕДИЦИИ...")
-	GameMenu.start_standalone_flow()
+	GameMenu.start_standalone_flow(true)
 
 
 func _start_new_game() -> void:
@@ -161,7 +162,6 @@ func _on_host_pressed() -> void:
 	if _transition_in_progress or not SteamNetwork.steam_available:
 		return
 	status_label.text = "СОЗДАНИЕ STEAM-ЛОББИ..."
-	set_menu_enabled(false)
 	GameMenu.start_host_flow()
 
 

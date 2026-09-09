@@ -21,7 +21,12 @@ const FIRST_DAY := 1
 const MAX_PLAYERS := 2
 const SAVE_VERSION := 1
 const DEFAULT_SAVE_PATH := "user://base_gameplay_state.cfg"
+const COOP_SAVE_PATH := "user://base_gameplay_state_coop.cfg"
 const TEST_SAVE_PATH_SETTING := "northern_lab/testing/base_save_path"
+static var save_scope: String = "solo"
+
+enum QuestStage { UNAVAILABLE, OFFERED, ACCEPTED, COLLECTED, DELIVERED }
+var quest_stage: QuestStage = QuestStage.UNAVAILABLE
 
 @export_range(1, 5, 1) var starting_day_index: int = FIRST_DAY
 
@@ -32,6 +37,7 @@ var main_breaker_on: bool = false
 var end_day_ready_peer_ids: Array[int] = []
 var sleeping_peer_ids: Array[int] = []
 var _end_day_consensus_announced: bool = false
+var inventory_checkpoint: Dictionary = {}
 
 
 func _ready() -> void:
@@ -118,6 +124,7 @@ func set_end_day_ready_authoritative(peer_id: int, is_ready: bool) -> bool:
 	if (
 		not _can_mutate_for_peer(peer_id)
 		or phase not in [BasePhase.ACTIVE_DAY, BasePhase.ENDING_DAY]
+		or (is_ready and not can_end_current_day())
 	):
 		return false
 
@@ -145,6 +152,28 @@ func set_end_day_ready_authoritative(peer_id: int, is_ready: bool) -> bool:
 			next_sleeping_peer_ids
 		)
 	)
+	return true
+
+
+func can_end_current_day() -> bool:
+	return main_breaker_on and (
+		day_index == 1
+		or (day_index == 2 and quest_stage == QuestStage.DELIVERED)
+	)
+
+
+func advance_quest_authoritative(peer_id: int, expected_stage: QuestStage) -> bool:
+	if (
+		not _can_mutate_for_peer(peer_id)
+		or day_index != 2
+		or not main_breaker_on
+		or quest_stage != expected_stage
+		or expected_stage not in [QuestStage.OFFERED, QuestStage.ACCEPTED, QuestStage.COLLECTED]
+	):
+		return false
+	var snapshot := get_snapshot()
+	snapshot["quest_stage"] = int(quest_stage) + 1
+	_broadcast_snapshot(snapshot)
 	return true
 
 
@@ -250,6 +279,7 @@ func advance_day_authoritative() -> bool:
 		not multiplayer.is_server()
 		or not are_all_connected_players_sleeping()
 		or day_index >= 5
+		or not can_end_current_day()
 	):
 		return false
 	_broadcast_snapshot(
@@ -270,6 +300,12 @@ func save_progress_authoritative() -> bool:
 		return false
 	var config := ConfigFile.new()
 	var snapshot := _make_persistent_snapshot()
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("capture_inventory_checkpoint"):
+		var captured: Dictionary = world.call("capture_inventory_checkpoint")
+		if not captured.is_empty():
+			inventory_checkpoint = captured
+	config.set_value("inventory", "checkpoint", inventory_checkpoint)
 	config.set_value("save", "version", SAVE_VERSION)
 	for key in snapshot:
 		config.set_value("base", str(key), snapshot[key])
@@ -290,6 +326,7 @@ func load_saved_snapshot() -> Dictionary:
 		return {}
 	if int(config.get_value("save", "version", 0)) != SAVE_VERSION:
 		return {}
+	inventory_checkpoint = config.get_value("inventory", "checkpoint", {}) as Dictionary
 	var saved_fuel := bool(config.get_value("base", "fuel_delivered", false))
 	var saved_power := bool(config.get_value("base", "main_breaker_on", false))
 	var saved_phase := clampi(
@@ -297,7 +334,7 @@ func load_saved_snapshot() -> Dictionary:
 		BasePhase.ARRIVAL,
 		BasePhase.ACTIVE_DAY
 	) as BasePhase
-	return _make_snapshot(
+	var snapshot := _make_snapshot(
 		int(config.get_value("base", "day_index", FIRST_DAY)),
 		saved_phase,
 		saved_fuel,
@@ -305,6 +342,8 @@ func load_saved_snapshot() -> Dictionary:
 		[],
 		[]
 	)
+	snapshot["quest_stage"] = int(config.get_value("base", "quest_stage", 0))
+	return snapshot
 
 
 func clear_saved_progress_authoritative() -> bool:
@@ -354,7 +393,7 @@ static func delete_progress_save() -> bool:
 static func get_progress_save_path() -> String:
 	return str(ProjectSettings.get_setting(
 		TEST_SAVE_PATH_SETTING,
-		DEFAULT_SAVE_PATH
+		COOP_SAVE_PATH if save_scope == "coop" else DEFAULT_SAVE_PATH
 	))
 
 
@@ -394,6 +433,11 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 	main_breaker_on = (
 		bool(snapshot.get("main_breaker_on", false)) and fuel_delivered
 	)
+	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
+	if day_index == 1:
+		quest_stage = QuestStage.UNAVAILABLE
+	elif quest_stage == QuestStage.UNAVAILABLE:
+		quest_stage = QuestStage.OFFERED
 	end_day_ready_peer_ids = _normalize_peer_ids(
 		snapshot.get("end_day_ready_peer_ids", []) as Array
 	)
@@ -433,6 +477,7 @@ func _make_snapshot(
 		"main_breaker_on": next_main_breaker_on and next_fuel_delivered,
 		"end_day_ready_peer_ids": _normalize_peer_ids(next_ready_peer_ids),
 		"sleeping_peer_ids": _normalize_peer_ids(next_sleeping_peer_ids),
+		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
 	}
 
 
@@ -526,11 +571,13 @@ func _on_peer_left(peer_id: int) -> void:
 	var next_sleeping_peer_ids := sleeping_peer_ids.duplicate()
 	next_ready_peer_ids.erase(peer_id)
 	next_sleeping_peer_ids.erase(peer_id)
-	var next_phase := (
-		BasePhase.ENDING_DAY
-		if not next_ready_peer_ids.is_empty()
-		else BasePhase.ACTIVE_DAY
-	)
+	var next_phase := phase
+	if phase == BasePhase.ENDING_DAY:
+		next_phase = (
+			BasePhase.ENDING_DAY
+			if not next_ready_peer_ids.is_empty()
+			else BasePhase.ACTIVE_DAY
+		)
 	_broadcast_snapshot(
 		_make_snapshot(
 			day_index,
@@ -551,7 +598,9 @@ func _on_peer_joined(_peer_id: int) -> void:
 
 func _refresh_roster_dependent_state() -> void:
 	if multiplayer.is_server():
-		_apply_snapshot(get_snapshot(), true)
+		# Roster refresh only needs snapshot_changed (bunks/journal). Re-emitting
+		# day_changed sends elevator RPCs before a joining peer has loaded V3.
+		_apply_snapshot(get_snapshot())
 		_update_end_day_consensus_signal()
 
 

@@ -20,7 +20,7 @@ size = Vector3(6.8, 0.4, 0.4)
 size = Vector3(0.4, 0.4, 6.8)
 
 [sub_resource type="BoxShape3D" id="Shape_cabin_floor"]
-size = Vector3(6, 0.05, 6)
+size = Vector3(6, 0.35, 6)
 
 [sub_resource type="BoxShape3D" id="Shape_cabin_side_wall"]
 size = Vector3(6, 4, 0.3)
@@ -166,7 +166,7 @@ unique_name_in_owner = true
 [node name="CabinVisualArt" parent="CabinMoving" unique_id=1929044872 instance=ExtResource("4_cabin_art")]
 
 [node name="FloorCollision" type="CollisionShape3D" parent="CabinMoving" unique_id=711339735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 shape = SubResource("Shape_cabin_floor")
 
 [node name="NorthWallCollision" type="CollisionShape3D" parent="CabinMoving" unique_id=336326254]

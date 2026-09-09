@@ -28,7 +28,9 @@ enum SessionState {
 const DEFAULT_APP_ID := 480
 const DEFAULT_MAX_MEMBERS := 2
 const DEFAULT_LOBBY_TAG := "northern_lab_story_coop_v1"
-const NETWORK_VERSION := "1"
+const NETWORK_VERSION := "2"
+const BUILD_ID_PATH := "res://network_build.cfg"
+var _build_identity: String = ""
 const STEAM_API_INIT_RESULT_OK := 0
 const STEAM_RESULT_OK := 1
 const CHAT_ROOM_ENTER_SUCCESS := 1
@@ -266,6 +268,14 @@ func get_peer_persona_name(peer_id: int) -> String:
 	return get_persona_name(steam_id)
 
 
+func get_peer_inventory_id(peer_id: int) -> String:
+	if _peer != null:
+		var steam_id := int(_peer.call("get_steam_id_for_peer_id", peer_id))
+		if steam_id > 0:
+			return "steam:%d" % steam_id
+	return "peer:%d" % peer_id
+
+
 func get_persona_name(steam_id: int) -> String:
 	if steam_id == local_steam_id:
 		return local_user_name
@@ -284,6 +294,46 @@ func get_lobby_tag() -> String:
 			"network/steam/lobby_tag",
 			DEFAULT_LOBBY_TAG
 		)
+	)
+
+
+func get_build_identity() -> String:
+	if not _build_identity.is_empty():
+		return _build_identity
+	if OS.has_feature("editor") and FileAccess.file_exists("res://project.godot"):
+		_build_identity = compute_source_identity()
+	else:
+		var config := ConfigFile.new()
+		if config.load(BUILD_ID_PATH) == OK:
+			_build_identity = str(config.get_value("build", "identity", ""))
+	return _build_identity
+
+
+static func compute_source_identity() -> String:
+	var paths: Array[String] = ["res://project.godot", "res://game_actions_480.vdf"]
+	_collect_identity_paths("res://scripts", paths)
+	_collect_identity_paths("res://scenes", paths)
+	paths.sort()
+	var context := HashingContext.new()
+	context.start(HashingContext.HASH_SHA256)
+	for path in paths:
+		context.update(path.to_utf8_buffer())
+		context.update(FileAccess.get_file_as_string(path).replace("\r\n", "\n").to_utf8_buffer())
+	return context.finish().hex_encode()
+
+
+static func _collect_identity_paths(directory: String, paths: Array[String]) -> void:
+	for file in DirAccess.get_files_at(directory):
+		if file.get_extension() in ["gd", "tscn", "tres"]:
+			paths.append(directory.path_join(file))
+	for child in DirAccess.get_directories_at(directory):
+		_collect_identity_paths(directory.path_join(child), paths)
+
+
+func is_compatible_lobby(tag: String, protocol: String, identity: String) -> bool:
+	return (
+		tag == get_lobby_tag() and protocol == NETWORK_VERSION
+		and not identity.is_empty() and identity == get_build_identity()
 	)
 
 
@@ -363,6 +413,7 @@ func _on_lobby_created(connect_status: int, new_lobby_id: int) -> void:
 	lobby_id = new_lobby_id
 	_steam.call("setLobbyData", lobby_id, "game_tag", get_lobby_tag())
 	_steam.call("setLobbyData", lobby_id, "network_version", NETWORK_VERSION)
+	_steam.call("setLobbyData", lobby_id, "build_identity", get_build_identity())
 	_steam.call("setLobbyData", lobby_id, "game_mode", "story_coop")
 	_steam.call(
 		"setLobbyData",
@@ -389,6 +440,13 @@ func _on_lobby_joined(
 	lobby_id = joined_lobby_id
 	var owner_steam_id := int(_steam.call("getLobbyOwner", lobby_id))
 	is_host = owner_steam_id == local_steam_id
+	if not is_host and not is_compatible_lobby(
+		str(_steam.call("getLobbyData", lobby_id, "game_tag")),
+		str(_steam.call("getLobbyData", lobby_id, "network_version")),
+		str(_steam.call("getLobbyData", lobby_id, "build_identity"))
+	):
+		fail_session("Несовместимая сборка. Оба игрока должны обновить проект и пересобрать игру через NorthernLab.cmd.")
+		return
 	lobby_entered.emit(lobby_id, is_host)
 	lobby_members_changed.emit(get_lobby_members())
 

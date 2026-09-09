@@ -80,6 +80,65 @@ var _v3_spawn_yaws := PackedFloat32Array()
 var _base_gameplay_controller: BaseGameplayController
 var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
+var resume_base_on_start: bool = false
+var _inventory_save_elapsed: float = 0.0
+
+
+func _process(delta: float) -> void:
+	if multiplayer.is_server() and _v3_items_spawned:
+		_inventory_save_elapsed += delta
+		if _inventory_save_elapsed >= 5.0:
+			_inventory_save_elapsed = 0.0
+			save_inventory_checkpoint()
+
+
+func save_inventory_checkpoint() -> void:
+	if multiplayer.is_server() and _v3_items_spawned and is_instance_valid(_base_gameplay_controller):
+		_base_gameplay_controller.save_progress_authoritative()
+
+
+func _inventory_id(peer_id: int) -> String:
+	return "solo" if _standalone_mode and peer_id == multiplayer.get_unique_id() else SteamNetwork.get_peer_inventory_id(peer_id)
+
+
+func capture_inventory_checkpoint() -> Dictionary:
+	if not _v3_items_spawned or not is_instance_valid(world_items):
+		return {}
+	var equipment: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {}).duplicate(true)
+	for player in players.get_children():
+		if not player.is_queued_for_deletion():
+			equipment[_inventory_id(int(player.owner_peer_id))] = player.get_inventory_snapshot()
+	var pickups: Array[Dictionary] = []
+	for pickup in world_items.get_children():
+		if pickup.is_queued_for_deletion() or bool(pickup.get("_collected")):
+			continue
+		if pickup.item_type == GamePlayer.FUEL_ITEM and _base_gameplay_controller.fuel_delivered:
+			continue
+		var item_transform: Transform3D = pickup.global_transform
+		var in_cabin := false
+		if is_instance_valid(_v3_elevator_controller):
+			var local: Vector3 = _v3_elevator_controller.cabin.to_local(item_transform.origin)
+			in_cabin = absf(local.x) < 2.7 and absf(local.z) < 2.7 and local.y > -0.2 and local.y < 4.0
+			if in_cabin:
+				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
+		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
+	return {"players": equipment, "pickups": pickups}
+
+
+func _restore_player_equipment(player: Node) -> void:
+	if not multiplayer.is_server() or not is_instance_valid(_base_gameplay_controller):
+		return
+	var saved_players: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {})
+	var key := _inventory_id(int(player.owner_peer_id))
+	if saved_players.has(key):
+		var data: Dictionary = saved_players[key].duplicate(true)
+		data["revision"] = int(player.get("_inventory_revision")) + 1
+		# Resume with the flashlight safely pocketed and switched off.
+		if StringName(data.get("held_item", &"")) == &"flashlight":
+			data["held_item"] = &""
+		data["flashlight_enabled"] = false
+		data["malfunctioning"] = false
+		player.apply_inventory_snapshot(data)
 
 
 func _ready() -> void:
@@ -203,6 +262,10 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 		float(spawn_data.get("yaw", 0.0))
 	)
 	players.add_child(player)
+	if _v3_items_spawned:
+		_restore_player_equipment(player)
+	if spawn_data.has("inventory"):
+		player.apply_inventory_snapshot(spawn_data["inventory"])
 
 
 func send_player_roster(peer_id: int) -> void:
@@ -218,6 +281,7 @@ func send_player_roster(peer_id: int) -> void:
 		var player := players.get_node_or_null(str(roster_peer_id)) as GamePlayer
 		if player != null:
 			spawn_data["position"] = player.position
+			spawn_data["inventory"] = player.get_inventory_snapshot()
 		roster.append(spawn_data)
 	_receive_player_roster.rpc_id(peer_id, roster)
 
@@ -285,6 +349,9 @@ func get_peer_spawn_index(peer_id: int) -> int:
 
 func _on_gameplay_started() -> void:
 	if not uses_staging_lobby or not multiplayer.is_server():
+		return
+	if resume_base_on_start:
+		_enter_v3_level.rpc()
 		return
 
 	spawn_initial_items()
@@ -364,6 +431,11 @@ func _enter_v3_level() -> void:
 	_base_gameplay_controller = v3_level.get_node_or_null(
 		"BaseGameplayController"
 	) as BaseGameplayController
+	if multiplayer.is_server() and _base_gameplay_controller.day_index >= 2:
+		for spawn_index in _v3_spawn_positions.size():
+			var morning := v3_level.get_day_start_transform(spawn_index)
+			_v3_spawn_positions[spawn_index] = morning.origin
+			_v3_spawn_yaws[spawn_index] = morning.basis.get_euler().y
 	_v3_elevator_controller = v3_level.get_node_or_null(
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
@@ -421,6 +493,15 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	for player in players.get_children():
+		_restore_player_equipment(player)
+	if not _base_gameplay_controller.inventory_checkpoint.is_empty():
+		for data: Dictionary in _base_gameplay_controller.inventory_checkpoint.get("pickups", []):
+			var restored: Transform3D = data.get("transform", Transform3D.IDENTITY)
+			if bool(data.get("in_cabin", false)):
+				restored = _v3_elevator_controller.cabin.global_transform * restored
+			spawn_world_item(StringName(data.item_type), world_items.global_transform.affine_inverse() * restored, data.item_state)
+		return
 	var local_transform := (
 		world_items.global_transform.affine_inverse()
 		* _v3_flashlight_transform
@@ -434,11 +515,16 @@ func spawn_v3_world_items() -> void:
 		world_items.global_transform.affine_inverse()
 		* _v3_fuel_can_transform
 	)
-	spawn_world_item(
-		GamePlayer.FUEL_ITEM,
-		local_fuel_transform,
-		{}
-	)
+	if not _standalone_mode:
+		var second_light := local_transform
+		second_light.origin += Vector3(0.4, 0.0, 0.0)
+		spawn_world_item(GamePlayer.FLASHLIGHT_ITEM, second_light, {"battery_charge": 1.0})
+	for index in 3:
+		var cell_transform := local_transform
+		cell_transform.origin += Vector3(-0.25 + index * 0.18, 0.0, 0.4)
+		spawn_world_item(GamePlayer.BATTERY_ITEM, cell_transform, {"charge_amount": 1.0})
+	if not _base_gameplay_controller.fuel_delivered:
+		spawn_world_item(GamePlayer.FUEL_ITEM, local_fuel_transform, {})
 
 
 func spawn_initial_items() -> void:
@@ -557,7 +643,7 @@ func _on_peer_left(peer_id: int) -> void:
 	var departing_player := players.get_node_or_null(str(peer_id))
 	if (
 		departing_player != null
-		and departing_player.has_method("drop_current_item_at_authoritative")
+		and departing_player.has_method("drop_all_items_at_authoritative")
 		and _entered_v3_level
 	):
 		var v3_level := get_node_or_null("V3Level")
@@ -565,19 +651,20 @@ func _on_peer_left(peer_id: int) -> void:
 			"get_bunk_item_drop_transform"
 		):
 			departing_player.call(
-				"drop_current_item_at_authoritative",
+				"drop_all_items_at_authoritative",
 				v3_level.call(
 					"get_bunk_item_drop_transform",
 					get_peer_spawn_index(peer_id)
 				)
 			)
 		else:
-			departing_player.call("drop_current_item_authoritative")
+			departing_player.call("drop_all_items_at_authoritative", departing_player.call("get_held_item_drop_transform"))
 	elif (
 		departing_player != null
 		and departing_player.has_method("drop_current_item_authoritative")
 	):
-		departing_player.call("drop_current_item_authoritative")
+		departing_player.call("drop_all_items_at_authoritative", departing_player.call("get_held_item_drop_transform"))
+	save_inventory_checkpoint()
 	_player_roster.erase(peer_id)
 	_despawn_player.rpc(peer_id)
 

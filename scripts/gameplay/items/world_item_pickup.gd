@@ -31,6 +31,7 @@ func setup_spawn(data: Dictionary) -> void:
 
 
 func _ready() -> void:
+	continuous_cd = true
 	if multiplayer.is_server():
 		sleeping_state_changed.connect(_on_sleeping_state_changed)
 		linear_velocity = _initial_linear_velocity
@@ -78,7 +79,7 @@ func get_interaction_prompt() -> String:
 				float(item_state.get("battery_charge", 1.0)) * 100.0
 			)
 		&"battery":
-			return "Использовать батарейку (+%d%%)" % roundi(
+			return "Забрать батарейку в запас (заряд %d%%)" % roundi(
 				float(item_state.get("charge_amount", 0.5)) * 100.0
 			)
 		&"fuse":
@@ -98,6 +99,8 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		or _collected
 		or not interactor.has_method("pickup_world_item_authoritative")
 		or int(interactor.get("owner_peer_id")) != peer_id
+		or not interactor is Node3D
+		or global_position.distance_to((interactor as Node3D).global_position) > 4.0
 	):
 		return
 

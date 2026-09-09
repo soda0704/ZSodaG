@@ -14,6 +14,7 @@ export.cfg
 # Project-local editor copy used to isolate GodotSteam's Steamworks DLL.
 tools/.local/
 /NorthernLab.lnk
+/network_build.cfg
 
 # GodotSteam is a required project dependency, including native binaries.
 # These negations also override broad DLL/SO rules from a user's global ignore.

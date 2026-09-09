@@ -75,13 +75,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -490.0
-offset_top = -330.0
-offset_right = 490.0
-offset_bottom = 330.0
+offset_left = -620.0
+offset_top = -410.0
+offset_right = 620.0
+offset_bottom = 410.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(490, 330)
+pivot_offset = Vector2(620, 410)
 rotation = -0.012
 mouse_filter = 2
 
@@ -98,36 +98,36 @@ theme_override_styles/panel = SubResource("Style_leather")
 layout_mode = 0
 offset_left = 24.0
 offset_top = 21.0
-offset_right = 956.0
+offset_right = 1216.0
 offset_bottom = 24.0
 color = Color(0.68, 0.42, 0.19, 0.85)
 
 [node name="StitchBottom" type="ColorRect" parent="JournalRoot/NotebookPivot"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 636.0
-offset_right = 956.0
-offset_bottom = 639.0
+offset_top = 796.0
+offset_right = 1216.0
+offset_bottom = 799.0
 color = Color(0.68, 0.42, 0.19, 0.85)
 
 [node name="Page" type="PanelContainer" parent="JournalRoot/NotebookPivot"]
 layout_mode = 0
 offset_left = 50.0
 offset_top = 39.0
-offset_right = 950.0
-offset_bottom = 621.0
+offset_right = 1210.0
+offset_bottom = 781.0
 theme_override_styles/panel = SubResource("Style_page")
 
 [node name="Margin" type="MarginContainer" parent="JournalRoot/NotebookPivot/Page"]
 layout_mode = 2
 theme_override_constants/margin_left = 70
-theme_override_constants/margin_top = 45
+theme_override_constants/margin_top = 28
 theme_override_constants/margin_right = 55
 theme_override_constants/margin_bottom = 35
 
 [node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Page/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 10
 
 [node name="DayLabel" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
 unique_name_in_owner = true
@@ -145,26 +145,70 @@ color = Color(0.34, 0.16, 0.075, 0.72)
 
 [node name="ObjectiveLabel" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.07, 0.025, 1)
 theme_override_fonts/font = SubResource("Font_handwritten")
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 32
 text = "Вернуть базу к жизни"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TasksLabel" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 245)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.14, 0.065, 0.035, 1)
 theme_override_colors/font_shadow_color = Color(1, 0.95, 0.78, 0.28)
-theme_override_constants/line_spacing = 12
+theme_override_constants/line_spacing = 5
 theme_override_fonts/font = SubResource("Font_handwritten")
-theme_override_font_sizes/font_size = 29
+theme_override_font_sizes/font_size = 24
 text = "○  Заправить топливный бак\n○  Включить главный щит\n○  Лечь спать"
 vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="InventoryLabel" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14, 0.065, 0.035, 1)
+theme_override_font_sizes/font_size = 22
+custom_minimum_size = Vector2(0, 120)
+autowrap_mode = 2
+
+[node name="InventoryActions" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ReplaceBatteryButton" type="Button" parent="JournalRoot/NotebookPivot/Page/Margin/Content/InventoryActions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 42)
+text = "Заменить батарейку"
+
+[node name="DropBatteryButton" type="Button" parent="JournalRoot/NotebookPivot/Page/Margin/Content/InventoryActions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Выбросить батарейку"
+
+[node name="DropFlashlightButton" type="Button" parent="JournalRoot/NotebookPivot/Page/Margin/Content/InventoryActions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Выбросить фонарик"
+
+[node name="CloseButton" type="Button" parent="JournalRoot/NotebookPivot/Page/Margin/Content/InventoryActions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Закрыть"
+
+[node name="ControlsLabel" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.12, 0.055, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 2
 
 [node name="CoopStatusPanel" type="PanelContainer" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
 layout_mode = 2
@@ -182,19 +226,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CloseHint" type="Label" parent="JournalRoot/NotebookPivot/Page/Margin/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.35, 0.2, 0.11, 0.82)
 theme_override_fonts/font = SubResource("Font_handwritten")
 theme_override_font_sizes/font_size = 17
 text = "J или ESC — убрать журнал"
 horizontal_alignment = 2
+autowrap_mode = 2
 
 [node name="Binding" type="ColorRect" parent="JournalRoot/NotebookPivot"]
 layout_mode = 0
 offset_left = 66.0
 offset_top = 49.0
 offset_right = 76.0
-offset_bottom = 611.0
+offset_bottom = 771.0
 color = Color(0.12, 0.055, 0.025, 0.78)
 
 [node name="BindingMarks" type="Label" parent="JournalRoot/NotebookPivot"]

@@ -462,7 +462,10 @@ func _run() -> void:
 		not controller.deliver_fuel_authoritative(99),
 		"Unknown peer must not mutate base state"
 	)
+	var before_fuel_pickup: Vector3 = standalone_player.global_position
+	standalone_player.global_position = standalone_fuel_can.global_position + Vector3.UP
 	standalone_fuel_can.network_interact(1, standalone_player)
+	standalone_player.global_position = before_fuel_pickup
 	_assert(
 		bool(standalone_player.call("has_held_item", TEST_FUEL_ITEM)),
 		"Player must be able to carry the fuel can"
@@ -692,6 +695,7 @@ func _run() -> void:
 			"main_breaker_on": false,
 			"end_day_ready_peer_ids": [],
 			"sleeping_peer_ids": [],
+			"quest_stage": 0,
 		},
 		"Reset snapshot must be canonical"
 	)
@@ -794,7 +798,10 @@ func _run() -> void:
 		"Players/1"
 	)
 	_assert(network_player != null, "Network host player must exist in V3")
+	var before_network_pickup: Vector3 = network_player.global_position
+	network_player.global_position = network_fuel_can.global_position + Vector3.UP
 	network_fuel_can.network_interact(1, network_player)
+	network_player.global_position = before_network_pickup
 	_assert(
 		bool(network_player.call("has_held_item", TEST_FUEL_ITEM)),
 		"Host-authoritative pickup must put fuel in the player's hand"

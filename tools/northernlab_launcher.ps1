@@ -319,6 +319,16 @@ function Invoke-DevelopmentBuild {
         "`"Windows Dev`"",
         "`"$outputExecutable`""
     )
+    $identityProcess = Start-Process `
+        -FilePath $localGodot `
+        -ArgumentList @("--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd") `
+        -WorkingDirectory $projectRoot `
+        -WindowStyle Hidden `
+        -Wait `
+        -PassThru
+    if ($identityProcess.ExitCode -ne 0) {
+        throw "Could not generate the network build identity."
+    }
     $exportProcess = Start-Process `
         -FilePath $localGodot `
         -ArgumentList $exportArguments `
