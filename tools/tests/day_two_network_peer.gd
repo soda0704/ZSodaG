@@ -96,12 +96,12 @@ func _deliver_from_client() -> void:
 	if not host_player.get_inventory_snapshot().has_flashlight:
 		_finish(false, "Owner validation allowed discarding another player's flashlight")
 		return
-	if equipment.spare_batteries.size() != 1 or float(equipment.battery_charge) < 0.95:
+	if equipment.spare_batteries.size() != 2 or float(equipment.battery_charge) < 0.95:
 		_finish(false, "Client battery replacement did not replicate")
 		return
 	player.request_inventory_action(&"drop_battery")
 	await get_tree().create_timer(0.25).timeout
-	if not player.get_inventory_snapshot().spare_batteries.is_empty():
+	if player.get_inventory_snapshot().spare_batteries.size() != 1:
 		_finish(false, "Client battery discard did not replicate")
 		return
 	var terminal := _world.get_node("V3Level/DayTwoTaskTerminal") as Node3D

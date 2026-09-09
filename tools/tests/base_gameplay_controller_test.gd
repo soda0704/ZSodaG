@@ -215,12 +215,8 @@ func _run() -> void:
 	quest_journal.call("open_journal")
 	_assert(
 		bool(quest_journal.call("is_journal_open"))
-		and str(quest_journal.get_node(
-			"JournalRoot/NotebookPivot/Page/Margin/Content/ObjectiveLabel"
-		).text) == "Вернуть базу к жизни"
-		and str(quest_journal.get_node(
-			"JournalRoot/NotebookPivot/Page/Margin/Content/TasksLabel"
-		).text).contains("Заправить топливный бак"),
+		and str(quest_journal.objective_label.text) == "Вернуть базу к жизни"
+		and str(quest_journal.tasks_label.text).contains("Заправить бак"),
 		"Journal must show the shared Day 1 base objective"
 	)
 	var journal_escape := InputEventAction.new()

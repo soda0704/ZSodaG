@@ -142,6 +142,9 @@ func refresh_save_ui() -> void:
 	var has_file := BaseGameplayController.has_progress_save_file()
 	continue_game_button.disabled = summary.is_empty()
 	delete_save_button.disabled = not has_file
+	delete_save_button.visible = has_file
+	if not has_file and delete_save_button.has_focus():
+		single_player_button.grab_focus()
 	if not summary.is_empty():
 		var power_text := (
 			"ПИТАНИЕ ВКЛЮЧЕНО"
@@ -155,7 +158,8 @@ func refresh_save_ui() -> void:
 	elif has_file:
 		save_status_label.text = "CHECKPOINT ПОВРЕЖДЁН ИЛИ НЕСОВМЕСТИМ"
 	else:
-		save_status_label.text = "CHECKPOINT НЕ НАЙДЕН"
+		save_status_label.text = ""
+	save_status_label.visible = has_file
 
 
 func _on_host_pressed() -> void:

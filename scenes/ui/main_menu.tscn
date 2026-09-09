@@ -173,12 +173,12 @@ alignment = 0
 
 [node name="DeleteSaveButton" type="Button" parent="MenuButtons"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.73, 0.76, 1)
 theme_override_colors/font_hover_color = Color(1, 0.45, 0.38, 1)
 theme_override_colors/font_disabled_color = Color(0.36, 0.39, 0.41, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("Style_button_normal")
 theme_override_styles/hover = SubResource("Style_button_hover")
 theme_override_styles/pressed = SubResource("Style_button_pressed")

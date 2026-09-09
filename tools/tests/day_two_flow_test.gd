@@ -58,7 +58,7 @@ func _run() -> void:
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "Shared key must survive a disconnect")
 	var journal := root.get_node("QuestJournal")
 	journal.open_journal()
-	check(str(journal.inventory_label.text).contains("Ключ шифрования ×1"), "Journal must show the saved shared inventory")
+	check(str(journal._quest_card.caption.text).contains("Ключ шифрования") and str(journal._quest_card.detail.text).contains("×1"), "Journal must show the saved shared inventory")
 	journal.force_close()
 	await menu.return_to_main_menu()
 	await create_timer(0.3).timeout

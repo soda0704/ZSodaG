@@ -841,14 +841,18 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 	if not multiplayer.is_server() or _is_sleeping_in_bunk:
 		return false
 	match action:
+		&"drop_hand_item":
+			return drop_current_item_authoritative()
 		&"replace_battery":
 			if not _has_flashlight or _spare_batteries.is_empty():
 				return false
 			# Choose the fullest cell; replacing never reduces the current charge.
 			var best_charge: float = _spare_batteries.max()
-			if best_charge <= _battery_charge + 0.001:
+			if best_charge <= _battery_charge:
 				return false
 			_spare_batteries.erase(best_charge)
+			if _battery_charge > 0.0:
+				_spare_batteries.append(_battery_charge)
 			_battery_charge = best_charge
 			_flashlight_malfunctioning = false
 			_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM
@@ -1220,14 +1224,13 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func update_battery_ui() -> void:
-	battery_label.visible = is_local_player() and _has_flashlight
+	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not GameMenu.is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
 	if not battery_label.visible:
 		_displayed_battery_percent = -1
 		return
 
 	var battery_percent := roundi(_battery_charge * 100.0)
 	_displayed_battery_percent = battery_percent
-	var status := "в руках" if _held_item_type == FLASHLIGHT_ITEM else "убран"
-	if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
-		status = "убран — руки заняты"
-	battery_label.text = "ФОНАРИК: %d%% · %s\nБатарейки: %d · %s заменить\n%s фонарик · %s журнал" % [battery_percent, status, _spare_batteries.size(), SteamInput.get_action_hint(&"replace_battery"), SteamInput.get_action_hint(&"flashlight"), SteamInput.get_action_hint(&"journal")]
+	battery_label.text = "%d%%" % battery_percent
+	if _battery_charge <= 0.0:
+		battery_label.text = "%s Заменить батарейку" % SteamInput.get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"
