@@ -87,11 +87,23 @@ func _deliver_from_client() -> void:
 	# Give the reliable teleport on the player channel time to arrive.
 	await get_tree().create_timer(0.25).timeout
 	var player := _world.get_node("Players/%d" % multiplayer.get_unique_id())
+	_test_player_death.rpc_id(1)
+	await get_tree().create_timer(0.4).timeout
+	if not player.survival.dead:
+		_finish(false, "Server death did not replicate to owner")
+		return
+	player.request_inventory_action(&"drop_battery")
+	await get_tree().create_timer(4.2).timeout
+	if player.survival.dead or player.survival.health != 100.0 or player.get_inventory_snapshot().spare_batteries.size() != 2:
+		_finish(false, "Respawn or dead-player inventory lock failed")
+		return
+	_return_test_player.rpc_id(1)
+	await get_tree().create_timer(0.25).timeout
 	# Attempting an action on somebody else's player must be rejected by host.
 	var host_player := _world.get_node("Players/1")
 	host_player._request_inventory_action.rpc_id(1, &"drop_flashlight")
 	player.request_inventory_action(&"replace_battery")
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(1.2).timeout
 	var equipment: Dictionary = player.get_inventory_snapshot()
 	if not host_player.get_inventory_snapshot().has_flashlight:
 		_finish(false, "Owner validation allowed discarding another player's flashlight")
@@ -114,6 +126,25 @@ func _deliver_from_client() -> void:
 func _on_host_snapshot(snapshot: Dictionary) -> void:
 	if int(snapshot.get("quest_stage", 0)) == 4:
 		print("DAY_TWO_NETWORK_HOST_DELIVERED")
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _test_player_death() -> void:
+	if not multiplayer.is_server():
+		return
+	var player := _world.get_node("Players/%d" % multiplayer.get_remote_sender_id())
+	player.survival.damage(100.0, "Network test")
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _return_test_player() -> void:
+	if not multiplayer.is_server():
+		return
+	var player := _world.get_node("Players/%d" % multiplayer.get_remote_sender_id())
+	var terminal := _world.get_node("V3Level/DayTwoTaskTerminal") as Node3D
+	var standing := terminal.global_position + terminal.global_basis.z * 1.8
+	standing.y = 0.1
+	player.teleport_authoritative(standing, terminal.global_rotation.y)
 
 
 func _on_client_snapshot(snapshot: Dictionary) -> void:

@@ -57,10 +57,37 @@ var network_runtime_managed: bool = false
 
 
 func _ready() -> void:
+	add_to_group("expedition_level")
+	var reservoir := get_node("Floor_Minus2_Life_Support_Blockout/Water/Central_Reservoir_Water") as Node3D
+	var radiation := preload("res://scripts/gameplay/radiation_zone.gd").new()
+	radiation.name = "ReservoirRadiation"
+	reservoir.add_child(radiation)
 	_install_quest_terminals()
+	_install_weapon_range()
 	if network_runtime_managed:
 		return
 	spawn_standalone_gameplay()
+
+
+func _install_weapon_range() -> void:
+	var range_root := Node3D.new()
+	range_root.name = "WeaponRange"
+	add_child(range_root)
+	for index in 3:
+		var dispenser := preload("res://scripts/gameplay/weapon_dispenser.gd").new()
+		dispenser.name = "Rack%d" % index
+		dispenser.item_type = WeaponController.TYPES[index]
+		dispenser.position = Vector3(-36.0, 1.05, 3.0 + index * 1.35)
+		range_root.add_child(dispenser)
+		var target := preload("res://scripts/gameplay/weapon_target.gd").new()
+		target.name = "Target%d" % index
+		target.position = Vector3(-28.0, 1.3, 3.0 + index * 1.35)
+		range_root.add_child(target)
+	var light := OmniLight3D.new()
+	light.position = Vector3(-33, 3.0, 4.3)
+	light.omni_range = 10.0
+	light.light_energy = 2.5
+	range_root.add_child(light)
 
 
 func _install_quest_terminals() -> void:

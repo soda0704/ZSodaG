@@ -82,6 +82,9 @@ func _run() -> void:
 	await capture("Journal-Depleted")
 	journal.replace_button.grab_focus()
 	journal._inventory_action(&"replace_battery")
+	check(player.get_inventory_snapshot().battery_charge == 0.0, "Replacement waits for the insertion animation marker")
+	await create_timer(1.15).timeout
+	journal._refresh_inventory()
 	check(not journal.replace_button.visible, "Successful replacement removes the action")
 	check(player.get_inventory_snapshot().spare_batteries.size() == 1, "Empty spent cell is not returned")
 	check(root.gui_get_focus_owner() != null and root.gui_get_focus_owner().is_visible_in_tree(), "Focus recovers when contextual action disappears")
@@ -100,6 +103,20 @@ func _run() -> void:
 	journal.close_journal()
 	check(journal.is_journal_open() and not journal.help_panel.visible, "Back closes help without closing the book")
 	journal.force_close()
+	var animation_state: Dictionary = player.get_inventory_snapshot()
+	animation_state.battery_charge = 0.2
+	animation_state.held_item = &"flashlight"
+	player.apply_inventory_snapshot(animation_state)
+	player.request_inventory_action(&"replace_battery")
+	player.request_inventory_action(&"replace_battery")
+	await create_timer(0.2).timeout
+	if visual:
+		player.flashlight.update_motion(1.0, 0.0, true, false)
+		await capture("Battery-Animation")
+	check(is_equal_approx(player.get_inventory_snapshot().battery_charge, 0.2), "Repeated input does not commit early")
+	player.toggle_flashlight_authoritative()
+	await create_timer(1.0).timeout
+	check(is_equal_approx(player.get_inventory_snapshot().battery_charge, 0.2), "Stowing before insertion cancels without consuming a cell")
 	world.free()
 	BaseGameplayController.delete_progress_save()
 	print("JOURNAL_UI_TEST: " + ("FAIL" if failed else "PASS"))

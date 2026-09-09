@@ -95,6 +95,12 @@ func _build_interface() -> void:
 		card.pressed.connect(_select_item.bind(spec[0]))
 		card.focus_entered.connect(_select_item.bind(spec[0]))
 		_cards[spec[0]] = card
+	for id: StringName in WeaponController.TYPES:
+		var card := _make_photo(grid, id, WeaponController.TITLES[id], -0.012)
+		card.toggle_mode = true
+		card.pressed.connect(_select_item.bind(id))
+		card.focus_entered.connect(_select_item.bind(id))
+		_cards[id] = card
 	inventory_label = _label(right, "", 19, Color("79684f"))
 	inventory_label.custom_minimum_size.y = 44
 	inventory_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -212,6 +218,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func open_journal() -> void:
+	var local_player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if local_player != null and local_player.survival.dead:
+		return
 	var player := get_tree().get_first_node_in_group("local_player")
 	if player == null or GameMenu.is_menu_open() or bool(player.call("is_sleeping_in_bunk")):
 		return
@@ -316,6 +325,9 @@ func _refresh_inventory() -> void:
 	_cards[&"battery"].visible = not batteries.is_empty()
 	_cards[&"fuel_can"].visible = hand == &"fuel_can"
 	_cards[&"fuse"].visible = hand == &"fuse"
+	for id: StringName in WeaponController.TYPES:
+		_cards[id].visible = hand == id
+		_cards[id].set_note("" if id == &"kitchen_knife" else "%d / ∞" % int(data.get("weapon_rounds", 0)))
 	_cards[&"flashlight"].set_note("%d%%" % roundi(charge * 100.0))
 	_cards[&"battery"].set_note("×%d" % batteries.size())
 	if _cards.has(_selected_item) and not _cards[_selected_item].visible:

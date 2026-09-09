@@ -4,6 +4,9 @@ const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
 const ITEM_SCENES := {
+	&"pistol": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+	&"m4a1": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+	&"kitchen_knife": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"flashlight": preload(
 		"res://scenes/objects/equipment/flashlight_pickup.tscn"
 	),

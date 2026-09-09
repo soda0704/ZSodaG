@@ -56,12 +56,27 @@ var _flicker_step: int = 0
 var _equip_tween: Tween
 var _equipped: bool = false
 var _equip_offset: float = 0.0
+var _battery_tween: Tween
+var _battery_pose: float = 0.0
+var _replacement_cell: MeshInstance3D
 
 
 func _ready() -> void:
 	_rest_position = position
 	_rest_rotation = rotation
 	prepare_lens_material()
+	_replacement_cell = MeshInstance3D.new()
+	var cell_mesh := CylinderMesh.new()
+	cell_mesh.top_radius = 0.012
+	cell_mesh.bottom_radius = 0.012
+	cell_mesh.height = 0.065
+	_replacement_cell.mesh = cell_mesh
+	var cell_material := StandardMaterial3D.new()
+	cell_material.albedo_color = Color("456e48")
+	cell_material.metallic = 0.4
+	_replacement_cell.material_override = cell_material
+	add_child(_replacement_cell)
+	_replacement_cell.hide()
 	malfunction_timer.timeout.connect(begin_malfunction)
 	flicker_timer.timeout.connect(play_next_flicker_step)
 	battery_charge = clampf(starts_battery_charge, 0.0, 1.0)
@@ -139,15 +154,22 @@ func set_equipped(value: bool) -> void:
 	if value == _equipped:
 		return
 	_equipped = value
+	if _battery_tween != null and _battery_tween.is_valid():
+		_battery_tween.kill()
+	_battery_pose = 0.0
+	_replacement_cell.hide()
 	if _equip_tween != null and _equip_tween.is_valid():
 		_equip_tween.kill()
+	var was_visible := visible
 	set_available(true, false)
 	if value:
-		_equip_offset = 0.28
+		if not was_visible:
+			_equip_offset = 0.38
 	else:
 		set_enabled(false, false)
 	_equip_tween = create_tween()
-	_equip_tween.tween_method(_set_equip_offset, _equip_offset, 0.0 if value else 0.28, 0.18)
+	_equip_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_equip_tween.tween_method(_set_equip_offset, _equip_offset, 0.0 if value else 0.38, 0.32 if value else 0.26)
 	if not value:
 		_equip_tween.tween_callback(func(): set_available(false, false))
 
@@ -155,6 +177,20 @@ func set_equipped(value: bool) -> void:
 func _set_equip_offset(value: float) -> void:
 	_equip_offset = value
 	position.y = _rest_position.y - value
+	rotation.x = _rest_rotation.x - value * 1.2
+
+
+func play_battery_action() -> void:
+	if not _equipped:
+		return
+	if _battery_tween != null and _battery_tween.is_valid():
+		_battery_tween.kill()
+	_battery_tween = create_tween()
+	_battery_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_battery_tween.tween_property(self, "_battery_pose", 1.0, 0.32)
+	_battery_tween.tween_property(self, "_battery_pose", 0.85, 0.22)
+	_battery_tween.tween_property(self, "_battery_pose", 1.1, 0.18)
+	_battery_tween.tween_property(self, "_battery_pose", 0.0, 0.38)
 
 
 func set_enabled(value: bool, emit_signal: bool = true) -> void:
@@ -335,9 +371,12 @@ func update_motion(
 	var look_return_weight := 1.0 - exp(-look_return_speed * delta)
 	_look_rotation = _look_rotation.lerp(Vector3.ZERO, look_return_weight)
 
-	var target_position := _rest_position + bob_position + Vector3.DOWN * _equip_offset
-	var target_rotation := _rest_rotation + bob_rotation + _look_rotation
+	var target_position := _rest_position + bob_position + Vector3.DOWN * _equip_offset + Vector3(-0.08, 0.1, -0.12) * _battery_pose
+	var target_rotation := _rest_rotation + bob_rotation + _look_rotation + Vector3(-_equip_offset * 1.2, 0, 0) + Vector3(0.25, -0.3, -0.65) * _battery_pose
 	var smoothing_weight := 1.0 - exp(-motion_smoothing * delta)
+	_replacement_cell.visible = _battery_pose > 0.5
+	_replacement_cell.position = Vector3(-0.045, 0.015, -0.18 + _battery_pose * 0.08)
+	_replacement_cell.rotation.x = PI * 0.5
 
 	position = position.lerp(target_position, smoothing_weight)
 	rotation = rotation.lerp(target_rotation, smoothing_weight)

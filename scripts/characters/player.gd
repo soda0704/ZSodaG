@@ -3,6 +3,9 @@ extends CharacterBody3D
 
 signal inventory_changed
 
+var survival: PlayerSurvival
+var weapon: WeaponController
+
 const NO_ITEM := &""
 const FLASHLIGHT_ITEM := &"flashlight"
 const FUSE_ITEM := &"fuse"
@@ -114,6 +117,7 @@ var _is_crouching: bool = false
 var _is_sleeping_in_bunk: bool = false
 var _spare_batteries: Array[float] = []
 var _inventory_revision: int = 0
+var _battery_action_busy: bool = false
 var _pad_sprint: bool = false
 var _pad_crouch: bool = false
 
@@ -135,6 +139,12 @@ func setup(
 
 
 func _ready() -> void:
+	survival = preload("res://scripts/characters/components/player_survival.gd").new()
+	survival.name = "Survival"
+	add_child(survival)
+	weapon = preload("res://scripts/gameplay/weapon_controller.gd").new()
+	weapon.name = "Weapon"
+	add_child(weapon)
 	name_label.text = player_display_name
 	name_label.modulate = avatar_color
 	body_animator.set_avatar_color(avatar_color)
@@ -166,6 +176,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if survival.dead:
+		return
 	if not is_local_player():
 		return
 	if _is_sleeping_in_bunk or _is_journal_open():
@@ -200,7 +212,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("drop_item"):
 		_drop_item_serial += 1
 	elif event.is_action_pressed("replace_battery"):
-		request_inventory_action(&"replace_battery")
+		if WeaponController.TYPES.has(_held_item_type):
+			weapon.request_action(&"reload")
+		else:
+			request_inventory_action(&"replace_battery")
 	elif event.is_action_pressed("sprint") and SteamInput.is_controller_event(event):
 		_pad_sprint = not _pad_sprint
 		_pad_crouch = false
@@ -213,6 +228,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if survival.dead:
+		velocity = Vector3.ZERO
+		interaction_prompt_label.hide()
+		battery_label.hide()
+		if multiplayer.is_server():
+			send_snapshot_if_due(delta)
+		return
 	if is_local_player():
 		collect_local_input()
 		collect_local_look(delta)
@@ -574,7 +596,9 @@ func simulate_movement(
 		target_velocity.z,
 		movement_acceleration * delta
 	)
+	var incoming_y := velocity.y
 	move_and_slide()
+	survival.observe_motion(incoming_y, is_on_floor(), get_platform_velocity().y)
 
 
 func update_crouch_state(delta: float, wants_to_crouch: bool) -> void:
@@ -614,6 +638,8 @@ func can_stand_up() -> bool:
 
 
 func try_authoritative_interaction() -> void:
+	if survival.dead:
+		return
 	if not multiplayer.is_server():
 		return
 	interaction_ray.force_raycast_update()
@@ -657,10 +683,13 @@ func teleport_authoritative(
 ) -> void:
 	if not multiplayer.is_server():
 		return
+	survival.reset_fall()
 	_receive_authoritative_teleport.rpc(next_global_position, next_yaw)
 
 
 func enter_bunk_sleep_authoritative(sleep_transform: Transform3D) -> void:
+	if survival.dead:
+		return
 	if multiplayer.is_server():
 		_receive_bunk_sleep_state.rpc(true, sleep_transform)
 
@@ -729,7 +758,7 @@ func pickup_world_item_authoritative(
 	item_type: StringName,
 	item_state: Dictionary
 ) -> bool:
-	if not multiplayer.is_server():
+	if not multiplayer.is_server() or survival.dead:
 		return false
 
 	if item_type == BATTERY_ITEM:
@@ -742,7 +771,7 @@ func pickup_world_item_authoritative(
 		_publish_inventory()
 		return true
 
-	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM]:
+	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM] and not WeaponController.TYPES.has(item_type):
 		return false
 	if item_type == FLASHLIGHT_ITEM:
 		if _has_flashlight:
@@ -757,6 +786,8 @@ func pickup_world_item_authoritative(
 		if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
 			spawn_dropped_item_authoritative(_held_item_type, get_held_item_state())
 		_held_item_type = item_type
+		if WeaponController.TYPES.has(item_type):
+			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
 		_flashlight_enabled = false
 		_flashlight_malfunctioning = false
 	_publish_inventory()
@@ -772,6 +803,8 @@ func get_inventory_snapshot() -> Dictionary:
 		"flashlight_enabled": _flashlight_enabled,
 		"malfunctioning": _flashlight_malfunctioning,
 		"revision": _inventory_revision,
+		"weapon_rounds": weapon.rounds if weapon != null else 0,
+		"weapon_reload": weapon.reload_left if weapon != null else 0.0,
 	}
 
 
@@ -802,6 +835,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 		if float(charge) > 0.0:
 			_spare_batteries.append(clampf(float(charge), 0.0, 1.0))
 	_held_item_type = StringName(data.get("held_item", NO_ITEM))
+	weapon.apply_state(_held_item_type, int(data.get("weapon_rounds", WeaponController.CAPACITY.get(_held_item_type, 0))), float(data.get("weapon_reload", 0.0)))
 	if _held_item_type == FLASHLIGHT_ITEM and not _has_flashlight:
 		_held_item_type = NO_ITEM
 	_flashlight_malfunctioning = bool(data.get("malfunctioning", false)) and _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
@@ -811,6 +845,8 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 
 
 func toggle_flashlight_authoritative() -> bool:
+	if survival.dead:
+		return false
 	if not multiplayer.is_server() or not _has_flashlight or _is_sleeping_in_bunk:
 		return false
 	if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
@@ -826,7 +862,7 @@ func request_inventory_action(action: StringName) -> void:
 	if not is_local_player():
 		return
 	if multiplayer.is_server():
-		perform_inventory_action_authoritative(action)
+		_begin_inventory_action(action)
 	else:
 		_request_inventory_action.rpc_id(1, action)
 
@@ -834,10 +870,39 @@ func request_inventory_action(action: StringName) -> void:
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _request_inventory_action(action: StringName) -> void:
 	if multiplayer.is_server() and multiplayer.get_remote_sender_id() == owner_peer_id:
+		_begin_inventory_action(action)
+
+
+func _begin_inventory_action(action: StringName) -> void:
+	if survival.dead:
+		return
+	if action != &"replace_battery":
 		perform_inventory_action_authoritative(action)
+		return
+	if _battery_action_busy or _is_sleeping_in_bunk or not _has_flashlight or _spare_batteries.is_empty():
+		return
+	if float(_spare_batteries.max()) <= _battery_charge:
+		return
+	_battery_action_busy = true
+	var revision := _inventory_revision
+	_play_battery_action.rpc()
+	# No cell is removed before the insertion marker. Any inventory change
+	# (drop, pickup, stow, load) invalidates this pending transaction.
+	await get_tree().create_timer(0.72, false).timeout
+	if revision == _inventory_revision and not _is_sleeping_in_bunk:
+		perform_inventory_action_authoritative(&"replace_battery")
+	await get_tree().create_timer(0.38, false).timeout
+	_battery_action_busy = false
+
+
+@rpc("authority", "call_local", "reliable", 2)
+func _play_battery_action() -> void:
+	flashlight.play_battery_action()
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
+	if survival.dead:
+		return false
 	if not multiplayer.is_server() or _is_sleeping_in_bunk:
 		return false
 	match action:
@@ -877,6 +942,8 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 
 
 func get_held_item_state() -> Dictionary:
+	if WeaponController.TYPES.has(_held_item_type):
+		return {"rounds": weapon.rounds}
 	if _held_item_type == FLASHLIGHT_ITEM:
 		return {"battery_charge": _battery_charge}
 	return {}
@@ -910,6 +977,8 @@ func get_held_item_drop_linear_velocity() -> Vector3:
 
 
 func drop_current_item_authoritative() -> bool:
+	if survival.dead:
+		return false
 	return drop_current_item_at_authoritative(
 		get_held_item_drop_transform(),
 		get_held_item_drop_linear_velocity()
@@ -1004,7 +1073,8 @@ func spawn_dropped_item_authoritative(
 		else FUSE_PICKUP_SCENE
 		if item_type == FUSE_ITEM
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
-		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM else null
+		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
+		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) else null
 	)
 	if pickup_scene == null or get_tree().current_scene == null:
 		return
