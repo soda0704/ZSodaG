@@ -5,6 +5,7 @@ var state: Node
 var navigation_ready: bool = false
 var region: NavigationRegion3D
 var _tick: float = 0.0
+var _spawn_serial := 0
 
 func _ready() -> void:
 	add_to_group("containment_encounter")
@@ -68,12 +69,13 @@ func _physics_process(delta: float) -> void:
 		_commit(data)
 
 func closest_player(point: Vector3) -> Node3D:
-	if state.day_index < 3:
-		return null
 	var best: Node3D
-	var distance := 28.0
+	var distance := 40.0
 	for peer in state.get_connected_player_peer_ids():
-		var player: Node3D = state.get_player_node(peer)
+		var player_node = state.get_player_node(peer)
+		if not player_node is Node3D:
+			continue
+		var player := player_node as Node3D
 		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or absf(player.global_position.y - point.y) > 3.5:
 			continue
 		var candidate := point.distance_to(player.global_position)
@@ -86,7 +88,7 @@ func get_monster_health(index: int) -> float:
 	return float(state.containment.get("health", START_HEALTH)[index])
 
 func damage_monster(index: int, amount: float) -> void:
-	if not multiplayer.is_server() or state.day_index < 3 or amount <= 0.0:
+	if not multiplayer.is_server() or amount <= 0.0:
 		return
 	var data: Dictionary = state.containment.duplicate(true)
 	var health: Array = data.get("health", START_HEALTH).duplicate()
@@ -153,12 +155,60 @@ func debug_reset() -> void:
 	var data: Dictionary = state.containment.duplicate(true)
 	data.health = START_HEALTH.duplicate()
 	data.bodies = {}
-	data.fault = false
-	data.resolved = false
-	data.reset_armed = false
+	# Resetting the encounter must not repair an already triggered power fault.
 	_commit(data)
 	_reset_actors.rpc()
 	state.save_progress_authoritative()
+
+func debug_spawn(model_index: int, count: int, center: Vector3, forward: Vector3) -> int:
+	if not multiplayer.is_server() or model_index not in range(3) or count <= 0:
+		return 0
+	var first_serial := _spawn_serial
+	_spawn_serial += count
+	_spawn_debug_batch.rpc(model_index, count, first_serial, center, forward)
+	return count
+
+@rpc("authority", "call_local", "reliable")
+func _spawn_debug_batch(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3) -> void:
+	_spawn_debug_batch_async(model_index, count, first_serial, center, forward)
+
+func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3) -> void:
+	var side := forward.cross(Vector3.UP).normalized()
+	for offset_index in count:
+		var serial := first_serial + offset_index
+		var row := offset_index / 20
+		var column := offset_index % 20
+		var lateral := (float(column) - 9.5) * 1.25
+		var distance := 4.0 + float(row) * 1.25
+		var spawn_point := center + forward * distance + side * lateral
+		var monster := preload("res://scripts/gameplay/hostile_monster.gd").new()
+		monster.name = "DebugMonster%d" % serial
+		monster.monster_id = model_index
+		monster.model_id = ["the_monster", "slasher", "smily"][model_index]
+		monster.encounter = self
+		monster.debug_spawned = true
+		add_child(monster)
+		monster.global_position = spawn_point
+		monster.look_at(center, Vector3.UP)
+		monster._home = spawn_point
+		monster._target_position = monster.position
+		if offset_index % 25 == 24:
+			await get_tree().process_frame
+
+func debug_clear_spawned() -> int:
+	if not multiplayer.is_server():
+		return 0
+	var count := get_tree().get_nodes_in_group("debug_spawned_monsters").size()
+	_clear_debug_spawned.rpc()
+	return count
+
+@rpc("authority", "call_local", "reliable")
+func _clear_debug_spawned() -> void:
+	for monster in get_tree().get_nodes_in_group("debug_spawned_monsters"):
+		if is_instance_valid(monster) and monster.encounter == self:
+			if monster.corpse != null:
+				monster.corpse.queue_free()
+			monster.queue_free()
 
 @rpc("authority", "call_local", "reliable")
 func _reset_actors() -> void:

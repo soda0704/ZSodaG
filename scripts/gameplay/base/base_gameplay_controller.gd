@@ -437,7 +437,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 		bool(snapshot.get("main_breaker_on", false)) and fuel_delivered
 	)
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
-	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true) if day_index >= 3 else {}
+	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	if day_index == 1:
 		quest_stage = QuestStage.UNAVAILABLE
 	elif quest_stage == QuestStage.UNAVAILABLE:
@@ -482,7 +482,7 @@ func _make_snapshot(
 		"end_day_ready_peer_ids": _normalize_peer_ids(next_ready_peer_ids),
 		"sleeping_peer_ids": _normalize_peer_ids(next_sleeping_peer_ids),
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
-		"containment": containment.duplicate(true) if next_day_index >= 3 else {},
+		"containment": containment.duplicate(true),
 	}
 
 

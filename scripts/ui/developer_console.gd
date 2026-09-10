@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть трёх монстров, сбросить сбой\n/monsters kill — убить всех   /lightfault — проверить сбой света\nКоманды изменения мира доступны только хосту/в одиночной игре."
+const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nКоманды изменения мира доступны только хосту/в одиночной игре."
 var panel: PanelContainer
 var output: RichTextLabel
 var entry: LineEdit
@@ -14,7 +14,7 @@ func _ready() -> void:
 	panel = PanelContainer.new()
 	add_child(panel)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	panel.offset_bottom = 430
+	panel.offset_bottom = 500
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.025, 0.035, 0.045, 0.97)
 	style.content_margin_left = 24
@@ -34,6 +34,30 @@ func _ready() -> void:
 	entry.placeholder_text = "/help — команды (Enter — выполнить)"
 	entry.add_theme_font_size_override("font_size", 20)
 	box.add_child(entry)
+	var spawn_bar := HBoxContainer.new()
+	spawn_bar.name = "SpawnBar"
+	box.add_child(spawn_bar)
+	var count_label := Label.new()
+	count_label.text = "Спавн рядом:"
+	spawn_bar.add_child(count_label)
+	var spawn_count := SpinBox.new()
+	spawn_count.name = "SpawnCount"
+	spawn_count.min_value = 1
+	spawn_count.max_value = 1000
+	spawn_count.allow_greater = true
+	spawn_count.value = 1
+	spawn_count.custom_minimum_size.x = 100
+	spawn_bar.add_child(spawn_count)
+	for data in [["Хвостатый", 0, "SpawnTail"], ["Слэшер", 1, "SpawnSlasher"], ["Четвероногий", 2, "SpawnSmily"]]:
+		var button := Button.new()
+		button.text = data[0]
+		button.name = data[2]
+		button.pressed.connect(func(): _spawn_from_button(int(data[1]), int(spawn_count.value)))
+		spawn_bar.add_child(button)
+	var clear_button := Button.new()
+	clear_button.text = "Убрать тестовых"
+	clear_button.pressed.connect(func(): _submit("/despawn"))
+	spawn_bar.add_child(clear_button)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
 	output.text = HELP + "\n"
@@ -73,6 +97,11 @@ func _submit(line: String) -> void:
 	history.append(line)
 	history_index = history.size()
 	output.append_text("\n> " + line + "\n" + execute(line) + "\n")
+
+func _spawn_from_button(model_index: int, count: int) -> void:
+	var names := ["tail", "slasher", "smily"]
+	var command := "/spawn %s %d" % [names[model_index], count]
+	output.append_text("\n> %s\n%s\n" % [command, execute(command)])
 
 func execute(line: String) -> String:
 	var args := line.strip_edges().to_lower().split(" ", false)
@@ -151,11 +180,29 @@ func execute(line: String) -> String:
 			if args[1] == "reset":
 				encounter.debug_reset()
 			else:
-				if state.day_index < 3:
-					return "Сначала /day 3"
 				for index in 3:
 					encounter.damage_monster(index, 10000)
 			return "Готово. Состояние монстров сохранено."
+		"/spawn":
+			if encounter == null or args.size() < 2:
+				return "Использование: /spawn tail|slasher|smily [число]"
+			var aliases := {"tail": 0, "хвостатый": 0, "slasher": 1, "слэшер": 1, "smily": 2, "четвероногий": 2}
+			if not aliases.has(args[1]):
+				return "Типы: tail, slasher, smily"
+			var count := 1
+			if args.size() >= 3:
+				if not args[2].is_valid_int() or int(args[2]) <= 0:
+					return "Количество должно быть целым числом больше нуля."
+				count = int(args[2])
+			var forward: Vector3 = -player.head.global_basis.z
+			forward.y = 0
+			forward = forward.normalized()
+			encounter.debug_spawn(int(aliases[args[1]]), count, player.global_position, forward)
+			return "Создано: %d. Большие значения могут сильно снизить FPS." % count
+		"/despawn":
+			if encounter == null:
+				return "Контроллер монстров не найден."
+			return "Удалено тестовых монстров: %d" % encounter.debug_clear_spawned()
 		"/lightfault":
 			if encounter == null or state.day_index < 3:
 				return "Сначала /day 3"

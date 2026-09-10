@@ -143,6 +143,58 @@ func _run() -> void:
 	console.execute("/monsters reset")
 	await physics_frame
 	check(encounter.get_monster_health(0) == 120 and encounter.get_node("Monster0").corpse == null, "Console resets encounter")
+	var fault_data: Dictionary = state.containment.duplicate(true)
+	fault_data.fault = true
+	fault_data.resolved = false
+	encounter._commit(fault_data)
+	console.execute("/monsters reset")
+	check(state.containment.get("fault", false), "Monster reset preserves lighting fault")
+	var sight_monster = encounter.get_node("Monster0")
+	var sight_player = player
+	var day_two: Dictionary = state.get_snapshot()
+	day_two.day_index = 2
+	state._broadcast_snapshot(day_two)
+	sight_monster.global_position = Vector3(0, 10, -5)
+	sight_monster.rotation.y = 0
+	sight_monster._alert_target = null
+	sight_monster._awareness = 0
+	sight_player.teleport_authoritative(Vector3(0, 10, 0), 0)
+	check(sight_monster._find_target(0.1) == null, "Monster does not see behind itself")
+	sight_monster.rotation.y = PI
+	check(sight_monster._find_target(0.1) == sight_player, "Monster sees player in view cone on day 2")
+	var wall := StaticBody3D.new()
+	var wall_shape := CollisionShape3D.new()
+	var wall_box := BoxShape3D.new()
+	wall_box.size = Vector3(3, 3, 0.4)
+	wall_shape.shape = wall_box
+	wall.add_child(wall_shape)
+	world.add_child(wall)
+	wall.global_position = Vector3(0, 11, -2.5)
+	await physics_frame
+	sight_monster._alert_target = null
+	sight_monster._awareness = 0
+	check(sight_monster._find_target(0.1) == null, "Wall blocks monster line of sight")
+	wall.queue_free()
+	await physics_frame
+	var spawn_result: String = console.execute("/spawn smily 30")
+	for frame in 4:
+		await process_frame
+	check("30" in spawn_result and get_nodes_in_group("debug_spawned_monsters").size() == 30, "Console spawns requested count on any day")
+	var spawned = get_nodes_in_group("debug_spawned_monsters")[0]
+	spawned.apply_weapon_damage(200)
+	await physics_frame
+	check(spawned.health <= 0, "Spawned monster can be killed")
+	check("30" in console.execute("/despawn"), "Console clears spawned monsters")
+	await process_frame
+	check(get_nodes_in_group("debug_spawned_monsters").is_empty(), "Spawned monsters removed")
+	var spawn_bar = console.panel.find_child("SpawnBar", true, false)
+	for button_test in [["SpawnTail", "the_monster"], ["SpawnSlasher", "slasher"], ["SpawnSmily", "smily"]]:
+		spawn_bar.get_node(button_test[0]).pressed.emit()
+		await process_frame
+		var button_spawned = get_nodes_in_group("debug_spawned_monsters")
+		check(button_spawned.size() == 1 and button_spawned[0].model_id == button_test[1], "Individual spawn button: " + button_test[0])
+		console.execute("/despawn")
+		await process_frame
 	BaseGameplayController.delete_progress_save()
 	print("CONTAINMENT_TEST_RESULT: ", "FAIL" if failed else "PASS")
 	quit(1 if failed else 0)

@@ -20,9 +20,15 @@ var death_elapsed := 0.0
 var _death_started := false
 var _restored := false
 var _corpse_saved := false
+var debug_spawned := false
+var debug_health := 100.0
+var _awareness := 0.0
+var _alert_target: Node3D
 
 func _ready() -> void:
 	add_to_group("hostile_monsters")
+	if debug_spawned:
+		add_to_group("debug_spawned_monsters")
 	collision_layer = 2
 	collision_mask = 3
 	var shape := CollisionShape3D.new()
@@ -43,13 +49,13 @@ func _ready() -> void:
 	_target_position = position
 
 func _physics_process(delta: float) -> void:
-	if not _restored:
+	if not _restored and not debug_spawned:
 		_restored = true
 		var saved: Dictionary = encounter.state.containment.get("bodies", {}).get(str(monster_id), {})
 		if saved.has("transform"):
 			global_transform = saved.transform
 			_target_position = position
-	health = encounter.get_monster_health(monster_id)
+	health = debug_health if debug_spawned else encounter.get_monster_health(monster_id)
 	if health <= 0.0:
 		collision_layer = 0
 		if not _death_started:
@@ -69,7 +75,8 @@ func _physics_process(delta: float) -> void:
 			if death_elapsed >= 6.0 and corpse.linear_velocity.length() < 0.2 and corpse.angular_velocity.length() < 0.2 and not _corpse_saved:
 				_corpse_saved = true
 				corpse.freeze = true
-				encounter.save_body(monster_id, global_transform, true)
+				if not debug_spawned:
+					encounter.save_body(monster_id, global_transform, true)
 			_network_time += delta
 			if _network_time >= 0.1:
 				_network_time = 0.0
@@ -77,14 +84,14 @@ func _physics_process(delta: float) -> void:
 		return
 	if multiplayer.is_server():
 		_attack_left = maxf(0.0, _attack_left - delta)
-		var target: Node3D = encounter.closest_player(global_position)
+		var target: Node3D = _find_target(delta)
 		if _windup > 0.0:
 			_windup = maxf(0.0, _windup - delta)
 			velocity.x = 0
 			velocity.z = 0
 			if _windup == 0.0 and is_instance_valid(_victim) and not _victim.survival.dead and _can_reach(_victim, 2.0):
 				_victim.survival.damage(24.0 if monster_id == 0 else 18.0, "Атака существа")
-		elif target != null and encounter.navigation_ready:
+		elif target != null:
 			var offset := target.global_position - global_position
 			if offset.length() < 1.65 and _attack_left <= 0.0 and _can_reach(target, 1.8):
 				_victim = target
@@ -95,8 +102,13 @@ func _physics_process(delta: float) -> void:
 				_path_time = 0.3
 				agent.target_position = target.global_position
 			var direction := Vector3.ZERO
-			if offset.length() > 1.4 and not agent.is_navigation_finished():
-				direction = agent.get_next_path_position() - global_position
+			if offset.length() > 1.4:
+				direction = offset
+				var level_three_y: float = encounter.get_parent().to_global(Vector3(0, -54, 0)).y
+				if encounter.navigation_ready and absf(global_position.y - level_three_y) < 4.0 and not agent.is_navigation_finished():
+					var nav_direction := agent.get_next_path_position() - global_position
+					if nav_direction.length_squared() > 0.04:
+						direction = nav_direction
 				direction.y = 0
 				direction = direction.normalized()
 			velocity.x = direction.x * (2.2 if monster_id == 0 else 2.7)
@@ -130,9 +142,42 @@ func _can_reach(target: Node3D, reach: float) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, target.global_position + Vector3.UP, 1, [get_rid()])
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
+func _find_target(delta: float) -> Node3D:
+	_awareness = maxf(0.0, _awareness - delta)
+	var candidate: Node3D = encounter.closest_player(global_position)
+	if candidate != null and _can_see(candidate):
+		_alert_target = candidate
+		_awareness = 6.0
+	if _awareness <= 0.0 or not is_instance_valid(_alert_target) or _alert_target.survival.dead:
+		_alert_target = null
+	return _alert_target
+
+func _can_see(target: Node3D) -> bool:
+	var eye := global_position + Vector3.UP * (1.45 if monster_id != 2 else 0.75)
+	var target_point := target.global_position + Vector3.UP
+	var offset := target_point - eye
+	var distance := offset.length()
+	if distance > 28.0:
+		return false
+	var forward := -global_basis.z
+	if distance > 3.0 and forward.dot(offset.normalized()) < cos(deg_to_rad(58.0)):
+		return false
+	var query := PhysicsRayQueryParameters3D.create(eye, target_point, 1, [get_rid()])
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
 func apply_weapon_damage(amount: float) -> void:
 	if multiplayer.is_server() and health > 0.0:
-		encounter.damage_monster(monster_id, amount)
+		if debug_spawned:
+			_set_debug_health.rpc(maxf(0.0, debug_health - amount))
+			_alert_target = encounter.closest_player(global_position)
+			_awareness = 10.0
+		else:
+			encounter.damage_monster(monster_id, amount)
+
+@rpc("authority", "call_local", "reliable")
+func _set_debug_health(value: float) -> void:
+	debug_health = value
+	health = value
 
 func _create_corpse(restored: bool) -> void:
 	corpse = RigidBody3D.new()
