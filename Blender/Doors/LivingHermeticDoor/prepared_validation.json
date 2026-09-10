@@ -1,0 +1,421 @@
+{
+  "source_sha256": "ddd6cb07d4c951d6f3f7797f0e167e568805a32421f132738cfb4bb209a57627",
+  "source_file_unchanged": true,
+  "vertices_before": 1254,
+  "vertices_after": 1254,
+  "faces_before": 956,
+  "faces_after": 956,
+  "triangle_count": 2016,
+  "max_world_vertex_deviation_m": 2.3946401483954105e-07,
+  "objects": {
+    "FrameFasteners": {
+      "parent": "Frame",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        2.7376608848571777,
+        0.3082759976387024,
+        2.4374570846557617
+      ],
+      "boundary_edges": 96,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "LeftLeaf_Fasteners_001": {
+      "parent": "LeftLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.01066058874130249,
+        0.7577304840087891
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "LeftLeaf_Fasteners_002": {
+      "parent": "LeftLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010660558938980103,
+        0.3565789461135864
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "LeftLeaf_Fasteners_003": {
+      "parent": "LeftLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010660558938980103,
+        0.7577300071716309
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "LeftLeaf_Fasteners_004": {
+      "parent": "LeftLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010660529136657715,
+        0.35657888650894165
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "RightLeaf_Fasteners_005": {
+      "parent": "RightLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.01066058874130249,
+        0.7577304840087891
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "RightLeaf_Fasteners_006": {
+      "parent": "RightLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010660558938980103,
+        0.3565789461135864
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "RightLeaf_Fasteners_007": {
+      "parent": "RightLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010661158710718155,
+        0.7577300071716309
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "RightLeaf_Fasteners_008": {
+      "parent": "RightLeaf",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        0.6293071508407593,
+        0.010661128908395767,
+        0.35657888650894165
+      ],
+      "boundary_edges": 24,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "FrontStatusLamps": {
+      "parent": "LivingHermeticDoor",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        3.080033302307129,
+        0.07357512414455414,
+        1.795056939125061
+      ],
+      "boundary_edges": 16,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "BackStatusLamps": {
+      "parent": "LivingHermeticDoor",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        3.080033302307129,
+        0.07357510924339294,
+        1.795056939125061
+      ],
+      "boundary_edges": 16,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "FrontStatusLenses": {
+      "parent": "FrontStatusLamps",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        3.020740032196045,
+        0.03546753525733948,
+        1.6963356733322144
+      ],
+      "boundary_edges": 16,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "BackStatusLenses": {
+      "parent": "BackStatusLamps",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        3.020740509033203,
+        0.03546753525733948,
+        1.6963356733322144
+      ],
+      "boundary_edges": 16,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "Frame": {
+      "parent": "LivingHermeticDoor",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dimensions": [
+        3.0,
+        0.2999999523162842,
+        3.0
+      ],
+      "boundary_edges": 0,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "LeftLeaf": {
+      "parent": "LivingHermeticDoor",
+      "origin": [
+        -0.5902080535888672,
+        2.384185791015625e-06,
+        1.350000262260437
+      ],
+      "dimensions": [
+        1.190000057220459,
+        0.14944982528686523,
+        2.6800005435943604
+      ],
+      "boundary_edges": 0,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "RightLeaf": {
+      "parent": "LivingHermeticDoor",
+      "origin": [
+        0.600208044052124,
+        2.384185791015625e-06,
+        1.350000262260437
+      ],
+      "dimensions": [
+        1.190000057220459,
+        0.14944982528686523,
+        2.6800005435943604
+      ],
+      "boundary_edges": 0,
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "boundary_edges": 352,
+  "nonmanifold_junctions": 0,
+  "degenerate_faces": 0,
+  "notes": [
+    "Source boundary edges retained; no holes filled and no bevels added.",
+    "Frame and both leaf bodies are closed.",
+    "Original polygons retained in Blender; GLB tessellates them.",
+    "Leaf origins use actual bounds; positions were not snapped to the earlier brief.",
+    "Indicator mirror/array realized; existing faces split into front/back groups."
+  ],
+  "uv_overlapping_triangle_pairs": 0,
+  "all_images_2k": true,
+  "glb_bytes": 36938368,
+  "glb_cameras": 0,
+  "glb_animations": 0,
+  "glb_materials": [
+    "M_Status_Red",
+    "M_Status_Green",
+    "M_Door_Frame",
+    "M_Door_Leaf",
+    "M_Door_Recess_Seal",
+    "M_Living_Accent"
+  ],
+  "glb_textures_embedded": true,
+  "glb_textured_primitives_have_tangents": true
+}

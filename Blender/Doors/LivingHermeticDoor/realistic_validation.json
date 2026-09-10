@@ -1,0 +1,52 @@
+{
+  "frame": {
+    "uv_coverage": 0.3142521381378174,
+    "median_pixels_per_meter": 339.4631652832031,
+    "overlapping_uv_triangles": 0
+  },
+  "doors": {
+    "uv_coverage": 0.4692983627319336,
+    "median_pixels_per_meter": 340.9918212890625,
+    "overlapping_uv_triangles": 0
+  },
+  "geometry_unchanged": true,
+  "texture_resolution": 2048,
+  "source": "User BaseColor material-interior references plus imagegen microheight; unified geometry-based physical wear masks. Original mismatched normal/metallic/roughness/AO not used.",
+  "material_images": {
+    "doors_BaseColor": [
+      2048,
+      2048
+    ],
+    "doors_Normal": [
+      2048,
+      2048
+    ],
+    "doors_ORM": [
+      2048,
+      2048
+    ],
+    "frame_BaseColor": [
+      2048,
+      2048
+    ],
+    "frame_Normal": [
+      2048,
+      2048
+    ],
+    "frame_ORM": [
+      2048,
+      2048
+    ]
+  },
+  "glb_bytes": 16522024,
+  "glb_images": 6,
+  "glb_materials": [
+    "M_Status_Red",
+    "M_Status_Green",
+    "M_Door_Frame",
+    "M_Door_Leaf",
+    "M_Door_Recess_Seal",
+    "M_Living_Accent"
+  ],
+  "validation_passed": true
+}
