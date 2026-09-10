@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bq6r0gmf1m8u3"]
 
+[ext_resource type="PackedScene" uid="uid://dskcl7rj1ry4l" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door.glb" id="1_vkp5a"]
 [ext_resource type="PackedScene" uid="uid://dew173wl8gco2" path="res://scenes/art/doors/standard_door_frosted_visual_blockout.tscn" id="4_standard_door_frosted_visual"]
-[ext_resource type="PackedScene" uid="uid://ccnqa7qlnpcc8" path="res://scenes/art/doors/living_hermetic_door_visual_blockout.tscn" id="5_living_hermetic_door_visual"]
 [ext_resource type="PackedScene" uid="uid://d2f2qx027hi0m" path="res://scenes/art/doors/medical_hermetic_door_visual_blockout.tscn" id="6_medical_hermetic_door_visual"]
 [ext_resource type="PackedScene" uid="uid://r0l282ty6b2e" path="res://scenes/art/doors/common_protected_standard_door_visual_blockout.tscn" id="7_common_protected_standard_door_visual"]
 [ext_resource type="PackedScene" uid="uid://bmacx8hw4bkf2" path="res://scenes/art/doors/technical_hub_storage_door_visual_blockout.tscn" id="8_technical_hub_storage_door_visual"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cxjbvw0xj5jq7" path="res://scenes/art/doors/science_entrance_door_visual_blockout.tscn" id="10_science_entrance_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/science_briefing_research_door_visual_blockout.tscn" id="11_science_briefing_research_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/science_research_isolation_door_visual_blockout.tscn" id="12_science_research_isolation_door_visual"]
-[ext_resource type="PackedScene" uid="uid://cfp4aig1yq0x3" path="res://scenes/art/doors/west_hub_decon_door_visual_blockout.tscn" id="13_west_hub_decon_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/west_decon_equipment_door_visual_blockout.tscn" id="14_west_decon_equipment_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/west_equipment_garage_door_visual_blockout.tscn" id="15_west_equipment_garage_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/west_garage_cold_warm_door_visual_blockout.tscn" id="16_west_cold_warm_door_visual"]
@@ -44,17 +43,6 @@ albedo_color = Color(0.08, 0.52, 0.24, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_technical"]
 albedo_color = Color(0.82, 0.16, 0.04, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_tank"]
-albedo_color = Color(0.32, 0.085, 0.012, 1)
-metallic = 0.55
-roughness = 0.34
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_hazard"]
-albedo_color = Color(0.95, 0.48, 0.035, 1)
-emission_enabled = true
-emission = Color(0.72, 0.18, 0.01, 1)
-emission_energy_multiplier = 1.6
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_science_containment"]
 albedo_color = Color(0.78, 0.16, 0.035, 1)
 
@@ -69,6 +57,17 @@ albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76o8y"]
 albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_tank"]
+albedo_color = Color(0.32, 0.085, 0.012, 1)
+metallic = 0.55
+roughness = 0.34
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_hazard"]
+albedo_color = Color(0.95, 0.48, 0.035, 1)
+emission_enabled = true
+emission = Color(0.72, 0.18, 0.01, 1)
+emission_energy_multiplier = 1.6
 
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
 editor_description = "Отдельная сцена нулевого уровня базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные уровни принадлежат сборочной сцене Base_Blockout_v03."
@@ -1435,7 +1434,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -0.1, 0)
 use_collision = true
 size = Vector3(28.3, 0.2, 16.3)
 
-[node name="Day1_Arrival_Platform" type="CSGBox3D" parent="West_Entrance/Shared_Structure"]
+[node name="Day1_Arrival_Platform" type="CSGBox3D" parent="West_Entrance/Shared_Structure" unique_id=441068590]
 editor_description = "Наружная площадка появления до двух игроков. Стыкуется с пешеходным входом без ступени."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.65, -0.1, 3)
 use_collision = true
@@ -1494,9 +1493,6 @@ size = Vector3(0.3, 2.5, 1.5)
 [node name="Transitions" type="Node3D" parent="West_Entrance" unique_id=1245221014]
 
 [node name="Hub_Decon" type="Node3D" parent="West_Entrance/Transitions" unique_id=1200228303]
-
-[node name="West_Hub_Decon_Door_Visual_Prototype" parent="West_Entrance/Transitions/Hub_Decon" unique_id=971400324 instance=ExtResource("13_west_hub_decon_door_visual")]
-transform = Transform3D(0, 0, -1.3333333, 0, 1, 0, 1, 0, 0, -9.963, 0, 0)
 
 [node name="Door_Socket" type="Marker3D" parent="West_Entrance/Transitions/Hub_Decon" unique_id=1395913248]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -10, 0, 0)
@@ -2197,23 +2193,23 @@ use_collision = true
 size = Vector3(2, 2.5, 1.2)
 material = SubResource("StandardMaterial3D_fuel_tank")
 
-[node name="Technical_Fuel_Tank_Hazard_Band_Left" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
+[node name="Technical_Fuel_Tank_Hazard_Band_Left" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling" unique_id=500332956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 1.25, 24.62)
 size = Vector3(0.18, 2.3, 0.06)
 material = SubResource("StandardMaterial3D_fuel_hazard")
 
-[node name="Technical_Fuel_Tank_Hazard_Band_Right" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
+[node name="Technical_Fuel_Tank_Hazard_Band_Right" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling" unique_id=1748475639]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.25, 24.62)
 size = Vector3(0.18, 2.3, 0.06)
 material = SubResource("StandardMaterial3D_fuel_hazard")
 
-[node name="Technical_Fuel_Tank_Header" type="Label3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling"]
-position = Vector3(-5.5, 2.88, 24.59)
-rotation = Vector3(0, 3.14159, 0)
-text = "ТОПЛИВНЫЙ БАК\nЗАПРАВКА  ↓"
+[node name="Technical_Fuel_Tank_Header" type="Label3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling" unique_id=2134570091]
+transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, -5.5, 2.88, 24.59)
+modulate = Color(1, 0.63, 0.18, 1)
+text = "ТОПЛИВНЫЙ БАК
+ЗАПРАВКА  ↓"
 font_size = 42
 outline_size = 10
-modulate = Color(1, 0.63, 0.18, 1)
 
 [node name="Technical_Fuel_Containment_North_Blockout" type="CSGBox3D" parent="South_Technical/Generator_Room/Fuel_And_Cooling" unique_id=1597013005]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.015, 24.45)
@@ -2386,7 +2382,7 @@ material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Power_And_Maintenance" type="Node3D" parent="South_Technical/Gameplay_Sockets" unique_id=2050478136]
 
-[node name="Day1_Fuel_Can_Spawn" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance"]
+[node name="Day1_Fuel_Can_Spawn" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=261516671]
 editor_description = "Временная точка появления канистры в генераторной, рядом с генератором."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.36, 19.2)
 
@@ -2394,14 +2390,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.36, 19.2)
 editor_description = "Заправка генератора в первый день; также подходит для ежедневного пополнения топлива."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.2, 24.45)
 
-[node name="FuelFillInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Fuel_Fill_Socket" instance=ExtResource("20_base_fuel_socket")]
+[node name="FuelFillInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Fuel_Fill_Socket" unique_id=1877804335 instance=ExtResource("20_base_fuel_socket")]
 
 [node name="Day1_Main_Breaker_Activation_Socket" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=185821466]
 editor_description = "Главный щит: после топлива включает питание и освещение всей базы."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05, 1.3, 22)
 
-[node name="MainBreakerInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Main_Breaker_Activation_Socket" instance=ExtResource("21_base_main_breaker")]
-rotation = Vector3(0, 1.5708, 0)
+[node name="MainBreakerInteractable" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance/Day1_Main_Breaker_Activation_Socket" unique_id=547403219 instance=ExtResource("21_base_main_breaker")]
+transform = Transform3D(-3.6199901e-06, 0, 1, 0, 1, 0, -1, 0, -3.6199901e-06, 0, 0, 0)
 
 [node name="Daily_Generator_Service_Socket" type="Marker3D" parent="South_Technical/Gameplay_Sockets/Power_And_Maintenance" unique_id=1970960599]
 editor_description = "Ежедневное обслуживание: диагностика, предохранитель, перезапуск или другая сменная операция."
@@ -2472,8 +2468,8 @@ size = Vector3(24, 0.3, 16)
 [node name="Door_Socket" type="Marker3D" parent="East_Living/Transitions/Hub_Common" unique_id=1939375117]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10, 0, 0)
 
-[node name="Living_Hermetic_Door_Visual_Prototype" parent="East_Living/Transitions/Hub_Common" unique_id=1927456787 instance=ExtResource("5_living_hermetic_door_visual")]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.003, 0, 0)
+[node name="living_hermetic_door" parent="East_Living/Transitions/Hub_Common" unique_id=70269635 instance=ExtResource("1_vkp5a")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 10, 0, 0)
 
 [node name="Common_Protected" type="Node3D" parent="East_Living/Transitions" unique_id=937333553]
 
@@ -3108,20 +3104,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0.05, -5.4)
 editor_description = "Готовность первого игрока завершить день и создать чекпоинт."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.95, -6.25)
 
-[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Socket" instance=ExtResource("22_end_day_bunk")]
+[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Socket" unique_id=422647012 instance=ExtResource("22_end_day_bunk")]
 
 [node name="End_Day_Bunk_Player_02_Socket" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint" unique_id=751908430]
 editor_description = "Готовность второго игрока завершить день. В кооперативе требуются оба игрока."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.95, -6.25)
 
-[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Socket" instance=ExtResource("22_end_day_bunk")]
+[node name="EndDayBunkInteractable" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Socket" unique_id=213778929 instance=ExtResource("22_end_day_bunk")]
 assigned_player_slot = 1
 
-[node name="End_Day_Bunk_Player_01_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint"]
+[node name="End_Day_Bunk_Player_01_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint" unique_id=788935341]
 editor_description = "Предмет первого игрока после выхода из сессии."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.4, -5.55)
 
-[node name="End_Day_Bunk_Player_02_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint"]
+[node name="End_Day_Bunk_Player_02_Item_Drop" type="Marker3D" parent="East_Living/Gameplay_Sockets/Sleep_And_Checkpoint" unique_id=1284735561]
 editor_description = "Предмет второго игрока после выхода из сессии."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.4, -5.55)
 

@@ -1,0 +1,229 @@
+{
+  "units": "metres",
+  "objects": {
+    "Frame": {
+      "triangles": 4020,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        3.0,
+        0.30000001192092896,
+        3.0
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    },
+    "FrameSeals": {
+      "triangles": 648,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        2.431999921798706,
+        0.19500000774860382,
+        2.7129998207092285
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    },
+    "LeftLeaf": {
+      "triangles": 3380,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        1.190000057220459,
+        0.14000000059604645,
+        2.680000066757202
+      ],
+      "location": [
+        -0.5950000286102295,
+        0.0,
+        1.350000023841858
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    },
+    "RightLeaf": {
+      "triangles": 3380,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        1.190000057220459,
+        0.14000000059604645,
+        2.680000066757202
+      ],
+      "location": [
+        0.5950000286102295,
+        0.0,
+        1.350000023841858
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    },
+    "CenterSeal_Front": {
+      "triangles": 188,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        0.024000000208616257,
+        0.014000000432133675,
+        2.6540000438690186
+      ],
+      "location": [
+        0.5950000286102295,
+        -0.07800000160932541,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "parent": "LeftLeaf"
+    },
+    "CenterSeal_Back": {
+      "triangles": 188,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        0.024000000208616257,
+        0.014000000432133675,
+        2.6540000438690186
+      ],
+      "location": [
+        0.5950000286102295,
+        0.07800000160932541,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "parent": "LeftLeaf"
+    },
+    "FrontStatusLamps": {
+      "triangles": 2272,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        3.0799999237060547,
+        0.08149999380111694,
+        1.7899999618530273
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    },
+    "BackStatusLamps": {
+      "triangles": 2272,
+      "non_manifold_edges": 0,
+      "dimensions": [
+        3.0799999237060547,
+        0.08149999380111694,
+        1.7899999618530273
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "parent": "LivingHermeticDoor"
+    }
+  },
+  "triangle_count": 16348,
+  "non_manifold_edges": 0,
+  "degenerate_faces": 0,
+  "notes": [
+    "Frame envelope 3 x 0.30 x 3 m; lamps extend width to 3.08 m as specified.",
+    "Back socket has the explicitly requested 180 degree Z rotation.",
+    "No threshold, panel geometry, animation, collisions or wall.",
+    "Upper lenses green and lower lenses red are material previews only; Godot owns final state."
+  ],
+  "uv_overlapping_triangle_pairs": 0,
+  "all_images_2k": true,
+  "glb_bytes": 38984780,
+  "glb_cameras": 0,
+  "glb_animations": 0,
+  "glb_materials": [
+    "M_Door_Frame",
+    "M_Status_Red",
+    "M_Status_Green",
+    "M_Door_Recess_Seal",
+    "M_Door_Leaf",
+    "M_Living_Accent"
+  ],
+  "glb_textures_embedded": true,
+  "glb_textured_primitives_have_tangents": true
+}
