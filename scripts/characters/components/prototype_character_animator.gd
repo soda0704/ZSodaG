@@ -89,7 +89,7 @@ func update_pose(
 	var rotation_weight := 1.0 - exp(-6.0 * delta)
 	rotation.x = lerp_angle(
 		rotation.x,
-		-PI * 0.5 if _sleeping else 0.0,
+		PI * 0.5 if _sleeping else 0.0,
 		rotation_weight
 	)
 	if _sleeping:

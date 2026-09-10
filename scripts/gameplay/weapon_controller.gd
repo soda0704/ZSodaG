@@ -37,8 +37,8 @@ func _ready() -> void:
 	_flash.hide()
 	_audio = AudioStreamPlayer3D.new()
 	add_child(_audio)
-	_audio.max_distance = 45.0
-	_audio.volume_db = -14.0
+	_audio.max_distance = 24.0
+	_audio.volume_db = -24.0
 	_audio.stream = _make_shot_sound()
 	var layer := CanvasLayer.new()
 	add_child(layer)
@@ -151,7 +151,6 @@ func perform_action(action: StringName) -> bool:
 	var hit: Dictionary = player.get_world_3d().direct_space_state.intersect_ray(query)
 	if not hit.is_empty():
 		var target: Node = hit.collider
-		# Friendly fire is off for this first cooperative prototype.
 		if target.has_method("apply_weapon_damage"):
 			target.apply_weapon_damage(50.0 if kind == &"kitchen_knife" else 25.0 if kind == &"m4a1" else 35.0)
 		if target is RigidBody3D:
@@ -222,6 +221,9 @@ func _impact(point: Vector3, normal: Vector3) -> void:
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mark.material_override = mat
 	get_tree().current_scene.add_child(mark)
+	# Decals are world-space evidence of a shot. In particular, they must not
+	# inherit the moving elevator cabin's transform.
+	mark.top_level = true
 	mark.global_position = point + normal * 0.015
 	var fade := mark.create_tween()
 	fade.tween_interval(0.25)

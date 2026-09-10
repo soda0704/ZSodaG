@@ -147,3 +147,8 @@ disabled = true
 [node name="SleepPose" type="Marker3D" parent="BedPivot"]
 unique_name_in_owner = true
 position = Vector3(0, 0.22, 1.62)
+
+[node name="WakePose" type="Marker3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(1.15, 0, 1.25)
+rotation = Vector3(0, -1.5708, 0)

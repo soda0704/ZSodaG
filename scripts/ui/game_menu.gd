@@ -373,7 +373,14 @@ func apply_settings_data() -> void:
 			"maximized":
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 			_:
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+				# Borderless fullscreen always uses the desktop resolution. Switch
+				# through a sized window so exclusive fullscreen applies the value
+				# selected in the menu, including after a freshly exported build.
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+				DisplayServer.window_set_size(resolution)
+				DisplayServer.window_set_mode(
+					DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+				)
 		DisplayServer.window_set_vsync_mode(
 			DisplayServer.VSYNC_ENABLED
 			if vsync_enabled

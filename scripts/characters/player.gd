@@ -141,6 +141,7 @@ func setup(
 
 
 func _ready() -> void:
+	add_to_group("network_players")
 	survival = preload("res://scripts/characters/components/player_survival.gd").new()
 	survival.name = "Survival"
 	add_child(survival)
@@ -164,7 +165,7 @@ func _ready() -> void:
 
 	if local_player:
 		add_to_group("local_player")
-		if not GameMenu.is_menu_open():
+		if not get_node("/root/GameMenu").is_menu_open():
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	flashlight.drain_battery_locally = false
@@ -182,7 +183,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not is_local_player():
 		return
-	if _is_sleeping_in_bunk or _is_journal_open():
+	if _is_sleeping_in_bunk:
+		if event.is_action_pressed("interact"):
+			request_leave_bunk_sleep()
+		return
+	if _is_journal_open():
 		return
 
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
@@ -193,7 +198,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var sensitivity: float = (
 			mouse_sensitivity
-			* GameMenu.get_mouse_sensitivity_multiplier()
+			* float(get_node("/root/GameMenu").get_mouse_sensitivity_multiplier())
 		)
 		_input_yaw = wrapf(
 			_input_yaw - event.relative.x * sensitivity,
@@ -218,10 +223,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			weapon.request_action(&"reload")
 		else:
 			request_inventory_action(&"replace_battery")
-	elif event.is_action_pressed("sprint") and SteamInput.is_controller_event(event):
+	elif event.is_action_pressed("sprint") and get_node("/root/SteamInput").is_controller_event(event):
 		_pad_sprint = not _pad_sprint
 		_pad_crouch = false
-	elif event.is_action_pressed("crouch") and SteamInput.is_controller_event(event):
+	elif event.is_action_pressed("crouch") and get_node("/root/SteamInput").is_controller_event(event):
 		_pad_crouch = not _pad_crouch
 		_pad_sprint = false
 	elif event.is_action_pressed("flashlight"):
@@ -305,13 +310,14 @@ func collect_local_input() -> void:
 		if steam_move.length_squared() > godot_move.length_squared()
 		else godot_move
 	)
-	if not SteamInput.using_controller:
+	var using_controller: bool = bool(get_node("/root/SteamInput").using_controller)
+	if not using_controller:
 		_pad_sprint = false
 		_pad_crouch = false
 	if _input_move.length() < 0.1:
 		_pad_sprint = false
-	_input_crouch = _pad_crouch if SteamInput.using_controller else Input.is_action_pressed("crouch")
-	_input_sprint = (_pad_sprint if SteamInput.using_controller else Input.is_action_pressed("sprint")) and not _input_crouch
+	_input_crouch = _pad_crouch if using_controller else Input.is_action_pressed("crouch")
+	_input_sprint = (_pad_sprint if using_controller else Input.is_action_pressed("sprint")) and not _input_crouch
 
 
 func collect_local_look(delta: float) -> void:
@@ -321,14 +327,16 @@ func collect_local_look(delta: float) -> void:
 		or _is_journal_open()
 	):
 		return
-	var sensitivity_multiplier := GameMenu.get_mouse_sensitivity_multiplier()
+	var sensitivity_multiplier: float = float(
+		get_node("/root/GameMenu").get_mouse_sensitivity_multiplier()
+	)
 	var godot_look := Input.get_vector(
 		"look_left",
 		"look_right",
 		"look_up",
 		"look_down"
 	)
-	var look_radians := (
+	var look_radians: Vector2 = (
 		godot_look
 		* controller_look_speed
 		* sensitivity_multiplier
@@ -347,7 +355,7 @@ func collect_local_look(delta: float) -> void:
 		deg_to_rad(-85.0),
 		deg_to_rad(85.0)
 	)
-	var look_impulse := look_radians / maxf(mouse_sensitivity, 0.00001)
+	var look_impulse: Vector2 = look_radians / maxf(mouse_sensitivity, 0.00001)
 	camera.add_look_impulse(look_impulse)
 	flashlight.add_look_impulse(look_impulse)
 
@@ -686,7 +694,7 @@ func refresh_interaction_prompt() -> void:
 	var prompt := "Взаимодействовать"
 	if target.has_method("get_interaction_prompt"):
 		prompt = str(target.call("get_interaction_prompt"))
-	interaction_prompt_label.text = "%s %s" % [SteamInput.get_action_hint(&"interact"), prompt]
+	interaction_prompt_label.text = "%s %s" % [get_node("/root/SteamInput").get_action_hint(&"interact"), prompt]
 	interaction_prompt_label.visible = true
 
 
@@ -715,6 +723,35 @@ func enter_bunk_sleep_authoritative(sleep_transform: Transform3D) -> void:
 func leave_bunk_sleep_authoritative(wake_transform: Transform3D) -> void:
 	if multiplayer.is_server():
 		_receive_bunk_sleep_state.rpc(false, wake_transform)
+
+
+func request_leave_bunk_sleep() -> void:
+	if not is_local_player() or not _is_sleeping_in_bunk:
+		return
+	if multiplayer.is_server():
+		_server_request_leave_bunk(owner_peer_id)
+	else:
+		_request_leave_bunk_sleep.rpc_id(1)
+
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _request_leave_bunk_sleep() -> void:
+	if multiplayer.is_server():
+		_server_request_leave_bunk(multiplayer.get_remote_sender_id())
+
+
+func _server_request_leave_bunk(peer_id: int) -> void:
+	if not multiplayer.is_server() or peer_id != owner_peer_id:
+		return
+	for bunk in get_tree().get_nodes_in_group("end_day_bunks"):
+		if bunk.has_method("cancel_sleep_authoritative"):
+			if bool(bunk.call("cancel_sleep_authoritative", peer_id, self)):
+				return
+
+
+func apply_weapon_damage(amount: float) -> void:
+	if multiplayer.is_server():
+		survival.damage(amount, "Огнестрельное ранение")
 
 
 func is_sleeping_in_bunk() -> bool:
@@ -1342,7 +1379,7 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func update_battery_ui() -> void:
-	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not GameMenu.is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
+	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
 	if not battery_label.visible:
 		_displayed_battery_percent = -1
 		return
@@ -1351,4 +1388,4 @@ func update_battery_ui() -> void:
 	_displayed_battery_percent = battery_percent
 	battery_label.text = "%d%%" % battery_percent
 	if _battery_charge <= 0.0:
-		battery_label.text = "%s Заменить батарейку" % SteamInput.get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"
+		battery_label.text = "%s Заменить батарейку" % get_node("/root/SteamInput").get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"

@@ -55,7 +55,9 @@ func animate(delta: float, moving: bool, attacking: bool, dead: bool) -> void:
 			death_time = minf(death_time + delta, 1.5)
 			time = 239.5 + death_time
 		elif attacking:
-			time = 235.0 + minf(phase * 2.0, 1.0)
+			# The reel's actual claw-and-tail strike is at 30-32 seconds.
+			# Run the full anticipation and contact during the AI's 0.5 s windup.
+			time = 30.0 + minf(phase * 4.0, 2.0)
 		elif moving:
 			time = 65.0 + fmod(phase, 1.0)
 		animator.seek(time, true)

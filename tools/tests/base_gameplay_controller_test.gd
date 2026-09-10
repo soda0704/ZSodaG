@@ -232,6 +232,9 @@ func _run() -> void:
 	var day_one_collision_root := base_level.get_node_or_null(
 		"Floor_0_Base_Blockout/Day1_Door_Collisions"
 	) as Node3D
+	var automatic_doors := base_level.get_node_or_null(
+		"Floor_0_Base_Blockout/AutomaticDoors"
+	)
 	var production_elevator := base_level.get_node_or_null(
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
@@ -248,13 +251,26 @@ func _run() -> void:
 	)
 	_assert(
 		day_one_collision_shapes.size() == 4,
-		"Day 1 must have exactly four temporary passage blockers"
+		"Legacy Day 1 blockers remain available for scene migration"
 	)
 	for collision_shape in day_one_collision_shapes:
 		_assert(
-			not (collision_shape as CollisionShape3D).disabled,
-			"Day 1 passage blockers must start enabled"
+			(collision_shape as CollisionShape3D).disabled,
+			"Automatic doors must replace every temporary passage blocker"
 		)
+	_assert(
+		automatic_doors != null
+		and int(automatic_doors.call("get_door_count")) == 16
+		and int(automatic_doors.call("get_open_door_count")) == 2,
+		"All 16 authored sockets must become doors; only the two generator-route doors open without power"
+	)
+	var unpowered_science_marker := base_level.get_node(
+		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
+	) as Marker3D
+	_assert(
+		(automatic_doors.call("get_door_indicator_color_at", unpowered_science_marker) as Color).r > 0.9,
+		"All closed-door indicators must glow red"
+	)
 	_assert(
 		production_elevator.unlocked_floor_index == 0,
 		"Day 1 elevator must expose only the surface floor"
@@ -482,6 +498,26 @@ func _run() -> void:
 	)
 	main_breaker.network_interact(1, standalone_player)
 	_assert(controller.main_breaker_on, "Breaker state must become true")
+	var science_door_marker := base_level.get_node(
+		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
+	) as Marker3D
+	var position_before_door_test := standalone_player.global_position
+	standalone_player.global_position = science_door_marker.global_position + Vector3(0, 0, 1.5)
+	await create_timer(0.15).timeout
+	_assert(
+		bool(automatic_doors.call("is_door_open_at", science_door_marker)),
+		"A powered authored door must open when a player approaches"
+	)
+	_assert(
+		(automatic_doors.call("get_door_indicator_color_at", science_door_marker) as Color).g > 0.9,
+		"All open-door indicators must glow green"
+	)
+	standalone_player.global_position = position_before_door_test
+	await create_timer(0.15).timeout
+	_assert(
+		not bool(automatic_doors.call("is_door_open_at", science_door_marker)),
+		"A powered authored door must close after the player walks away"
+	)
 	_assert(
 		standard_lighting.visible and not emergency_lighting.visible,
 		"Main breaker must replace emergency lighting with standard lighting"
@@ -540,6 +576,20 @@ func _run() -> void:
 		== flashlight_serial_before_sleep_input,
 		"Sleeping player must ignore flashlight input instead of buffering it"
 	)
+	var leave_bunk_input := InputEventAction.new()
+	leave_bunk_input.action = &"interact"
+	leave_bunk_input.pressed = true
+	standalone_player.call("_unhandled_input", leave_bunk_input)
+	await process_frame
+	_assert(
+		not controller.is_peer_sleeping(1)
+		and not controller.is_peer_ready_to_end_day(1)
+		and not bool(standalone_player.call("is_sleeping_in_bunk"))
+		and is_equal_approx(bunk_one.get_node("BedPivot").rotation.x, -PI * 0.5),
+		"Interact must immediately leave network sleep and fold the bunk"
+	)
+	bunk_one.call("network_interact", 1, standalone_player)
+	bunk_one.call("network_sleep_interact", 1, standalone_player)
 	await create_timer(1.25).timeout
 	_assert(
 		controller.day_index == 2
@@ -620,8 +670,8 @@ func _run() -> void:
 	await physics_frame
 	for collision_shape in day_one_collision_shapes:
 		_assert(
-			not (collision_shape as CollisionShape3D).disabled,
-			"Day 1 reset must restore every temporary blocker"
+			(collision_shape as CollisionShape3D).disabled,
+			"Day 1 reset must keep legacy blockers replaced by automatic doors"
 		)
 	_assert(
 		production_elevator.unlocked_floor_index == 0,
