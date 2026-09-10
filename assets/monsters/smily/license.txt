@@ -1,0 +1,11 @@
+Model Information:
+* title:	Smily horror monster
+* source:	https://sketchfab.com/3d-models/smily-horror-monster-3d3fc31eddaa409a8f2df564823154e1
+* author:	Bento (https://sketchfab.com/gostbento)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Smily horror monster" (https://sketchfab.com/3d-models/smily-horror-monster-3d3fc31eddaa409a8f2df564823154e1) by Bento (https://sketchfab.com/gostbento) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

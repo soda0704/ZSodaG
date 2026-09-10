@@ -4,6 +4,8 @@ extends CharacterBody3D
 signal inventory_changed
 
 var survival: PlayerSurvival
+var debug_fly := false
+var debug_across := false
 var weapon: WeaponController
 
 const NO_ITEM := &""
@@ -228,6 +230,22 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_local_player() and multiplayer.is_server() and debug_fly and not survival.dead:
+		collect_local_input()
+		collect_local_look(delta)
+		rotation.y = _input_yaw
+		head.rotation.x = _input_pitch
+		var direction := head.global_basis * Vector3(_input_move.x, 0, _input_move.y)
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			direction.y += float(Input.is_physical_key_pressed(KEY_SPACE)) - float(Input.is_physical_key_pressed(KEY_CTRL))
+		velocity = direction.limit_length() * (18.0 if _input_sprint else 7.0)
+		if debug_across:
+			global_position += velocity * delta
+		else:
+			move_and_slide()
+		survival.reset_fall()
+		send_snapshot_if_due(delta)
+		return
 	if survival.dead:
 		velocity = Vector3.ZERO
 		interaction_prompt_label.hide()
@@ -761,6 +779,21 @@ func pickup_world_item_authoritative(
 	if not multiplayer.is_server() or survival.dead:
 		return false
 
+	if item_type == &"pistol_ammo":
+		var amount := int(item_state.get("amount", 12))
+		if amount <= 0 or weapon.pistol_ammo + amount > 240:
+			return false
+		weapon.pistol_ammo += amount
+		_publish_inventory()
+		return true
+	if item_type == &"rifle_magazine":
+		var amount := int(item_state.get("rounds", 30))
+		if amount <= 0 or amount > 30 or weapon.rifle_magazines.size() >= 10:
+			return false
+		weapon.rifle_magazines.append(amount)
+		_publish_inventory()
+		return true
+
 	if item_type == BATTERY_ITEM:
 		if _spare_batteries.size() >= MAX_SPARE_BATTERIES:
 			return false
@@ -787,6 +820,7 @@ func pickup_world_item_authoritative(
 			spawn_dropped_item_authoritative(_held_item_type, get_held_item_state())
 		_held_item_type = item_type
 		if WeaponController.TYPES.has(item_type):
+			weapon.reload_left = 0.0
 			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
 		_flashlight_enabled = false
 		_flashlight_malfunctioning = false
@@ -804,6 +838,8 @@ func get_inventory_snapshot() -> Dictionary:
 		"malfunctioning": _flashlight_malfunctioning,
 		"revision": _inventory_revision,
 		"weapon_rounds": weapon.rounds if weapon != null else 0,
+		"pistol_ammo": weapon.pistol_ammo if weapon != null else 0,
+		"rifle_magazines": weapon.rifle_magazines.duplicate() if weapon != null else [],
 		"weapon_reload": weapon.reload_left if weapon != null else 0.0,
 	}
 
@@ -835,6 +871,11 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 		if float(charge) > 0.0:
 			_spare_batteries.append(clampf(float(charge), 0.0, 1.0))
 	_held_item_type = StringName(data.get("held_item", NO_ITEM))
+	weapon.pistol_ammo = clampi(int(data.get("pistol_ammo", 0)), 0, 240)
+	weapon.rifle_magazines.clear()
+	for magazine: Variant in data.get("rifle_magazines", []):
+		if weapon.rifle_magazines.size() < 10 and int(magazine) > 0:
+			weapon.rifle_magazines.append(clampi(int(magazine), 1, 30))
 	weapon.apply_state(_held_item_type, int(data.get("weapon_rounds", WeaponController.CAPACITY.get(_held_item_type, 0))), float(data.get("weapon_reload", 0.0)))
 	if _held_item_type == FLASHLIGHT_ITEM and not _has_flashlight:
 		_held_item_type = NO_ITEM
@@ -1026,6 +1067,13 @@ func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
 	_battery_charge = 0.0
 	_spare_batteries.clear()
 	_publish_inventory()
+	if weapon.pistol_ammo > 0:
+		spawn_dropped_item_authoritative(&"pistol_ammo", {"amount": weapon.pistol_ammo}, drop_transform, Vector3.ZERO)
+	for magazine: int in weapon.rifle_magazines:
+		spawn_dropped_item_authoritative(&"rifle_magazine", {"rounds": magazine}, drop_transform, Vector3.ZERO)
+	weapon.pistol_ammo = 0
+	weapon.rifle_magazines.clear()
+	_publish_inventory()
 
 
 func consume_held_item_authoritative(item_type: StringName) -> bool:
@@ -1074,7 +1122,7 @@ func spawn_dropped_item_authoritative(
 		if item_type == FUSE_ITEM
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
 		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
-		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) else null
+		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"] else null
 	)
 	if pickup_scene == null or get_tree().current_scene == null:
 		return

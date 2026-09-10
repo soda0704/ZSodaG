@@ -37,7 +37,7 @@ albedo_color = Color(0.27, 0.3, 0.31, 1)
 roughness = 0.98
 
 [node name="Floor_Minus4_Expedition_Shaft_Blockout" type="Node3D" unique_id=924861012]
-editor_description = "Floor -4 underground expedition and shaft-support level. The route begins with the elevator arrival, expedition checkpoint, frozen-cargo approach and dispatch control, then reaches the primary winch hall above the sealed expedition shaft."
+editor_description = "Level 4 underground expedition and shaft-support level. The route begins with the elevator arrival, expedition checkpoint, frozen-cargo approach and dispatch control, then reaches the primary winch hall above the sealed expedition shaft."
 
 [node name="Stage_01_Elevator_Expedition_Arrival" type="Node3D" parent="." unique_id=636721704]
 editor_description = "Compact controlled arrival. The elevator opens directly into a concrete-and-steel expedition vestibule; no separate landing platform is used. The opposite opening leads into the equipment and air-status checkpoint."
@@ -121,7 +121,7 @@ size = Vector3(0.72, 0.18, 0.05)
 material = SubResource("Material_hazard")
 
 [node name="Stage_02_Expedition_Checkpoint" type="Node3D" parent="." unique_id=1762513379]
-editor_description = "Shared expedition checkpoint with separate outbound equipment and dirty-return cues. The widened west opening supports an electric cargo tug plus a protected pedestrian lane without repeating Floor -3 biological decontamination."
+editor_description = "Shared expedition checkpoint with separate outbound equipment and dirty-return cues. The widened west opening supports an electric cargo tug plus a protected pedestrian lane without repeating Level 3 biological decontamination."
 
 [node name="Structure" type="Node3D" parent="Stage_02_Expedition_Checkpoint" unique_id=90000801]
 
@@ -462,7 +462,7 @@ size = Vector3(3, 2, 0.3)
 material = SubResource("Material_steel")
 
 [node name="Deferred_Cargo_Transport_Route" type="Marker3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=867985531]
-editor_description = "DEFERRED UNTIL FLOOR -4 BLOCKOUT IS COMPLETE: verify one continuous battery-tug route from the main elevator to the shaft cage. Do not restore isolated rail fragments."
+editor_description = "DEFERRED UNTIL УРОВЕНЬ 4 BLOCKOUT IS COMPLETE: verify one continuous battery-tug route from the main elevator to the shaft cage. Do not restore isolated rail fragments."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 0, -2.4)
 
 [node name="Cargo_Maneuvering_Lane" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=1583029181]
@@ -484,7 +484,7 @@ size = Vector3(3.2, 0.06, 2.4)
 material = SubResource("Material_hazard")
 
 [node name="Expedition_Control_Booth" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=1673036467]
-editor_description = "Two-person shaft logistics booth. It supervises cargo movement and expedition status without duplicating Floor -1 security command."
+editor_description = "Two-person shaft logistics booth. It supervises cargo movement and expedition status without duplicating Level 1 security command."
 
 [node name="West_Glass" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Expedition_Control_Booth" unique_id=790225680]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.15, 2.81615, 0.45)
@@ -600,7 +600,7 @@ size = Vector3(0.42, 0.28, 0.42)
 material = SubResource("Material_hazard")
 
 [node name="Stage_05_Primary_Winch_And_Shaft_Hall" type="Node3D" parent="." unique_id=1513967044]
-editor_description = "Primary Floor -4 shaft station. The cage and head sheave occupy the tall rock hall, while the drum, drive and brakes sit in a separate east machine room. All geometry remains functional blockout rather than final machinery art."
+editor_description = "Primary Level 4 shaft station. The cage and head sheave occupy the tall rock hall, while the drum, drive and brakes sit in a separate east machine room. All geometry remains functional blockout rather than final machinery art."
 
 [node name="Rock_Lined_Connector" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1296355643]
 
@@ -860,7 +860,7 @@ size = Vector3(0.18, 5.6, 2.6)
 material = SubResource("Material_steel")
 
 [node name="Shaft_Cage_Prototype" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1785062772]
-editor_description = "Walkable cargo-and-personnel cage shown at the Floor -4 landing. It fills the shaft opening during blockout and can later become a separate moving scene controlled by gameplay code."
+editor_description = "Walkable cargo-and-personnel cage shown at the Level 4 landing. It fills the shaft opening during blockout and can later become a separate moving scene controlled by gameplay code."
 
 [node name="Cage_Loading_Deck" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1331100405]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.04, -21)
@@ -963,7 +963,7 @@ size = Vector3(0.12, 2.8, 2.25)
 material = SubResource("Material_hazard")
 
 [node name="Landing_Safety_Enclosure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=878539772]
-editor_description = "Fixed landing protection remains on Floor -4 when the cage travels down. The south interlocked gate is shown open for blockout traversal and must close whenever the cage leaves the landing."
+editor_description = "Fixed landing protection remains on Level 4 when the cage travels down. The south interlocked gate is shown open for blockout traversal and must close whenever the cage leaves the landing."
 
 [node name="Deployed_Landing_Bridge_Plate" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1626464714]
 editor_description = "Retractable bridge plate shown deployed in blockout. It closes the safety clearance between the fixed landing floor and the cage deck."
@@ -1518,7 +1518,7 @@ size = Vector3(1.8, 5.15, 8.1)
 material = SubResource("Material_rock")
 
 [node name="Mid_Shaft_Expansion" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=394998734]
-editor_description = "Irregular natural expansion from 12 m to 40 m below Floor -4. The cage keeps a straight vertical route while the surrounding rock opens from roughly 7 m to 12 m across."
+editor_description = "Irregular natural expansion from 12 m to 40 m below Level 4. The cage keeps a straight vertical route while the surrounding rock opens from roughly 7 m to 12 m across."
 
 [node name="North_Shoulder" type="CSGBox3D" parent="Winch_Shaft_Blockout/Mid_Shaft_Expansion" unique_id=547461854]
 transform = Transform3D(0.99415046, -0.041796394, -0.09958893, 0.03490716, 0.9969401, -0.06994285, 0.10220756, 0.06605734, 0.9925674, -47.9, -15.4, -25.55)
@@ -1600,7 +1600,7 @@ size = Vector3(5.8, 2.25, 2.75)
 material = SubResource("Material_rock")
 
 [node name="Lower_Shaft_Cavern_Opening" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=2066598391]
-editor_description = "Final natural descent from 40 m to 68 m below Floor -4. The rock briefly opens around the moving cage, then closes into the safe arrival hub without revealing the later tectonic quarry."
+editor_description = "Final natural descent from 40 m to 68 m below Level 4. The rock briefly opens around the moving cage, then closes into the safe arrival hub without revealing the later tectonic quarry."
 
 [node name="North_Lower_Throat" type="CSGBox3D" parent="Winch_Shaft_Blockout/Lower_Shaft_Cavern_Opening" unique_id=1755382064]
 transform = Transform3D(0.9939888, 0.045273233, 0.099682465, -0.039928865, 0.9976892, -0.054972276, -0.101940885, 0.05066162, 0.99349964, -47, -44.2, -28.7)
@@ -1809,7 +1809,7 @@ position = Vector3(-37.7, -71.8, -23)
 rotation = Vector3(0, -0.13, 0)
 
 [node name="Winch_Disabled_State_Contract" type="Node3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub" unique_id=2078938353]
-editor_description = "After arrival the exposed mechanism simply becomes unresponsive. The cage remains in the irregular safe pocket, but return to Floor -4 is temporarily unavailable."
+editor_description = "After arrival the exposed mechanism simply becomes unresponsive. The cage remains in the irregular safe pocket, but return to Level 4 is temporarily unavailable."
 
 [node name="Northwest_Hanging_Rock" type="CSGSphere3D" parent="Winch_Shaft_Blockout/Floor_Minus5_Safe_Arrival_Hub"]
 position = Vector3(-55.8, -65.2, -26.8)
@@ -1854,7 +1854,7 @@ shadow_enabled = true
 omni_range = 9.0
 
 [node name="Winch_Cage_Travel_Contract" type="Node3D" parent="." unique_id=1492284378]
-editor_description = "LD contract for the separate winch cage. The cage travels vertically 72 m between Floor -4 and the future Floor -5; this route is independent from the main base elevator."
+editor_description = "LD contract for the separate winch cage. The cage travels vertically 72 m between Level 4 and the future Level 5; this route is independent from the main base elevator."
 
 [node name="FloorMinus4Departure" type="Marker3D" parent="Winch_Cage_Travel_Contract" unique_id=1856677647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)

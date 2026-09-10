@@ -145,4 +145,28 @@ for y in [-.075, -.038, 0]:
     bpy.context.object.name = 'Handle_rivet'
     bpy.context.object.data.materials.append(silver)
 save('kitchen_knife')
+
+clear()
+box('Magazine_shell', (0, 0, 0), (.028, .071, .145), steel, .16)
+box('Magazine_baseplate', (0, .01, -.075), (.035, .08, .008), poly)
+box('Follower', (0, -.009, .072), (.023, .055, .005), wood)
+for side in [-1, 1]:
+    for i in range(3):
+        box('Pressed_rib', (side*.0148, -.022+i*.02, 0), (.002, .005, .11), dark, .16)
+save('rifle_magazine')
+
+clear()
+brass = material('Cartridge brass', (.55, .33, .085), .8, .28)
+copper = material('Bullet jacket', (.5, .21, .09), .8, .3)
+for x in [-.012, 0, .012]:
+    for y in [-.02, 0, .02]:
+        bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=.0048, depth=.019, location=(x, y, 0))
+        bpy.context.object.name = 'Cartridge_case'
+        bpy.context.object.data.materials.append(brass)
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=12, ring_count=8, radius=.0045, location=(x, y, .01))
+        bpy.context.object.name = 'Bullet'
+        bpy.context.object.scale.z = 1.6
+        bpy.context.object.data.materials.append(copper)
+box('Ammo_tray', (0, 0, -.01), (.048, .064, .007), poly)
+save('pistol_ammo')
 print('WEAPON_MODELS: COMPLETE')

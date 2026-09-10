@@ -289,11 +289,21 @@ func _refresh_content() -> void:
 		elif day == 2:
 			var stage := int(_controller.quest_stage)
 			objective_label.text = "Ключ шифрования"
-			tasks_label.text = "\n".join([_task_line(stage >= 2, "Получить задание в хабе"), _task_line(stage >= 3, "Найти ключ на этаже −1"), _task_line(stage >= 4, "Передать ключ в хабе")])
-			_set_quest_photo("key", "Ключ шифрования", "У команды · ×1" if stage == 3 else "Передан на базу" if stage == 4 else "Хранилище данных · −1")
+			tasks_label.text = "\n".join([_task_line(stage >= 2, "Получить задание в хабе"), _task_line(stage >= 3, "Найти ключ на уровне 1"), _task_line(stage >= 4, "Передать ключ в хабе")])
+			_set_quest_photo("key", "Ключ шифрования", "У команды · ×1" if stage == 3 else "Передан на базу" if stage == 4 else "Хранилище данных · 1")
+		elif day == 3:
+			var investigation: Dictionary = _controller.containment
+			var defeated := 0
+			for hp: Variant in investigation.get("health", [120, 90, 75]):
+				if float(hp) <= 0.0:
+					defeated += 1
+			objective_label.text = "Обследовать уровень 3"
+			tasks_label.text = "\n".join([_task_line(investigation.get("level2", false), "Обследовать уровень 2"), _task_line(investigation.get("level3", false), "Изучить уровень 3"), _task_line(defeated == 3, "Устранить угрозу · %d/3" % defeated), _task_line(investigation.get("resolved", false), "Восстановить освещение")])
+			if investigation.get("fault", false):
+				tasks_label.text += "\n\nСбой питания: выключите\nи включите главный щит."
 		else:
 			objective_label.text = "Задание выполнено"
-			tasks_label.text = "Ключ доставлен на базу.\nПродолжение — в следующем этапе прототипа."
+			tasks_label.text = "Уровень 3 обследован. Освещение восстановлено.\nПродолжение — в следующем этапе прототипа."
 		coop_status_label.text = ""
 		if not _controller.sleeping_peer_ids.is_empty():
 			coop_status_label.text = "Отдыхают: %d/%d" % [_controller.sleeping_peer_ids.size(), _controller.get_connected_player_peer_ids().size()]
@@ -327,7 +337,8 @@ func _refresh_inventory() -> void:
 	_cards[&"fuse"].visible = hand == &"fuse"
 	for id: StringName in WeaponController.TYPES:
 		_cards[id].visible = hand == id
-		_cards[id].set_note("" if id == &"kitchen_knife" else "%d / ∞" % int(data.get("weapon_rounds", 0)))
+		var reserve := "%d патр." % int(data.get("pistol_ammo", 0)) if id == &"pistol" else "%d магаз." % data.get("rifle_magazines", []).size()
+		_cards[id].set_note("" if id == &"kitchen_knife" else "%d · запас %s" % [int(data.get("weapon_rounds", 0)), reserve])
 	_cards[&"flashlight"].set_note("%d%%" % roundi(charge * 100.0))
 	_cards[&"battery"].set_note("×%d" % batteries.size())
 	if _cards.has(_selected_item) and not _cards[_selected_item].visible:
@@ -350,6 +361,8 @@ func _refresh_inventory() -> void:
 		inventory_label.text = " · ".join(lines) if lines.size() <= 3 else "%d батареек · заряд %d–%d%%" % [batteries.size(), charges.back(), charges.front()]
 	elif not has_light and batteries.is_empty() and hand == &"":
 		inventory_label.text = "Здесь будут фотографии найденных вещей."
+	if _selected_item == &"" and (int(data.get("pistol_ammo", 0)) > 0 or not data.get("rifle_magazines", []).is_empty()):
+		inventory_label.text = "Запас: патроны ×%d · магазины ×%d" % [int(data.get("pistol_ammo", 0)), data.get("rifle_magazines", []).size()]
 	controls_label.text = SteamInput.get_controls_hint()
 	close_hint.text = "%s — убрать журнал" % SteamInput.get_action_hint(&"journal")
 	if is_journal_open():

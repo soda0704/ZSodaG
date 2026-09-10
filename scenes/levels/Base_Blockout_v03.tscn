@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_day_progression_controller.gd" id="11_day_progression"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
-editor_description = "Сборочная сцена базы. Нулевой и подземные этажи подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры этажей."
+editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
 script = ExtResource("1_runtime")
 
 [node name="BaseGameplayController" type="Node" parent="."]

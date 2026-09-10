@@ -1,6 +1,16 @@
 class_name BaseBlockoutRuntime
 extends Node3D
 
+const WEAPON_LOOT := [
+	{"type": &"pistol", "position": Vector3(-30, 1.2, 7.25), "state": {"rounds": 12}},
+	{"type": &"m4a1", "position": Vector3(-7.35, 1.25, 22.5), "state": {"rounds": 30}},
+	{"type": &"kitchen_knife", "position": Vector3(15, 1.0, -3.5), "state": {}},
+	{"type": &"pistol_ammo", "position": Vector3(-28.5, 1.1, 7.25), "state": {"amount": 12}},
+	{"type": &"pistol_ammo", "position": Vector3(2.5, 1.1, 17.25), "state": {"amount": 12}},
+	{"type": &"rifle_magazine", "position": Vector3(-7.35, 1.2, 23.2), "state": {"rounds": 30}},
+	{"type": &"rifle_magazine", "position": Vector3(-29, 1.2, 7.25), "state": {"rounds": 30}},
+]
+
 const PLAYER_SCENE := preload("res://scenes/characters/player.tscn")
 const QUEST_TERMINAL_SCENE := preload("res://scenes/objects/base/day_two_terminal.tscn")
 const FLASHLIGHT_PICKUP_SCENE := preload(
@@ -63,31 +73,12 @@ func _ready() -> void:
 	radiation.name = "ReservoirRadiation"
 	reservoir.add_child(radiation)
 	_install_quest_terminals()
-	_install_weapon_range()
+	var encounter := preload("res://scripts/gameplay/containment_encounter.gd").new()
+	encounter.name = "ContainmentEncounter"
+	add_child(encounter)
 	if network_runtime_managed:
 		return
 	spawn_standalone_gameplay()
-
-
-func _install_weapon_range() -> void:
-	var range_root := Node3D.new()
-	range_root.name = "WeaponRange"
-	add_child(range_root)
-	for index in 3:
-		var dispenser := preload("res://scripts/gameplay/weapon_dispenser.gd").new()
-		dispenser.name = "Rack%d" % index
-		dispenser.item_type = WeaponController.TYPES[index]
-		dispenser.position = Vector3(-36.0, 1.05, 3.0 + index * 1.35)
-		range_root.add_child(dispenser)
-		var target := preload("res://scripts/gameplay/weapon_target.gd").new()
-		target.name = "Target%d" % index
-		target.position = Vector3(-28.0, 1.3, 3.0 + index * 1.35)
-		range_root.add_child(target)
-	var light := OmniLight3D.new()
-	light.position = Vector3(-33, 3.0, 4.3)
-	light.omni_range = 10.0
-	light.light_energy = 2.5
-	range_root.add_child(light)
 
 
 func _install_quest_terminals() -> void:
@@ -173,6 +164,11 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 
 
 func spawn_standalone_gameplay() -> void:
+	for index in WEAPON_LOOT.size():
+		var loot: Dictionary = WEAPON_LOOT[index]
+		var pickup := preload("res://scenes/objects/items/weapon_pickup.tscn").instantiate()
+		pickup.setup_spawn({"pickup_name": "WeaponLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": Transform3D(Basis.IDENTITY, loot.position)})
+		add_child(pickup)
 	if get_node_or_null("RuntimePlayers") == null:
 		var runtime_players := Node3D.new()
 		runtime_players.name = "RuntimePlayers"

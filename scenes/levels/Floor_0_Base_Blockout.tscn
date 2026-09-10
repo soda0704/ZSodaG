@@ -71,7 +71,7 @@ albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
 albedo_color = Color(1, 0, 0, 1)
 
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
-editor_description = "Отдельная сцена нулевого этажа базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные этажи принадлежат сборочной сцене Base_Blockout_v03."
+editor_description = "Отдельная сцена нулевого уровня базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные уровни принадлежат сборочной сцене Base_Blockout_v03."
 
 [node name="Day1_Door_Collisions" type="Node3D" parent="." unique_id=1527685363]
 editor_description = "Centralized first-day passage blockers. Disable the four CollisionShape3D children after the first sleep when these doors become available. Structural frame collisions remain inside the door scenes."

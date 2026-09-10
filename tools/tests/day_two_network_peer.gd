@@ -99,6 +99,18 @@ func _deliver_from_client() -> void:
 		return
 	_return_test_player.rpc_id(1)
 	await get_tree().create_timer(0.25).timeout
+	_arm_test_player.rpc_id(1)
+	await get_tree().create_timer(0.25).timeout
+	player.weapon.request_action(&"fire")
+	await get_tree().create_timer(0.35).timeout
+	if player.weapon.rounds != 11:
+		_finish(false, "Client weapon shot did not replicate ammo")
+		return
+	player.weapon.request_action(&"reload")
+	await get_tree().create_timer(1.6).timeout
+	if player.weapon.rounds != 12 or player.weapon.pistol_ammo != 11:
+		_finish(false, "Client finite-ammo reload did not replicate")
+		return
 	# Attempting an action on somebody else's player must be rejected by host.
 	var host_player := _world.get_node("Players/1")
 	host_player._request_inventory_action.rpc_id(1, &"drop_flashlight")
@@ -145,6 +157,13 @@ func _return_test_player() -> void:
 	var standing := terminal.global_position + terminal.global_basis.z * 1.8
 	standing.y = 0.1
 	player.teleport_authoritative(standing, terminal.global_rotation.y)
+
+@rpc("any_peer", "call_remote", "reliable")
+func _arm_test_player() -> void:
+	if multiplayer.is_server():
+		var player := _world.get_node("Players/%d" % multiplayer.get_remote_sender_id())
+		player.pickup_world_item_authoritative(&"pistol", {})
+		player.pickup_world_item_authoritative(&"pistol_ammo", {"amount": 12})
 
 
 func _on_client_snapshot(snapshot: Dictionary) -> void:

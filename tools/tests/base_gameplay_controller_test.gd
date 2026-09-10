@@ -261,7 +261,7 @@ func _run() -> void:
 	)
 	_assert(
 		production_elevator.get_button_prompt(1, false)
-		== "Этаж -1 закрыт",
+		== "Уровень 1 закрыт",
 		"First underground floor must be locked before the first sleep"
 	)
 	var lighting_controller := base_level.get_node_or_null(
@@ -686,6 +686,7 @@ func _run() -> void:
 	_assert(
 		controller.get_snapshot() == {
 			"day_index": 1,
+			"containment": {},
 			"phase": int(BaseGameplayController.BasePhase.ARRIVAL),
 			"fuel_delivered": false,
 			"main_breaker_on": false,

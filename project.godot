@@ -21,6 +21,7 @@ CoopLobby="*res://scripts/network/lobby/coop_lobby_service.gd"
 GameMenu="*res://scenes/ui/game_menu.tscn"
 SteamInput="*res://scripts/input/steam_input_service.gd"
 QuestJournal="*res://scenes/ui/quest_journal.tscn"
+DeveloperConsole="*res://scripts/ui/developer_console.gd"
 
 [display]
 

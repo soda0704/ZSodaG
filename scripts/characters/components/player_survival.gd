@@ -5,6 +5,7 @@ extends Node
 @export var lethal_fall_speed: float = 22.0
 @export var respawn_delay: float = 4.0
 var health: float = 100.0
+var debug_invincible := false
 var radiation: float = 0.0
 var dead: bool = false
 var reason: String = ""
@@ -87,6 +88,8 @@ func _physics_process(delta: float) -> void:
 	_refresh_ui()
 
 func damage(amount: float, cause: String) -> void:
+	if debug_invincible or get_parent().debug_fly:
+		return
 	if not multiplayer.is_server() or dead or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)

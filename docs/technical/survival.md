@@ -9,7 +9,7 @@ loading a checkpoint starts alive and healthy.
   velocity taken into account. Up to 11 m/s is safe; 22 m/s is lethal at full health.
 - More than 3 seconds of descending freefall kills even without landing.
 - Expedition bounds: Y below -160, or X/Z beyond ±240 relative to level root.
-  Floor -4's authored descent reaches approximately -144; legitimate shaft
+  Level 4's authored descent reaches approximately -144; legitimate shaft
   geometry is not clipped by the kill plane. Staging fallback bottom is -40.
 - Death disables movement, interactions and inventory actions, stows the light,
   cancels pending battery replacement through the inventory revision, and shows
@@ -18,7 +18,7 @@ loading a checkpoint starts alive and healthy.
   Equipment and shared quest progress are retained: this is explicitly a forgiving
   prototype rule, not corpse recovery or permadeath. HP/dose reset on respawn.
 
-RadiationZone is attached to Floor -2 Water/Central_Reservoir_Water at runtime.
+RadiationZone is attached to Level 2 Water/Central_Reservoir_Water at runtime.
 It spans a 9 m horizontal radius, from 2 m below to 8 m above the water origin,
 covering the inspection bridge but not neighboring floors. Intensity fades from
 1 at the center to 0.25 at the edge. Dose rises by up to 18 points/s and decays by

@@ -6,6 +6,8 @@ const CAPACITY := {&"pistol": 12, &"m4a1": 30, &"kitchen_knife": 0}
 const TITLES := {&"pistol": "Пистолет", &"m4a1": "M4A1", &"kitchen_knife": "Кухонный нож"}
 var kind: StringName = &""
 var rounds: int = 0
+var pistol_ammo: int = 0
+var rifle_magazines: Array[int] = []
 var reload_left: float = 0.0
 var _reload_kind: StringName = &""
 var _cooldown: float = 0.0
@@ -61,6 +63,7 @@ func _ready() -> void:
 
 func apply_state(id: StringName, ammo: int, remaining: float) -> void:
 	if kind != id:
+		_rest = Vector3(0.18, -0.20, -0.60) if id == &"m4a1" else Vector3(0.18, -0.16, -0.34)
 		_cancel_animation()
 		kind = id
 		_pose.position = _rest + Vector3(0, -0.25, 0)
@@ -82,7 +85,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				reload_left = maxf(0.0, reload_left - delta)
 				if reload_left == 0.0:
-					rounds = CAPACITY[kind]
+					_commit_reload()
 					_notify_inventory()
 	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk()
 	_pose.visible = active
@@ -92,7 +95,8 @@ func _physics_process(delta: float) -> void:
 		var controller: bool = get_node("/root/SteamInput").using_controller
 		_hud.text = str(TITLES[kind])
 		if kind != &"kitchen_knife":
-			_hud.text += "  %d / ∞\n%s" % [rounds, "Перезарядка…" if reload_left > 0.0 else ("[↑] Перезарядка" if controller else "[R] Перезарядка")]
+			var reserve := "патроны: %d" % pistol_ammo if kind == &"pistol" else "магазины: %d" % rifle_magazines.size()
+			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ("[↑] Перезарядка" if controller else "[R] Перезарядка")]
 		else:
 			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
 	if active and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -123,6 +127,10 @@ func perform_action(action: StringName) -> bool:
 		return false
 	if action == &"reload":
 		if kind == &"kitchen_knife" or reload_left > 0.0 or rounds >= CAPACITY[kind]:
+			return false
+		if kind == &"pistol" and pistol_ammo <= 0:
+			return false
+		if kind == &"m4a1" and (rifle_magazines.is_empty() or int(rifle_magazines.max()) <= rounds):
 			return false
 		reload_left = 2.1 if kind == &"m4a1" else 1.35
 		_reload_kind = kind
@@ -158,6 +166,20 @@ func _notify_inventory() -> void:
 	player._inventory_revision += 1
 	# Periodic checkpoint saving handles ammo; avoid disk writes per bullet.
 	player._receive_equipment.rpc(player.get_inventory_snapshot())
+
+func _commit_reload() -> void:
+	if kind == &"pistol":
+		var inserted := mini(12 - rounds, pistol_ammo)
+		rounds += inserted
+		pistol_ammo -= inserted
+	elif kind == &"m4a1" and not rifle_magazines.is_empty():
+		var fullest: int = rifle_magazines.max()
+		if fullest <= rounds:
+			return
+		rifle_magazines.erase(fullest)
+		if rounds > 0:
+			rifle_magazines.append(rounds)
+		rounds = fullest
 
 func _cancel_animation() -> void:
 	if _animation != null and _animation.is_valid():

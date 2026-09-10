@@ -4,6 +4,8 @@ const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
 const ITEM_SCENES := {
+	&"pistol_ammo": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+	&"rifle_magazine": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"pistol": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"m4a1": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"kitchen_knife": preload("res://scenes/objects/items/weapon_pickup.tscn"),
@@ -125,7 +127,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups}
+	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1}
 
 
 func _restore_player_equipment(player: Node) -> void:
@@ -141,6 +143,7 @@ func _restore_player_equipment(player: Node) -> void:
 			data["held_item"] = &""
 		data["flashlight_enabled"] = false
 		data["malfunctioning"] = false
+		data["weapon_reload"] = 0.0
 		player.apply_inventory_snapshot(data)
 
 
@@ -496,6 +499,9 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	if int(_base_gameplay_controller.inventory_checkpoint.get("weapon_layout_version", 0)) < 1:
+		for loot: Dictionary in BaseBlockoutRuntime.WEAPON_LOOT:
+			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	for player in players.get_children():
 		_restore_player_equipment(player)
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty():

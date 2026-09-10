@@ -257,7 +257,7 @@ shape = SubResource("Shape_floor_button")
 
 [node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton1" unique_id=284402557]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.075)
-text = "-1"
+text = "1"
 font_size = 64
 outline_size = 8
 
@@ -275,7 +275,7 @@ shape = SubResource("Shape_floor_button")
 
 [node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton2" unique_id=2125543553]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.075)
-text = "-2"
+text = "2"
 font_size = 64
 outline_size = 8
 
@@ -293,7 +293,7 @@ shape = SubResource("Shape_floor_button")
 
 [node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton3" unique_id=45518737]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.075)
-text = "-3"
+text = "3"
 font_size = 64
 outline_size = 8
 
@@ -311,7 +311,7 @@ shape = SubResource("Shape_floor_button")
 
 [node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton4" unique_id=1786169479]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.075)
-text = "-4"
+text = "4"
 font_size = 64
 outline_size = 8
 
@@ -375,7 +375,7 @@ shape = SubResource("Shape_call_panel")
 
 [node name="FloorLabel" type="Label3D" parent="Landings/Floor_1" unique_id=343739009]
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 4.58, 0)
-text = "FLOOR -1"
+text = "УРОВЕНЬ 1"
 font_size = 48
 
 [node name="Floor_2" type="Node3D" parent="Landings" unique_id=687360534]
@@ -404,7 +404,7 @@ shape = SubResource("Shape_call_panel")
 
 [node name="FloorLabel" type="Label3D" parent="Landings/Floor_2" unique_id=1669155028]
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 4.58, 0)
-text = "FLOOR -2"
+text = "УРОВЕНЬ 2"
 font_size = 48
 
 [node name="Floor_3" type="Node3D" parent="Landings" unique_id=1066087227]
@@ -433,7 +433,7 @@ shape = SubResource("Shape_call_panel")
 
 [node name="FloorLabel" type="Label3D" parent="Landings/Floor_3" unique_id=729978341]
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 4.58, 0)
-text = "FLOOR -3"
+text = "УРОВЕНЬ 3"
 font_size = 48
 
 [node name="Floor_4" type="Node3D" parent="Landings" unique_id=1928124505]
@@ -465,5 +465,5 @@ shape = SubResource("Shape_call_panel")
 
 [node name="FloorLabel" type="Label3D" parent="Landings/Floor_4" unique_id=454166089]
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 3.65, 0)
-text = "FLOOR -4"
+text = "УРОВЕНЬ 4"
 font_size = 48

@@ -22,6 +22,8 @@ func get_interaction_prompt() -> String:
 	var controller := _get_controller()
 	if controller == null:
 		return "Главный щит недоступен"
+	if controller.containment.get("fault", false):
+		return "Выключить щит для сброса сбоя" if controller.main_breaker_on else "Включить щит — восстановить освещение"
 	if controller.main_breaker_on:
 		return "Главный щит включён"
 	if not controller.fuel_delivered:
@@ -42,6 +44,11 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		return
 	var controller := _get_controller()
 	if controller != null:
+		if controller.containment.get("fault", false):
+			var encounter := get_tree().get_first_node_in_group("containment_encounter")
+			if encounter != null:
+				encounter.cycle_breaker(peer_id)
+			return
 		controller.activate_main_breaker_authoritative(peer_id)
 
 

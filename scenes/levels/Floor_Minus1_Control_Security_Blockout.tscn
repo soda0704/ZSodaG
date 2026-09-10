@@ -54,7 +54,7 @@ metallic = 0.08
 roughness = 0.8
 
 [node name="Floor_Minus1_Control_Security_Blockout" type="Node3D" unique_id=1893479038]
-editor_description = "Floor -1 control and security level. After the compact elevator checkpoint, circulation splits into north and south branches around a protected network core, then rejoins before the faceted command center. No living, medical, scientific, generator, garage or ordinary storage functions are repeated from Floor 0."
+editor_description = "Level 1 control and security level. After the compact elevator checkpoint, circulation splits into north and south branches around a protected network core, then rejoins before the faceted command center. No living, medical, scientific, generator, garage or ordinary storage functions are repeated from Floor 0."
 
 [node name="Structure" type="Node3D" parent="." unique_id=156630140]
 
@@ -210,7 +210,7 @@ size = Vector3(5.65685, 5.4, 0.3)
 material = SubResource("Material_structure")
 
 [node name="Elevator_Landing_Connector" type="Node3D" parent="Structure" unique_id=486097435]
-editor_description = "One-metre structural sleeve joining Floor -1 directly to the elevator portal. The integrated floor continues beneath it to the cabin threshold; no separate landing platform is used."
+editor_description = "One-metre structural sleeve joining Level 1 directly to the elevator portal. The integrated floor continues beneath it to the cabin threshold; no separate landing platform is used."
 
 [node name="North_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=1377608075]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.7, -3.25)
@@ -1310,7 +1310,7 @@ size = Vector3(0.35, 0.12, 5)
 material = SubResource("Material_screen")
 
 [node name="Command_Center" type="Node3D" parent="." unique_id=1685767426]
-editor_description = "Faceted primary focal room of Floor -1. The protected core hides the room from the elevator; the west status wall is revealed only after the north and south branches rejoin."
+editor_description = "Faceted primary focal room of Level 1. The protected core hides the room from the elevator; the west status wall is revealed only after the north and south branches rejoin."
 
 [node name="Entrance_North_Wall" type="CSGBox3D" parent="Command_Center" unique_id=2125453854]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, -4.1)

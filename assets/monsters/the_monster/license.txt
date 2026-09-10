@@ -1,0 +1,11 @@
+Model Information:
+* title:	The Monster
+* source:	https://sketchfab.com/3d-models/the-monster-c3724c0bff1c4117a313df7e9ab3db3b
+* author:	Veterock (https://sketchfab.com/windofglass)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The Monster" (https://sketchfab.com/3d-models/the-monster-c3724c0bff1c4117a313df7e9ab3db3b) by Veterock (https://sketchfab.com/windofglass) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

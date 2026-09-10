@@ -352,6 +352,8 @@ function Invoke-DevelopmentBuild {
         -Destination (Join-Path $outputDirectory "game_actions_480.vdf") `
         -Force
 
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "MONSTER_CREDITS.md") -Force
+
     $revision = "unavailable"
     $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
     if ($gitCommand) {

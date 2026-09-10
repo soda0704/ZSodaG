@@ -108,11 +108,11 @@ func _physics_process(delta: float) -> void:
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
 	if floor_index < 0 or floor_index > MAX_FLOOR_INDEX:
-		return "Неизвестный этаж"
+		return "Неизвестный уровень"
 	if not is_powered:
 		return "Лифт обесточен"
 	if floor_index > unlocked_floor_index:
-		return "Этаж %s закрыт" % _get_floor_label(floor_index)
+		return "Уровень %s закрыт" % _get_floor_label(floor_index)
 	if state in [
 		ElevatorState.CLOSING,
 		ElevatorState.MOVING,
@@ -124,12 +124,12 @@ func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
 		return (
 			"Лифт уже здесь"
 			if is_call_button
-			else "Текущий этаж %s" % _get_floor_label(floor_index)
+			else "Текущий уровень %s" % _get_floor_label(floor_index)
 		)
 	return (
-		"Вызвать лифт на этаж %s" % _get_floor_label(floor_index)
+		"Вызвать лифт на уровень %s" % _get_floor_label(floor_index)
 		if is_call_button
-		else "Ехать на этаж %s" % _get_floor_label(floor_index)
+		else "Ехать на уровень %s" % _get_floor_label(floor_index)
 	)
 
 
@@ -523,7 +523,7 @@ func _get_floor_y(floor_index: int) -> float:
 
 
 func _get_floor_label(floor_index: int) -> String:
-	return "0" if floor_index == 0 else "-%d" % floor_index
+	return str(floor_index)
 
 
 func _has_all_connected_players() -> bool:

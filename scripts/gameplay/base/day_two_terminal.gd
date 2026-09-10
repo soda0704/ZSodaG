@@ -24,12 +24,14 @@ func get_interaction_prompt() -> String:
 	if _controller == null or _controller.day_index < 2:
 		return "Задание будет доступно на второй день"
 	if _controller.day_index > 2:
-		return "Ключ доставлен. Конец доступного прототипа"
+		if _controller.containment.get("resolved", false):
+			return "Угроза устранена. Освещение восстановлено"
+		return "Обследуйте уровень 3" if _controller.containment.get("level2", false) else "Обследуйте уровень 2, затем уровень 3"
 	match _controller.quest_stage:
 		BaseGameplayController.QuestStage.OFFERED:
 			return "Сначала получите задание в центральном хабе" if is_key_terminal else "Получить задание: ключ шифрования"
 		BaseGameplayController.QuestStage.ACCEPTED:
-			return "Извлечь ключ в общий сюжетный слот" if is_key_terminal else "Найдите ключ в хранилище данных на −1"
+			return "Извлечь ключ в общий сюжетный слот" if is_key_terminal else "Найдите ключ в хранилище данных на 1"
 		BaseGameplayController.QuestStage.COLLECTED:
 			return "Ключ у команды — вернитесь в хаб" if is_key_terminal else "Передать ключ и завершить задание"
 		BaseGameplayController.QuestStage.DELIVERED:
@@ -55,7 +57,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 
 func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 	var stage := int(_controller.quest_stage)
-	status.text = ("ХРАНИЛИЩЕ ДАННЫХ · −1" if is_key_terminal else "ЗАДАНИЯ ЭКСПЕДИЦИИ") + "\n" + get_interaction_prompt()
+	status.text = ("ХРАНИЛИЩЕ ДАННЫХ · 1" if is_key_terminal else "ЗАДАНИЯ ЭКСПЕДИЦИИ") + "\n" + get_interaction_prompt()
 	var show_key := (
 		is_key_terminal and stage in [1, 2]
 		or not is_key_terminal and stage == 4

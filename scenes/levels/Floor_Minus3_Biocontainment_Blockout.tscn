@@ -46,7 +46,7 @@ emission = Color(0.025, 0.28, 0.18, 1)
 emission_energy_multiplier = 0.55
 
 [node name="Floor_Minus3_Biocontainment_Blockout" type="Node3D" unique_id=1526355325]
-editor_description = "Floor -3 biocontainment rebuild based on the approved laboratory references. Stages 01-03 form the compact elevator arrival, shared sanitation room, and glass corridor. Stage 04 adds the central laboratory, Stage 05 the cold capsule vault, Stage 06 the accessible two-level damaged containment block, and Stage 07 closes the route through the east monitoring and incident-analysis gallery."
+editor_description = "Level 3 biocontainment rebuild based on the approved laboratory references. Stages 01-03 form the compact elevator arrival, shared sanitation room, and glass corridor. Stage 04 adds the central laboratory, Stage 05 the cold capsule vault, Stage 06 the accessible two-level damaged containment block, and Stage 07 closes the route through the east monitoring and incident-analysis gallery."
 
 [node name="Approved_Stage_01_Elevator_Arrival" type="Node3D" parent="." unique_id=842602311]
 editor_description = "First approved review fragment. The elevator opens directly into a compact, low-ceiling sterile vestibule. The single doorway opposite the cabin is reserved for the shared entry/exit sanitation block."
@@ -522,7 +522,7 @@ editor_description = "Approved route endpoint for the future central experimenta
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0, -10.15)
 
 [node name="Stage_04_Central_Experimental_Laboratory_Blockout" type="Node3D" parent="." unique_id=1380993317]
-editor_description = "Primary landmark of Floor -3. A freestanding central containment chamber can be circled on all sides. Six dense analysis positions occupy the perimeter without blocking circulation. The staggered west and east openings connect the capsule-storage and monitoring branches."
+editor_description = "Primary landmark of Level 3. A freestanding central containment chamber can be circled on all sides. Six dense analysis positions occupy the perimeter without blocking circulation. The staggered west and east openings connect the capsule-storage and monitoring branches."
 
 [node name="Laboratory_Structure" type="Node3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=775722924]
 
