@@ -66,6 +66,10 @@ func _run() -> void:
 	journal.open_journal()
 	check(str(journal._quest_card.caption.text).contains("Ключ шифрования") and str(journal._quest_card.detail.text).contains("×1"), "Journal must show the saved shared inventory")
 	journal.force_close()
+	var fuel_pickups_before_save := 0
+	for item in world.get_node("Gameplay/WorldItems").get_children():
+		if item.item_type == &"fuel_can":
+			fuel_pickups_before_save += 1
 	await menu.return_to_main_menu()
 	await create_timer(0.3).timeout
 	await menu.start_standalone_flow(true)
@@ -76,8 +80,11 @@ func _run() -> void:
 	player = world.get_node("Players/1")
 	check(state.day_index == 2 and state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "Continue must restore day and key")
 	check(player.global_position.distance_to(base.get_day_start_transform(0).origin) < 0.3, "Continue must use morning spawn")
+	var restored_fuel_pickups := 0
 	for item in world.get_node("Gameplay/WorldItems").get_children():
-		check(item.item_type != &"fuel_can", "Restored fueled base must not respawn a fuel can")
+		if item.item_type == &"fuel_can":
+			restored_fuel_pickups += 1
+	check(restored_fuel_pickups == fuel_pickups_before_save, "Reusable fuel cans must survive save without duplication")
 	task = base.get_node("DayTwoTaskTerminal")
 	await interact_through_ray(player, task)
 	check(state.quest_stage == BaseGameplayController.QuestStage.DELIVERED, "Returning to hub must deliver the key")

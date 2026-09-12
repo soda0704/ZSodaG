@@ -119,8 +119,6 @@ func capture_inventory_checkpoint() -> Dictionary:
 	for pickup in world_items.get_children():
 		if pickup.is_queued_for_deletion() or bool(pickup.get("_collected")):
 			continue
-		if pickup.item_type == GamePlayer.FUEL_ITEM and _base_gameplay_controller.fuel_delivered:
-			continue
 		var item_transform: Transform3D = pickup.global_transform
 		var in_cabin := false
 		if is_instance_valid(_v3_elevator_controller):
@@ -129,7 +127,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1}
+	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 1}
 
 
 func _restore_player_equipment(player: Node) -> void:
@@ -168,7 +166,6 @@ func start_standalone_game() -> void:
 	overview_camera.current = false
 	GameMenu.force_close_menu()
 	spawn_player_for_peer(multiplayer.get_unique_id())
-	spawn_initial_items()
 
 
 func _on_session_ready(as_host: bool) -> void:
@@ -358,21 +355,7 @@ func get_peer_spawn_index(peer_id: int) -> int:
 func _on_gameplay_started() -> void:
 	if not uses_staging_lobby or not multiplayer.is_server():
 		return
-	if resume_base_on_start:
-		_enter_v3_level.rpc()
-		return
-
-	spawn_initial_items()
-	for player in players.get_children():
-		if player.has_method("teleport_authoritative"):
-			var spawn_index := get_peer_spawn_index(
-				int(player.get("owner_peer_id"))
-			)
-			player.call(
-				"teleport_authoritative",
-				get_spawn_position(spawn_index),
-				0.0
-			)
+	_enter_v3_level.rpc()
 
 
 func can_enter_v3_level() -> bool:
@@ -501,6 +484,12 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	# One-time migration for saves made before these essentials got deliberate,
+	# easy-to-find placements. It intentionally runs only for an existing save;
+	# a fresh game receives the same entries from TOOL_LOOT/WEAPON_LOOT below.
+	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("discoverable_layout_version", 0)) < 1:
+		for loot: Dictionary in BaseBlockoutRuntime.DISCOVERABLE_LOOT:
+			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	if int(_base_gameplay_controller.inventory_checkpoint.get("tools_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
 			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)

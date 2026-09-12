@@ -135,6 +135,18 @@ func _deliver_from_client() -> void:
 	if not player.weapon_light_mounted or player.tape_count != 0:
 		_finish(false, "Client attachment/tape transaction did not replicate")
 		return
+	player.request_reload_or_battery()
+	await get_tree().create_timer(1.2).timeout
+	if player._battery_charge <= 0.0 or player.weapon.reload_left > 0.0:
+		_finish(false, "Client R did not prioritize mounted battery")
+		return
+	var cargo_found := false
+	for item in _world.get_node("Gameplay/WorldItems").get_children():
+		if item.item_state.get("test_cargo", false):
+			cargo_found = is_instance_valid(item._cargo_cabin) and item._cargo_cabin.to_local(item.global_position).distance_to(item._cargo_pose.origin) < 0.02
+	if not cargo_found:
+		_finish(false, "Cabin-local cargo state did not replicate")
+		return
 	var wiring := get_tree().get_first_node_in_group("wiring_ui")
 	if wiring == null or not _state._siren.playing:
 		_finish(false, "Client wiring panel or alarm missing")
@@ -173,6 +185,11 @@ func _setup_wiring_test() -> void:
 	var sender := multiplayer.get_remote_sender_id()
 	var player := _state.get_player_node(sender)
 	player.pickup_world_item_authoritative(&"tape", {})
+	player._battery_charge = 0.0
+	player._publish_inventory()
+	var cabin: Node3D = _world.get_node("V3Level/Elevator_Functional_Blockout/CabinMoving")
+	var items: Node3D = _world.get_node("Gameplay/WorldItems")
+	_world.spawn_world_item(&"fuel_can", items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, cabin.to_global(Vector3(0, 0.5, 0))), {"fuel_liters": 0.0, "test_cargo": true})
 	var snapshot := _state.get_snapshot()
 	snapshot.main_breaker_on = false
 	snapshot.maintenance = {"wires_required": true, "wire_order": [2, 0, 3, 1], "wire_links": [], "alarm": true}

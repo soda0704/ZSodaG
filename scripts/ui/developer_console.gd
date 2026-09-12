@@ -60,7 +60,7 @@ func _ready() -> void:
 	spawn_bar.add_child(clear_button)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
-	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n"
+	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n/flashlight — фонарик   /fuel full|empty — канистра 20/0 л\n/testroom — войти/вернуться из пустой тестовой комнаты\n"
 	panel.hide()
 
 func _input(event: InputEvent) -> void:
@@ -108,7 +108,7 @@ func execute(line: String) -> String:
 	if args.is_empty():
 		return ""
 	if args[0] == "/help":
-		return HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки (меняет сохранение)"
+		return HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки (меняет сохранение)\n/flashlight — заряженный фонарик (если уже есть, выдаётся рядом)\n/fuel full|empty — полная/пустая канистра в руки\n/testroom — войти в большую пустую dev-комнату или вернуться"
 	if args[0] == "/clear":
 		output.clear()
 		return ""
@@ -122,6 +122,23 @@ func execute(line: String) -> String:
 		return "Локальный игрок не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	match args[0]:
+		"/testroom":
+			var level := state.get_parent()
+			if not level.has_method("toggle_developer_test_room") or not level.toggle_developer_test_room(player):
+				return "Тестовая комната недоступна."
+			return "Телепорт выполнен. Повторите /testroom, чтобы вернуться."
+		"/flashlight":
+			if not player.pickup_world_item_authoritative(&"flashlight", {"battery_charge": 1.0}):
+				player.spawn_dropped_item_authoritative(&"flashlight", {"battery_charge": 1.0})
+				return "Заряженный фонарик выдан рядом с игроком."
+			return "Заряженный фонарик добавлен в инвентарь."
+		"/fuel":
+			if args.size() != 2 or args[1] not in ["full", "empty"]:
+				return "Использование: /fuel full — 20 л; /fuel empty — 0 л."
+			var liters := 20.0 if args[1] == "full" else 0.0
+			if not player.pickup_world_item_authoritative(&"fuel_can", {"fuel_liters": liters}):
+				return "Сейчас нельзя получить канистру."
+			return "Канистра в руках: %.0f / 20 л. Фонарик сохранён в инвентаре или на выброшенном оружии." % liters
 		"/tools":
 			player.pickup_world_item_authoritative(&"tape", {})
 			player.pickup_world_item_authoritative(&"crowbar", {"uses": 3})

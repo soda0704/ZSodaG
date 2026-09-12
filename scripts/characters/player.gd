@@ -126,6 +126,7 @@ var _noise_step_left := 0.0
 var tape_count := 0
 var crowbar_uses := 0
 var weapon_light_mounted := false
+var _equipment_notice_until := 0
 var _pad_crouch: bool = false
 
 
@@ -224,10 +225,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("drop_item"):
 		_drop_item_serial += 1
 	elif event.is_action_pressed("replace_battery"):
-		if WeaponController.TYPES.has(_held_item_type):
-			weapon.request_action(&"reload")
-		else:
-			request_inventory_action(&"replace_battery")
+		request_reload_or_battery()
 	elif event.is_action_pressed("sprint") and get_node("/root/SteamInput").is_controller_event(event):
 		_pad_sprint = not _pad_sprint
 		_pad_crouch = false
@@ -974,6 +972,7 @@ func toggle_flashlight_authoritative() -> bool:
 			_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0
 			_publish_inventory()
 			return true
+		_show_pocket_light_notice.rpc_id(owner_peer_id)
 		return false
 	_held_item_type = NO_ITEM if _held_item_type == FLASHLIGHT_ITEM else FLASHLIGHT_ITEM
 	_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
@@ -991,6 +990,16 @@ func request_inventory_action(action: StringName) -> void:
 		_request_inventory_action.rpc_id(1, action)
 
 
+func request_reload_or_battery() -> void:
+	request_inventory_action(&"reload_or_battery")
+
+
+@rpc("authority", "call_local", "reliable")
+func _show_pocket_light_notice() -> void:
+	_equipment_notice_until = Time.get_ticks_msec() + 2200
+	update_battery_ui()
+
+
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _request_inventory_action(action: StringName) -> void:
 	if multiplayer.is_server() and multiplayer.get_remote_sender_id() == owner_peer_id:
@@ -1000,6 +1009,13 @@ func _request_inventory_action(action: StringName) -> void:
 func _begin_inventory_action(action: StringName) -> void:
 	if survival.dead:
 		return
+	if action == &"reload_or_battery":
+		if _battery_action_busy:
+			return
+		if WeaponController.TYPES.has(_held_item_type) and not (weapon_light_mounted and _battery_charge <= 0.0 and not _spare_batteries.is_empty()):
+			weapon.perform_action(&"reload")
+			return
+		action = &"replace_battery"
 	if action != &"replace_battery":
 		perform_inventory_action_authoritative(action)
 		return
@@ -1021,7 +1037,10 @@ func _begin_inventory_action(action: StringName) -> void:
 
 @rpc("authority", "call_local", "reliable", 2)
 func _play_battery_action() -> void:
-	flashlight.play_battery_action()
+	if weapon_light_mounted:
+		weapon.play_mounted_battery_action()
+	else:
+		flashlight.play_battery_action()
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
@@ -1472,6 +1491,10 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func update_battery_ui() -> void:
+	if is_local_player() and _has_flashlight and Time.get_ticks_msec() < _equipment_notice_until and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open():
+		battery_label.visible = true
+		battery_label.text = "Фонарик в инвентаре · сначала освободите руки"
+		return
 	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
 	if not battery_label.visible:
 		_displayed_battery_percent = -1

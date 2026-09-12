@@ -20,11 +20,33 @@ func _run() -> void:
 	player.set_physics_process(false)
 	var state: BaseGameplayController = world.get_node("V3Level/BaseGameplayController")
 	var items := world.get_node("Gameplay/WorldItems")
+	check(world.has_node("V3Level") and not world.has_node("Gameplay/GeneratorPanel") and not world.has_node("Gameplay/V3ExitTerminal"), "Normal launch skips and removes legacy generator room")
+	var developer_room := world.get_node("V3Level/DeveloperTestRoom") as DeveloperTestRoom
+	check(developer_room != null and developer_room.get_child_count() >= 13, "Large lit developer room exists only off-map")
+	var original_pose: Transform3D = player.global_transform
+	check("Телепорт" in root.get_node("DeveloperConsole").execute("/testroom") and developer_room.contains(player.global_position), "Console enters developer room")
+	if OS.get_cmdline_user_args().has("visual"):
+		await create_timer(0.5).timeout
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(OS.get_environment("TEMP").path_join("NorthernLab-DeveloperRoom.png"))
+	root.get_node("DeveloperConsole").execute("/testroom")
+	check(player.global_position.distance_to(original_pose.origin) < 0.05, "Second command returns to exact previous position")
 	var tools_count := 0
+	var placed := {&"kitchen_knife": false, &"pistol": false, &"pistol_ammo": false, &"crowbar": false}
 	for item in items.get_children():
 		if item.item_type in [&"tape", &"crowbar"]:
 			tools_count += 1
+		if placed.has(item.item_type):
+			var expected := Vector3.ZERO
+			for loot: Dictionary in BaseBlockoutRuntime.DISCOVERABLE_LOOT:
+				if loot.type == item.item_type:
+					expected = loot.position
+			placed[item.item_type] = bool(placed[item.item_type]) or item.position.distance_to(expected) < 1.0
 	check(tools_count == 3, "Two tape rolls and one crowbar spawn")
+	check(
+		placed.values().all(func(value): return value),
+		"Knife, pistol, ammo and crowbar use discoverable authored placements: %s" % placed
+	)
 	player.pickup_world_item_authoritative(&"flashlight", {"battery_charge": 0.8})
 	player.pickup_world_item_authoritative(&"pistol", {"rounds": 12})
 	check(not player.perform_inventory_action_authoritative(&"mount_light"), "Mount requires tape")

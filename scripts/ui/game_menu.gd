@@ -237,7 +237,7 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	if change_result != OK:
 		_transition_in_progress = false
 		open_menu(MenuView.MAIN)
-		feedback_label.text = "Не удалось открыть тестовую комнату."
+		feedback_label.text = "Не удалось открыть базу."
 		return
 
 	await get_tree().scene_changed
@@ -246,8 +246,7 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 		"start_standalone_game"
 	):
 		gameplay_controller.call("start_standalone_game")
-		if resume_checkpoint:
-			await gameplay_controller.call("_enter_v3_level")
+		await gameplay_controller.call("_enter_v3_level")
 	_transition_in_progress = false
 
 
@@ -696,13 +695,13 @@ func _begin_host_session(resume_checkpoint: bool) -> void:
 		return
 
 	_transition_in_progress = true
-	feedback_label.text = "Открываем сетевую тестовую комнату..."
+	feedback_label.text = "Открываем базу..."
 	var scene_ready := await ensure_network_scene()
 	_transition_in_progress = false
 	open_menu(MenuView.SESSION)
 
 	if not scene_ready:
-		session_status_label.text = "Не удалось открыть сетевую комнату."
+		session_status_label.text = "Не удалось открыть базу."
 		return
 	var controller := get_tree().current_scene
 	controller.set("resume_base_on_start", resume_checkpoint)
@@ -738,13 +737,13 @@ func start_join_flow(target_lobby_id: int) -> void:
 		return
 
 	_transition_in_progress = true
-	feedback_label.text = "Открываем сетевую тестовую комнату..."
+	feedback_label.text = "Открываем базу..."
 	var scene_ready := await ensure_network_scene()
 	_transition_in_progress = false
 	open_menu(MenuView.SESSION)
 
 	if not scene_ready:
-		session_status_label.text = "Не удалось открыть сетевую комнату."
+		session_status_label.text = "Не удалось открыть базу."
 		return
 
 	lobby_id_value.text = str(target_lobby_id)

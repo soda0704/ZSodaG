@@ -2,10 +2,10 @@ class_name BaseBlockoutRuntime
 extends Node3D
 
 const WEAPON_LOOT := [
-	{"type": &"pistol", "position": Vector3(-30, 1.2, 7.25), "state": {"rounds": 12}},
+	{"type": &"pistol", "position": Vector3(-29.7, 1.12, 7.05), "state": {"rounds": 12}},
 	{"type": &"m4a1", "position": Vector3(-7.35, 1.25, 22.5), "state": {"rounds": 30}},
-	{"type": &"kitchen_knife", "position": Vector3(15, 1.0, -3.5), "state": {}},
-	{"type": &"pistol_ammo", "position": Vector3(-28.5, 1.1, 7.25), "state": {"amount": 12}},
+	{"type": &"kitchen_knife", "position": Vector3(11.6, 1.08, -7.35), "state": {}},
+	{"type": &"pistol_ammo", "position": Vector3(-29.25, 1.12, 7.05), "state": {"amount": 12}},
 	{"type": &"pistol_ammo", "position": Vector3(2.5, 1.1, 17.25), "state": {"amount": 12}},
 	{"type": &"rifle_magazine", "position": Vector3(-7.35, 1.2, 23.2), "state": {"rounds": 30}},
 	{"type": &"rifle_magazine", "position": Vector3(-29, 1.2, 7.25), "state": {"rounds": 30}},
@@ -14,7 +14,14 @@ const WEAPON_LOOT := [
 const TOOL_LOOT := [
 	{"type": &"tape", "position": Vector3(-29.0, 1.2, 7.8), "state": {}},
 	{"type": &"tape", "position": Vector3(-7.0, 1.2, 22.8), "state": {}},
-	{"type": &"crowbar", "position": Vector3(-28.4, 1.2, 8.0), "state": {"uses": 3}},
+	{"type": &"crowbar", "position": Vector3(-24.8, 0.25, 3.5), "state": {"uses": 3}},
+]
+
+const DISCOVERABLE_LOOT := [
+	{"type": &"kitchen_knife", "position": Vector3(11.6, 1.08, -7.35), "state": {}},
+	{"type": &"pistol", "position": Vector3(-29.7, 1.12, 7.05), "state": {"rounds": 12}},
+	{"type": &"pistol_ammo", "position": Vector3(-29.25, 1.12, 7.05), "state": {"amount": 12}},
+	{"type": &"crowbar", "position": Vector3(-24.8, 0.25, 3.5), "state": {"uses": 3}},
 ]
 
 const PLAYER_SCENE := preload("res://scenes/characters/player.tscn")
@@ -74,6 +81,8 @@ var network_runtime_managed: bool = false
 
 func _ready() -> void:
 	add_to_group("expedition_level")
+	var developer_room := preload("res://scripts/levels/developer_test_room.gd").new()
+	add_child(developer_room)
 	var reservoir := get_node("Floor_Minus2_Life_Support_Blockout/Water/Central_Reservoir_Water") as Node3D
 	var radiation := preload("res://scripts/gameplay/radiation_zone.gd").new()
 	radiation.name = "ReservoirRadiation"
@@ -85,6 +94,21 @@ func _ready() -> void:
 	if network_runtime_managed:
 		return
 	spawn_standalone_gameplay()
+
+
+func toggle_developer_test_room(player: Node3D) -> bool:
+	var room := get_node_or_null("DeveloperTestRoom") as DeveloperTestRoom
+	if room == null or player == null:
+		return false
+	if room.contains(player.global_position):
+		var back: Transform3D = player.get_meta("developer_test_return", get_day_start_transform(0))
+		player.teleport_authoritative(back.origin, back.basis.get_euler().y)
+		player.remove_meta("developer_test_return")
+	else:
+		player.set_meta("developer_test_return", player.global_transform)
+		var index := maxi(0, int(player.get("owner_peer_id")) - 1)
+		player.teleport_authoritative(room.spawn_position(index), 0.0)
+	return true
 
 
 func _install_quest_terminals() -> void:
@@ -182,9 +206,13 @@ func spawn_standalone_gameplay() -> void:
 
 		var player := PLAYER_SCENE.instantiate() as GamePlayer
 		player.name = "1"
+		var steam_network := get_node_or_null("/root/SteamNetwork")
+		var local_user_name := "Игрок"
+		if steam_network != null:
+			local_user_name = str(steam_network.get("local_user_name"))
 		player.setup(
 			1,
-			SteamNetwork.local_user_name,
+			local_user_name,
 			get_player_spawn_position(0),
 			Color(0.25, 0.75, 1.0),
 			get_player_spawn_yaw(0)

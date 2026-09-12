@@ -111,7 +111,10 @@ func _physics_process(delta: float) -> void:
 		_hud.text = str(TITLES[kind])
 		if kind != &"kitchen_knife":
 			var reserve := "патроны: %d" % pistol_ammo if kind == &"pistol" else "магазины: %d" % rifle_magazines.size()
-			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ("[↑] Перезарядка" if controller else "[R] Перезарядка")]
+			var action_hint := "[↑] Перезарядка" if controller else "[R] Перезарядка"
+			if player.weapon_light_mounted and player._battery_charge <= 0.0 and not player._spare_batteries.is_empty():
+				action_hint = "[↑] Заменить батарейку" if controller else "[R] Заменить батарейку"
+			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else action_hint]
 		else:
 			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
 	if active and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -139,6 +142,8 @@ func _request(action: StringName) -> void:
 func perform_action(action: StringName) -> bool:
 	var player := get_parent()
 	if not multiplayer.is_server() or player.survival.dead or player.is_sleeping_in_bunk() or not TYPES.has(kind):
+		return false
+	if player._battery_action_busy:
 		return false
 	if action == &"reload":
 		if kind == &"kitchen_knife" or reload_left > 0.0 or rounds >= CAPACITY[kind]:
@@ -170,8 +175,12 @@ func perform_action(action: StringName) -> bool:
 		if target.has_method("apply_weapon_damage"):
 			target.apply_weapon_damage(50.0 if kind == &"kitchen_knife" else 25.0 if kind == &"m4a1" else 35.0)
 		if target is RigidBody3D:
+			if target.has_method("release_elevator_cargo"):
+				target.release_elevator_cargo()
 			target.apply_impulse(direction * 2.0, hit.position - target.global_position)
-		_impact.rpc(hit.position, hit.normal)
+		var surface := target as Node3D
+		if surface != null:
+			_impact.rpc(hit.position, hit.normal, surface.get_path(), surface.to_local(hit.position + hit.normal * 0.015))
 	_play_effect.rpc(false)
 	_notify_inventory()
 	return true
@@ -203,6 +212,13 @@ func _cancel_animation() -> void:
 	_pose.rotation = Vector3.ZERO
 	_flash.hide()
 
+func play_mounted_battery_action() -> void:
+	_cancel_animation()
+	_animation = create_tween()
+	_animation.tween_property(_pose, "rotation", Vector3(-0.15, 0.0, -0.35), 0.25)
+	_animation.tween_interval(0.47)
+	_animation.tween_property(_pose, "rotation", Vector3.ZERO, 0.38)
+
 @rpc("authority", "call_local", "reliable", 2)
 func _play_effect(reloading: bool) -> void:
 	_cancel_animation()
@@ -226,7 +242,10 @@ func _play_effect(reloading: bool) -> void:
 		_animation.parallel().tween_property(_pose, "rotation", Vector3.ZERO, 0.07)
 
 @rpc("authority", "call_local", "unreliable", 2)
-func _impact(point: Vector3, normal: Vector3) -> void:
+func _impact(point: Vector3, normal: Vector3, surface_path: NodePath = NodePath(), local_point: Vector3 = Vector3.ZERO) -> void:
+	var surface := get_node_or_null(surface_path) as Node3D if not surface_path.is_empty() else null
+	if not surface_path.is_empty() and surface == null:
+		return
 	var mark := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = 0.015
@@ -236,11 +255,13 @@ func _impact(point: Vector3, normal: Vector3) -> void:
 	mat.albedo_color = Color("edb870")
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mark.material_override = mat
-	get_tree().current_scene.add_child(mark)
-	# Decals are world-space evidence of a shot. In particular, they must not
-	# inherit the moving elevator cabin's transform.
-	mark.top_level = true
-	mark.global_position = point + normal * 0.015
+	mark.add_to_group("weapon_impacts")
+	if surface != null:
+		surface.add_child(mark)
+		mark.position = local_point
+	else:
+		get_tree().current_scene.add_child(mark)
+		mark.global_position = point + normal * 0.015
 	var fade := mark.create_tween()
 	fade.tween_interval(0.25)
 	fade.tween_callback(mark.queue_free)

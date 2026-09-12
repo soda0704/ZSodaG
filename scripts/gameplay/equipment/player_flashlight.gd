@@ -152,6 +152,9 @@ func set_available(value: bool, emit_signal: bool = true) -> void:
 
 func set_equipped(value: bool) -> void:
 	if value == _equipped:
+		# Recover visibility if a stale stow/availability update hid an equipped light.
+		if value and (not is_available or not visible):
+			set_available(true, false)
 		return
 	_equipped = value
 	if _battery_tween != null and _battery_tween.is_valid():
@@ -171,7 +174,10 @@ func set_equipped(value: bool) -> void:
 	_equip_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	_equip_tween.tween_method(_set_equip_offset, _equip_offset, 0.0 if value else 0.38, 0.32 if value else 0.26)
 	if not value:
-		_equip_tween.tween_callback(func(): set_available(false, false))
+		_equip_tween.tween_callback(func():
+			if not _equipped:
+				set_available(false, false)
+		)
 
 
 func _set_equip_offset(value: float) -> void:
