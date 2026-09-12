@@ -87,6 +87,21 @@ func _deliver_from_client() -> void:
 	# Give the reliable teleport on the player channel time to arrive.
 	await get_tree().create_timer(0.25).timeout
 	var player := _world.get_node("Players/%d" % multiplayer.get_unique_id())
+	var console := get_node("/root/DeveloperConsole")
+	var console_return: Transform3D = player.global_transform
+	if "отправлена" not in console.execute("/testroom"):
+		_finish(false, "Client console command was not forwarded to server")
+		return
+	await get_tree().create_timer(0.35).timeout
+	var developer_room := _world.get_node("V3Level/DeveloperTestRoom") as DeveloperTestRoom
+	if not developer_room.contains(player.global_position):
+		_finish(false, "Client console did not teleport its requesting player")
+		return
+	console.execute("/testroom")
+	await get_tree().create_timer(0.35).timeout
+	if player.global_position.distance_to(console_return.origin) > 0.1:
+		_finish(false, "Client console did not return its requesting player")
+		return
 	_test_player_death.rpc_id(1)
 	await get_tree().create_timer(0.4).timeout
 	if not player.survival.dead:

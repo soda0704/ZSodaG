@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nКоманды изменения мира доступны только хосту/в одиночной игре."
+const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nВ сетевой игре команды отправляются серверу и применяются к вызвавшему игроку."
 var panel: PanelContainer
 var output: RichTextLabel
 var entry: LineEdit
@@ -116,10 +116,35 @@ func execute(line: String) -> String:
 	if state == null:
 		return "Сначала загрузите игру и войдите на карту."
 	if not multiplayer.is_server():
-		return "Команды изменения игры доступны только хосту."
-	var player = state.get_player_node(multiplayer.get_unique_id())
+		_request_command.rpc_id(1, line.left(256))
+		return "Команда отправлена серверу..."
+	return _execute_authoritative(args, state, multiplayer.get_unique_id())
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _request_command(line: String) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_id := multiplayer.get_remote_sender_id()
+	if sender_id <= 1 or not multiplayer.get_peers().has(sender_id):
+		return
+	var args := line.left(256).strip_edges().to_lower().split(" ", false)
+	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
+	var result := "Сначала загрузите игру и войдите на карту."
+	if state != null and not args.is_empty():
+		result = _execute_authoritative(args, state, sender_id)
+	_receive_command_result.rpc_id(sender_id, result)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _receive_command_result(result: String) -> void:
+	output.append_text("[color=#79bfff][сервер][/color] %s\n" % result)
+
+
+func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) -> String:
+	var player = state.get_player_node(peer_id)
 	if player == null:
-		return "Локальный игрок не найден."
+		return "Игрок, вызвавший команду, не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	match args[0]:
 		"/testroom":
