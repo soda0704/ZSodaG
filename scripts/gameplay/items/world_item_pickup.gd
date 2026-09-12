@@ -11,6 +11,10 @@ var _collected: bool = false
 var _sync_accumulator: float = 0.0
 var _initial_linear_velocity: Vector3 = Vector3.ZERO
 var _initial_angular_velocity: Vector3 = Vector3.ZERO
+var _cargo_cabin: Node3D
+var _cargo_candidate: Node3D
+var _cargo_pose := Transform3D.IDENTITY
+var _cargo_cooldown := 0.0
 
 
 func setup_spawn(data: Dictionary) -> void:
@@ -32,17 +36,26 @@ func setup_spawn(data: Dictionary) -> void:
 
 func _ready() -> void:
 	continuous_cd = true
+	# Follow the cabin after its controller has advanced the physics pose.
+	process_physics_priority = 20
 	if multiplayer.is_server():
 		sleeping_state_changed.connect(_on_sleeping_state_changed)
 		linear_velocity = _initial_linear_velocity
 		angular_velocity = _initial_angular_velocity
 	else:
 		freeze = true
-		set_physics_process(false)
 
 
 func _physics_process(delta: float) -> void:
-	if not multiplayer.is_server() or _collected:
+	if _collected:
+		return
+	if is_instance_valid(_cargo_cabin):
+		global_transform = _cargo_cabin.global_transform * _cargo_pose
+	elif multiplayer.is_server():
+		_cargo_cooldown = maxf(0.0, _cargo_cooldown - delta)
+		if _cargo_cooldown <= 0.0:
+			_capture_elevator_cargo()
+	if not multiplayer.is_server():
 		return
 
 	_sync_accumulator += delta
@@ -57,7 +70,9 @@ func sync_physics_state() -> void:
 	_receive_physics_state.rpc(
 		global_transform,
 		linear_velocity,
-		angular_velocity
+		angular_velocity,
+		_cargo_cabin.get_path() if is_instance_valid(_cargo_cabin) else NodePath(),
+		_cargo_pose
 	)
 
 
@@ -66,10 +81,58 @@ func _on_sleeping_state_changed() -> void:
 		return
 	if sleeping:
 		sync_physics_state()
-		set_physics_process(false)
 	else:
 		_sync_accumulator = 0.0
 		set_physics_process(true)
+
+
+func _capture_elevator_cargo() -> void:
+	if not is_instance_valid(_cargo_candidate):
+		for cabin in get_tree().get_nodes_in_group("elevator_cabins"):
+			var point: Vector3 = cabin.to_local(global_position)
+			if absf(point.x) < 2.7 and absf(point.z) < 2.7 and point.y > -0.8 and point.y < 3.9:
+				_cargo_candidate = cabin
+				break
+	if not is_instance_valid(_cargo_candidate):
+		return
+	var local := _cargo_candidate.to_local(global_position)
+	if absf(local.x) >= 2.7 or absf(local.z) >= 2.7 or local.y > 4.0:
+		_cargo_candidate = null
+		return
+	if local.y > 1.0:
+		return
+	var support := 0.03
+	for node in find_children("*", "CollisionShape3D", true, false):
+		var shape := node as CollisionShape3D
+		if shape.disabled or shape.shape == null:
+			continue
+		var pose := _cargo_candidate.global_transform.affine_inverse() * shape.global_transform
+		var bounds: AABB = pose * shape.shape.get_debug_mesh().get_aabb()
+		support = maxf(support, local.y - bounds.position.y)
+	# Cabin floor is at +0.05. Catch only items reaching its surface; items
+	# above it still fall normally. A remembered candidate recovers tunnelling.
+	if local.y > support + 0.12:
+		return
+	_cargo_cabin = _cargo_candidate
+	_cargo_pose = _cargo_cabin.global_transform.affine_inverse() * global_transform
+	_cargo_pose.origin.y = support + 0.06
+	freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+	freeze = true
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	global_transform = _cargo_cabin.global_transform * _cargo_pose
+	sync_physics_state()
+
+
+func release_elevator_cargo() -> void:
+	if not multiplayer.is_server() or not is_instance_valid(_cargo_cabin):
+		return
+	_cargo_candidate = _cargo_cabin
+	_cargo_cabin = null
+	_cargo_cooldown = 0.4
+	freeze = false
+	sleeping = false
+	sync_physics_state()
 
 
 func get_interaction_prompt() -> String:
@@ -85,7 +148,7 @@ func get_interaction_prompt() -> String:
 		&"fuse":
 			return "Поднять предохранитель"
 		&"fuel_can":
-			return "Поднять канистру с топливом"
+			return "Поднять канистру · %.1f / 20 л" % float(item_state.get("fuel_liters", 20.0))
 	return "Поднять %s" % display_name
 
 
@@ -122,10 +185,14 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 func _receive_physics_state(
 	next_transform: Transform3D,
 	next_linear_velocity: Vector3,
-	next_angular_velocity: Vector3
+	next_angular_velocity: Vector3,
+	cargo_path: NodePath = NodePath(),
+	cargo_pose: Transform3D = Transform3D.IDENTITY
 ) -> void:
 	if multiplayer.is_server():
 		return
-	global_transform = next_transform
+	_cargo_cabin = get_node_or_null(cargo_path) as Node3D if not cargo_path.is_empty() else null
+	_cargo_pose = cargo_pose
+	global_transform = _cargo_cabin.global_transform * _cargo_pose if is_instance_valid(_cargo_cabin) else next_transform
 	linear_velocity = next_linear_velocity
 	angular_velocity = next_angular_velocity

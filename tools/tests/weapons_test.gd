@@ -62,6 +62,16 @@ func _run() -> void:
 	check(weapon.rounds == 11, "Firing consumes one round")
 	check(not weapon.perform_action(&"fire"), "Server enforces fire rate")
 	check(target.health < 100.0, "Hitscan damages target")
+	var second_player := preload("res://scenes/characters/player.tscn").instantiate()
+	second_player.setup(2, "Friendly fire target", Vector3(3, 10, 0), Color.WHITE)
+	world.get_node("Players").add_child(second_player)
+	second_player.set_physics_process(false)
+	second_player.survival.set_physics_process(false)
+	second_player.apply_weapon_damage(35.0)
+	check(
+		is_equal_approx(second_player.survival.health, 65.0),
+		"Authoritative weapon damage applies to another network player"
+	)
 	await capture("pistol")
 	check(weapon.perform_action(&"reload"), "Reload starts")
 	check(not weapon.perform_action(&"fire"), "Cannot fire during reload")

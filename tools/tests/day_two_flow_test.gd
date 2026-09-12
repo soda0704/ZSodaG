@@ -36,6 +36,12 @@ func _run() -> void:
 	state.set_peer_sleeping_authoritative(1, true)
 	await create_timer(1.3).timeout
 	check(state.day_index == 2, "Day 1 must advance to Day 2")
+	check(state.maintenance.get("wires_required", false) and not state.main_breaker_on, "Morning outage requires wiring repair")
+	var breaker := get_first_node_in_group("main_breaker") as Node3D
+	player.teleport_authoritative(breaker.global_position + Vector3(0, 0, 1), 0)
+	for i in 4:
+		check(state.connect_wire_authoritative(1, i, state.maintenance.wire_order[i]), "Reconnect morning wire")
+	check(state.activate_main_breaker_authoritative(1), "Restart breaker after repair")
 	check(not state.set_end_day_ready_authoritative(1, true), "Day 2 cannot be skipped before the quest")
 	check(not state.advance_quest_authoritative(99, BaseGameplayController.QuestStage.OFFERED), "Unknown peer must be rejected")
 	player.apply_held_item_inventory(&"flashlight", {"battery_charge": 0.6})
@@ -60,6 +66,10 @@ func _run() -> void:
 	journal.open_journal()
 	check(str(journal._quest_card.caption.text).contains("Ключ шифрования") and str(journal._quest_card.detail.text).contains("×1"), "Journal must show the saved shared inventory")
 	journal.force_close()
+	var fuel_pickups_before_save := 0
+	for item in world.get_node("Gameplay/WorldItems").get_children():
+		if item.item_type == &"fuel_can":
+			fuel_pickups_before_save += 1
 	await menu.return_to_main_menu()
 	await create_timer(0.3).timeout
 	await menu.start_standalone_flow(true)
@@ -70,8 +80,11 @@ func _run() -> void:
 	player = world.get_node("Players/1")
 	check(state.day_index == 2 and state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "Continue must restore day and key")
 	check(player.global_position.distance_to(base.get_day_start_transform(0).origin) < 0.3, "Continue must use morning spawn")
+	var restored_fuel_pickups := 0
 	for item in world.get_node("Gameplay/WorldItems").get_children():
-		check(item.item_type != &"fuel_can", "Restored fueled base must not respawn a fuel can")
+		if item.item_type == &"fuel_can":
+			restored_fuel_pickups += 1
+	check(restored_fuel_pickups == fuel_pickups_before_save, "Reusable fuel cans must survive save without duplication")
 	task = base.get_node("DayTwoTaskTerminal")
 	await interact_through_ray(player, task)
 	check(state.quest_stage == BaseGameplayController.QuestStage.DELIVERED, "Returning to hub must deliver the key")

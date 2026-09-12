@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nКоманды изменения мира доступны только хосту/в одиночной игре."
+const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nВ сетевой игре команды отправляются серверу и применяются к вызвавшему игроку."
 var panel: PanelContainer
 var output: RichTextLabel
 var entry: LineEdit
@@ -60,7 +60,7 @@ func _ready() -> void:
 	spawn_bar.add_child(clear_button)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
-	output.text = HELP + "\n"
+	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n/flashlight — фонарик   /fuel full|empty — канистра 20/0 л\n/testroom — войти/вернуться из пустой тестовой комнаты\n"
 	panel.hide()
 
 func _input(event: InputEvent) -> void:
@@ -108,7 +108,7 @@ func execute(line: String) -> String:
 	if args.is_empty():
 		return ""
 	if args[0] == "/help":
-		return HELP
+		return HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки (меняет сохранение)\n/flashlight — заряженный фонарик (если уже есть, выдаётся рядом)\n/fuel full|empty — полная/пустая канистра в руки\n/testroom — войти в большую пустую dev-комнату или вернуться"
 	if args[0] == "/clear":
 		output.clear()
 		return ""
@@ -116,12 +116,70 @@ func execute(line: String) -> String:
 	if state == null:
 		return "Сначала загрузите игру и войдите на карту."
 	if not multiplayer.is_server():
-		return "Команды изменения игры доступны только хосту."
-	var player = state.get_player_node(multiplayer.get_unique_id())
+		_request_command.rpc_id(1, line.left(256))
+		return "Команда отправлена серверу..."
+	return _execute_authoritative(args, state, multiplayer.get_unique_id())
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _request_command(line: String) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_id := multiplayer.get_remote_sender_id()
+	if sender_id <= 1 or not multiplayer.get_peers().has(sender_id):
+		return
+	var args := line.left(256).strip_edges().to_lower().split(" ", false)
+	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
+	var result := "Сначала загрузите игру и войдите на карту."
+	if state != null and not args.is_empty():
+		result = _execute_authoritative(args, state, sender_id)
+	_receive_command_result.rpc_id(sender_id, result)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _receive_command_result(result: String) -> void:
+	output.append_text("[color=#79bfff][сервер][/color] %s\n" % result)
+
+
+func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) -> String:
+	var player = state.get_player_node(peer_id)
 	if player == null:
-		return "Локальный игрок не найден."
+		return "Игрок, вызвавший команду, не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	match args[0]:
+		"/testroom":
+			var level := state.get_parent()
+			if not level.has_method("toggle_developer_test_room") or not level.toggle_developer_test_room(player):
+				return "Тестовая комната недоступна."
+			return "Телепорт выполнен. Повторите /testroom, чтобы вернуться."
+		"/flashlight":
+			if not player.pickup_world_item_authoritative(&"flashlight", {"battery_charge": 1.0}):
+				player.spawn_dropped_item_authoritative(&"flashlight", {"battery_charge": 1.0})
+				return "Заряженный фонарик выдан рядом с игроком."
+			return "Заряженный фонарик добавлен в инвентарь."
+		"/fuel":
+			if args.size() != 2 or args[1] not in ["full", "empty"]:
+				return "Использование: /fuel full — 20 л; /fuel empty — 0 л."
+			var liters := 20.0 if args[1] == "full" else 0.0
+			if not player.pickup_world_item_authoritative(&"fuel_can", {"fuel_liters": liters}):
+				return "Сейчас нельзя получить канистру."
+			return "Канистра в руках: %.0f / 20 л. Фонарик сохранён в инвентаре или на выброшенном оружии." % liters
+		"/tools":
+			player.pickup_world_item_authoritative(&"tape", {})
+			player.pickup_world_item_authoritative(&"crowbar", {"uses": 3})
+			return "Добавлен скотч. Монтировка: %d/3. Уже имеющаяся монтировка не заменяется." % player.crowbar_uses
+		"/wiring":
+			var snapshot: Dictionary = state.get_snapshot()
+			var order := [0, 1, 2, 3]
+			order.shuffle()
+			snapshot.maintenance["wires_required"] = true
+			snapshot.maintenance["wire_order"] = order
+			snapshot.maintenance["wire_links"] = []
+			snapshot.maintenance["alarm"] = true
+			snapshot.main_breaker_on = false
+			snapshot.phase = BaseGameplayController.BasePhase.RESTORING_POWER
+			state._broadcast_snapshot(snapshot)
+			return "Авария проводки. Отремонтируйте провода в генераторной, затем включите щит."
 		"/fly", "/across":
 			if args[0] == "/fly":
 				player.debug_fly = not player.debug_fly
@@ -157,6 +215,7 @@ func execute(line: String) -> String:
 			var snapshot: Dictionary = state.get_snapshot()
 			snapshot.day_index = int(args[1])
 			snapshot.fuel_delivered = true
+			snapshot.fuel_liters = 60.0
 			snapshot.main_breaker_on = true
 			snapshot.quest_stage = 4 if int(args[1]) >= 3 else 1
 			snapshot.sleeping_peer_ids = []

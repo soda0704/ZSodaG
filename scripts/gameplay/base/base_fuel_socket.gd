@@ -24,9 +24,7 @@ func get_interaction_prompt() -> String:
 	var controller := _get_controller()
 	if controller == null:
 		return "Топливная система недоступна"
-	if controller.fuel_delivered:
-		return "Топливный бак заполнен"
-	return "Залить топливо из канистры"
+	return "Долить топливо · %.1f / 60 л" % controller.fuel_liters
 
 
 func interact(interactor: Node) -> void:
@@ -45,12 +43,18 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		return
 
 	var controller := _get_controller()
-	if (
-		controller == null
-		or not controller.deliver_fuel_authoritative(peer_id)
-	):
+	if controller == null:
 		return
-	interactor.call("consume_held_item_authoritative", FUEL_ITEM)
+	var remaining := float(interactor.get("fuel_liters"))
+	var added := controller.refill_authoritative(peer_id, remaining)
+	if added > 0.0:
+		interactor.set("fuel_liters", remaining - added)
+		interactor.call("_publish_inventory")
+
+
+func _process(_delta: float) -> void:
+	if is_instance_valid(_controller):
+		status_label.text = "БАК: %.1f / 60 Л" % _controller.fuel_liters
 
 
 func _bind_controller() -> void:

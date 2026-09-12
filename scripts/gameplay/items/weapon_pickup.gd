@@ -8,6 +8,10 @@ func _ready() -> void:
 	if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"]:
 		var model := (load("res://assets/models/weapons/%s.glb" % item_type) as PackedScene).instantiate()
 		add_child(model)
+		if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
+			var mount := preload("res://scripts/gameplay/tool_models.gd").build_mount()
+			mount.position = Vector3(0.075, 0.01, -0.16)
+			add_child(mount)
 		var shape := BoxShape3D.new()
 		shape.size = Vector3(0.08, 0.32, 0.85) if item_type == &"m4a1" else Vector3(0.07, 0.18, 0.38)
 		$CollisionShape3D.shape = shape
@@ -22,6 +26,8 @@ func _ready() -> void:
 				shape.size = Vector3(0.05, 0.036, 0.065)
 
 func get_interaction_prompt() -> String:
+	if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
+		return "%s · фонарик на скотче · %d%%" % [WeaponController.TITLES[item_type], roundi(float(item_state.mounted_charge) * 100.0)]
 	if item_type == &"pistol_ammo":
 		return "Патроны для пистолета · %d шт." % int(item_state.get("amount", 12))
 	if item_type == &"rifle_magazine":

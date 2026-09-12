@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func _watchdog() -> void:
-	await get_tree().create_timer(18.0).timeout
+	await get_tree().create_timer(25.0).timeout
 	if not _finished:
 		_finish(false, "Timed out waiting for network progress")
 
@@ -87,6 +87,21 @@ func _deliver_from_client() -> void:
 	# Give the reliable teleport on the player channel time to arrive.
 	await get_tree().create_timer(0.25).timeout
 	var player := _world.get_node("Players/%d" % multiplayer.get_unique_id())
+	var console := get_node("/root/DeveloperConsole")
+	var console_return: Transform3D = player.global_transform
+	if "отправлена" not in console.execute("/testroom"):
+		_finish(false, "Client console command was not forwarded to server")
+		return
+	await get_tree().create_timer(0.35).timeout
+	var developer_room := _world.get_node("V3Level/DeveloperTestRoom") as DeveloperTestRoom
+	if not developer_room.contains(player.global_position):
+		_finish(false, "Client console did not teleport its requesting player")
+		return
+	console.execute("/testroom")
+	await get_tree().create_timer(0.35).timeout
+	if player.global_position.distance_to(console_return.origin) > 0.1:
+		_finish(false, "Client console did not return its requesting player")
+		return
 	_test_player_death.rpc_id(1)
 	await get_tree().create_timer(0.4).timeout
 	if not player.survival.dead:
@@ -128,6 +143,44 @@ func _deliver_from_client() -> void:
 	if player.get_inventory_snapshot().spare_batteries.size() != 1:
 		_finish(false, "Client battery discard did not replicate")
 		return
+	_setup_wiring_test.rpc_id(1)
+	await get_tree().create_timer(0.5).timeout
+	player.request_inventory_action(&"mount_light")
+	await get_tree().create_timer(0.3).timeout
+	if not player.weapon_light_mounted or player.tape_count != 0:
+		_finish(false, "Client attachment/tape transaction did not replicate")
+		return
+	player.request_reload_or_battery()
+	await get_tree().create_timer(1.2).timeout
+	if player._battery_charge <= 0.0 or player.weapon.reload_left > 0.0:
+		_finish(false, "Client R did not prioritize mounted battery")
+		return
+	var cargo_found := false
+	for item in _world.get_node("Gameplay/WorldItems").get_children():
+		if item.item_state.get("test_cargo", false):
+			cargo_found = is_instance_valid(item._cargo_cabin) and item._cargo_cabin.to_local(item.global_position).distance_to(item._cargo_pose.origin) < 0.02
+	if not cargo_found:
+		_finish(false, "Cabin-local cargo state did not replicate")
+		return
+	var wiring := get_tree().get_first_node_in_group("wiring_ui")
+	if wiring == null or not _state._siren.playing:
+		_finish(false, "Client wiring panel or alarm missing")
+		return
+	for i in 4:
+		wiring._select(i)
+		wiring._connect(int(_state.maintenance.wire_order[i]))
+		await get_tree().create_timer(0.15).timeout
+	if _state.maintenance.wires_required or _state.main_breaker_on:
+		_finish(false, "Client wire repair failed or automatically restarted breaker")
+		return
+	wiring._close()
+	_restart_wiring_test.rpc_id(1)
+	await get_tree().create_timer(0.3).timeout
+	if not _state.main_breaker_on or _state._siren.playing:
+		_finish(false, "Restart or alarm silence did not replicate")
+		return
+	_return_test_player.rpc_id(1)
+	await get_tree().create_timer(0.25).timeout
 	var terminal := _world.get_node("V3Level/DayTwoTaskTerminal") as Node3D
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.set("_input_yaw", terminal.global_rotation.y)
@@ -138,6 +191,33 @@ func _deliver_from_client() -> void:
 func _on_host_snapshot(snapshot: Dictionary) -> void:
 	if int(snapshot.get("quest_stage", 0)) == 4:
 		print("DAY_TWO_NETWORK_HOST_DELIVERED")
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _setup_wiring_test() -> void:
+	if not _host:
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	var player := _state.get_player_node(sender)
+	player.pickup_world_item_authoritative(&"tape", {})
+	player._battery_charge = 0.0
+	player._publish_inventory()
+	var cabin: Node3D = _world.get_node("V3Level/Elevator_Functional_Blockout/CabinMoving")
+	var items: Node3D = _world.get_node("Gameplay/WorldItems")
+	_world.spawn_world_item(&"fuel_can", items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, cabin.to_global(Vector3(0, 0.5, 0))), {"fuel_liters": 0.0, "test_cargo": true})
+	var snapshot := _state.get_snapshot()
+	snapshot.main_breaker_on = false
+	snapshot.maintenance = {"wires_required": true, "wire_order": [2, 0, 3, 1], "wire_links": [], "alarm": true}
+	_state._broadcast_snapshot(snapshot)
+	var breaker := get_tree().get_first_node_in_group("main_breaker") as Node3D
+	player.teleport_authoritative(breaker.global_position + Vector3(0, 0, 1.0), 0)
+	breaker.network_interact(sender, player)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _restart_wiring_test() -> void:
+	if _host:
+		_state.activate_main_breaker_authoritative(multiplayer.get_remote_sender_id())
 
 
 @rpc("any_peer", "call_remote", "reliable")

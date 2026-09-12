@@ -33,8 +33,12 @@ func _run() -> void:
 		label.add_theme_font_size_override("font_size", 32)
 		root.add_child(label)
 		var sheet := Image.create(3072, 1536, false, Image.FORMAT_RGBA8)
+		var reel_start := float(OS.get_environment("MONSTER_REEL_START"))
+		var reel_step := float(OS.get_environment("MONSTER_REEL_STEP"))
+		if reel_step <= 0.0:
+			reel_step = 0.5
 		for index in 24:
-			var time := 233.0 + index * 0.5
+			var time := reel_start + index * reel_step
 			visual.animator.seek(time, true)
 			var skeleton := visual.model.find_children("*", "Skeleton3D", true, false)[0] as Skeleton3D
 			var hip := skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone("Hip_03")).origin)
@@ -47,7 +51,7 @@ func _run() -> void:
 			frame.convert(Image.FORMAT_RGBA8)
 			frame.resize(512, 384)
 			sheet.blit_rect(frame, Rect2i(0, 0, 512, 384), Vector2i(index % 6 * 512, index / 6 * 384))
-		sheet.save_png(OS.get_environment("TEMP").path_join("Monster-reel.png"))
+		sheet.save_png(OS.get_environment("TEMP").path_join("Monster-reel-%d.png" % int(reel_start)))
 		quit()
 		return
 	for id in ["the_monster", "slasher", "smily"]:

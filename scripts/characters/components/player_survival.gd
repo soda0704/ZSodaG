@@ -93,6 +93,8 @@ func damage(amount: float, cause: String) -> void:
 	if not multiplayer.is_server() or dead or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
+	if amount >= 1.0:
+		_blood.rpc()
 	if health <= 0.0:
 		dead = true
 		reason = cause
@@ -105,6 +107,11 @@ func damage(amount: float, cause: String) -> void:
 			player._held_item_type = player.NO_ITEM
 		player._publish_inventory()
 		_sync.rpc(health, radiation, dead, reason, respawn_remaining)
+
+@rpc("authority", "call_local", "unreliable")
+func _blood() -> void:
+	var player := get_parent() as Node3D
+	preload("res://scripts/gameplay/blood_effect.gd").spawn(player, player.global_position + Vector3.UP)
 
 func _respawn() -> void:
 	var player := get_parent()

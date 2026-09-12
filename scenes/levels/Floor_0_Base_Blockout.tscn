@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bq6r0gmf1m8u3"]
 
 [ext_resource type="PackedScene" uid="uid://dew173wl8gco2" path="res://scenes/art/doors/standard_door_frosted_visual_blockout.tscn" id="4_standard_door_frosted_visual"]
-[ext_resource type="PackedScene" uid="uid://dskcl7rj1ry4l" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door.glb" id="1_vkp5a"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/living_hermetic_door_visual_blockout.tscn" id="1_vkp5a"]
 [ext_resource type="PackedScene" uid="uid://d2f2qx027hi0m" path="res://scenes/art/doors/medical_hermetic_door_visual_blockout.tscn" id="6_medical_hermetic_door_visual"]
 [ext_resource type="PackedScene" uid="uid://r0l282ty6b2e" path="res://scenes/art/doors/common_protected_standard_door_visual_blockout.tscn" id="7_common_protected_standard_door_visual"]
 [ext_resource type="PackedScene" uid="uid://bmacx8hw4bkf2" path="res://scenes/art/doors/technical_hub_storage_door_visual_blockout.tscn" id="8_technical_hub_storage_door_visual"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_fuel_socket.tscn" id="20_base_fuel_socket"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_main_breaker.tscn" id="21_base_main_breaker"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_end_day_bunk.tscn" id="22_end_day_bunk"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="23_auto_doors"]
 
 [sub_resource type="BoxShape3D" id="Shape_day1_west_vehicle_gate_blocker"]
 size = Vector3(5.56, 3.55, 0.14)
@@ -71,6 +72,9 @@ albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
 albedo_color = Color(1, 0, 0, 1)
 
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
+
+[node name="AutomaticDoors" type="Node" parent="."]
+script = ExtResource("23_auto_doors")
 editor_description = "Отдельная сцена нулевого уровня базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные уровни принадлежат сборочной сцене Base_Blockout_v03."
 
 [node name="Day1_Door_Collisions" type="Node3D" parent="." unique_id=1527685363]

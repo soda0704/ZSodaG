@@ -18,11 +18,24 @@ var _flash: OmniLight3D
 var _audio: AudioStreamPlayer3D
 var _animation: Tween
 var _rest := Vector3(0.2, -0.18, -0.4)
+var _mounted_lamp: Node3D
+var _mounted_beam: SpotLight3D
 
 func _ready() -> void:
 	_pose = Node3D.new()
 	get_parent().head.add_child(_pose)
 	_pose.position = _rest
+	_mounted_lamp = preload("res://scripts/gameplay/tool_models.gd").build_mount()
+	_pose.add_child(_mounted_lamp)
+	_mounted_lamp.position = Vector3(0.075, 0.01, -0.16)
+	_mounted_beam = SpotLight3D.new()
+	_mounted_lamp.add_child(_mounted_beam)
+	_mounted_beam.position.z = -0.095
+	_mounted_beam.spot_range = 25.0
+	_mounted_beam.spot_angle = 32.0
+	_mounted_beam.light_energy = 3.0
+	_mounted_beam.light_color = Color("fff0ce")
+	_mounted_beam.shadow_enabled = true
 	for id: StringName in TYPES:
 		var model := (load("res://assets/models/weapons/%s.glb" % id) as PackedScene).instantiate()
 		_pose.add_child(model)
@@ -37,8 +50,8 @@ func _ready() -> void:
 	_flash.hide()
 	_audio = AudioStreamPlayer3D.new()
 	add_child(_audio)
-	_audio.max_distance = 45.0
-	_audio.volume_db = -14.0
+	_audio.max_distance = 24.0
+	_audio.volume_db = -24.0
 	_audio.stream = _make_shot_sound()
 	var layer := CanvasLayer.new()
 	add_child(layer)
@@ -89,6 +102,8 @@ func _physics_process(delta: float) -> void:
 					_notify_inventory()
 	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk()
 	_pose.visible = active
+	_mounted_lamp.visible = active and player.weapon_light_mounted
+	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
 	var local: bool = player.is_local_player()
 	_hud.visible = active and local and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:
@@ -96,7 +111,10 @@ func _physics_process(delta: float) -> void:
 		_hud.text = str(TITLES[kind])
 		if kind != &"kitchen_knife":
 			var reserve := "патроны: %d" % pistol_ammo if kind == &"pistol" else "магазины: %d" % rifle_magazines.size()
-			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ("[↑] Перезарядка" if controller else "[R] Перезарядка")]
+			var action_hint := "[↑] Перезарядка" if controller else "[R] Перезарядка"
+			if player.weapon_light_mounted and player._battery_charge <= 0.0 and not player._spare_batteries.is_empty():
+				action_hint = "[↑] Заменить батарейку" if controller else "[R] Заменить батарейку"
+			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else action_hint]
 		else:
 			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
 	if active and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -125,6 +143,8 @@ func perform_action(action: StringName) -> bool:
 	var player := get_parent()
 	if not multiplayer.is_server() or player.survival.dead or player.is_sleeping_in_bunk() or not TYPES.has(kind):
 		return false
+	if player._battery_action_busy:
+		return false
 	if action == &"reload":
 		if kind == &"kitchen_knife" or reload_left > 0.0 or rounds >= CAPACITY[kind]:
 			return false
@@ -144,6 +164,7 @@ func perform_action(action: StringName) -> bool:
 	_cooldown = 0.1 if kind == &"m4a1" else 0.55 if kind == &"kitchen_knife" else 0.24
 	if kind != &"kitchen_knife":
 		rounds -= 1
+		preload("res://scripts/gameplay/gameplay_noise.gd").emit(player, 32.0 if kind == &"m4a1" else 26.0)
 	var origin: Vector3 = player.head.global_position
 	var direction: Vector3 = -player.head.global_basis.z
 	var reach := 2.0 if kind == &"kitchen_knife" else 120.0
@@ -151,12 +172,15 @@ func perform_action(action: StringName) -> bool:
 	var hit: Dictionary = player.get_world_3d().direct_space_state.intersect_ray(query)
 	if not hit.is_empty():
 		var target: Node = hit.collider
-		# Friendly fire is off for this first cooperative prototype.
 		if target.has_method("apply_weapon_damage"):
 			target.apply_weapon_damage(50.0 if kind == &"kitchen_knife" else 25.0 if kind == &"m4a1" else 35.0)
 		if target is RigidBody3D:
+			if target.has_method("release_elevator_cargo"):
+				target.release_elevator_cargo()
 			target.apply_impulse(direction * 2.0, hit.position - target.global_position)
-		_impact.rpc(hit.position, hit.normal)
+		var surface := target as Node3D
+		if surface != null:
+			_impact.rpc(hit.position, hit.normal, surface.get_path(), surface.to_local(hit.position + hit.normal * 0.015))
 	_play_effect.rpc(false)
 	_notify_inventory()
 	return true
@@ -188,6 +212,13 @@ func _cancel_animation() -> void:
 	_pose.rotation = Vector3.ZERO
 	_flash.hide()
 
+func play_mounted_battery_action() -> void:
+	_cancel_animation()
+	_animation = create_tween()
+	_animation.tween_property(_pose, "rotation", Vector3(-0.15, 0.0, -0.35), 0.25)
+	_animation.tween_interval(0.47)
+	_animation.tween_property(_pose, "rotation", Vector3.ZERO, 0.38)
+
 @rpc("authority", "call_local", "reliable", 2)
 func _play_effect(reloading: bool) -> void:
 	_cancel_animation()
@@ -211,7 +242,10 @@ func _play_effect(reloading: bool) -> void:
 		_animation.parallel().tween_property(_pose, "rotation", Vector3.ZERO, 0.07)
 
 @rpc("authority", "call_local", "unreliable", 2)
-func _impact(point: Vector3, normal: Vector3) -> void:
+func _impact(point: Vector3, normal: Vector3, surface_path: NodePath = NodePath(), local_point: Vector3 = Vector3.ZERO) -> void:
+	var surface := get_node_or_null(surface_path) as Node3D if not surface_path.is_empty() else null
+	if not surface_path.is_empty() and surface == null:
+		return
 	var mark := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = 0.015
@@ -221,8 +255,13 @@ func _impact(point: Vector3, normal: Vector3) -> void:
 	mat.albedo_color = Color("edb870")
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mark.material_override = mat
-	get_tree().current_scene.add_child(mark)
-	mark.global_position = point + normal * 0.015
+	mark.add_to_group("weapon_impacts")
+	if surface != null:
+		surface.add_child(mark)
+		mark.position = local_point
+	else:
+		get_tree().current_scene.add_child(mark)
+		mark.global_position = point + normal * 0.015
 	var fade := mark.create_tween()
 	fade.tween_interval(0.25)
 	fade.tween_callback(mark.queue_free)

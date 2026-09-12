@@ -119,8 +119,14 @@ var _is_crouching: bool = false
 var _is_sleeping_in_bunk: bool = false
 var _spare_batteries: Array[float] = []
 var _inventory_revision: int = 0
+var fuel_liters := 20.0
 var _battery_action_busy: bool = false
 var _pad_sprint: bool = false
+var _noise_step_left := 0.0
+var tape_count := 0
+var crowbar_uses := 0
+var weapon_light_mounted := false
+var _equipment_notice_until := 0
 var _pad_crouch: bool = false
 
 
@@ -141,6 +147,7 @@ func setup(
 
 
 func _ready() -> void:
+	add_to_group("network_players")
 	survival = preload("res://scripts/characters/components/player_survival.gd").new()
 	survival.name = "Survival"
 	add_child(survival)
@@ -164,7 +171,7 @@ func _ready() -> void:
 
 	if local_player:
 		add_to_group("local_player")
-		if not GameMenu.is_menu_open():
+		if not get_node("/root/GameMenu").is_menu_open():
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	flashlight.drain_battery_locally = false
@@ -182,7 +189,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not is_local_player():
 		return
-	if _is_sleeping_in_bunk or _is_journal_open():
+	if _is_sleeping_in_bunk:
+		if event.is_action_pressed("interact"):
+			request_leave_bunk_sleep()
+		return
+	if _is_journal_open():
 		return
 
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
@@ -193,7 +204,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var sensitivity: float = (
 			mouse_sensitivity
-			* GameMenu.get_mouse_sensitivity_multiplier()
+			* float(get_node("/root/GameMenu").get_mouse_sensitivity_multiplier())
 		)
 		_input_yaw = wrapf(
 			_input_yaw - event.relative.x * sensitivity,
@@ -214,14 +225,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("drop_item"):
 		_drop_item_serial += 1
 	elif event.is_action_pressed("replace_battery"):
-		if WeaponController.TYPES.has(_held_item_type):
-			weapon.request_action(&"reload")
-		else:
-			request_inventory_action(&"replace_battery")
-	elif event.is_action_pressed("sprint") and SteamInput.is_controller_event(event):
+		request_reload_or_battery()
+	elif event.is_action_pressed("sprint") and get_node("/root/SteamInput").is_controller_event(event):
 		_pad_sprint = not _pad_sprint
 		_pad_crouch = false
-	elif event.is_action_pressed("crouch") and SteamInput.is_controller_event(event):
+	elif event.is_action_pressed("crouch") and get_node("/root/SteamInput").is_controller_event(event):
 		_pad_crouch = not _pad_crouch
 		_pad_sprint = false
 	elif event.is_action_pressed("flashlight"):
@@ -305,13 +313,14 @@ func collect_local_input() -> void:
 		if steam_move.length_squared() > godot_move.length_squared()
 		else godot_move
 	)
-	if not SteamInput.using_controller:
+	var using_controller: bool = bool(get_node("/root/SteamInput").using_controller)
+	if not using_controller:
 		_pad_sprint = false
 		_pad_crouch = false
 	if _input_move.length() < 0.1:
 		_pad_sprint = false
-	_input_crouch = _pad_crouch if SteamInput.using_controller else Input.is_action_pressed("crouch")
-	_input_sprint = (_pad_sprint if SteamInput.using_controller else Input.is_action_pressed("sprint")) and not _input_crouch
+	_input_crouch = _pad_crouch if using_controller else Input.is_action_pressed("crouch")
+	_input_sprint = (_pad_sprint if using_controller else Input.is_action_pressed("sprint")) and not _input_crouch
 
 
 func collect_local_look(delta: float) -> void:
@@ -321,14 +330,16 @@ func collect_local_look(delta: float) -> void:
 		or _is_journal_open()
 	):
 		return
-	var sensitivity_multiplier := GameMenu.get_mouse_sensitivity_multiplier()
+	var sensitivity_multiplier: float = float(
+		get_node("/root/GameMenu").get_mouse_sensitivity_multiplier()
+	)
 	var godot_look := Input.get_vector(
 		"look_left",
 		"look_right",
 		"look_up",
 		"look_down"
 	)
-	var look_radians := (
+	var look_radians: Vector2 = (
 		godot_look
 		* controller_look_speed
 		* sensitivity_multiplier
@@ -347,7 +358,7 @@ func collect_local_look(delta: float) -> void:
 		deg_to_rad(-85.0),
 		deg_to_rad(85.0)
 	)
-	var look_impulse := look_radians / maxf(mouse_sensitivity, 0.00001)
+	var look_impulse: Vector2 = look_radians / maxf(mouse_sensitivity, 0.00001)
 	camera.add_look_impulse(look_impulse)
 	flashlight.add_look_impulse(look_impulse)
 
@@ -617,6 +628,11 @@ func simulate_movement(
 	var incoming_y := velocity.y
 	move_and_slide()
 	survival.observe_motion(incoming_y, is_on_floor(), get_platform_velocity().y)
+	if multiplayer.is_server():
+		_noise_step_left = maxf(0.0, _noise_step_left - delta)
+		if is_on_floor() and not survival.dead and not _is_crouching and sprinting and Vector2(velocity.x, velocity.z).length() > 3.0 and _noise_step_left <= 0.0:
+			_noise_step_left = 0.5
+			preload("res://scripts/gameplay/gameplay_noise.gd").emit(self, 12.0)
 
 
 func update_crouch_state(delta: float, wants_to_crouch: bool) -> void:
@@ -686,11 +702,13 @@ func refresh_interaction_prompt() -> void:
 	var prompt := "Взаимодействовать"
 	if target.has_method("get_interaction_prompt"):
 		prompt = str(target.call("get_interaction_prompt"))
-	interaction_prompt_label.text = "%s %s" % [SteamInput.get_action_hint(&"interact"), prompt]
+	interaction_prompt_label.text = "%s %s" % [get_node("/root/SteamInput").get_action_hint(&"interact"), prompt]
 	interaction_prompt_label.visible = true
 
 
 func _is_journal_open() -> bool:
+	if get_tree().get_first_node_in_group("wiring_ui") != null:
+		return true
 	var journal := get_node_or_null("/root/QuestJournal")
 	return journal != null and bool(journal.call("is_journal_open"))
 
@@ -715,6 +733,35 @@ func enter_bunk_sleep_authoritative(sleep_transform: Transform3D) -> void:
 func leave_bunk_sleep_authoritative(wake_transform: Transform3D) -> void:
 	if multiplayer.is_server():
 		_receive_bunk_sleep_state.rpc(false, wake_transform)
+
+
+func request_leave_bunk_sleep() -> void:
+	if not is_local_player() or not _is_sleeping_in_bunk:
+		return
+	if multiplayer.is_server():
+		_server_request_leave_bunk(owner_peer_id)
+	else:
+		_request_leave_bunk_sleep.rpc_id(1)
+
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _request_leave_bunk_sleep() -> void:
+	if multiplayer.is_server():
+		_server_request_leave_bunk(multiplayer.get_remote_sender_id())
+
+
+func _server_request_leave_bunk(peer_id: int) -> void:
+	if not multiplayer.is_server() or peer_id != owner_peer_id:
+		return
+	for bunk in get_tree().get_nodes_in_group("end_day_bunks"):
+		if bunk.has_method("cancel_sleep_authoritative"):
+			if bool(bunk.call("cancel_sleep_authoritative", peer_id, self)):
+				return
+
+
+func apply_weapon_damage(amount: float) -> void:
+	if multiplayer.is_server():
+		survival.damage(amount, "Огнестрельное ранение")
 
 
 func is_sleeping_in_bunk() -> bool:
@@ -803,6 +850,16 @@ func pickup_world_item_authoritative(
 		_spare_batteries.append(charge_amount)
 		_publish_inventory()
 		return true
+	if item_type == &"tape":
+		tape_count += 1
+		_publish_inventory()
+		return true
+	if item_type == &"crowbar":
+		if crowbar_uses > 0:
+			return false
+		crowbar_uses = clampi(int(item_state.get("uses", 3)), 1, 3)
+		_publish_inventory()
+		return true
 
 	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM] and not WeaponController.TYPES.has(item_type):
 		return false
@@ -818,8 +875,20 @@ func pickup_world_item_authoritative(
 		# Equipment is pocketed, only another bulky hand item is dropped.
 		if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
 			spawn_dropped_item_authoritative(_held_item_type, get_held_item_state())
+			if weapon_light_mounted:
+				_has_flashlight = false
+				_battery_charge = 0.0
+				weapon_light_mounted = false
 		_held_item_type = item_type
+		if item_type == FUEL_ITEM:
+			fuel_liters = clampf(float(item_state.get("fuel_liters", 20.0)), 0.0, 20.0)
 		if WeaponController.TYPES.has(item_type):
+			if item_state.has("mounted_charge") and item_type != &"kitchen_knife":
+				if _has_flashlight:
+					spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge})
+				_has_flashlight = true
+				weapon_light_mounted = true
+				_battery_charge = clampf(float(item_state.mounted_charge), 0.0, 1.0)
 			weapon.reload_left = 0.0
 			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
 		_flashlight_enabled = false
@@ -831,6 +900,10 @@ func pickup_world_item_authoritative(
 func get_inventory_snapshot() -> Dictionary:
 	return {
 		"held_item": _held_item_type,
+		"fuel_liters": fuel_liters,
+		"tape_count": tape_count,
+		"crowbar_uses": crowbar_uses,
+		"weapon_light_mounted": weapon_light_mounted,
 		"has_flashlight": _has_flashlight,
 		"battery_charge": _battery_charge,
 		"spare_batteries": _spare_batteries.duplicate(),
@@ -862,6 +935,10 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	if revision < _inventory_revision:
 		return
 	_inventory_revision = revision
+	tape_count = maxi(0, int(data.get("tape_count", 0)))
+	crowbar_uses = clampi(int(data.get("crowbar_uses", 0)), 0, 3)
+	weapon_light_mounted = bool(data.get("weapon_light_mounted", false)) and StringName(data.get("held_item", "")) in [&"pistol", &"m4a1"] and bool(data.get("has_flashlight", false))
+	fuel_liters = clampf(float(data.get("fuel_liters", 20.0)), 0.0, 20.0)
 	_has_flashlight = bool(data.get("has_flashlight", false))
 	_battery_charge = clampf(float(data.get("battery_charge", 0.0)), 0.0, 1.0) if _has_flashlight else 0.0
 	_spare_batteries.clear()
@@ -880,7 +957,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	if _held_item_type == FLASHLIGHT_ITEM and not _has_flashlight:
 		_held_item_type = NO_ITEM
 	_flashlight_malfunctioning = bool(data.get("malfunctioning", false)) and _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
-	_flashlight_enabled = bool(data.get("flashlight_enabled", false)) and _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0 and not _flashlight_malfunctioning
+	_flashlight_enabled = bool(data.get("flashlight_enabled", false)) and (_held_item_type == FLASHLIGHT_ITEM or weapon_light_mounted) and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	_refresh_equipment_visuals()
 	inventory_changed.emit()
 
@@ -891,6 +968,11 @@ func toggle_flashlight_authoritative() -> bool:
 	if not multiplayer.is_server() or not _has_flashlight or _is_sleeping_in_bunk:
 		return false
 	if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
+		if weapon_light_mounted:
+			_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0
+			_publish_inventory()
+			return true
+		_show_pocket_light_notice.rpc_id(owner_peer_id)
 		return false
 	_held_item_type = NO_ITEM if _held_item_type == FLASHLIGHT_ITEM else FLASHLIGHT_ITEM
 	_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
@@ -908,6 +990,16 @@ func request_inventory_action(action: StringName) -> void:
 		_request_inventory_action.rpc_id(1, action)
 
 
+func request_reload_or_battery() -> void:
+	request_inventory_action(&"reload_or_battery")
+
+
+@rpc("authority", "call_local", "reliable")
+func _show_pocket_light_notice() -> void:
+	_equipment_notice_until = Time.get_ticks_msec() + 2200
+	update_battery_ui()
+
+
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _request_inventory_action(action: StringName) -> void:
 	if multiplayer.is_server() and multiplayer.get_remote_sender_id() == owner_peer_id:
@@ -917,6 +1009,13 @@ func _request_inventory_action(action: StringName) -> void:
 func _begin_inventory_action(action: StringName) -> void:
 	if survival.dead:
 		return
+	if action == &"reload_or_battery":
+		if _battery_action_busy:
+			return
+		if WeaponController.TYPES.has(_held_item_type) and not (weapon_light_mounted and _battery_charge <= 0.0 and not _spare_batteries.is_empty()):
+			weapon.perform_action(&"reload")
+			return
+		action = &"replace_battery"
 	if action != &"replace_battery":
 		perform_inventory_action_authoritative(action)
 		return
@@ -938,7 +1037,10 @@ func _begin_inventory_action(action: StringName) -> void:
 
 @rpc("authority", "call_local", "reliable", 2)
 func _play_battery_action() -> void:
-	flashlight.play_battery_action()
+	if weapon_light_mounted:
+		weapon.play_mounted_battery_action()
+	else:
+		flashlight.play_battery_action()
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
@@ -947,6 +1049,27 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 	if not multiplayer.is_server() or _is_sleeping_in_bunk:
 		return false
 	match action:
+		&"mount_light":
+			if tape_count <= 0 or not _has_flashlight or weapon_light_mounted or _held_item_type not in [&"pistol", &"m4a1"]:
+				return false
+			tape_count -= 1
+			weapon_light_mounted = true
+			_flashlight_enabled = _battery_charge > 0.0
+		&"detach_light":
+			if not weapon_light_mounted:
+				return false
+			weapon_light_mounted = false
+			_flashlight_enabled = false
+		&"drop_crowbar":
+			if crowbar_uses <= 0:
+				return false
+			spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses})
+			crowbar_uses = 0
+		&"drop_tape":
+			if tape_count <= 0:
+				return false
+			spawn_dropped_item_authoritative(&"tape", {})
+			tape_count -= 1
 		&"drop_hand_item":
 			return drop_current_item_authoritative()
 		&"replace_battery":
@@ -961,7 +1084,7 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 				_spare_batteries.append(_battery_charge)
 			_battery_charge = best_charge
 			_flashlight_malfunctioning = false
-			_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM
+			_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM or weapon_light_mounted
 		&"drop_battery":
 			if _spare_batteries.is_empty():
 				return false
@@ -971,6 +1094,7 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 				return false
 			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge})
 			_has_flashlight = false
+			weapon_light_mounted = false
 			_battery_charge = 0.0
 			_flashlight_enabled = false
 			_flashlight_malfunctioning = false
@@ -983,11 +1107,28 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 
 
 func get_held_item_state() -> Dictionary:
+	if _held_item_type == FUEL_ITEM:
+		return {"fuel_liters": fuel_liters}
 	if WeaponController.TYPES.has(_held_item_type):
-		return {"rounds": weapon.rounds}
+		var state := {"rounds": weapon.rounds}
+		if weapon_light_mounted:
+			state["mounted_charge"] = _battery_charge
+		return state
 	if _held_item_type == FLASHLIGHT_ITEM:
 		return {"battery_charge": _battery_charge}
 	return {}
+
+
+@rpc("authority", "call_local", "reliable")
+func play_crowbar_action() -> void:
+	var model := preload("res://scripts/gameplay/tool_models.gd").build(&"crowbar")
+	head.add_child(model)
+	model.position = Vector3(0.2, -0.1, -0.6)
+	model.rotation = Vector3(-0.5, -0.25, 0.3)
+	var motion := model.create_tween()
+	motion.tween_property(model, "rotation:x", 0.3, 0.8).set_trans(Tween.TRANS_SINE)
+	motion.tween_property(model, "position:y", -0.6, 0.4)
+	motion.tween_callback(model.queue_free)
 
 
 func get_held_item_drop_transform() -> Transform3D:
@@ -1036,7 +1177,8 @@ func drop_current_item_at_authoritative(
 	var dropped_item_type := _held_item_type
 	var dropped_item_state := get_held_item_state()
 	_held_item_type = NO_ITEM
-	if dropped_item_type == FLASHLIGHT_ITEM:
+	if dropped_item_type == FLASHLIGHT_ITEM or weapon_light_mounted:
+		weapon_light_mounted = false
 		_has_flashlight = false
 		_battery_charge = 0.0
 	_flashlight_enabled = false
@@ -1059,6 +1201,12 @@ func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
 	if not multiplayer.is_server():
 		return
 	drop_current_item_at_authoritative(drop_transform)
+	if crowbar_uses > 0:
+		spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses}, drop_transform, Vector3.ZERO)
+	for index in tape_count:
+		spawn_dropped_item_authoritative(&"tape", {}, drop_transform, Vector3.ZERO)
+	crowbar_uses = 0
+	tape_count = 0
 	if _has_flashlight:
 		spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge}, drop_transform, Vector3.ZERO)
 	for charge in _spare_batteries:
@@ -1122,6 +1270,7 @@ func spawn_dropped_item_authoritative(
 		if item_type == FUSE_ITEM
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
 		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
+		else preload("res://scenes/objects/items/tool_pickup.tscn") if item_type in [&"tape", &"crowbar"]
 		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"] else null
 	)
 	if pickup_scene == null or get_tree().current_scene == null:
@@ -1328,7 +1477,7 @@ func _refresh_equipment_visuals() -> void:
 	else:
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
-		flashlight.set_enabled(_flashlight_enabled, false)
+		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted, false)
 	held_fuse.visible = _held_item_type == FUSE_ITEM
 	held_fuel_can.visible = _held_item_type == FUEL_ITEM
 	update_battery_ui()
@@ -1342,7 +1491,11 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func update_battery_ui() -> void:
-	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not GameMenu.is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
+	if is_local_player() and _has_flashlight and Time.get_ticks_msec() < _equipment_notice_until and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open():
+		battery_label.visible = true
+		battery_label.text = "Фонарик в инвентаре · сначала освободите руки"
+		return
+	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and (_held_item_type == FLASHLIGHT_ITEM or _battery_charge <= 0.0)
 	if not battery_label.visible:
 		_displayed_battery_percent = -1
 		return
@@ -1351,4 +1504,4 @@ func update_battery_ui() -> void:
 	_displayed_battery_percent = battery_percent
 	battery_label.text = "%d%%" % battery_percent
 	if _battery_charge <= 0.0:
-		battery_label.text = "%s Заменить батарейку" % SteamInput.get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"
+		battery_label.text = "%s Заменить батарейку" % get_node("/root/SteamInput").get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"

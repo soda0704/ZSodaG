@@ -33,16 +33,56 @@ var quest_stage: QuestStage = QuestStage.UNAVAILABLE
 var day_index: int = FIRST_DAY
 var phase: BasePhase = BasePhase.ARRIVAL
 var fuel_delivered: bool = false
+const FUEL_CAPACITY := 60.0
+const FUEL_PER_SECOND := 0.01
+var fuel_liters := 0.0
+var _fuel_tick := 0.0
+
+
+func _process(delta: float) -> void:
+	if not multiplayer.is_server() or not main_breaker_on:
+		return
+	fuel_liters = maxf(0.0, fuel_liters - delta * FUEL_PER_SECOND)
+	_fuel_tick += delta
+	if _fuel_tick >= 5.0 or fuel_liters <= 0.0:
+		_fuel_tick = 0.0
+		var snapshot := get_snapshot()
+		if fuel_liters <= 0.0:
+			snapshot.main_breaker_on = false
+			snapshot.fuel_delivered = false
+		_broadcast_snapshot(snapshot)
+
+
+func refill_authoritative(peer_id: int, amount: float) -> float:
+	if not _can_mutate_for_peer(peer_id) or amount <= 0.0:
+		return 0.0
+	var added := minf(amount, FUEL_CAPACITY - fuel_liters)
+	if added <= 0.0:
+		return 0.0
+	fuel_liters += added
+	var snapshot := get_snapshot()
+	snapshot.fuel_delivered = true
+	snapshot.fuel_liters = fuel_liters
+	if phase == BasePhase.ARRIVAL:
+		snapshot.phase = BasePhase.RESTORING_POWER
+	_broadcast_snapshot(snapshot)
+	return added
 var main_breaker_on: bool = false
 var end_day_ready_peer_ids: Array[int] = []
 var sleeping_peer_ids: Array[int] = []
 var _end_day_consensus_announced: bool = false
 var inventory_checkpoint: Dictionary = {}
 var containment: Dictionary = {}
+var maintenance: Dictionary = {}
+var _siren: AudioStreamPlayer
 
 
 func _ready() -> void:
 	add_to_group("base_gameplay_controller")
+	_siren = AudioStreamPlayer.new()
+	_siren.stream = preload("res://scripts/gameplay/base/power_siren.gd").make_stream()
+	_siren.volume_db = -27.0
+	add_child(_siren)
 	var steam_network := get_node_or_null("/root/SteamNetwork")
 	if (
 		steam_network != null
@@ -85,6 +125,7 @@ func get_snapshot() -> Dictionary:
 func deliver_fuel_authoritative(peer_id: int) -> bool:
 	if not _can_mutate_for_peer(peer_id) or fuel_delivered:
 		return false
+	fuel_liters = 20.0
 	var next_phase := phase
 	if phase == BasePhase.ARRIVAL:
 		next_phase = BasePhase.RESTORING_POWER
@@ -106,6 +147,7 @@ func activate_main_breaker_authoritative(peer_id: int) -> bool:
 		not _can_mutate_for_peer(peer_id)
 		or not fuel_delivered
 		or main_breaker_on
+		or bool(maintenance.get("wires_required", false))
 	):
 		return false
 	_broadcast_snapshot(
@@ -270,6 +312,7 @@ func get_player_node(peer_id: int) -> Node:
 func reset_day_one_authoritative() -> bool:
 	if not multiplayer.is_server():
 		return false
+	maintenance = {}
 	_broadcast_snapshot(
 		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [], [])
 	)
@@ -284,16 +327,27 @@ func advance_day_authoritative() -> bool:
 		or not can_end_current_day()
 	):
 		return false
-	_broadcast_snapshot(
-		_make_snapshot(
+	var next := _make_snapshot(
 			day_index + 1,
 			BasePhase.ACTIVE_DAY,
 			fuel_delivered,
 			main_breaker_on,
 			[],
 			[]
-		)
 	)
+	if day_index == 1:
+		var order := [0, 1, 2, 3]
+		order.shuffle()
+		# A repair should always require crossing at least two wires.
+		if order == [0, 1, 2, 3]:
+			order = [2, 0, 3, 1]
+		next.maintenance["wires_required"] = true
+		next.maintenance["wire_order"] = order
+		next.maintenance["wire_links"] = []
+		next.maintenance["alarm"] = true
+		next.main_breaker_on = false
+		next.phase = BasePhase.RESTORING_POWER
+	_broadcast_snapshot(next)
 	return true
 
 
@@ -345,7 +399,9 @@ func load_saved_snapshot() -> Dictionary:
 		[]
 	)
 	snapshot["quest_stage"] = int(config.get_value("base", "quest_stage", 0))
+	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
+	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
 	return snapshot
 
 
@@ -433,11 +489,25 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 		BasePhase.ENDING_DAY
 	) as BasePhase
 	fuel_delivered = bool(snapshot.get("fuel_delivered", false))
+	fuel_liters = clampf(float(snapshot.get("fuel_liters", 20.0 if fuel_delivered else 0.0)), 0.0, FUEL_CAPACITY)
 	main_breaker_on = (
 		bool(snapshot.get("main_breaker_on", false)) and fuel_delivered
 	)
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
+	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
+	if bool(maintenance.get("wires_required", false)):
+		main_breaker_on = false
+	if previous_power and not main_breaker_on and phase != BasePhase.ARRIVAL:
+		maintenance["alarm"] = true
+	if main_breaker_on:
+		maintenance["alarm"] = false
+	if is_instance_valid(_siren):
+		var alarm := bool(maintenance.get("alarm", false)) and not main_breaker_on
+		if alarm and not _siren.playing:
+			_siren.play()
+		elif not alarm:
+			_siren.stop()
 	if day_index == 1:
 		quest_stage = QuestStage.UNAVAILABLE
 	elif quest_stage == QuestStage.UNAVAILABLE:
@@ -478,12 +548,48 @@ func _make_snapshot(
 		"day_index": clampi(next_day_index, 1, 5),
 		"phase": int(next_phase),
 		"fuel_delivered": next_fuel_delivered,
+		"fuel_liters": fuel_liters if next_fuel_delivered else 0.0,
 		"main_breaker_on": next_main_breaker_on and next_fuel_delivered,
 		"end_day_ready_peer_ids": _normalize_peer_ids(next_ready_peer_ids),
 		"sleeping_peer_ids": _normalize_peer_ids(next_sleeping_peer_ids),
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
 		"containment": containment.duplicate(true),
+		"maintenance": maintenance.duplicate(true),
 	}
+
+
+func connect_wire_authoritative(peer: int, left: int, right: int) -> bool:
+	if not _can_mutate_for_peer(peer) or not maintenance.get("wires_required", false):
+		return false
+	var player := get_player_node(peer) as Node3D
+	var breaker := get_tree().get_first_node_in_group("main_breaker") as Node3D
+	if player == null or breaker == null or player.global_position.distance_to(breaker.global_position) > 4.0 or player.survival.dead:
+		return false
+	var order: Array = maintenance.get("wire_order", [])
+	var links: Array = maintenance.get("wire_links", []).duplicate()
+	if left < 0 or left >= order.size() or right != int(order[left]) or links.has(left):
+		return false
+	links.append(left)
+	var snapshot := get_snapshot()
+	snapshot.maintenance["wire_links"] = links
+	if links.size() == 4:
+		snapshot.maintenance["wires_required"] = false
+	_broadcast_snapshot(snapshot)
+	return true
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_wire(left: int, right: int) -> void:
+	connect_wire_authoritative(multiplayer.get_remote_sender_id(), left, right)
+
+
+@rpc("authority", "call_local", "reliable")
+func open_wiring_ui() -> void:
+	if get_tree().get_first_node_in_group("wiring_ui") != null or not maintenance.get("wires_required", false):
+		return
+	var ui := preload("res://scripts/ui/wiring_panel.gd").new()
+	ui.controller = self
+	get_tree().root.add_child(ui)
 
 
 func _normalize_peer_ids(peer_ids: Array) -> Array[int]:

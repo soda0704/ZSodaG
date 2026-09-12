@@ -13,27 +13,17 @@ const MAX_NAME_TAG_CHARACTERS := 14
 	%SleepSurface.get_node("CollisionShape3D") as CollisionShape3D
 )
 @onready var sleep_pose: Marker3D = %SleepPose
+@onready var wake_pose: Marker3D = %WakePose
 
 var _controller: BaseGameplayController
 var _indicator_material: StandardMaterial3D
-var _bed_target_angle := -PI * 0.5
-
-
 func _ready() -> void:
+	add_to_group("end_day_bunks")
 	_indicator_material = (
 		indicator.get_active_material(0).duplicate() as StandardMaterial3D
 	)
 	indicator.material_override = _indicator_material
-	set_process(true)
 	call_deferred("_bind_controller")
-
-
-func _process(delta: float) -> void:
-	bed_pivot.rotation.x = move_toward(
-		bed_pivot.rotation.x,
-		_bed_target_angle,
-		delta * 2.8
-	)
 
 
 func get_interaction_prompt() -> String:
@@ -117,6 +107,26 @@ func network_sleep_interact(peer_id: int, interactor: Node) -> void:
 			)
 
 
+func cancel_sleep_authoritative(peer_id: int, interactor: Node) -> bool:
+	var controller := _get_controller()
+	if (
+		not multiplayer.is_server()
+		or interactor == null
+		or int(interactor.get("owner_peer_id")) != peer_id
+		or controller == null
+		or controller.get_player_slot(peer_id) != assigned_player_slot
+		or not controller.is_peer_sleeping(peer_id)
+	):
+		return false
+	# Move the player clear first. The following snapshot folds the bunk at once
+	# and also cancels readiness, so another sleep requires an explicit choice.
+	if interactor.has_method("leave_bunk_sleep_authoritative"):
+		interactor.call("leave_bunk_sleep_authoritative", wake_pose.global_transform)
+	controller.set_peer_sleeping_authoritative(peer_id, false)
+	controller.set_end_day_ready_authoritative(peer_id, false)
+	return true
+
+
 func _bind_controller() -> void:
 	_controller = _get_controller()
 	if _controller == null:
@@ -163,7 +173,7 @@ func _refresh_visuals() -> void:
 	var is_sleeping := (
 		is_ready and controller.is_peer_sleeping(assigned_peer_id)
 	)
-	_bed_target_angle = 0.0 if is_ready else -PI * 0.5
+	bed_pivot.rotation.x = 0.0 if is_ready else -PI * 0.5
 	sleep_surface_collision.set_deferred("disabled", not is_ready or is_sleeping)
 
 	var color := Color(0.22, 0.25, 0.28, 1.0)

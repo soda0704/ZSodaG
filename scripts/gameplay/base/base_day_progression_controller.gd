@@ -60,7 +60,6 @@ func _on_day_changed(next_day_index: int) -> void:
 
 
 func _apply_day(next_day_index: int) -> void:
-	var day_two_unlocked := next_day_index >= 2
 	if _day_one_collision_root != null:
 		for child in _day_one_collision_root.find_children(
 			"*",
@@ -70,7 +69,7 @@ func _apply_day(next_day_index: int) -> void:
 		):
 			(child as CollisionShape3D).set_deferred(
 				"disabled",
-				day_two_unlocked
+				true
 			)
 	if multiplayer.is_server() and _elevator_controller != null:
 		_elevator_controller.set_day(next_day_index)

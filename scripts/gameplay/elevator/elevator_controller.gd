@@ -60,6 +60,7 @@ var _state_started_at_msec: int = 0
 
 
 func _ready() -> void:
+	cabin.add_to_group("elevator_cabins")
 	is_powered = starts_powered
 	unlocked_floor_index = clampi(unlocked_floor_index, 0, MAX_FLOOR_INDEX)
 	passenger_area.body_entered.connect(_on_passenger_body_entered)
