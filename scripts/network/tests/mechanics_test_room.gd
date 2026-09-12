@@ -4,6 +4,8 @@ const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
 const ITEM_SCENES := {
+	&"tape": preload("res://scenes/objects/items/tool_pickup.tscn"),
+	&"crowbar": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"pistol_ammo": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"rifle_magazine": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"pistol": preload("res://scenes/objects/items/weapon_pickup.tscn"),
@@ -127,7 +129,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1}
+	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1}
 
 
 func _restore_player_equipment(player: Node) -> void:
@@ -499,6 +501,14 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	if int(_base_gameplay_controller.inventory_checkpoint.get("tools_layout_version", 0)) < 1:
+		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
+			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
+	if int(_base_gameplay_controller.inventory_checkpoint.get("fuel_layout_version", 0)) < 1:
+		for offset in [Vector3(1.0, 0.0, 0.0), Vector3(1.0, 0.0, 0.8)]:
+			var fuel_transform := world_items.global_transform.affine_inverse() * _v3_fuel_can_transform
+			fuel_transform.origin += offset
+			spawn_world_item(GamePlayer.FUEL_ITEM, fuel_transform, {"fuel_liters": 20.0})
 	if int(_base_gameplay_controller.inventory_checkpoint.get("weapon_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.WEAPON_LOOT:
 			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)

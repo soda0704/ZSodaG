@@ -18,11 +18,24 @@ var _flash: OmniLight3D
 var _audio: AudioStreamPlayer3D
 var _animation: Tween
 var _rest := Vector3(0.2, -0.18, -0.4)
+var _mounted_lamp: Node3D
+var _mounted_beam: SpotLight3D
 
 func _ready() -> void:
 	_pose = Node3D.new()
 	get_parent().head.add_child(_pose)
 	_pose.position = _rest
+	_mounted_lamp = preload("res://scripts/gameplay/tool_models.gd").build_mount()
+	_pose.add_child(_mounted_lamp)
+	_mounted_lamp.position = Vector3(0.075, 0.01, -0.16)
+	_mounted_beam = SpotLight3D.new()
+	_mounted_lamp.add_child(_mounted_beam)
+	_mounted_beam.position.z = -0.095
+	_mounted_beam.spot_range = 25.0
+	_mounted_beam.spot_angle = 32.0
+	_mounted_beam.light_energy = 3.0
+	_mounted_beam.light_color = Color("fff0ce")
+	_mounted_beam.shadow_enabled = true
 	for id: StringName in TYPES:
 		var model := (load("res://assets/models/weapons/%s.glb" % id) as PackedScene).instantiate()
 		_pose.add_child(model)
@@ -89,6 +102,8 @@ func _physics_process(delta: float) -> void:
 					_notify_inventory()
 	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk()
 	_pose.visible = active
+	_mounted_lamp.visible = active and player.weapon_light_mounted
+	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
 	var local: bool = player.is_local_player()
 	_hud.visible = active and local and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:
@@ -144,6 +159,7 @@ func perform_action(action: StringName) -> bool:
 	_cooldown = 0.1 if kind == &"m4a1" else 0.55 if kind == &"kitchen_knife" else 0.24
 	if kind != &"kitchen_knife":
 		rounds -= 1
+		preload("res://scripts/gameplay/gameplay_noise.gd").emit(player, 32.0 if kind == &"m4a1" else 26.0)
 	var origin: Vector3 = player.head.global_position
 	var direction: Vector3 = -player.head.global_basis.z
 	var reach := 2.0 if kind == &"kitchen_knife" else 120.0

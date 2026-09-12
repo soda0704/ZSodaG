@@ -23,6 +23,7 @@ func _run() -> void:
 	snapshot.day_index = 3
 	snapshot.main_breaker_on = true
 	snapshot.fuel_delivered = true
+	snapshot.fuel_liters = 20.0
 	state._broadcast_snapshot(snapshot)
 	for step in 100:
 		if encounter.navigation_ready:
@@ -41,6 +42,15 @@ func _run() -> void:
 	await create_timer(0.4).timeout
 	check(state.containment.get("level3", false), "Level 3 survey")
 	var monster = encounter.get_node("Monster0")
+	monster._alert_target = null
+	var heard_point: Vector3 = monster.global_position + Vector3(0, 0, 2)
+	monster.hear_noise(player, heard_point, 12.0)
+	check(monster._alert_target == player and monster._last_seen.is_equal_approx(heard_point), "Noise records a location without requiring sight")
+	monster._alert_target = null
+	monster.hear_noise(player, monster.global_position + Vector3(0, 18, 0), 32.0)
+	check(monster._alert_target == null, "Noise does not attract monsters from another level")
+	monster.hear_noise(player, monster.global_position + Vector3(50, 0, 0), 12.0)
+	check(monster._alert_target == null, "Noise outside hearing range is ignored")
 	player.teleport_authoritative(monster.global_position + Vector3(0, 0, 4), 0)
 	player.head.look_at(monster.global_position + Vector3.UP)
 	if OS.get_cmdline_user_args().has("visual"):

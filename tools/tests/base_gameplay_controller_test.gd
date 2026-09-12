@@ -261,8 +261,19 @@ func _run() -> void:
 	_assert(
 		automatic_doors != null
 		and int(automatic_doors.call("get_door_count")) == 16
-		and int(automatic_doors.call("get_open_door_count")) == 2,
-		"All 16 authored sockets must become doors; only the two generator-route doors open without power"
+		and int(automatic_doors.call("get_open_door_count")) == 8,
+		"All 16 sockets must become doors; the full spawn-to-generator route opens without power while the garage gate stays locked"
+	)
+	var garage_gate_marker := base_level.get_node(
+		"Floor_0_Base_Blockout/West_Entrance/Transitions/Garage_Vehicle_Exterior/Vehicle_Door_Socket"
+	) as Marker3D
+	var garage_room_marker := base_level.get_node(
+		"Floor_0_Base_Blockout/West_Entrance/Transitions/Equipment_Garage/Door_Socket"
+	) as Marker3D
+	_assert(
+		not bool(automatic_doors.call("is_door_open_at", garage_gate_marker))
+		and bool(automatic_doors.call("is_door_open_at", garage_room_marker)),
+		"The vehicle garage gate stays locked while the pedestrian route through the garage room opens fully"
 	)
 	var unpowered_science_marker := base_level.get_node(
 		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
@@ -457,7 +468,7 @@ func _run() -> void:
 		"Breaker must reject activation before fuel"
 	)
 	_assert(
-		fuel_socket.get_interaction_prompt() == "Залить топливо из канистры",
+		fuel_socket.get_interaction_prompt().contains("0.0 / 60"),
 		"Empty production fuel socket must request the fuel can"
 	)
 	fuel_socket.network_interact(1, standalone_player)
@@ -484,13 +495,15 @@ func _run() -> void:
 	)
 	fuel_socket.network_interact(1, standalone_player)
 	_assert(controller.fuel_delivered, "Fuel state must become true")
+	fuel_socket.network_interact(1, standalone_player)
+	_assert(is_equal_approx(controller.fuel_liters, 20.0), "Empty can must not add fuel")
 	_assert(
-		fuel_socket.get_interaction_prompt() == "Топливный бак заполнен",
+		fuel_socket.get_interaction_prompt().contains("20.0 / 60"),
 		"Fueled production socket must expose its synchronized state"
 	)
 	_assert(
-		not bool(standalone_player.call("has_held_item", TEST_FUEL_ITEM)),
-		"Successful production refueling must consume the fuel can"
+		bool(standalone_player.call("has_held_item", TEST_FUEL_ITEM)) and is_zero_approx(standalone_player.fuel_liters),
+		"Successful production refueling must retain the empty fuel can"
 	)
 	_assert(
 		controller.phase == BaseGameplayController.BasePhase.RESTORING_POWER,
@@ -498,22 +511,46 @@ func _run() -> void:
 	)
 	main_breaker.network_interact(1, standalone_player)
 	_assert(controller.main_breaker_on, "Breaker state must become true")
+	await create_timer(0.85).timeout
+	var west_hub_door_marker := base_level.get_node(
+		"Floor_0_Base_Blockout/West_Entrance/Transitions/Hub_Decon/Door_Socket"
+	) as Marker3D
+	_assert(
+		not bool(automatic_doors.call("is_door_open_at", west_hub_door_marker)),
+		"After power restoration, startup-route doors must return to proximity control"
+	)
 	var science_door_marker := base_level.get_node(
 		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
 	) as Marker3D
 	var position_before_door_test := standalone_player.global_position
+	var single_doors_tested := 0
+	for door: Dictionary in automatic_doors.get("_doors"):
+		if door.leaf_pairs.size() != 1 or door.leaf_pairs[0].leaf.name != &"Leaf":
+			continue
+		single_doors_tested += 1
+		standalone_player.global_position = door.marker.global_position + Vector3(0, 0, 1.5)
+		await create_timer(0.9).timeout
+		_assert(door.blocker.disabled and door.leaf_pairs[0].leaf.position.is_equal_approx(door.leaf_pairs[0].open_position), "Single door slides fully aside and frees passage")
+		standalone_player.global_position = door.marker.global_position + Vector3(10, 0, 10)
+		await create_timer(0.9).timeout
+		_assert(not door.blocker.disabled and door.leaf_pairs[0].leaf.position.is_equal_approx(door.leaf_pairs[0].closed_position), "Closed single door is solid")
+	_assert(single_doors_tested == 2, "Both initial pedestrian doors must be covered")
 	standalone_player.global_position = science_door_marker.global_position + Vector3(0, 0, 1.5)
-	await create_timer(0.15).timeout
+	await create_timer(0.85).timeout
 	_assert(
 		bool(automatic_doors.call("is_door_open_at", science_door_marker)),
 		"A powered authored door must open when a player approaches"
+	)
+	_assert(
+		float(automatic_doors.call("get_door_leaf_aperture_at", science_door_marker)) > 3.0,
+		"A living-side door must move both leaves to the fully open sockets"
 	)
 	_assert(
 		(automatic_doors.call("get_door_indicator_color_at", science_door_marker) as Color).g > 0.9,
 		"All open-door indicators must glow green"
 	)
 	standalone_player.global_position = position_before_door_test
-	await create_timer(0.15).timeout
+	await create_timer(0.85).timeout
 	_assert(
 		not bool(automatic_doors.call("is_door_open_at", science_door_marker)),
 		"A powered authored door must close after the player walks away"
@@ -593,7 +630,8 @@ func _run() -> void:
 	await create_timer(1.25).timeout
 	_assert(
 		controller.day_index == 2
-		and controller.phase == BaseGameplayController.BasePhase.ACTIVE_DAY
+		and controller.phase == BaseGameplayController.BasePhase.RESTORING_POWER
+		and controller.maintenance.get("wires_required", false)
 		and controller.end_day_ready_peer_ids.is_empty()
 		and controller.sleeping_peer_ids.is_empty()
 		and not bool(standalone_player.call("is_sleeping_in_bunk")),
@@ -616,9 +654,10 @@ func _run() -> void:
 	_assert(
 		int(saved_snapshot.get("day_index", 0)) == 2
 		and int(saved_snapshot.get("phase", -1))
-		== int(BaseGameplayController.BasePhase.ACTIVE_DAY)
+		== int(BaseGameplayController.BasePhase.RESTORING_POWER)
 		and bool(saved_snapshot.get("fuel_delivered", false))
-		and bool(saved_snapshot.get("main_breaker_on", false))
+		and not bool(saved_snapshot.get("main_breaker_on", false))
+		and saved_snapshot.maintenance.get("wires_required", false)
 		and (saved_snapshot.get("end_day_ready_peer_ids", []) as Array).is_empty()
 		and (saved_snapshot.get("sleeping_peer_ids", []) as Array).is_empty(),
 		"Saved checkpoint must restore Day 2 without transient ready flags"
@@ -631,8 +670,9 @@ func _run() -> void:
 	_assert(
 		reloaded_controller.day_index == 2
 		and reloaded_controller.phase
-		== BaseGameplayController.BasePhase.ACTIVE_DAY
-		and reloaded_controller.main_breaker_on,
+		== BaseGameplayController.BasePhase.RESTORING_POWER
+		and not reloaded_controller.main_breaker_on
+		and reloaded_controller.maintenance.get("wires_required", false),
 		"A fresh host controller must automatically load the checkpoint"
 	)
 	reload_host.free()
@@ -737,8 +777,10 @@ func _run() -> void:
 		controller.get_snapshot() == {
 			"day_index": 1,
 			"containment": {},
+			"maintenance": {},
 			"phase": int(BaseGameplayController.BasePhase.ARRIVAL),
 			"fuel_delivered": false,
+			"fuel_liters": 0.0,
 			"main_breaker_on": false,
 			"end_day_ready_peer_ids": [],
 			"sleeping_peer_ids": [],
@@ -751,6 +793,16 @@ func _run() -> void:
 		"Reset must restore the emergency-only lighting state"
 	)
 
+	_assert(is_equal_approx(controller.refill_authoritative(1, 55.0), 55.0), "Tank accepts measured fuel")
+	standalone_player.fuel_liters = 20.0
+	fuel_socket.network_interact(1, standalone_player)
+	_assert(is_equal_approx(controller.fuel_liters, 60.0) and is_equal_approx(standalone_player.fuel_liters, 15.0), "Partial refill preserves surplus in can")
+	controller.activate_main_breaker_authoritative(1)
+	controller._process(100.0)
+	_assert(is_equal_approx(controller.fuel_liters, 59.0), "Running generator consumes fuel slowly")
+	controller._process(6000.0)
+	_assert(is_zero_approx(controller.fuel_liters) and not controller.main_breaker_on, "Empty generator shuts power down")
+	controller.reset_day_one_authoritative()
 	base_level.free()
 	gameplay_controller.free()
 	await process_frame

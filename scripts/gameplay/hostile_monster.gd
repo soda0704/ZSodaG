@@ -24,6 +24,9 @@ var debug_spawned := false
 var debug_health := 100.0
 var _awareness := 0.0
 var _alert_target: Node3D
+var _last_seen := Vector3.ZERO
+var _patrol_left := 0.0
+var _patrol_goal := Vector3.ZERO
 
 func _ready() -> void:
 	add_to_group("hostile_monsters")
@@ -46,6 +49,7 @@ func _ready() -> void:
 	agent.target_desired_distance = 1.3
 	add_child(agent)
 	_home = global_position
+	_patrol_goal = _home
 	_target_position = position
 
 func _physics_process(delta: float) -> void:
@@ -92,7 +96,7 @@ func _physics_process(delta: float) -> void:
 			if _windup == 0.0 and is_instance_valid(_victim) and not _victim.survival.dead and _can_reach(_victim, 2.0):
 				_victim.survival.damage(24.0 if monster_id == 0 else 18.0, "Атака существа")
 		elif target != null:
-			var offset := target.global_position - global_position
+			var offset := _last_seen - global_position
 			if offset.length() < 1.65 and _attack_left <= 0.0 and _can_reach(target, 1.8):
 				_victim = target
 				_windup = 0.5
@@ -100,7 +104,7 @@ func _physics_process(delta: float) -> void:
 			_path_time -= delta
 			if _path_time <= 0.0:
 				_path_time = 0.3
-				agent.target_position = target.global_position
+				agent.target_position = _last_seen
 			var direction := Vector3.ZERO
 			if offset.length() > 1.4:
 				direction = offset
@@ -116,8 +120,29 @@ func _physics_process(delta: float) -> void:
 			if offset.length() > 0.01:
 				rotation.y = lerp_angle(rotation.y, atan2(-offset.x, -offset.z), minf(delta * 6, 1.0))
 		else:
-			velocity.x = 0
-			velocity.z = 0
+			_patrol_left -= delta
+			if _patrol_left <= 0.0:
+				_patrol_left = randf_range(5.0, 10.0)
+				var candidate := _home + Vector3(randf_range(-8.0, 8.0), 0, randf_range(-8.0, 8.0))
+				if encounter.navigation_ready:
+					_patrol_goal = NavigationServer3D.map_get_closest_point(agent.get_navigation_map(), candidate)
+					if absf(_patrol_goal.y - _home.y) > 3.0:
+						_patrol_goal = _home
+				else:
+					_patrol_goal = candidate
+				agent.target_position = _patrol_goal
+			var direction := _patrol_goal - global_position
+			if encounter.navigation_ready and not agent.is_navigation_finished():
+				direction = agent.get_next_path_position() - global_position
+			direction.y = 0.0
+			if direction.length() < 0.7:
+				direction = Vector3.ZERO
+			else:
+				direction = direction.normalized()
+			velocity.x = direction.x * 0.8
+			velocity.z = direction.z * 0.8
+			if not direction.is_zero_approx():
+				rotation.y = lerp_angle(rotation.y, atan2(-direction.x, -direction.z), minf(delta * 3.0, 1.0))
 		if not is_on_floor():
 			velocity.y -= 9.8 * delta
 		else:
@@ -142,12 +167,30 @@ func _can_reach(target: Node3D, reach: float) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, target.global_position + Vector3.UP, 1, [get_rid()])
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
+func hear_noise(source: Node3D, point: Vector3, radius: float) -> void:
+	if not multiplayer.is_server() or health <= 0.0 or not is_instance_valid(source):
+		return
+	# Do not lure actors between vertically stacked levels through the ceiling.
+	if absf(point.y - global_position.y) > 4.0 or global_position.distance_to(point) > radius:
+		return
+	var ray := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, point + Vector3.UP, 1, [get_rid()])
+	if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty() and global_position.distance_to(point) > radius * 0.55:
+		return
+	# Hearing must not overwrite a target currently in clear view.
+	if is_instance_valid(_alert_target) and _can_see(_alert_target):
+		return
+	_alert_target = source
+	_last_seen = point
+	_awareness = 8.0
+	_path_time = 0.0
+
 func _find_target(delta: float) -> Node3D:
 	_awareness = maxf(0.0, _awareness - delta)
 	var candidate: Node3D = encounter.closest_player(global_position)
 	if candidate != null and _can_see(candidate):
 		_alert_target = candidate
-		_awareness = 6.0
+		_last_seen = candidate.global_position
+		_awareness = 12.0
 	if _awareness <= 0.0 or not is_instance_valid(_alert_target) or _alert_target.survival.dead:
 		_alert_target = null
 	return _alert_target
@@ -167,12 +210,20 @@ func _can_see(target: Node3D) -> bool:
 
 func apply_weapon_damage(amount: float) -> void:
 	if multiplayer.is_server() and health > 0.0:
+		_alert_target = encounter.closest_player(global_position)
+		if is_instance_valid(_alert_target):
+			_last_seen = _alert_target.global_position
+			_awareness = 12.0
+		if amount >= health:
+			_blood.rpc()
 		if debug_spawned:
 			_set_debug_health.rpc(maxf(0.0, debug_health - amount))
-			_alert_target = encounter.closest_player(global_position)
-			_awareness = 10.0
 		else:
 			encounter.damage_monster(monster_id, amount)
+
+@rpc("authority", "call_local", "unreliable")
+func _blood() -> void:
+	preload("res://scripts/gameplay/blood_effect.gd").spawn(self, global_position + Vector3.UP)
 
 @rpc("authority", "call_local", "reliable")
 func _set_debug_health(value: float) -> void:

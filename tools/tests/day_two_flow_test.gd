@@ -36,6 +36,12 @@ func _run() -> void:
 	state.set_peer_sleeping_authoritative(1, true)
 	await create_timer(1.3).timeout
 	check(state.day_index == 2, "Day 1 must advance to Day 2")
+	check(state.maintenance.get("wires_required", false) and not state.main_breaker_on, "Morning outage requires wiring repair")
+	var breaker := get_first_node_in_group("main_breaker") as Node3D
+	player.teleport_authoritative(breaker.global_position + Vector3(0, 0, 1), 0)
+	for i in 4:
+		check(state.connect_wire_authoritative(1, i, state.maintenance.wire_order[i]), "Reconnect morning wire")
+	check(state.activate_main_breaker_authoritative(1), "Restart breaker after repair")
 	check(not state.set_end_day_ready_authoritative(1, true), "Day 2 cannot be skipped before the quest")
 	check(not state.advance_quest_authoritative(99, BaseGameplayController.QuestStage.OFFERED), "Unknown peer must be rejected")
 	player.apply_held_item_inventory(&"flashlight", {"battery_charge": 0.6})

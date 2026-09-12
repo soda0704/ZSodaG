@@ -85,7 +85,7 @@ func get_interaction_prompt() -> String:
 		&"fuse":
 			return "Поднять предохранитель"
 		&"fuel_can":
-			return "Поднять канистру с топливом"
+			return "Поднять канистру · %.1f / 20 л" % float(item_state.get("fuel_liters", 20.0))
 	return "Поднять %s" % display_name
 
 

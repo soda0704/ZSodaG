@@ -11,6 +11,12 @@ const WEAPON_LOOT := [
 	{"type": &"rifle_magazine", "position": Vector3(-29, 1.2, 7.25), "state": {"rounds": 30}},
 ]
 
+const TOOL_LOOT := [
+	{"type": &"tape", "position": Vector3(-29.0, 1.2, 7.8), "state": {}},
+	{"type": &"tape", "position": Vector3(-7.0, 1.2, 22.8), "state": {}},
+	{"type": &"crowbar", "position": Vector3(-28.4, 1.2, 8.0), "state": {"uses": 3}},
+]
+
 const PLAYER_SCENE := preload("res://scenes/characters/player.tscn")
 const QUEST_TERMINAL_SCENE := preload("res://scenes/objects/base/day_two_terminal.tscn")
 const FLASHLIGHT_PICKUP_SCENE := preload(
@@ -196,6 +202,11 @@ func spawn_standalone_gameplay() -> void:
 		add_child(flashlight)
 
 	if get_node_or_null("StandaloneFuelCan") == null:
+		for index in TOOL_LOOT.size():
+			var loot: Dictionary = TOOL_LOOT[index]
+			var tool := preload("res://scenes/objects/items/tool_pickup.tscn").instantiate() as WorldItemPickup
+			tool.setup_spawn({"pickup_name": "StandaloneTool%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": Transform3D(Basis.IDENTITY, loot.position)})
+			add_child(tool)
 		var fuel_can := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
 		fuel_can.setup_spawn({
 			"pickup_name": "StandaloneFuelCan",
@@ -204,3 +215,9 @@ func spawn_standalone_gameplay() -> void:
 		})
 		add_child(fuel_can)
 		fuel_can.global_transform = get_fuel_can_spawn_transform()
+		for index in 2:
+			var reserve := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
+			reserve.setup_spawn({"pickup_name": "ReserveFuelCan%d" % index, "item_type": GamePlayer.FUEL_ITEM, "item_state": {"fuel_liters": 20.0}})
+			add_child(reserve)
+			reserve.global_transform = get_fuel_can_spawn_transform()
+			reserve.global_position += Vector3(1.0, 0.0, index * 0.8)

@@ -11,6 +11,7 @@ var _lever_tween: Tween
 
 
 func _ready() -> void:
+	add_to_group("main_breaker")
 	_indicator_material = (
 		indicator.get_active_material(0).duplicate() as StandardMaterial3D
 	)
@@ -22,6 +23,8 @@ func get_interaction_prompt() -> String:
 	var controller := _get_controller()
 	if controller == null:
 		return "Главный щит недоступен"
+	if controller.maintenance.get("wires_required", false):
+		return "Открыть щит · восстановить проводку"
 	if controller.containment.get("fault", false):
 		return "Выключить щит для сброса сбоя" if controller.main_breaker_on else "Включить щит — восстановить освещение"
 	if controller.main_breaker_on:
@@ -44,6 +47,10 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		return
 	var controller := _get_controller()
 	if controller != null:
+		if controller.maintenance.get("wires_required", false):
+			if (interactor as Node3D).global_position.distance_to(global_position) <= 4.0:
+				controller.open_wiring_ui.rpc_id(peer_id)
+			return
 		if controller.containment.get("fault", false):
 			var encounter := get_tree().get_first_node_in_group("containment_encounter")
 			if encounter != null:

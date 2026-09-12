@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func _watchdog() -> void:
-	await get_tree().create_timer(18.0).timeout
+	await get_tree().create_timer(25.0).timeout
 	if not _finished:
 		_finish(false, "Timed out waiting for network progress")
 
@@ -128,6 +128,32 @@ func _deliver_from_client() -> void:
 	if player.get_inventory_snapshot().spare_batteries.size() != 1:
 		_finish(false, "Client battery discard did not replicate")
 		return
+	_setup_wiring_test.rpc_id(1)
+	await get_tree().create_timer(0.5).timeout
+	player.request_inventory_action(&"mount_light")
+	await get_tree().create_timer(0.3).timeout
+	if not player.weapon_light_mounted or player.tape_count != 0:
+		_finish(false, "Client attachment/tape transaction did not replicate")
+		return
+	var wiring := get_tree().get_first_node_in_group("wiring_ui")
+	if wiring == null or not _state._siren.playing:
+		_finish(false, "Client wiring panel or alarm missing")
+		return
+	for i in 4:
+		wiring._select(i)
+		wiring._connect(int(_state.maintenance.wire_order[i]))
+		await get_tree().create_timer(0.15).timeout
+	if _state.maintenance.wires_required or _state.main_breaker_on:
+		_finish(false, "Client wire repair failed or automatically restarted breaker")
+		return
+	wiring._close()
+	_restart_wiring_test.rpc_id(1)
+	await get_tree().create_timer(0.3).timeout
+	if not _state.main_breaker_on or _state._siren.playing:
+		_finish(false, "Restart or alarm silence did not replicate")
+		return
+	_return_test_player.rpc_id(1)
+	await get_tree().create_timer(0.25).timeout
 	var terminal := _world.get_node("V3Level/DayTwoTaskTerminal") as Node3D
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.set("_input_yaw", terminal.global_rotation.y)
@@ -138,6 +164,28 @@ func _deliver_from_client() -> void:
 func _on_host_snapshot(snapshot: Dictionary) -> void:
 	if int(snapshot.get("quest_stage", 0)) == 4:
 		print("DAY_TWO_NETWORK_HOST_DELIVERED")
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _setup_wiring_test() -> void:
+	if not _host:
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	var player := _state.get_player_node(sender)
+	player.pickup_world_item_authoritative(&"tape", {})
+	var snapshot := _state.get_snapshot()
+	snapshot.main_breaker_on = false
+	snapshot.maintenance = {"wires_required": true, "wire_order": [2, 0, 3, 1], "wire_links": [], "alarm": true}
+	_state._broadcast_snapshot(snapshot)
+	var breaker := get_tree().get_first_node_in_group("main_breaker") as Node3D
+	player.teleport_authoritative(breaker.global_position + Vector3(0, 0, 1.0), 0)
+	breaker.network_interact(sender, player)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _restart_wiring_test() -> void:
+	if _host:
+		_state.activate_main_breaker_authoritative(multiplayer.get_remote_sender_id())
 
 
 @rpc("any_peer", "call_remote", "reliable")

@@ -60,7 +60,7 @@ func _ready() -> void:
 	spawn_bar.add_child(clear_button)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
-	output.text = HELP + "\n"
+	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n"
 	panel.hide()
 
 func _input(event: InputEvent) -> void:
@@ -108,7 +108,7 @@ func execute(line: String) -> String:
 	if args.is_empty():
 		return ""
 	if args[0] == "/help":
-		return HELP
+		return HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки (меняет сохранение)"
 	if args[0] == "/clear":
 		output.clear()
 		return ""
@@ -122,6 +122,22 @@ func execute(line: String) -> String:
 		return "Локальный игрок не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	match args[0]:
+		"/tools":
+			player.pickup_world_item_authoritative(&"tape", {})
+			player.pickup_world_item_authoritative(&"crowbar", {"uses": 3})
+			return "Добавлен скотч. Монтировка: %d/3. Уже имеющаяся монтировка не заменяется." % player.crowbar_uses
+		"/wiring":
+			var snapshot: Dictionary = state.get_snapshot()
+			var order := [0, 1, 2, 3]
+			order.shuffle()
+			snapshot.maintenance["wires_required"] = true
+			snapshot.maintenance["wire_order"] = order
+			snapshot.maintenance["wire_links"] = []
+			snapshot.maintenance["alarm"] = true
+			snapshot.main_breaker_on = false
+			snapshot.phase = BaseGameplayController.BasePhase.RESTORING_POWER
+			state._broadcast_snapshot(snapshot)
+			return "Авария проводки. Отремонтируйте провода в генераторной, затем включите щит."
 		"/fly", "/across":
 			if args[0] == "/fly":
 				player.debug_fly = not player.debug_fly
@@ -157,6 +173,7 @@ func execute(line: String) -> String:
 			var snapshot: Dictionary = state.get_snapshot()
 			snapshot.day_index = int(args[1])
 			snapshot.fuel_delivered = true
+			snapshot.fuel_liters = 60.0
 			snapshot.main_breaker_on = true
 			snapshot.quest_stage = 4 if int(args[1]) >= 3 else 1
 			snapshot.sleeping_peer_ids = []

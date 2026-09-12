@@ -15,6 +15,7 @@ var coop_status_label: Label
 var inventory_label: Label
 var controls_label: Label
 var replace_button: Button
+var mount_button: Button
 var drop_button: Button
 var close_button: Button
 var close_hint: Label
@@ -111,6 +112,12 @@ func _build_interface() -> void:
 	replace_button.pressed.connect(_inventory_action.bind(&"replace_battery"))
 	drop_button = _button(actions, "Выбросить")
 	drop_button.pressed.connect(_drop_selected)
+	mount_button = _button(actions, "Примотать фонарь")
+	mount_button.pressed.connect(func():
+		var player := get_tree().get_first_node_in_group("local_player")
+		if player != null:
+			_inventory_action(&"detach_light" if player.weapon_light_mounted else &"mount_light")
+	)
 	var footer := HBoxContainer.new()
 	notebook_pivot.add_child(footer)
 	footer.position = Vector2(48, 784)
@@ -218,6 +225,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func open_journal() -> void:
+	if get_tree().get_first_node_in_group("wiring_ui") != null:
+		return
 	var local_player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if local_player != null and local_player.survival.dead:
 		return
@@ -307,6 +316,13 @@ func _refresh_content() -> void:
 		coop_status_label.text = ""
 		if not _controller.sleeping_peer_ids.is_empty():
 			coop_status_label.text = "Отдыхают: %d/%d" % [_controller.sleeping_peer_ids.size(), _controller.get_connected_player_peer_ids().size()]
+		if _controller.maintenance.get("wires_required", false):
+			objective_label.text = "Авария электроснабжения"
+			tasks_label.text = "Вернуться в генераторную.\nСоединить провода в главном щите.\nПосле ремонта включить щит."
+			_quest_card.hide()
+		elif _controller.maintenance.get("alarm", false) and not _controller.main_breaker_on:
+			objective_label.text = "Восстановить питание"
+			tasks_label.text = "Проверить топливо в генераторной.\nЗаново включить главный щит."
 	_refresh_inventory()
 
 func _set_quest_photo(id: String, title: String, note: String) -> void:
@@ -346,6 +362,10 @@ func _refresh_inventory() -> void:
 		_selected_item = &""
 	replace_button.visible = has_light and charge <= 0.0 and not batteries.is_empty()
 	drop_button.visible = _selected_item != &""
+	mount_button.visible = hand in [&"pistol", &"m4a1"] and has_light
+	mount_button.text = "Снять фонарь" if data.get("weapon_light_mounted", false) else "Примотать"
+	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на оружии: нужен 1 скотч. Свет включается кнопкой F."
+	mount_button.disabled = not data.get("weapon_light_mounted", false) and int(data.get("tape_count", 0)) <= 0
 	inventory_label.text = ""
 	if _selected_item == &"battery":
 		var groups: Dictionary = {}
@@ -364,6 +384,8 @@ func _refresh_inventory() -> void:
 	if _selected_item == &"" and (int(data.get("pistol_ammo", 0)) > 0 or not data.get("rifle_magazines", []).is_empty()):
 		inventory_label.text = "Запас: патроны ×%d · магазины ×%d" % [int(data.get("pistol_ammo", 0)), data.get("rifle_magazines", []).size()]
 	controls_label.text = SteamInput.get_controls_hint()
+	if int(data.get("tape_count", 0)) > 0 or int(data.get("crowbar_uses", 0)) > 0:
+		inventory_label.text += "\nСкотч: %d · Монтировка: %d/3" % [int(data.get("tape_count", 0)), int(data.get("crowbar_uses", 0))]
 	close_hint.text = "%s — убрать журнал" % SteamInput.get_action_hint(&"journal")
 	if is_journal_open():
 		var focused := get_viewport().gui_get_focus_owner()
