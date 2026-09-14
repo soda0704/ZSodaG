@@ -7,6 +7,10 @@ func _initialize() -> void:
 func run() -> void:
 	BaseGameplayController.delete_progress_save()
 	await root.get_node("GameMenu").start_standalone_flow()
+	if current_scene == null or not current_scene.has_node("V3Level/SnowExterior"):
+		push_error("SNOW_TEST: base/exterior failed to load")
+		quit(1)
+		return
 	var exterior := current_scene.get_node("V3Level/SnowExterior")
 	var terrain := exterior.get_node("Terrain3D") as Terrain3D
 	var player = current_scene.get_node("Players/1")
@@ -20,6 +24,11 @@ func run() -> void:
 	terrain.set_camera(camera)
 	await create_timer(3).timeout
 	var failed := terrain.data.get_region_count() != 4 or not terrain.data.get_control_hole(Vector3.ZERO)
+	var floor_level := current_scene.get_node("V3Level/Floor_0_Base_Blockout")
+	for branch in ["Center_Hub", "West_Entrance", "South_Technical", "East_Living", "North_Science", "Doors", "Power_State_Lighting_Blockout"]:
+		var visible: bool = floor_level.get_node(branch).is_visible_in_tree()
+		print("BASE_VISIBILITY: ", branch, " ", visible)
+		failed = failed or not visible
 	var query := PhysicsRayQueryParameters3D.create(Vector3(-65, 35, 20), Vector3(-65, -5, 20), 1)
 	var hit: Dictionary = player.get_world_3d().direct_space_state.intersect_ray(query)
 	failed = failed or hit.is_empty()

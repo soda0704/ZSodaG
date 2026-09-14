@@ -14,6 +14,11 @@ from the host camera. Outdoor sunlight uses render layer 19; held weapons use 20
 The console command `/outside` moves the caller beside the garage; `/level 0` returns.
 The separate `/testroom` is buried at (180, -130, 180), outside the base interiors.
 
+Indoor/outdoor camera environments are now managed by `EnvironmentZoneController`
+and explicit `indoor_environment_zone` Area3D volumes. Roof snow is generated only
+for visible CSG roofs in `exterior_snow_roof`; hiding an art/blockout branch must not
+leave its snow cap floating above the map.
+
 `tools/generate_snow_exterior.gd` is an explicit deterministic rebuild tool, NOT a
 runtime generator. Running it overwrites authored terrain and exterior decorations.
 Run with a graphical renderer (not headless: MultiMesh buffers need a real renderer):

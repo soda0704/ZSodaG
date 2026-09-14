@@ -20,6 +20,9 @@ var _emergency_lighting: Node3D
 var _fault_time: float = 0.0
 var _containment_lights: Dictionary = {}
 var _lamp_materials: Dictionary = {}
+var _last_level_factor := -1.0
+var _last_standard_visible := false
+var _last_emergency_visible := false
 
 
 func _ready() -> void:
@@ -64,11 +67,22 @@ func _process(delta: float) -> void:
 		return
 	_fault_time += delta
 	var faulty: bool = _gameplay_controller.containment.get("fault", false)
+	var outage_alarm := not is_standard_powered and bool(_gameplay_controller.maintenance.get("alarm", false))
 	# Slow, low-contrast power instability rather than a rapid strobe.
 	var factor := (0.06 if fmod(_fault_time, 1.8) < 0.65 else 1.0) if faulty else 1.0
 	var level_factor := factor if is_standard_powered else 0.06
+	var standard_visible := is_standard_powered and (not faulty or factor > 0.52)
+	# Wiring/fuel outages use the emergency circuit, not the disabled mains.
+	var emergency_visible := not is_standard_powered and (not outage_alarm or fmod(_fault_time, 1.8) >= 0.65)
+	if is_equal_approx(level_factor, _last_level_factor) and standard_visible == _last_standard_visible and emergency_visible == _last_emergency_visible:
+		return
+	_last_level_factor = level_factor
+	_last_standard_visible = standard_visible
+	_last_emergency_visible = emergency_visible
 	if _standard_lighting != null:
-		_standard_lighting.visible = is_standard_powered and (not faulty or factor > 0.52)
+		_standard_lighting.visible = standard_visible
+	if _emergency_lighting != null:
+		_emergency_lighting.visible = emergency_visible
 	for light: Light3D in _containment_lights:
 		if is_instance_valid(light):
 			light.light_energy = _containment_lights[light] * level_factor
@@ -78,6 +92,7 @@ func _process(delta: float) -> void:
 
 
 func apply_power_state(is_powered: bool, force: bool = false) -> void:
+	_last_level_factor = -1.0
 	var changed := is_standard_powered != is_powered
 	is_standard_powered = is_powered
 	if _standard_lighting != null:

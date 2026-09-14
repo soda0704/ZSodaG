@@ -29,7 +29,7 @@ func _finish_setup() -> void:
 		snow.roughness = 1.0
 		for roof_node in get_tree().get_nodes_in_group(EXTERIOR_ROOF_GROUP):
 			var roof := roof_node as CSGBox3D
-			if roof == null or not floor_level.is_ancestor_of(roof):
+			if roof == null or not floor_level.is_ancestor_of(roof) or not roof.is_visible_in_tree():
 				continue
 			var mesh := MeshInstance3D.new()
 			var box := BoxMesh.new()
@@ -45,5 +45,5 @@ func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	var camera := get_viewport().get_camera_3d()
-	if camera != null:
-		camera.far = maxf(camera.far, 750.0)
+	if camera != null and camera.far < 750.0:
+		camera.far = 750.0

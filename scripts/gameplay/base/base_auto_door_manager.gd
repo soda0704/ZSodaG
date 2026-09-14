@@ -10,6 +10,7 @@ var _controller: BaseGameplayController
 var _doors: Array[Dictionary] = []
 var _legacy_blockers: Array[CollisionShape3D] = []
 var _update_left := 0.0
+var _nearby_players: Array[Node] = []
 
 
 func _ready() -> void:
@@ -21,6 +22,7 @@ func _process(delta: float) -> void:
 	if _update_left > 0.0:
 		return
 	_update_left = UPDATE_INTERVAL
+	_nearby_players = get_tree().get_nodes_in_group("network_players")
 	for legacy_blocker in _legacy_blockers:
 		if is_instance_valid(legacy_blocker) and not legacy_blocker.disabled:
 			legacy_blocker.set_deferred("disabled", true)
@@ -265,14 +267,16 @@ func _create_passage_blocker(anchor: Node3D, vehicle_gate: bool) -> CollisionSha
 
 
 func _has_player_near(anchor: Node3D, distance: float) -> bool:
-	for player in get_tree().get_nodes_in_group("network_players"):
+	for player in _nearby_players:
 		if not player is Node3D or not is_instance_valid(player):
 			continue
 		if player.get("survival") != null and bool(player.survival.dead):
 			continue
 		var offset: Vector3 = (player as Node3D).global_position - anchor.global_position
+		if absf(offset.y) > 3.5:
+			continue
 		offset.y = 0.0
-		if offset.length() <= distance:
+		if offset.length_squared() <= distance * distance:
 			return true
 	return false
 

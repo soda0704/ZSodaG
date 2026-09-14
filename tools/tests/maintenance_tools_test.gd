@@ -106,6 +106,17 @@ func _run() -> void:
 	await create_timer(1.4).timeout
 	check(state.day_index == 2 and state.maintenance.get("wires_required", false) and not state.main_breaker_on, "First night trips wiring and power")
 	check(state._siren.playing, "Outage sounds siren")
+	var lighting = world.get_node("V3Level/BasePowerLightingController")
+	lighting.set_process(false)
+	lighting._fault_time = 0.0
+	lighting._process(0.0)
+	check(not lighting._emergency_lighting.visible, "First-night alarm has a dark emergency-light phase")
+	lighting._fault_time = 1.0
+	lighting._process(0.0)
+	check(lighting._emergency_lighting.visible and not lighting._standard_lighting.visible, "First-night alarm flashes emergency lights without powering mains")
+	lighting._process(0.0)
+	check(lighting._emergency_lighting.visible, "Cached lighting preserves the current blink phase")
+	lighting.set_process(true)
 	check(not state.activate_main_breaker_authoritative(1), "Cannot bypass broken wiring")
 	var breaker = get_first_node_in_group("main_breaker")
 	player.teleport_authoritative(breaker.global_position + Vector3(0, 0, 1), 0)
@@ -132,6 +143,9 @@ func _run() -> void:
 	panel._close()
 	check(state.activate_main_breaker_authoritative(1), "Breaker starts repaired circuits")
 	check(not state._siren.playing, "Restored power silences alarm")
+	lighting._fault_time = 1.0
+	lighting._process(0.0)
+	check(not lighting._emergency_lighting.visible and lighting._standard_lighting.visible, "Breaker restart stops emergency flashing")
 	state._process(3000.0)
 	check(not state.main_breaker_on and state._siren.playing, "Fuel exhaustion trips alarm again")
 	state.refill_authoritative(1, 10.0)

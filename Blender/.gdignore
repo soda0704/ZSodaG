@@ -1,0 +1,2 @@
+# DCC sources are preserved here. Export game-ready GLB files into assets/.
+# Do not require every developer/build machine to have the artist's Blender version.

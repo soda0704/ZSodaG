@@ -27,6 +27,7 @@ var _alert_target: Node3D
 var _last_seen := Vector3.ZERO
 var _patrol_left := 0.0
 var _patrol_goal := Vector3.ZERO
+var _sight_left := 0.0
 
 func _ready() -> void:
 	add_to_group("hostile_monsters")
@@ -186,11 +187,14 @@ func hear_noise(source: Node3D, point: Vector3, radius: float) -> void:
 
 func _find_target(delta: float) -> Node3D:
 	_awareness = maxf(0.0, _awareness - delta)
-	var candidate: Node3D = encounter.closest_player(global_position)
-	if candidate != null and _can_see(candidate):
-		_alert_target = candidate
-		_last_seen = candidate.global_position
-		_awareness = 12.0
+	_sight_left -= delta
+	if _sight_left <= 0.0:
+		_sight_left = 0.15
+		var candidate: Node3D = encounter.closest_player(global_position)
+		if candidate != null and _can_see(candidate):
+			_alert_target = candidate
+			_last_seen = candidate.global_position
+			_awareness = 12.0
 	if _awareness <= 0.0 or not is_instance_valid(_alert_target) or _alert_target.survival.dead:
 		_alert_target = null
 	return _alert_target

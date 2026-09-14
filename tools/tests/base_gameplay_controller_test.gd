@@ -387,7 +387,7 @@ func _run() -> void:
 	_assert(
 		production_tank != null
 		and production_generator != null
-		and production_tank.global_position.distance_to(
+		and base_level.get_node("Floor_0_Base_Blockout").to_local(production_tank.global_position).distance_to(
 			Vector3(-5.5, 1.25, 25.25)
 		) < 0.01,
 		"Production fuel tank must remain at its established room position"

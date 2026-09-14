@@ -169,9 +169,9 @@ func _run() -> void:
 	sight_monster._alert_target = null
 	sight_monster._awareness = 0
 	sight_player.teleport_authoritative(Vector3(0, 10, 0), 0)
-	check(sight_monster._find_target(0.1) == null, "Monster does not see behind itself")
+	check(sight_monster._find_target(0.2) == null, "Monster does not see behind itself")
 	sight_monster.rotation.y = PI
-	check(sight_monster._find_target(0.1) == sight_player, "Monster sees player in view cone on day 2")
+	check(sight_monster._find_target(0.2) == sight_player, "Monster sees player in view cone on day 2")
 	var wall := StaticBody3D.new()
 	var wall_shape := CollisionShape3D.new()
 	var wall_box := BoxShape3D.new()
@@ -183,7 +183,7 @@ func _run() -> void:
 	await physics_frame
 	sight_monster._alert_target = null
 	sight_monster._awareness = 0
-	check(sight_monster._find_target(0.1) == null, "Wall blocks monster line of sight")
+	check(sight_monster._find_target(0.2) == null, "Wall blocks monster line of sight")
 	wall.queue_free()
 	await physics_frame
 	var spawn_result: String = console.execute("/spawn smily 30")
