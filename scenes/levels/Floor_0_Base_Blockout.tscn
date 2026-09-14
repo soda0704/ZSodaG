@@ -20,7 +20,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_main_breaker.tscn" id="21_base_main_breaker"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_end_day_bunk.tscn" id="22_end_day_bunk"]
 [ext_resource type="Script" uid="uid://b3tkdcgwou2lb" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="23_auto_doors"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/living/east_living_shell_art.tscn" id="24_living_shell_art"]
+[ext_resource type="PackedScene" uid="uid://x70ffy4hwig4" path="res://scenes/art/base/living/east_living_shell_art.tscn" id="24_living_shell_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/common_room_art.tscn" id="25_common_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/protected_corridor_art.tscn" id="26_protected_corridor_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/sleeping_quarters_art.tscn" id="27_sleeping_quarters_art"]
@@ -88,6 +88,7 @@ albedo_color = Color(0.08, 0.52, 0.24, 1)
 
 [node name="InteriorEnvironmentZones" type="Node3D" parent="." unique_id=419655897]
 editor_description = "Явные объёмы помещений для переключения внутреннего окружения. Формы повторяют основные перекрытия базы; слой 2 соответствует игрокам."
+visible = false
 
 [node name="CenterHub" type="Area3D" parent="InteriorEnvironmentZones" unique_id=82207099 groups=["indoor_environment_zone"]]
 collision_layer = 0
@@ -171,6 +172,7 @@ shape = SubResource("Shape_indoor_subsurface")
 
 [node name="Doors" type="Node3D" parent="." unique_id=1659585370]
 editor_description = "Все двери нулевого уровня, их контроллер и временные блокирующие коллизии."
+visible = false
 
 [node name="AutomaticDoors" type="Node" parent="Doors" unique_id=1013249623]
 editor_description = "Отдельная сцена нулевого уровня базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные уровни принадлежат сборочной сцене Base_Blockout_v03."
@@ -265,6 +267,7 @@ transform = Transform3D(0, 0, -1.0133333, 0, 1, 0, 1, 0, 0, -0.003, 0, -22.5)
 
 [node name="Gameplay" type="Node3D" parent="." unique_id=1475033882]
 editor_description = "Реальные интерактивные объекты уровня без промежуточных socket-маркеров."
+visible = false
 
 [node name="FuelFillInteractable" parent="Gameplay" unique_id=521822158 instance=ExtResource("20_base_fuel_socket")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.2, 24.45)
@@ -281,6 +284,7 @@ assigned_player_slot = 1
 
 [node name="Power_State_Lighting_Blockout" type="Node3D" parent="." unique_id=837229995]
 editor_description = "Слои освещения для проверки состояний базы до и после запуска главного щита."
+visible = false
 
 [node name="Standard_Lighting_Blockout" type="Node3D" parent="Power_State_Lighting_Blockout" unique_id=16357671]
 editor_description = "Штатные источники света. Выключены для стартового состояния первого дня; после запуска главного щита должны включаться программно."
@@ -815,6 +819,7 @@ shadow_enabled = true
 omni_range = 2.6
 
 [node name="Center_Hub" type="Node3D" parent="." unique_id=1142305586]
+visible = false
 
 [node name="Art" type="Node3D" parent="Center_Hub" unique_id=1099651326]
 editor_description = "Визуальные сцены центрального хаба."
@@ -824,6 +829,7 @@ editor_description = "Визуальные сцены центрального �
 [node name="CenterHubArt" parent="Center_Hub/Art" unique_id=1885625984 instance=ExtResource("30_center_hub_art")]
 
 [node name="West_Entrance" type="Node3D" parent="." unique_id=1457487264]
+visible = false
 
 [node name="Art" type="Node3D" parent="West_Entrance" unique_id=24531142]
 editor_description = "Визуальные сцены западной входной секции."
@@ -875,6 +881,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.18, 3.55, 0)
 size = Vector3(0.08, 0.5, 1.6)
 
 [node name="South_Technical" type="Node3D" parent="." unique_id=1411462588]
+visible = false
 
 [node name="Art" type="Node3D" parent="South_Technical" unique_id=1337576179]
 editor_description = "Визуальные сцены технической секции."
@@ -1045,6 +1052,7 @@ size = Vector3(1.2, 0.12, 1.6)
 material = SubResource("StandardMaterial3D_hub_living")
 
 [node name="North_Science" type="Node3D" parent="." unique_id=1616181831]
+visible = false
 
 [node name="Art" type="Node3D" parent="North_Science" unique_id=1227135705]
 editor_description = "Визуальные сцены научной секции."
