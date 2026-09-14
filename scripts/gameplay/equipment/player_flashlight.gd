@@ -134,7 +134,7 @@ func toggle() -> bool:
 	return true
 
 
-func set_available(value: bool, emit_signal: bool = true) -> void:
+func set_available(value: bool, should_emit_signal: bool = true) -> void:
 	if is_available == value and visible == value:
 		return
 
@@ -143,10 +143,10 @@ func set_available(value: bool, emit_signal: bool = true) -> void:
 
 	if not is_available:
 		cancel_malfunction()
-		set_enabled(false, emit_signal)
+		set_enabled(false, should_emit_signal)
 		reset_motion()
 
-	if emit_signal:
+	if should_emit_signal:
 		availability_changed.emit(is_available)
 
 
@@ -199,7 +199,7 @@ func play_battery_action() -> void:
 	_battery_tween.tween_property(self, "_battery_pose", 0.0, 0.38)
 
 
-func set_enabled(value: bool, emit_signal: bool = true) -> void:
+func set_enabled(value: bool, should_emit_signal: bool = true) -> void:
 	var next_state := value and is_available and battery_charge > 0.0
 	if is_malfunctioning and next_state:
 		return
@@ -219,11 +219,11 @@ func set_enabled(value: bool, emit_signal: bool = true) -> void:
 	else:
 		malfunction_timer.stop()
 
-	if emit_signal:
+	if should_emit_signal:
 		state_changed.emit(is_enabled)
 
 
-func set_battery_charge(value: float, emit_signal: bool = true) -> void:
+func set_battery_charge(value: float, should_emit_signal: bool = true) -> void:
 	var next_charge := clampf(value, 0.0, 1.0)
 	if is_equal_approx(battery_charge, next_charge):
 		return
@@ -232,7 +232,7 @@ func set_battery_charge(value: float, emit_signal: bool = true) -> void:
 	battery_charge = next_charge
 	if battery_charge <= 0.0 and is_enabled:
 		set_enabled(false)
-	if emit_signal:
+	if should_emit_signal:
 		battery_changed.emit(battery_charge)
 	if was_charged and battery_charge <= 0.0:
 		battery_depleted.emit()

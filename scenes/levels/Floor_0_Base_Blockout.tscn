@@ -33,6 +33,27 @@ size = Vector3(2.38, 2.7, 0.12)
 [sub_resource type="BoxShape3D" id="Shape_day1_medical_blocker"]
 size = Vector3(2.4, 2.7, 0.12)
 
+[sub_resource type="BoxShape3D" id="Shape_indoor_hub"]
+size = Vector3(15.8, 8, 15.8)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_west"]
+size = Vector3(27.8, 5.5, 15.8)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_standard_wing"]
+size = Vector3(15.8, 5.5, 15.8)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_east"]
+size = Vector3(23.8, 5.5, 15.8)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_connector_ns"]
+size = Vector3(3.8, 5.5, 2.2)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_connector_ew"]
+size = Vector3(2.2, 5.5, 3.8)
+
+[sub_resource type="BoxShape3D" id="Shape_indoor_subsurface"]
+size = Vector3(128, 72, 128)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_arrival"]
 albedo_color = Color(0.9, 0.38, 0.06, 1)
 
@@ -72,6 +93,89 @@ albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
 albedo_color = Color(1, 0, 0, 1)
 
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
+
+[node name="InteriorEnvironmentZones" type="Node3D" parent="."]
+editor_description = "Явные объёмы помещений для переключения внутреннего окружения. Формы повторяют основные перекрытия базы; слой 2 соответствует игрокам."
+
+[node name="CenterHub" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/CenterHub"]
+position = Vector3(0, 4, 0)
+shape = SubResource("Shape_indoor_hub")
+
+[node name="WestEntrance" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/WestEntrance"]
+position = Vector3(-24, 2.75, 0)
+shape = SubResource("Shape_indoor_west")
+
+[node name="SouthTechnical" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SouthTechnical"]
+position = Vector3(0, 2.75, 18)
+shape = SubResource("Shape_indoor_standard_wing")
+
+[node name="EastLiving" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/EastLiving"]
+position = Vector3(22, 2.75, 0)
+shape = SubResource("Shape_indoor_east")
+
+[node name="NorthScience" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/NorthScience"]
+position = Vector3(0, 2.75, -18)
+shape = SubResource("Shape_indoor_standard_wing")
+
+[node name="WestConnector" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/WestConnector"]
+position = Vector3(-9, 2.75, 0)
+shape = SubResource("Shape_indoor_connector_ew")
+
+[node name="SouthConnector" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SouthConnector"]
+position = Vector3(0, 2.75, 9)
+shape = SubResource("Shape_indoor_connector_ns")
+
+[node name="EastConnector" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/EastConnector"]
+position = Vector3(9, 2.75, 0)
+shape = SubResource("Shape_indoor_connector_ew")
+
+[node name="NorthConnector" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/NorthConnector"]
+position = Vector3(0, 2.75, -9)
+shape = SubResource("Shape_indoor_connector_ns")
+
+[node name="SubsurfaceLevels" type="Area3D" parent="InteriorEnvironmentZones" groups=["indoor_environment_zone"]]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SubsurfaceLevels"]
+position = Vector3(0, -39, 0)
+shape = SubResource("Shape_indoor_subsurface")
 
 [node name="AutomaticDoors" type="Node" parent="."]
 script = ExtResource("23_auto_doors")
@@ -1154,7 +1258,7 @@ size = Vector3(16, 0.2, 16)
 operation = 2
 size = Vector3(6.1, 0.8, 6.1)
 
-[node name="Center_Hub_Ceiling" type="CSGBox3D" parent="Center_Hub/Shared_Structure" unique_id=1252765990]
+[node name="Center_Hub_Ceiling" type="CSGBox3D" parent="Center_Hub/Shared_Structure" groups=["exterior_snow_roof"] unique_id=1252765990]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.15, 0)
 use_collision = true
 size = Vector3(16, 0.3, 16)
@@ -1480,7 +1584,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2.75, 5)
 use_collision = true
 size = Vector3(0.3, 5.5, 6)
 
-[node name="West_Entrance_Ceiling" type="CSGBox3D" parent="West_Entrance/Shared_Structure" unique_id=2134782159]
+[node name="West_Entrance_Ceiling" type="CSGBox3D" parent="West_Entrance/Shared_Structure" groups=["exterior_snow_roof"] unique_id=2134782159]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 5.65, 0)
 use_collision = true
 size = Vector3(28, 0.3, 16)
@@ -1923,7 +2027,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, 10)
 use_collision = true
 size = Vector3(3, 2.5, 0.3)
 
-[node name="South_Technical_Ceiling" type="CSGBox3D" parent="South_Technical/Shared_Structure" unique_id=2057292098]
+[node name="South_Technical_Ceiling" type="CSGBox3D" parent="South_Technical/Shared_Structure" groups=["exterior_snow_roof"] unique_id=2057292098]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, 18)
 use_collision = true
 size = Vector3(16, 0.3, 16)
@@ -2464,7 +2568,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4.25, 0)
 use_collision = true
 size = Vector3(0.3, 2.5, 3)
 
-[node name="East_Living_Ceiling" type="CSGBox3D" parent="East_Living/Shared_Structure" unique_id=537267038]
+[node name="East_Living_Ceiling" type="CSGBox3D" parent="East_Living/Shared_Structure" groups=["exterior_snow_roof"] unique_id=537267038]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.65, 0)
 use_collision = true
 size = Vector3(24, 0.3, 16)
@@ -3184,7 +3288,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -10)
 use_collision = true
 size = Vector3(3, 2.5, 0.3)
 
-[node name="North_Science_Ceiling" type="CSGBox3D" parent="North_Science/Shared_Structure" unique_id=859413323]
+[node name="North_Science_Ceiling" type="CSGBox3D" parent="North_Science/Shared_Structure" groups=["exterior_snow_roof"] unique_id=859413323]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, -18)
 use_collision = true
 size = Vector3(16, 0.3, 16)

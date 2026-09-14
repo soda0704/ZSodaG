@@ -2,7 +2,7 @@
 extends Node3D
 
 const EXTERIOR_LAYER := 1 << 18
-var _indoor_environment: Environment
+const EXTERIOR_ROOF_GROUP := &"exterior_snow_roof"
 
 func _ready() -> void:
 	_finish_setup.call_deferred()
@@ -12,10 +12,13 @@ func _finish_setup() -> void:
 	# Full terrain collision also supports remote players away from the host camera.
 	if not Engine.is_editor_hint():
 		$Terrain3D.collision_mode = Terrain3DCollision.FULL_GAME
-	var floor := get_parent().get_node_or_null("Floor_0_Base_Blockout")
-	if floor == null:
+	var level_root := get_parent()
+	if level_root == null:
 		return
-	for geometry in floor.find_children("*", "GeometryInstance3D", true, false):
+	var floor_level := level_root.get_node_or_null("Floor_0_Base_Blockout")
+	if floor_level == null:
+		return
+	for geometry in floor_level.find_children("*", "GeometryInstance3D", true, false):
 		geometry.layers |= EXTERIOR_LAYER
 	if not has_node("RoofSnow"):
 		var caps := Node3D.new()
@@ -24,8 +27,9 @@ func _finish_setup() -> void:
 		var snow := StandardMaterial3D.new()
 		snow.albedo_color = Color("dce6ed")
 		snow.roughness = 1.0
-		for roof in floor.find_children("*Ceiling*", "CSGBox3D", true, false):
-			if roof.size.x < 3 or roof.size.z < 3:
+		for roof_node in get_tree().get_nodes_in_group(EXTERIOR_ROOF_GROUP):
+			var roof := roof_node as CSGBox3D
+			if roof == null or not floor_level.is_ancestor_of(roof):
 				continue
 			var mesh := MeshInstance3D.new()
 			var box := BoxMesh.new()
@@ -36,15 +40,10 @@ func _finish_setup() -> void:
 			caps.add_child(mesh)
 			mesh.global_transform = roof.global_transform
 			mesh.global_position.y += roof.size.y * 0.5 + 0.06
-	if not Engine.is_editor_hint():
-		_indoor_environment = $OvercastDayEnvironment.environment.duplicate()
-		_indoor_environment.ambient_light_energy = 0.03
-		_indoor_environment.fog_enabled = false
 
 func _process(_delta: float) -> void:
-	if Engine.is_editor_hint() or _indoor_environment == null:
+	if Engine.is_editor_hint():
 		return
 	var camera := get_viewport().get_camera_3d()
 	if camera != null:
 		camera.far = maxf(camera.far, 750.0)
-		camera.environment = _indoor_environment if camera.global_position.y < -3.0 else null

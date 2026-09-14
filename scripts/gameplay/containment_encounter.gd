@@ -176,7 +176,7 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 	var side := forward.cross(Vector3.UP).normalized()
 	for offset_index in count:
 		var serial := first_serial + offset_index
-		var row := offset_index / 20
+		var row := floori(float(offset_index) / 20.0)
 		var column := offset_index % 20
 		var lateral := (float(column) - 9.5) * 1.25
 		var distance := 4.0 + float(row) * 1.25

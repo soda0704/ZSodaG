@@ -226,6 +226,10 @@ func is_lobby_gate_active() -> bool:
 
 func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	BaseGameplayController.save_scope = "solo"
+	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
+		open_menu(MenuView.MAIN)
+		feedback_label.text = "Не удалось очистить одиночное сохранение."
+		return
 	_transition_in_progress = true
 	menu_root.visible = false
 	get_tree().paused = false

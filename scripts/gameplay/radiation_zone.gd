@@ -6,14 +6,14 @@ extends Node3D
 
 func _ready() -> void:
 	add_to_group("radiation_zones")
-	var sign := Label3D.new()
-	add_child(sign)
-	sign.text = "☢ РАДИАЦИЯ\nОПАСНЫЙ РЕЗЕРВУАР"
-	sign.position = Vector3(0, 4.8, 0)
-	sign.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	sign.font_size = 60
-	sign.modulate = Color("efd15b")
-	sign.no_depth_test = false
+	var warning_label := Label3D.new()
+	add_child(warning_label)
+	warning_label.text = "☢ РАДИАЦИЯ\nОПАСНЫЙ РЕЗЕРВУАР"
+	warning_label.position = Vector3(0, 4.8, 0)
+	warning_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	warning_label.font_size = 60
+	warning_label.modulate = Color("efd15b")
+	warning_label.no_depth_test = false
 	var light := OmniLight3D.new()
 	add_child(light)
 	light.position.y = 1.0
