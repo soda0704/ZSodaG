@@ -32,7 +32,7 @@ size = Vector3(0.2, 4, 0.34)
 size = Vector3(5.64, 0.24, 0.34)
 
 [node name="WestVehicleExteriorGateVisualBlockout" type="Node3D"]
-editor_description = "Art-only 6.04 x 4.00 m insulated sectional vehicle gate. ClosedState is enabled for Day 1; OpenState remains in the same scene. Its temporary passage collision is centralized in Floor_0_Base_Blockout/Day1_Door_Collisions."
+editor_description = "Art-only 6.04 x 4.00 m insulated sectional vehicle gate. ClosedState is enabled for Day 1; OpenState remains in the same scene. Its temporary passage collision is centralized in Floor_0_Base_Blockout/Doors/Day1_Door_Collisions."
 
 [node name="GateAssembly" type="Node3D" parent="."]
 

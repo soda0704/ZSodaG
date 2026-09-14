@@ -1,0 +1,177 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
+[ext_resource type="Material" path="res://scenes/art/base/living/day1_story_blockout_material.tres" id="2_day1_story_blockout_material"]
+
+[node name="SleepingQuartersArt" type="Node3D"]
+editor_description = "Art-обёртка спальни East Living. Интерактивные точки коек остаются в Gameplay_Sockets основной сцены."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная модель спальни, коек, шкафов и стационарной мебели."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Будущие упрощённые коллизии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия спальни. Отключите после готовности Visual и ArtCollision."
+
+[node name="Sleeping_Quarters" type="Node3D" parent="Blockout" unique_id=1160581854]
+
+[node name="Structure" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=846512030]
+
+[node name="Sleeping_Corridor_West_Wall" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Structure" unique_id=991103566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.187304, 2.75, -1.5)
+use_collision = true
+size = Vector3(2.6253905, 5.5, 0.3)
+
+[node name="Sleeping_Corridor_East_Wall" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Structure" unique_id=62715493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.75, 2.75, -1.5)
+use_collision = true
+size = Vector3(8.5, 5.5, 0.3)
+
+[node name="Sleeping_Entrance_Header" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Structure" unique_id=469001054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 4.25, -1.5)
+use_collision = true
+size = Vector3(3, 2.5, 0.3)
+
+[node name="Lighting" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=89667043]
+
+[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=2015799014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 5.42, -3.1)
+size = Vector3(2.2, 0.12, 0.45)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Sleeping_West_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=2077793610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 5.42, -6.3)
+size = Vector3(2.2, 0.12, 0.35)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Sleeping_East_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=1743020272]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 5.42, -6.3)
+size = Vector3(3.6, 0.12, 0.35)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Beds" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=540570192]
+
+[node name="Living_Bunk_Bank_North_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=614667827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.2, -7.1)
+use_collision = true
+size = Vector3(6, 2.4, 1.4)
+
+[node name="Living_Bunk_Bank_North_West_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=872313591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 1.2, -7.1)
+use_collision = true
+size = Vector3(3, 2.4, 1.4)
+
+[node name="Living_Bunk_East_Mid_Seam_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=923775546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.2, -6.36)
+size = Vector3(5.8, 0.08, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_East_Divider_01_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1325295780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1.2, -6.36)
+size = Vector3(0.08, 2.2, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_East_Divider_02_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1882939142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.2, -6.36)
+size = Vector3(0.08, 2.2, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_East_Divider_03_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1532369357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.2, -6.36)
+size = Vector3(0.08, 2.2, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_West_Mid_Seam_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=2135759449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 1.2, -6.36)
+size = Vector3(2.8, 0.08, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_West_Divider_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1444062933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 1.2, -6.36)
+size = Vector3(0.08, 2.2, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_Access_Shelf_East_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1771528535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.65, -6.28)
+size = Vector3(5.7, 0.1, 0.18)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Bunk_Access_Shelf_West_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=1885855888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0.65, -6.28)
+size = Vector3(2.7, 0.1, 0.18)
+material = ExtResource("1_living_blockout_material")
+
+[node name="End_Day_Bunks_Blockout" type="Node3D" parent="Blockout/Sleeping_Quarters/Beds" unique_id=195393144]
+editor_description = "Две назначенные нижние койки для завершения дня. Интерактивные панели показывают доступность и готовность каждого игрока."
+
+[node name="End_Day_Bunk_Player_01_Visual_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds/End_Day_Bunks_Blockout" unique_id=1607935349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.95, -6.35)
+size = Vector3(1.1, 0.4, 0.1)
+material = ExtResource("1_living_blockout_material")
+
+[node name="End_Day_Bunk_Player_02_Visual_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Beds/End_Day_Bunks_Blockout" unique_id=897778256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.95, -6.35)
+size = Vector3(1.1, 0.4, 0.1)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Storage" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=1255146447]
+
+[node name="Living_Sleeping_Locker_Bank_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage" unique_id=1865695137]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.25, 1.2, -4.3)
+use_collision = true
+size = Vector3(1.2, 2.4, 3.2)
+
+[node name="Living_Sleeping_Locker_Seam_01_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage" unique_id=1633571071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.62, 1.2, -3.77)
+size = Vector3(0.08, 2.2, 0.06)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Sleeping_Locker_Seam_02_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage" unique_id=1008952684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.62, 1.2, -4.83)
+size = Vector3(0.08, 2.2, 0.06)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Sleeping_Personal_Drop_Station_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage" unique_id=1480372271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 0.65, -2.25)
+use_collision = true
+size = Vector3(1.6, 1.3, 0.65)
+
+[node name="Living_Opened_Personal_Locker_Blockout" type="Node3D" parent="Blockout/Sleeping_Quarters/Storage" unique_id=118839934]
+
+[node name="Living_Day1_Personal_Pack_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" unique_id=1911935258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 0.18, -4)
+size = Vector3(0.7, 0.36, 0.6)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Day1_Pulled_Contents_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" unique_id=987904518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.75, 0.12, -4.8)
+size = Vector3(0.9, 0.24, 0.45)
+material = ExtResource("2_day1_story_blockout_material")
+
+[node name="Living_Day1_Empty_Locker_Tag_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" unique_id=271845831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.61, 1.6, -4.3)
+size = Vector3(0.08, 0.35, 0.7)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Furniture" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=685862148]
+
+[node name="Living_Sleeping_Dressing_Bench_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Furniture" unique_id=1244859654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.35, -3.2)
+use_collision = true
+size = Vector3(3, 0.7, 0.8)
+
+[node name="Living_Sleeping_Dressing_Backboard_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Furniture" unique_id=1400226046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.65, -1.68)
+size = Vector3(3, 1.8, 0.12)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Sleeping_Dressing_Hook_Rail_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Furniture" unique_id=1776461422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.75, -1.76)
+size = Vector3(2.6, 0.12, 0.12)
+
+[node name="Living_Sleeping_Occupancy_Panel_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Furniture" unique_id=500202012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.4, 1.45, -1.68)
+size = Vector3(1, 0.65, 0.12)
+material = ExtResource("1_living_blockout_material")

@@ -3,7 +3,7 @@ extends Node
 
 @export var gameplay_controller_path := NodePath("../BaseGameplayController")
 @export var day_one_collision_root_path := NodePath(
-	"../Floor_0_Base_Blockout/Day1_Door_Collisions"
+	"../Floor_0_Base_Blockout/Doors/Day1_Door_Collisions"
 )
 @export var elevator_controller_path := NodePath(
 	"../Elevator_Functional_Blockout"

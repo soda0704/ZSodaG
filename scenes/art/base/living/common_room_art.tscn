@@ -1,0 +1,154 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
+[ext_resource type="Material" path="res://scenes/art/base/living/day1_story_blockout_material.tres" id="2_day1_story_blockout_material"]
+
+[node name="CommonRoomArt" type="Node3D"]
+editor_description = "Art-обёртка общей комнаты East Living: входная зона, столовая, кухня и зона отдыха."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная архитектура и крупная мебель общей комнаты."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Будущие упрощённые коллизии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия общей комнаты. Отключите после готовности Visual и ArtCollision."
+
+[node name="Common_Room" type="Node3D" parent="Blockout" unique_id=1956063123]
+
+[node name="Entry_Buffer" type="Node3D" parent="Blockout/Common_Room" unique_id=1922948352]
+
+[node name="Living_Entry_Wayfinding_Panel_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Entry_Buffer" unique_id=1497867543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.18, 2, -3.4)
+size = Vector3(0.12, 1.4, 2)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Entry_Emergency_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Entry_Buffer" unique_id=497668423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.28, 1.15, 3.4)
+use_collision = true
+size = Vector3(0.35, 1.8, 1.3)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Ceiling_Fixtures" type="Node3D" parent="Blockout/Common_Room" unique_id=340796148]
+
+[node name="Living_Common_Route_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=860429950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5.42, 0)
+size = Vector3(2.2, 0.12, 0.8)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Common_Dining_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=644360143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 5.42, -4.3)
+size = Vector3(2.4, 0.12, 1)
+
+[node name="Living_Common_Lounge_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=1892644356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 5.42, 4.8)
+size = Vector3(2.4, 0.12, 1)
+
+[node name="Dining" type="Node3D" parent="Blockout/Common_Room" unique_id=580244709]
+
+[node name="Living_Common_Table_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=1789619648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.78, -3.5)
+use_collision = true
+size = Vector3(3.6, 0.18, 1.8)
+
+[node name="Living_Common_Table_West_Pedestal_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=1958018426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.39, -3.5)
+use_collision = true
+size = Vector3(0.32, 0.78, 1.2)
+
+[node name="Living_Common_Table_East_Pedestal_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=1881340943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.39, -3.5)
+use_collision = true
+size = Vector3(0.32, 0.78, 1.2)
+
+[node name="Living_Common_North_Seating_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=399737974]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, -5.3)
+use_collision = true
+size = Vector3(3.2, 0.6, 0.45)
+
+[node name="Living_Common_South_Seating_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=1679032612]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.3, -2)
+use_collision = true
+size = Vector3(3.2, 0.6, 0.45)
+
+[node name="Living_Common_North_Seating_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=767573962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.78, -5.5)
+use_collision = true
+size = Vector3(3.2, 0.9, 0.12)
+
+[node name="Living_Common_South_Seating_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=2002664297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.78, -1.76)
+use_collision = true
+size = Vector3(3.2, 0.9, 0.12)
+
+[node name="Living_Abandoned_Meal_Blockout" type="Node3D" parent="Blockout/Common_Room/Dining" unique_id=798610965]
+
+[node name="Living_Day1_Abandoned_Plate_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining/Living_Abandoned_Meal_Blockout" unique_id=95400485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.895, -3.5)
+size = Vector3(0.7, 0.05, 0.5)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Day1_Abandoned_Cup_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining/Living_Abandoned_Meal_Blockout" unique_id=1523613084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.55, 1.02, -3.35)
+size = Vector3(0.18, 0.3, 0.18)
+material = ExtResource("2_day1_story_blockout_material")
+
+[node name="Galley" type="Node3D" parent="Blockout/Common_Room" unique_id=28311841]
+
+[node name="Living_Galley_Counter_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Galley" unique_id=2104828362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 0.5, -7.35)
+use_collision = true
+size = Vector3(4, 1, 1)
+
+[node name="Living_Galley_Upper_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Galley" unique_id=286897461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 1.9, -7.8)
+size = Vector3(4, 1.4, 0.1)
+
+[node name="Living_Galley_Sink_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Galley" unique_id=1160695798]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 1.03, -7.25)
+size = Vector3(1.4, 0.08, 0.65)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Living_Galley_Refrigeration_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Galley" unique_id=1217162390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 1.2, -7.25)
+use_collision = true
+size = Vector3(1.3, 2.4, 1.2)
+
+[node name="Living_Galley_Waste_Station_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Galley" unique_id=803661401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9, 0.7, -7.4)
+use_collision = true
+size = Vector3(1.2, 1.4, 0.9)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Lounge" type="Node3D" parent="Blockout/Common_Room" unique_id=1188165483]
+
+[node name="Living_Lounge_Sofa_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=502603957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.5, 6.9)
+use_collision = true
+size = Vector3(4, 1, 1.2)
+
+[node name="Living_Lounge_Coffee_Table_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=1631506978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.35, 4.8)
+use_collision = true
+size = Vector3(2.2, 0.7, 1.2)
+
+[node name="Living_Lounge_East_Seating_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=263566231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7, 0.5, 5.3)
+use_collision = true
+size = Vector3(1, 1, 2.2)
+
+[node name="Living_Lounge_Sofa_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=447019114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.05, 7.42)
+use_collision = true
+size = Vector3(4, 1.1, 0.16)
+
+[node name="Living_Lounge_East_Seating_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=859761098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.16, 1.05, 5.3)
+use_collision = true
+size = Vector3(0.16, 1.1, 2.2)
+
+[node name="Living_Lounge_Media_Panel_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Lounge" unique_id=951980125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4, 2, 7.8)
+size = Vector3(2.8, 1.4, 0.12)
+material = ExtResource("1_living_blockout_material")

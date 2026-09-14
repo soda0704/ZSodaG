@@ -1,0 +1,83 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
+
+[node name="ProtectedCorridorArt" type="Node3D"]
+editor_description = "Art-обёртка защищённого коридора между общей комнатой, спальней и медпунктом."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная модель коридора, стеновой защиты и стационарных деталей."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Будущие упрощённые коллизии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия коридора. Отключите после готовности Visual и ArtCollision."
+
+[node name="Protected_Corridor" type="Node3D" parent="Blockout" unique_id=221467163]
+
+[node name="Structure" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=528605298]
+
+[node name="Common_Protected_North_Wall" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1035624422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, -4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="Common_Protected_South_Wall" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1220782867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, 4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="Common_Protected_Door_Header" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1663089622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.25, 0)
+use_collision = true
+size = Vector3(0.3, 2.5, 3)
+
+[node name="Wall_Protection" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=1183479358]
+
+[node name="Protected_Corridor_North_West_Wall_Rail_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=766699091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.15, 0.9, -1.34)
+size = Vector3(2.1, 0.28, 0.12)
+
+[node name="Protected_Corridor_North_East_Wall_Rail_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=357847873]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.75, 0.9, -1.34)
+size = Vector3(8.2, 0.28, 0.12)
+
+[node name="Protected_Corridor_South_West_Wall_Rail_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=1422233141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.25, 0.9, 1.34)
+size = Vector3(8.2, 0.28, 0.12)
+
+[node name="Protected_Corridor_South_East_Wall_Rail_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=1911555179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.85, 0.9, 1.34)
+size = Vector3(2.1, 0.28, 0.12)
+
+[node name="Protected_Corridor_Sleeping_Sign_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=1196955055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.55, -1.31)
+size = Vector3(2.2, 0.55, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Protected_Corridor_Medical_Sign_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=1291888608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3.55, 1.31)
+size = Vector3(2.2, 0.55, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Protected_Corridor_East_Emergency_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Wall_Protection" unique_id=345063936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.7, 1.2, 0)
+use_collision = true
+size = Vector3(0.3, 1.8, 1.2)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Ceiling_Fixtures" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=1521649361]
+
+[node name="Protected_Corridor_West_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=1731667600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.42, 0)
+size = Vector3(2, 0.12, 0.9)
+
+[node name="Protected_Corridor_Center_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=600415743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5.42, 0)
+size = Vector3(2, 0.12, 0.9)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Protected_Corridor_East_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=2137573571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5.42, 0)
+size = Vector3(2, 0.12, 0.9)

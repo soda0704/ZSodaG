@@ -1,0 +1,152 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
+
+[node name="MedicalRoomArt" type="Node3D"]
+editor_description = "Art-обёртка медпункта East Living. Двери и gameplay-сокеты остаются в основной сцене."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная модель медпункта, оборудования и стационарной мебели."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Будущие упрощённые коллизии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия медпункта. Отключите после готовности Visual и ArtCollision."
+
+[node name="Medical_Room" type="Node3D" parent="Blockout" unique_id=982497273]
+
+[node name="Structure" type="Node3D" parent="Blockout/Medical_Room" unique_id=775232880]
+
+[node name="Medical_Corridor_West_Wall" type="CSGBox3D" parent="Blockout/Medical_Room/Structure" unique_id=651988588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.237108, 2.75, 1.5)
+use_collision = true
+size = Vector3(8.525782, 5.5, 0.3)
+
+[node name="Medical_Corridor_East_Wall" type="CSGBox3D" parent="Blockout/Medical_Room/Structure" unique_id=1723638631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.75, 2.75, 1.5)
+use_collision = true
+size = Vector3(2.5, 5.5, 0.3)
+
+[node name="Medical_Entrance_Header" type="CSGBox3D" parent="Blockout/Medical_Room/Structure" unique_id=1482650298]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 4.25, 1.5)
+use_collision = true
+size = Vector3(3, 2.5, 0.3)
+
+[node name="Lighting" type="Node3D" parent="Blockout/Medical_Room" unique_id=2045055413]
+
+[node name="Medical_Entry_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Lighting" unique_id=1748871228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 5.42, 2.8)
+size = Vector3(1.8, 0.12, 0.45)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Primary_Exam_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Lighting" unique_id=317373001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5.42, 5.5)
+size = Vector3(2.4, 0.12, 0.7)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Secondary_Exam_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Lighting" unique_id=746192460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5.42, 5.5)
+size = Vector3(2.4, 0.12, 0.7)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Storage" type="Node3D" parent="Blockout/Medical_Room" unique_id=1123662087]
+
+[node name="Medical_Supply_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Storage" unique_id=742560410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2, 1.2, 5.5)
+use_collision = true
+size = Vector3(1.2, 2.4, 3.5)
+
+[node name="Medical_Supply_Cabinet_Seam_01_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Storage" unique_id=530765756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.57, 1.2, 4.92)
+size = Vector3(0.08, 2.2, 0.06)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Supply_Cabinet_Seam_02_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Storage" unique_id=1922900596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.57, 1.2, 6.08)
+size = Vector3(0.08, 2.2, 0.06)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Refrigerated_Supply_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Storage" unique_id=1414602674]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.6, 0.75, 7.55)
+use_collision = true
+size = Vector3(1.4, 1.5, 0.6)
+
+[node name="Medical_Refrigerated_Status_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Storage" unique_id=450827186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.6, 1.05, 7.23)
+size = Vector3(0.7, 0.35, 0.08)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Examination" type="Node3D" parent="Blockout/Medical_Room" unique_id=1879935073]
+
+[node name="Medical_Exam_Bed_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=394816500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.45000005, 5.5)
+use_collision = true
+size = Vector3(2.2, 0.9, 1)
+
+[node name="Medical_Exam_Bed_Secondary_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=710917016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.45, 5.5)
+use_collision = true
+size = Vector3(2.2, 0.9, 1)
+
+[node name="Medical_Primary_Bed_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=95181043]
+transform = Transform3D(0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, 0, 1, 23.05, 0.85, 5.5)
+use_collision = true
+size = Vector3(0.9, 0.16, 0.95)
+
+[node name="Medical_Secondary_Bed_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=91865916]
+transform = Transform3D(0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, 0, 1, 27.05, 0.85, 5.5)
+use_collision = true
+size = Vector3(0.9, 0.16, 0.95)
+
+[node name="Medical_Primary_Bed_Console_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=1364164239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 1.05, 6.1)
+size = Vector3(0.9, 0.7, 0.16)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Secondary_Bed_Console_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=1403162213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.05, 6.1)
+size = Vector3(0.9, 0.7, 0.16)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Privacy_Curtain_Track_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=1970421577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 5.42, 5.5)
+size = Vector3(0.12, 0.12, 2.4)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Primary_Diagnostic_Panel_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=717133785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 2.1, 7.78)
+size = Vector3(2.2, 1.4, 0.12)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Secondary_Diagnostic_Panel_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=1154866431]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 2.1, 7.78)
+size = Vector3(2.2, 1.4, 0.12)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Instrument_Cart_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=1500264508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.5, 7.2)
+use_collision = true
+size = Vector3(1, 1, 0.8)
+
+[node name="Safety" type="Node3D" parent="Blockout/Medical_Room" unique_id=2119476294]
+
+[node name="Medical_Wash_Station_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Safety" unique_id=252088809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.3, 1.1, 3)
+use_collision = true
+size = Vector3(0.3, 2.2, 1.2)
+material = ExtResource("1_living_blockout_material")
+
+[node name="Medical_Wash_Basin_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Safety" unique_id=928591688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.65, 0.95, 3)
+use_collision = true
+size = Vector3(0.6, 0.18, 0.9)
+
+[node name="Medical_Wash_Dispenser_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Safety" unique_id=1059785305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.48, 2.1, 3.42)
+size = Vector3(0.16, 0.5, 0.28)
+
+[node name="Medical_Clinical_Waste_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Safety" unique_id=1205701124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0.4, 2.15)
+use_collision = true
+size = Vector3(0.65, 0.8, 0.65)

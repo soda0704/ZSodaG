@@ -33,15 +33,15 @@ func _process(delta: float) -> void:
 				or (
 					powered
 					and _has_player_near(
-						door.marker,
+						door.anchor,
 						CLOSE_DISTANCE if bool(door.open) else OPEN_DISTANCE
 					)
 				)
 			)
-			if _controller != null and str(get_parent().get_path_to(door.marker)) in _controller.maintenance.get("pried_doors", []):
+			if _controller != null and str(get_parent().get_path_to(door.anchor)) in _controller.maintenance.get("pried_doors", []):
 				should_open = true
 			# Emergency egress from the bunks must survive the morning outage.
-			if not powered and _controller != null and _controller.day_index >= 2 and "East_Living/Transitions" in str(door.marker.get_path()) and "Corridor_Medical" not in str(door.marker.get_path()):
+			if not powered and _controller != null and _controller.day_index >= 2 and bool(door.emergency_egress):
 				should_open = true
 		_apply_door_state(door, should_open)
 
@@ -50,22 +50,21 @@ func _setup_doors() -> void:
 	_controller = get_tree().get_first_node_in_group(
 		"base_gameplay_controller"
 	) as BaseGameplayController
-	var level := get_parent()
-	var old_blockers := level.get_node_or_null("Day1_Door_Collisions")
+	var doors_root := get_parent()
+	var old_blockers := doors_root.get_node_or_null("Day1_Door_Collisions")
 	if old_blockers != null:
-		# Every authored door socket is now controlled by the actual door.
+		# Every authored door is now controlled directly by its scene root.
 		old_blockers.process_mode = Node.PROCESS_MODE_DISABLED
 		for shape in old_blockers.find_children("*", "CollisionShape3D", true, false):
 			var legacy_blocker := shape as CollisionShape3D
 			_legacy_blockers.append(legacy_blocker)
 			legacy_blocker.set_deferred("disabled", true)
 
-	for marker in level.find_children("*", "Marker3D", true, false):
-		if marker.name not in [&"Door_Socket", &"Vehicle_Door_Socket"]:
+	for candidate in doors_root.get_children():
+		if not candidate is Node3D:
 			continue
-		var visual := _find_authored_visual(marker)
-		if visual == null:
-			push_warning("Door socket has no authored door: %s" % marker.get_path())
+		var visual := candidate as Node3D
+		if "/art/doors/" not in str(visual.scene_file_path).to_lower():
 			continue
 		visual.visible = true
 		var open_nodes: Array[Node] = []
@@ -74,23 +73,29 @@ func _setup_doors() -> void:
 		if open_nodes.is_empty() or closed_nodes.is_empty():
 			push_warning("Authored door has no open/closed states: %s" % visual.get_path())
 			continue
-		var blocker := _create_passage_blocker(marker, marker.name == &"Vehicle_Door_Socket")
+		var lowered_name := str(visual.name).to_lower()
+		var vehicle_gate := "vehicle" in lowered_name or "gate" in lowered_name
+		var blocker := _create_passage_blocker(visual, vehicle_gate)
 		if visual.find_child("Leaf", true, false) != null:
 			(blocker.shape as BoxShape3D).size = Vector3(1.12, 2.7, 0.24)
 			blocker.position.y = 1.35
 		var indicators := _collect_indicators(visual)
-		var marker_path := str(marker.get_path())
 		var startup_route := (
-			"West_Entrance/Transitions" in marker_path
-			or "South_Technical/Transitions" in marker_path
+			lowered_name.begins_with("west_")
+			or lowered_name.begins_with("technical_")
 		)
-		var locked := marker.name == &"Vehicle_Door_Socket"
+		var locked := vehicle_gate
+		var emergency_egress := (
+			visual.name == &"living_hermetic_door"
+			or visual.name == &"Standard_Door_Visual_Prototype"
+			or visual.name == &"Standard_Door_Frosted_Visual_Prototype"
+		)
 		var initial_open := startup_route and not locked
 		_attach_center_seals(closed_nodes)
 		var leaf_pairs := _collect_leaf_pairs(visual, open_nodes, closed_nodes)
 		var vertical_state := _collect_vertical_state(open_nodes, closed_nodes)
 		var door := {
-			"marker": marker,
+			"anchor": visual,
 			"visual": visual,
 			"open_nodes": open_nodes,
 			"closed_nodes": closed_nodes,
@@ -98,6 +103,7 @@ func _setup_doors() -> void:
 			"indicators": indicators,
 			"startup_route": startup_route,
 			"locked": locked,
+			"emergency_egress": emergency_egress,
 			"leaf_pairs": leaf_pairs,
 			"vertical_state": vertical_state,
 			"tween": null,
@@ -121,16 +127,16 @@ func get_open_door_count() -> int:
 	return count
 
 
-func is_door_open_at(marker: Marker3D) -> bool:
+func is_door_open_at(anchor: Node3D) -> bool:
 	for door in _doors:
-		if door.marker == marker:
+		if door.anchor == anchor:
 			return bool(door.open)
 	return false
 
 
-func get_door_indicator_color_at(marker: Marker3D) -> Color:
+func get_door_indicator_color_at(anchor: Node3D) -> Color:
 	for door in _doors:
-		if door.marker != marker or (door.indicators as Array).is_empty():
+		if door.anchor != anchor or (door.indicators as Array).is_empty():
 			continue
 		var indicator := door.indicators[0] as MeshInstance3D
 		var material := indicator.material_override as StandardMaterial3D
@@ -138,28 +144,14 @@ func get_door_indicator_color_at(marker: Marker3D) -> Color:
 	return Color.TRANSPARENT
 
 
-func get_door_leaf_aperture_at(marker: Marker3D) -> float:
+func get_door_leaf_aperture_at(anchor: Node3D) -> float:
 	for door in _doors:
-		if door.marker != marker or (door.leaf_pairs as Array).size() < 2:
+		if door.anchor != anchor or (door.leaf_pairs as Array).size() < 2:
 			continue
 		var left := door.leaf_pairs[0].leaf as Node3D
 		var right := door.leaf_pairs[1].leaf as Node3D
 		return absf(right.position.x - left.position.x)
 	return 0.0
-
-
-func _find_authored_visual(marker: Marker3D) -> Node3D:
-	for sibling in marker.get_parent().get_children():
-		if sibling == marker or not sibling is Node3D:
-			continue
-		var lowered := str(sibling.name).to_lower()
-		var source_path := str(sibling.scene_file_path).to_lower()
-		if (
-			("door" in lowered or "gate" in lowered)
-			and ("visual" in lowered or "/art/doors/" in source_path)
-		):
-			return sibling as Node3D
-	return null
 
 
 func _collect_state_nodes(
@@ -253,11 +245,15 @@ func _collect_vertical_state(open_nodes: Array[Node], closed_nodes: Array[Node])
 	}
 
 
-func _create_passage_blocker(marker: Marker3D, vehicle_gate: bool) -> CollisionShape3D:
+func _create_passage_blocker(anchor: Node3D, vehicle_gate: bool) -> CollisionShape3D:
 	var body := StaticBody3D.new()
 	body.set_script(preload("res://scripts/gameplay/base/pry_door_interaction.gd"))
-	body.name = "AutomaticDoorBlocker"
-	marker.add_child(body)
+	body.name = "%s_Blocker" % anchor.name
+	get_parent().add_child(body)
+	body.global_transform = Transform3D(
+		Basis.from_euler(Vector3(0.0, anchor.global_rotation.y, 0.0)),
+		anchor.global_position
+	)
 	var shape := CollisionShape3D.new()
 	shape.name = "CollisionShape3D"
 	var box := BoxShape3D.new()
@@ -268,13 +264,13 @@ func _create_passage_blocker(marker: Marker3D, vehicle_gate: bool) -> CollisionS
 	return shape
 
 
-func _has_player_near(marker: Marker3D, distance: float) -> bool:
+func _has_player_near(anchor: Node3D, distance: float) -> bool:
 	for player in get_tree().get_nodes_in_group("network_players"):
 		if not player is Node3D or not is_instance_valid(player):
 			continue
 		if player.get("survival") != null and bool(player.survival.dead):
 			continue
-		var offset: Vector3 = (player as Node3D).global_position - marker.global_position
+		var offset: Vector3 = (player as Node3D).global_position - anchor.global_position
 		offset.y = 0.0
 		if offset.length() <= distance:
 			return true

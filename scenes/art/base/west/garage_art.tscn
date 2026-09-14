@@ -1,0 +1,129 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_arrival"]
+albedo_color = Color(0.9, 0.38, 0.06, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_technical"]
+albedo_color = Color(0.82, 0.16, 0.04, 1)
+
+[node name="GarageArt" type="Node3D"]
+editor_description = "Гараж, тамбур, сервисные зоны и сюжетные пропсы."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная финальная геометрия."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Упрощённые коллизии финальной геометрии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
+
+[node name="Garage" type="Node3D" parent="Blockout" unique_id=1243245807]
+
+[node name="Cold_Zone" type="Node3D" parent="Blockout/Garage" unique_id=757471588]
+
+[node name="Vehicle_Bay" type="Node3D" parent="Blockout/Garage/Cold_Zone" unique_id=478688560]
+
+[node name="Garage_Snowcat_Blockout" type="CSGBox3D" parent="Blockout/Garage/Cold_Zone/Vehicle_Bay" unique_id=826531241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.2, -2.5)
+use_collision = true
+size = Vector3(7, 2.4, 3.2)
+
+[node name="Maintenance" type="Node3D" parent="Blockout/Garage/Cold_Zone" unique_id=881537171]
+
+[node name="Garage_Service_Rack_Blockout" type="CSGBox3D" parent="Blockout/Garage/Cold_Zone/Maintenance" unique_id=997869063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.2, -7.2)
+use_collision = true
+size = Vector3(5, 2.4, 1.2)
+
+[node name="Garage_Service_Rack_Console_Blockout" type="CSGBox3D" parent="Blockout/Garage/Cold_Zone/Maintenance" unique_id=1205912013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.4, -6.55)
+size = Vector3(1.2, 0.8, 0.1)
+material = SubResource("StandardMaterial3D_hub_arrival")
+
+[node name="Vestibule" type="Node3D" parent="Blockout/Garage" unique_id=1949915669]
+
+[node name="Structure" type="Node3D" parent="Blockout/Garage/Vestibule" unique_id=97598010]
+
+[node name="Garage_Vestibule_North_Wall" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Structure" unique_id=1694614196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 1.5, 1.75)
+use_collision = true
+size = Vector3(3, 3, 0.3)
+
+[node name="Garage_Vestibule_East_Wall_North_Segment" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Structure" unique_id=2064316951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1.5, 2)
+use_collision = true
+size = Vector3(0.3, 3, 0.5)
+
+[node name="Garage_Vestibule_East_Wall_South_Segment" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Structure" unique_id=938158478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1.5, 5.875)
+use_collision = true
+size = Vector3(0.3, 3, 4.25)
+
+[node name="Garage_Vestibule_East_Door_Header" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Structure" unique_id=892398830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.7, 3)
+use_collision = true
+size = Vector3(0.3, 0.6, 1.5)
+
+[node name="Fixtures" type="Node3D" parent="Blockout/Garage/Vestibule" unique_id=882332566]
+
+[node name="Garage_Vestibule_Floor_Grate_Blockout" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Fixtures" unique_id=59155558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 0.02, 3)
+size = Vector3(2.4, 0.04, 1.8)
+
+[node name="Warm_Zone" type="Node3D" parent="Blockout/Garage" unique_id=244882505]
+
+[node name="Structure" type="Node3D" parent="Blockout/Garage/Warm_Zone" unique_id=493573407]
+
+[node name="Garage_Cold_Warm_Divider_West_Segment" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Structure" unique_id=826398763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.1, 1.5, 1.75)
+use_collision = true
+size = Vector3(1.8, 3, 0.3)
+
+[node name="Garage_Cold_Warm_Divider_East_Segment" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Structure" unique_id=1478438878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.4, 1.5, 1.75)
+use_collision = true
+size = Vector3(4.8, 3, 0.3)
+
+[node name="Garage_Cold_Warm_Door_Header" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Structure" unique_id=1876810275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2.7, 1.75)
+use_collision = true
+size = Vector3(2.4, 0.6, 0.3)
+
+[node name="Garage_Warm_Zone_Ceiling" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Structure" unique_id=1972095377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.15, 4.875)
+use_collision = true
+size = Vector3(12.3, 0.3, 6.55)
+
+[node name="Workstations" type="Node3D" parent="Blockout/Garage/Warm_Zone" unique_id=1373967377]
+
+[node name="Garage_Warm_Service_Bench_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=691122186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.5, 7.25)
+use_collision = true
+size = Vector3(4, 1, 1)
+
+[node name="Garage_Warm_Service_Backboard_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=1154465435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.8, 7.7)
+size = Vector3(4, 1.6, 0.1)
+
+[node name="Garage_Warm_Battery_Station_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=747060389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.24, 1.2, 6.3)
+size = Vector3(0.18, 2.4, 1.2)
+material = SubResource("StandardMaterial3D_hub_arrival")
+
+[node name="Garage_Warm_Supply_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=211157489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.45, 1.2, 6.5)
+use_collision = true
+size = Vector3(0.6, 2.4, 2.2)
+
+[node name="West_Hurried_Departure_Blockout" type="Node3D" parent="Blockout/Garage/Vestibule/Fixtures" unique_id=1206369133]
+
+[node name="West_Day1_Departure_Case_A_Blockout" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Fixtures/West_Hurried_Departure_Blockout" unique_id=2070798234]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.16, 2.42)
+size = Vector3(0.7, 0.32, 0.4)
+material = SubResource("StandardMaterial3D_hub_arrival")
+
+[node name="West_Day1_Departure_Case_B_Blockout" type="CSGBox3D" parent="Blockout/Garage/Vestibule/Fixtures/West_Hurried_Departure_Blockout" unique_id=1509995762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.7, 0.14, 3.58)
+size = Vector3(0.65, 0.28, 0.4)
+material = SubResource("StandardMaterial3D_hub_technical")

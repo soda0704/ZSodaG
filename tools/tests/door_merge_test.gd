@@ -15,14 +15,14 @@ func _run() -> void:
 	await root.get_node("GameMenu").start_standalone_flow()
 	await current_scene._enter_v3_level()
 	var level := current_scene.get_node("V3Level")
-	var door := level.get_node_or_null("Floor_0_Base_Blockout/East_Living/Transitions/Hub_Common/living_hermetic_door")
+	var door := level.get_node_or_null("Floor_0_Base_Blockout/Doors/living_hermetic_door")
 	check(door != null, "New living door remains in its scene")
 	if door != null:
 		check(door.position.is_equal_approx(Vector3(10, 0, 0)), "Door placement preserved")
 		for part in ["LeftLeaf", "RightLeaf", "Frame", "Socket_FrontAccessPanel", "Socket_BackAccessPanel"]:
 			check(door.find_child(part, true, false) != null, "Door part: " + part)
 		check(not door.find_children("*", "MeshInstance3D", true, false).is_empty(), "Imported door has visible geometry")
-	check(level.has_node("Floor_0_Base_Blockout/West_Entrance/Transitions/Hub_Decon/West_Hub_Decon_Door_Visual_Prototype"), "Original western door restored")
+	check(level.has_node("Floor_0_Base_Blockout/Doors/West_Hub_Decon_Door_Visual_Prototype"), "Original western door restored")
 	check(level.has_node("ContainmentEncounter") and root.has_node("DeveloperConsole"), "Encounter and console retained")
 	if OS.get_cmdline_user_args().has("visual"):
 		var player = current_scene.get_node("Players/1")

@@ -155,14 +155,12 @@ func _run() -> void:
 	)
 	var used_spawn_positions: Array[Vector3] = []
 	for spawn_index in BaseGameplayController.MAX_PLAYERS:
-		var marker := base_level.call(
-			"get_player_spawn_marker",
-			spawn_index
-		) as Marker3D
-		_assert(marker != null, "Arrival marker %d must exist" % spawn_index)
 		_assert(
-			(marker.global_basis * Vector3.FORWARD).dot(Vector3.RIGHT) > 0.99,
-			"Arrival marker %d must look into the west entrance" % spawn_index
+			is_equal_approx(
+				float(base_level.call("get_player_spawn_yaw", spawn_index)),
+				PI * 0.5
+			),
+			"Arrival spawn %d must look into the west entrance" % spawn_index
 		)
 		var spawn_position := base_level.call(
 			"get_player_spawn_position",
@@ -174,29 +172,26 @@ func _run() -> void:
 		)
 		used_spawn_positions.append(spawn_position)
 		var floor_query := PhysicsRayQueryParameters3D.create(
-			marker.global_position + Vector3.UP,
-			marker.global_position + Vector3.DOWN * 2.0
+			spawn_position + Vector3.UP,
+			spawn_position + Vector3.DOWN * 2.0
 		)
 		_assert(
-			not marker.get_world_3d().direct_space_state.intersect_ray(
+			not base_level.get_world_3d().direct_space_state.intersect_ray(
 				floor_query
 			).is_empty(),
-			"Arrival marker %d must stand above collision" % spawn_index
+			"Arrival spawn %d must stand above collision" % spawn_index
 		)
 	var standalone_player := base_level.get_node_or_null(
 		"RuntimePlayers/1"
 	) as Node3D
 	_assert(standalone_player != null, "Standalone player must spawn")
-	var first_marker := base_level.call(
-		"get_player_spawn_marker",
-		0
-	) as Marker3D
+	var first_spawn := base_level.call("get_player_spawn_position", 0) as Vector3
 	_assert(
 		standalone_player.global_position.distance_to(
-			first_marker.global_position
+			first_spawn
 		) < 0.2,
-		"Standalone player must use the first production marker: %s vs %s"
-		% [standalone_player.global_position, first_marker.global_position]
+		"Standalone player must use the first production spawn: %s vs %s"
+		% [standalone_player.global_position, first_spawn]
 	)
 	_assert(
 		is_equal_approx(
@@ -230,10 +225,10 @@ func _run() -> void:
 		"Escape must close the journal without opening the pause menu"
 	)
 	var day_one_collision_root := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/Day1_Door_Collisions"
+		"Floor_0_Base_Blockout/Doors/Day1_Door_Collisions"
 	) as Node3D
 	var automatic_doors := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/AutomaticDoors"
+		"Floor_0_Base_Blockout/Doors/AutomaticDoors"
 	)
 	var production_elevator := base_level.get_node_or_null(
 		"Elevator_Functional_Blockout"
@@ -262,24 +257,24 @@ func _run() -> void:
 		automatic_doors != null
 		and int(automatic_doors.call("get_door_count")) == 16
 		and int(automatic_doors.call("get_open_door_count")) == 8,
-		"All 16 sockets must become doors; the full spawn-to-generator route opens without power while the garage gate stays locked"
+		"All 16 doors must be managed directly; the full spawn-to-generator route opens without power while the garage gate stays locked"
 	)
-	var garage_gate_marker := base_level.get_node(
-		"Floor_0_Base_Blockout/West_Entrance/Transitions/Garage_Vehicle_Exterior/Vehicle_Door_Socket"
-	) as Marker3D
-	var garage_room_marker := base_level.get_node(
-		"Floor_0_Base_Blockout/West_Entrance/Transitions/Equipment_Garage/Door_Socket"
-	) as Marker3D
+	var garage_gate := base_level.get_node(
+		"Floor_0_Base_Blockout/Doors/West_Vehicle_Exterior_Gate_Visual_Prototype"
+	) as Node3D
+	var garage_room_door := base_level.get_node(
+		"Floor_0_Base_Blockout/Doors/West_Equipment_Garage_Door_Visual_Prototype"
+	) as Node3D
 	_assert(
-		not bool(automatic_doors.call("is_door_open_at", garage_gate_marker))
-		and bool(automatic_doors.call("is_door_open_at", garage_room_marker)),
+		not bool(automatic_doors.call("is_door_open_at", garage_gate))
+		and bool(automatic_doors.call("is_door_open_at", garage_room_door)),
 		"The vehicle garage gate stays locked while the pedestrian route through the garage room opens fully"
 	)
-	var unpowered_science_marker := base_level.get_node(
-		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
-	) as Marker3D
+	var unpowered_science_door := base_level.get_node(
+		"Floor_0_Base_Blockout/Doors/Science_Entrance_Door_Visual_Prototype"
+	) as Node3D
 	_assert(
-		(automatic_doors.call("get_door_indicator_color_at", unpowered_science_marker) as Color).r > 0.9,
+		(automatic_doors.call("get_door_indicator_color_at", unpowered_science_door) as Color).r > 0.9,
 		"All closed-door indicators must glow red"
 	)
 	_assert(
@@ -310,14 +305,10 @@ func _run() -> void:
 		"Unpowered Day 1 must expose only emergency lighting"
 	)
 	var bunk_one := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Socket/"
-		+ "EndDayBunkInteractable"
+		"Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01"
 	)
 	var bunk_two := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Socket/"
-		+ "EndDayBunkInteractable"
+		"Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable02"
 	)
 	_assert(bunk_one != null, "First production end-day bunk must exist")
 	_assert(bunk_two != null, "Second production end-day bunk must exist")
@@ -356,14 +347,10 @@ func _run() -> void:
 			"End-day bunk must be reachable by the player's interaction ray"
 		)
 	var fuel_socket := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
-		+ "Power_And_Maintenance/Day1_Fuel_Fill_Socket/"
-		+ "FuelFillInteractable"
+		"Floor_0_Base_Blockout/Gameplay/FuelFillInteractable"
 	) as BaseFuelSocket
 	var main_breaker := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
-		+ "Power_And_Maintenance/Day1_Main_Breaker_Activation_Socket/"
-		+ "MainBreakerInteractable"
+		"Floor_0_Base_Blockout/Gameplay/MainBreakerInteractable"
 	) as BaseMainBreaker
 	_assert(fuel_socket != null, "Production fuel socket must exist")
 	_assert(main_breaker != null, "Production main breaker must exist")
@@ -375,7 +362,8 @@ func _run() -> void:
 	var fuel_header := fuel_socket.get_node_or_null("HeaderLabel") as Label3D
 	var fuel_status := fuel_socket.get_node_or_null("StatusLabel") as Label3D
 	var tank_header := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Generator_Room/"
+		"Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/"
+		+ "Blockout/Generator_Room/"
 		+ "Fuel_And_Cooling/Technical_Fuel_Tank_Header"
 	) as Label3D
 	_assert(
@@ -387,11 +375,13 @@ func _run() -> void:
 		"Production tank must expose a visible refueling sign"
 	)
 	var production_tank := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Generator_Room/"
+		"Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/"
+		+ "Blockout/Generator_Room/"
 		+ "Fuel_And_Cooling/Technical_Fuel_Tank_Blockout"
 	) as Node3D
 	var production_generator := base_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Generator_Room/"
+		"Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/"
+		+ "Blockout/Generator_Room/"
 		+ "Power_Generation/Technical_Main_Generator_Blockout"
 	) as Node3D
 	_assert(
@@ -512,47 +502,47 @@ func _run() -> void:
 	main_breaker.network_interact(1, standalone_player)
 	_assert(controller.main_breaker_on, "Breaker state must become true")
 	await create_timer(0.85).timeout
-	var west_hub_door_marker := base_level.get_node(
-		"Floor_0_Base_Blockout/West_Entrance/Transitions/Hub_Decon/Door_Socket"
-	) as Marker3D
+	var west_hub_door := base_level.get_node(
+		"Floor_0_Base_Blockout/Doors/West_Hub_Decon_Door_Visual_Prototype"
+	) as Node3D
 	_assert(
-		not bool(automatic_doors.call("is_door_open_at", west_hub_door_marker)),
+		not bool(automatic_doors.call("is_door_open_at", west_hub_door)),
 		"After power restoration, startup-route doors must return to proximity control"
 	)
-	var science_door_marker := base_level.get_node(
-		"Floor_0_Base_Blockout/North_Science/Entrance_Transition/Door_Socket"
-	) as Marker3D
+	var science_door := base_level.get_node(
+		"Floor_0_Base_Blockout/Doors/Science_Entrance_Door_Visual_Prototype"
+	) as Node3D
 	var position_before_door_test := standalone_player.global_position
 	var single_doors_tested := 0
 	for door: Dictionary in automatic_doors.get("_doors"):
 		if door.leaf_pairs.size() != 1 or door.leaf_pairs[0].leaf.name != &"Leaf":
 			continue
 		single_doors_tested += 1
-		standalone_player.global_position = door.marker.global_position + Vector3(0, 0, 1.5)
+		standalone_player.global_position = door.anchor.global_position + Vector3(0, 0, 1.5)
 		await create_timer(0.9).timeout
 		_assert(door.blocker.disabled and door.leaf_pairs[0].leaf.position.is_equal_approx(door.leaf_pairs[0].open_position), "Single door slides fully aside and frees passage")
-		standalone_player.global_position = door.marker.global_position + Vector3(10, 0, 10)
+		standalone_player.global_position = door.anchor.global_position + Vector3(10, 0, 10)
 		await create_timer(0.9).timeout
 		_assert(not door.blocker.disabled and door.leaf_pairs[0].leaf.position.is_equal_approx(door.leaf_pairs[0].closed_position), "Closed single door is solid")
 	_assert(single_doors_tested == 2, "Both initial pedestrian doors must be covered")
-	standalone_player.global_position = science_door_marker.global_position + Vector3(0, 0, 1.5)
+	standalone_player.global_position = science_door.global_position + Vector3(0, 0, 1.5)
 	await create_timer(0.85).timeout
 	_assert(
-		bool(automatic_doors.call("is_door_open_at", science_door_marker)),
+		bool(automatic_doors.call("is_door_open_at", science_door)),
 		"A powered authored door must open when a player approaches"
 	)
 	_assert(
-		float(automatic_doors.call("get_door_leaf_aperture_at", science_door_marker)) > 3.0,
+		float(automatic_doors.call("get_door_leaf_aperture_at", science_door)) > 3.0,
 		"A living-side door must move both leaves to the fully open sockets"
 	)
 	_assert(
-		(automatic_doors.call("get_door_indicator_color_at", science_door_marker) as Color).g > 0.9,
+		(automatic_doors.call("get_door_indicator_color_at", science_door) as Color).g > 0.9,
 		"All open-door indicators must glow green"
 	)
 	standalone_player.global_position = position_before_door_test
 	await create_timer(0.85).timeout
 	_assert(
-		not bool(automatic_doors.call("is_door_open_at", science_door_marker)),
+		not bool(automatic_doors.call("is_door_open_at", science_door)),
 		"A powered authored door must close after the player walks away"
 	)
 	_assert(
@@ -865,14 +855,13 @@ func _run() -> void:
 			"Players/%d" % peer_id
 		) as Node3D
 		_assert(transitioned_player != null, "Transitioned player must exist")
-		var transitioned_marker := v3_level.call(
-			"get_player_spawn_marker",
+		var transitioned_spawn := v3_level.call(
+			"get_player_spawn_position",
 			spawn_index
-		) as Marker3D
-		_assert(transitioned_marker != null, "Transitioned V3 marker must exist")
+		) as Vector3
 		_assert(
 			transitioned_player.global_position.distance_to(
-				transitioned_marker.global_position
+				transitioned_spawn
 			) < 0.2,
 			"V3 transition must preserve peer %d spawn slot" % peer_id
 		)
@@ -906,14 +895,10 @@ func _run() -> void:
 		"Host-authoritative pickup must put fuel in the player's hand"
 	)
 	var network_fuel_socket := v3_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
-		+ "Power_And_Maintenance/Day1_Fuel_Fill_Socket/"
-		+ "FuelFillInteractable"
+		"Floor_0_Base_Blockout/Gameplay/FuelFillInteractable"
 	) as BaseFuelSocket
 	var network_breaker := v3_level.get_node_or_null(
-		"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
-		+ "Power_And_Maintenance/Day1_Main_Breaker_Activation_Socket/"
-		+ "MainBreakerInteractable"
+		"Floor_0_Base_Blockout/Gameplay/MainBreakerInteractable"
 	) as BaseMainBreaker
 	var network_base_controller := v3_level.get_node_or_null(
 		"BaseGameplayController"
@@ -922,7 +907,7 @@ func _run() -> void:
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
 	var network_day_one_collision_root := v3_level.get_node_or_null(
-		"Floor_0_Base_Blockout/Day1_Door_Collisions"
+		"Floor_0_Base_Blockout/Doors/Day1_Door_Collisions"
 	) as Node3D
 	_assert(
 		network_elevator.unlocked_floor_index == 0,
@@ -957,14 +942,10 @@ func _run() -> void:
 		"Network-managed V3 must expose only standard lighting after power"
 	)
 	var network_bunk_one := v3_level.get_node_or_null(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Socket/"
-		+ "EndDayBunkInteractable"
+		"Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01"
 	)
 	var network_bunk_two := v3_level.get_node_or_null(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Socket/"
-		+ "EndDayBunkInteractable"
+		"Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable02"
 	)
 	var second_network_player := mechanics_controller.get_node_or_null(
 		"Players/5"

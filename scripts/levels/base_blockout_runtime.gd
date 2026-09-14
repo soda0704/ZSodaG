@@ -34,46 +34,29 @@ const FUEL_PICKUP_SCENE := preload(
 )
 
 @export var player_spawn_positions := PackedVector3Array([
-	Vector3(0.35, 0.05, -5.2),
-	Vector3(1.45, 0.05, -5.2),
+	Vector3(-39.5, 0.05, 2.5),
+	Vector3(-39.5, 0.05, 3.5),
 ])
-@export var player_spawn_marker_paths: Array[NodePath] = [
-	NodePath(
-		"Floor_0_Base_Blockout/West_Entrance/Gameplay_Sockets/"
-		+ "Arrival_And_Exterior/Day1_Player_01_Arrival_Spawn"
-	),
-	NodePath(
-		"Floor_0_Base_Blockout/West_Entrance/Gameplay_Sockets/"
-		+ "Arrival_And_Exterior/Day1_Player_02_Arrival_Spawn"
-	),
-]
+@export var player_spawn_yaws := PackedFloat32Array([PI * 0.5, PI * 0.5])
 @export var standalone_flashlight_transform := Transform3D(
 	Basis.IDENTITY,
 	Vector3(4.6, 0.1, -4.8)
 )
-@export var fuel_can_spawn_marker_path := NodePath(
-	"Floor_0_Base_Blockout/South_Technical/Gameplay_Sockets/"
-	+ "Power_And_Maintenance/Day1_Fuel_Can_Spawn"
+@export var task_terminal_transform := Transform3D(
+	Basis.IDENTITY,
+	Vector3(3.8, 1.25, -6.95)
 )
-@export var bunk_item_drop_marker_paths: Array[NodePath] = [
-	NodePath(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_01_Item_Drop"
-	),
-	NodePath(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/End_Day_Bunk_Player_02_Item_Drop"
-	),
+@export var fuel_can_spawn_transform := Transform3D(
+	Basis.IDENTITY,
+	Vector3(-3.2, 0.36, 19.2)
+)
+@export var bunk_item_drop_transforms: Array[Transform3D] = [
+	Transform3D(Basis.IDENTITY, Vector3(23.25, 0.4, -5.55)),
+	Transform3D(Basis.IDENTITY, Vector3(28.0, 0.4, -5.55)),
 ]
-@export var day_start_marker_paths: Array[NodePath] = [
-	NodePath(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/Day_Start_Player_01_Spawn"
-	),
-	NodePath(
-		"Floor_0_Base_Blockout/East_Living/Gameplay_Sockets/"
-		+ "Sleep_And_Checkpoint/Day_Start_Player_02_Spawn"
-	),
+@export var day_start_transforms: Array[Transform3D] = [
+	Transform3D(Basis.IDENTITY, Vector3(23.0, 0.05, -5.4)),
+	Transform3D(Basis.IDENTITY, Vector3(27.0, 0.05, -5.4)),
 ]
 
 var network_runtime_managed: bool = false
@@ -112,11 +95,10 @@ func toggle_developer_test_room(player: Node3D) -> bool:
 
 
 func _install_quest_terminals() -> void:
-	var task_socket := get_node("Floor_0_Base_Blockout/Center_Hub/Gameplay_Sockets/Daily_Loop/Daily_Task_Terminal_Socket") as Node3D
 	var task_terminal := QUEST_TERMINAL_SCENE.instantiate() as DayTwoTerminal
 	task_terminal.name = "DayTwoTaskTerminal"
 	add_child(task_terminal)
-	task_terminal.global_transform = task_socket.global_transform
+	task_terminal.global_transform = task_terminal_transform
 	var key_socket := get_node("Floor_Minus1_Control_Security_Blockout/Secure_Data_Vault/Encryption_Key_Terminal") as Node3D
 	var key_terminal := QUEST_TERMINAL_SCENE.instantiate() as DayTwoTerminal
 	key_terminal.name = "DayTwoKeyTerminal"
@@ -128,69 +110,39 @@ func _install_quest_terminals() -> void:
 
 
 func get_player_spawn_position(index: int) -> Vector3:
-	var marker := get_player_spawn_marker(index)
-	if marker != null:
-		return marker.global_position
 	if player_spawn_positions.is_empty():
 		return Vector3.ZERO
 	return player_spawn_positions[index % player_spawn_positions.size()]
 
 
 func get_player_spawn_yaw(index: int) -> float:
-	var marker := get_player_spawn_marker(index)
-	if marker != null:
-		return marker.global_rotation.y
-	return 0.0
+	if player_spawn_yaws.is_empty():
+		return 0.0
+	return player_spawn_yaws[index % player_spawn_yaws.size()]
 
 
 func get_player_spawn_count() -> int:
-	var valid_marker_count := 0
-	for marker_path in player_spawn_marker_paths:
-		if get_node_or_null(marker_path) is Marker3D:
-			valid_marker_count += 1
-	if valid_marker_count > 0:
-		return valid_marker_count
 	return player_spawn_positions.size()
 
 
-func get_player_spawn_marker(index: int) -> Marker3D:
-	if player_spawn_marker_paths.is_empty():
-		return null
-	var marker_path := player_spawn_marker_paths[
-		index % player_spawn_marker_paths.size()
-	]
-	return get_node_or_null(marker_path) as Marker3D
-
-
 func get_fuel_can_spawn_transform() -> Transform3D:
-	var marker := get_node_or_null(fuel_can_spawn_marker_path) as Marker3D
-	if marker != null:
-		return marker.global_transform
-	return Transform3D(Basis.IDENTITY, Vector3(-3.2, 0.36, 19.2))
+	return fuel_can_spawn_transform
 
 
 func get_bunk_item_drop_transform(player_slot: int) -> Transform3D:
-	if not bunk_item_drop_marker_paths.is_empty():
-		var marker_path := bunk_item_drop_marker_paths[
-			clampi(player_slot, 0, bunk_item_drop_marker_paths.size() - 1)
-		]
-		var marker := get_node_or_null(marker_path) as Marker3D
-		if marker != null:
-			return marker.global_transform
-	var fallback_x := 23.25 if player_slot <= 0 else 28.0
-	return Transform3D(Basis.IDENTITY, Vector3(fallback_x, 0.4, -5.55))
+	if bunk_item_drop_transforms.is_empty():
+		return Transform3D.IDENTITY
+	return bunk_item_drop_transforms[
+		clampi(player_slot, 0, bunk_item_drop_transforms.size() - 1)
+	]
 
 
 func get_day_start_transform(player_slot: int) -> Transform3D:
-	if not day_start_marker_paths.is_empty():
-		var marker_path := day_start_marker_paths[
-			clampi(player_slot, 0, day_start_marker_paths.size() - 1)
-		]
-		var marker := get_node_or_null(marker_path) as Marker3D
-		if marker != null:
-			return marker.global_transform
-	var fallback_x := 23.0 if player_slot <= 0 else 27.0
-	return Transform3D(Basis.IDENTITY, Vector3(fallback_x, 0.05, -5.4))
+	if day_start_transforms.is_empty():
+		return Transform3D.IDENTITY
+	return day_start_transforms[
+		clampi(player_slot, 0, day_start_transforms.size() - 1)
+	]
 
 
 func spawn_standalone_gameplay() -> void:

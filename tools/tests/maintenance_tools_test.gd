@@ -74,13 +74,13 @@ func _run() -> void:
 	check(player.perform_inventory_action_authoritative(&"detach_light"), "Lamp can be detached without losing it")
 	check(player._has_flashlight and player.tape_count == 0, "Detaching retains lamp but does not refund used tape")
 	player.pickup_world_item_authoritative(&"crowbar", {"uses": 3})
-	var doors = world.get_node("V3Level/Floor_0_Base_Blockout/AutomaticDoors")
+	var doors = world.get_node("V3Level/Floor_0_Base_Blockout/Doors/AutomaticDoors")
 	await create_timer(0.9).timeout
 	var opened := 0
 	for door: Dictionary in doors._doors:
 		if door.open or door.locked:
 			continue
-		player.teleport_authoritative(door.marker.global_position + Vector3(0, 0.1, 1), 0)
+		player.teleport_authoritative(door.anchor.global_position + Vector3(0, 0.1, 1), 0)
 		door.blocker.get_parent().network_interact(1, player)
 		await create_timer(2.1).timeout
 		check(door.open and door.blocker.disabled, "Pry opens and clears closed doorway")
@@ -91,7 +91,7 @@ func _run() -> void:
 	for door: Dictionary in doors._doors:
 		if door.open or door.locked:
 			continue
-		player.teleport_authoritative(door.marker.global_position + Vector3(0, 0.1, 1), 0)
+		player.teleport_authoritative(door.anchor.global_position + Vector3(0, 0.1, 1), 0)
 		door.blocker.get_parent().network_interact(1, player)
 		await create_timer(1.3).timeout
 		check(not door.open and player.crowbar_uses == 0, "Broken crowbar cannot open a fourth door")

@@ -12,7 +12,7 @@ emission_energy_multiplier = 1.15
 [sub_resource type="BoxMesh" id="Mesh_unit"]
 
 [node name="ScienceEntranceDoorVisualBlockout" unique_id=280663906 instance=ExtResource("1_science")]
-editor_description = "Opaque reinforced Hub to North Science door. Closed on Day 1. Its temporary passage collision is centralized in Floor_0_Base_Blockout/Day1_Door_Collisions; gameplay unlocking is handed to the programmer."
+editor_description = "Opaque reinforced Hub to North Science door. Closed on Day 1. Its temporary passage collision is centralized in Floor_0_Base_Blockout/Doors/Day1_Door_Collisions; gameplay unlocking is handed to the programmer."
 
 [node name="Day1LockedIndicators" type="Node3D" parent="DoorAssembly/Frame" parent_id_path=PackedInt32Array(2033192663) index="8" unique_id=602057625]
 

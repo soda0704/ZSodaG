@@ -1,0 +1,109 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="CenterHubShellArt" type="Node3D"]
+editor_description = "Оболочка центрального хаба."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная финальная геометрия."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Упрощённые коллизии финальной геометрии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
+
+[node name="Shared_Structure" type="Node3D" parent="Blockout" unique_id=2058203053]
+
+[node name="Center_Hub_Floor" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=11968664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0011959076, -0.089482404, 0.0039992332)
+use_collision = true
+size = Vector3(16, 0.2, 16)
+
+[node name="Elevator_Shaft_Floor_Cutout" type="CSGBox3D" parent="Blockout/Shared_Structure/Center_Hub_Floor" unique_id=1558086013]
+operation = 2
+size = Vector3(6.1, 0.8, 6.1)
+
+[node name="Center_Hub_Ceiling" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1252765990 groups=["exterior_snow_roof"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.15, 0)
+use_collision = true
+size = Vector3(16, 0.3, 16)
+
+[node name="Hub_West_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1694606142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5.5, 0)
+use_collision = true
+size = Vector3(0.3, 5, 4)
+
+[node name="Hub_East_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=818620652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.85, 5.5, 0)
+use_collision = true
+size = Vector3(0.3, 5, 4)
+
+[node name="Hub_North_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1901629405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -7.85)
+use_collision = true
+size = Vector3(4, 5, 0.3)
+
+[node name="Hub_South_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=80954051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 7.85)
+use_collision = true
+size = Vector3(4, 5, 0.3)
+
+[node name="West_Wall_North" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=2129590779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 3.75)
+use_collision = true
+size = Vector3(0.3, 8, 3.5)
+
+[node name="West_Wall_South" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=846094120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, -3.75)
+use_collision = true
+size = Vector3(0.3, 8, 3.5)
+
+[node name="South_Wall_West" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=2089236269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75, 4, 7.85)
+use_collision = true
+size = Vector3(3.5, 8, 0.3)
+
+[node name="South_Wall_East" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1741145531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75, 4, 7.85)
+use_collision = true
+size = Vector3(3.5, 8, 0.3)
+
+[node name="East_Wall_South" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1533936718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.85, 4, -3.75)
+use_collision = true
+size = Vector3(0.3, 8, 3.5)
+
+[node name="East_Wall_North" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1165890296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.85, 4, 3.75)
+use_collision = true
+size = Vector3(0.3, 8, 3.5)
+
+[node name="North_Wall_West" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1128176748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75, 4, -7.85)
+use_collision = true
+size = Vector3(3.5, 8, 0.3)
+
+[node name="North_Wall_East" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1636747159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75, 4, -7.85)
+use_collision = true
+size = Vector3(3.5, 8, 0.3)
+
+[node name="Hub_North_West_Diagonal_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=27345338]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -6.75, 4, -6.65)
+use_collision = true
+size = Vector3(3.6, 8, 0.3)
+
+[node name="Hub_North_East_Diagonal_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=447345957]
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 6.6, 4, -6.65)
+use_collision = true
+size = Vector3(3.6, 8, 0.3)
+
+[node name="Hub_South_East_Diagonal_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1290763656]
+transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 6.6, 4, 6.68)
+use_collision = true
+size = Vector3(3.6, 8, 0.3)
+
+[node name="Hub_South_West_Diagonal_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1453434918]
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, -6.75, 4, 6.68)
+use_collision = true
+size = Vector3(3.6, 8, 0.3)

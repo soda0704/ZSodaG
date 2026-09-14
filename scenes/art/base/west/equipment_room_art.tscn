@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_arrival"]
+albedo_color = Color(0.9, 0.38, 0.06, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_living"]
+albedo_color = Color(0.08, 0.52, 0.24, 1)
+
+[node name="EquipmentRoomArt" type="Node3D"]
+editor_description = "Экипировочная и относящиеся к ней сюжетные пропсы."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная финальная геометрия."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Упрощённые коллизии финальной геометрии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
+
+[node name="Equipment_Room" type="Node3D" parent="Blockout" unique_id=1240015406]
+
+[node name="Structure" type="Node3D" parent="Blockout/Equipment_Room" unique_id=2085108351]
+
+[node name="Garage_Equipment_North_Wall" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=452028883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, -3)
+use_collision = true
+size = Vector3(0.3, 5.5, 10)
+
+[node name="Garage_Equipment_South_Wall" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=1703672572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, 6.5)
+use_collision = true
+size = Vector3(0.3, 5.5, 3)
+
+[node name="Garage_Equipment_Door_Header" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=810009339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 4.25, 3.5)
+use_collision = true
+size = Vector3(0.3, 2.5, 3)
+
+[node name="Equipment_Decon_North_Wall" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=620528195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.75, -6.5)
+use_collision = true
+size = Vector3(0.3, 5.5, 3)
+
+[node name="Equipment_Decon_South_Wall" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=1388870175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.75, 3)
+use_collision = true
+size = Vector3(0.3, 5.5, 10)
+
+[node name="Equipment_Decon_Door_Header" type="CSGBox3D" parent="Blockout/Equipment_Room/Structure" unique_id=1927804453]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 4.25, -3.5)
+use_collision = true
+size = Vector3(0.3, 2.5, 3)
+
+[node name="Fixtures" type="Node3D" parent="Blockout/Equipment_Room" unique_id=791115085]
+
+[node name="Equipment_Issue_Island_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=1932951052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.6, -0.5)
+use_collision = true
+size = Vector3(4, 1.2, 1)
+
+[node name="Equipment_Suit_Rack_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=1736175210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.4, -7.2)
+use_collision = true
+size = Vector3(4, 2.8, 1.2)
+
+[node name="Equipment_Gear_Rack_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=491371573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.25, 7.2)
+use_collision = true
+size = Vector3(4, 2.5, 1.2)
+
+[node name="Equipment_Dressing_Bench_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=1744777601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.25, 0.45, -5.25)
+use_collision = true
+size = Vector3(1.2, 0.9, 4.5)
+
+[node name="Equipment_Issue_Terminal_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=308281565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.6, -0.5)
+size = Vector3(0.8, 0.8, 0.25)
+
+[node name="West_Dropped_Equipment_Blockout" type="Node3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=874418290]
+
+[node name="West_Day1_Abandoned_Equipment_Case_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures/West_Dropped_Equipment_Blockout" unique_id=986759087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.25, 1.05, -5.2)
+size = Vector3(0.8, 0.3, 1.2)
+material = SubResource("StandardMaterial3D_hub_arrival")
+
+[node name="West_Day1_Dropped_Pack_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures/West_Dropped_Equipment_Blockout" unique_id=1332043900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.25, 0.18, -5)
+size = Vector3(0.7, 0.36, 0.9)
+material = SubResource("StandardMaterial3D_hub_living")

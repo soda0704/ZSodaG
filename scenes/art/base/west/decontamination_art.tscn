@@ -1,0 +1,85 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="DecontaminationArt" type="Node3D"]
+editor_description = "Помещение дезактивации."
+
+[node name="Visual" type="Node3D" parent="."]
+editor_description = "Импортированная финальная геометрия."
+
+[node name="ArtCollision" type="Node3D" parent="."]
+editor_description = "Упрощённые коллизии финальной геометрии."
+
+[node name="Blockout" type="Node3D" parent="."]
+editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
+
+[node name="Decontamination" type="Node3D" parent="Blockout" unique_id=1554420584]
+
+[node name="Structure" type="Node3D" parent="Blockout/Decontamination" unique_id=1875150745]
+
+[node name="Decon_East_Exit_Header" type="CSGBox3D" parent="Blockout/Decontamination/Structure" unique_id=1204416701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4.25, 0)
+use_collision = true
+size = Vector3(0.3, 2.5, 4)
+
+[node name="Decon_Drain_Channel_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Structure" unique_id=1410938738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.02, 0)
+size = Vector3(1.2, 0.04, 3.2)
+
+[node name="Shower_Banks" type="Node3D" parent="Blockout/Decontamination" unique_id=330012507]
+
+[node name="Decon_Shower_Bank_North_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Shower_Banks" unique_id=1043513088]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 1.4, -6.75)
+use_collision = true
+size = Vector3(4, 2.8, 1.5)
+
+[node name="Decon_Shower_Bank_South_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Shower_Banks" unique_id=672565870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 1.4, 6.75)
+use_collision = true
+size = Vector3(4, 2.8, 1.5)
+
+[node name="Spray_Gantry" type="Node3D" parent="Blockout/Decontamination" unique_id=1639659031]
+
+[node name="Decon_Spray_Gantry_North_Pillar_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=578558040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.5, -1.9)
+use_collision = true
+size = Vector3(0.5, 3, 0.5)
+
+[node name="Decon_Spray_Gantry_South_Pillar_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=18807353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.5, 1.9)
+use_collision = true
+size = Vector3(0.5, 3, 0.5)
+
+[node name="Decon_Spray_Gantry_Top_Beam_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=297242236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.25, 0)
+use_collision = true
+size = Vector3(0.5, 0.5, 4.3)
+
+[node name="Decon_Spray_Panel_North_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=2021876541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.7, -1.62)
+size = Vector3(0.3, 1.8, 0.12)
+
+[node name="Decon_Spray_Panel_South_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=289049646]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.7, 1.62)
+size = Vector3(0.3, 1.8, 0.12)
+
+[node name="Decon_Spray_Panel_Top_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Spray_Gantry" unique_id=1110184225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.96, 0)
+size = Vector3(0.3, 0.12, 2.8)
+
+[node name="Controls" type="Node3D" parent="Blockout/Decontamination" unique_id=1285148954]
+
+[node name="Decon_Spray_Control_Panel_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Controls" unique_id=1999079116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.32, 1.4, -1.9)
+size = Vector3(0.14, 0.7, 0.45)
+
+[node name="Decon_Scan_Sensor_North_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Controls" unique_id=618629450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.69, 2.15, -1.9)
+size = Vector3(0.12, 0.4, 0.4)
+
+[node name="Decon_Scan_Sensor_South_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Controls" unique_id=485248226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.69, 2.15, 1.9)
+size = Vector3(0.12, 0.4, 0.4)
+
+[node name="Decon_Status_Indicator_Blockout" type="CSGBox3D" parent="Blockout/Decontamination/Controls" unique_id=741262762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.31, 3.25, 0)
+size = Vector3(0.12, 0.3, 0.9)
