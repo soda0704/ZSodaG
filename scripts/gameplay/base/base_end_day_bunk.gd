@@ -18,6 +18,7 @@ const MAX_NAME_TAG_CHARACTERS := 14
 var _controller: BaseGameplayController
 var _indicator_material: StandardMaterial3D
 func _ready() -> void:
+	status_label.position.y += 0.5
 	add_to_group("end_day_bunks")
 	_indicator_material = (
 		indicator.get_active_material(0).duplicate() as StandardMaterial3D
@@ -204,6 +205,9 @@ func _refresh_visuals() -> void:
 	if assigned_peer_id > 0:
 		var full_name := controller.get_player_display_name(assigned_peer_id)
 		name_tag_label.text = abbreviate_player_name(full_name)
+		var font := ThemeDB.fallback_font
+		var width := font.get_string_size(name_tag_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_tag_label.font_size).x
+		name_tag_label.pixel_size = minf(0.005, 0.48 / maxf(1.0, width))
 		name_tag_label.set_meta("full_player_name", full_name)
 
 

@@ -167,18 +167,33 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	):
 		return
 
+	var offered := item_state.duplicate(true)
+	var remaining := 0
+	if item_type == &"pistol_ammo":
+		var available := maxi(0, 240 - int(interactor.weapon.pistol_ammo))
+		var amount := int(item_state.get("amount", 12))
+		offered["amount"] = mini(amount, available)
+		remaining = amount - int(offered.amount)
 	var accepted := bool(interactor.call(
 		"pickup_world_item_authoritative",
 		item_type,
-		item_state.duplicate(true)
+		offered
 	))
 	if not accepted:
+		return
+	if remaining > 0:
+		_receive_item_state.rpc({"amount": remaining})
 		return
 	_collected = true
 	freeze = true
 	collision_layer = 0
 	collision_mask = 0
 	queue_free()
+
+
+@rpc("authority", "call_local", "reliable")
+func _receive_item_state(next_state: Dictionary) -> void:
+	item_state = next_state.duplicate(true)
 
 
 @rpc("authority", "call_remote", "unreliable_ordered", 2)

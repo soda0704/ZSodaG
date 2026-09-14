@@ -9,7 +9,7 @@ enum MenuView {
 }
 
 const MECHANICS_TEST_ROOM_SCENE := (
-	"res://scenes/tests/mechanics_test_room.tscn"
+	"res://scenes/levels/base_session.tscn"
 )
 const SETTINGS_DIRECTORY := "NorthernLab"
 const SETTINGS_FILE := "launcher_settings.json"

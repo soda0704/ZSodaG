@@ -24,6 +24,7 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(2.5, 0.05, 4.0),
 ]
 const V3_TEST_BRANCHES := [
+	NodePath("Gameplay/WorldEnvironment"),
 	NodePath("Helicopter"),
 	NodePath("Gameplay/Geometry"),
 	NodePath("Gameplay/PoweredDoorSystem"),
@@ -34,6 +35,7 @@ const V3_TEST_BRANCHES := [
 ]
 
 @export_group("Staging Lobby")
+@export var remove_legacy_geometry := false
 @export var uses_staging_lobby: bool = false
 @export var staging_spawn_positions := PackedVector3Array([
 	Vector3(-0.4, 0.05, 0.85),
@@ -91,6 +93,15 @@ var resume_base_on_start: bool = false
 var _inventory_save_elapsed: float = 0.0
 
 
+func _enter_tree() -> void:
+	if remove_legacy_geometry:
+		for path in V3_TEST_BRANCHES:
+			var branch := get_node_or_null(path)
+			if branch != null:
+				branch.get_parent().remove_child(branch)
+				branch.free()
+
+
 func _process(delta: float) -> void:
 	if multiplayer.is_server() and _v3_items_spawned:
 		_inventory_save_elapsed += delta
@@ -127,7 +138,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 1}
+	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1}
 
 
 func _restore_player_equipment(player: Node) -> void:
@@ -484,15 +495,19 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("tape_layout_version", 0)) < 1:
+		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
+			if loot.type == &"tape":
+				spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	# One-time migration for saves made before these essentials got deliberate,
 	# easy-to-find placements. It intentionally runs only for an existing save;
 	# a fresh game receives the same entries from TOOL_LOOT/WEAPON_LOOT below.
-	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("discoverable_layout_version", 0)) < 1:
+	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("discoverable_layout_version", 0)) < 2:
 		for loot: Dictionary in BaseBlockoutRuntime.DISCOVERABLE_LOOT:
-			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	if int(_base_gameplay_controller.inventory_checkpoint.get("tools_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
-			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	if int(_base_gameplay_controller.inventory_checkpoint.get("fuel_layout_version", 0)) < 1:
 		for offset in [Vector3(1.0, 0.0, 0.0), Vector3(1.0, 0.0, 0.8)]:
 			var fuel_transform := world_items.global_transform.affine_inverse() * _v3_fuel_can_transform
@@ -500,7 +515,7 @@ func spawn_v3_world_items() -> void:
 			spawn_world_item(GamePlayer.FUEL_ITEM, fuel_transform, {"fuel_liters": 20.0})
 	if int(_base_gameplay_controller.inventory_checkpoint.get("weapon_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.WEAPON_LOOT:
-			spawn_world_item(loot.type, Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	for player in players.get_children():
 		_restore_player_equipment(player)
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty():

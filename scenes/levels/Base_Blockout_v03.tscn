@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_gameplay_controller.gd" id="9_base_gameplay"]
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_power_lighting_controller.gd" id="10_power_lighting"]
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_day_progression_controller.gd" id="11_day_progression"]
+[ext_resource type="PackedScene" path="res://scenes/levels/snow_exterior.tscn" id="12_exterior"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
@@ -23,6 +24,8 @@ script = ExtResource("10_power_lighting")
 
 [node name="BaseDayProgressionController" type="Node" parent="."]
 script = ExtResource("11_day_progression")
+
+[node name="SnowExterior" parent="." instance=ExtResource("12_exterior")]
 
 [node name="Elevator_Functional_Blockout" parent="." unique_id=1503923236 instance=ExtResource("2_elevator")]
 unlocked_floor_index = 0

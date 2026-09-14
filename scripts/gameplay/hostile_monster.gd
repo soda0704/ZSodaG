@@ -214,14 +214,14 @@ func apply_weapon_damage(amount: float) -> void:
 		if is_instance_valid(_alert_target):
 			_last_seen = _alert_target.global_position
 			_awareness = 12.0
-		if amount >= health:
+		if amount > 0.0:
 			_blood.rpc()
 		if debug_spawned:
 			_set_debug_health.rpc(maxf(0.0, debug_health - amount))
 		else:
 			encounter.damage_monster(monster_id, amount)
 
-@rpc("authority", "call_local", "unreliable")
+@rpc("authority", "call_local", "reliable")
 func _blood() -> void:
 	preload("res://scripts/gameplay/blood_effect.gd").spawn(self, global_position + Vector3.UP)
 

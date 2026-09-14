@@ -89,10 +89,11 @@ func update_pose(
 	var rotation_weight := 1.0 - exp(-6.0 * delta)
 	rotation.x = lerp_angle(
 		rotation.x,
-		PI * 0.5 if _sleeping else 0.0,
+		-PI * 0.5 if _sleeping else 0.0,
 		rotation_weight
 	)
 	if _sleeping:
+		rotation.y = 0.0
 		var sleep_pose_weight := 1.0 - exp(-5.0 * delta)
 		set_bone_angle(BONE_THIGH_LEFT, -0.08, sleep_pose_weight)
 		set_bone_angle(BONE_THIGH_RIGHT, 0.08, sleep_pose_weight)
@@ -108,6 +109,7 @@ func update_pose(
 		)
 		return
 
+	rotation.y = PI
 	var moving := horizontal_speed > 0.12
 	var cycle_speed := sprint_cycle_speed if sprinting else walk_cycle_speed
 	if moving and grounded:

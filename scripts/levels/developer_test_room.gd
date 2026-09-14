@@ -1,7 +1,7 @@
 class_name DeveloperTestRoom
 extends Node3D
 
-const ROOM_POSITION := Vector3(110.0, 64.0, 110.0)
+const ROOM_POSITION := Vector3(180.0, -130.0, 180.0)
 const HALF_SIZE := Vector3(16.0, 4.0, 12.0)
 
 

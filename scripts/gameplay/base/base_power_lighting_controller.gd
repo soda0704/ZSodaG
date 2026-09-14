@@ -48,6 +48,7 @@ func _ready() -> void:
 	var level := get_parent().get_node_or_null("Floor_Minus3_Biocontainment_Blockout")
 	if level != null:
 		for light: Light3D in level.find_children("*", "Light3D", true, false):
+			light.shadow_enabled = true
 			_containment_lights[light] = light.light_energy
 		for lamp in level.find_children("*", "CSGPrimitive3D", true, false):
 			if "light" not in str(lamp.get_path()).to_lower():

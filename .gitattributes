@@ -5,3 +5,4 @@
 *.bin binary
 *.res binary
 *.ogv filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text

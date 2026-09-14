@@ -6,6 +6,7 @@ signal inventory_changed
 var survival: PlayerSurvival
 var debug_fly := false
 var debug_across := false
+var _flight_vertical := 0.0
 var weapon: WeaponController
 
 const NO_ITEM := &""
@@ -160,7 +161,10 @@ func _ready() -> void:
 
 	var local_player := is_local_player()
 	camera.current = local_player
-	body_animator.visible = not local_player
+	body_animator.visible = true
+	for mesh in body_animator.find_children("*", "MeshInstance3D", true, false):
+		mesh.layers |= 1 << 18 # Receive outdoor sunlight and cast a body shadow on snow.
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY if local_player else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	name_label.visible = not local_player
 	crosshair.visible = local_player
 	interaction_prompt_label.visible = false
@@ -238,22 +242,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if is_local_player() and multiplayer.is_server() and debug_fly and not survival.dead:
-		collect_local_input()
-		collect_local_look(delta)
-		rotation.y = _input_yaw
-		head.rotation.x = _input_pitch
-		var direction := head.global_basis * Vector3(_input_move.x, 0, _input_move.y)
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			direction.y += float(Input.is_physical_key_pressed(KEY_SPACE)) - float(Input.is_physical_key_pressed(KEY_CTRL))
-		velocity = direction.limit_length() * (18.0 if _input_sprint else 7.0)
-		if debug_across:
-			global_position += velocity * delta
-		else:
-			move_and_slide()
-		survival.reset_fall()
-		send_snapshot_if_due(delta)
-		return
 	if survival.dead:
 		velocity = Vector3.ZERO
 		interaction_prompt_label.hide()
@@ -263,6 +251,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if is_local_player():
 		collect_local_input()
+		_flight_vertical = (float(Input.is_action_pressed("jump")) - float(Input.is_action_pressed("crouch"))) if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else 0.0
 		collect_local_look(delta)
 		refresh_interaction_prompt()
 		update_battery_ui()
@@ -467,7 +456,8 @@ func send_input_if_due(delta: float) -> void:
 		_interact_serial,
 		_drop_item_serial,
 		_input_yaw,
-		_input_pitch
+		_input_pitch,
+		_flight_vertical
 	)
 
 
@@ -482,7 +472,8 @@ func _submit_input(
 	interact_serial: int,
 	drop_item_serial: int,
 	yaw: float,
-	pitch: float
+	pitch: float,
+	flight_vertical: float = 0.0
 ) -> void:
 	if not multiplayer.is_server():
 		return
@@ -492,6 +483,7 @@ func _submit_input(
 		return
 
 	_server_last_sequence = sequence
+	_flight_vertical = clampf(flight_vertical, -1.0, 1.0)
 	_server_move = move_input.limit_length(1.0)
 	_server_crouch = crouching
 	_server_sprint = sprinting and not crouching
@@ -593,6 +585,16 @@ func simulate_movement(
 	rotation.y = yaw
 	head.rotation.x = pitch
 	update_crouch_state(delta, crouching)
+	if debug_fly and not survival.dead:
+		var flight_direction := head.global_basis * Vector3(move_input.x, 0, move_input.y)
+		flight_direction.y += _flight_vertical
+		velocity = flight_direction.limit_length() * (18.0 if sprinting else 7.0)
+		if debug_across:
+			global_position += velocity * delta
+		else:
+			move_and_slide()
+		survival.reset_fall()
+		return
 
 	if not is_on_floor():
 		var gravity_scale := fall_gravity_multiplier if velocity.y < 0.0 else 1.0
@@ -787,9 +789,9 @@ func _receive_bunk_sleep_state(
 	)
 	if is_sleeping:
 		head.position = Vector3(0, 0.28, -1.22)
-		head.rotation = Vector3(-PI * 0.5, 0, 0)
-		_input_pitch = -PI * 0.5
-		_server_pitch = -PI * 0.5
+		head.rotation = Vector3(PI * 0.5, 0, 0)
+		_input_pitch = PI * 0.5
+		_server_pitch = PI * 0.5
 	else:
 		head.position = Vector3(0, standing_head_height, 0)
 		head.rotation = Vector3.ZERO
@@ -900,6 +902,8 @@ func pickup_world_item_authoritative(
 func get_inventory_snapshot() -> Dictionary:
 	return {
 		"held_item": _held_item_type,
+		"debug_fly": debug_fly,
+		"debug_across": debug_across,
 		"fuel_liters": fuel_liters,
 		"tape_count": tape_count,
 		"crowbar_uses": crowbar_uses,
@@ -935,6 +939,8 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	if revision < _inventory_revision:
 		return
 	_inventory_revision = revision
+	debug_fly = bool(data.get("debug_fly", false))
+	debug_across = bool(data.get("debug_across", false))
 	tape_count = maxi(0, int(data.get("tape_count", 0)))
 	crowbar_uses = clampi(int(data.get("crowbar_uses", 0)), 0, 3)
 	weapon_light_mounted = bool(data.get("weapon_light_mounted", false)) and StringName(data.get("held_item", "")) in [&"pistol", &"m4a1"] and bool(data.get("has_flashlight", false))

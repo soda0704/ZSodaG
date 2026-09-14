@@ -17,6 +17,8 @@ func setup(id: String, height: float = 2.1) -> void:
 	model_id = id
 	model = (load("res://assets/monsters/%s/scene.gltf" % id) as PackedScene).instantiate()
 	add_child(model)
+	for mesh in model.find_children("*", "MeshInstance3D", true, false):
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	var players := model.find_children("*", "AnimationPlayer", true, false)
 	if not players.is_empty():
 		animator = players[0]

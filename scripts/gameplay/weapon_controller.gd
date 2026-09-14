@@ -36,9 +36,15 @@ func _ready() -> void:
 	_mounted_beam.light_energy = 3.0
 	_mounted_beam.light_color = Color("fff0ce")
 	_mounted_beam.shadow_enabled = true
+	_mounted_beam.light_cull_mask = 0xFFFFF
+	_mounted_beam.shadow_caster_mask = 0xFFFFF ^ (1 << 19)
+	for mesh in _mounted_lamp.find_children("*", "MeshInstance3D", true, false):
+		mesh.layers = 1 << 19
 	for id: StringName in TYPES:
 		var model := (load("res://assets/models/weapons/%s.glb" % id) as PackedScene).instantiate()
 		_pose.add_child(model)
+		for mesh in model.find_children("*", "MeshInstance3D", true, false):
+			mesh.layers = 1 << 19
 		model.hide()
 		_models[id] = model
 	_flash = OmniLight3D.new()

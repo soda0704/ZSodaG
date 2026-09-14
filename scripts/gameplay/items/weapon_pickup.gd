@@ -24,6 +24,16 @@ func _ready() -> void:
 			$CollisionShape3D.position.z = 0.0
 			if item_type == &"pistol_ammo":
 				shape.size = Vector3(0.05, 0.036, 0.065)
+				var target := Area3D.new()
+				target.set_script(preload("res://scripts/gameplay/items/pickup_interaction_area.gd"))
+				target.collision_layer = 4
+				target.collision_mask = 0
+				var target_shape := CollisionShape3D.new()
+				var target_box := BoxShape3D.new()
+				target_box.size = Vector3(0.18, 0.12, 0.18)
+				target_shape.shape = target_box
+				target.add_child(target_shape)
+				add_child(target)
 
 func get_interaction_prompt() -> String:
 	if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:

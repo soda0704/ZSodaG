@@ -8,6 +8,10 @@ var opened := false
 var history: Array[String] = []
 var history_index := 0
 var previous_mouse: int
+var _resizing := false
+
+func _help_text() -> String:
+	return HELP.replace("   ", "\n") + "\n/tools — скотч и монтировка\n/wiring — авария проводки\n/flashlight — фонарик\n/fuel full|empty — канистра\n/testroom — тестовая комната / возвращение\n/outside — снежная территория (/level 0 — обратно)\nНижний край окна можно перетаскивать мышью."
 
 func _ready() -> void:
 	layer = 150
@@ -16,7 +20,7 @@ func _ready() -> void:
 	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	panel.offset_bottom = 500
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.025, 0.035, 0.045, 0.97)
+	style.bg_color = Color(0.025, 0.035, 0.045, 0.72)
 	style.content_margin_left = 24
 	style.content_margin_right = 24
 	style.content_margin_top = 16
@@ -25,14 +29,14 @@ func _ready() -> void:
 	var box := VBoxContainer.new()
 	panel.add_child(box)
 	output = RichTextLabel.new()
-	output.custom_minimum_size.y = 340
+	output.custom_minimum_size.y = 80
 	output.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	output.add_theme_font_size_override("normal_font_size", 18)
+	output.add_theme_font_size_override("normal_font_size", 16)
 	output.scroll_following = true
 	box.add_child(output)
 	entry = LineEdit.new()
 	entry.placeholder_text = "/help — команды (Enter — выполнить)"
-	entry.add_theme_font_size_override("font_size", 20)
+	entry.add_theme_font_size_override("font_size", 16)
 	box.add_child(entry)
 	var spawn_bar := HBoxContainer.new()
 	spawn_bar.name = "SpawnBar"
@@ -62,8 +66,25 @@ func _ready() -> void:
 	entry.gui_input.connect(_entry_input)
 	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n/flashlight — фонарик   /fuel full|empty — канистра 20/0 л\n/testroom — войти/вернуться из пустой тестовой комнаты\n"
 	panel.hide()
+	output.text = _help_text()
+	var grip := Label.new()
+	grip.text = "━━━━━━━━  потяните для изменения высоты  ━━━━━━━━"
+	grip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	grip.mouse_filter = Control.MOUSE_FILTER_STOP
+	grip.mouse_default_cursor_shape = Control.CURSOR_VSIZE
+	box.add_child(grip)
+	grip.gui_input.connect(func(event):
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			_resizing = event.pressed
+	)
 
 func _input(event: InputEvent) -> void:
+	if _resizing and opened:
+		if event is InputEventMouseMotion:
+			panel.offset_bottom = clampf(event.position.y, 220.0, get_viewport().get_visible_rect().size.y - 20.0)
+			get_viewport().set_input_as_handled()
+		elif event is InputEventMouseButton and not event.pressed:
+			_resizing = false
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_QUOTELEFT or event.keycode == KEY_QUOTELEFT or event.unicode in [96, 126, 1105, 1025]:
 			set_open(not opened)
@@ -73,6 +94,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func set_open(value: bool) -> void:
+	_resizing = false
 	opened = value
 	panel.visible = value
 	if value:
@@ -108,7 +130,7 @@ func execute(line: String) -> String:
 	if args.is_empty():
 		return ""
 	if args[0] == "/help":
-		return HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки (меняет сохранение)\n/flashlight — заряженный фонарик (если уже есть, выдаётся рядом)\n/fuel full|empty — полная/пустая канистра в руки\n/testroom — войти в большую пустую dev-комнату или вернуться"
+		return _help_text()
 	if args[0] == "/clear":
 		output.clear()
 		return ""
@@ -147,6 +169,9 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) 
 		return "Игрок, вызвавший команду, не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	match args[0]:
+		"/outside":
+			player.teleport_authoritative(Vector3(-48, 1.0, 10), -PI / 2)
+			return "Снежная территория. /level 0 — вернуться на базу."
 		"/testroom":
 			var level := state.get_parent()
 			if not level.has_method("toggle_developer_test_room") or not level.toggle_developer_test_room(player):
@@ -189,6 +214,7 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) 
 				player.debug_fly = player.debug_across
 			player.velocity = Vector3.ZERO
 			player.survival.reset_fall()
+			player._publish_inventory()
 			return "Полёт: %s • сквозь стены: %s" % [player.debug_fly, player.debug_across]
 		"/god":
 			player.survival.debug_invincible = not player.survival.debug_invincible

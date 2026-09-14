@@ -41,7 +41,7 @@ func _run() -> void:
 			for loot: Dictionary in BaseBlockoutRuntime.DISCOVERABLE_LOOT:
 				if loot.type == item.item_type:
 					expected = loot.position
-			placed[item.item_type] = bool(placed[item.item_type]) or item.position.distance_to(expected) < 1.0
+			placed[item.item_type] = bool(placed[item.item_type]) or item.global_position.distance_to(expected) < 1.0
 	check(tools_count == 3, "Two tape rolls and one crowbar spawn")
 	check(
 		placed.values().all(func(value): return value),

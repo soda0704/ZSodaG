@@ -4,6 +4,7 @@ var _host := false
 var _world: Node
 var _state: BaseGameplayController
 var _finished := false
+var _flight_verified := false
 
 
 func _ready() -> void:
@@ -88,6 +89,28 @@ func _deliver_from_client() -> void:
 	await get_tree().create_timer(0.25).timeout
 	var player := _world.get_node("Players/%d" % multiplayer.get_unique_id())
 	var console := get_node("/root/DeveloperConsole")
+	console.execute("/across")
+	await get_tree().create_timer(0.35).timeout
+	if not player.debug_fly or not player.debug_across:
+		_finish(false, "Guest flight flags did not replicate")
+		return
+	var flight_start: Vector3 = player.global_position
+	# Headless DisplayServer cannot capture the mouse. Send the same owner input
+	# packet that holding Space produces, and check actual server movement.
+	player.set_physics_process(false)
+	player._input_sequence += 100
+	player._submit_input.rpc_id(1, player._input_sequence, Vector2.ZERO, false, false, 0, 0, 0, 0, 0.0, 0.0, 1.0)
+	await get_tree().create_timer(0.4).timeout
+	_verify_guest_flight.rpc_id(1, flight_start.y)
+	await get_tree().create_timer(0.15).timeout
+	player.set_physics_process(true)
+	if not _flight_verified:
+		_finish(false, "Guest flight input did not move its player on the server")
+		return
+	console.execute("/across")
+	await get_tree().create_timer(0.35).timeout
+	_return_test_player.rpc_id(1)
+	await get_tree().create_timer(0.25).timeout
 	var console_return: Transform3D = player.global_transform
 	if "отправлена" not in console.execute("/testroom"):
 		_finish(false, "Client console command was not forwarded to server")
@@ -187,6 +210,17 @@ func _deliver_from_client() -> void:
 	player.set("_input_pitch", -atan2(player.head.global_position.y - terminal.global_position.y, 1.8))
 	player.set("_interact_serial", int(player.get("_interact_serial")) + 1)
 
+
+@rpc("any_peer", "call_remote", "reliable")
+func _verify_guest_flight(start_y: float) -> void:
+	if _host:
+		var sender := multiplayer.get_remote_sender_id()
+		var player := _state.get_player_node(sender)
+		_guest_flight_result.rpc_id(sender, player.global_position.y > start_y + 1.0 and not _state.get_player_node(1).debug_fly)
+
+@rpc("authority", "call_remote", "reliable")
+func _guest_flight_result(passed: bool) -> void:
+	_flight_verified = passed
 
 func _on_host_snapshot(snapshot: Dictionary) -> void:
 	if int(snapshot.get("quest_stage", 0)) == 4:

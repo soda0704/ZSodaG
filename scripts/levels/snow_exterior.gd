@@ -1,0 +1,50 @@
+@tool
+extends Node3D
+
+const EXTERIOR_LAYER := 1 << 18
+var _indoor_environment: Environment
+
+func _ready() -> void:
+	_finish_setup.call_deferred()
+
+func _finish_setup() -> void:
+	# Native collision aliases are not serialized by Terrain3D 1.0.2.
+	# Full terrain collision also supports remote players away from the host camera.
+	if not Engine.is_editor_hint():
+		$Terrain3D.collision_mode = Terrain3DCollision.FULL_GAME
+	var floor := get_parent().get_node_or_null("Floor_0_Base_Blockout")
+	if floor == null:
+		return
+	for geometry in floor.find_children("*", "GeometryInstance3D", true, false):
+		geometry.layers |= EXTERIOR_LAYER
+	if not has_node("RoofSnow"):
+		var caps := Node3D.new()
+		caps.name = "RoofSnow"
+		add_child(caps)
+		var snow := StandardMaterial3D.new()
+		snow.albedo_color = Color("dce6ed")
+		snow.roughness = 1.0
+		for roof in floor.find_children("*Ceiling*", "CSGBox3D", true, false):
+			if roof.size.x < 3 or roof.size.z < 3:
+				continue
+			var mesh := MeshInstance3D.new()
+			var box := BoxMesh.new()
+			box.size = Vector3(roof.size.x + 0.12, 0.16, roof.size.z + 0.12)
+			box.material = snow
+			mesh.mesh = box
+			mesh.layers = 1 | EXTERIOR_LAYER
+			caps.add_child(mesh)
+			mesh.global_transform = roof.global_transform
+			mesh.global_position.y += roof.size.y * 0.5 + 0.06
+	if not Engine.is_editor_hint():
+		_indoor_environment = $OvercastDayEnvironment.environment.duplicate()
+		_indoor_environment.ambient_light_energy = 0.03
+		_indoor_environment.fog_enabled = false
+
+func _process(_delta: float) -> void:
+	if Engine.is_editor_hint() or _indoor_environment == null:
+		return
+	var camera := get_viewport().get_camera_3d()
+	if camera != null:
+		camera.far = maxf(camera.far, 750.0)
+		camera.environment = _indoor_environment if camera.global_position.y < -3.0 else null
