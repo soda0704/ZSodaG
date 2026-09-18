@@ -16,22 +16,6 @@ editor_description = "Исходная CSG-геометрия коридора. 
 
 [node name="Protected_Corridor" type="Node3D" parent="Blockout" unique_id=221467163]
 
-[node name="Structure" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=528605298]
-
-[node name="Common_Protected_North_Wall" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1035624422]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, -4.75)
-use_collision = true
-size = Vector3(0.3, 5.5, 6.5)
-
-[node name="Common_Protected_South_Wall" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1220782867]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, 4.75)
-use_collision = true
-size = Vector3(0.3, 5.5, 6.5)
-
-[node name="Common_Protected_Door_Header" type="CSGBox3D" parent="Blockout/Protected_Corridor/Structure" unique_id=1663089622]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.25, 0)
-use_collision = true
-size = Vector3(0.3, 2.5, 3)
 
 [node name="Wall_Protection" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=1183479358]
 

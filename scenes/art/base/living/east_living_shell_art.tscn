@@ -53,3 +53,48 @@ size = Vector3(0.3, 2.5, 3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.65, 0)
 use_collision = true
 size = Vector3(24, 0.3, 16)
+
+[node name="Common_Protected_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1035624422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, -4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="Common_Protected_South_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1220782867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.75, 4.75)
+use_collision = true
+size = Vector3(0.3, 5.5, 6.5)
+
+[node name="Common_Protected_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1663089622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.25, 0)
+use_collision = true
+size = Vector3(0.3, 2.5, 3)
+
+[node name="Sleeping_Corridor_West_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=991103566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.187304, 2.75, -1.5)
+use_collision = true
+size = Vector3(2.6253905, 5.5, 0.3)
+
+[node name="Sleeping_Corridor_East_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=62715493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.75, 2.75, -1.5)
+use_collision = true
+size = Vector3(8.5, 5.5, 0.3)
+
+[node name="Sleeping_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=469001054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 4.25, -1.5)
+use_collision = true
+size = Vector3(3, 2.5, 0.3)
+
+[node name="Medical_Corridor_West_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=651988588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.237108, 2.75, 1.5)
+use_collision = true
+size = Vector3(8.525782, 5.5, 0.3)
+
+[node name="Medical_Corridor_East_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1723638631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.75, 2.75, 1.5)
+use_collision = true
+size = Vector3(2.5, 5.5, 0.3)
+
+[node name="Medical_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1482650298]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 4.25, 1.5)
+use_collision = true
+size = Vector3(3, 2.5, 0.3)
