@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/ui/control_settings.gd" id="1"]
+[node name="ControlSettings" type="Window"]
+title = "Управление"
+size = Vector2i(700, 650)
+visible = false
+exclusive = true
+transient = true
+script = ExtResource("1")
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+[node name="Box" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+[node name="List" type="ItemList" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+[node name="Bind" type="Button" parent="Margin/Box"]
+layout_mode = 2
+text = "Назначить клавишу"
+[node name="Reset" type="Button" parent="Margin/Box"]
+layout_mode = 2
+text = "По умолчанию"
+[node name="Controller" type="Label" parent="Margin/Box"]
+layout_mode = 2
+autowrap_mode = 2
+[node name="Close" type="Button" parent="Margin/Box"]
+layout_mode = 2
+text = "Закрыть"

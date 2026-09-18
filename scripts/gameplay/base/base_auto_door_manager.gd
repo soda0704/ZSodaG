@@ -14,6 +14,7 @@ var _nearby_players: Array[Node] = []
 
 
 func _ready() -> void:
+	add_to_group("base_auto_door_managers")
 	call_deferred("_setup_doors")
 
 
@@ -45,7 +46,25 @@ func _process(delta: float) -> void:
 			# Emergency egress from the bunks must survive the morning outage.
 			if not powered and _controller != null and _controller.day_index >= 2 and bool(door.emergency_egress):
 				should_open = true
+		var overrides: Dictionary = _controller.maintenance.get("debug_doors", {}) if _controller != null else {}
+		var id := str(get_parent().get_path_to(door.anchor))
+		if overrides.has(id):
+			should_open = bool(overrides[id])
 		_apply_door_state(door, should_open)
+
+
+func debug_set_door_open(anchor: Node, opened: bool) -> bool:
+	if not multiplayer.is_server() or _controller == null:
+		return false
+	for door in _doors:
+		if door.anchor == anchor:
+			var snapshot := _controller.get_snapshot()
+			var overrides: Dictionary = snapshot.maintenance.get("debug_doors", {})
+			overrides[str(get_parent().get_path_to(anchor))] = opened
+			snapshot.maintenance["debug_doors"] = overrides
+			_controller._broadcast_snapshot(snapshot)
+			return true
+	return false
 
 
 func _setup_doors() -> void:

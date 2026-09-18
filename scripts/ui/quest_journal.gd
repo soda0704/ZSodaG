@@ -125,8 +125,6 @@ func _build_interface() -> void:
 	footer.add_theme_constant_override("separation", 24)
 	close_hint = _label(footer, "", 18, Color("c6b99f"))
 	close_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var help_button := _button(footer, "Управление")
-	help_button.pressed.connect(_toggle_help)
 	close_button = _button(footer, "Закрыть")
 	close_button.pressed.connect(close_journal)
 	help_panel = _panel(notebook_pivot, Rect2(240, 220, 920, 380), Color("f0e5cc"), 5)
@@ -386,7 +384,7 @@ func _refresh_inventory() -> void:
 	controls_label.text = SteamInput.get_controls_hint()
 	if int(data.get("tape_count", 0)) > 0 or int(data.get("crowbar_uses", 0)) > 0:
 		inventory_label.text += "\nСкотч: %d · Монтировка: %d/3" % [int(data.get("tape_count", 0)), int(data.get("crowbar_uses", 0))]
-	close_hint.text = "%s — убрать журнал" % SteamInput.get_action_hint(&"journal")
+	close_hint.text = ""
 	if is_journal_open():
 		var focused := get_viewport().gui_get_focus_owner()
 		if focused == null or not focused.is_visible_in_tree():

@@ -26,7 +26,8 @@ editor_description = "Исходная CSG-геометрия. Отключит�
 
 [node name="Garage_Snowcat_Blockout" type="CSGBox3D" parent="Blockout/Garage/Cold_Zone/Vehicle_Bay" unique_id=826531241]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1.2, -2.5)
-use_collision = true
+visible = false
+use_collision = false
 size = Vector3(7, 2.4, 3.2)
 
 [node name="Maintenance" type="Node3D" parent="Blockout/Garage/Cold_Zone" unique_id=881537171]

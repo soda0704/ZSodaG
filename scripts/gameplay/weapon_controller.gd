@@ -106,7 +106,7 @@ func _physics_process(delta: float) -> void:
 				if reload_left == 0.0:
 					_commit_reload()
 					_notify_inventory()
-	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk()
+	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
 	_pose.visible = active
 	_mounted_lamp.visible = active and player.weapon_light_mounted
 	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
@@ -120,7 +120,7 @@ func _physics_process(delta: float) -> void:
 			var action_hint := "[↑] Перезарядка" if controller else "[R] Перезарядка"
 			if player.weapon_light_mounted and player._battery_charge <= 0.0 and not player._spare_batteries.is_empty():
 				action_hint = "[↑] Заменить батарейку" if controller else "[R] Заменить батарейку"
-			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else action_hint]
+			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ""]
 		else:
 			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
 	if active and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -147,6 +147,8 @@ func _request(action: StringName) -> void:
 
 func perform_action(action: StringName) -> bool:
 	var player := get_parent()
+	if player.is_driving():
+		return false
 	if not multiplayer.is_server() or player.survival.dead or player.is_sleeping_in_bunk() or not TYPES.has(kind):
 		return false
 	if player._battery_action_busy:

@@ -1,79 +1,48 @@
 extends CanvasLayer
 
-const HELP := "Консоль разработчика • ~ / ё — открыть/закрыть • Esc — закрыть\n/help — справка   /clear — очистить   ↑/↓ — история\n/fly — полёт с коллизиями   /across — полёт сквозь стены\nВ полёте: WASD, мышь; Space вверх, Ctrl вниз, Shift быстрее\n/god — бессмертие   /heal — здоровье и очистка радиации\n/level 0..4 — телепорт к входу на уровень   /where — координаты\n/day 1..4 — сменить день (меняет сохраняемый прогресс!)\n/ammo — патроны и магазины   /weapon pistol|m4a1|kitchen_knife\n/monsters reset — вернуть сюжетных монстров (сбой света сохраняется)\n/monsters kill — убить сюжетных   /spawn tail|slasher|smily [число]\n/despawn — убрать тестовых   /lightfault — проверить сбой света\nВ сетевой игре команды отправляются серверу и применяются к вызвавшему игроку."
-var panel: PanelContainer
-var output: RichTextLabel
-var entry: LineEdit
+const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
+const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/day 1", "/day 2", "/day 3", "/day 4", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
+@onready var panel: PanelContainer = $Panel
+@onready var output: RichTextLabel = $Panel/Box/Output
+@onready var entry: LineEdit = $Panel/Box/Entry
+@onready var target_label: Label = $Panel/Box/Target
 var opened := false
 var history: Array[String] = []
 var history_index := 0
 var previous_mouse: int
 var _resizing := false
+var target_path := NodePath()
+var target_point := Vector3.ZERO
+var _completion_options: Array[String] = []
+var _completion_index := -1
+var _completion_prefix := ""
+var _completion_suffix := ""
+var _completion_editing := false
+var _completion_text := ""
+var _completion_caret := -1
+
+const DESCRIPTIONS := {"/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
 
 func _help_text() -> String:
-	return HELP.replace("   ", "\n") + "\n/tools — скотч и монтировка\n/wiring — авария проводки\n/flashlight — фонарик\n/fuel full|empty — канистра\n/testroom — тестовая комната / возвращение\n/outside — снежная территория (/level 0 — обратно)\nНижний край окна можно перетаскивать мышью."
+	var lines: PackedStringArray = []
+	for command in COMMANDS:
+		lines.append("[url=%s]%s[/url] — %s" % [command, command, DESCRIPTIONS.get(command.split(" ")[0], "")])
+	return "\n".join(lines)
 
 func _ready() -> void:
-	layer = 150
-	panel = PanelContainer.new()
-	add_child(panel)
-	panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	panel.offset_bottom = 500
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.025, 0.035, 0.045, 0.72)
-	style.content_margin_left = 24
-	style.content_margin_right = 24
-	style.content_margin_top = 16
-	style.content_margin_bottom = 16
-	panel.add_theme_stylebox_override("panel", style)
-	var box := VBoxContainer.new()
-	panel.add_child(box)
-	output = RichTextLabel.new()
-	output.custom_minimum_size.y = 80
-	output.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	output.add_theme_font_size_override("normal_font_size", 16)
-	output.scroll_following = true
-	box.add_child(output)
-	entry = LineEdit.new()
-	entry.placeholder_text = "/help — команды (Enter — выполнить)"
-	entry.add_theme_font_size_override("font_size", 16)
-	box.add_child(entry)
-	var spawn_bar := HBoxContainer.new()
-	spawn_bar.name = "SpawnBar"
-	box.add_child(spawn_bar)
-	var count_label := Label.new()
-	count_label.text = "Спавн рядом:"
-	spawn_bar.add_child(count_label)
-	var spawn_count := SpinBox.new()
-	spawn_count.name = "SpawnCount"
-	spawn_count.min_value = 1
-	spawn_count.max_value = 1000
-	spawn_count.allow_greater = true
-	spawn_count.value = 1
-	spawn_count.custom_minimum_size.x = 100
-	spawn_bar.add_child(spawn_count)
-	for data in [["Хвостатый", 0, "SpawnTail"], ["Слэшер", 1, "SpawnSlasher"], ["Четвероногий", 2, "SpawnSmily"]]:
-		var button := Button.new()
-		button.text = data[0]
-		button.name = data[2]
-		button.pressed.connect(func(): _spawn_from_button(int(data[1]), int(spawn_count.value)))
-		spawn_bar.add_child(button)
-	var clear_button := Button.new()
-	clear_button.text = "Убрать тестовых"
-	clear_button.pressed.connect(func(): _submit("/despawn"))
-	spawn_bar.add_child(clear_button)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
-	output.text = HELP + "\n/tools — скотч и монтировка   /wiring — вызвать аварию проводки\n/flashlight — фонарик   /fuel full|empty — канистра 20/0 л\n/testroom — войти/вернуться из пустой тестовой комнаты\n"
-	panel.hide()
+	entry.text_changed.connect(func(_text):
+		if not _completion_editing:
+			_completion_options.clear()
+	)
+	output.meta_clicked.connect(func(command): insert_command(str(command)))
+	$Panel/Box/Commands.meta_clicked.connect(func(command): insert_command(str(command)))
+	var spawn_names := {"SpawnTail": "/spawn tail", "SpawnSlasher": "/spawn slasher", "SpawnSmily": "/spawn smily"}
+	for button_name in spawn_names:
+		$Panel/Box/SpawnBar.get_node(button_name).pressed.connect(func(): insert_command(spawn_names[button_name]))
 	output.text = _help_text()
-	var grip := Label.new()
-	grip.text = "━━━━━━━━  потяните для изменения высоты  ━━━━━━━━"
-	grip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	grip.mouse_filter = Control.MOUSE_FILTER_STOP
-	grip.mouse_default_cursor_shape = Control.CURSOR_VSIZE
-	box.add_child(grip)
-	grip.gui_input.connect(func(event):
+	$Panel/Box/Grip.gui_input.connect(func(event):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			_resizing = event.pressed
 	)
@@ -92,12 +61,19 @@ func _input(event: InputEvent) -> void:
 		elif opened and event.keycode == KEY_ESCAPE:
 			set_open(false)
 			get_viewport().set_input_as_handled()
+		elif opened and event.keycode == KEY_TAB:
+			complete_command()
+			get_viewport().set_input_as_handled()
 
 func set_open(value: bool) -> void:
 	_resizing = false
 	opened = value
 	panel.visible = value
 	if value:
+		capture_target()
+		if entry.text.is_empty():
+			entry.text = "/"
+		entry.caret_column = entry.text.length()
 		previous_mouse = Input.mouse_mode
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		entry.grab_focus()
@@ -106,31 +82,100 @@ func set_open(value: bool) -> void:
 		Input.mouse_mode = previous_mouse as Input.MouseMode
 
 func _entry_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
+		complete_command()
+		entry.accept_event()
+		return
 	if event is InputEventKey and event.pressed and event.keycode in [KEY_UP, KEY_DOWN] and not history.is_empty():
 		history_index = clampi(history_index + (-1 if event.keycode == KEY_UP else 1), 0, history.size())
-		entry.text = history[history_index] if history_index < history.size() else ""
+		entry.text = history[history_index] if history_index < history.size() else "/"
+		_completion_options.clear()
 		entry.caret_column = entry.text.length()
 		entry.accept_event()
 
+func _segment_bounds() -> Vector2i:
+	var caret := entry.caret_column
+	var left := entry.text.rfind(";", maxi(0, caret - 1)) + 1 if caret > 0 else 0
+	var right := entry.text.find(";", caret)
+	return Vector2i(left, entry.text.length() if right < 0 else right)
+
+func insert_command(command: String) -> void:
+	var bounds := _segment_bounds()
+	var prefix := entry.text.left(bounds.x)
+	var suffix := entry.text.substr(bounds.y)
+	entry.text = prefix + (" " if bounds.x > 0 else "") + command + suffix
+	entry.caret_column = entry.text.length() - suffix.length()
+	_completion_options.clear()
+	entry.grab_focus()
+
+func complete_command() -> void:
+	if entry.text != _completion_text or entry.caret_column != _completion_caret:
+		_completion_options.clear()
+	if _completion_options.is_empty():
+		var bounds := _segment_bounds()
+		var partial := entry.text.substr(bounds.x, entry.caret_column - bounds.x).strip_edges().to_lower()
+		if not partial.begins_with("/"):
+			partial = "/" + partial
+		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
+		_completion_suffix = entry.text.substr(bounds.y)
+		for command in COMMANDS:
+			if command.begins_with(partial):
+				_completion_options.append(command)
+		_completion_index = -1
+	if _completion_options.is_empty():
+		return
+	_completion_index = (_completion_index + 1) % _completion_options.size()
+	_completion_editing = true
+	entry.text = _completion_prefix + _completion_options[_completion_index] + _completion_suffix
+	entry.caret_column = entry.text.length() - _completion_suffix.length()
+	_completion_editing = false
+	_completion_text = entry.text
+	_completion_caret = entry.caret_column
+
+func capture_target() -> void:
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	target_path = NodePath()
+	if player == null:
+		target_label.text = "Цель: нет игрока"
+		return
+	var ray := PhysicsRayQueryParameters3D.create(player.camera.global_position, player.camera.global_position - player.camera.global_basis.z * 60.0, 7, [player.get_rid()])
+	ray.collide_with_areas = true
+	var hit := player.get_world_3d().direct_space_state.intersect_ray(ray)
+	target_point = hit.get("position", player.camera.global_position - player.camera.global_basis.z * 3.0)
+	if not hit.is_empty():
+		var target: Node = TargetCommands.resolve(hit.collider, get_tree())
+		if target != null:
+			target_path = target.get_path()
+	target_label.text = "Цель: %s\nТочка: %s" % [str(target_path) if not target_path.is_empty() else "нет объекта", target_point]
+
 func _submit(line: String) -> void:
-	entry.clear()
-	if line.strip_edges().is_empty():
+	entry.text = "/"
+	entry.caret_column = 1
+	_completion_options.clear()
+	if line.strip_edges() in ["", "/"]:
 		return
 	history.append(line)
 	history_index = history.size()
-	output.append_text("\n> " + line + "\n" + execute(line) + "\n")
-
-func _spawn_from_button(model_index: int, count: int) -> void:
-	var names := ["tail", "slasher", "smily"]
-	var command := "/spawn %s %d" % [names[model_index], count]
-	output.append_text("\n> %s\n%s\n" % [command, execute(command)])
+	output.add_text("\n> " + line + "\n" + execute(line) + "\n")
 
 func execute(line: String) -> String:
-	var args := line.strip_edges().to_lower().split(" ", false)
+	var results: PackedStringArray = []
+	for command in line.split(";", false):
+		command = command.strip_edges()
+		if command in ["", "/"]:
+			continue
+		if not command.begins_with("/"):
+			command = "/" + command
+		results.append(_execute_one(command))
+	return "\n".join(results)
+
+func _execute_one(line: String) -> String:
+	var args := line.strip_edges().split(" ", false)
 	if args.is_empty():
 		return ""
 	if args[0] == "/help":
-		return _help_text()
+		output.append_text("\n" + _help_text())
+		return ""
 	if args[0] == "/clear":
 		output.clear()
 		return ""
@@ -138,36 +183,38 @@ func execute(line: String) -> String:
 	if state == null:
 		return "Сначала загрузите игру и войдите на карту."
 	if not multiplayer.is_server():
-		_request_command.rpc_id(1, line.left(256))
+		_request_command.rpc_id(1, line.left(1024), target_path, target_point)
 		return "Команда отправлена серверу..."
-	return _execute_authoritative(args, state, multiplayer.get_unique_id())
+	return _execute_authoritative(args, state, multiplayer.get_unique_id(), target_path, target_point)
 
 
 @rpc("any_peer", "call_remote", "reliable")
-func _request_command(line: String) -> void:
+func _request_command(line: String, selected: NodePath = NodePath(), point: Vector3 = Vector3.ZERO) -> void:
 	if not multiplayer.is_server():
 		return
 	var sender_id := multiplayer.get_remote_sender_id()
 	if sender_id <= 1 or not multiplayer.get_peers().has(sender_id):
 		return
-	var args := line.left(256).strip_edges().to_lower().split(" ", false)
+	var args := line.left(1024).strip_edges().split(" ", false)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
 	var result := "Сначала загрузите игру и войдите на карту."
 	if state != null and not args.is_empty():
-		result = _execute_authoritative(args, state, sender_id)
+		result = _execute_authoritative(args, state, sender_id, selected, point)
 	_receive_command_result.rpc_id(sender_id, result)
 
 
 @rpc("authority", "call_remote", "reliable")
 func _receive_command_result(result: String) -> void:
-	output.append_text("[color=#79bfff][сервер][/color] %s\n" % result)
+	output.add_text("[сервер] %s\n" % result)
 
 
-func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) -> String:
+func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, selected: NodePath = NodePath(), point: Vector3 = Vector3.ZERO) -> String:
 	var player = state.get_player_node(peer_id)
 	if player == null:
 		return "Игрок, вызвавший команду, не найден."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
+	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
+		return TargetCommands.execute(args, player, selected, point)
 	match args[0]:
 		"/outside":
 			player.teleport_authoritative(Vector3(-48, 1.0, 10), -PI / 2)
@@ -189,10 +236,9 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) 
 			if not player.pickup_world_item_authoritative(&"fuel_can", {"fuel_liters": liters}):
 				return "Сейчас нельзя получить канистру."
 			return "Канистра в руках: %.0f / 20 л. Фонарик сохранён в инвентаре или на выброшенном оружии." % liters
-		"/tools":
-			player.pickup_world_item_authoritative(&"tape", {})
-			player.pickup_world_item_authoritative(&"crowbar", {"uses": 3})
-			return "Добавлен скотч. Монтировка: %d/3. Уже имеющаяся монтировка не заменяется." % player.crowbar_uses
+		"/tape", "/crowbar":
+			var kind := StringName(args[0].trim_prefix("/"))
+			return "Выдано: " + str(kind) if player.pickup_world_item_authoritative(kind, {"uses": 3}) else "Не удалось выдать предмет."
 		"/wiring":
 			var snapshot: Dictionary = state.get_snapshot()
 			var order := [0, 1, 2, 3]
@@ -231,8 +277,8 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) 
 			if args.size() != 2 or not args[1].is_valid_int() or int(args[1]) not in range(5):
 				return "Использование: /level 0..4"
 			var index := int(args[1])
-			var point := Vector3(-16.0 + index * 3.5, -18.0 * index + 0.2, 0)
-			var target: Vector3 = state.get_parent().get_day_start_transform(0).origin if index == 0 else state.get_parent().to_global(point)
+			var level_point := Vector3(-16.0 + index * 3.5, -18.0 * index + 0.2, 0)
+			var target: Vector3 = state.get_parent().get_day_start_transform(0).origin if index == 0 else state.get_parent().to_global(level_point)
 			player.teleport_authoritative(target, PI / 2)
 			return "Телепорт: уровень %d. Доступ лифта и задания не изменены." % index
 		"/day":
@@ -278,11 +324,13 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int) 
 			if args.size() >= 3:
 				if not args[2].is_valid_int() or int(args[2]) <= 0:
 					return "Количество должно быть целым числом больше нуля."
-				count = int(args[2])
+				count = clampi(int(args[2]), 1, 1000)
 			var forward: Vector3 = -player.head.global_basis.z
 			forward.y = 0
 			forward = forward.normalized()
-			encounter.debug_spawn(int(aliases[args[1]]), count, player.global_position, forward)
+			if not point.is_finite() or player.global_position.distance_to(point) > 65:
+				return "Точка спавна слишком далеко. Снова наведитесь и откройте консоль."
+			encounter.debug_spawn(int(aliases[args[1]]), count, point + Vector3.UP * 0.15, forward, true)
 			return "Создано: %d. Большие значения могут сильно снизить FPS." % count
 		"/despawn":
 			if encounter == null:

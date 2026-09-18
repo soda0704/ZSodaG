@@ -1,0 +1,78 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/gameplay/snowmobile.gd" id="1"]
+[sub_resource type="BoxShape3D" id="body_shape"]
+size = Vector3(1.05, 0.8, 2.4)
+[sub_resource type="StandardMaterial3D" id="red"]
+albedo_color = Color(0.72, 0.09, 0.045, 1)
+metallic = 0.35
+[sub_resource type="StandardMaterial3D" id="black"]
+albedo_color = Color(0.035, 0.045, 0.055, 1)
+[sub_resource type="BoxMesh" id="box"]
+[node name="Snowmobile" type="CharacterBody3D"]
+collision_layer = 1
+collision_mask = 3
+floor_snap_length = 1.2
+floor_max_angle = 0.85
+script = ExtResource("1")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.5, 0)
+shape = SubResource("body_shape")
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Hood" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.65, -0.55)
+scale = Vector3(0.95, 0.55, 1.2)
+mesh = SubResource("box")
+material_override = SubResource("red")
+
+[node name="Track" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.3, 0.6)
+scale = Vector3(0.7, 0.4, 1.3)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="Seat" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.85, 0.5)
+scale = Vector3(0.6, 0.22, 1.15)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="SkiLeft" type="MeshInstance3D" parent="Visual"]
+position = Vector3(-0.6, 0.12, -0.9)
+scale = Vector3(0.18, 0.12, 1.3)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="SkiRight" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0.6, 0.12, -0.9)
+scale = Vector3(0.18, 0.12, 1.3)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="Handlebar" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.12, -0.15)
+scale = Vector3(1, 0.08, 0.08)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="SteeringColumn" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.92, -0.15)
+scale = Vector3(0.08, 0.4, 0.08)
+mesh = SubResource("box")
+material_override = SubResource("black")
+
+[node name="Seat" type="Marker3D" parent="."]
+position = Vector3(0, 0.1, 0.45)
+
+[node name="ExitLeft" type="Marker3D" parent="."]
+position = Vector3(-1.4, 0.2, 0.4)
+
+[node name="ExitRight" type="Marker3D" parent="."]
+position = Vector3(1.4, 0.2, 0.4)
+
+[node name="Status" type="Label3D" parent="."]
+position = Vector3(0, 1.65, 0)
+billboard = 1
+font_size = 28
+pixel_size = 0.004
+text = "СНЕГОХОД · БАК ПУСТ"

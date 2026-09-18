@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/art/doors/west_garage_cold_warm_door_visual_blockout.tscn" id="16_west_cold_warm_door_visual"]
 [ext_resource type="PackedScene" uid="uid://lsm2iwy57ki4" path="res://scenes/art/doors/west_pedestrian_inner_door_visual_blockout.tscn" id="17_west_pedestrian_inner_door_visual"]
 [ext_resource type="PackedScene" uid="uid://it181pifpibu" path="res://scenes/art/doors/west_pedestrian_exterior_door_visual_blockout.tscn" id="18_west_pedestrian_exterior_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/west_vehicle_exterior_gate_visual_blockout.tscn" id="19_west_vehicle_gate_visual"]
+[ext_resource type="PackedScene" path="res://scenes/objects/garage/garage_gate.tscn" id="19_west_vehicle_gate_visual"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_fuel_socket.tscn" id="20_base_fuel_socket"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_main_breaker.tscn" id="21_base_main_breaker"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_end_day_bunk.tscn" id="22_end_day_bunk"]
@@ -38,6 +38,8 @@
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/briefing_room_art.tscn" id="39_briefing_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/research_lab_art.tscn" id="40_research_lab_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/isolation_room_art.tscn" id="41_isolation_room_art"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/vehicles/snowmobile.tscn" id="42_snowmobile"]
 
 [sub_resource type="BoxShape3D" id="Shape_indoor_hub"]
 size = Vector3(15.8, 8, 15.8)
@@ -1081,3 +1083,7 @@ size = Vector3(0.3, 5.5, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, -9)
 use_collision = true
 size = Vector3(4, 0.4, 2)
+
+[node name="Snowmobile" parent="Gameplay" instance=ExtResource("42_snowmobile")]
+position = Vector3(-32, 0.25, -2.5)
+rotation = Vector3(0, 1.5707963, 0)

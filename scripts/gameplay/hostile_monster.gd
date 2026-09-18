@@ -16,6 +16,7 @@ var _target_yaw: float = 0.0
 var _moving: bool = false
 var _home := Vector3.ZERO
 var corpse: RigidBody3D
+var ragdoll: SkeletalRagdoll
 var death_elapsed := 0.0
 var _death_started := false
 var _restored := false
@@ -69,25 +70,33 @@ func _physics_process(delta: float) -> void:
 			if saved.get("settled", false):
 				_corpse_saved = true
 				death_elapsed = 8.0
-				visual.animate(2.0, false, false, true)
 				_create_corpse(true)
 		death_elapsed += delta
-		visual.animate(delta, false, false, true)
-		if corpse == null and (monster_id != 0 or death_elapsed >= 1.5):
+		if corpse == null:
 			_create_corpse(false)
 		if corpse != null and multiplayer.is_server():
 			global_transform = corpse.global_transform
-			if death_elapsed >= 6.0 and corpse.linear_velocity.length() < 0.2 and corpse.angular_velocity.length() < 0.2 and not _corpse_saved:
+			var corpse_settled := ragdoll.settled() if ragdoll != null else (corpse.linear_velocity.length() < 0.15 and corpse.angular_velocity.length() < 0.25)
+			if death_elapsed >= 6.0 and corpse_settled and not _corpse_saved:
 				_corpse_saved = true
-				corpse.freeze = true
+				if ragdoll != null:
+					ragdoll.freeze_all()
 				if not debug_spawned:
-					encounter.save_body(monster_id, global_transform, true)
+					encounter.save_body(monster_id, global_transform, true, ragdoll.capture())
 			_network_time += delta
 			if _network_time >= 0.1:
 				_network_time = 0.0
-				_sync_corpse.rpc(global_transform)
+				for peer_id in encounter.get_ready_peers():
+					_sync_corpse.rpc_id(peer_id, global_transform, ragdoll.capture())
 		return
 	if multiplayer.is_server():
+		var nearby_weight := 0.0
+		for item in get_tree().get_nodes_in_group("world_items"):
+			if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.8:
+				item.linear_velocity += (item.global_position - global_position).normalized() * 1.2
+				nearby_weight = maxf(nearby_weight, item.get_push_resistance())
+		velocity.x *= 1.0 / (1.0 + nearby_weight * 0.05)
+		velocity.z *= 1.0 / (1.0 + nearby_weight * 0.05)
 		_attack_left = maxf(0.0, _attack_left - delta)
 		var target: Node3D = _find_target(delta)
 		if _windup > 0.0:
@@ -156,7 +165,8 @@ func _physics_process(delta: float) -> void:
 		_network_time += delta
 		if _network_time > 0.1:
 			_network_time = 0.0
-			_sync.rpc(position, rotation.y, _moving, _windup)
+			for peer_id in encounter.get_ready_peers():
+				_sync.rpc_id(peer_id, position, rotation.y, _moving, _windup)
 	else:
 		position = position.lerp(_target_position, minf(delta * 12.0, 1.0))
 		rotation.y = lerp_angle(rotation.y, _target_yaw, minf(delta * 12.0, 1.0))
@@ -190,8 +200,8 @@ func _find_target(delta: float) -> Node3D:
 	_sight_left -= delta
 	if _sight_left <= 0.0:
 		_sight_left = 0.15
-		var candidate: Node3D = encounter.closest_player(global_position)
-		if candidate != null and _can_see(candidate):
+		var candidate: Node3D = encounter.closest_player(global_position, _can_see)
+		if candidate != null:
 			_alert_target = candidate
 			_last_seen = candidate.global_position
 			_awareness = 12.0
@@ -235,60 +245,43 @@ func _set_debug_health(value: float) -> void:
 	health = value
 
 func _create_corpse(restored: bool) -> void:
-	corpse = RigidBody3D.new()
-	corpse.name = "Corpse%d" % monster_id
-	corpse.mass = 60.0
-	corpse.collision_layer = 0
-	corpse.collision_mask = 1
-	corpse.continuous_cd = true
-	corpse.linear_damp = 1.0
-	corpse.angular_damp = 2.0
-	corpse.freeze = restored or not multiplayer.is_server()
-	encounter.add_child(corpse)
-	corpse.global_transform = global_transform
-	var collider := CollisionShape3D.new()
-	if monster_id == 0:
-		var box := BoxShape3D.new()
-		box.size = Vector3(0.8, 0.45, 1.5)
-		collider.shape = box
-		collider.position = Vector3(0, 0.26, 0)
-	else:
-		var capsule := CapsuleShape3D.new()
-		capsule.radius = 0.32 if monster_id == 1 else 0.25
-		capsule.height = 1.8 if monster_id == 1 else 1.0
-		collider.shape = capsule
-		collider.position.y = capsule.height * 0.5
-	corpse.add_child(collider)
-	visual.reparent(corpse, false)
-	# Contact points protect the head and extremities from sinking through the floor.
-	for rig: Skeleton3D in visual.model.find_children("*", "Skeleton3D", true, false):
-		for bone in rig.get_bone_count():
-			var bone_name := rig.get_bone_name(bone).to_lower()
-			if "_s0_" in bone_name or "_s1_" in bone_name or "end" in bone_name:
-				continue
-			if not ("head" in bone_name or "foot" in bone_name or "hand" in bone_name or "forearm" in bone_name or "claw" in bone_name):
-				continue
-			var contact := CollisionShape3D.new()
-			var sphere := SphereShape3D.new()
-			sphere.radius = 0.12 if "head" in bone_name else 0.035 if "claw" in bone_name else 0.07
-			contact.shape = sphere
-			contact.position = corpse.to_local(rig.to_global(rig.get_bone_global_pose(bone).origin))
-			corpse.add_child(contact)
-	if not restored and multiplayer.is_server():
-		corpse.apply_central_impulse(-global_basis.z * 30.0)
-		if monster_id != 0:
-			corpse.apply_torque_impulse(global_basis.x * -30.0)
+	ragdoll = load("res://scenes/characters/ragdolls/%s.tscn" % model_id).instantiate()
+	ragdoll.name = str(name) + "Ragdoll"
+	encounter.add_child(ragdoll)
+	ragdoll.global_transform = global_transform
+	visual.reparent(ragdoll, false)
+	if visual.animator != null:
+		visual.animator.pause()
+	var rig: Skeleton3D = visual.find_children("*", "Skeleton3D", true, false)[0]
+	ragdoll.initialize(rig, multiplayer.is_server() and not restored, velocity)
+	if debug_spawned and multiplayer.is_server():
+		for body in ragdoll.bodies:
+			body.freeze = false
+			body.sleeping = false
+		ragdoll.root_body.apply_central_impulse(Vector3(0, 1.5, 0))
+	corpse = ragdoll.root_body
+	if restored and not debug_spawned:
+		var saved: Dictionary = encounter.state.containment.get("bodies", {}).get(str(monster_id), {})
+		ragdoll.apply_poses(saved.get("ragdoll", []))
 
 @rpc("authority", "call_remote", "unreliable_ordered", 3)
-func _sync_corpse(pose: Transform3D) -> void:
+func _sync_corpse(pose: Transform3D, bones: Array = []) -> void:
 	global_transform = pose
-	if corpse != null:
-		corpse.global_transform = pose
+	if corpse == null and health <= 0:
+		_create_corpse(false)
+	if ragdoll != null:
+		ragdoll.apply_poses(bones)
 
 func reset_enemy() -> void:
 	if corpse != null:
+		if ragdoll != null:
+			ragdoll.clear_pose()
 		visual.reparent(self, false)
-		corpse.queue_free()
+		if ragdoll != null:
+			ragdoll.queue_free()
+			ragdoll = null
+		else:
+			corpse.queue_free()
 		corpse = null
 	visual.rotation = Vector3(0, PI, 0)
 	visual.position = Vector3.ZERO
@@ -306,3 +299,7 @@ func _sync(next_position: Vector3, yaw: float, moving: bool, windup: float) -> v
 	_target_yaw = yaw
 	_moving = moving
 	_windup = windup
+
+func _exit_tree() -> void:
+	if is_instance_valid(ragdoll):
+		ragdoll.queue_free()

@@ -24,7 +24,7 @@ func get_interaction_prompt() -> String:
 	var controller := _get_controller()
 	if controller == null:
 		return "Топливная система недоступна"
-	return "Долить топливо · %.1f / 60 л" % controller.fuel_liters
+	return "Топливный бак · %.1f / 60 л" % controller.fuel_liters
 
 
 func interact(interactor: Node) -> void:
@@ -54,7 +54,11 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 
 func _process(_delta: float) -> void:
 	if is_instance_valid(_controller):
-		status_label.text = "БАК: %.1f / 60 Л" % _controller.fuel_liters
+		var fraction := clampf(_controller.fuel_liters / 60.0, 0.0, 1.0)
+		status_label.text = "%.0f%% · %.1f / 60 Л" % [fraction * 100.0, _controller.fuel_liters]
+		indicator.visible = fraction > 0.0
+		indicator.scale.x = maxf(fraction, 0.001)
+		indicator.position.x = 0.45 * (1.0 - fraction)
 
 
 func _bind_controller() -> void:
@@ -82,16 +86,6 @@ func _on_fuel_state_changed(is_fueled: bool) -> void:
 
 
 func _apply_fuel_state(is_fueled: bool, instant: bool = false) -> void:
-	var color := (
-		Color(0.08, 0.95, 0.24, 1.0)
-		if is_fueled
-		else Color(0.95, 0.12, 0.035, 1.0)
-	)
-	_indicator_material.albedo_color = color.darkened(0.45)
-	_indicator_material.emission_enabled = true
-	_indicator_material.emission = color
-	_indicator_material.emission_energy_multiplier = 3.5
-	status_label.text = "БАК: ПОЛОН" if is_fueled else "БАК: ПУСТ"
 
 	if is_instance_valid(_cap_tween):
 		_cap_tween.kill()

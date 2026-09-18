@@ -75,6 +75,7 @@ var inventory_checkpoint: Dictionary = {}
 var containment: Dictionary = {}
 var maintenance: Dictionary = {}
 var _siren: AudioStreamPlayer
+var progress_persistence_enabled := true
 
 
 func _ready() -> void:
@@ -352,7 +353,7 @@ func advance_day_authoritative() -> bool:
 
 
 func save_progress_authoritative() -> bool:
-	if not multiplayer.is_server():
+	if not progress_persistence_enabled or not multiplayer.is_server():
 		return false
 	var config := ConfigFile.new()
 	var snapshot := _make_persistent_snapshot()
@@ -373,6 +374,8 @@ func save_progress_authoritative() -> bool:
 
 
 func load_saved_snapshot() -> Dictionary:
+	if not progress_persistence_enabled:
+		return {}
 	var config := ConfigFile.new()
 	var error := config.load(_get_save_path())
 	if error == ERR_FILE_NOT_FOUND:
@@ -406,7 +409,7 @@ func load_saved_snapshot() -> Dictionary:
 
 
 func clear_saved_progress_authoritative() -> bool:
-	if not multiplayer.is_server():
+	if not progress_persistence_enabled or not multiplayer.is_server():
 		return false
 	return delete_progress_save()
 
@@ -615,7 +618,7 @@ func _make_persistent_snapshot() -> Dictionary:
 			if fuel_delivered
 			else BasePhase.ARRIVAL
 		)
-	return _make_snapshot(
+	var persistent := _make_snapshot(
 		day_index,
 		persistent_phase,
 		fuel_delivered,
@@ -623,6 +626,10 @@ func _make_persistent_snapshot() -> Dictionary:
 		[],
 		[]
 	)
+	if is_inside_tree():
+		for vehicle_node in get_tree().get_nodes_in_group("snowmobiles"):
+			persistent.maintenance["snowmobile"] = vehicle_node.capture_checkpoint()
+	return persistent
 
 
 func _get_save_path() -> String:

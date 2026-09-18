@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_fuel_socket.gd" id="1_script"]
 
@@ -12,9 +12,9 @@ albedo_color = Color(0.82, 0.28, 0.035, 1)
 roughness = 0.42
 
 [sub_resource type="StandardMaterial3D" id="Material_indicator"]
-albedo_color = Color(0.32, 0.025, 0.01, 1)
+albedo_color = Color(0.15, 0.65, 0.8, 1)
 emission_enabled = true
-emission = Color(0.95, 0.08, 0.02, 1)
+emission = Color(0.15, 0.65, 0.8, 1)
 emission_energy_multiplier = 3.5
 
 [sub_resource type="BoxMesh" id="Mesh_panel"]
@@ -32,6 +32,10 @@ bottom_radius = 0.13
 height = 0.12
 radial_segments = 16
 
+[sub_resource type="BoxMesh" id="Mesh_gauge_track"]
+material = SubResource("Material_panel")
+size = Vector3(0.94, 0.16, 0.025)
+
 [sub_resource type="BoxShape3D" id="Shape_panel"]
 size = Vector3(1.35, 1.05, 0.2)
 
@@ -42,6 +46,10 @@ script = ExtResource("1_script")
 
 [node name="Panel" type="MeshInstance3D" parent="."]
 mesh = SubResource("Mesh_panel")
+
+[node name="GaugeTrack" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.22, -0.075)
+mesh = SubResource("Mesh_gauge_track")
 
 [node name="Indicator" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true

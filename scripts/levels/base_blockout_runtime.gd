@@ -62,6 +62,15 @@ const FUEL_PICKUP_SCENE := preload(
 var network_runtime_managed: bool = false
 
 
+func _enter_tree() -> void:
+	# F6 is a disposable preview; only the session owns normal checkpoints.
+	# Existing automated tests explicitly select their own isolated save path.
+	$BaseGameplayController.progress_persistence_enabled = (
+		network_runtime_managed
+		or ProjectSettings.has_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING)
+	)
+
+
 func _ready() -> void:
 	add_to_group("expedition_level")
 	var developer_room := preload("res://scripts/levels/developer_test_room.gd").new()

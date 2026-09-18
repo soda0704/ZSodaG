@@ -68,7 +68,14 @@ func _physics_process(delta: float) -> void:
 	if changed:
 		_commit(data)
 
-func closest_player(point: Vector3) -> Node3D:
+func get_ready_peers() -> Array[int]:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	var peers: Array[int] = []
+	if world != null and world.has_method("get_ready_v3_peers"):
+		peers.assign(world.get_ready_v3_peers())
+	return peers
+
+func closest_player(point: Vector3, accepts: Callable = Callable()) -> Node3D:
 	var best: Node3D
 	var distance := 40.0
 	for peer in state.get_connected_player_peer_ids():
@@ -79,7 +86,7 @@ func closest_player(point: Vector3) -> Node3D:
 		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or absf(player.global_position.y - point.y) > 3.5:
 			continue
 		var candidate := point.distance_to(player.global_position)
-		if candidate < distance:
+		if candidate < distance and (not accepts.is_valid() or accepts.call(player)):
 			distance = candidate
 			best = player
 	return best
@@ -129,10 +136,10 @@ func _commit(data: Dictionary) -> void:
 	snapshot.containment = data
 	state._broadcast_snapshot(snapshot)
 
-func save_body(index: int, pose: Transform3D, settled: bool) -> void:
+func save_body(index: int, pose: Transform3D, settled: bool, ragdoll: Array = []) -> void:
 	var data: Dictionary = state.containment.duplicate(true)
 	var bodies: Dictionary = data.get("bodies", {}).duplicate(true)
-	bodies[str(index)] = {"transform": pose, "settled": settled}
+	bodies[str(index)] = {"transform": pose, "settled": settled, "ragdoll": ragdoll}
 	data.bodies = bodies
 	_commit(data)
 
@@ -146,7 +153,7 @@ func capture_bodies() -> Dictionary:
 			if state.containment.get("bodies", {}).has(str(index)):
 				bodies[str(index)] = state.containment.bodies[str(index)].duplicate(true)
 			continue
-		bodies[str(index)] = {"transform": monster.corpse.global_transform if monster.corpse != null else monster.global_transform, "settled": monster._corpse_saved}
+		bodies[str(index)] = {"transform": monster.corpse.global_transform if monster.corpse != null else monster.global_transform, "settled": monster._corpse_saved, "ragdoll": monster.ragdoll.capture() if monster.ragdoll != null else []}
 	return bodies
 
 func debug_reset() -> void:
@@ -160,19 +167,19 @@ func debug_reset() -> void:
 	_reset_actors.rpc()
 	state.save_progress_authoritative()
 
-func debug_spawn(model_index: int, count: int, center: Vector3, forward: Vector3) -> int:
+func debug_spawn(model_index: int, count: int, center: Vector3, forward: Vector3, at_point: bool = false) -> int:
 	if not multiplayer.is_server() or model_index not in range(3) or count <= 0:
 		return 0
 	var first_serial := _spawn_serial
 	_spawn_serial += count
-	_spawn_debug_batch.rpc(model_index, count, first_serial, center, forward)
+	_spawn_debug_batch.rpc(model_index, count, first_serial, center, forward, at_point)
 	return count
 
 @rpc("authority", "call_local", "reliable")
-func _spawn_debug_batch(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3) -> void:
-	_spawn_debug_batch_async(model_index, count, first_serial, center, forward)
+func _spawn_debug_batch(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3, at_point: bool = false) -> void:
+	_spawn_debug_batch_async(model_index, count, first_serial, center, forward, at_point)
 
-func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3) -> void:
+func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3, at_point: bool = false) -> void:
 	var side := forward.cross(Vector3.UP).normalized()
 	for offset_index in count:
 		var serial := first_serial + offset_index
@@ -181,6 +188,8 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 		var lateral := (float(column) - 9.5) * 1.25
 		var distance := 4.0 + float(row) * 1.25
 		var spawn_point := center + forward * distance + side * lateral
+		if at_point:
+			spawn_point = center + forward * float(row) * 1.25 + side * float(column) * 1.25
 		var monster := preload("res://scripts/gameplay/hostile_monster.gd").new()
 		monster.name = "DebugMonster%d" % serial
 		monster.monster_id = model_index
@@ -189,7 +198,7 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 		monster.debug_spawned = true
 		add_child(monster)
 		monster.global_position = spawn_point
-		monster.look_at(center, Vector3.UP)
+		monster.look_at(spawn_point - forward if at_point else center, Vector3.UP)
 		monster._home = spawn_point
 		monster._target_position = monster.position
 		if offset_index % 25 == 24:

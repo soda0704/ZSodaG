@@ -91,6 +91,7 @@ var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
 var resume_base_on_start: bool = false
 var _inventory_save_elapsed: float = 0.0
+var _v3_ready_peers: Array[int] = []
 
 
 func _enter_tree() -> void:
@@ -100,6 +101,10 @@ func _enter_tree() -> void:
 			if branch != null:
 				branch.get_parent().remove_child(branch)
 				branch.free()
+
+
+func get_ready_v3_peers() -> Array[int]:
+	return _v3_ready_peers.duplicate()
 
 
 func _process(delta: float) -> void:
@@ -223,6 +228,8 @@ func _request_v3_runtime_state() -> void:
 	var sender_id := multiplayer.get_remote_sender_id()
 	if not multiplayer.get_peers().has(sender_id):
 		return
+	if not _v3_ready_peers.has(sender_id):
+		_v3_ready_peers.append(sender_id)
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(_v3_elevator_controller):
@@ -263,6 +270,7 @@ func spawn_player_for_peer(peer_id: int) -> void:
 func _spawn_player(spawn_data: Dictionary) -> void:
 	var peer_id := int(spawn_data.get("peer_id", 1))
 	if players.has_node(str(peer_id)):
+		_apply_roster_player_state(players.get_node(str(peer_id)), spawn_data)
 		return
 
 	var player := (
@@ -280,8 +288,16 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 	players.add_child(player)
 	if _v3_items_spawned:
 		_restore_player_equipment(player)
+	_apply_roster_player_state(player, spawn_data)
+
+
+func _apply_roster_player_state(player: GamePlayer, spawn_data: Dictionary) -> void:
 	if spawn_data.has("inventory"):
 		player.apply_inventory_snapshot(spawn_data["inventory"])
+	if spawn_data.has("sleeping"):
+		player._receive_bunk_sleep_state(
+			bool(spawn_data.sleeping), spawn_data.sleep_transform
+		)
 
 
 func send_player_roster(peer_id: int) -> void:
@@ -297,7 +313,10 @@ func send_player_roster(peer_id: int) -> void:
 		var player := players.get_node_or_null(str(roster_peer_id)) as GamePlayer
 		if player != null:
 			spawn_data["position"] = player.position
+			spawn_data["yaw"] = player.rotation.y
 			spawn_data["inventory"] = player.get_inventory_snapshot()
+			spawn_data["sleeping"] = player.is_sleeping_in_bunk()
+			spawn_data["sleep_transform"] = player.global_transform
 		roster.append(spawn_data)
 	_receive_player_roster.rpc_id(peer_id, roster)
 
@@ -663,6 +682,7 @@ func spawn_dropped_item(item_type: StringName, item_state: Dictionary) -> void:
 func _on_peer_left(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
+	_v3_ready_peers.erase(peer_id)
 	var departing_player := players.get_node_or_null(str(peer_id))
 	if (
 		departing_player != null
@@ -705,6 +725,7 @@ func _on_peer_joined(peer_id: int) -> void:
 
 
 func _on_session_closed(_reason: String) -> void:
+	_v3_ready_peers.clear()
 	for player in players.get_children():
 		player.queue_free()
 	if is_instance_valid(world_items):

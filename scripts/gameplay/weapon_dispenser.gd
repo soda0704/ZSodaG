@@ -27,7 +27,7 @@ func _ready() -> void:
 	label.font_size = 36
 
 func get_interaction_prompt() -> String:
-	return "Взять: %s (тестовое оружие)" % WeaponController.TITLES[item_type]
+	return "%s" % WeaponController.TITLES[item_type]
 
 func network_interact(peer_id: int, player: Node) -> void:
 	if not multiplayer.is_server() or player.get("owner_peer_id") != peer_id:

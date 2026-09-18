@@ -1,0 +1,424 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/skeletal_ragdoll.gd" id="1_yr02l"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hbwx8"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5ukfq"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5ew1o"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b611g"]
+radius = 0.055
+height = 0.12
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ied5y"]
+radius = 0.14
+height = 0.28
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ehpwb"]
+radius = 0.055
+height = 0.21871495
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrfff"]
+radius = 0.055
+height = 0.22029123
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qmhw1"]
+radius = 0.055
+height = 0.12
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y0w1n"]
+radius = 0.055
+height = 0.21837467
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3r3vx"]
+radius = 0.055
+height = 0.22258753
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bm4u0"]
+radius = 0.055
+height = 0.12
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_moquq"]
+radius = 0.11206538
+height = 0.5093881
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yej4y"]
+radius = 0.09820826
+height = 0.4464012
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jevue"]
+radius = 0.055
+height = 0.1727297
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iiiwp"]
+radius = 0.112042494
+height = 0.5092841
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1nl1q"]
+radius = 0.09824164
+height = 0.44655293
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nxubm"]
+radius = 0.055
+height = 0.17097732
+
+[node name="Ragdoll" type="Node3D" unique_id=524057755]
+script = ExtResource("1_yr02l")
+
+[node name="Body0" type="RigidBody3D" parent="." unique_id=530756900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.045487564, 0.94871104, 0.030295474)
+collision_layer = 8
+mass = 10.0
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_Hips_01"
+metadata/end_bone = "mixamorig_LeftUpLeg_024"
+
+[node name="@CollisionShape3D@135" type="CollisionShape3D" parent="Body0" unique_id=1149483735]
+shape = SubResource("CapsuleShape3D_hbwx8")
+
+[node name="Body1" type="RigidBody3D" parent="." unique_id=757629967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00032872893, 1.247795, -0.063999705)
+collision_layer = 8
+mass = 10.0
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_Spine1_03"
+metadata/end_bone = "mixamorig_Spine2_04"
+
+[node name="@CollisionShape3D@136" type="CollisionShape3D" parent="Body1" unique_id=925449825]
+shape = SubResource("CapsuleShape3D_5ukfq")
+
+[node name="Joint1" type="ConeTwistJoint3D" parent="." unique_id=1112184226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008756698, 1.1870642, -0.035760377)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body1")
+
+[node name="Body2" type="RigidBody3D" parent="." unique_id=2105836244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0300498, 1.3671612, -0.13521789)
+collision_layer = 8
+mass = 10.0
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_Spine2_04"
+metadata/end_bone = "mixamorig_Neck_05"
+
+[node name="@CollisionShape3D@137" type="CollisionShape3D" parent="Body2" unique_id=1708097329]
+shape = SubResource("CapsuleShape3D_5ew1o")
+
+[node name="Joint2" type="ConeTwistJoint3D" parent="." unique_id=1436197123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00809924, 1.3085258, -0.09223903)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body1")
+metadata/child_body = NodePath("Body2")
+
+[node name="Body3" type="RigidBody3D" parent="." unique_id=544244749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07853325, 1.4573401, -0.21206483)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_Neck_05"
+metadata/end_bone = "mixamorig_Head_06"
+
+[node name="@CollisionShape3D@138" type="CollisionShape3D" parent="Body3" unique_id=1549859945]
+shape = SubResource("CapsuleShape3D_b611g")
+
+[node name="Joint3" type="ConeTwistJoint3D" parent="." unique_id=2049938435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.052000362, 1.4257965, -0.17819674)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body2")
+metadata/child_body = NodePath("Body3")
+
+[node name="Body4" type="RigidBody3D" parent="." unique_id=1405160218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14851889, 1.5859711, -0.2797534)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_Head_06"
+metadata/end_bone = "mixamorig_HeadTop_End_07"
+
+[node name="@CollisionShape3D@139" type="CollisionShape3D" parent="Body4" unique_id=863864969]
+shape = SubResource("CapsuleShape3D_ied5y")
+
+[node name="Joint4" type="ConeTwistJoint3D" parent="." unique_id=1541452368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10506613, 1.4888837, -0.24593294)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body3")
+metadata/child_body = NodePath("Body4")
+
+[node name="Body5" type="RigidBody3D" parent="." unique_id=1542486399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.30313298, 1.4558105, -0.1858699)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftArm_09"
+metadata/end_bone = "mixamorig_LeftForeArm_010"
+
+[node name="@CollisionShape3D@140" type="CollisionShape3D" parent="Body5" unique_id=204011297]
+shape = SubResource("CapsuleShape3D_ehpwb")
+
+[node name="Joint5" type="ConeTwistJoint3D" parent="." unique_id=620459494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23054253, 1.4838061, -0.10901989)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body2")
+metadata/child_body = NodePath("Body5")
+
+[node name="Body6" type="RigidBody3D" parent="." unique_id=1859494253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.39206648, 1.4013894, -0.36839235)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftForeArm_010"
+metadata/end_bone = "mixamorig_LeftHand_011"
+
+[node name="@CollisionShape3D@141" type="CollisionShape3D" parent="Body6" unique_id=763818939]
+shape = SubResource("CapsuleShape3D_nrfff")
+
+[node name="Joint6" type="ConeTwistJoint3D" parent="." unique_id=2038559473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.37572345, 1.4278148, -0.26271993)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body5")
+metadata/child_body = NodePath("Body6")
+
+[node name="Body7" type="RigidBody3D" parent="." unique_id=2072363178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.416366, 1.3609953, -0.5250534)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftHand_011"
+metadata/end_bone = "mixamorig_LeftHandIndex1_012"
+
+[node name="@CollisionShape3D@142" type="CollisionShape3D" parent="Body7" unique_id=140573409]
+shape = SubResource("CapsuleShape3D_qmhw1")
+
+[node name="Joint7" type="ConeTwistJoint3D" parent="." unique_id=1048466709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40840948, 1.374964, -0.47406477)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body6")
+metadata/child_body = NodePath("Body7")
+
+[node name="Body8" type="RigidBody3D" parent="." unique_id=1953827932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12641928, 1.3725417, -0.37539196)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightArm_017"
+metadata/end_bone = "mixamorig_RightForeArm_018"
+
+[node name="@CollisionShape3D@143" type="CollisionShape3D" parent="Body8" unique_id=2067935636]
+shape = SubResource("CapsuleShape3D_y0w1n")
+
+[node name="Joint8" type="ConeTwistJoint3D" parent="." unique_id=1053743616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14016092, 1.3725224, -0.2670728)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body2")
+metadata/child_body = NodePath("Body8")
+
+[node name="Body9" type="RigidBody3D" parent="." unique_id=1119687546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05524426, 1.3699958, -0.5790061)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightForeArm_018"
+metadata/end_bone = "mixamorig_RightHand_019"
+
+[node name="@CollisionShape3D@144" type="CollisionShape3D" parent="Body9" unique_id=913703853]
+shape = SubResource("CapsuleShape3D_3r3vx")
+
+[node name="Joint9" type="ConeTwistJoint3D" parent="." unique_id=37469446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11267765, 1.3725611, -0.48371112)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body8")
+metadata/child_body = NodePath("Body9")
+
+[node name="Body10" type="RigidBody3D" parent="." unique_id=1696702148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031108344, 1.357249, -0.7188976)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightHand_019"
+metadata/end_bone = "mixamorig_RightHandIndex1_020"
+
+[node name="@CollisionShape3D@145" type="CollisionShape3D" parent="Body10" unique_id=1769644356]
+shape = SubResource("CapsuleShape3D_bm4u0")
+
+[node name="Joint10" type="ConeTwistJoint3D" parent="." unique_id=1097246319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0021891275, 1.3674306, -0.674301)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body9")
+metadata/child_body = NodePath("Body10")
+
+[node name="Body11" type="RigidBody3D" parent="." unique_id=1662723220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1898369, 0.69150734, 0.052933894)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftUpLeg_024"
+metadata/end_bone = "mixamorig_LeftLeg_025"
+
+[node name="@CollisionShape3D@146" type="CollisionShape3D" parent="Body11" unique_id=1735293759]
+shape = SubResource("CapsuleShape3D_moquq")
+
+[node name="Joint11" type="ConeTwistJoint3D" parent="." unique_id=1346690587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.090974785, 0.9261064, 0.06059087)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body11")
+
+[node name="Body12" type="RigidBody3D" parent="." unique_id=994569339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27005878, 0.28215086, 0.18286645)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftLeg_025"
+metadata/end_bone = "mixamorig_LeftFoot_026"
+
+[node name="@CollisionShape3D@147" type="CollisionShape3D" parent="Body12" unique_id=1478131746]
+shape = SubResource("CapsuleShape3D_yej4y")
+
+[node name="Joint12" type="ConeTwistJoint3D" parent="." unique_id=1215712210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28869903, 0.45690832, 0.045276918)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body11")
+metadata/child_body = NodePath("Body12")
+
+[node name="Body13" type="RigidBody3D" parent="." unique_id=1062802308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25784296, 0.05755561, 0.25021493)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_LeftFoot_026"
+metadata/end_bone = "mixamorig_LeftToeBase_027"
+
+[node name="@CollisionShape3D@148" type="CollisionShape3D" parent="Body13" unique_id=349756426]
+shape = SubResource("CapsuleShape3D_jevue")
+
+[node name="Joint13" type="ConeTwistJoint3D" parent="." unique_id=128411959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25141853, 0.10739341, 0.320456)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body12")
+metadata/child_body = NodePath("Body13")
+
+[node name="Body14" type="RigidBody3D" parent="." unique_id=1585388915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117683835, 0.7184868, -0.21783815)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightUpLeg_00"
+metadata/end_bone = "mixamorig_RightLeg_029"
+
+[node name="@CollisionShape3D@149" type="CollisionShape3D" parent="Body14" unique_id=163913418]
+shape = SubResource("CapsuleShape3D_iiiwp")
+
+[node name="Joint14" type="ConeTwistJoint3D" parent="." unique_id=1153262554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08571161, 0.9048355, -0.047267083)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body14")
+
+[node name="Body15" type="RigidBody3D" parent="." unique_id=2109041885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20949118, 0.3198295, -0.4230101)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightLeg_029"
+metadata/end_bone = "mixamorig_RightFoot_030"
+
+[node name="@CollisionShape3D@150" type="CollisionShape3D" parent="Body15" unique_id=1820974728]
+shape = SubResource("CapsuleShape3D_1nl1q")
+
+[node name="Joint15" type="ConeTwistJoint3D" parent="." unique_id=117899210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14965606, 0.53213805, -0.38840923)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body14")
+metadata/child_body = NodePath("Body15")
+
+[node name="Body16" type="RigidBody3D" parent="." unique_id=1354843239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24082154, 0.057638075, -0.52091575)
+collision_layer = 8
+mass = 2.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.7
+angular_damp = 1.5
+metadata/bone = "mixamorig_RightFoot_030"
+metadata/end_bone = "mixamorig_RightToeBase_031"
+
+[node name="@CollisionShape3D@151" type="CollisionShape3D" parent="Body16" unique_id=1007635484]
+shape = SubResource("CapsuleShape3D_nxubm")
+
+[node name="Joint16" type="ConeTwistJoint3D" parent="." unique_id=833245948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2693263, 0.10752093, -0.45761096)
+swing_span = 0.9599311
+twist_span = 0.43633232
+metadata/parent_body = NodePath("Body15")
+metadata/child_body = NodePath("Body16")

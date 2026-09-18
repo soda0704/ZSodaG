@@ -163,8 +163,8 @@ material = SubResource("StandardMaterial3D_fuel_hazard")
 [node name="Technical_Fuel_Tank_Header" type="Label3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1416936230]
 transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, -5.5, 2.88, 24.59)
 modulate = Color(1, 0.63, 0.18, 1)
-text = "ТОПЛИВНЫЙ БАК
-ЗАПРАВКА  ↓"
+visible = false
+text = ""
 font_size = 42
 outline_size = 10
 

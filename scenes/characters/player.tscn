@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bw1q38b7650a1"]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/characters/components/item_drag.gd" id="8_drag"]
+[ext_resource type="Script" path="res://scripts/characters/components/player_ragdoll.gd" id="9_ragdoll"]
 [ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
 [ext_resource type="Script" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
 [ext_resource type="PackedScene" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
@@ -16,12 +18,21 @@ height = 1.8
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 1
+floor_snap_length = 0.28
+floor_max_angle = 0.872665
+safe_margin = 0.04
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true
 position = Vector3(0, 0.9, 0)
 shape = SubResource("CapsuleShape_player")
+
+[node name="ItemDrag" type="Node" parent="."]
+script = ExtResource("8_drag")
+
+[node name="PlayerRagdoll" type="Node" parent="."]
+script = ExtResource("9_ragdoll")
 
 [node name="BodyVisual" type="Node3D" parent="."]
 unique_name_in_owner = true

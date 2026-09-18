@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/game_menu.gd" id="1_menu"]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/control_settings.tscn" id="2_controls"]
 
 [sub_resource type="StyleBoxFlat" id="Style_panel"]
 bg_color = Color(0.035, 0.045, 0.065, 0.97)
@@ -452,10 +454,16 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="SettingsHint" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.58, 0.64, 0.7, 1)
 text = "Изменения применяются и сохраняются сразу."
 horizontal_alignment = 1
+
+[node name="ControlsButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Управление"
 
 [node name="SettingsBackButton" type="Button" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
 unique_name_in_owner = true
@@ -473,7 +481,10 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="EscHint" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.56, 0.64, 1)
 text = "ESC — закрыть меню"
 horizontal_alignment = 1
+
+[node name="ControlSettings" parent="." instance=ExtResource("2_controls")]

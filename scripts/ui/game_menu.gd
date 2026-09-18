@@ -76,6 +76,7 @@ var _host_reset: ConfirmationDialog
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	menu_root.visible = false
+	%ControlsButton.pressed.connect($ControlSettings.show_settings)
 	connect_ui_signals()
 	connect_network_signals()
 	initialize_settings()

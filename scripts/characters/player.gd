@@ -8,6 +8,10 @@ var debug_fly := false
 var debug_across := false
 var _flight_vertical := 0.0
 var weapon: WeaponController
+var vehicle: Node3D
+
+func is_driving() -> bool:
+	return is_instance_valid(vehicle)
 
 const NO_ITEM := &""
 const FLASHLIGHT_ITEM := &"flashlight"
@@ -225,7 +229,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("jump"):
 		_jump_serial += 1
 	elif event.is_action_pressed("interact"):
-		_interact_serial += 1
+		if not $ItemDrag.begin_interaction():
+			_interact_serial += 1
 	elif event.is_action_pressed("drop_item"):
 		_drop_item_serial += 1
 	elif event.is_action_pressed("replace_battery"):
@@ -506,6 +511,16 @@ func _submit_input(
 
 
 func simulate_authoritative_movement(delta: float) -> void:
+	if is_driving():
+		update_vehicle_look(_server_yaw, _server_pitch)
+		vehicle.set_driver_input(owner_peer_id, _server_move)
+		_server_consumed_jump_serial = _server_jump_serial
+		_server_consumed_drop_item_serial = _server_drop_item_serial
+		_server_consumed_flashlight_serial = _server_flashlight_serial
+		if _server_interact_serial != _server_consumed_interact_serial:
+			_server_consumed_interact_serial = _server_interact_serial
+			vehicle.exit_driver()
+		return
 	if _is_sleeping_in_bunk:
 		velocity = Vector3.ZERO
 		_server_consumed_jump_serial = _server_jump_serial
@@ -554,6 +569,9 @@ func simulate_authoritative_movement(delta: float) -> void:
 
 
 func simulate_predicted_movement(delta: float) -> void:
+	if is_driving():
+		update_vehicle_look(_input_yaw, _input_pitch)
+		return
 	if _is_sleeping_in_bunk:
 		velocity = Vector3.ZERO
 		_client_consumed_jump_serial = _jump_serial
@@ -573,6 +591,8 @@ func simulate_predicted_movement(delta: float) -> void:
 	)
 
 
+@export_range(0.05, 0.8, 0.01) var max_step_height := 0.42
+
 func simulate_movement(
 	delta: float,
 	move_input: Vector2,
@@ -583,6 +603,7 @@ func simulate_movement(
 	pitch: float
 ) -> void:
 	rotation.y = yaw
+	head.rotation.y = 0
 	head.rotation.x = pitch
 	update_crouch_state(delta, crouching)
 	if debug_fly and not survival.dead:
@@ -612,7 +633,12 @@ func simulate_movement(
 		if _is_crouching
 		else sprint_speed if sprinting else walk_speed
 	)
-	var target_velocity := world_direction * speed
+	var carried_weight := 0.0
+	for item in get_tree().get_nodes_in_group("world_items"):
+		if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.75:
+			item.linear_velocity += (item.global_position - global_position).normalized() * 1.5
+			carried_weight = maxf(carried_weight, item.get_push_resistance())
+	var target_velocity := world_direction * speed / (1.0 + carried_weight * 0.06)
 	var movement_acceleration := acceleration
 	if not is_on_floor():
 		movement_acceleration *= air_control_multiplier
@@ -628,7 +654,8 @@ func simulate_movement(
 		movement_acceleration * delta
 	)
 	var incoming_y := velocity.y
-	move_and_slide()
+	if not preload("res://scripts/characters/components/step_motion.gd").try_step(self, delta, max_step_height):
+		move_and_slide()
 	survival.observe_motion(incoming_y, is_on_floor(), get_platform_velocity().y)
 	if multiplayer.is_server():
 		_noise_step_left = maxf(0.0, _noise_step_left - delta)
@@ -692,6 +719,15 @@ func refresh_interaction_prompt() -> void:
 		or _is_sleeping_in_bunk
 		or _is_journal_open()
 	):
+		interaction_prompt_label.visible = false
+		return
+
+	if is_driving():
+		interaction_prompt_label.visible = true
+		interaction_prompt_label.text = "Бензин: %.0f%%" % (vehicle.fuel_liters / vehicle.tank_capacity * 100.0)
+		return
+
+	if $ItemDrag.dragging:
 		interaction_prompt_label.visible = false
 		return
 
@@ -778,6 +814,10 @@ func _receive_bunk_sleep_state(
 	_is_sleeping_in_bunk = is_sleeping
 	global_position = target_transform.origin
 	rotation.y = target_transform.basis.get_euler().y
+	_remote_target_position = position
+	_remote_target_velocity = Vector3.ZERO
+	_remote_target_yaw = rotation.y
+	_remote_target_pitch = PI * 0.5 if is_sleeping else 0.0
 	velocity = Vector3.ZERO
 	_reconciliation_offset = Vector3.ZERO
 	_input_move = Vector2.ZERO
@@ -1050,6 +1090,8 @@ func _play_battery_action() -> void:
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
+	if is_driving():
+		return false
 	if survival.dead:
 		return false
 	if not multiplayer.is_server() or _is_sleeping_in_bunk:
@@ -1408,6 +1450,8 @@ func _receive_authoritative_state(
 
 
 func apply_reconciliation(delta: float) -> void:
+	if is_driving():
+		return
 	if _reconciliation_offset.is_zero_approx():
 		return
 
@@ -1418,7 +1462,7 @@ func apply_reconciliation(delta: float) -> void:
 
 
 func interpolate_remote_player(delta: float) -> void:
-	if not _has_remote_snapshot:
+	if not _has_remote_snapshot or _is_sleeping_in_bunk or is_driving():
 		return
 
 	var weight := 1.0 - exp(-remote_interpolation_speed * delta)
@@ -1510,4 +1554,20 @@ func update_battery_ui() -> void:
 	_displayed_battery_percent = battery_percent
 	battery_label.text = "%d%%" % battery_percent
 	if _battery_charge <= 0.0:
-		battery_label.text = "%s Заменить батарейку" % get_node("/root/SteamInput").get_action_hint(&"replace_battery") if not _spare_batteries.is_empty() else "Нет запасных батареек"
+		battery_label.text = "Батарея разряжена" if not _spare_batteries.is_empty() else "Нет запасных батареек"
+
+
+func begin_vehicle_view(next_vehicle: Node3D) -> void:
+	vehicle = next_vehicle
+	head.rotation = Vector3.ZERO
+	_input_pitch = 0.0
+	_server_pitch = 0.0
+	_input_yaw = next_vehicle.global_rotation.y
+	_server_yaw = _input_yaw
+
+func update_vehicle_look(yaw: float, pitch: float) -> void:
+	var relative := clampf(wrapf(yaw - vehicle.global_rotation.y, -PI, PI), -deg_to_rad(110), deg_to_rad(110))
+	head.rotation = Vector3(clampf(pitch, -deg_to_rad(65), deg_to_rad(65)), relative, 0)
+	if is_local_player():
+		_input_yaw = vehicle.global_rotation.y + relative
+		_input_pitch = head.rotation.x

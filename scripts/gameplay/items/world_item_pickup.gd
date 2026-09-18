@@ -8,6 +8,10 @@ const PHYSICS_SYNC_RATE := 10.0
 @export var item_state: Dictionary = {}
 
 var _collected: bool = false
+var drag_owner_peer := 0
+
+func get_push_resistance() -> float:
+	return 4.0 if item_type == &"fuel_can" else 1.6 if item_type in [&"pistol", &"m4a1", &"kitchen_knife"] else 0.8
 var _sync_accumulator: float = 0.0
 var _initial_linear_velocity: Vector3 = Vector3.ZERO
 var _initial_angular_velocity: Vector3 = Vector3.ZERO
@@ -35,6 +39,7 @@ func setup_spawn(data: Dictionary) -> void:
 
 
 func _ready() -> void:
+	add_to_group("world_items")
 	continuous_cd = true
 	# Follow the cabin after its controller has advanced the physics pose.
 	process_physics_priority = 20
@@ -51,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if is_instance_valid(_cargo_cabin):
 		global_transform = _cargo_cabin.global_transform * _cargo_pose
-	elif multiplayer.is_server():
+	elif multiplayer.is_server() and drag_owner_peer == 0:
 		_cargo_cooldown = maxf(0.0, _cargo_cooldown - delta)
 		if _cargo_cooldown <= 0.0:
 			_capture_elevator_cargo()
@@ -138,18 +143,18 @@ func release_elevator_cargo() -> void:
 func get_interaction_prompt() -> String:
 	match item_type:
 		&"flashlight":
-			return "Поднять фонарик — заряд %d%%" % roundi(
+			return "Фонарик · %d%%" % roundi(
 				float(item_state.get("battery_charge", 1.0)) * 100.0
 			)
 		&"battery":
-			return "Забрать батарейку в запас (заряд %d%%)" % roundi(
+			return "Батарейка ( %d%%)" % roundi(
 				float(item_state.get("charge_amount", 0.5)) * 100.0
 			)
 		&"fuse":
-			return "Поднять предохранитель"
+			return "Предохранитель"
 		&"fuel_can":
-			return "Поднять канистру · %.1f / 20 л" % float(item_state.get("fuel_liters", 20.0))
-	return "Поднять %s" % display_name
+			return "Канистра · %.1f / 20 л" % float(item_state.get("fuel_liters", 20.0))
+	return "%s" % display_name
 
 
 func interact(interactor: Node) -> void:
@@ -160,6 +165,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		not multiplayer.is_server()
 		or _collected
+		or drag_owner_peer != 0
 		or not interactor.has_method("pickup_world_item_authoritative")
 		or int(interactor.get("owner_peer_id")) != peer_id
 		or not interactor is Node3D
