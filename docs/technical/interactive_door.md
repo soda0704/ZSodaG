@@ -13,7 +13,7 @@ scripts/gameplay/doors/door_power_switch.gd
 scripts/gameplay/doors/door_status_indicator.gd
 scripts/gameplay/power/power_grid.gd
 scenes/objects/doors/powered_door_system.tscn
-scenes/tests/mechanics_test_room.tscn
+scenes/levels/Base_Blockout_v03.tscn
 ```
 
 Полотно, индикатор и рубильник находятся в одной переиспользуемой сцене
@@ -44,10 +44,9 @@ Default animation duration: 0.65 с
 
 ## Проверка и интеграция
 
-Открыть `res://scenes/tests/mechanics_test_room.tscn`, начать вылет, установить
-предохранитель, запустить генератор, включить рубильник и открыть дверь. Затем
-проверить доступ к терминалу V3 за дверью. При остановке генератора свет и дверь
-должны обесточиться, а переход снова стать недоступным.
+После интеграции в `Base_Blockout_v03.tscn` проверить полный маршрут: установить
+предохранитель, запустить генератор, включить рубильник и открыть дверь. При
+остановке генератора свет и дверь должны обесточиться.
 
 `Base_Blockout_v03.tscn` этой системой не изменяется. До production-интеграции
 владелец уровня должен подтвердить размеры проёма, сторону петли, направление

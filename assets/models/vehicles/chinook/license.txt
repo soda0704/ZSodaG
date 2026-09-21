@@ -1,0 +1,11 @@
+Model Information:
+* title:	Boeing CH-47 Chinook
+* source:	https://sketchfab.com/3d-models/boeing-ch-47-chinook-1346cdc687954f74b52e3aaa6d920b3e
+* author:	drcrazzie (https://sketchfab.com/drcrazzie)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Boeing CH-47 Chinook" (https://sketchfab.com/3d-models/boeing-ch-47-chinook-1346cdc687954f74b52e3aaa6d920b3e) by drcrazzie (https://sketchfab.com/drcrazzie) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

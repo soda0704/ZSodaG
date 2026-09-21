@@ -1,15 +1,15 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene format=3 uid="uid://ch5em6a8lc1vj"]
 
-[node name="WestEntranceShellArt" type="Node3D"]
+[node name="WestEntranceShellArt" type="Node3D" unique_id=156998242]
 editor_description = "Оболочка западной входной секции."
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=1759916234]
 editor_description = "Импортированная финальная геометрия."
 
-[node name="ArtCollision" type="Node3D" parent="."]
+[node name="ArtCollision" type="Node3D" parent="." unique_id=49806992]
 editor_description = "Упрощённые коллизии финальной геометрии."
 
-[node name="Blockout" type="Node3D" parent="."]
+[node name="Blockout" type="Node3D" parent="." unique_id=377976409]
 editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
 
 [node name="Shared_Structure" type="Node3D" parent="Blockout" unique_id=1729279723]
@@ -21,7 +21,7 @@ size = Vector3(28.3, 0.2, 16.3)
 
 [node name="Day1_Arrival_Platform" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=189399020]
 editor_description = "Наружная площадка появления до двух игроков. Стыкуется с пешеходным входом без ступени."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.65, -0.1, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.65, -0.19464979, 3)
 use_collision = true
 size = Vector3(3, 0.2, 2)
 

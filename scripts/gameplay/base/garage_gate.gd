@@ -1,12 +1,18 @@
 extends Node3D
 
+## Required cooperative hold time; the lift duration is authored in AnimationPlayer.
 @export_range(0.1, 30.0, 0.1) var opening_seconds := 4.0
 var progress := 0.0
 var _holds: Dictionary = {}
 var _tick := 0.0
 var _state: BaseGameplayController
+var _target_open := false
+var _received_progress := false
+@onready var handles: Array[Node3D] = [%Handle0, %Handle1]
+@onready var animation: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
+	animation.animation_finished.connect(func(_name): _refresh_status())
 	_bind.call_deferred()
 
 func _bind() -> void:
@@ -14,7 +20,7 @@ func _bind() -> void:
 	if _state != null:
 		_state.snapshot_changed.connect(_on_snapshot)
 		_on_snapshot({})
-	_apply_pose()
+	_apply_pose(true)
 
 func _on_snapshot(_snapshot: Dictionary) -> void:
 	if _state.maintenance.has("garage_debug_open"):
@@ -44,7 +50,7 @@ func _physics_process(delta: float) -> void:
 		local.interaction_ray.force_raycast_update()
 		var target: Object = local.interaction_ray.get_collider()
 		for index in 2:
-			if target == get_node("Handle%d" % index):
+			if target == handles[index]:
 				if multiplayer.is_server():
 					_hold(local.owner_peer_id, index)
 				else:
@@ -77,7 +83,7 @@ func _valid_operator(peer: int, index: int) -> bool:
 	var player := _state.get_player_node(peer) as Node3D
 	if player == null or player.survival.dead or player.is_sleeping_in_bunk() or player.is_driving():
 		return false
-	var handle := get_node("Handle%d" % index) as Node3D
+	var handle := handles[index]
 	if player.global_position.distance_to(handle.global_position) > 2.5:
 		return false
 	var ray := PhysicsRayQueryParameters3D.create(player.head.global_position, handle.global_position, 1, [player.get_rid()])
@@ -94,10 +100,22 @@ func _request_hold(index: int) -> void:
 @rpc("authority", "call_remote", "unreliable_ordered", 3)
 func _receive_progress(value: float) -> void:
 	progress = clampf(value, 0, 1)
-	_apply_pose()
+	_apply_pose(not _received_progress)
+	_received_progress = true
 
-func _apply_pose() -> void:
-	$AnimationPlayer.play("open")
-	$AnimationPlayer.seek(progress * $AnimationPlayer.get_animation("open").length, true)
-	$AnimationPlayer.pause()
-	$Status.text = "ГАРАЖ ОТКРЫТ" if progress >= 1 else "ГАРАЖ · %d%%" % roundi(progress * 100)
+func _apply_pose(instant: bool = false) -> void:
+	var opened := progress >= 1.0
+	if instant or opened != _target_open:
+		var time := animation.current_animation_position if animation.is_playing() else (animation.get_animation("open").length if _target_open else 0.0)
+		_target_open = opened
+		animation.play("open", -1, 1.0 if opened else -1.0, not opened)
+		animation.seek((animation.current_animation_length if opened else 0.0) if instant else time, true)
+		if instant:
+			animation.pause()
+	_refresh_status()
+
+func _refresh_status() -> void:
+	if animation.is_playing():
+		$Status.text = "ВОРОТА ОТКРЫВАЮТСЯ" if _target_open else "ВОРОТА ЗАКРЫВАЮТСЯ"
+	else:
+		$Status.text = "ГАРАЖ ОТКРЫТ" if _target_open else "ДВОЕ · УДЕРЖИВАЙТЕ E · %d%%" % roundi(progress * 100)

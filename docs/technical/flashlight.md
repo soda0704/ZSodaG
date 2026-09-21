@@ -18,7 +18,7 @@ scenes/characters/player.tscn
 scenes/objects/equipment/flashlight_model.tscn
 scenes/objects/equipment/flashlight.tscn
 scenes/objects/equipment/flashlight_pickup.tscn
-scenes/tests/mechanics_test_room.tscn
+scenes/levels/Base_Blockout_v03.tscn
 ```
 
 Геометрия фонарика существует только в `flashlight_model.tscn`. Сцена
@@ -50,7 +50,7 @@ scenes/tests/mechanics_test_room.tscn
 Вся механика проверяется в одной сцене:
 
 ```text
-res://scenes/tests/mechanics_test_room.tscn
+res://scenes/levels/Base_Blockout_v03.tscn
 ```
 
 Управление:

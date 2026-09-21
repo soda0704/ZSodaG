@@ -19,12 +19,18 @@ func _ready() -> void:
 
 
 func refresh() -> void:
-	var session_active := SteamNetwork.has_active_session()
-	lobby_panel.visible = session_active and not CoopLobby.game_has_started
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	var waiting: bool = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
+	lobby_panel.visible = waiting
 	if not lobby_panel.visible:
 		return
 
-	lobby_id_label.text = "LOBBY ID: %s" % SteamNetwork.lobby_id
+	if world.is_solo_arrival():
+		lobby_id_label.text = "CH-47 · ПОДГОТОВКА К ПОСАДКЕ"
+	elif SteamNetwork.lobby_id > 0:
+		lobby_id_label.text = "CH-47 · LOBBY ID: %s" % SteamNetwork.lobby_id
+	else:
+		lobby_id_label.text = "CH-47 · СОЗДАНИЕ ЛОББИ…"
 
 
 func _on_lobby_state_changed(_as_host: bool) -> void:
@@ -37,7 +43,6 @@ func _on_session_closed(_reason: String) -> void:
 
 func _on_gameplay_started() -> void:
 	refresh()
-	play_flight_transition()
 
 
 func play_flight_transition() -> void:

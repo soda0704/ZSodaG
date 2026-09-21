@@ -23,25 +23,14 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
 	Vector3(2.5, 0.05, 4.0),
 ]
-const V3_TEST_BRANCHES := [
-	NodePath("Gameplay/WorldEnvironment"),
-	NodePath("Helicopter"),
-	NodePath("Gameplay/Geometry"),
-	NodePath("Gameplay/PoweredDoorSystem"),
-	NodePath("Gameplay/GeneratorPanel"),
-	NodePath("Gameplay/Lighting"),
-	NodePath("Gameplay/PowerGrid"),
-	NodePath("Gameplay/V3ExitTerminal"),
-]
-
 @export_group("Staging Lobby")
-@export var remove_legacy_geometry := false
 @export var uses_staging_lobby: bool = false
 @export var staging_spawn_positions := PackedVector3Array([
 	Vector3(-0.4, 0.05, 0.85),
 	Vector3(0.4, 0.05, 0.85),
 ])
 @export var gameplay_origin_path: NodePath
+@export var staging_spawns_path: NodePath
 
 @export_group("Gameplay Nodes")
 @export var world_items_path := NodePath("Gameplay/WorldItems")
@@ -92,15 +81,6 @@ var _standalone_mode: bool = false
 var resume_base_on_start: bool = false
 var _inventory_save_elapsed: float = 0.0
 var _v3_ready_peers: Array[int] = []
-
-
-func _enter_tree() -> void:
-	if remove_legacy_geometry:
-		for path in V3_TEST_BRANCHES:
-			var branch := get_node_or_null(path)
-			if branch != null:
-				branch.get_parent().remove_child(branch)
-				branch.free()
 
 
 func get_ready_v3_peers() -> Array[int]:
@@ -178,15 +158,35 @@ func start_standalone_game() -> void:
 	if not multiplayer.is_server() or not _player_roster.is_empty():
 		return
 	_standalone_mode = true
-	lobby_hud.visible = false
 	overview_camera.current = false
 	GameMenu.force_close_menu()
 	spawn_player_for_peer(multiplayer.get_unique_id())
+	lobby_hud.refresh()
+	if not resume_base_on_start:
+		GameMenu.open_menu(GlobalGameMenu.MenuView.SESSION)
+
+
+func is_waiting_for_arrival() -> bool:
+	return uses_staging_lobby and not _entered_v3_level and not _v3_transition_in_progress
+
+
+func is_solo_arrival() -> bool:
+	return _standalone_mode and is_waiting_for_arrival()
+
+
+func begin_solo_arrival() -> void:
+	if multiplayer.is_server() and is_solo_arrival():
+		GameMenu.force_close_menu()
+		_enter_v3_level()
 
 
 func _on_session_ready(as_host: bool) -> void:
 	if as_host:
 		spawn_player_for_peer(1)
+		if resume_base_on_start:
+			_enter_v3_level.rpc()
+		elif uses_staging_lobby:
+			GameMenu.call_deferred("open_menu", GlobalGameMenu.MenuView.SESSION)
 		if not uses_staging_lobby or CoopLobby.game_has_started:
 			spawn_initial_items()
 	else:
@@ -200,6 +200,11 @@ func _request_player_spawn() -> void:
 		return
 
 	var sender_id := multiplayer.get_remote_sender_id()
+	# A late join may arrive while the host is still loading spawn markers.
+	while _v3_transition_in_progress:
+		await get_tree().process_frame
+	if not multiplayer.get_peers().has(sender_id):
+		return
 	spawn_player_for_peer(sender_id)
 	send_player_roster(sender_id)
 
@@ -213,6 +218,8 @@ func _request_gameplay_state() -> void:
 	if _entered_v3_level:
 		_enter_v3_level.rpc_id(sender_id)
 		return
+	for ramp in get_tree().get_nodes_in_group("helicopter_ramps"):
+		ramp.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(power_switch):
 		power_switch.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(interactive_door):
@@ -226,10 +233,17 @@ func _request_v3_runtime_state() -> void:
 	if not multiplayer.is_server() or not _entered_v3_level:
 		return
 	var sender_id := multiplayer.get_remote_sender_id()
+	# The client can finish loading before the host. Send the snapshot only
+	# once the level, parked ramp and initial items actually exist here.
+	while _v3_transition_in_progress:
+		await get_tree().process_frame
 	if not multiplayer.get_peers().has(sender_id):
 		return
 	if not _v3_ready_peers.has(sender_id):
 		_v3_ready_peers.append(sender_id)
+	for ramp in get_tree().get_nodes_in_group("helicopter_ramps"):
+		if not ramp.locked_in_flight:
+			ramp.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(_v3_elevator_controller):
@@ -337,6 +351,9 @@ func _despawn_player(peer_id: int) -> void:
 func get_spawn_position(spawn_index: int) -> Vector3:
 	if _entered_v3_level:
 		return get_v3_spawn_position(spawn_index)
+	var marker := _get_staging_marker(spawn_index)
+	if marker != null:
+		return marker.global_position
 	if (
 		uses_staging_lobby
 		and not CoopLobby.game_has_started
@@ -357,7 +374,19 @@ func get_spawn_position(spawn_index: int) -> Vector3:
 func get_spawn_yaw(spawn_index: int) -> float:
 	if _entered_v3_level:
 		return get_v3_spawn_yaw(spawn_index)
+	var marker := _get_staging_marker(spawn_index)
+	if marker != null:
+		return marker.global_rotation.y
 	return 0.0
+
+
+func _get_staging_marker(index: int) -> Marker3D:
+	if staging_spawns_path.is_empty():
+		return null
+	var markers := get_node_or_null(staging_spawns_path)
+	if markers == null or markers.get_child_count() == 0:
+		return null
+	return markers.get_child(index % markers.get_child_count()) as Marker3D
 
 
 func get_available_spawn_index() -> int:
@@ -417,10 +446,11 @@ func _enter_v3_level() -> void:
 		return
 	_v3_transition_in_progress = true
 	_entered_v3_level = true
+	GameMenu.force_close_menu()
 	var transition_id := lobby_hud.show_transition_cover(
-		"ПЕРЕХОД НА БАЗУ V3..."
+		"ПОСАДКА У БАЗЫ..."
 	)
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.8).timeout
 
 	var packed_level := load(V3_LEVEL_PATH) as PackedScene
 	if packed_level == null:
@@ -440,6 +470,11 @@ func _enter_v3_level() -> void:
 	v3_level.name = "V3Level"
 	v3_level.network_runtime_managed = true
 	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
+	# The staging sky belongs to the cabin, not the loaded expedition.
+	for path in ["ArrivalEnvironment", "ArrivalSun"]:
+		var node := get_node_or_null(path)
+		if node != null:
+			node.free()
 	add_child(v3_level)
 	_v3_fuel_can_transform = v3_level.get_fuel_can_spawn_transform()
 	_v3_spawn_positions = PackedVector3Array()
@@ -461,8 +496,11 @@ func _enter_v3_level() -> void:
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
 
-	cleanup_test_room_for_v3()
 	overview_camera.current = false
+	# Let the authored terrain and CSG collision enter the physics world before
+	# moving players away from the staging cabin.
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 	if multiplayer.is_server():
 		for player in players.get_children():
 			if player.has_method("teleport_authoritative"):
@@ -475,13 +513,18 @@ func _enter_v3_level() -> void:
 					get_v3_spawn_yaw(spawn_index)
 				)
 
-	await get_tree().process_frame
+	cleanup_test_room_for_v3()
+	var arrival_cabin := get_node_or_null("ArrivalCabin")
+	if arrival_cabin != null:
+		arrival_cabin.queue_free()
+		await get_tree().process_frame
 	if multiplayer.is_server():
 		spawn_v3_world_items()
 	else:
 		_request_v3_runtime_state.rpc_id(1)
 	lobby_hud.reveal_transition_cover(transition_id)
 	_v3_transition_in_progress = false
+	lobby_hud.refresh()
 
 
 func get_v3_spawn_position(index: int) -> Vector3:
@@ -500,12 +543,6 @@ func cleanup_test_room_for_v3() -> void:
 	if multiplayer.is_server() and is_instance_valid(world_items):
 		for pickup in world_items.get_children():
 			pickup.queue_free()
-	for branch_path in V3_TEST_BRANCHES:
-		var branch := get_node_or_null(branch_path)
-		if branch != null:
-			branch.free()
-
-
 func spawn_v3_world_items() -> void:
 	if (
 		not multiplayer.is_server()

@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/medical_room_art.tscn" id="28_medical_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/center/center_hub_shell_art.tscn" id="29_center_hub_shell_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/center/center_hub_art.tscn" id="30_center_hub_art"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/west/west_entrance_shell_art.tscn" id="31_west_entrance_shell_art"]
+[ext_resource type="PackedScene" uid="uid://ch5em6a8lc1vj" path="res://scenes/art/base/west/west_entrance_shell_art.tscn" id="31_west_entrance_shell_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/west/garage_art.tscn" id="32_garage_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/west/equipment_room_art.tscn" id="33_equipment_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/west/decontamination_art.tscn" id="34_decontamination_art"]

@@ -1,6 +1,46 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/network/base_session_controller.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/helicopter_lobby_hud.tscn" id="3"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/overcast_soil_puresky_4k.exr" id="4"]
+[sub_resource type="PanoramaSkyMaterial" id="sky_material"]
+panorama = ExtResource("4")
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_material")
+[sub_resource type="Environment" id="environment"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.75, 0.82, 0.9, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
 
-[ext_resource type="PackedScene" path="res://scenes/tests/mechanics_test_room.tscn" id="1"]
+[node name="BaseSession" type="Node3D"]
+script = ExtResource("1")
+uses_staging_lobby = true
+staging_spawns_path = NodePath("ArrivalCabin/Spawns")
+gameplay_origin_path = NodePath("Gameplay")
+[node name="ArrivalCabin" parent="." instance=ExtResource("2")]
+[node name="ArrivalEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("environment")
+[node name="ArrivalSun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.7, -0.5, 0)
+light_energy = 0.9
+shadow_enabled = true
+[node name="Gameplay" type="Node3D" parent="."]
+[node name="WorldItems" type="Node3D" parent="Gameplay"]
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]
+spawn_path = NodePath("../WorldItems")
+[node name="Players" type="Node3D" parent="."]
+unique_name_in_owner = true
+[node name="OverviewCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(-1.2, 2.87, -0.4)
+rotation = Vector3(0, -1.5707963, 0)
+current = true
+[node name="LobbyHud" parent="." instance=ExtResource("3")]
 
-[node name="BaseSession" instance=ExtResource("1")]
-remove_legacy_geometry = true
+[node name="RearRamp" parent="ArrivalCabin" index=3]
+locked_in_flight = true
+
+[editable path="ArrivalCabin"]

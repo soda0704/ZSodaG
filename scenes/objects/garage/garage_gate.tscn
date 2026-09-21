@@ -8,26 +8,29 @@ size = Vector3(5.56, 3.5, 0.22)
 size = Vector3(0.35, 0.7, 0.3)
 [sub_resource type="BoxMesh" id="handle_mesh"]
 size = Vector3(0.12, 0.55, 0.12)
+[sub_resource type="BoxMesh" id="handle_mount"]
+size = Vector3(0.12, 0.09, 0.12)
 [sub_resource type="StandardMaterial3D" id="orange"]
 albedo_color = Color(1, 0.42, 0.04, 1)
 [sub_resource type="Animation" id="open"]
 resource_name = "open"
 length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Visual/GateAssembly/GateStates/ClosedState:position")
+tracks/0/path = NodePath("Visual/GateAssembly/GateStates/DoorPivot:rotation")
 tracks/0/interp = 1
-tracks/0/keys = {"times": PackedFloat32Array(0, 4), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(0, 0, 0), Vector3(0, 3.8, 0)]}
+tracks/0/keys = {"times": PackedFloat32Array(0, 4), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(0, 0, 0), Vector3(-1.5707963, 0, 0)]}
 [sub_resource type="AnimationLibrary" id="library"]
 _data = {&"open": SubResource("open")}
 [node name="GarageGate" type="Node3D"]
 script = ExtResource("1")
 [node name="Visual" parent="." instance=ExtResource("3")]
-[node name="GateBody" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/ClosedState"]
+[node name="GateBody" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
 sync_to_physics = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/ClosedState/GateBody"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/GateBody"]
 position = Vector3(0, 1.75, 0)
 shape = SubResource("gate")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
 libraries = {&"": SubResource("library")}
 [node name="Status" type="Label3D" parent="."]
 position = Vector3(0, 3.65, 0.45)
@@ -35,26 +38,53 @@ font_size = 30
 pixel_size = 0.006
 text = "ДВА ИГРОКА · УДЕРЖИВАЙТЕ E"
 
-[node name="Handle0" type="StaticBody3D" parent="."]
-position = Vector3(-2.45, 1.25, 0.6)
+[node name="Handle0" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
+unique_name_in_owner = true
+sync_to_physics = false
+position = Vector3(-2.45, 1.25, 0.17)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Handle0"]
+gate_path = NodePath("../../../../../..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
 shape = SubResource("handle")
-[node name="Visual" type="MeshInstance3D" parent="Handle0"]
+[node name="Visual" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
 mesh = SubResource("handle_mesh")
 material_override = SubResource("orange")
 
-[node name="Handle1" type="StaticBody3D" parent="."]
-position = Vector3(2.45, 1.25, 0.6)
+[node name="Handle1" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
+unique_name_in_owner = true
+sync_to_physics = false
+position = Vector3(2.45, 1.25, 0.17)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Handle1"]
+gate_path = NodePath("../../../../../..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
 shape = SubResource("handle")
-[node name="Visual" type="MeshInstance3D" parent="Handle1"]
+[node name="Visual" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
 mesh = SubResource("handle_mesh")
 material_override = SubResource("orange")
 
+
+
+[node name="LowerMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+position = Vector3(0, -0.23, -0.08)
+mesh = SubResource("handle_mount")
+material_override = SubResource("orange")
+
+[node name="UpperMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+position = Vector3(0, 0.23, -0.08)
+mesh = SubResource("handle_mount")
+material_override = SubResource("orange")
+
+[node name="LowerMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+position = Vector3(0, -0.23, -0.08)
+mesh = SubResource("handle_mount")
+material_override = SubResource("orange")
+
+[node name="UpperMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+position = Vector3(0, 0.23, -0.08)
+mesh = SubResource("handle_mount")
+material_override = SubResource("orange")
 [editable path="Visual"]

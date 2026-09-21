@@ -20,10 +20,11 @@ Steam Lobby отвечает за поиск сессии и участнико�
 - `scripts/network/lobby/coop_lobby_service.gd` — готовность и старт;
 - `scripts/input/steam_input_service.gd` — Steam Input и обычный joypad fallback;
 - `game_actions_480.vdf` — действия `Gameplay` и `Menu` для dev AppID 480;
-- `scripts/network/tests/mechanics_test_room.gd` — сетевой roster и gameplay spawn;
+- `scripts/network/base_session_controller.gd` — сетевой roster, staging и spawn;
 - `scripts/characters/player.gd` и `scenes/characters/player.tscn` — единый игрок;
 - `scripts/ui/game_menu.gd` и `scenes/ui/game_menu.tscn` — ESC/Steam flow;
-- `scenes/tests/mechanics_test_room.tscn` — единственная тестовая gameplay-сцена.
+- `scenes/levels/base_session.tscn` — сетевая staging-сцена с CH-47;
+- `scenes/levels/Base_Blockout_v03.tscn` — база после высадки.
 
 ## Steam Input и геймпад
 

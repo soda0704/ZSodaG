@@ -250,8 +250,10 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	if gameplay_controller != null and gameplay_controller.has_method(
 		"start_standalone_game"
 	):
+		gameplay_controller.set("resume_base_on_start", resume_checkpoint)
 		gameplay_controller.call("start_standalone_game")
-		await gameplay_controller.call("_enter_v3_level")
+		if resume_checkpoint:
+			await gameplay_controller.call("_enter_v3_level")
 	_transition_in_progress = false
 
 
@@ -560,6 +562,13 @@ func refresh_session_ui() -> void:
 
 
 func refresh_ready_ui() -> void:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival():
+		ready_status_label.text = "Вы на борту CH-47. Подтвердите готовность к высадке."
+		ready_button.text = "Готов к посадке"
+		ready_button.disabled = false
+		start_game_button.visible = false
+		return
 	if CoopLobby.game_has_started:
 		ready_status_label.text = "Игра запущена."
 		ready_button.text = "Продолжить игру"
@@ -600,7 +609,7 @@ func refresh_ready_ui() -> void:
 	)
 	start_game_button.visible = SteamNetwork.is_host
 	start_game_button.disabled = not CoopLobby.can_host_start()
-	start_game_button.text = "Начать игру"
+	start_game_button.text = "Начать посадку"
 
 
 func get_localized_state_message(
@@ -802,6 +811,10 @@ func _on_invite_pressed() -> void:
 
 
 func _on_ready_pressed() -> void:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival():
+		world.begin_solo_arrival()
+		return
 	if CoopLobby.game_has_started:
 		close_menu()
 		return

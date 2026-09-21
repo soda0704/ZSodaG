@@ -38,6 +38,7 @@ const FUEL_PICKUP_SCENE := preload(
 	Vector3(-39.5, 0.05, 3.5),
 ])
 @export var player_spawn_yaws := PackedFloat32Array([PI * 0.5, PI * 0.5])
+@export var arrival_spawns_path := NodePath("ArrivalSite/Spawns")
 @export var standalone_flashlight_transform := Transform3D(
 	Basis.IDENTITY,
 	Vector3(4.6, 0.1, -4.8)
@@ -119,19 +120,35 @@ func _install_quest_terminals() -> void:
 
 
 func get_player_spawn_position(index: int) -> Vector3:
+	var marker := _arrival_marker(index)
+	if marker != null:
+		return marker.global_position
 	if player_spawn_positions.is_empty():
 		return Vector3.ZERO
 	return player_spawn_positions[index % player_spawn_positions.size()]
 
 
 func get_player_spawn_yaw(index: int) -> float:
+	var marker := _arrival_marker(index)
+	if marker != null:
+		return marker.global_rotation.y
 	if player_spawn_yaws.is_empty():
 		return 0.0
 	return player_spawn_yaws[index % player_spawn_yaws.size()]
 
 
 func get_player_spawn_count() -> int:
+	var markers := get_node_or_null(arrival_spawns_path)
+	if markers != null and markers.get_child_count() > 0:
+		return markers.get_child_count()
 	return player_spawn_positions.size()
+
+
+func _arrival_marker(index: int) -> Marker3D:
+	var markers := get_node_or_null(arrival_spawns_path)
+	if markers == null or markers.get_child_count() == 0:
+		return null
+	return markers.get_child(index % markers.get_child_count()) as Marker3D
 
 
 func get_fuel_can_spawn_transform() -> Transform3D:

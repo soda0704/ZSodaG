@@ -158,9 +158,6 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.y = 0
 		move_and_slide()
-		if global_position.y < _home.y - 5.0:
-			global_position = _home
-			velocity = Vector3.ZERO
 		_moving = Vector2(velocity.x, velocity.z).length() > 0.2
 		_network_time += delta
 		if _network_time > 0.1:

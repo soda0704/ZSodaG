@@ -14,7 +14,7 @@ scripts/gameplay/equipment/flashlight_pickup.gd
 scripts/gameplay/power/generator_panel.gd
 scripts/gameplay/power/power_grid.gd
 scripts/characters/player.gd
-scripts/network/tests/mechanics_test_room.gd
+scripts/network/base_session_controller.gd
 scenes/objects/items/battery_model.tscn
 scenes/objects/items/battery_pickup.tscn
 scenes/objects/items/fuse_model.tscn
@@ -22,7 +22,7 @@ scenes/objects/items/fuse_pickup.tscn
 scenes/objects/items/fuel_can_model.tscn
 scenes/objects/items/fuel_can_pickup.tscn
 scenes/objects/power/generator_panel.tscn
-scenes/tests/mechanics_test_room.tscn
+scenes/levels/Base_Blockout_v03.tscn
 ```
 
 `WorldItemPickup` — одна физическая база для всех лежащих предметов. Конкретные
@@ -68,9 +68,9 @@ scenes/tests/mechanics_test_room.tscn
 
 ## Начальная раскладка и проверка
 
-В доступной стартовой половине `mechanics_test_room.tscn`, перед запертой дверью,
-находятся генератор и предохранитель. Хост также создаёт два фонарика и три
-батарейки. Ни один обязательный для открытия двери предмет не размещается за ней.
+После высадки в `Base_Blockout_v03.tscn` хост создаёт стартовые предметы по
+авторитетным таблицам лута. Обязательные предметы должны оставаться на доступном
+маршруте; их расположение проверяется в сцене базы.
 Для проверки:
 
 1. Взять фонарик с зарядом `25%`.

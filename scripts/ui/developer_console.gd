@@ -177,11 +177,9 @@ func _execute_one(line: String) -> String:
 		output.append_text("\n" + _help_text())
 		return ""
 	if args[0] == "/clear":
-		output.clear()
+		output.text = _help_text()
 		return ""
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
-	if state == null:
-		return "Сначала загрузите игру и войдите на карту."
 	if not multiplayer.is_server():
 		_request_command.rpc_id(1, line.left(1024), target_path, target_point)
 		return "Команда отправлена серверу..."
@@ -198,7 +196,7 @@ func _request_command(line: String, selected: NodePath = NodePath(), point: Vect
 	var args := line.left(1024).strip_edges().split(" ", false)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
 	var result := "Сначала загрузите игру и войдите на карту."
-	if state != null and not args.is_empty():
+	if not args.is_empty():
 		result = _execute_authoritative(args, state, sender_id, selected, point)
 	_receive_command_result.rpc_id(sender_id, result)
 
@@ -209,9 +207,17 @@ func _receive_command_result(result: String) -> void:
 
 
 func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, selected: NodePath = NodePath(), point: Vector3 = Vector3.ZERO) -> String:
-	var player = state.get_player_node(peer_id)
+	var player: GamePlayer
+	if state != null:
+		player = state.get_player_node(peer_id)
+	else:
+		var session := get_tree().get_first_node_in_group("network_gameplay_controller")
+		if session != null:
+			player = session.players.get_node_or_null(str(peer_id)) as GamePlayer
 	if player == null:
 		return "Игрок, вызвавший команду, не найден."
+	if state == null and args[0] in ["/outside", "/testroom", "/level", "/day", "/wiring", "/lightfault", "/spawn", "/monsters", "/despawn"]:
+		return "Эта команда доступна после посадки: база ещё не загружена."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
 		return TargetCommands.execute(args, player, selected, point)

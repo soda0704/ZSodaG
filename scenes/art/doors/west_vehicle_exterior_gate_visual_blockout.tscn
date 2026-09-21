@@ -105,78 +105,82 @@ shape = SubResource("Shape_header")
 [node name="GateStates" type="Node3D" parent="GateAssembly"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.96, 0, 0, 0)
 
-[node name="ClosedState" type="Node3D" parent="GateAssembly/GateStates"]
+[node name="DoorPivot" type="Node3D" parent="GateAssembly/GateStates"]
+position = Vector3(0, 3.62, 0)
 
-[node name="Panel01" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="ClosedState" type="Node3D" parent="GateAssembly/GateStates/DoorPivot"]
+position = Vector3(0, -3.62, 0)
+
+[node name="Panel01" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 transform = Transform3D(5.56, 0, 0, 0, 0.84, 0, 0, 0, 0.14, 0, 0.48, 0)
 material_override = SubResource("Material_gate")
 mesh = SubResource("Mesh_unit")
 
-[node name="Panel02" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="Panel02" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 transform = Transform3D(5.56, 0, 0, 0, 0.84, 0, 0, 0, 0.14, 0, 1.32, 0)
 material_override = SubResource("Material_gate")
 mesh = SubResource("Mesh_unit")
 
-[node name="Panel03" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="Panel03" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 transform = Transform3D(5.56, 0, 0, 0, 0.84, 0, 0, 0, 0.14, 0, 2.16, 0)
 material_override = SubResource("Material_gate")
 mesh = SubResource("Mesh_unit")
 
-[node name="Panel04" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="Panel04" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 transform = Transform3D(5.56, 0, 0, 0, 1.04, 0, 0, 0, 0.14, 0, 3.1, 0)
 material_override = SubResource("Material_gate")
 mesh = SubResource("Mesh_unit")
 
-[node name="FrontWindows" type="Node3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="FrontWindows" type="Node3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 
-[node name="Window01" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/FrontWindows"]
+[node name="Window01" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/FrontWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, -2.15, 1.74, 0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window02" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/FrontWindows"]
+[node name="Window02" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/FrontWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, -1.08, 1.74, 0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window03" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/FrontWindows"]
+[node name="Window03" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/FrontWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 0, 1.74, 0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window04" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/FrontWindows"]
+[node name="Window04" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/FrontWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 1.08, 1.74, 0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window05" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/FrontWindows"]
+[node name="Window05" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/FrontWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 2.15, 1.74, 0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="BackWindows" type="Node3D" parent="GateAssembly/GateStates/ClosedState"]
+[node name="BackWindows" type="Node3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState"]
 
-[node name="Window01" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/BackWindows"]
+[node name="Window01" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/BackWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, -2.15, 1.74, -0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window02" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/BackWindows"]
+[node name="Window02" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/BackWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, -1.08, 1.74, -0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window03" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/BackWindows"]
+[node name="Window03" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/BackWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 0, 1.74, -0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window04" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/BackWindows"]
+[node name="Window04" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/BackWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 1.08, 1.74, -0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
 
-[node name="Window05" type="MeshInstance3D" parent="GateAssembly/GateStates/ClosedState/BackWindows"]
+[node name="Window05" type="MeshInstance3D" parent="GateAssembly/GateStates/DoorPivot/ClosedState/BackWindows"]
 transform = Transform3D(0.72, 0, 0, 0, 0.32, 0, 0, 0, 0.035, 2.15, 1.74, -0.105)
 material_override = SubResource("Material_recess")
 mesh = SubResource("Mesh_unit")
@@ -194,3 +198,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.35, 1.4, 0.22)
 
 [node name="BackAccessTerminal" parent="GateAssembly" instance=ExtResource("1_terminal")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -3.35, 1.4, -0.22)
+
