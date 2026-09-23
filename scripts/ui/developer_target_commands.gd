@@ -7,8 +7,9 @@ static func resolve(node: Node, tree: SceneTree) -> Node:
 			return current
 		for manager in tree.get_nodes_in_group("base_auto_door_managers"):
 			for door in manager._doors:
-				if door.anchor == current:
-					return current
+				# Passage bodies are siblings of their visual door, not children.
+				if door.anchor == current or door.blocker.get_parent() == current:
+					return door.anchor
 		current = current.get_parent()
 	return node
 

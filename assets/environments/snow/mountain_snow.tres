@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+[ext_resource type="Shader" path="res://assets/environments/snow/rock_snow.gdshader" id="1"]
+[resource]
+shader = ExtResource("1")
+shader_parameter/rock_color = Color(0.27, 0.33, 0.41, 1)
+shader_parameter/snow_color = Color(0.83, 0.9, 0.98, 1)
+shader_parameter/snow_threshold = 0.58
+shader_parameter/detail_scale = 0.08

@@ -1,88 +1,674 @@
 [gd_scene format=3 uid="uid://d2pqy16wiric3"]
 
-[ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/heliport/scene.gltf" id="1_wmfvw"]
+[ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="2_nhe8o"]
 
-[sub_resource type="StandardMaterial3D" id="deck"]
-albedo_color = Color(0.16, 0.2, 0.22, 1)
-roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="paint"]
-albedo_color = Color(0.92, 0.73, 0.28, 1)
-roughness = 0.85
+[ext_resource type="Shape3D" path="res://assets/models/environment/heliport/platform_collision.res" id="6_platform"]
 
-[node name="ArrivalSite" type="Node3D" unique_id=173623632]
-editor_description = "CH-47 landing pad. Deck, walkways and arrival markers are authored in this scene."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.29332256, 0)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cykq2"]
+albedo_color = Color(0.17, 0.22, 0.25, 1)
+metallic = 0.75
+roughness = 0.63
 
-[node name="Deck" type="CSGBox3D" parent="." unique_id=240867924]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.990833, 0.45, 6)
+[sub_resource type="BoxMesh" id="BoxMesh_j00ty"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6gso3"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k7txo"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rh3oj"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x6rm1"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nrpoq"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wbv8d"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7rry5"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o1ofb"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lj2vx"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sys4k"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_65mlv"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0max7"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_l05dw"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yaxdg"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hsnnf"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mbud2"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_weyjy"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bwqdy"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6bqsq"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g5olh"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_34gcl"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_55uf0"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t3tbt"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x66bm"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3vjd8"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_feka5"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s53in"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_l304g"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i5dpi"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_chv86"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u7jxd"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cve81"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xchbj"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_okgcr"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7xyv7"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_22wal"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qpwer"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxyi1"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ybbpb"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_evq26"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b4u1r"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hw8he"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lh20w"]
+material = SubResource("StandardMaterial3D_cykq2")
+size = Vector3(0.025, 0.012, 2.88)
+
+
+
+
+
+
+
+[node name="ArrivalSite" type="Node3D" unique_id=1955715997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 8, 95)
+
+[node name="HeliportVisual" type="Node3D" parent="." unique_id=1179188904 instance=ExtResource("1_wmfvw")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+
+[node name="PlatformCollision" type="StaticBody3D" parent="." unique_id=1975516054]
+
+[node name="@CollisionShape3D@107" type="CollisionShape3D" parent="PlatformCollision" unique_id=1332060869]
+shape = ExtResource("6_platform")
+
+[node name="MetalAccessRamp" type="CSGPolygon3D" parent="." unique_id=1225259348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 layers = 262145
 use_collision = true
-size = Vector3(20, 0.9, 24)
-material = SubResource("deck")
+polygon = PackedVector2Array(9, 3.23, 15.7, 3.55, 31, 0.1, 31, -0.08, 15.7, 3.37, 9, 3.05)
+depth = 3.0
+material = SubResource("StandardMaterial3D_cykq2")
 
-[node name="West" type="CSGBox3D" parent="." unique_id=1249702252]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.7, 0.905, 6)
-layers = 262145
-size = Vector3(0.12, 0.01, 23.4)
-material = SubResource("paint")
-
-[node name="East" type="CSGBox3D" parent="." unique_id=2142536595]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.3, 0.905, 6)
-layers = 262145
-size = Vector3(0.12, 0.01, 23.4)
-material = SubResource("paint")
-
-[node name="North" type="CSGBox3D" parent="." unique_id=1911711820]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, 0.905, -5.7)
-layers = 262145
-size = Vector3(19.4, 0.01, 0.12)
-material = SubResource("paint")
-
-[node name="South" type="CSGBox3D" parent="." unique_id=1984722324]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, 0.905, 17.7)
-layers = 262145
-size = Vector3(19.4, 0.01, 0.12)
-material = SubResource("paint")
-
-[node name="HLeft" type="CSGBox3D" parent="." unique_id=2030959996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 0.907, 6)
-layers = 262145
-size = Vector3(0.4, 0.01, 6)
-material = SubResource("paint")
-
-[node name="HRight" type="CSGBox3D" parent="." unique_id=227964831]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0.907, 6)
-layers = 262145
-size = Vector3(0.4, 0.01, 6)
-material = SubResource("paint")
-
-[node name="HCenter" type="CSGBox3D" parent="." unique_id=1641862739]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53, 0.907, 6)
-layers = 262145
-size = Vector3(6, 0.01, 0.4)
-material = SubResource("paint")
-
-[node name="Chinook" parent="." unique_id=487751263 instance=ExtResource("1")]
-transform = Transform3D(7.54979e-08, 0, 1, 0, 1, 0, -1, 0, 7.54979e-08, -53, 0.94, 6)
-
-[node name="ExitWalkway" type="CSGPolygon3D" parent="." unique_id=747497299]
-transform = Transform3D(0.99947274, 0.032468602, 0, -0.032468602, 0.99947274, 0, 0, 0, 1, -41.708256, -0.042159677, 4.0506353)
+[node name="Rail" type="CSGBox3D" parent="." unique_id=1797198522]
+transform = Transform3D(0.0477068, 0.9988614, 0, -0.9988614, 0.0477068, 0, 0, 0, 1, 12.35, 3.94, -1.5)
 layers = 262145
 use_collision = true
-polygon = PackedVector2Array(-1.35, -0.3, 1.35, -0.3, 1.35, 0.02, -1.35, 0.9)
-depth = 2.1
-material = SubResource("deck")
+size = Vector3(0.075, 6.7076373, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
 
-[node name="Spawns" type="Node3D" parent="." unique_id=1120975775]
+[node name="RampSteel01" type="CSGBox3D" parent="." unique_id=864434261]
+transform = Transform3D(-0.2199673, 0.97550726, 0, -0.97550726, -0.2199673, 0, 0, 0, 1, 23.35, 2.375, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 15.684148, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
 
-[node name="Player1" type="Marker3D" parent="Spawns" unique_id=1964179658]
-transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, -49, 1, 14)
+[node name="RampSteel02" type="CSGBox3D" parent="." unique_id=907137259]
+transform = Transform3D(0.04770677, 0.99886143, 0, -0.99886143, 0.04770677, 0, 0, 0, 1.0000001, 12.35, 4.44, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 6.707637, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
 
-[node name="Player2" type="Marker3D" parent="Spawns" unique_id=1946373241]
-transform = Transform3D(0.8253356, 0, -0.5646425, 0, 1, 0, 0.5646425, 0, 0.8253356, -47.7, 1, 14)
+[node name="RampSteel03" type="CSGBox3D" parent="." unique_id=310490009]
+transform = Transform3D(-0.2199673, 0.97550726, 0, -0.97550726, -0.2199673, 0, 0, 0, 1, 23.35, 2.875, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 15.684148, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
 
-[node name="RearRamp" parent="Chinook" index=3]
+[node name="Post" type="CSGBox3D" parent="." unique_id=794821956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.78, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel04" type="CSGBox3D" parent="." unique_id=15914540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.75, 3.9113433, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel05" type="CSGBox3D" parent="." unique_id=1351721723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.0426865, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel06" type="CSGBox3D" parent="." unique_id=343161231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 3.7504902, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel07" type="CSGBox3D" parent="." unique_id=1928194494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.130392, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel08" type="CSGBox3D" parent="." unique_id=991071197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.75, 2.5102942, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel09" type="CSGBox3D" parent="." unique_id=71075342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 1.8901961, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel10" type="CSGBox3D" parent="." unique_id=1140685446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.25, 1.270098, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel11" type="CSGBox3D" parent="." unique_id=782046067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0.65000004, -1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel12" type="CSGBox3D" parent="." unique_id=280141001]
+transform = Transform3D(0.0477068, 0.9988614, 0, -0.9988614, 0.0477068, 0, 0, 0, 1, 12.35, 3.94, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 6.7076373, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel13" type="CSGBox3D" parent="." unique_id=697450209]
+transform = Transform3D(-0.2199673, 0.97550726, 0, -0.97550726, -0.2199673, 0, 0, 0, 1, 23.35, 2.375, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 15.684148, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel14" type="CSGBox3D" parent="." unique_id=2046444590]
+transform = Transform3D(0.04770677, 0.99886143, 0, -0.99886143, 0.04770677, 0, 0, 0, 1.0000001, 12.35, 4.44, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 6.707637, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel15" type="CSGBox3D" parent="." unique_id=505272747]
+transform = Transform3D(-0.2199673, 0.97550726, 0, -0.97550726, -0.2199673, 0, 0, 0, 1, 23.35, 2.875, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.075, 15.684148, 0.075)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel16" type="CSGBox3D" parent="." unique_id=1887273882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.78, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel17" type="CSGBox3D" parent="." unique_id=1284523759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.75, 3.9113433, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel18" type="CSGBox3D" parent="." unique_id=245561389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.0426865, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel19" type="CSGBox3D" parent="." unique_id=373698377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 3.7504902, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel20" type="CSGBox3D" parent="." unique_id=1275019731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.130392, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1000001, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel21" type="CSGBox3D" parent="." unique_id=1142113307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.75, 2.5102942, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel22" type="CSGBox3D" parent="." unique_id=401583348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 1.8901961, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.0999999, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel23" type="CSGBox3D" parent="." unique_id=703993624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.25, 1.270098, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel24" type="CSGBox3D" parent="." unique_id=2001683919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0.65000004, 1.5)
+layers = 262145
+use_collision = true
+size = Vector3(0.09, 1.1, 0.09)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="Support" type="CSGBox3D" parent="." unique_id=1784617095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.6866418, -1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 3.3732836, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel25" type="CSGBox3D" parent="." unique_id=13189842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.6866418, 1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 3.3732836, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel26" type="CSGBox3D" parent="." unique_id=581802959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.5156863, -1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 3.0313725, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel27" type="CSGBox3D" parent="." unique_id=575520654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.5156863, 1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 3.0313725, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel28" type="CSGBox3D" parent="." unique_id=1894473785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.8392157, -1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 1.6784314, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="RampSteel29" type="CSGBox3D" parent="." unique_id=513838097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.8392157, 1.25)
+layers = 262145
+use_collision = true
+size = Vector3(0.16, 1.6784314, 0.16)
+material = SubResource("StandardMaterial3D_cykq2")
+
+[node name="GripRib01" type="MeshInstance3D" parent="." unique_id=14083854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.237, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_j00ty")
+
+[node name="GripRib02" type="MeshInstance3D" parent="." unique_id=1317282183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 3.2608807, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_6gso3")
+
+[node name="GripRib03" type="MeshInstance3D" parent="." unique_id=1895238728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.2847612, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_k7txo")
+
+[node name="GripRib04" type="MeshInstance3D" parent="." unique_id=1383358843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3.3086417, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_rh3oj")
+
+[node name="GripRib05" type="MeshInstance3D" parent="." unique_id=2091747727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3.3325224, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_x6rm1")
+
+[node name="GripRib06" type="MeshInstance3D" parent="." unique_id=360407329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.3564029, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_nrpoq")
+
+[node name="GripRib07" type="MeshInstance3D" parent="." unique_id=273134914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.3802836, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_wbv8d")
+
+[node name="GripRib08" type="MeshInstance3D" parent="." unique_id=1285988632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.404164, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_7rry5")
+
+[node name="GripRib09" type="MeshInstance3D" parent="." unique_id=305536076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 3.4280448, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_o1ofb")
+
+[node name="GripRib10" type="MeshInstance3D" parent="." unique_id=644767695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3.4519253, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_lj2vx")
+
+[node name="GripRib11" type="MeshInstance3D" parent="." unique_id=1651473608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 3.475806, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_sys4k")
+
+[node name="GripRib12" type="MeshInstance3D" parent="." unique_id=57806695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 3.4996865, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_65mlv")
+
+[node name="GripRib13" type="MeshInstance3D" parent="." unique_id=1148052583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3.5235672, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_0max7")
+
+[node name="GripRib14" type="MeshInstance3D" parent="." unique_id=921540511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 3.5474477, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_l05dw")
+
+[node name="GripRib15" type="MeshInstance3D" parent="." unique_id=1495646615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.489353, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_yaxdg")
+
+[node name="GripRib16" type="MeshInstance3D" parent="." unique_id=743861620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3.376608, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_hsnnf")
+
+[node name="GripRib17" type="MeshInstance3D" parent="." unique_id=1332750461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.2638628, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_mbud2")
+
+[node name="GripRib18" type="MeshInstance3D" parent="." unique_id=1761410220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 3.1511176, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_weyjy")
+
+[node name="GripRib19" type="MeshInstance3D" parent="." unique_id=1215148396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.0383725, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_bwqdy")
+
+[node name="GripRib20" type="MeshInstance3D" parent="." unique_id=338469158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 2.9256275, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_6bqsq")
+
+[node name="GripRib21" type="MeshInstance3D" parent="." unique_id=1315262484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 2.8128824, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_g5olh")
+
+[node name="GripRib22" type="MeshInstance3D" parent="." unique_id=1572854672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 2.7001371, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_34gcl")
+
+[node name="GripRib23" type="MeshInstance3D" parent="." unique_id=16384589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2.587392, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_55uf0")
+
+[node name="GripRib24" type="MeshInstance3D" parent="." unique_id=1800164850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 2.474647, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_t3tbt")
+
+[node name="GripRib25" type="MeshInstance3D" parent="." unique_id=2005115909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2.361902, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_x66bm")
+
+[node name="GripRib26" type="MeshInstance3D" parent="." unique_id=1641253537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 2.249157, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_3vjd8")
+
+[node name="GripRib27" type="MeshInstance3D" parent="." unique_id=1524356948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.1364117, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_feka5")
+
+[node name="GripRib28" type="MeshInstance3D" parent="." unique_id=2033987291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 2.0236666, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_s53in")
+
+[node name="GripRib29" type="MeshInstance3D" parent="." unique_id=774196594]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 1.9109216, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_l304g")
+
+[node name="GripRib30" type="MeshInstance3D" parent="." unique_id=509161384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 1.7981765, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_i5dpi")
+
+[node name="GripRib31" type="MeshInstance3D" parent="." unique_id=923680810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 1.6854314, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_chv86")
+
+[node name="GripRib32" type="MeshInstance3D" parent="." unique_id=1018662685]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.5726863, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_u7jxd")
+
+[node name="GripRib33" type="MeshInstance3D" parent="." unique_id=306110223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1.4599411, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_cve81")
+
+[node name="GripRib34" type="MeshInstance3D" parent="." unique_id=664924450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 1.3471961, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_xchbj")
+
+[node name="GripRib35" type="MeshInstance3D" parent="." unique_id=2026948264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.2344509, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_okgcr")
+
+[node name="GripRib36" type="MeshInstance3D" parent="." unique_id=1631112563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 1.1217059, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_7xyv7")
+
+[node name="GripRib37" type="MeshInstance3D" parent="." unique_id=1892297804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1.0089608, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_22wal")
+
+[node name="GripRib38" type="MeshInstance3D" parent="." unique_id=55662357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 0.8962157, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_qpwer")
+
+[node name="GripRib39" type="MeshInstance3D" parent="." unique_id=1687112470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.7834706, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_xxyi1")
+
+[node name="GripRib40" type="MeshInstance3D" parent="." unique_id=1064642705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0.67072546, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_ybbpb")
+
+[node name="GripRib41" type="MeshInstance3D" parent="." unique_id=1150120184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0.5579804, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_evq26")
+
+[node name="GripRib42" type="MeshInstance3D" parent="." unique_id=1985139160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 0.44523528, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_b4u1r")
+
+[node name="GripRib43" type="MeshInstance3D" parent="." unique_id=87859565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.3324902, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_hw8he")
+
+[node name="GripRib44" type="MeshInstance3D" parent="." unique_id=980226453]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0.2197451, 0)
+layers = 262145
+mesh = SubResource("BoxMesh_lh20w")
+
+[node name="Chinook" parent="." unique_id=839912158 instance=ExtResource("2_nhe8o")]
+editor_description = "CH-47 by drcrazzie, CC BY 4.0. Imported visual, authored cabin collision and player markers. +X points toward the cockpit."
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 3.28, 0)
+
+[node name="RearRamp" parent="Chinook" index="3"]
 starts_open = true
+
+[node name="Spawns" type="Node3D" parent="." unique_id=263331461]
+
+[node name="Player1" type="Marker3D" parent="Spawns" unique_id=1129631088]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5, 3.4, 6)
+
+[node name="Player2" type="Marker3D" parent="Spawns" unique_id=930236263]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.5, 3.4, 6)
 
 [editable path="Chinook"]

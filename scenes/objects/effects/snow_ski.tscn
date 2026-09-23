@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/snow/ski.svg" id="1"]
+
+[node name="Ski" type="Decal"]
+size = Vector3(0.18, 0.4, 1.1)
+texture_albedo = ExtResource("1")
+upper_fade = 0.15
+lower_fade = 0.15
+normal_fade = 0.75
+cull_mask = 131072
+distance_fade_enabled = true
+distance_fade_begin = 90.0
+distance_fade_length = 30.0

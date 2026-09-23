@@ -1,0 +1,11 @@
+Model Information:
+* title:	Heliport helicopter-45MB
+* source:	https://sketchfab.com/3d-models/heliport-helicopter-45mb-0067900e00954ba6b519078a36c90936
+* author:	adventurer (https://sketchfab.com/ahmagh2e)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Heliport helicopter-45MB" (https://sketchfab.com/3d-models/heliport-helicopter-45mb-0067900e00954ba6b519078a36c90936) by adventurer (https://sketchfab.com/ahmagh2e) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

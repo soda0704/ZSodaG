@@ -18,7 +18,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visual/GateAssembly/GateStates/DoorPivot:rotation")
 tracks/0/interp = 1
-tracks/0/keys = {"times": PackedFloat32Array(0, 4), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(0, 0, 0), Vector3(-1.5707963, 0, 0)]}
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.5, 1, 2, 3, 3.5, 4), "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1), "update": 0, "values": [Vector3(0, 0, 0), Vector3(0.042, 0, 0), Vector3(0.19, 0, 0), Vector3(0.7853982, 0, 0), Vector3(1.38, 0, 0), Vector3(1.529, 0, 0), Vector3(1.5707963, 0, 0)]}
 [sub_resource type="AnimationLibrary" id="library"]
 _data = {&"open": SubResource("open")}
 [node name="GarageGate" type="Node3D"]

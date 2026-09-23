@@ -3,6 +3,7 @@ extends Node3D
 
 const EXTERIOR_LAYER := 1 << 18
 const EXTERIOR_ROOF_GROUP := &"exterior_snow_roof"
+@export var minimum_view_distance := 2600.0
 
 func _ready() -> void:
 	_finish_setup.call_deferred()
@@ -45,5 +46,5 @@ func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	var camera := get_viewport().get_camera_3d()
-	if camera != null and camera.far < 750.0:
-		camera.far = 750.0
+	if camera != null and camera.far < minimum_view_distance:
+		camera.far = minimum_view_distance
