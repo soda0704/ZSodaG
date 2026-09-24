@@ -289,7 +289,6 @@ editor_description = "Слои освещения для проверки сос
 
 [node name="Standard_Lighting_Blockout" type="Node3D" parent="Power_State_Lighting_Blockout" unique_id=16357671]
 editor_description = "Штатные источники света. Выключены для стартового состояния первого дня; после запуска главного щита должны включаться программно."
-visible = false
 
 [node name="Center_Hub" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=72392302]
 
@@ -440,6 +439,7 @@ omni_range = 5.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4.2, 0)
 shadow_enabled = true
 omni_range = 5.5
+omni_attenuation = -0.98
 
 [node name="Protected_Corridor_West_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1294762435]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4.2, 0)
@@ -451,26 +451,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 4.2, 0)
 shadow_enabled = true
 omni_range = 5.5
 
-[node name="Sleeping_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1689925626]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4.2, -4.75)
-light_energy = 0.8
-shadow_enabled = true
-omni_range = 5.5
-
 [node name="Sleeping_Entry_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=310188243]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 4.2, -3.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 4.736537, -3.1)
 light_energy = 0.65
 shadow_enabled = true
 omni_range = 4.5
 
 [node name="Sleeping_West_Bunk_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1156882149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 3.6, -6.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 4.1565657, -6.3)
 light_energy = 0.45
 shadow_enabled = true
 omni_range = 3.2
 
 [node name="Sleeping_East_Bunk_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=849682027]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 3.6, -6.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 4.6087065, -6.3)
 light_energy = 0.55
 shadow_enabled = true
 omni_range = 3.8
