@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://x70ffy4hwig4"]
 
-[ext_resource type="PackedScene" uid="uid://vqx6axpcun7w" path="res://assets/models/Base/Living/Structure/Structure_Living.glb" id="1_q2kfo"]
+[ext_resource type="PackedScene" uid="uid://dlqqwkapx1xt0" path="res://assets/models/Base/Living/Structure/Structure.glb" id="1_q2kfo"]
 
 [node name="EastLivingShellArt" type="Node3D" unique_id=1554654801]
 editor_description = "Art-обёртка внешней и внутренней архитектурной оболочки East Living. Корень должен оставаться в локальном начале координат секции."
@@ -8,16 +8,18 @@ editor_description = "Art-обёртка внешней и внутренней 
 [node name="Visual" type="Node3D" parent="." unique_id=1171502623]
 editor_description = "Размещайте здесь импортированную GLB-модель оболочки без изменения корневого transform."
 
-[node name="Structure_Living" parent="Visual" unique_id=198078010 instance=ExtResource("1_q2kfo")]
+[node name="Structure" parent="Visual" unique_id=294846531 instance=ExtResource("1_q2kfo")]
 
 [node name="ArtCollision" type="Node3D" parent="." unique_id=1477340742]
 editor_description = "Будущие упрощённые коллизии оболочки."
+visible = false
 
 [node name="Blockout" type="Node3D" parent="." unique_id=934433001]
 editor_description = "Исходная CSG-оболочка. Отключите после готовности Visual и ArtCollision."
 visible = false
 
 [node name="Shared_Structure" type="Node3D" parent="Blockout" unique_id=982133239]
+visible = false
 
 [node name="East_Living_Floor" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1050650908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -0.1, 0)
