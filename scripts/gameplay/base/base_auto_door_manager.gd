@@ -28,6 +28,7 @@ func _process(delta: float) -> void:
 		if is_instance_valid(legacy_blocker) and not legacy_blocker.disabled:
 			legacy_blocker.set_deferred("disabled", true)
 	var powered := _controller != null and _controller.main_breaker_on
+	var expired: Array[String] = []
 	for door in _doors:
 		var should_open: bool = false
 		if not bool(door.locked):
@@ -41,16 +42,28 @@ func _process(delta: float) -> void:
 					)
 				)
 			)
-			if _controller != null and str(get_parent().get_path_to(door.anchor)) in _controller.maintenance.get("pried_doors", []):
-				should_open = true
 			# Emergency egress from the bunks must survive the morning outage.
 			if not powered and _controller != null and _controller.day_index >= 2 and bool(door.emergency_egress):
 				should_open = true
+			if is_door_pried(door):
+				should_open = bool(_controller.maintenance.get("manual_doors", {}).get(str(get_parent().get_path_to(door.anchor)), true))
 		var overrides: Dictionary = _controller.maintenance.get("debug_doors", {}) if _controller != null else {}
 		var id := str(get_parent().get_path_to(door.anchor))
 		if overrides.has(id):
-			should_open = bool(overrides[id])
+			var command = overrides[id]
+			# Old saves contained permanent bool overrides. Retire those too.
+			if command is Dictionary and bool(command.get("powered", not powered)) == powered and bool(command.get("near", false)) == _has_player_near(door.anchor, CLOSE_DISTANCE):
+				should_open = bool(command.get("open", false))
+			else:
+				expired.append(id)
 		_apply_door_state(door, should_open)
+	if not expired.is_empty() and multiplayer.is_server():
+		var snapshot := _controller.get_snapshot()
+		var overrides: Dictionary = snapshot.maintenance.get("debug_doors", {})
+		for id in expired:
+			overrides.erase(id)
+		snapshot.maintenance["debug_doors"] = overrides
+		_controller._broadcast_snapshot(snapshot)
 
 
 func debug_set_door_open(anchor: Node, opened: bool) -> bool:
@@ -60,11 +73,30 @@ func debug_set_door_open(anchor: Node, opened: bool) -> bool:
 		if door.anchor == anchor:
 			var snapshot := _controller.get_snapshot()
 			var overrides: Dictionary = snapshot.maintenance.get("debug_doors", {})
-			overrides[str(get_parent().get_path_to(anchor))] = opened
+			_nearby_players = get_tree().get_nodes_in_group("network_players")
+			overrides[str(get_parent().get_path_to(anchor))] = {"open": opened, "powered": _controller.main_breaker_on, "near": _has_player_near(door.anchor, CLOSE_DISTANCE)}
 			snapshot.maintenance["debug_doors"] = overrides
 			_controller._broadcast_snapshot(snapshot)
 			return true
 	return false
+
+
+func is_door_pried(door: Dictionary) -> bool:
+	return _controller != null and str(get_parent().get_path_to(door.anchor)) in _controller.maintenance.get("pried_doors", [])
+
+
+func set_pried_door_open(door: Dictionary, opened: bool) -> void:
+	if not multiplayer.is_server() or not is_door_pried(door) or bool(door.locked):
+		return
+	var snapshot := _controller.get_snapshot()
+	var id := str(get_parent().get_path_to(door.anchor))
+	var states: Dictionary = snapshot.maintenance.get("manual_doors", {})
+	states[id] = opened
+	snapshot.maintenance["manual_doors"] = states
+	var overrides: Dictionary = snapshot.maintenance.get("debug_doors", {})
+	overrides.erase(id)
+	snapshot.maintenance["debug_doors"] = overrides
+	_controller._broadcast_snapshot(snapshot)
 
 
 func _setup_doors() -> void:
@@ -100,11 +132,16 @@ func _setup_doors() -> void:
 		if visual.find_child("Leaf", true, false) != null:
 			(blocker.shape as BoxShape3D).size = Vector3(1.12, 2.7, 0.24)
 			blocker.position.y = 1.35
+		if visual.has_meta("passage_size"):
+			var passage: Vector3 = visual.get_meta("passage_size")
+			(blocker.shape as BoxShape3D).size = passage
+			blocker.position.y = passage.y * 0.5
 		var indicators := _collect_indicators(visual)
 		var startup_route := (
 			lowered_name.begins_with("west_")
 			or lowered_name.begins_with("technical_")
 		)
+		startup_route = bool(visual.get_meta("unpowered_open", startup_route))
 		var locked := vehicle_gate
 		var emergency_egress := (
 			visual.name == &"living_hermetic_door"
@@ -133,6 +170,18 @@ func _setup_doors() -> void:
 		_doors.append(door)
 		blocker.get_parent().set("manager", self)
 		blocker.get_parent().set("door", door)
+		var interaction := Area3D.new()
+		interaction.name = "ManualInteraction"
+		interaction.collision_layer = 4
+		interaction.collision_mask = 0
+		interaction.set_script(preload("res://scripts/gameplay/base/pry_door_interaction.gd"))
+		blocker.get_parent().add_child(interaction)
+		interaction.set("manager", self)
+		interaction.set("door", door)
+		var interaction_shape := CollisionShape3D.new()
+		interaction_shape.shape = blocker.shape
+		interaction_shape.transform = blocker.transform
+		interaction.add_child(interaction_shape)
 		_apply_door_state(door, initial_open, true)
 
 

@@ -1,0 +1,16 @@
+[gd_scene format=3]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_albedo.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_orm.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_normal.png" id="3"]
+[node name="WetPool" type="Decal"]
+size = Vector3(1.6, 0.12, 1.6)
+texture_albedo = ExtResource("1")
+texture_orm = ExtResource("2")
+texture_normal = ExtResource("3")
+upper_fade = 0.05
+lower_fade = 0.05
+normal_fade = 0.6
+cull_mask = 1
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0

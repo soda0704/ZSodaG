@@ -1,0 +1,146 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_pool.tscn" id="1_a8u4a"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_albedo.png" id="2_6348y"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_normal.png" id="3_og6lk"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_orm.png" id="4_a3y3d"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_splash.tscn" id="5_uv8w8"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_albedo.png" id="6_qpgfm"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_normal.png" id="7_j7wwt"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_orm.png" id="8_4ev20"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_smear.tscn" id="9_3a7ao"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_albedo.png" id="10_33eiv"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_normal.png" id="11_c4161"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_orm.png" id="12_2y5ln"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_splatter.tscn" id="13_qk2q4"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_albedo.png" id="14_ks3k2"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_normal.png" id="15_pxff2"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_orm.png" id="16_mxbah"]
+
+[node name="BloodDressing" type="Node3D" unique_id=255844167]
+
+[node name="HoistMachinery" type="Decal" parent="." unique_id=812016772 instance=ExtResource("1_a8u4a")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -33, 0.375, -20)
+size = Vector3(1.9, 0.12, 1.615)
+texture_albedo = ExtResource("2_6348y")
+texture_normal = ExtResource("3_og6lk")
+texture_orm = ExtResource("4_a3y3d")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="HoistMachineryWall" type="Decal" parent="." unique_id=107663169 instance=ExtResource("5_uv8w8")]
+transform = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, -33, 1.5599976, -19.414999)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("6_qpgfm")
+texture_normal = ExtResource("7_j7wwt")
+texture_orm = ExtResource("8_4ev20")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="CargoEvacuation" type="Decal" parent="." unique_id=1490831260 instance=ExtResource("9_3a7ao")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -35, 0.01499939, -1.2)
+size = Vector3(1.8, 0.12, 1.53)
+texture_albedo = ExtResource("10_33eiv")
+texture_normal = ExtResource("11_c4161")
+texture_orm = ExtResource("12_2y5ln")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="CargoEvacuationWall" type="Decal" parent="." unique_id=267465481 instance=ExtResource("9_3a7ao")]
+transform = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, -35, 1.199997, 0.8349999)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("10_33eiv")
+texture_normal = ExtResource("11_c4161")
+texture_orm = ExtResource("12_2y5ln")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="ShaftRim" type="Decal" parent="." unique_id=1986599585 instance=ExtResource("13_qk2q4")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -53, 0.01499939, -21)
+size = Vector3(1.5, 0.12, 1.275)
+texture_albedo = ExtResource("14_ks3k2")
+texture_normal = ExtResource("15_pxff2")
+texture_orm = ExtResource("16_mxbah")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="ShaftRimWall" type="Decal" parent="." unique_id=1724796416 instance=ExtResource("9_3a7ao")]
+transform = Transform3D(0, -1, 0, 0, 0, -1, 1, 0, 0, -50.855, 1.199997, -21)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("10_33eiv")
+texture_normal = ExtResource("11_c4161")
+texture_orm = ExtResource("12_2y5ln")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="DeepArrivalWest" type="Decal" parent="." unique_id=300988075 instance=ExtResource("9_3a7ao")]
+transform = Transform3D(-0.9997923, 0.02038248, 0.00018732503, 0.020383341, 0.99975, 0.009188195, 0, 0.009190104, -0.9999578, -52.999695, -71.997925, -18.999863)
+size = Vector3(2, 0.12, 1.7)
+texture_albedo = ExtResource("10_33eiv")
+texture_normal = ExtResource("11_c4161")
+texture_orm = ExtResource("12_2y5ln")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="DeepArrivalEast" type="Decal" parent="." unique_id=1851175051 instance=ExtResource("13_qk2q4")]
+transform = Transform3D(-0.99985236, -0.01718171, 0.00022581371, -0.017183192, 0.99976605, -0.013139606, 0, -0.013141546, -0.9999137, -42.00026, -71.88515, -20.000196)
+size = Vector3(1.6, 0.12, 1.36)
+texture_albedo = ExtResource("14_ks3k2")
+texture_normal = ExtResource("15_pxff2")
+texture_orm = ExtResource("16_mxbah")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="DeepArrivalEastWall" type="Decal" parent="." unique_id=570811581 instance=ExtResource("9_3a7ao")]
+transform = Transform3D(0.1073175, -0.9932214, -0.044657394, 0, 0.044916797, -0.9989908, 0.9942248, 0.10720919, 0.0048203585, -39.23225, -70.69948, -19.998392)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("10_33eiv")
+texture_normal = ExtResource("11_c4161")
+texture_orm = ExtResource("12_2y5ln")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1

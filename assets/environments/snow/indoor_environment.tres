@@ -16,3 +16,4 @@ ambient_light_source = 2
 ambient_light_color = Color(0.7411765, 0.8156863, 0.8745098, 1)
 ambient_light_energy = 0.03
 tonemap_mode = 2
+ssr_enabled = true
