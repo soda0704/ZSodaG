@@ -1,20 +1,20 @@
 [gd_scene format=3 uid="uid://bq6r0gmf1m8u3"]
 
-[ext_resource type="PackedScene" uid="uid://ccnqa7qlnpcc8" path="res://scenes/art/doors/living_hermetic_door_visual_blockout.tscn" id="1_vkp5a"]
-[ext_resource type="PackedScene" uid="uid://dew173wl8gco2" path="res://scenes/art/doors/standard_door_frosted_visual_blockout.tscn" id="4_standard_door_frosted_visual"]
-[ext_resource type="PackedScene" uid="uid://d2f2qx027hi0m" path="res://scenes/art/doors/medical_hermetic_door_visual_blockout.tscn" id="6_medical_hermetic_door_visual"]
-[ext_resource type="PackedScene" uid="uid://r0l282ty6b2e" path="res://scenes/art/doors/common_protected_standard_door_visual_blockout.tscn" id="7_common_protected_standard_door_visual"]
-[ext_resource type="PackedScene" uid="uid://bmacx8hw4bkf2" path="res://scenes/art/doors/technical_hub_storage_door_visual_blockout.tscn" id="8_technical_hub_storage_door_visual"]
-[ext_resource type="PackedScene" uid="uid://0iqtip32vro5" path="res://scenes/art/doors/technical_storage_generator_door_visual_blockout.tscn" id="9_technical_storage_generator_door_visual"]
-[ext_resource type="PackedScene" uid="uid://cxjbvw0xj5jq7" path="res://scenes/art/doors/science_entrance_door_visual_blockout.tscn" id="10_science_entrance_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/science_briefing_research_door_visual_blockout.tscn" id="11_science_briefing_research_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/science_research_isolation_door_visual_blockout.tscn" id="12_science_research_isolation_door_visual"]
-[ext_resource type="PackedScene" uid="uid://cfp4aig1yq0x3" path="res://scenes/art/doors/west_hub_decon_door_visual_blockout.tscn" id="13_west_hub_decon_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/west_decon_equipment_door_visual_blockout.tscn" id="14_west_decon_equipment_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/west_equipment_garage_door_visual_blockout.tscn" id="15_west_equipment_garage_door_visual"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/west_garage_cold_warm_door_visual_blockout.tscn" id="16_west_cold_warm_door_visual"]
-[ext_resource type="PackedScene" uid="uid://lsm2iwy57ki4" path="res://scenes/art/doors/west_pedestrian_inner_door_visual_blockout.tscn" id="17_west_pedestrian_inner_door_visual"]
-[ext_resource type="PackedScene" uid="uid://it181pifpibu" path="res://scenes/art/doors/west_pedestrian_exterior_door_visual_blockout.tscn" id="18_west_pedestrian_exterior_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/living_hermetic_door_visual_blockout.tscn" id="1_vkp5a"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/standard_door_frosted_visual_blockout.tscn" id="4_standard_door_frosted_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/medical_hermetic_door_visual_blockout.tscn" id="6_medical_hermetic_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/common_protected_standard_door_visual_blockout.tscn" id="7_common_protected_standard_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/technical_hub_storage_door_visual_blockout.tscn" id="8_technical_hub_storage_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/technical_storage_generator_door_visual_blockout.tscn" id="9_technical_storage_generator_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/science_entrance_door_visual_blockout.tscn" id="10_science_entrance_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/science_briefing_research_door_visual_blockout.tscn" id="11_science_briefing_research_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/science_research_isolation_door_visual_blockout.tscn" id="12_science_research_isolation_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_hub_decon_door_visual_blockout.tscn" id="13_west_hub_decon_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_decon_equipment_door_visual_blockout.tscn" id="14_west_decon_equipment_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_equipment_garage_door_visual_blockout.tscn" id="15_west_equipment_garage_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_garage_cold_warm_door_visual_blockout.tscn" id="16_west_cold_warm_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_pedestrian_inner_door_visual_blockout.tscn" id="17_west_pedestrian_inner_door_visual"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/west_pedestrian_exterior_door_visual_blockout.tscn" id="18_west_pedestrian_exterior_door_visual"]
 [ext_resource type="PackedScene" path="res://scenes/objects/garage/garage_gate.tscn" id="19_west_vehicle_gate_visual"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_fuel_socket.tscn" id="20_base_fuel_socket"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_main_breaker.tscn" id="21_base_main_breaker"]
@@ -39,6 +39,8 @@
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/research_lab_art.tscn" id="40_research_lab_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/isolation_room_art.tscn" id="41_isolation_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/objects/vehicles/snowmobile.tscn" id="42_snowmobile"]
+
+[ext_resource type="PackedScene" path="res://scenes/art/blood/level_0_blood.tscn" id="blood_dressing"]
 
 [sub_resource type="BoxShape3D" id="Shape_indoor_hub"]
 size = Vector3(15.8, 8, 15.8)
@@ -215,10 +217,10 @@ transform = Transform3D(0, 0, -1.3333333, 0, 1, 0, 1, 0, 0, -9.963, 0, 0)
 
 [node name="West_Decon_Equipment_Door_Visual_Prototype" parent="Doors" unique_id=415856069 instance=ExtResource("14_west_decon_equipment_door_visual")]
 editor_description = "Opaque Decon to Equipment airlock door. Day 1 state is fully open. Uses the standard 3.04 x 3.00 m fitting scale in the base scene."
-transform = Transform3D(0, 0, -1.0133333, 0, 1, 0, 1, 0, 0, -18.003, 0, -3.5)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -18.003, 0, -3.5)
 
 [node name="West_Equipment_Garage_Door_Visual_Prototype" parent="Doors" unique_id=1886799030 instance=ExtResource("15_west_equipment_garage_door_visual")]
-transform = Transform3D(0, 0, -1.0133333, 0, 1, 0, 1, 0, 0, -26.003, 0, 3.5)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -26.003, 0, 3.5)
 
 [node name="West_Garage_Cold_Warm_Door_Visual_Prototype" parent="Doors" unique_id=106393883 instance=ExtResource("16_west_cold_warm_door_visual")]
 transform = Transform3D(0.8133333, 0, 0, 0, 0.8, 0, 0, 0, 1, -32, 0, 1.753)
@@ -239,7 +241,7 @@ visible = false
 
 [node name="Technical_Storage_Generator_Door_Visual_Prototype" parent="Doors" unique_id=1392108524 instance=ExtResource("9_technical_storage_generator_door_visual")]
 editor_description = "3.04 x 3 m fire-rated hermetic door for Storage to Generator. Closed art prototype based on the approved South Technical reference."
-transform = Transform3D(1.0133333, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 18.003)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 18.003)
 visible = false
 
 [node name="living_hermetic_door" parent="Doors" unique_id=70269635 instance=ExtResource("1_vkp5a")]
@@ -260,10 +262,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.003)
 visible = false
 
 [node name="Science_Briefing_Research_Door_Visual_Prototype" parent="Doors" unique_id=2091425612 instance=ExtResource("11_science_briefing_research_door_visual")]
-transform = Transform3D(1.0133333, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -18.003)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -18.003)
 
 [node name="Science_Research_Isolation_Door_Visual_Prototype" parent="Doors" unique_id=153211515 instance=ExtResource("12_science_research_isolation_door_visual")]
-transform = Transform3D(0, 0, -1.0133333, 0, 1, 0, 1, 0, 0, -0.003, 0, -22.5)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.003, 0, -22.5)
 
 [node name="Gameplay" type="Node3D" parent="." unique_id=1475033882]
 editor_description = "Реальные интерактивные объекты уровня без промежуточных socket-маркеров."
@@ -1085,3 +1087,5 @@ size = Vector3(0.3, 5.5, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, -9)
 use_collision = true
 size = Vector3(4, 0.4, 2)
+
+[node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]

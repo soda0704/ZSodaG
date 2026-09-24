@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/ui/helicopter_lobby_hud.tscn" id="3"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/overcast_soil_puresky_4k.exr" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/lobby/cabin_sound.tscn" id="5_audio"]
 [sub_resource type="PanoramaSkyMaterial" id="sky_material"]
 panorama = ExtResource("4")
 [sub_resource type="Sky" id="sky"]
@@ -21,6 +22,7 @@ uses_staging_lobby = true
 staging_spawns_path = NodePath("ArrivalCabin/Spawns")
 gameplay_origin_path = NodePath("Gameplay")
 [node name="ArrivalCabin" parent="." instance=ExtResource("2")]
+[node name="CabinSound" parent="." instance=ExtResource("5_audio")]
 [node name="ArrivalEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("environment")
 [node name="ArrivalSun" type="DirectionalLight3D" parent="."]

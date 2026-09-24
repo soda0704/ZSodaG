@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://byj0se8cnrgbt"]
 
+[ext_resource type="PackedScene" path="res://scenes/art/blood/level_2_blood.tscn" id="blood_dressing"]
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.28, 0.32, 0.35, 1)
 metallic = 0.18
@@ -1180,3 +1182,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 5.8, 0)
 light_color = Color(0.84, 0.2, 0.08, 1)
 light_energy = 0.85
 omni_range = 9.0
+
+[node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]

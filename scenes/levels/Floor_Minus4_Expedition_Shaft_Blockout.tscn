@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://c23ke48vjsxok"]
 
+[ext_resource type="PackedScene" path="res://scenes/art/blood/level_4_blood.tscn" id="blood_dressing"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="authored_door_manager"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l4_machine_room_fire.tscn" id="l4_machine_room_fire"]
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.25, 0.28, 0.3, 1)
 metallic = 0.16
@@ -837,6 +841,7 @@ size = Vector3(10, 0.06, 1.05)
 material = SubResource("Material_floor")
 
 [node name="Machine_Room_Fire_Door_Blockout" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=488647670]
+visible = false
 editor_description = "Fire separation between the hoist machinery and the open shaft hall. Leaves are parked open for layout review."
 
 [node name="South_Frame_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Machine_Room_Fire_Door_Blockout" unique_id=573102010]
@@ -1929,3 +1934,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 2.4, -26.8)
 light_color = Color(0.88, 0.22, 0.12, 1)
 light_energy = 0.42
 omni_range = 3.5
+
+[node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]
+
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="AutomaticDoors" type="Node" parent="Doors"]
+script = ExtResource("authored_door_manager")
+
+[node name="l4_machine_room_fire" parent="Doors" instance=ExtResource("l4_machine_room_fire")]
+transform = Transform3D(-3.4914813388431334e-15, 0, -1.0, 0, 1, 0, 1.0, 0, -3.4914813388431334e-15, -38.96, 0, -21)
+metadata/unpowered_open = true

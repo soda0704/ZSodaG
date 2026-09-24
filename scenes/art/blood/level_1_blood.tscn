@@ -1,0 +1,90 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_pool.tscn" id="1_jwqga"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_albedo.png" id="2_bhbtn"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_normal.png" id="3_ask8v"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_orm.png" id="4_q4b4c"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_smear.tscn" id="5_ad7yv"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_albedo.png" id="6_an0et"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_normal.png" id="7_7eqn8"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_orm.png" id="8_ofqbi"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_splatter.tscn" id="9_jhll7"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_albedo.png" id="10_056my"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_normal.png" id="11_ekpxn"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_orm.png" id="12_g7f4u"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_splash.tscn" id="13_84hsh"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_albedo.png" id="14_bwuw2"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_normal.png" id="15_x7iao"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_orm.png" id="16_j5yim"]
+
+[node name="BloodDressing" type="Node3D" unique_id=1674730849]
+
+[node name="SurveillanceDesk" type="Decal" parent="." unique_id=597910524 instance=ExtResource("1_jwqga")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -23, 0.01499939, -10)
+size = Vector3(1.6, 0.12, 1.36)
+texture_albedo = ExtResource("2_bhbtn")
+texture_normal = ExtResource("3_ask8v")
+texture_orm = ExtResource("4_q4b4c")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="SecurityRetreat" type="Decal" parent="." unique_id=1433926545 instance=ExtResource("5_ad7yv")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -44, 0.01499939, 2)
+size = Vector3(2.2, 0.12, 1.87)
+texture_albedo = ExtResource("6_an0et")
+texture_normal = ExtResource("7_7eqn8")
+texture_orm = ExtResource("8_ofqbi")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="SecurityRetreatWall" type="Decal" parent="." unique_id=694834604 instance=ExtResource("5_ad7yv")]
+transform = Transform3D(-0.8288022, 0.55954164, 0, 0, 0, -1, -0.55954164, -0.8288022, 0, -43.991608, 1.2000008, 2.6154866)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("6_an0et")
+texture_normal = ExtResource("7_7eqn8")
+texture_orm = ExtResource("8_ofqbi")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="CommandStation" type="Decal" parent="." unique_id=477942026 instance=ExtResource("9_jhll7")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -61, 0.01499939, -4)
+size = Vector3(1.5, 0.12, 1.275)
+texture_albedo = ExtResource("10_056my")
+texture_normal = ExtResource("11_ekpxn")
+texture_orm = ExtResource("12_g7f4u")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="VaultApproach" type="Decal" parent="." unique_id=511533452 instance=ExtResource("13_84hsh")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -50, 0.01499939, -9)
+size = Vector3(1.4, 0.12, 1.19)
+texture_albedo = ExtResource("14_bwuw2")
+texture_normal = ExtResource("15_x7iao")
+texture_orm = ExtResource("16_j5yim")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1

@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_pool.tscn" id="1_xcabc"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_albedo.png" id="2_ebbkv"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_normal.png" id="3_1dhg5"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_pool_orm.png" id="4_dkpeb"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/wet_splash.tscn" id="5_w12rk"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_albedo.png" id="6_x5byb"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_normal.png" id="7_mtc0r"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/wet_splash_orm.png" id="8_6yfr2"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_smear.tscn" id="9_w66an"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_albedo.png" id="10_7p360"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_normal.png" id="11_vcqrc"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_smear_orm.png" id="12_csruk"]
+[ext_resource type="PackedScene" path="res://scenes/art/blood/dry_splatter.tscn" id="13_es8c7"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_albedo.png" id="14_1ybov"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_normal.png" id="15_qm65m"]
+[ext_resource type="Texture2D" path="res://assets/materials/blood/dry_splatter_orm.png" id="16_jox7i"]
+
+[node name="BloodDressing" type="Node3D" unique_id=1459205170]
+
+[node name="LaboratoryTriage" type="Decal" parent="." unique_id=1141196940 instance=ExtResource("1_xcabc")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -29, 0.01499939, -14)
+size = Vector3(2, 0.12, 1.7)
+texture_albedo = ExtResource("2_ebbkv")
+texture_normal = ExtResource("3_1dhg5")
+texture_orm = ExtResource("4_dkpeb")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="LaboratoryTriageWall" type="Decal" parent="." unique_id=4522589 instance=ExtResource("5_w12rk")]
+transform = Transform3D(0.95694065, 0.29028377, 0, 0, 0, -1, -0.29028377, 0.95694065, 0, -28.995646, 1.2000008, -14.452576)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("6_x5byb")
+texture_normal = ExtResource("7_mtc0r")
+texture_orm = ExtResource("8_6yfr2")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="ContainmentBreach" type="Decal" parent="." unique_id=1474852576 instance=ExtResource("5_w12rk")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -35, -2.084999, -28)
+size = Vector3(2.4, 0.12, 2.04)
+texture_albedo = ExtResource("6_x5byb")
+texture_normal = ExtResource("7_mtc0r")
+texture_orm = ExtResource("8_6yfr2")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="ContainmentBreachWall" type="Decal" parent="." unique_id=1191910462 instance=ExtResource("5_w12rk")]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -35, -0.8999977, -30.835001)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("6_x5byb")
+texture_normal = ExtResource("7_mtc0r")
+texture_orm = ExtResource("8_6yfr2")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="IncidentGallery" type="Decal" parent="." unique_id=64898314 instance=ExtResource("9_w66an")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -20.8, 0.01499939, -23)
+size = Vector3(1.9, 0.12, 1.615)
+texture_albedo = ExtResource("10_7p360")
+texture_normal = ExtResource("11_vcqrc")
+texture_orm = ExtResource("12_csruk")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="IncidentGalleryWall" type="Decal" parent="." unique_id=1944206100 instance=ExtResource("9_w66an")]
+transform = Transform3D(0, 1, 0, 0, 0, -1, -1, 0, 0, -22.835, 1.2000008, -23)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("10_7p360")
+texture_normal = ExtResource("11_vcqrc")
+texture_orm = ExtResource("12_csruk")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="SanitationRetreat" type="Decal" parent="." unique_id=637244009 instance=ExtResource("13_es8c7")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -22, 0.01499939, -0.8)
+size = Vector3(1.4, 0.12, 1.19)
+texture_albedo = ExtResource("14_1ybov")
+texture_normal = ExtResource("15_qm65m")
+texture_orm = ExtResource("16_jox7i")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="SanitationRetreatWall" type="Decal" parent="." unique_id=1655087417 instance=ExtResource("9_w66an")]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -22, 1.2000008, -2.045)
+size = Vector3(1.3, 0.12, 1.6)
+texture_albedo = ExtResource("10_7p360")
+texture_normal = ExtResource("11_vcqrc")
+texture_orm = ExtResource("12_csruk")
+normal_fade = 0.6
+upper_fade = 0.05
+lower_fade = 0.05
+distance_fade_enabled = true
+distance_fade_begin = 35.0
+distance_fade_length = 15.0
+cull_mask = 1

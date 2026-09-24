@@ -162,8 +162,7 @@ func start_standalone_game() -> void:
 	GameMenu.force_close_menu()
 	spawn_player_for_peer(multiplayer.get_unique_id())
 	lobby_hud.refresh()
-	if not resume_base_on_start:
-		GameMenu.open_menu(GlobalGameMenu.MenuView.SESSION)
+	# New solo sessions stay playable in the cabin until the ESC ready action.
 
 
 func is_waiting_for_arrival() -> bool:
@@ -446,6 +445,11 @@ func _enter_v3_level() -> void:
 		return
 	_v3_transition_in_progress = true
 	_entered_v3_level = true
+	if has_node("CabinSound"):
+		if resume_base_on_start:
+			$CabinSound/CabinLoop.stop()
+		else:
+			$CabinSound/FadePlayer.play("arrival")
 	GameMenu.force_close_menu()
 	var transition_id := lobby_hud.show_transition_cover(
 		"ПОСАДКА У БАЗЫ..."

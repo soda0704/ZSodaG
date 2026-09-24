@@ -115,7 +115,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				close_menu()
 		else:
-			open_menu(MenuView.MAIN)
+			var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+			var waiting: bool = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
+			open_menu(MenuView.SESSION if waiting else MenuView.MAIN)
 		get_viewport().set_input_as_handled()
 
 

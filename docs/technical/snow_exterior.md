@@ -58,6 +58,12 @@ actor positions; exact placement/history is not synchronized or restored on join
 
 ## Validation
 
+`tools/tests/landscape_grounding_test.gd` checks all 516 saved rock instances
+against terrain heights and matching collision transforms. Run it with a graphical
+renderer: the headless rendering server cannot inspect MultiMesh transforms.
+Rock bases are embedded across their footprint, including slopes. Background
+ridge heights and shared vertex normals have been smoothed in the saved meshes.
+
     tools/.local/godotsteam-editor/godot.exe --path . -s tools/tests/snow_expansion_test.gd
 
 This loads the real level without persistent progression, checks both arrival

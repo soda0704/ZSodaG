@@ -1,5 +1,18 @@
 [gd_scene format=3 uid="uid://bbuu44pf3d8rd"]
 
+[ext_resource type="PackedScene" path="res://scenes/art/blood/level_1_blood.tscn" id="blood_dressing"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="authored_door_manager"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_checkpoint_spine.tscn" id="l1_checkpoint_spine"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_security_post.tscn" id="l1_security_post"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_communications.tscn" id="l1_communications"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_surveillance.tscn" id="l1_surveillance"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_data_vault.tscn" id="l1_data_vault"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_incident_record_gallery.tscn" id="l1_incident_record_gallery"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_emergency_coordination.tscn" id="l1_emergency_coordination"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_access_systems.tscn" id="l1_access_systems"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_response_coordination_gallery.tscn" id="l1_response_coordination_gallery"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_command_center.tscn" id="l1_command_center"]
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.3, 0.34, 0.38, 1)
 metallic = 0.2
@@ -1643,3 +1656,50 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.8, 0)
 light_color = Color(0.2, 0.58, 0.9, 1)
 light_energy = 1.05
 omni_range = 9.0
+
+[node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]
+
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="AutomaticDoors" type="Node" parent="Doors"]
+script = ExtResource("authored_door_manager")
+
+[node name="l1_checkpoint_spine" parent="Doors" instance=ExtResource("l1_checkpoint_spine")]
+transform = Transform3D(-4.3711393332531486e-08, 0, 0.999999999999999, 0, 1, 0, -0.999999999999999, 0, -4.3711393332531486e-08, -16.0, 0.0, 0.0)
+metadata/unpowered_open = true
+
+[node name="l1_security_post" parent="Doors" instance=ExtResource("l1_security_post")]
+transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -12.0, 0.0, -5.0)
+metadata/unpowered_open = true
+
+[node name="l1_communications" parent="Doors" instance=ExtResource("l1_communications")]
+transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -12.0, 0.0, 5.0)
+metadata/unpowered_open = true
+
+[node name="l1_surveillance" parent="Doors" instance=ExtResource("l1_surveillance")]
+transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -23.0, 0.0, -6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_data_vault" parent="Doors" instance=ExtResource("l1_data_vault")]
+transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -50.0, 0.0, -6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_incident_record_gallery" parent="Doors" instance=ExtResource("l1_incident_record_gallery")]
+transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -36.0, 0.0, -6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_emergency_coordination" parent="Doors" instance=ExtResource("l1_emergency_coordination")]
+transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -23.0, 0.0, 6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_access_systems" parent="Doors" instance=ExtResource("l1_access_systems")]
+transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -50.0, 0.0, 6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_response_coordination_gallery" parent="Doors" instance=ExtResource("l1_response_coordination_gallery")]
+transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -36.0, 0.0, 6.19999980926514)
+metadata/unpowered_open = true
+
+[node name="l1_command_center" parent="Doors" instance=ExtResource("l1_command_center")]
+transform = Transform3D(-4.3711393332531486e-08, 0, 0.999999999999999, 0, 1, 0, -0.999999999999999, 0, -4.3711393332531486e-08, -56.0, 0.0, 0.0)
+metadata/unpowered_open = true
