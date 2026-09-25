@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_BaseColor.png" id="4_o2gs6"]
 [ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_ORM.png" id="5_6cnfe"]
 [ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_Normal.png" id="6_rxxd6"]
-
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/door.ogg" id="sound_DoorAudio"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_js4nq"]
 resource_name = "M_Door_Frame"
 cull_mode = 2
@@ -148,6 +148,11 @@ _surfaces = [{
 "vertex_count": 40,
 "vertex_data": PackedByteArray("SNDnv+KMHkBedX0+wKjxv+KMHkBedX0+wKjxv+KMHkA/hZQ+SNDnv+KMHkA/hZQ+SNDnv+zsKUA/hZQ+SNDnv+KMHkA/hZQ+wKjxv+KMHkA/hZQ+wKjxv+zsKUA/hZQ+wKjxv+KMHkBedX0+wKjxv+zsKUBedX0+wKjxv+zsKUA/hZQ+wKjxv+KMHkA/hZQ+wKjxv+zsKUBedX0+SNDnv+zsKUBedX0+SNDnv+zsKUA/hZQ+wKjxv+zsKUA/hZQ+SNDnv+zsKUBedX0+SNDnv+KMHkBedX0+SNDnv+KMHkA/hZQ+SNDnv+zsKUA/hZQ+w6jxP+KMHkA/hZQ+w6jxP+KMHkBedX0+aM7nP+KMHkBedX0+aM7nP+KMHkA/hZQ+w6jxP+KMHkA/hZQ+aM7nP+KMHkA/hZQ+aM7nP+zsKUA/hZQ+w6jxP+zsKUA/hZQ+w6jxP+zsKUA/hZQ+w6jxP+zsKUBedX0+w6jxP+KMHkBedX0+w6jxP+KMHkA/hZQ+aM7nP+zsKUA/hZQ+aM7nP+zsKUBedX0+w6jxP+zsKUBedX0+w6jxP+zsKUA/hZQ+aM7nP+KMHkA/hZQ+aM7nP+KMHkBedX0+aM7nP+zsKUBedX0+aM7nP+zsKUA/hZQ+CIACAAUA//8IgAIABQD//wiAAgAFAP//CIACAAUA///+f/5/AAAAwP5//n8AAADA/n/+fwAAAMD+f/5/AAAAwAAA+n////z/AAD6f////P8AAPp////8/wAA+n////z/AYD7//z///8BgPv//P///wGA+//8////AYD7//z////9//5//3//v/3//n//f/+//f/+f/9//7/9//5//3//vwiAAgAFAP//CIACAAUA//8IgAIABQD//wiAAgAFAP///n/+fwAAAMD+f/5/AAAAwP5//n8AAADA/n/+fwAAAMD9//5//3//v/3//n//f/+//f/+f/9//7/9//5//3//vwGA+//8////AYD7//z///8BgPv//P///wGA+//8////AAD6f////P8AAPp////8/wAA+n////z/AAD6f////P8=")
 }]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4hvj"]
+albedo_color = Color(0.14509805, 0.17254902, 0.1882353, 1)
+metallic = 0.65
+roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcm4p"]
 resource_name = "M_Door_Leaf"
@@ -382,7 +387,7 @@ _surfaces = [{
 }]
 
 [node name="@Node3D@115" type="Node3D" unique_id=1230889713]
-metadata/passage_size = Vector3(2.9375, 3.3611124, 0.26)
+metadata/passage_size = Vector3(2.925, 3.2727792, 0.26)
 
 [node name="DoorAssembly" type="Node3D" parent="." unique_id=2095785867]
 
@@ -416,6 +421,29 @@ mesh = SubResource("ArrayMesh_euu2a")
 [node name="FrontStatusLensesIndicator" type="MeshInstance3D" parent="DoorAssembly/Frame" unique_id=56851693]
 layers = 262145
 mesh = SubResource("ArrayMesh_vldxb")
+
+[node name="ApertureLiner" type="Node3D" parent="DoorAssembly/Frame" unique_id=1929730479]
+
+[node name="LeftJamb" type="CSGBox3D" parent="DoorAssembly/Frame/ApertureLiner" unique_id=2074117108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67875, 1.833334, 0)
+layers = 262145
+use_collision = true
+size = Vector3(0.43249992, 3.666668, 0.3)
+material = SubResource("StandardMaterial3D_h4hvj")
+
+[node name="RightJamb" type="CSGBox3D" parent="DoorAssembly/Frame/ApertureLiner" unique_id=425279332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6787499, 1.833334, 0)
+layers = 262145
+use_collision = true
+size = Vector3(0.43250015, 3.666668, 0.3)
+material = SubResource("StandardMaterial3D_h4hvj")
+
+[node name="Header" type="CSGBox3D" parent="DoorAssembly/Frame/ApertureLiner" unique_id=446009269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4697237, 0)
+layers = 262145
+use_collision = true
+size = Vector3(3.79, 0.3938886, 0.3)
+material = SubResource("StandardMaterial3D_h4hvj")
 
 [node name="ClosedPreview" type="Node3D" parent="DoorAssembly" unique_id=1300727473]
 
@@ -482,8 +510,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3125, 1.6500007, 0)
 [node name="RightLeafOpenSocket" type="Marker3D" parent="AnimationSockets" unique_id=2090149768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3125, 1.6500007, 0)
 
-[node name="DoorAudio" type="AudioStreamPlayer3D" parent="."]
+[node name="DoorAudio" type="AudioStreamPlayer3D" parent="." unique_id=2106958544]
 stream = ExtResource("sound_DoorAudio")
 volume_db = -15.0
-max_distance = 24.0
 unit_size = 3.0
+max_distance = 24.0

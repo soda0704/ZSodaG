@@ -25,15 +25,20 @@ func run():
 	quality.apply({"LocalShadows":true,"SSR":true})
 	check(light.shadow_enabled and not untouched.shadow_enabled,"authored light shadow state restored")
 	check(zone.indoor_environment.ssr_enabled and not zone.indoor_environment.fog_enabled,"indoor reflections enabled without adding fog")
+	quality.apply({"Gamma":130,"Brightness":115})
+	check(is_equal_approx(zone.indoor_environment.adjustment_brightness,1.15) and zone.indoor_environment.adjustment_color_correction != null,"brightness and gamma affect the environment")
+	var tabs := root.get_node("GameMenu").settings_panel.get_node("SettingsTabs") as TabContainer
+	check(tabs.get_tab_count()==4,"settings are separated into four tabs")
 	zone.free()
 	var elevator = load("res://scenes/objects/elevator/elevator_functional_blockout.tscn").instantiate()
 	root.add_child(elevator)
 	await process_frame
 	var sound: AudioStreamPlayer3D = elevator.get_node("CabinMoving/TravelAudio")
+	check(elevator.cabin.get_meta("footstep_surface", "") == "metal", "elevator cabin has metal footsteps")
 	check(sound.stream.loop,"elevator stream imported as loop")
 	elevator._set_state(elevator.ElevatorState.MOVING)
 	await create_timer(0.7).timeout
-	check(sound.playing and is_equal_approx(sound.volume_db,-15.0),"travel sound fades in")
+	check(sound.playing and is_equal_approx(sound.volume_db,-9.0),"travel sound fades in")
 	elevator._set_state(elevator.ElevatorState.ARRIVING)
 	await create_timer(0.6).timeout
 	check(not sound.playing,"travel sound stops after fade")
@@ -49,6 +54,22 @@ func run():
 	var console = load("res://scripts/ui/developer_console.gd").new()
 	check(console._help_text().contains("Телепортироваться: управление") and console._help_text().contains("Создать батарейку"),"command descriptions identify actions and items")
 	console.free()
+	var delays := {}
+	var pitches := {}
+	var voice_scene: PackedScene = load("res://scenes/objects/monster_audio.tscn")
+	for i in 10:
+		var actor := VoiceTestActor.new()
+		root.add_child(actor)
+		var voice := voice_scene.instantiate()
+		actor.add_child(voice)
+		delays[voice.countdown] = true
+		pitches[voice.voice_pitch] = true
+		actor.free()
+	check(delays.size() == 10 and pitches.size() == 10, "ten monster voices have independent timing and pitch")
 	quality.apply(original)
 	print("RESULT ",failures)
 	quit(0 if failures.is_empty() else 1)
+
+class VoiceTestActor extends Node3D:
+	var health := 100.0
+	var model_id := "smily"

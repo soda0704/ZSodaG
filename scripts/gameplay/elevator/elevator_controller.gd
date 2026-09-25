@@ -591,7 +591,7 @@ func _set_state(next_state: ElevatorState) -> void:
 		if not sound.playing:
 			sound.volume_db = -60.0
 			sound.play()
-		_audio_fade.tween_property(sound, "volume_db", -15.0, 0.6)
+		_audio_fade.tween_property(sound, "volume_db", -9.0, 0.6)
 	else:
 		_audio_fade.tween_property(sound, "volume_db", -60.0, 0.45)
 		_audio_fade.tween_callback(sound.stop)

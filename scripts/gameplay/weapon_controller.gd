@@ -57,7 +57,7 @@ func _ready() -> void:
 	_audio = AudioStreamPlayer3D.new()
 	add_child(_audio)
 	_audio.max_distance = 24.0
-	_audio.volume_db = -24.0
+	_audio.volume_db = -30.0
 	_audio.stream = _make_shot_sound()
 	var layer := CanvasLayer.new()
 	add_child(layer)

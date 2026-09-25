@@ -81,6 +81,7 @@ func _ready() -> void:
 	connect_network_signals()
 	initialize_settings()
 	%GraphicsPanel.configure(self)
+	%CalibrationPanel.configure(self)
 	refresh_network_ui()
 
 

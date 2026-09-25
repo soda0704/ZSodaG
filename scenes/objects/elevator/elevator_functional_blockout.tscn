@@ -162,6 +162,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
 
 [node name="CabinMoving" type="AnimatableBody3D" parent="." unique_id=67625921]
+metadata/footstep_surface = "metal"
 unique_name_in_owner = true
 
 [node name="CabinVisualArt" parent="CabinMoving" unique_id=1929044872 instance=ExtResource("4_cabin_art")]

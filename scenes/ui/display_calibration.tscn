@@ -1,0 +1,40 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/graphics_panel.gd" id="1"]
+[node name="CalibrationPanel" type="VBoxContainer"]
+script = ExtResource("1")
+[node name="Rows" type="VBoxContainer" parent="."]
+[node name="Brightness" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/Brightness"]
+text = "Яркость, %"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/Brightness"]
+custom_minimum_size = Vector2(140, 0)
+min_value = 70.0
+max_value = 140.0
+step = 5.0
+[node name="Number" type="Label" parent="Rows/Brightness"]
+custom_minimum_size = Vector2(42, 0)
+[node name="Gamma" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/Gamma"]
+text = "Гамма"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/Gamma"]
+custom_minimum_size = Vector2(140, 0)
+min_value = 70.0
+max_value = 150.0
+step = 10.0
+[node name="Number" type="Label" parent="Rows/Gamma"]
+custom_minimum_size = Vector2(42, 0)
+[node name="HDRWhite" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/HDRWhite"]
+text = "Белый HDR, нит"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/HDRWhite"]
+custom_minimum_size = Vector2(140, 0)
+min_value = 100.0
+max_value = 400.0
+step = 20.0
+[node name="Number" type="Label" parent="Rows/HDRWhite"]
+custom_minimum_size = Vector2(42, 0)
+[node name="HDR" type="CheckButton" parent="Rows"]
+text = "HDR-вывод"

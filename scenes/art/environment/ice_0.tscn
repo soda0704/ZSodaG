@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_normal.res" id="1_6p5xf"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_2.res" id="2_yp50k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wbha"]
+albedo_color = Color(0.3882353, 0.60784316, 0.6627451, 1)
+metallic = 0.05
+roughness = 0.22
+normal_enabled = true
+normal_scale = 0.22
+normal_texture = ExtResource("1_6p5xf")
+clearcoat_enabled = true
+clearcoat = 0.8
+clearcoat_roughness = 0.12
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4kjh8"]
+points = PackedVector3Array(-0.89905024, 0.42909575, -0.3471312, -0.35845244, 0.83478796, -0.8098071, -0.46519724, 0.45574558, -0.90027124, -0.3899907, 0.0818281, -0.675381, -0.623495, 0.08715807, -0.22696829, -0.86468166, 0.4338107, 0.334378, -0.8159591, 0.8485229, 0.33652723, -0.42173108, 1.3306797, -0.21309584, -0.120702624, 1.4540888, -0.49249896, 0.28242087, 1.4754087, -0.67362255, 0.21691835, 0.35734624, -0.9217638, 0.1400944, -0.047936015, -0.7953485, -0.5076526, 0.0008536577, 0.18451631, -0.3796801, 0.03508842, 0.6573523, -0.5133133, 0.42520076, 0.9834529, -0.14536715, 1.4126791, 0.53504026, 0.09986293, 2, -0.00012421608, 0.31011784, 1.9540803, -0.07730198, 0.7136456, 1.3452345, -0.46162784, 0.79815197, 1.0170318, -0.5782738, 0.7055589, 0.536515, -0.5464257, 0.5990162, 0.112167895, -0.50285447, 0.7482164, -0.0942657, -0.00012421608, 0.5925468, -0.08934573, 0.49713516, 0.13706183, 0.032013446, 0.7777107, 0.24380672, 0.41474587, 1.0743078, 0.29050756, 1.0524966, 1.0289781, 0.28161216, 1.4690536, 0.6694664, 0.23753953, 1.9551053, 0.110073924, 0.32730222, 1.8821259, 0.0915122, 0.7037394, 1.4848386, -0.00012421608, 1.1663003, 0.49941027, -0.00012421608, 0.7037394, 0.3643162, 0.5448096, 0.60568774, 1.4549087, 0.3709153)
+
+[node name="GlacialIce" type="Node3D" unique_id=129369196]
+
+[node name="Ice" type="MeshInstance3D" parent="." unique_id=9654980]
+layers = 262145
+material_override = SubResource("StandardMaterial3D_0wbha")
+visibility_range_end = 400.0
+visibility_range_end_margin = 35.0
+mesh = ExtResource("2_yp50k")
+metadata/boundary_detail = true
+
+[node name="IceCollision" type="StaticBody3D" parent="." unique_id=2066593300]
+
+[node name="@CollisionShape3D@129" type="CollisionShape3D" parent="IceCollision" unique_id=744213648]
+shape = SubResource("ConvexPolygonShape3D_4kjh8")
