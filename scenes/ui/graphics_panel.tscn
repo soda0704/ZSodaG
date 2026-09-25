@@ -1,0 +1,118 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/ui/graphics_panel.gd" id="1"]
+[node name="GraphicsPanel" type="VBoxContainer"]
+script = ExtResource("1")
+[node name="Rows" type="VBoxContainer" parent="."]
+size_flags_horizontal = 3
+[node name="Preset" type="OptionButton" parent="Rows"]
+item_count = 4
+selected = 0
+popup/item_0/text = "Графика: свои настройки"
+popup/item_1/text = "Низкая — для слабого компьютера"
+popup/item_2/text = "Средняя"
+popup/item_3/text = "Высокая"
+[node name="FXAA" type="CheckButton" parent="Rows"]
+text = "Сглаживание FXAA"
+[node name="SSAO" type="CheckButton" parent="Rows"]
+text = "Контактные тени SSAO"
+[node name="SSIL" type="CheckButton" parent="Rows"]
+text = "Непрямое освещение SSIL"
+[node name="SSR" type="CheckButton" parent="Rows"]
+text = "Отражения SSR (лужи, металл)"
+[node name="Glow" type="CheckButton" parent="Rows"]
+text = "Свечение"
+[node name="Fog" type="CheckButton" parent="Rows"]
+text = "Туман окружения"
+[node name="SunShadows" type="CheckButton" parent="Rows"]
+text = "Тени солнца"
+[node name="LocalShadows" type="CheckButton" parent="Rows"]
+text = "Тени ламп"
+[node name="Scale" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/Scale"]
+text = "Разрешение 3D, %"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/Scale"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 50.0
+max_value = 100.0
+step = 5.0
+[node name="Number" type="Label" parent="Rows/Scale"]
+custom_minimum_size = Vector2(40, 0)
+[node name="MSAA" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/MSAA"]
+text = "MSAA: 0 выкл. / 1 ×2 / 2 ×4 / 3 ×8"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/MSAA"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 0.0
+max_value = 3.0
+step = 1.0
+[node name="Number" type="Label" parent="Rows/MSAA"]
+custom_minimum_size = Vector2(40, 0)
+[node name="FPS" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/FPS"]
+text = "Лимит FPS (0 — без ограничения)"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/FPS"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 0.0
+max_value = 240.0
+step = 30.0
+[node name="Number" type="Label" parent="Rows/FPS"]
+custom_minimum_size = Vector2(40, 0)
+[node name="ShadowDistance" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/ShadowDistance"]
+text = "Дальность теней солнца, м"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/ShadowDistance"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 30.0
+max_value = 220.0
+step = 10.0
+[node name="Number" type="Label" parent="Rows/ShadowDistance"]
+custom_minimum_size = Vector2(40, 0)
+[node name="LOD" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/LOD"]
+text = "Упрощение моделей (больше — быстрее)"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/LOD"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 1.0
+max_value = 8.0
+step = 1.0
+[node name="Number" type="Label" parent="Rows/LOD"]
+custom_minimum_size = Vector2(40, 0)
+[node name="DecalDistance" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/DecalDistance"]
+text = "Дальность крови и следов, м"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/DecalDistance"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 10.0
+max_value = 70.0
+step = 5.0
+[node name="Number" type="Label" parent="Rows/DecalDistance"]
+custom_minimum_size = Vector2(40, 0)
+[node name="TrackCount" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/TrackCount"]
+text = "Максимум следов на снегу"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/TrackCount"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 32.0
+max_value = 512.0
+step = 32.0
+[node name="Number" type="Label" parent="Rows/TrackCount"]
+custom_minimum_size = Vector2(40, 0)
+
+[node name="VegetationDistance" type="HBoxContainer" parent="Rows"]
+[node name="Label" type="Label" parent="Rows/VegetationDistance"]
+text = "Дальность деревьев и камней, м"
+size_flags_horizontal = 3
+[node name="Value" type="HSlider" parent="Rows/VegetationDistance"]
+custom_minimum_size = Vector2(120, 0)
+min_value = 150.0
+max_value = 750.0
+step = 50.0
+[node name="Number" type="Label" parent="Rows/VegetationDistance"]
+custom_minimum_size = Vector2(40, 0)

@@ -48,6 +48,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	var remaining := float(interactor.get("fuel_liters"))
 	var added := controller.refill_authoritative(peer_id, remaining)
 	if added > 0.0:
+		_play_pour.rpc()
 		interactor.set("fuel_liters", remaining - added)
 		interactor.call("_publish_inventory")
 
@@ -97,3 +98,7 @@ func _apply_fuel_state(is_fueled: bool, instant: bool = false) -> void:
 	_cap_tween.set_trans(Tween.TRANS_BACK)
 	_cap_tween.set_ease(Tween.EASE_OUT)
 	_cap_tween.tween_property(cap_pivot, "rotation:x", target_rotation, 0.3)
+
+@rpc("authority", "call_local", "reliable")
+func _play_pour() -> void:
+	$PourAudio.play()

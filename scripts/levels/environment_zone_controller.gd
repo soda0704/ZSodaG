@@ -30,6 +30,9 @@ func _connect_indoor_zones() -> void:
 		push_warning("Indoor and outdoor environments must both be assigned")
 		return
 	_transition_environment = _outdoor_environment.duplicate() as Environment
+	var quality := get_node_or_null("/root/GameMenu/GraphicsQuality")
+	if quality != null:
+		quality.apply_node(self)
 	for node in get_tree().get_nodes_in_group(indoor_zone_group):
 		var zone := node as Area3D
 		if zone == null:
@@ -125,7 +128,7 @@ func _apply_environment_blend() -> void:
 		indoor_environment.ambient_light_energy,
 		weight
 	)
-	_transition_environment.fog_enabled = true
+	_transition_environment.fog_enabled = _outdoor_environment.fog_enabled or indoor_environment.fog_enabled
 	_transition_environment.fog_light_color = (
 		_outdoor_environment.fog_light_color.lerp(
 			indoor_environment.fog_light_color,

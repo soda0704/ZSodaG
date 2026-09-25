@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://th2m0w1xvwis" path="res://scenes/art/elevator/elevator_shaft_module_visual_blockout.tscn" id="5_shaft_art"]
 [ext_resource type="PackedScene" uid="uid://b4hb3jy1ee7lp" path="res://scenes/art/elevator/elevator_landing_portal_visual_blockout.tscn" id="6_portal_art"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/elevator_move.ogg" id="sound_TravelAudio"]
 [sub_resource type="BoxShape3D" id="Shape_support"]
 size = Vector3(0.4, 78, 0.4)
 
@@ -467,3 +468,9 @@ shape = SubResource("Shape_call_panel")
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 3.65, 0)
 text = "УРОВЕНЬ 4"
 font_size = 48
+
+[node name="TravelAudio" type="AudioStreamPlayer3D" parent="CabinMoving"]
+stream = ExtResource("sound_TravelAudio")
+volume_db = -60.0
+max_distance = 24.0
+unit_size = 3.0

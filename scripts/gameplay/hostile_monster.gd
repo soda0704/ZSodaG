@@ -32,6 +32,7 @@ var _sight_left := 0.0
 
 func _ready() -> void:
 	add_to_group("hostile_monsters")
+	add_child(preload("res://scenes/objects/monster_audio.tscn").instantiate())
 	if debug_spawned:
 		add_to_group("debug_spawned_monsters")
 	collision_layer = 2

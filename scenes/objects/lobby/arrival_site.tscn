@@ -1,10 +1,12 @@
-[gd_scene format=3 uid="uid://d2pqy16wiric3"]
+[gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://assets/models/environment/heliport/scene.gltf" id="1_wmfvw"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="2_nhe8o"]
-
-
+[ext_resource type="Shape3D" path="res://assets/models/vehicles/chinook/fuselage_collision.res" id="4_8xu5q"]
+[ext_resource type="Script" path="res://scripts/network/lobby/chinook_ramp.gd" id="5_twwag"]
 [ext_resource type="Shape3D" path="res://assets/models/environment/heliport/platform_collision.res" id="6_platform"]
+[ext_resource type="AnimationLibrary" path="res://assets/models/vehicles/chinook/ramp_animations.tres" id="6_spp5g"]
+[ext_resource type="Texture2D" path="res://assets/materials/snow_patch.svg" id="7_cykq2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cykq2"]
 albedo_color = Color(0.17, 0.22, 0.25, 1)
@@ -187,11 +189,23 @@ size = Vector3(0.025, 0.012, 2.88)
 material = SubResource("StandardMaterial3D_cykq2")
 size = Vector3(0.025, 0.012, 2.88)
 
+[sub_resource type="BoxShape3D" id="floor"]
+size = Vector3(9.7, 0.16, 2.05)
 
+[sub_resource type="BoxShape3D" id="side"]
+size = Vector3(9.7, 2.15, 0.12)
 
+[sub_resource type="BoxShape3D" id="end"]
+size = Vector3(0.16, 2.15, 2.05)
 
+[sub_resource type="BoxShape3D" id="ramp"]
+size = Vector3(1.85, 0.12, 2.35)
 
+[sub_resource type="BoxShape3D" id="closed_gate"]
+size = Vector3(0.15, 2.45, 2.3)
 
+[sub_resource type="BoxShape3D" id="clearance"]
+size = Vector3(3.2, 3.2, 2.65)
 
 [node name="ArrivalSite" type="Node3D" unique_id=1955715997]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 8, 95)
@@ -200,6 +214,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 8, 95)
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
 
 [node name="PlatformCollision" type="StaticBody3D" parent="." unique_id=1975516054]
+metadata/footstep_surface = "metal"
 
 [node name="@CollisionShape3D@107" type="CollisionShape3D" parent="PlatformCollision" unique_id=1332060869]
 shape = ExtResource("6_platform")
@@ -211,6 +226,7 @@ use_collision = true
 polygon = PackedVector2Array(9, 3.23, 15.7, 3.55, 31, 0.1, 31, -0.08, 15.7, 3.37, 9, 3.05)
 depth = 3.0
 material = SubResource("StandardMaterial3D_cykq2")
+metadata/footstep_surface = "metal"
 
 [node name="Rail" type="CSGBox3D" parent="." unique_id=1797198522]
 transform = Transform3D(0.0477068, 0.9988614, 0, -0.9988614, 0.0477068, 0, 0, 0, 1, 12.35, 3.94, -1.5)
@@ -660,8 +676,70 @@ mesh = SubResource("BoxMesh_lh20w")
 editor_description = "CH-47 by drcrazzie, CC BY 4.0. Imported visual, authored cabin collision and player markers. +X points toward the cockpit."
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 3.28, 0)
 
+[node name="Floor" parent="Chinook/CabinCollision" index="0"]
+transform = Transform3D(0.99939954, -0.034648363, 0, 0.034648363, 0.99939954, 0, 0, 0, 1, -0.2, 1.16, 0)
+shape = SubResource("floor")
+
+[node name="Roof" parent="Chinook/CabinCollision" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 3.28, 0)
+shape = SubResource("floor")
+
+[node name="Left" parent="Chinook/CabinCollision" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 2.2, -1.08)
+shape = SubResource("side")
+
+[node name="Right" parent="Chinook/CabinCollision" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 2.2, 1.08)
+shape = SubResource("side")
+
+[node name="Cockpit" parent="Chinook/CabinCollision" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.65, 2.2, 0)
+shape = SubResource("end")
+
+[node name="Hull" parent="Chinook/FuselageCollision" index="0"]
+shape = ExtResource("4_8xu5q")
+
 [node name="RearRamp" parent="Chinook" index="3"]
+transform = Transform3D(0.43837142, -0.89879405, 1.9470718e-07, 0.89879405, 0.4383713, 0, -2.1925675e-07, 1.395264e-07, 1.0000001, -5.1299973, 1.039999, 0)
+collision_layer = 5
+script = ExtResource("5_twwag")
 starts_open = true
+
+[node name="Deck" parent="Chinook/RearRamp" index="0"]
+transform = Transform3D(0.88233286, 0.4706259, 0, -0.4706259, 0.88233286, 0, 0, 0, 1, -0.78, 0.39, 0)
+shape = SubResource("ramp")
+
+[node name="ClosedPassage" parent="Chinook/RearRamp" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 1.15, 0)
+shape = SubResource("closed_gate")
+disabled = true
+
+[node name="AnimationPlayer" parent="Chinook/RearRamp" index="2"]
+root_node = NodePath("../..")
+callback_mode_process = 0
+libraries/ = ExtResource("6_spp5g")
+
+[node name="RampClearance" parent="Chinook" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Shape" parent="Chinook/RampClearance" index="0"]
+shape = SubResource("clearance")
+
+[node name="Player1" parent="Chinook/Spawns" index="0"]
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -1.2, 1.22, -0.4)
+
+[node name="Player2" parent="Chinook/Spawns" index="1"]
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, 0.3, 1.22, 0.4)
+
+[node name="CabinLight" parent="Chinook" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0)
+light_color = Color(0.78, 0.86, 1, 1)
+light_energy = 0.65
+shadow_enabled = true
+omni_range = 6.0
+metadata/quality_shadow_original = true
 
 [node name="Spawns" type="Node3D" parent="." unique_id=263331461]
 
@@ -670,5 +748,55 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5, 3
 
 [node name="Player2" type="Marker3D" parent="Spawns" unique_id=930236263]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.5, 3.4, 6)
+
+[node name="WindblownSnow00" type="Decal" parent="." unique_id=1123807604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3.2350454, -6)
+size = Vector3(3, 0.15, 2.3)
+texture_albedo = ExtResource("7_cykq2")
+normal_fade = 0.8
+distance_fade_enabled = true
+distance_fade_begin = 55.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="WindblownSnow01" type="Decal" parent="." unique_id=941882308]
+transform = Transform3D(0.3901517, 0, 0.92075056, 0, 1, 0, -0.92075056, 0, 0.3901517, 6, 3.2350464, -7)
+size = Vector3(3.2, 0.15, 2.3)
+texture_albedo = ExtResource("7_cykq2")
+normal_fade = 0.8
+distance_fade_enabled = true
+distance_fade_begin = 55.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="WindblownSnow02" type="Decal" parent="." unique_id=643823015]
+transform = Transform3D(-0.69556326, 0, 0.71846485, 0, 1, 0, -0.71846485, 0, -0.69556326, -7, 3.2350464, 6)
+size = Vector3(3.4, 0.15, 2.3)
+texture_albedo = ExtResource("7_cykq2")
+normal_fade = 0.8
+distance_fade_enabled = true
+distance_fade_begin = 55.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="WindblownSnow03" type="Decal" parent="." unique_id=477854186]
+transform = Transform3D(-0.9329021, 0, -0.3601301, 0, 1, 0, 0.3601301, 0, -0.9329021, 8, 3.2350454, 5)
+size = Vector3(3.6, 0.15, 2.3)
+texture_albedo = ExtResource("7_cykq2")
+normal_fade = 0.8
+distance_fade_enabled = true
+distance_fade_begin = 55.0
+distance_fade_length = 15.0
+cull_mask = 1
+
+[node name="WindblownSnow04" type="Decal" parent="." unique_id=1325798363]
+transform = Transform3D(-0.03238349, 0, -0.99947554, 0, 1, 0, 0.99947554, 0, -0.03238349, 3, 3.2350502, 8)
+size = Vector3(3.8, 0.15, 2.3)
+texture_albedo = ExtResource("7_cykq2")
+normal_fade = 0.8
+distance_fade_enabled = true
+distance_fade_begin = 55.0
+distance_fade_length = 15.0
+cull_mask = 1
 
 [editable path="Chinook"]

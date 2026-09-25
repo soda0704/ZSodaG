@@ -80,6 +80,7 @@ func _ready() -> void:
 	connect_ui_signals()
 	connect_network_signals()
 	initialize_settings()
+	%GraphicsPanel.configure(self)
 	refresh_network_ui()
 
 
@@ -359,6 +360,7 @@ func save_settings_data() -> void:
 
 
 func apply_settings_data() -> void:
+	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 	var resolution := parse_resolution(
 		str(_settings_data.get("Resolution", "1920x1080"))
 	)

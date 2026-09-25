@@ -403,9 +403,9 @@ function Get-LauncherSettings {
     }
     try {
         $saved = Get-Content -Raw -LiteralPath $settingsPath | ConvertFrom-Json
-        foreach ($key in @($defaults.Keys)) {
-            if ($null -ne $saved.$key) {
-                $defaults[$key] = $saved.$key
+        foreach ($property in $saved.PSObject.Properties) {
+            if ($null -ne $property.Value) {
+                $defaults[$property.Name] = $property.Value
             }
         }
     }
@@ -419,7 +419,7 @@ function Get-LauncherSettings {
 function Save-LauncherSettings {
     param($Settings)
     New-Item -ItemType Directory -Path $settingsDirectory -Force | Out-Null
-    $Settings | ConvertTo-Json | Set-Content `
+    $Settings | ConvertTo-Json -Depth 8 | Set-Content `
         -LiteralPath $settingsPath `
         -Encoding UTF8
 }
@@ -648,15 +648,10 @@ $screenBox.SelectedIndex = [Math]::Min(
 $vSyncBox.IsChecked = [bool]$script:launcherSettings.VSync
 
 function Update-SettingsFromUi {
-    $script:launcherSettings = [PSCustomObject][ordered]@{
-        Resolution = [string]$resolutionBox.SelectedItem
-        WindowMode = [string]$windowModeBox.SelectedItem.Tag
-        Screen = [int]$screenBox.SelectedIndex
-        VSync = [bool]$vSyncBox.IsChecked
-        MasterVolume = [double]$script:launcherSettings.MasterVolume
-        MusicVolume = [double]$script:launcherSettings.MusicVolume
-        MouseSensitivity = [double]$script:launcherSettings.MouseSensitivity
-    }
+    $script:launcherSettings.Resolution = [string]$resolutionBox.SelectedItem
+    $script:launcherSettings.WindowMode = [string]$windowModeBox.SelectedItem.Tag
+    $script:launcherSettings.Screen = [int]$screenBox.SelectedIndex
+    $script:launcherSettings.VSync = [bool]$vSyncBox.IsChecked
     Save-LauncherSettings $script:launcherSettings
 }
 

@@ -68,6 +68,10 @@ func run():
 	check(not door.open,"power loss closes intact door")
 	player.crowbar_uses=2
 	var interaction = door.blocker.get_parent().get_node("ManualInteraction")
+	player.crowbar_uses = 0
+	check(interaction.get_interaction_prompt().is_empty(), "closed door without crowbar has no prompt")
+	player.crowbar_uses = 2
+	check(interaction.get_interaction_prompt() == "Вскрыть монтировкой", "pry prompt does not disclose usage count")
 	interaction.network_interact(player.owner_peer_id,player)
 	await create_timer(1.5).timeout
 	check(manager.is_door_pried(door) and door.open and player.crowbar_uses==1,"pry consumes one use and opens")
@@ -78,6 +82,7 @@ func run():
 	interaction.network_interact(player.owner_peer_id,player)
 	await create_timer(0.2).timeout
 	check(door.open and player.crowbar_uses==0,"pried door reopens by hand without tool")
+	check(interaction.get_interaction_prompt() == "Закрыть вручную", "pried open door offers a useful manual action")
 	check(not interaction.get_child(0).disabled,"open door remains interactable")
 	state=controller.get_snapshot()
 	state.main_breaker_on=true

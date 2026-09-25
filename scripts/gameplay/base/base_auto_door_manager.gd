@@ -353,6 +353,10 @@ func _apply_door_state(door: Dictionary, is_open: bool, instant: bool = false) -
 	if bool(door.open) == is_open:
 		return
 	door.open = is_open
+	if not instant:
+		var sound := (door.anchor as Node).get_node_or_null("DoorAudio")
+		if sound != null:
+			sound.play()
 	var old_tween := door.tween as Tween
 	if old_tween != null and old_tween.is_valid():
 		old_tween.kill()

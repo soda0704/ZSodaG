@@ -1703,3 +1703,15 @@ metadata/unpowered_open = true
 [node name="l1_command_center" parent="Doors" instance=ExtResource("l1_command_center")]
 transform = Transform3D(-4.3711393332531486e-08, 0, 0.999999999999999, 0, 1, 0, -0.999999999999999, 0, -4.3711393332531486e-08, -56.0, 0.0, 0.0)
 metadata/unpowered_open = true
+
+[node name="SecurityDoorTransom" type="CSGBox3D" parent="."]
+position = Vector3(-12, 4.525, -5)
+size = Vector3(2.8, 1.75, 0.35)
+use_collision = true
+material = SubResource("Material_structure")
+
+[node name="CommunicationsDoorTransom" type="CSGBox3D" parent="."]
+position = Vector3(-12, 4.525, 5)
+size = Vector3(2.8, 1.75, 0.35)
+use_collision = true
+material = SubResource("Material_structure")

@@ -383,7 +383,7 @@ func _refresh_inventory() -> void:
 		inventory_label.text = "Запас: патроны ×%d · магазины ×%d" % [int(data.get("pistol_ammo", 0)), data.get("rifle_magazines", []).size()]
 	controls_label.text = SteamInput.get_controls_hint()
 	if int(data.get("tape_count", 0)) > 0 or int(data.get("crowbar_uses", 0)) > 0:
-		inventory_label.text += "\nСкотч: %d · Монтировка: %d/3" % [int(data.get("tape_count", 0)), int(data.get("crowbar_uses", 0))]
+		inventory_label.text += "\nСкотч: %d · Монтировка: %s" % [int(data.get("tape_count", 0)), "есть" if int(data.get("crowbar_uses", 0)) > 0 else "нет"]
 	close_hint.text = ""
 	if is_journal_open():
 		var focused := get_viewport().gui_get_focus_owner()

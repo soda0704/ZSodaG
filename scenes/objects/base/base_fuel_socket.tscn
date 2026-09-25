@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_fuel_socket.gd" id="1_script"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/fuel.ogg" id="sound_PourAudio"]
 [sub_resource type="StandardMaterial3D" id="Material_panel"]
 albedo_color = Color(0.12, 0.14, 0.13, 1)
 metallic = 0.65
@@ -81,3 +82,9 @@ outline_size = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("Shape_panel")
+
+[node name="PourAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("sound_PourAudio")
+volume_db = -14.0
+max_distance = 24.0
+unit_size = 3.0

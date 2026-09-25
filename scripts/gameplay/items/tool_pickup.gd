@@ -8,4 +8,4 @@ func _ready() -> void:
 	$CollisionShape3D.shape = box
 
 func get_interaction_prompt() -> String:
-	return "Скотч · крепление фонарика" if item_type == &"tape" else "Монтировка · вскрытий: %d/3" % int(item_state.get("uses", 3))
+	return "Скотч · крепление фонарика" if item_type == &"tape" else "Монтировка"

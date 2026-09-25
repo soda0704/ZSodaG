@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_main_breaker.gd" id="1_script"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/power.ogg" id="power_audio"]
 [sub_resource type="StandardMaterial3D" id="Material_panel"]
 albedo_color = Color(0.1, 0.12, 0.13, 1)
 metallic = 0.7
@@ -63,3 +64,9 @@ outline_size = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("Shape_panel")
+
+[node name="PowerAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("power_audio")
+volume_db = -12.0
+max_distance = 30.0
+unit_size = 4.0

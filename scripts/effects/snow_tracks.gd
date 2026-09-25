@@ -28,6 +28,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_clock += delta
+	while _marks.size() > max_marks:
+		_remove_oldest()
 	var present: Dictionary = {}
 	for group in [&"network_players", &"snowmobiles"]:
 		for actor in get_tree().get_nodes_in_group(group):
@@ -41,7 +43,8 @@ func _physics_process(delta: float) -> void:
 		_remove_oldest()
 	for mark in _marks:
 		var remaining := lifetime - (_clock - float(mark.born))
-		(mark.node as Decal).modulate.a = clampf(remaining / maxf(fade_seconds, 0.01), 0.0, 1.0)
+		if remaining < fade_seconds:
+			(mark.node as Decal).modulate.a = clampf(remaining / maxf(fade_seconds, 0.01), 0.0, 1.0)
 
 func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	var id := actor.get_instance_id()
@@ -56,12 +59,15 @@ func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	if actor is GamePlayer:
 		blocked = actor.debug_fly or actor.debug_across or actor.is_driving() or (actor.survival != null and actor.survival.dead)
 	# Reset on jumps, teleports and transitions off snow: no connecting streaks.
-	if blocked or movement.length() > 4.0 or _contact(point, actor).is_empty():
+	if blocked or movement.length() > 4.0:
 		state.distance = 0.0
 		return
 	movement.y = 0.0
 	var distance := movement.length()
 	if distance < 0.001:
+		return
+	if _contact(point, actor).is_empty():
+		state.distance = 0.0
 		return
 	state.distance += distance
 	var spacing := track_distance if vehicle else step_distance

@@ -1,0 +1,12 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/effects/monster_audio.gd" id="1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/tail.ogg" id="v0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/slasher.ogg" id="v1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/smily.ogg" id="v2"]
+[node name="VoiceAudio" type="AudioStreamPlayer3D"]
+script = ExtResource("1")
+voices = Array[AudioStream]([ExtResource("v0"), ExtResource("v1"), ExtResource("v2")])
+volume_db = -14.0
+max_distance = 32.0
+unit_size = 4.0
+position = Vector3(0, 1, 0)

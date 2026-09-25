@@ -367,6 +367,7 @@ size = Vector3(35.5, 1.4, 0.16)
 material = SubResource("Material_hazard")
 
 [node name="Elevated_Inspection_Route" type="Node3D" parent="." unique_id=14534389]
+metadata/footstep_surface = "metal"
 editor_description = "Optional elevated inspection crossing. The primary ground route remains available on both sides of the reservoir."
 
 [node name="Central_Bridge" type="CSGBox3D" parent="Elevated_Inspection_Route" unique_id=1513700028]

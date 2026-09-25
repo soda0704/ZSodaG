@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dnbd6nuxkwehi" path="res://scripts/gameplay/elevator/elevator_rollup_door.gd" id="1_door"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/elevator_door.ogg" id="sound_DoorAudio"]
 [sub_resource type="StandardMaterial3D" id="Material_door"]
 albedo_color = Color(0.12, 0.19, 0.24, 1)
 metallic = 0.45
@@ -80,3 +81,9 @@ shape = SubResource("Shape_door_barrier")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1226447008]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_door")
+
+[node name="DoorAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("sound_DoorAudio")
+volume_db = -16.0
+max_distance = 24.0
+unit_size = 3.0

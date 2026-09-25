@@ -23,10 +23,12 @@ var _completion_caret := -1
 
 const DESCRIPTIONS := {"/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
 
+const COMMAND_DETAILS := {"/level 0": "Телепортироваться: поверхность базы", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: биологические лаборатории", "/level 4": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
+
 func _help_text() -> String:
 	var lines: PackedStringArray = []
 	for command in COMMANDS:
-		lines.append("[url=%s]%s[/url] — %s" % [command, command, DESCRIPTIONS.get(command.split(" ")[0], "")])
+		lines.append("[url=%s]%s[/url] — %s" % [command, command, COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
 	return "\n".join(lines)
 
 func _ready() -> void:

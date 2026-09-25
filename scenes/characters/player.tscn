@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="6_fuse_model"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuel_can_model.tscn" id="7_fuel_can_model"]
 
+[ext_resource type="PackedScene" path="res://scenes/characters/footstep_audio.tscn" id="foot_audio"]
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
 radius = 0.35
@@ -147,3 +148,5 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 18
 text = "БАТАРЕЯ: 100%"
 horizontal_alignment = 2
+
+[node name="FootstepAudio" parent="." instance=ExtResource("foot_audio")]

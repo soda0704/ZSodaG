@@ -10,11 +10,11 @@ func get_interaction_prompt() -> String:
 	if manager.is_door_pried(door):
 		return "Закрыть вручную" if door.open else "Открыть вручную"
 	if manager._controller != null and manager._controller.main_breaker_on and not door.locked:
-		return "Автоматическая дверь"
+		return ""
 	var local := get_tree().get_first_node_in_group("local_player")
 	if not door.open and not door.locked and local != null and local.crowbar_uses <= 0:
-		return "Закрыто · нужна монтировка"
-	return "Вскрыть монтировкой · 1 использование" if not door.open and not door.locked else "Дверь открыта" if door.open else "Ворота слишком тяжёлые"
+		return ""
+	return "Вскрыть монтировкой" if not door.open and not door.locked and local != null and local.crowbar_uses > 0 else ""
 
 func network_interact(peer: int, player: Node) -> void:
 	if not multiplayer.is_server() or busy or door.locked or player == null or int(player.get("owner_peer_id")) != peer:

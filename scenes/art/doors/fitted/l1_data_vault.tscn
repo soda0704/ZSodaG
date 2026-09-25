@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_ORM.png" id="5_6cnfe"]
 [ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_Normal.png" id="6_rxxd6"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/door.ogg" id="sound_DoorAudio"]
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_js4nq"]
 resource_name = "M_Door_Frame"
 cull_mode = 2
@@ -480,3 +481,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3125, 1.6500007, 0)
 
 [node name="RightLeafOpenSocket" type="Marker3D" parent="AnimationSockets" unique_id=2090149768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3125, 1.6500007, 0)
+
+[node name="DoorAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("sound_DoorAudio")
+volume_db = -15.0
+max_distance = 24.0
+unit_size = 3.0

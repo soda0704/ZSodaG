@@ -38,6 +38,8 @@ enum ElevatorState {
 @onready var cabin_floor_display: Label3D = %CabinFloorDisplay
 @onready var cabin_state_display: Label3D = %CabinStateDisplay
 
+var _audio_fade: Tween
+
 var state: ElevatorState = ElevatorState.IDLE_OPEN
 var current_floor_index: int = 0
 var pending_floor_index: int = -1
@@ -581,6 +583,18 @@ func _on_door_safety_body_exited(body: Node3D) -> void:
 
 func _set_state(next_state: ElevatorState) -> void:
 	state = next_state
+	var sound: AudioStreamPlayer3D = $CabinMoving/TravelAudio
+	if _audio_fade != null:
+		_audio_fade.kill()
+	_audio_fade = create_tween()
+	if state == ElevatorState.MOVING:
+		if not sound.playing:
+			sound.volume_db = -60.0
+			sound.play()
+		_audio_fade.tween_property(sound, "volume_db", -15.0, 0.6)
+	else:
+		_audio_fade.tween_property(sound, "volume_db", -60.0, 0.45)
+		_audio_fade.tween_callback(sound.stop)
 	_state_started_at_msec = Time.get_ticks_msec()
 	state_changed.emit(int(state))
 	_refresh_displays()

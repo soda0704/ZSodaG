@@ -740,6 +740,9 @@ func refresh_interaction_prompt() -> void:
 	var prompt := "Взаимодействовать"
 	if target.has_method("get_interaction_prompt"):
 		prompt = str(target.call("get_interaction_prompt"))
+	if prompt.strip_edges().is_empty():
+		interaction_prompt_label.visible = false
+		return
 	interaction_prompt_label.text = "%s %s" % [get_node("/root/SteamInput").get_action_hint(&"interact"), prompt]
 	interaction_prompt_label.visible = true
 

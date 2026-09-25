@@ -32,6 +32,7 @@ func set_open(value: bool, instant: bool = false) -> void:
 		animation_player.pause()
 		_set_internal_collision_closed(not value)
 		return
+	$DoorAudio.play()
 	if value:
 		animation_player.play(&"open")
 	else:

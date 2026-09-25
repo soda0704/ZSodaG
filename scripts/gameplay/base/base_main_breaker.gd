@@ -80,6 +80,8 @@ func _get_controller() -> BaseGameplayController:
 
 
 func _on_power_state_changed(is_powered: bool) -> void:
+	if is_powered:
+		$PowerAudio.play()
 	_apply_power_state(is_powered)
 
 
