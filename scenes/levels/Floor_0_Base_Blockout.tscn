@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/base_end_day_bunk.tscn" id="22_end_day_bunk"]
 [ext_resource type="Script" uid="uid://b3tkdcgwou2lb" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="23_auto_doors"]
 [ext_resource type="PackedScene" uid="uid://x70ffy4hwig4" path="res://scenes/art/base/living/east_living_shell_art.tscn" id="24_living_shell_art"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/living/common_room_art.tscn" id="25_common_room_art"]
+[ext_resource type="PackedScene" uid="uid://dr2lkq3bgosy5" path="res://scenes/art/base/living/common_room_art.tscn" id="25_common_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/protected_corridor_art.tscn" id="26_protected_corridor_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/sleeping_quarters_art.tscn" id="27_sleeping_quarters_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/medical_room_art.tscn" id="28_medical_room_art"]

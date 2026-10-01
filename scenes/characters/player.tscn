@@ -1,97 +1,87 @@
 [gd_scene format=3 uid="uid://bw1q38b7650a1"]
 
-[ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_player"]
-[ext_resource type="Script" path="res://scripts/characters/components/item_drag.gd" id="8_drag"]
-[ext_resource type="Script" path="res://scripts/characters/components/player_ragdoll.gd" id="9_ragdoll"]
-[ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
-[ext_resource type="Script" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
-[ext_resource type="PackedScene" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
-[ext_resource type="Script" path="res://scripts/characters/components/prototype_character_animator.gd" id="5_character_animator"]
+[ext_resource type="Script" uid="uid://di7uidbftoyrm" path="res://scripts/characters/player.gd" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://cfgm16dp3jxns" path="res://scenes/objects/equipment/flashlight.tscn" id="2_flashlight"]
+[ext_resource type="Script" uid="uid://tm8tyfecf31c" path="res://scripts/characters/components/first_person_camera_motion.gd" id="3_camera_motion"]
+[ext_resource type="PackedScene" uid="uid://y4ry5o51bomy" path="res://assets/characters/prototype/scene.gltf" id="4_character_model"]
+[ext_resource type="Script" uid="uid://jcf3bxvyjjci" path="res://scripts/characters/components/prototype_character_animator.gd" id="5_character_animator"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="6_fuse_model"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuel_can_model.tscn" id="7_fuel_can_model"]
-
+[ext_resource type="Script" uid="uid://c0i4vftqbx20d" path="res://scripts/characters/components/item_drag.gd" id="8_drag"]
+[ext_resource type="Script" uid="uid://c81hc2rhqqv84" path="res://scripts/characters/components/player_ragdoll.gd" id="9_ragdoll"]
 [ext_resource type="PackedScene" path="res://scenes/characters/footstep_audio.tscn" id="foot_audio"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
 radius = 0.35
 height = 1.8
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=412239836]
 collision_layer = 2
-collision_mask = 1
-floor_snap_length = 0.28
 floor_max_angle = 0.872665
+floor_snap_length = 0.28
 safe_margin = 0.04
 script = ExtResource("1_player")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1244386760]
 unique_name_in_owner = true
-position = Vector3(0, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape_player")
 
-[node name="ItemDrag" type="Node" parent="."]
+[node name="ItemDrag" type="Node" parent="." unique_id=1506189670]
 script = ExtResource("8_drag")
 
-[node name="PlayerRagdoll" type="Node" parent="."]
+[node name="PlayerRagdoll" type="Node" parent="." unique_id=488516010]
 script = ExtResource("9_ragdoll")
 
-[node name="BodyVisual" type="Node3D" parent="."]
+[node name="BodyVisual" type="Node3D" parent="." unique_id=164833334]
 unique_name_in_owner = true
-rotation = Vector3(0, 3.14159, 0)
-scale = Vector3(0.013, 0.013, 0.013)
+transform = Transform3D(-0.013, 0, 3.2957363e-08, 0, 0.013, 0, -3.2957363e-08, 0, -0.013, 0, 0, 0)
 script = ExtResource("5_character_animator")
 
-[node name="CharacterModel" parent="BodyVisual" instance=ExtResource("4_character_model")]
+[node name="CharacterModel" parent="BodyVisual" unique_id=1253110033 instance=ExtResource("4_character_model")]
 
-[node name="NameLabel" type="Label3D" parent="."]
+[node name="NameLabel" type="Label3D" parent="." unique_id=224139426]
 unique_name_in_owner = true
-position = Vector3(0, 2.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
 billboard = 1
 text = "Player"
-font_size = 32
 outline_size = 8
-no_depth_test = false
 
-[node name="Head" type="Node3D" parent="."]
+[node name="Head" type="Node3D" parent="." unique_id=1361491529]
 unique_name_in_owner = true
-position = Vector3(0, 1.65, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Head"]
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=2061400366]
 unique_name_in_owner = true
 far = 150.0
 script = ExtResource("3_camera_motion")
 
-[node name="Flashlight" parent="Head" instance=ExtResource("2_flashlight")]
+[node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D" unique_id=1080251457]
 unique_name_in_owner = true
-position = Vector3(0.18, -0.16, -0.02)
-drain_battery_locally = false
-malfunction_enabled = false
-
-[node name="HeldFuse" parent="Head" instance=ExtResource("6_fuse_model")]
-unique_name_in_owner = true
-visible = false
-position = Vector3(0.2, -0.2, -0.42)
-rotation = Vector3(0.25, -0.3, -0.25)
-scale = Vector3(1.35, 1.35, 1.35)
-
-[node name="HeldFuelCan" parent="Head" instance=ExtResource("7_fuel_can_model")]
-unique_name_in_owner = true
-visible = false
-position = Vector3(0.33, -0.34, -0.62)
-rotation = Vector3(0.08, -0.3, -0.08)
-scale = Vector3(0.72, 0.72, 0.72)
-
-[node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D"]
-unique_name_in_owner = true
-enabled = true
 target_position = Vector3(0, 0, -3)
 collision_mask = 5
 collide_with_areas = true
 
-[node name="PlayerUI" type="CanvasLayer" parent="."]
+[node name="Flashlight" parent="Head" unique_id=410442993 instance=ExtResource("2_flashlight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.16, -0.02)
+drain_battery_locally = false
+malfunction_enabled = false
+
+[node name="HeldFuse" parent="Head" unique_id=644896157 instance=ExtResource("6_fuse_model")]
+unique_name_in_owner = true
+transform = Transform3D(1.2740299, 0.223444, -0.38654983, -0.32361224, 1.2673682, -0.33399537, 0.30760866, 0.407861, 1.2496105, 0.2, -0.2, -0.42)
+visible = false
+
+[node name="HeldFuelCan" parent="Head" unique_id=1395539566 instance=ExtResource("7_fuel_can_model")]
+unique_name_in_owner = true
+transform = Transform3D(0.6870013, 0.038019273, -0.21209405, -0.05735456, 0.7154019, -0.05753858, 0.20770124, 0.07179672, 0.6856424, 0.33, -0.34, -0.62)
+visible = false
+
+[node name="PlayerUI" type="CanvasLayer" parent="." unique_id=388878152]
 layer = 5
 
-[node name="Crosshair" type="CenterContainer" parent="PlayerUI"]
+[node name="Crosshair" type="CenterContainer" parent="PlayerUI" unique_id=1070768269]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -100,7 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="CrosshairLabel" type="Label" parent="PlayerUI/Crosshair"]
+[node name="CrosshairLabel" type="Label" parent="PlayerUI/Crosshair" unique_id=176033322]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.72, 0.9)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
@@ -108,7 +98,7 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 18
 text = "+"
 
-[node name="PromptContainer" type="CenterContainer" parent="PlayerUI"]
+[node name="PromptContainer" type="CenterContainer" parent="PlayerUI" unique_id=625478007]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -122,7 +112,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="InteractionPromptLabel" type="Label" parent="PlayerUI/PromptContainer"]
+[node name="InteractionPromptLabel" type="Label" parent="PlayerUI/PromptContainer" unique_id=913580]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.72, 1)
@@ -132,7 +122,7 @@ theme_override_font_sizes/font_size = 18
 text = "[E] Взаимодействовать"
 horizontal_alignment = 1
 
-[node name="BatteryLabel" type="Label" parent="PlayerUI"]
+[node name="BatteryLabel" type="Label" parent="PlayerUI" unique_id=1461945325]
 unique_name_in_owner = true
 anchors_preset = 1
 anchor_left = 1.0
@@ -149,4 +139,4 @@ theme_override_font_sizes/font_size = 18
 text = "БАТАРЕЯ: 100%"
 horizontal_alignment = 2
 
-[node name="FootstepAudio" parent="." instance=ExtResource("foot_audio")]
+[node name="FootstepAudio" parent="." unique_id=8281142 instance=ExtResource("foot_audio")]

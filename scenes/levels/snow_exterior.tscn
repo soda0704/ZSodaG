@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://it38xnxigcbi"]
 
-[ext_resource type="Script" path="res://scripts/levels/snow_exterior.gd" id="1_si458"]
+[ext_resource type="Script" uid="uid://h6maemd0l4fv" path="res://scripts/levels/snow_exterior.gd" id="1_si458"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_albedo.res" id="3_terrain_albedo"]
-[ext_resource type="Texture2D" path="res://assets/environments/snow/alpine_overcast_panorama.exr" id="4_is1sx"]
+[ext_resource type="Texture2D" uid="uid://d4b0rsy3enpjc" path="res://assets/environments/snow/alpine_overcast_panorama.exr" id="4_is1sx"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_granite_albedo.res" id="4_ptgxl"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_normal.res" id="4_terrain_normal"]
-[ext_resource type="Texture2D" path="res://assets/environments/calibration/gamma_70.tres" id="5_kcy4x"]
+[ext_resource type="Texture2D" uid="uid://dqwj0el1yf02l" path="res://assets/environments/calibration/gamma_70.tres" id="5_kcy4x"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_0.res" id="5_n2o3g"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_1.res" id="6_k7mqb"]
-[ext_resource type="Script" path="res://scripts/effects/snow_tracks.gd" id="7_tracks"]
+[ext_resource type="Script" uid="uid://dwtjcl42wx78g" path="res://scripts/effects/snow_tracks.gd" id="7_tracks"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_2.res" id="7_w3rn4"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/snow_footprint.tscn" id="8_foot"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_3.res" id="8_qy88g"]
@@ -124,7 +124,6 @@ ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
 glow_enabled = true
-fog_enabled = true
 fog_light_color = Color(0.76862746, 0.83137256, 0.88235295, 1)
 fog_density = 0.002
 fog_sky_affect = 0.65
@@ -8696,6 +8695,6 @@ shape = SubResource("BoxShape3D_gusvm")
 transform = Transform3D(-0.011427794, 0, 0.9999347, 0, 1, 0, -0.9999347, 0, -0.011427794, -450, 125, 5)
 shape = SubResource("BoxShape3D_mvv5l")
 
-[node name="BoundaryDressing" type="Node3D" parent="." unique_id=793403480 instance=ExtResource("boundary_dressing")]
+[node name="BoundaryDressing" parent="." unique_id=793403480 instance=ExtResource("boundary_dressing")]
 
-[node name="CliffValley" type="Node3D" parent="." unique_id=1130337646 instance=ExtResource("valley_scenery")]
+[node name="CliffValley" parent="." unique_id=1130337646 instance=ExtResource("valley_scenery")]

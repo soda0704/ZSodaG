@@ -1,0 +1,44 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://sek45n6p48bh"
+path.s3tc="res://.godot/imported/CommonRoomArt_Image_1_26.png-dbea7f302088b009ca72b7387966d3f0.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "51f0fc9d2c1c67140a42c4e9de82d4c5"
+}
+
+[deps]
+
+source_file="res://assets/models/Base/Living/CommonRoom/CommonRoomArt_Image_1_26.png"
+dest_files=["res://.godot/imported/CommonRoomArt_Image_1_26.png-dbea7f302088b009ca72b7387966d3f0.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=8
+roughness/src_normal="res://assets/models/Base/Living/CommonRoom/CommonRoomArt_Image_2_25.png"
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
