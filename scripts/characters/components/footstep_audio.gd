@@ -31,16 +31,7 @@ func _physics_process(_delta: float) -> void:
 	if distance < stride:
 		return
 	distance = fmod(distance, stride)
-	var surface := "floor"
-	var node := hit.collider as Node
-	while node != null:
-		if node.is_class("Terrain3D"):
-			surface = "snow"
-			break
-		if node.has_meta("footstep_surface"):
-			surface = str(node.get_meta("footstep_surface"))
-			break
-		node = node.get_parent()
+	var surface := ContactSurface.classify(hit.collider as Node)
 	var clips := snow_sounds if surface == "snow" else metal_sounds if surface == "metal" else floor_sounds
 	if clips.is_empty():
 		return

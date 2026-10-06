@@ -60,6 +60,8 @@ const WINDOW_MODES := ["fullscreen", "windowed", "maximized"]
 @onready var master_volume_value: Label = %MasterVolumeValue
 @onready var music_volume_slider: HSlider = %MusicVolumeSlider
 @onready var music_volume_value: Label = %MusicVolumeValue
+@onready var audio_mix: AudioMixController = $AudioMix
+const AUDIO_OPTIONS := ["EffectsVolume", "WeaponsVolume", "VehiclesVolume", "MachineryVolume", "AmbienceVolume", "BreathingVolume", "RoomReverb"]
 @onready var mouse_sensitivity_slider: HSlider = %MouseSensitivitySlider
 @onready var mouse_sensitivity_value: Label = %MouseSensitivityValue
 @onready var settings_back_button: Button = %SettingsBackButton
@@ -147,6 +149,8 @@ func connect_ui_signals() -> void:
 	vsync_check.toggled.connect(_on_vsync_toggled)
 	master_volume_slider.value_changed.connect(_on_master_volume_changed)
 	music_volume_slider.value_changed.connect(_on_music_volume_changed)
+	for key in AUDIO_OPTIONS:
+		get_node("%%%sSlider" % key).value_changed.connect(_on_audio_category_changed.bind(key))
 	mouse_sensitivity_slider.value_changed.connect(
 		_on_mouse_sensitivity_changed
 	)
@@ -333,6 +337,13 @@ func load_settings_data() -> Dictionary:
 		"VSync": true,
 		"MasterVolume": 80.0,
 		"MusicVolume": 70.0,
+		"EffectsVolume": 100.0,
+		"WeaponsVolume": 100.0,
+		"VehiclesVolume": 100.0,
+		"MachineryVolume": 100.0,
+		"AmbienceVolume": 100.0,
+		"BreathingVolume": 100.0,
+		"RoomReverb": 50.0,
 		"MouseSensitivity": 1.0,
 	}
 	var path := get_settings_path()
@@ -427,9 +438,12 @@ func apply_settings_data() -> void:
 		0.25,
 		2.5
 	)
+	audio_mix.apply_settings(_settings_data)
 
 
 func refresh_settings_ui() -> void:
+	for key in AUDIO_OPTIONS:
+		get_node("%%%sSlider" % key).set_value_no_signal(float(_settings_data.get(key, 50.0 if key == "RoomReverb" else 100.0)))
 	var resolution_text := str(
 		_settings_data.get("Resolution", "1920x1080")
 	)
@@ -474,6 +488,8 @@ func resolution_to_text(value: Vector2i) -> String:
 
 
 func refresh_settings_value_labels() -> void:
+	for key in AUDIO_OPTIONS:
+		get_node("%%%sValue" % key).text = "%d%%" % int(get_node("%%%sSlider" % key).value)
 	master_volume_value.text = "%d%%" % int(master_volume_slider.value)
 	music_volume_value.text = "%d%%" % int(music_volume_slider.value)
 	mouse_sensitivity_value.text = "%.2f×" % mouse_sensitivity_slider.value
@@ -513,6 +529,12 @@ func _on_master_volume_changed(value: float) -> void:
 	refresh_settings_value_labels()
 	save_settings_data()
 
+
+func _on_audio_category_changed(value: float, key: String) -> void:
+	_settings_data[key] = value
+	audio_mix.apply_settings(_settings_data)
+	refresh_settings_value_labels()
+	save_settings_data()
 
 func _on_music_volume_changed(value: float) -> void:
 	_settings_data["MusicVolume"] = value

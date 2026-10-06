@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/background_music.gd" id="logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/northernlab.ogg" id="music"]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer"]
+process_mode = 3
+script = ExtResource("logic")
+stream = ExtResource("music")
+bus = &"Music"
+volume_db = -60.0

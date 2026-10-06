@@ -187,6 +187,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	))
 	if not accepted:
 		return
+	interactor.player_audio.play_cue.rpc(&"pickup")
 	if remaining > 0:
 		_receive_item_state.rpc({"amount": remaining})
 		return

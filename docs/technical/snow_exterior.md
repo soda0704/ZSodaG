@@ -12,15 +12,19 @@ Source: https://github.com/TokisanGames/Terrain3D/releases/tag/v1.0.2-stable
 Edit the sixteen regions in `assets/environments/snow/expanded_terrain` with the Terrain3D
 editor tools. Save the scene AND modified terrain regions. The shaft has a hole;
 do not paint terrain over it. Runtime full-region collision supports players far
-from the host camera. Render layer 18 receives snow decals, outdoor sunlight uses
-layer 19, and held weapons use 20. Keep these layers separate. Terrain3D's internal
+from the host camera. Render layer 18 receives snow decals; outdoor scenery uses
+layer 19 and held weapons use 20. Sunlight now affects all normal geometry layers,
+including the base, so authored walls/roofs and native shadows block direct light. Terrain3D's internal
 high layer bit is preserved. `minimum_view_distance` exposes the 2600 m camera
 clipping distance needed by the background ridges.
 The console command `/outside` moves the caller beside the garage; `/level 0` returns.
 The separate `/testroom` is buried at (180, -130, 180), outside the base interiors.
 
-Indoor/outdoor camera environments are now managed by `EnvironmentZoneController`
-and explicit `indoor_environment_zone` Area3D volumes. Roof snow is generated only
+Lighting uses the shared authored WorldEnvironment; entering rooms no longer
+overrides camera environment, ambient light, sky or fog. All broad indoor audio
+volumes are removed. Small AcousticPortal scenes at the garage and pedestrian
+entrances follow actual door opening; positional ventilation is attached to vents.
+Roof snow is generated only
 for visible CSG roofs in `exterior_snow_roof`; hiding an art/blockout branch must not
 leave its snow cap floating above the map.
 

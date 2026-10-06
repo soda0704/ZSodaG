@@ -163,6 +163,12 @@ func get_bunk_item_drop_transform(player_slot: int) -> Transform3D:
 	]
 
 
+func get_respawn_transform(player_slot: int) -> Transform3D:
+	var state := get_node_or_null("BaseGameplayController") as BaseGameplayController
+	if state == null or not state.main_breaker_on:
+		return Transform3D(Basis(Vector3.UP, get_player_spawn_yaw(player_slot)), get_player_spawn_position(player_slot))
+	return get_day_start_transform(player_slot)
+
 func get_day_start_transform(player_slot: int) -> Transform3D:
 	if day_start_transforms.is_empty():
 		return Transform3D.IDENTITY

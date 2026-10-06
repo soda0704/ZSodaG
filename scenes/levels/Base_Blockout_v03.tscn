@@ -11,9 +11,9 @@
 [ext_resource type="Script" uid="uid://cpgrr88he7oiq" path="res://scripts/gameplay/base/base_power_lighting_controller.gd" id="10_power_lighting"]
 [ext_resource type="Script" uid="uid://chmwubd0n2dsn" path="res://scripts/gameplay/base/base_day_progression_controller.gd" id="11_day_progression"]
 [ext_resource type="PackedScene" uid="uid://it38xnxigcbi" path="res://scenes/levels/snow_exterior.tscn" id="12_exterior"]
-[ext_resource type="Script" uid="uid://jpgpxw3ahnf7" path="res://scripts/levels/environment_zone_controller.gd" id="13_environment_zones"]
-[ext_resource type="Environment" uid="uid://d1gp6r61e5ixr" path="res://assets/environments/snow/indoor_environment.tres" id="14_indoor_environment"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/arrival_site.tscn" id="15_arrival"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/base_ambience.tscn" id="ambience_audio"]
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
@@ -27,12 +27,6 @@ script = ExtResource("10_power_lighting")
 
 [node name="BaseDayProgressionController" type="Node" parent="." unique_id=1687325544]
 script = ExtResource("11_day_progression")
-
-[node name="EnvironmentZoneController" type="Node" parent="." unique_id=1995181948]
-editor_description = "Переключает окружение активной камеры по явно заданным Area3D-зонам помещений."
-script = ExtResource("13_environment_zones")
-indoor_environment = ExtResource("14_indoor_environment")
-outdoor_environment_path = NodePath("../SnowExterior/OvercastDayEnvironment")
 
 [node name="SnowExterior" parent="." unique_id=1408054320 instance=ExtResource("12_exterior")]
 
@@ -57,3 +51,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, -54, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)
 
 [node name="ArrivalSite" parent="." unique_id=320115555 instance=ExtResource("15_arrival")]
+
+[node name="BaseAmbience" parent="." instance=ExtResource("ambience_audio")]

@@ -1,4 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/generator.ogg" id="generator"]
+[ext_resource type="Script" path="res://scripts/effects/powered_loop_audio.gd" id="generator_audio_logic"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_hazard"]
 albedo_color = Color(0.95, 0.48, 0.035, 1)
@@ -16,6 +19,7 @@ albedo_color = Color(0.9, 0.38, 0.06, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_technical"]
 albedo_color = Color(0.82, 0.16, 0.04, 1)
+
 
 [node name="GeneratorRoomArt" type="Node3D"]
 editor_description = "Генераторная, оборудование и относящиеся к ней сюжетные пропсы."
@@ -59,6 +63,7 @@ size = Vector3(6.6, 0.3, 4.1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.8, 22)
 use_collision = true
 size = Vector3(6, 3, 3.5)
+metadata/impact_surface = "metal"
 
 [node name="Technical_Generator_North_Access_Panel_A_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1036092205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.8, 20.21)
@@ -248,3 +253,11 @@ material = SubResource("StandardMaterial3D_hub_arrival")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.25, 1.19, 22.72)
 size = Vector3(0.32, 0.08, 0.12)
 material = SubResource("StandardMaterial3D_hub_arrival")
+
+[node name="GeneratorAudio" type="AudioStreamPlayer3D" parent="Blockout/Generator_Room/Power_Generation/Technical_Main_Generator_Blockout"]
+bus = &"Machinery"
+stream = ExtResource("generator")
+script = ExtResource("generator_audio_logic")
+volume_db = -80.0
+unit_size = 8.0
+max_distance = 40.0

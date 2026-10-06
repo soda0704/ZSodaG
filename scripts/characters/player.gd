@@ -6,6 +6,7 @@ signal inventory_changed
 var survival: PlayerSurvival
 var debug_fly := false
 var debug_across := false
+var debug_speed_multiplier := 1.0
 var _flight_vertical := 0.0
 var weapon: WeaponController
 var vehicle: Node3D
@@ -39,7 +40,12 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 
 @export_group("Movement")
 @export var walk_speed: float = 4.0
-@export var sprint_speed: float = 6.5
+@export var sprint_speed: float = 6.8
+@export_range(0.5, 30.0) var sprint_duration: float = 6.0
+@export_range(0.5, 30.0) var sprint_rest_duration: float = 4.0
+var _sprint_remaining := 6.0
+var _sprint_rest := 0.0
+var _sprint_active := false
 @export var crouch_speed: float = 2.2
 @export var acceleration: float = 14.0
 @export var air_control_multiplier: float = 0.28
@@ -72,6 +78,8 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @onready var interaction_ray: RayCast3D = %InteractionRay
 @onready var interaction_prompt_label: Label = %InteractionPromptLabel
 @onready var battery_label: Label = %BatteryLabel
+@onready var sprint_label: Label = %SprintLabel
+@onready var player_audio: Node = $PlayerAudio
 @onready var crosshair: Control = %Crosshair
 
 var gravity: float = float(
@@ -152,11 +160,12 @@ func setup(
 
 
 func _ready() -> void:
+	_sprint_remaining = sprint_duration
 	add_to_group("network_players")
 	survival = preload("res://scripts/characters/components/player_survival.gd").new()
 	survival.name = "Survival"
 	add_child(survival)
-	weapon = preload("res://scripts/gameplay/weapon_controller.gd").new()
+	weapon = preload("res://scenes/characters/weapon_controller.tscn").instantiate()
 	weapon.name = "Weapon"
 	add_child(weapon)
 	name_label.text = player_display_name
@@ -247,7 +256,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_local_player():
+		sprint_label.visible = not survival.dead and not is_driving() and not _is_sleeping_in_bunk
+		sprint_label.text = "БЕГ: отдых %.1f с" % _sprint_rest if _sprint_rest > 0.0 else "БЕГ: %.1f с" % _sprint_remaining
 	if survival.dead:
+		if multiplayer.is_server() or is_local_player():
+			_update_sprint(delta)
 		velocity = Vector3.ZERO
 		interaction_prompt_label.hide()
 		battery_label.hide()
@@ -264,10 +278,12 @@ func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
 		if is_local_player():
 			copy_local_input_to_server()
+		_update_sprint(delta)
 		simulate_authoritative_movement(delta)
 		update_authoritative_flashlight_battery(delta)
 		send_snapshot_if_due(delta)
 	elif is_local_player():
+		_update_sprint(delta)
 		simulate_predicted_movement(delta)
 		send_input_if_due(delta)
 		apply_reconciliation(delta)
@@ -281,6 +297,28 @@ func _physics_process(delta: float) -> void:
 
 func is_local_player() -> bool:
 	return owner_peer_id == multiplayer.get_unique_id()
+
+
+func _update_sprint(delta: float) -> void:
+	var wants_sprint := _server_sprint if multiplayer.is_server() else _input_sprint
+	var movement := _server_move if multiplayer.is_server() else _input_move
+	var crouching := _server_crouch if multiplayer.is_server() else _input_crouch
+	var allowed := wants_sprint and movement.length_squared() > 0.01 and not crouching and not _is_crouching and not survival.dead and not is_driving() and not _is_sleeping_in_bunk and not debug_fly
+	if _sprint_active and not allowed:
+		_sprint_active = false
+		_sprint_rest = sprint_rest_duration
+	if _sprint_rest > 0.0:
+		_sprint_rest = maxf(0.0, _sprint_rest - delta)
+		if _sprint_rest <= 0.0:
+			_sprint_remaining = sprint_duration
+		return
+	_sprint_active = allowed and _sprint_remaining > 0.0
+	if _sprint_active:
+		_sprint_remaining = maxf(0.0, _sprint_remaining - delta)
+		if _sprint_remaining <= 0.00001:
+			_sprint_active = false
+			_sprint_remaining = 0.0
+			_sprint_rest = sprint_rest_duration
 
 
 func collect_local_input() -> void:
@@ -369,20 +407,20 @@ func update_local_view_motion(delta: float) -> void:
 	var reference_speed := (
 		crouch_speed
 		if _is_crouching
-		else sprint_speed if _input_sprint else walk_speed
+		else sprint_speed if _sprint_active else walk_speed
 	)
 	var movement_ratio := horizontal_speed / maxf(reference_speed, 0.001)
 	camera.update_motion(
 		delta,
 		movement_ratio,
 		is_on_floor(),
-		_input_sprint
+		_sprint_active
 	)
 	flashlight.update_motion(
 		delta,
 		movement_ratio,
 		is_on_floor(),
-		_input_sprint
+		_sprint_active
 	)
 
 
@@ -406,7 +444,7 @@ func update_character_animation(delta: float) -> void:
 	var sprinting := (
 		horizontal_speed > walk_speed + 0.45
 		if is_remote_client_player
-		else _server_sprint if multiplayer.is_server() else _input_sprint
+		else _sprint_active
 	)
 	var grounded := (
 		absf(animation_velocity.y) < 0.12
@@ -513,7 +551,7 @@ func _submit_input(
 func simulate_authoritative_movement(delta: float) -> void:
 	if is_driving():
 		update_vehicle_look(_server_yaw, _server_pitch)
-		vehicle.set_driver_input(owner_peer_id, _server_move)
+		vehicle.set_driver_input(owner_peer_id, _server_move, _server_sprint)
 		_server_consumed_jump_serial = _server_jump_serial
 		_server_consumed_drop_item_serial = _server_drop_item_serial
 		_server_consumed_flashlight_serial = _server_flashlight_serial
@@ -609,13 +647,15 @@ func simulate_movement(
 	if debug_fly and not survival.dead:
 		var flight_direction := head.global_basis * Vector3(move_input.x, 0, move_input.y)
 		flight_direction.y += _flight_vertical
-		velocity = flight_direction.limit_length() * (18.0 if sprinting else 7.0)
+		velocity = flight_direction.limit_length() * (18.0 if sprinting else 7.0) * debug_speed_multiplier
 		if debug_across:
 			global_position += velocity * delta
 		else:
 			move_and_slide()
 		survival.reset_fall()
 		return
+
+	sprinting = _sprint_active
 
 	if not is_on_floor():
 		var gravity_scale := fall_gravity_multiplier if velocity.y < 0.0 else 1.0
@@ -638,8 +678,8 @@ func simulate_movement(
 		if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.75:
 			item.linear_velocity += (item.global_position - global_position).normalized() * 1.5
 			carried_weight = maxf(carried_weight, item.get_push_resistance())
-	var target_velocity := world_direction * speed / (1.0 + carried_weight * 0.06)
-	var movement_acceleration := acceleration
+	var target_velocity := world_direction * speed * debug_speed_multiplier / (1.0 + carried_weight * 0.06)
+	var movement_acceleration := acceleration * debug_speed_multiplier
 	if not is_on_floor():
 		movement_acceleration *= air_control_multiplier
 
@@ -700,13 +740,21 @@ func can_stand_up() -> bool:
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
 
+func get_interaction_target() -> Node:
+	interaction_ray.collision_mask = 4 if debug_across else 5
+	force_update_transform()
+	head.force_update_transform()
+	camera.force_update_transform()
+	interaction_ray.force_update_transform()
+	interaction_ray.force_raycast_update()
+	return interaction_ray.get_collider() as Node
+
 func try_authoritative_interaction() -> void:
 	if survival.dead:
 		return
 	if not multiplayer.is_server():
 		return
-	interaction_ray.force_raycast_update()
-	var target := interaction_ray.get_collider() as Node
+	var target := get_interaction_target()
 	if target == null or not target.has_method("network_interact"):
 		return
 	target.call("network_interact", owner_peer_id, self)
@@ -725,14 +773,15 @@ func refresh_interaction_prompt() -> void:
 	if is_driving():
 		interaction_prompt_label.visible = true
 		interaction_prompt_label.text = "Бензин: %.0f%%" % (vehicle.fuel_liters / vehicle.tank_capacity * 100.0)
+		if vehicle.is_engine_starting():
+			interaction_prompt_label.text = "Двигатель заводится…"
 		return
 
 	if $ItemDrag.dragging:
 		interaction_prompt_label.visible = false
 		return
 
-	interaction_ray.force_raycast_update()
-	var target := interaction_ray.get_collider() as Node
+	var target := get_interaction_target()
 	if target == null or not target.has_method("network_interact"):
 		interaction_prompt_label.visible = false
 		return
@@ -947,6 +996,7 @@ func get_inventory_snapshot() -> Dictionary:
 		"held_item": _held_item_type,
 		"debug_fly": debug_fly,
 		"debug_across": debug_across,
+		"debug_speed_multiplier": debug_speed_multiplier,
 		"fuel_liters": fuel_liters,
 		"tape_count": tape_count,
 		"crowbar_uses": crowbar_uses,
@@ -984,6 +1034,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	_inventory_revision = revision
 	debug_fly = bool(data.get("debug_fly", false))
 	debug_across = bool(data.get("debug_across", false))
+	debug_speed_multiplier = clampf(float(data.get("debug_speed_multiplier", 1.0)), 0.1, 20.0)
 	tape_count = maxi(0, int(data.get("tape_count", 0)))
 	crowbar_uses = clampi(int(data.get("crowbar_uses", 0)), 0, 3)
 	weapon_light_mounted = bool(data.get("weapon_light_mounted", false)) and StringName(data.get("held_item", "")) in [&"pistol", &"m4a1"] and bool(data.get("has_flashlight", false))
@@ -1019,6 +1070,7 @@ func toggle_flashlight_authoritative() -> bool:
 	if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
 		if weapon_light_mounted:
 			_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0
+			player_audio.play_cue.rpc(&"flashlight_on" if _flashlight_enabled else &"flashlight_off")
 			_publish_inventory()
 			return true
 		_show_pocket_light_notice.rpc_id(owner_peer_id)
@@ -1026,6 +1078,7 @@ func toggle_flashlight_authoritative() -> bool:
 	_held_item_type = NO_ITEM if _held_item_type == FLASHLIGHT_ITEM else FLASHLIGHT_ITEM
 	_flashlight_enabled = _held_item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
 	_flashlight_malfunctioning = false
+	player_audio.play_cue.rpc(&"flashlight_on" if _flashlight_enabled else &"flashlight_off")
 	_publish_inventory()
 	return true
 
@@ -1086,6 +1139,7 @@ func _begin_inventory_action(action: StringName) -> void:
 
 @rpc("authority", "call_local", "reliable", 2)
 func _play_battery_action() -> void:
+	player_audio.play_cue(&"battery")
 	if weapon_light_mounted:
 		weapon.play_mounted_battery_action()
 	else:
@@ -1400,7 +1454,8 @@ func send_snapshot_if_due(delta: float) -> void:
 		_flashlight_enabled,
 		_flashlight_malfunctioning,
 		_server_last_sequence,
-		get_inventory_snapshot()
+		get_inventory_snapshot(),
+		Vector3(_sprint_remaining, _sprint_rest, 1.0 if _sprint_active else 0.0)
 	)
 
 
@@ -1417,8 +1472,13 @@ func _receive_authoritative_state(
 	server_flashlight_enabled: bool,
 	server_flashlight_malfunctioning: bool,
 	_acknowledged_input: int,
-	server_inventory: Dictionary = {}
+	server_inventory: Dictionary = {},
+	server_sprint_state: Vector3 = Vector3(-1.0, 0.0, 0.0)
 ) -> void:
+	if server_sprint_state.x >= 0.0:
+		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)
+		_sprint_rest = clampf(server_sprint_state.y, 0.0, sprint_rest_duration)
+		_sprint_active = server_sprint_state.z > 0.5
 	if not server_inventory.is_empty():
 		apply_inventory_snapshot(server_inventory)
 	else:

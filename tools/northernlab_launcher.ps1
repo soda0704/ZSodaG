@@ -354,6 +354,7 @@ function Invoke-DevelopmentBuild {
 
     Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "MONSTER_CREDITS.md") -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $outputDirectory "MOUNTAIN_CREDITS.txt") -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "PINE_CREDITS.md") -Force
 
     $revision = "unavailable"
     $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue

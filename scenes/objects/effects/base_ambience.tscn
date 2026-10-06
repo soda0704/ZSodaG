@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/exterior_acoustics.gd" id="logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/wind.ogg" id="wind"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/blizzard.ogg" id="blizzard"]
+
+[node name="BaseAmbience" type="Node"]
+script = ExtResource("logic")
+storm_sources_path = NodePath("../SnowExterior/CliffValley")
+
+[node name="Wind" type="AudioStreamPlayer" parent="."]
+bus = &"Ambience"
+stream = ExtResource("wind")
+volume_db = -80.0
+
+[node name="Storm" type="AudioStreamPlayer" parent="."]
+bus = &"Ambience"
+stream = ExtResource("blizzard")
+volume_db = -80.0
+
+[node name="MuffledWind" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("wind")
+volume_db = -80.0
+bus = &"MuffledWeather"

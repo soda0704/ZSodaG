@@ -74,7 +74,11 @@ func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	if float(state.distance) < spacing:
 		return
 	state.distance = fmod(float(state.distance), spacing)
-	var forward := movement.normalized()
+	# Feet keep the body's heading when backpedalling or strafing.
+	# Movement determines step spacing, not the direction the toes face.
+	var forward := -actor.global_basis.z
+	forward.y = 0.0
+	forward = forward.normalized()
 	var right := forward.cross(Vector3.UP).normalized()
 	if vehicle:
 		forward = -actor.global_basis.z.normalized()

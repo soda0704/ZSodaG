@@ -4,6 +4,18 @@ extends Node3D
 const TYPES := [&"pistol", &"m4a1", &"kitchen_knife"]
 const CAPACITY := {&"pistol": 12, &"m4a1": 30, &"kitchen_knife": 0}
 const TITLES := {&"pistol": "Пистолет", &"m4a1": "M4A1", &"kitchen_knife": "Кухонный нож"}
+@export var pistol_sound: AudioStream
+@export var rifle_sound: AudioStream
+@export var pistol_reload_sound: AudioStream
+@export var rifle_reload_sound: AudioStream
+@export var pistol_empty_sound: AudioStream
+@export var rifle_empty_sound: AudioStream
+@export var concrete_impact_sound: AudioStream
+@export var metal_impact_sound: AudioStream
+@export var snow_impact_sound: AudioStream
+@onready var _mechanism_audio: AudioStreamPlayer3D = $MechanismAudio
+@export var impact_audio_scene: PackedScene
+
 var kind: StringName = &""
 var rounds: int = 0
 var pistol_ammo: int = 0
@@ -54,11 +66,7 @@ func _ready() -> void:
 	_flash.light_energy = 3.0
 	_flash.omni_range = 5.0
 	_flash.hide()
-	_audio = AudioStreamPlayer3D.new()
-	add_child(_audio)
-	_audio.max_distance = 24.0
-	_audio.volume_db = -30.0
-	_audio.stream = _make_shot_sound()
+	_audio = $ShotAudio
 	var layer := CanvasLayer.new()
 	add_child(layer)
 	_hud = Label.new()
@@ -162,12 +170,14 @@ func perform_action(action: StringName) -> bool:
 			return false
 		reload_left = 2.1 if kind == &"m4a1" else 1.35
 		_reload_kind = kind
-		_play_effect.rpc(true)
+		_play_effect.rpc(true, kind)
 		_notify_inventory()
 		return true
 	if action != &"fire" or _cooldown > 0.0 or reload_left > 0.0:
 		return false
 	if kind != &"kitchen_knife" and rounds <= 0:
+		_cooldown = 0.35
+		_play_empty.rpc(kind)
 		return false
 	_cooldown = 0.1 if kind == &"m4a1" else 0.55 if kind == &"kitchen_knife" else 0.24
 	if kind != &"kitchen_knife":
@@ -188,8 +198,9 @@ func perform_action(action: StringName) -> bool:
 			target.apply_impulse(direction * 2.0, hit.position - target.global_position)
 		var surface := target as Node3D
 		if surface != null:
-			_impact.rpc(hit.position, hit.normal, surface.get_path(), surface.to_local(hit.position + hit.normal * 0.015))
-	_play_effect.rpc(false)
+			var impact_surface := &"" if kind == &"kitchen_knife" or target.has_method("apply_weapon_damage") else ContactSurface.classify(target, true)
+			_impact.rpc(hit.position, hit.normal, surface.get_path(), surface.to_local(hit.position + hit.normal * 0.015), impact_surface)
+	_play_effect.rpc(false, kind)
 	_notify_inventory()
 	return true
 
@@ -214,6 +225,7 @@ func _commit_reload() -> void:
 		rounds = fullest
 
 func _cancel_animation() -> void:
+	_mechanism_audio.stop()
 	if _animation != null and _animation.is_valid():
 		_animation.kill()
 	_pose.position = _rest
@@ -228,19 +240,27 @@ func play_mounted_battery_action() -> void:
 	_animation.tween_property(_pose, "rotation", Vector3.ZERO, 0.38)
 
 @rpc("authority", "call_local", "reliable", 2)
-func _play_effect(reloading: bool) -> void:
+func _play_effect(reloading: bool, effect_kind: StringName = &"") -> void:
+	if effect_kind.is_empty():
+		effect_kind = kind
 	_cancel_animation()
 	_animation = create_tween()
 	if reloading:
+		_mechanism_audio.stream = rifle_reload_sound if effect_kind == &"m4a1" else pistol_reload_sound
+		_mechanism_audio.play()
 		_animation.tween_property(_pose, "rotation", Vector3(-0.4, 0, -0.5), 0.2)
-		_animation.tween_interval(1.6 if kind == &"m4a1" else 0.85)
+		_animation.tween_interval(1.6 if effect_kind == &"m4a1" else 0.85)
 		_animation.tween_property(_pose, "rotation", Vector3.ZERO, 0.3)
-	elif kind == &"kitchen_knife":
+	elif effect_kind == &"kitchen_knife":
 		_animation.tween_property(_pose, "rotation", Vector3(0.4, -0.7, -0.9), 0.12)
 		_animation.tween_property(_pose, "rotation", Vector3.ZERO, 0.3)
 	else:
-		_audio.pitch_scale = 0.8 if kind == &"m4a1" else 1.1
-		_audio.play()
+		var shot := rifle_sound if effect_kind == &"m4a1" else pistol_sound
+		if shot != null:
+			if _audio.stream != shot:
+				_audio.stream = shot
+			_audio.pitch_scale = 1.0
+			_audio.play()
 		_flash.show()
 		_pose.position += Vector3(0, 0.014, 0.035)
 		_pose.rotation.x = 0.07
@@ -250,7 +270,14 @@ func _play_effect(reloading: bool) -> void:
 		_animation.parallel().tween_property(_pose, "rotation", Vector3.ZERO, 0.07)
 
 @rpc("authority", "call_local", "unreliable", 2)
-func _impact(point: Vector3, normal: Vector3, surface_path: NodePath = NodePath(), local_point: Vector3 = Vector3.ZERO) -> void:
+func _impact(point: Vector3, normal: Vector3, surface_path: NodePath = NodePath(), local_point: Vector3 = Vector3.ZERO, impact_surface: StringName = &"") -> void:
+	if not impact_surface.is_empty() and impact_audio_scene != null:
+		var impact_audio := impact_audio_scene.instantiate() as AudioStreamPlayer3D
+		get_tree().root.add_child(impact_audio)
+		impact_audio.global_position = point
+		impact_audio.stream = metal_impact_sound if impact_surface == &"metal" else snow_impact_sound if impact_surface == &"snow" else concrete_impact_sound
+		impact_audio.finished.connect(impact_audio.queue_free)
+		impact_audio.play()
 	var surface := get_node_or_null(surface_path) as Node3D if not surface_path.is_empty() else null
 	if not surface_path.is_empty() and surface == null:
 		return
@@ -274,16 +301,7 @@ func _impact(point: Vector3, normal: Vector3, surface_path: NodePath = NodePath(
 	fade.tween_interval(0.25)
 	fade.tween_callback(mark.queue_free)
 
-func _make_shot_sound() -> AudioStreamWAV:
-	var bytes := PackedByteArray()
-	var random := RandomNumberGenerator.new()
-	random.seed = 742
-	for index in 3600:
-		var time := index / 22050.0
-		var wave := (random.randf_range(-1.0, 1.0) * 0.7 + sin(time * 900.0) * 0.3) * exp(-time * 42.0)
-		bytes.append(int(clampf(wave * 100.0 + 128.0, 0, 255)))
-	var stream := AudioStreamWAV.new()
-	stream.format = AudioStreamWAV.FORMAT_8_BITS
-	stream.mix_rate = 22050
-	stream.data = bytes
-	return stream
+@rpc("authority", "call_local", "reliable", 2)
+func _play_empty(effect_kind: StringName) -> void:
+	_mechanism_audio.stream = rifle_empty_sound if effect_kind == &"m4a1" else pistol_empty_sound
+	_mechanism_audio.play()

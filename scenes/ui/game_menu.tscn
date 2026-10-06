@@ -1,4 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/background_music.tscn" id="background_music"]
 
 [ext_resource type="Script" path="res://scripts/ui/game_menu.gd" id="1_menu"]
 
@@ -8,6 +10,8 @@
 [ext_resource type="Script" path="res://scripts/ui/graphics_quality.gd" id="4_quality"]
 
 [ext_resource type="PackedScene" path="res://scenes/ui/display_calibration.tscn" id="5_calibration"]
+[ext_resource type="Script" path="res://scripts/effects/audio_mix_controller.gd" id="audio_mix"]
+
 [sub_resource type="StyleBoxFlat" id="Style_panel"]
 bg_color = Color(0.035, 0.045, 0.065, 0.97)
 border_width_left = 1
@@ -315,7 +319,7 @@ text = "НАСТРОЙКИ"
 horizontal_alignment = 1
 
 [node name="SettingsTabs" type="TabContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel"]
-custom_minimum_size = Vector2(0, 360)
+custom_minimum_size = Vector2(0, 460)
 [node name="Экран" type="ScrollContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs"]
 horizontal_scroll_mode = 0
 [node name="Rows" type="VBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Экран"]
@@ -399,7 +403,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/VolumeRow"]
-custom_minimum_size = Vector2(190, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
 text = "Общая громкость"
@@ -427,7 +431,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/MusicRow"]
-custom_minimum_size = Vector2(190, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
 text = "Музыка"
@@ -447,6 +451,189 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 text = "70%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+
+[node name="EffectsVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/EffectsVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Взаимодействия и эффекты"
+
+[node name="EffectsVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/EffectsVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="EffectsVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/EffectsVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="WeaponsVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/WeaponsVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Оружие"
+
+[node name="WeaponsVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/WeaponsVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="WeaponsVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/WeaponsVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VehiclesVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/VehiclesVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Транспорт"
+
+[node name="VehiclesVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/VehiclesVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="VehiclesVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/VehiclesVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MachineryVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/MachineryVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Генератор и вентиляция"
+
+[node name="MachineryVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/MachineryVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="MachineryVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/MachineryVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AmbienceVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/AmbienceVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Ветер и окружение"
+
+[node name="AmbienceVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/AmbienceVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="AmbienceVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/AmbienceVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BreathingVolumeRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/BreathingVolumeRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Дыхание"
+
+[node name="BreathingVolumeSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/BreathingVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="BreathingVolumeValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/BreathingVolumeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="RoomReverbRow" type="HBoxContainer" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/RoomReverbRow"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Объём звука в помещении"
+
+[node name="RoomReverbSlider" type="HSlider" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/RoomReverbRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 36)
+max_value = 100.0
+step = 1.0
+value = 50.0
+
+[node name="RoomReverbValue" type="Label" parent="MenuRoot/Center/MenuPanel/Margin/Content/SettingsPanel/SettingsTabs/Звук/Rows/RoomReverbRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(58, 0)
+text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -515,3 +702,8 @@ horizontal_alignment = 1
 
 [node name="GraphicsQuality" type="Node" parent="."]
 script = ExtResource("4_quality")
+
+[node name="BackgroundMusic" parent="." instance=ExtResource("background_music")]
+
+[node name="AudioMix" type="Node" parent="."]
+script = ExtResource("audio_mix")

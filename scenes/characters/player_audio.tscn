@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/components/player_audio.gd" id="logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_calm.ogg" id="breath_calm"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_short.ogg" id="breath_short"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_long.ogg" id="breath_long"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/pickup.ogg" id="pickup"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/battery_insert.ogg" id="battery_insert"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/flashlight_on.ogg" id="flashlight_on"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/flashlight_off.ogg" id="flashlight_off"]
+
+[node name="PlayerAudio" type="Node3D"]
+script = ExtResource("logic")
+short_breath = ExtResource("breath_short")
+long_breath = ExtResource("breath_long")
+
+[node name="CalmBreathing" type="AudioStreamPlayer" parent="."]
+bus = &"Breathing"
+stream = ExtResource("breath_calm")
+volume_db = -80.0
+
+[node name="RecoveryBreathing" type="AudioStreamPlayer" parent="."]
+bus = &"Breathing"
+volume_db = -80.0
+
+[node name="Pickup" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+position = Vector3(0, 1.4, 0)
+stream = ExtResource("pickup")
+volume_db = -14.0
+unit_size = 1.0
+max_distance = 12.0
+
+[node name="Battery" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+position = Vector3(0, 1.4, 0)
+stream = ExtResource("battery_insert")
+volume_db = -18.0
+unit_size = 1.0
+max_distance = 12.0
+
+[node name="FlashlightOn" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+position = Vector3(0, 1.4, 0)
+stream = ExtResource("flashlight_on")
+volume_db = -16.0
+unit_size = 1.0
+max_distance = 12.0
+
+[node name="FlashlightOff" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+position = Vector3(0, 1.4, 0)
+stream = ExtResource("flashlight_off")
+volume_db = -16.0
+unit_size = 1.0
+max_distance = 12.0

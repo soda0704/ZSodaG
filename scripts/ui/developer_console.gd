@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
-const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/day 1", "/day 2", "/day 3", "/day 4", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
+const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/day 1", "/day 2", "/day 3", "/day 4", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
 @onready var entry: LineEdit = $Panel/Box/Entry
@@ -21,7 +21,7 @@ var _completion_editing := false
 var _completion_text := ""
 var _completion_caret := -1
 
-const DESCRIPTIONS := {"/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
+const DESCRIPTIONS := {"/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/speed": "Скорость ходьбы и полёта (0.1–20 или reset)", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
 
 const COMMAND_DETAILS := {"/level 0": "Телепортироваться: поверхность базы", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: биологические лаборатории", "/level 4": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
 
@@ -224,6 +224,15 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
 		return TargetCommands.execute(args, player, selected, point)
 	match args[0]:
+		"/speed":
+			if args.size() != 2 or (args[1] != "reset" and not args[1].is_valid_float()):
+				return "Использование: /speed 3 — скорость ×3; /speed reset — обычная скорость. Диапазон: 0.1–20."
+			var multiplier := 1.0 if args[1] == "reset" else args[1].to_float()
+			if not is_finite(multiplier) or multiplier < 0.1 or multiplier > 20.0:
+				return "Множитель скорости должен быть от 0.1 до 20."
+			player.debug_speed_multiplier = multiplier
+			player._publish_inventory()
+			return "Скорость ходьбы и полёта: ×%.2f. Shift ускоряет полёт; /speed reset — сброс." % multiplier
 		"/outside":
 			player.teleport_authoritative(Vector3(-48, 1.0, 10), -PI / 2)
 			return "Снежная территория. /level 0 — вернуться на базу."

@@ -1,0 +1,920 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/pine_tree/pine_gameplay.res" id="1_2lyyr"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1obfo"]
+height = 5.719636
+radius = 0.33364543
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3dh8x"]
+height = 5.6083136
+radius = 0.32715163
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qj4dj"]
+height = 6.366906
+radius = 0.37140286
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_toihx"]
+height = 5.109008
+radius = 0.29802546
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xjrvl"]
+height = 3.914666
+radius = 0.22835551
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n161x"]
+height = 4.9870663
+radius = 0.2909122
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gy81n"]
+height = 4.4382186
+radius = 0.25889608
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yv8sn"]
+height = 6.3136415
+radius = 0.36829576
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bfrxo"]
+height = 5.2359133
+radius = 0.3054283
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2uxul"]
+height = 4.1963215
+radius = 0.24478543
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_w7v2a"]
+height = 5.2289534
+radius = 0.30502227
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_okso6"]
+height = 6.4298925
+radius = 0.37507707
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_okakq"]
+height = 4.284282
+radius = 0.24991646
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eyb1y"]
+height = 6.165424
+radius = 0.35964972
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dujp2"]
+height = 4.4489365
+radius = 0.2595213
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_88w2g"]
+height = 4.942053
+radius = 0.28828642
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r5rif"]
+height = 4.9085546
+radius = 0.28633237
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wspsm"]
+height = 5.995816
+radius = 0.34975594
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_og2xu"]
+height = 5.5659804
+radius = 0.3246822
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8yxuv"]
+height = 6.0516524
+radius = 0.35301304
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_07tbn"]
+height = 5.112113
+radius = 0.2982066
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vur3e"]
+height = 4.118283
+radius = 0.24023317
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xvd7k"]
+height = 6.4987955
+radius = 0.3790964
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iho3n"]
+height = 5.4072704
+radius = 0.3154241
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ogqg3"]
+height = 6.537469
+radius = 0.38135237
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_twwtw"]
+height = 5.8430524
+radius = 0.34084472
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_y46om"]
+height = 6.4524045
+radius = 0.37639025
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3sm1b"]
+height = 4.374805
+radius = 0.25519696
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u46dj"]
+height = 6.592438
+radius = 0.38455892
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_thdim"]
+height = 6.4915442
+radius = 0.37867343
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gejr3"]
+height = 5.8001885
+radius = 0.33834434
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yg1yy"]
+height = 5.8943515
+radius = 0.34383717
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_oavgm"]
+height = 5.6411843
+radius = 0.32906908
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0gtck"]
+height = 4.2710257
+radius = 0.24914315
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j2btq"]
+height = 5.8463984
+radius = 0.34103993
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xflar"]
+height = 4.6768923
+radius = 0.2728187
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nlgsw"]
+height = 4.8128433
+radius = 0.28074917
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_h3bxj"]
+height = 5.635522
+radius = 0.32873878
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kvdhd"]
+height = 6.2527165
+radius = 0.3647418
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7jyxj"]
+height = 5.87192
+radius = 0.34252867
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8ilwm"]
+height = 6.398137
+radius = 0.37322468
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_stvqc"]
+height = 4.8329806
+radius = 0.2819239
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pj64o"]
+height = 6.548505
+radius = 0.38199612
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ixkb7"]
+height = 6.110443
+radius = 0.3564425
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_usqeb"]
+height = 5.178472
+radius = 0.30207753
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1b3hl"]
+height = 4.697241
+radius = 0.2740057
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kjv2o"]
+height = 4.324889
+radius = 0.25228518
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dd0xp"]
+height = 5.578233
+radius = 0.3253969
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jdpim"]
+height = 5.8745213
+radius = 0.3426804
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_q6k4u"]
+height = 4.432169
+radius = 0.2585432
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xamik"]
+height = 5.0127
+radius = 0.29240748
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8iojl"]
+height = 6.5283327
+radius = 0.3808194
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xvy37"]
+height = 4.247098
+radius = 0.24774739
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ilvbm"]
+height = 4.501663
+radius = 0.26259702
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rkd1m"]
+height = 6.209337
+radius = 0.36221132
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mker7"]
+height = 4.3202286
+radius = 0.25201336
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pp516"]
+height = 5.6502542
+radius = 0.32959816
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_faj2g"]
+height = 5.168097
+radius = 0.3014723
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2bw7n"]
+height = 4.2321863
+radius = 0.24687755
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_l11hq"]
+height = 4.3492365
+radius = 0.25370547
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1cwmd"]
+height = 5.0407243
+radius = 0.29404223
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gy7rh"]
+height = 4.813264
+radius = 0.28077373
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iqovr"]
+height = 5.022256
+radius = 0.2929649
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u5yjp"]
+height = 4.873034
+radius = 0.2842603
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bohfy"]
+height = 4.9873962
+radius = 0.29093146
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kdwla"]
+height = 6.0485926
+radius = 0.35283458
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yyeao"]
+height = 4.1786165
+radius = 0.24375264
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6gy5a"]
+height = 5.8505974
+radius = 0.34128484
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r0bpd"]
+height = 5.6575794
+radius = 0.33002546
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ombrx"]
+height = 4.543942
+radius = 0.2650633
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b86on"]
+height = 4.9370613
+radius = 0.28799525
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bla3b"]
+height = 4.9324803
+radius = 0.287728
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_63fea"]
+height = 4.9581866
+radius = 0.28922755
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s826r"]
+height = 6.57599
+radius = 0.38359943
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kmaqd"]
+height = 6.3906264
+radius = 0.37278652
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_38tej"]
+height = 5.45153
+radius = 0.31800592
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vgn4n"]
+height = 4.8444824
+radius = 0.28259483
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qwdex"]
+height = 6.52954
+radius = 0.38088983
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ijw0e"]
+height = 6.505433
+radius = 0.37948358
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gk157"]
+height = 4.6381826
+radius = 0.27056065
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_a4rw3"]
+height = 4.651165
+radius = 0.27131796
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dmae0"]
+height = 5.838767
+radius = 0.34059474
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0smwk"]
+height = 6.4358287
+radius = 0.37542334
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7nmpm"]
+height = 6.1079874
+radius = 0.35629928
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tkgwg"]
+height = 5.183685
+radius = 0.30238163
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v3wpb"]
+height = 4.802153
+radius = 0.28012562
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u0x47"]
+height = 6.1020274
+radius = 0.3559516
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kcux4"]
+height = 6.542436
+radius = 0.3816421
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_47mfm"]
+height = 6.319256
+radius = 0.36862326
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xie4k"]
+height = 5.8187075
+radius = 0.33942458
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gb2rr"]
+height = 4.6490746
+radius = 0.271196
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yyr8m"]
+height = 4.1105866
+radius = 0.23978423
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gvirn"]
+height = 4.894408
+radius = 0.28550714
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_akugu"]
+height = 5.896697
+radius = 0.343974
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7p7w2"]
+height = 5.7686353
+radius = 0.33650374
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hrj2g"]
+height = 4.973687
+radius = 0.29013175
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6n8vx"]
+height = 4.251281
+radius = 0.24799137
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vwr5b"]
+height = 5.9010735
+radius = 0.34422928
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n8qy0"]
+height = 5.898095
+radius = 0.34405553
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_e61y8"]
+height = 5.741152
+radius = 0.33490053
+
+[sub_resource type="MultiMesh" id="MultiMesh_sn6qo"]
+transform_format = 1
+instance_count = 16
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(-5.221594, 0, 7.9754515, -277.30115, 0, 9.532726, 0, 26.351093, -7.9754515, 0, -5.221594, 175.64935, 8.674443, 0, -3.4819503, -300.48776, 0, 9.347189, 0, 17.62554, 3.4819503, 0, 8.674443, 197.09534, 6.822127, 0, 2.108294, -249.4866, 0, 7.1404705, 0, 40.239845, -2.108294, 0, 6.822127, 188.62975, -1.789678, 0, 6.6263766, -316.75385, 0, 6.863805, 0, 12.737578, -6.6263766, 0, -1.789678, 203.36147, 9.989015, 0, 4.351741, -287.09802, 0, 10.8957815, 0, 20.477983, -4.351741, 0, 9.989015, 179.69775, 10.813872, 0, 1.9450094, -263.40256, 0, 10.987397, 0, 40.214478, -1.9450094, 0, 10.813872, 190.84958, -8.616512, 0, 4.718591, -291.8601, 0, 9.823919, 0, 14.943429, -4.718591, 0, -8.616512, 160.48172, 3.9907947, 0, -8.889266, -297.2201, 0, 9.743998, 0, 15.101116, 8.889266, 0, 3.9907947, 178.04774, -10.146473, 0, 2.3770504, -290.06787, 0, 10.421194, 0, 21.575193, -2.3770504, 0, -10.146473, 192.13597, -3.7545023, 0, -8.505229, -302.867, 0, 9.297054, 0, 12.486935, 8.505229, 0, -3.7545023, 161.89331, 1.1134388, 0, 6.96521, -291.35486, 0, 7.053644, 0, 16.387314, -6.96521, 0, 1.1134388, 169.88014, -4.2285814, 0, -5.8875427, -306.10486, 0, 7.248728, 0, 13.253094, 5.8875427, 0, -4.2285814, 184.55885, -7.642436, 0, -1.2983744, -304.08472, 0, 7.7519417, 0, 12.77412, 1.2983744, 0, -7.642436, 172.01083, -2.683346, 0, -7.5403633, -309.18506, 0, 8.003589, 0, 13.3919935, 7.5403633, 0, -2.683346, 193.11356, 4.9580464, 0, -8.879618, -296.85812, 0, 10.170046, 0, 31.159916, 8.879618, 0, 4.9580464, 214.35709, 3.7517536, 0, -8.852168, -270.45966, 0, 9.614392, 0, 32.803635, 8.852168, 0, 3.7517536, 181.86488)
+
+[sub_resource type="MultiMesh" id="MultiMesh_ppnal"]
+transform_format = 1
+instance_count = 26
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(-8.70844, 0, -6.063599, -342.79547, 0, 10.61151, 0, 12, 6.063599, 0, -8.70844, 185.16978, 8.412906, 0, 1.3147107, -364.88504, 0, 8.515013, 0, 12, -1.3147107, 0, 8.412906, 210.72968, -2.5146582, 0, -6.956476, -383.34354, 0, 7.397031, 0, 12, 6.956476, 0, -2.5146582, 213.4661, -7.121773, 0, 5.022969, -364.50592, 0, 8.714922, 0, 12, -5.022969, 0, -7.121773, 161.50323, -8.493916, 0, -5.2644076, -351.23813, 0, 9.993027, 0, 12, 5.2644076, 0, -8.493916, 170.67894, -9.114254, 0, 4.319667, -356.07047, 0, 10.086087, 0, 12, -4.319667, 0, -9.114254, 187.8193, -6.3698807, 0, 5.6584654, -321.328, 0, 8.520188, 0, 12.009748, -5.6584654, 0, -6.3698807, 180.36371, 9.142594, 0, 3.1406183, -375.79642, 0, 9.666981, 0, 12, -3.1406183, 0, 9.142594, 195.19469, 7.729962, 0, 1.0034527, -332.72937, 0, 7.794821, 0, 12.00008, -1.0034527, 0, 7.729962, 187.71677, -6.669774, 0, -4.5162616, -336.18604, 0, 8.054968, 0, 12, 4.5162616, 0, -6.669774, 167.91695, 1.9360043, 0, 8.410849, -364.96042, 0, 8.630787, 0, 12, -8.410849, 0, 1.9360043, 199.9083, 7.828487, 0, -0.062242042, -348.76526, 0, 7.8287344, 0, 12, 0.062242042, 0, 7.828487, 210.5239, -6.196098, 0, 3.683175, -326.31964, 0, 7.2081485, 0, 12.007687, -3.683175, 0, -6.196098, 194.25803, -8.821218, 0, 6.3696613, -355.0327, 0, 10.880554, 0, 12, -6.3696613, 0, -8.821218, 160.18616, -4.4959908, 0, 5.4672832, -339.63, 0, 7.078497, 0, 12, -5.4672832, 0, -4.4959908, 195.80772, 5.873207, 0, -8.520861, -354.0423, 0, 10.348895, 0, 12, 8.520861, 0, 5.873207, 201.14052, -4.360056, 0, 7.1452045, -364.40536, 0, 8.370426, 0, 12, -7.1452045, 0, -4.360056, 177.43866, 9.196824, 0, -2.080892, -335.53586, 0, 9.429299, 0, 12.000278, 2.080892, 0, 9.196824, 209.54668, 6.0217123, 0, 4.5927, -372.3686, 0, 7.5732365, 0, 12, -4.5927, 0, 6.0217123, 169.07394, 9.028065, 0, -1.0233861, -374.72086, 0, 9.085883, 0, 12, 1.0233861, 0, 9.028065, 178.73744, 9.1349, 0, 5.9147143, -387.55173, 0, 10.882566, 0, 12, -5.9147143, 0, 9.1349, 188.52522, -1.3694615, 0, 10.755554, -368.3935, 0, 10.842388, 0, 12, -10.755554, 0, -1.3694615, 189.18457, -4.6323333, 0, -9.458672, -323.10562, 0, 10.532093, 0, 12.145409, 9.458672, 0, -4.6323333, 210.18884, -4.9421415, 0, 4.7445903, -383.8495, 0, 6.850978, 0, 12, -4.7445903, 0, -4.9421415, 177.42911, -3.1091785, 0, 7.6842995, -345.5362, 0, 8.289478, 0, 12, -7.6842995, 0, -3.1091785, 160.62126, 8.722613, 0, 3.933682, -327.2088, 0, 9.568586, 0, 12.000039, -3.933682, 0, 8.722613, 163.72656)
+
+[sub_resource type="MultiMesh" id="MultiMesh_vx0bu"]
+transform_format = 1
+instance_count = 5
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(3.3999705, 0, -5.568533, -228.09793, 0, 6.524443, 0, 13.132887, 5.568533, 0, 3.3999705, 93.57426, -6.8994374, 0, -0.94873077, -232.68349, 0, 6.964361, 0, 18.857862, 0.94873077, 0, -6.8994374, 150.29027, 5.2507915, 0, 6.380988, -234.00658, 0, 8.263644, 0, 12.958183, -6.380988, 0, 5.2507915, 123.980736, -8.821883, 0, 4.027726, -225.29834, 0, 9.697845, 0, 13.997929, -4.027726, 0, -8.821883, 104.88532, -7.9616513, 0, -5.7657714, -235.46556, 0, 9.830158, 0, 12.109966, 5.7657714, 0, -7.9616513, 99.69069)
+
+[sub_resource type="MultiMesh" id="MultiMesh_4rn5m"]
+transform_format = 1
+instance_count = 23
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(8.142166, 0, 1.6705612, -333.6461, 0, 8.311777, 0, 12, -1.6705612, 0, 8.142166, 133.63106, -10.501814, 0, -0.6632262, -323.56137, 0, 10.522736, 0, 12.000004, 0.6632262, 0, -10.501814, 141.05388, 8.000794, 0, 3.4841747, -338.045, 0, 8.726522, 0, 12.000101, -3.4841747, 0, 8.000794, 121.6348, -5.4735827, 0, -4.35363, -376.3867, 0, 6.9938693, 0, 12, 4.35363, 0, -5.4735827, 158.50432, -0.3797742, 0, -10.709757, -368.8006, 0, 10.716488, 0, 12, 10.709757, 0, -0.3797742, 127.27599, 9.27549, 0, -0.1456735, -320.99863, 0, 9.276634, 0, 12.055607, 0.1456735, 0, 9.27549, 109.4794, 6.2228794, 0, -3.799925, -357.01968, 0, 7.2913413, 0, 12, 3.799925, 0, 6.2228794, 139.60379, -4.4526124, 0, 9.8605385, -348.69, 0, 10.819241, 0, 12, -9.8605385, 0, -4.4526124, 151.46362, 7.122438, 0, 6.1374254, -349.02325, 0, 9.401974, 0, 12.0820055, -6.1374254, 0, 7.122438, 110.12389, 5.385431, 0, -7.69525, -334.35504, 0, 9.392536, 0, 12, 7.69525, 0, 5.385431, 151.85724, -9.513965, 0, -2.2936249, -353.2646, 0, 9.786533, 0, 12, 2.2936249, 0, -9.513965, 130.91714, 9.716945, 0, 4.392328, -366.43744, 0, 10.663562, 0, 12, -4.392328, 0, 9.716945, 142.87602, 10.463348, 0, 3.1044414, -360.02402, 0, 10.914175, 0, 12, -3.1044414, 0, 10.463348, 119.960594, 4.319195, 0, 5.7610807, -329.93323, 0, 7.2003813, 0, 12.004094, -5.7610807, 0, 4.319195, 117.12057, -9.392931, 0, 0.67412543, -337.76657, 0, 9.41709, 0, 12.003149, -0.67412543, 0, -9.392931, 111.80078, -7.69653, 0, 3.3680425, -377.6543, 0, 8.401207, 0, 12, -3.3680425, 0, -7.69653, 140.94977, -0.2176679, 0, 9.748566, -331.54037, 0, 9.750996, 0, 14.055507, -9.748566, 0, -0.2176679, 99.53878, 10.030548, 0, 1.7378417, -324.3091, 0, 10.179979, 0, 12.000004, -1.7378417, 0, 10.030548, 129.67758, 7.2781754, 0, 4.654964, -340.5056, 0, 8.639475, 0, 12, -4.654964, 0, 7.2781754, 141.65222, 4.9577246, 0, -5.9547935, -387.5544, 0, 7.7484574, 0, 12, 5.9547935, 0, 4.9577246, 132.61575, -6.233626, 0, -5.261579, -349.57135, 0, 8.157347, 0, 12, 5.261579, 0, -6.233626, 121.57738, -9.671598, 0, 1.745396, -374.36212, 0, 9.827828, 0, 13.064072, -1.745396, 0, -9.671598, 116.433205, -6.6840525, 0, -2.3510199, -358.92426, 0, 7.085468, 0, 12, 2.3510199, 0, -6.6840525, 149.62222)
+
+[sub_resource type="MultiMesh" id="MultiMesh_g672i"]
+transform_format = 1
+instance_count = 4
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(2.9476895, 0, -9.843844, -247.78056, 0, 10.275706, 0, 19.278847, 9.843844, 0, 2.9476895, 54.284023, -1.9576055, 0, -8.078525, -262.08594, 0, 8.312327, 0, 13.825258, 8.078525, 0, -1.9576055, 76.97936, 4.1965313, 0, 6.897886, -250.37755, 0, 8.074138, 0, 15.654264, -6.897886, 0, 4.1965313, 64.808784, -2.8093874, 0, -9.425336, -243.03093, 0, 9.835122, 0, 22.160225, 9.425336, 0, -2.8093874, 45.604366)
+
+[sub_resource type="MultiMesh" id="MultiMesh_gwgma"]
+transform_format = 1
+instance_count = 21
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(-7.220564, 0, -1.6864506, -242.56133, 0, 7.414894, 0, 12.312671, 1.6864506, 0, -7.220564, 127.84269, -1.6093994, 0, 8.0779915, -282.78076, 0, 8.236754, 0, 14.101221, -8.0779915, 0, -1.6093994, 130.80994, 0.92058766, 0, -8.128963, -251.32918, 0, 8.180924, 0, 14.349335, 8.128963, 0, 0.92058766, 133.19684, 0.48132876, 0, 10.820625, -313.68695, 0, 10.831326, 0, 12.000841, -10.820625, 0, 0.48132876, 118.80229, -8.95372, 0, -1.0242822, -248.86308, 0, 9.012117, 0, 19.797428, 1.0242822, 0, -8.95372, 147.63779, 1.9146231, 0, 10.582196, -297.86484, 0, 10.754007, 0, 12.15336, -10.582196, 0, 1.9146231, 102.08738, 7.11049, 0, -0.33496892, -299.25192, 0, 7.118376, 0, 12.119843, 0.33496892, 0, 7.11049, 130.91531, -6.9748178, 0, 3.9616737, -276.19644, 0, 8.021405, 0, 13.530124, -3.9616737, 0, -6.9748178, 115.41166, 10.17608, 0, 0.4033793, -291.78967, 0, 10.184072, 0, 12.355717, -0.4033793, 0, 10.17608, 120.44064, -6.104959, 0, -4.1589036, -264.89456, 0, 7.386948, 0, 21.191559, 4.1589036, 0, -6.104959, 147.14313, -2.992686, 0, -7.800096, -297.50195, 0, 8.3545, 0, 12.628853, 7.800096, 0, -2.992686, 148.2752, 7.386414, 0, -4.4309344, -249.74104, 0, 8.613495, 0, 12.037807, 4.4309344, 0, 7.386414, 112.21134, 2.0867083, 0, 7.849079, -241.2974, 0, 8.121723, 0, 15.805258, -7.849079, 0, 2.0867083, 141.02173, -9.105592, 0, -4.3260274, -246.13672, 0, 10.080988, 0, 11.85832, 4.3260274, 0, -9.105592, 102.656525, -3.3746595, 0, -7.5045867, -272.8474, 0, 8.2284355, 0, 13.179347, 7.5045867, 0, -3.3746595, 84.5255, 8.801669, 0, 6.5308394, -287.77344, 0, 10.959984, 0, 12.434345, -6.5308394, 0, 8.801669, 108.124886, 7.4329844, 0, 7.6285963, -269.1137, 0, 10.651044, 0, 14.307017, -7.6285963, 0, 7.4329844, 123.110146, 2.3119464, 0, 7.376484, -288.38382, 0, 7.7303047, 0, 13.017037, -7.376484, 0, 2.3119464, 91.5004, 4.8043165, 0, 8.462643, -273.0592, 0, 9.731278, 0, 21.680363, -8.462643, 0, 4.8043165, 152.10204, 4.8341937, 0, 9.575272, -290.73355, 0, 10.726381, 0, 13.202991, -9.575272, 0, 4.8341937, 137.64407, -0.5408837, 0, -10.890637, -306.78082, 0, 10.90406, 0, 12.048381, 10.890637, 0, -0.5408837, 147.22122)
+
+[sub_resource type="MultiMesh" id="MultiMesh_pfmy8"]
+transform_format = 1
+instance_count = 3
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(1.0772569, 0, 9.678655, -231.22485, 0, 9.7384205, 0, 27.081976, -9.678655, 0, 1.0772569, 170.15765, -3.7302005, 0, 6.5097766, -237.75432, 0, 7.502772, 0, 31.77287, -6.5097766, 0, -3.7302005, 177.32475, 5.3194537, 0, -6.004798, -231.41023, 0, 8.022106, 0, 30.28337, 6.004798, 0, 5.3194537, 186.39891)
+
+[sub_resource type="MultiMesh" id="MultiMesh_yvf0m"]
+transform_format = 1
+instance_count = 2
+mesh = ExtResource("1_2lyyr")
+buffer = PackedFloat32Array(-7.717195, 0, 6.025447, -231.10364, 0, 9.790869, 0, 13.684347, -6.025447, 0, -7.717195, 62.665344, 4.9199386, 0, 6.586028, -235.87056, 0, 8.2208, 0, 24.480267, -6.586028, 0, 4.9199386, 35.30762)
+
+[node name="WestPassForest" type="Node3D" unique_id=1622713385]
+
+[node name="TreeTrunks" type="StaticBody3D" parent="." unique_id=49142317]
+collision_mask = 0
+
+[node name="Pine000" type="CollisionShape3D" parent="TreeTrunks" unique_id=474386082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -277.30115, 29.21091, 175.64935)
+shape = SubResource("CylinderShape3D_1obfo")
+
+[node name="Pine001" type="CollisionShape3D" parent="TreeTrunks" unique_id=1432743629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -300.48776, 20.429697, 197.09534)
+shape = SubResource("CylinderShape3D_3dh8x")
+
+[node name="Pine002" type="CollisionShape3D" parent="TreeTrunks" unique_id=185460484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -342.79547, 15.183453, 185.16978)
+shape = SubResource("CylinderShape3D_qj4dj")
+
+[node name="Pine003" type="CollisionShape3D" parent="TreeTrunks" unique_id=387669299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -364.88504, 14.554504, 210.72968)
+shape = SubResource("CylinderShape3D_toihx")
+
+[node name="Pine004" type="CollisionShape3D" parent="TreeTrunks" unique_id=1082053142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -228.09793, 15.0902195, 93.57426)
+shape = SubResource("CylinderShape3D_xjrvl")
+
+[node name="Pine005" type="CollisionShape3D" parent="TreeTrunks" unique_id=1842344636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -333.6461, 14.493533, 133.63106)
+shape = SubResource("CylinderShape3D_n161x")
+
+[node name="Pine006" type="CollisionShape3D" parent="TreeTrunks" unique_id=446332941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -383.34354, 14.21911, 213.4661)
+shape = SubResource("CylinderShape3D_gy81n")
+
+[node name="Pine007" type="CollisionShape3D" parent="TreeTrunks" unique_id=406552532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -323.56137, 15.156824, 141.05388)
+shape = SubResource("CylinderShape3D_yv8sn")
+
+[node name="Pine008" type="CollisionShape3D" parent="TreeTrunks" unique_id=756031981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -338.045, 14.618057, 121.6348)
+shape = SubResource("CylinderShape3D_bfrxo")
+
+[node name="Pine009" type="CollisionShape3D" parent="TreeTrunks" unique_id=1071602766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -376.3867, 14.098161, 158.50432)
+shape = SubResource("CylinderShape3D_2uxul")
+
+[node name="Pine010" type="CollisionShape3D" parent="TreeTrunks" unique_id=2023263315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -364.50592, 14.614477, 161.50323)
+shape = SubResource("CylinderShape3D_w7v2a")
+
+[node name="Pine011" type="CollisionShape3D" parent="TreeTrunks" unique_id=2064188786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -368.8006, 15.214947, 127.27599)
+shape = SubResource("CylinderShape3D_okso6")
+
+[node name="Pine012" type="CollisionShape3D" parent="TreeTrunks" unique_id=848854322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -249.4866, 42.381985, 188.62975)
+shape = SubResource("CylinderShape3D_okakq")
+
+[node name="Pine013" type="CollisionShape3D" parent="TreeTrunks" unique_id=1904497622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -247.78056, 22.361559, 54.284023)
+shape = SubResource("CylinderShape3D_eyb1y")
+
+[node name="Pine014" type="CollisionShape3D" parent="TreeTrunks" unique_id=663105252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -242.56133, 14.537139, 127.84269)
+shape = SubResource("CylinderShape3D_dujp2")
+
+[node name="Pine015" type="CollisionShape3D" parent="TreeTrunks" unique_id=779202278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -282.78076, 16.572247, 130.80994)
+shape = SubResource("CylinderShape3D_88w2g")
+
+[node name="Pine016" type="CollisionShape3D" parent="TreeTrunks" unique_id=1255553926]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -251.32918, 16.803612, 133.19684)
+shape = SubResource("CylinderShape3D_r5rif")
+
+[node name="Pine017" type="CollisionShape3D" parent="TreeTrunks" unique_id=1727830859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -351.23813, 14.997908, 170.67894)
+shape = SubResource("CylinderShape3D_wspsm")
+
+[node name="Pine018" type="CollisionShape3D" parent="TreeTrunks" unique_id=652663925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320.99863, 14.838597, 109.4794)
+shape = SubResource("CylinderShape3D_og2xu")
+
+[node name="Pine019" type="CollisionShape3D" parent="TreeTrunks" unique_id=1963936653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -356.07047, 15.025826, 187.8193)
+shape = SubResource("CylinderShape3D_8yxuv")
+
+[node name="Pine020" type="CollisionShape3D" parent="TreeTrunks" unique_id=346109775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321.328, 14.565805, 180.36371)
+shape = SubResource("CylinderShape3D_07tbn")
+
+[node name="Pine021" type="CollisionShape3D" parent="TreeTrunks" unique_id=1732234500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -316.75385, 14.79672, 203.36147)
+shape = SubResource("CylinderShape3D_vur3e")
+
+[node name="Pine022" type="CollisionShape3D" parent="TreeTrunks" unique_id=789755994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -313.68695, 15.250238, 118.80229)
+shape = SubResource("CylinderShape3D_xvd7k")
+
+[node name="Pine023" type="CollisionShape3D" parent="TreeTrunks" unique_id=1176632690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -248.86308, 22.501064, 147.63779)
+shape = SubResource("CylinderShape3D_iho3n")
+
+[node name="Pine024" type="CollisionShape3D" parent="TreeTrunks" unique_id=526298887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.09802, 23.746717, 179.69775)
+shape = SubResource("CylinderShape3D_ogqg3")
+
+[node name="Pine025" type="CollisionShape3D" parent="TreeTrunks" unique_id=337006989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -231.22485, 30.003502, 170.15765)
+shape = SubResource("CylinderShape3D_twwtw")
+
+[node name="Pine026" type="CollisionShape3D" parent="TreeTrunks" unique_id=1911840051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -297.86484, 15.379562, 102.08738)
+shape = SubResource("CylinderShape3D_y46om")
+
+[node name="Pine027" type="CollisionShape3D" parent="TreeTrunks" unique_id=1365544161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -357.01968, 14.187403, 139.60379)
+shape = SubResource("CylinderShape3D_3sm1b")
+
+[node name="Pine028" type="CollisionShape3D" parent="TreeTrunks" unique_id=1445367811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -263.40256, 43.510696, 190.84958)
+shape = SubResource("CylinderShape3D_u46dj")
+
+[node name="Pine029" type="CollisionShape3D" parent="TreeTrunks" unique_id=188399111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -348.69, 15.245772, 151.46362)
+shape = SubResource("CylinderShape3D_thdim")
+
+[node name="Pine030" type="CollisionShape3D" parent="TreeTrunks" unique_id=1024870138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -375.79642, 14.900094, 195.19469)
+shape = SubResource("CylinderShape3D_gejr3")
+
+[node name="Pine031" type="CollisionShape3D" parent="TreeTrunks" unique_id=513449646]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.8601, 17.890604, 160.48172)
+shape = SubResource("CylinderShape3D_yg1yy")
+
+[node name="Pine032" type="CollisionShape3D" parent="TreeTrunks" unique_id=648985098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -349.02325, 14.902597, 110.12389)
+shape = SubResource("CylinderShape3D_oavgm")
+
+[node name="Pine033" type="CollisionShape3D" parent="TreeTrunks" unique_id=2060340519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -299.25192, 14.255356, 130.91531)
+shape = SubResource("CylinderShape3D_0gtck")
+
+[node name="Pine034" type="CollisionShape3D" parent="TreeTrunks" unique_id=1699153740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -297.2201, 18.024315, 178.04774)
+shape = SubResource("CylinderShape3D_j2btq")
+
+[node name="Pine035" type="CollisionShape3D" parent="TreeTrunks" unique_id=535813703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -332.72937, 14.338526, 187.71677)
+shape = SubResource("CylinderShape3D_xflar")
+
+[node name="Pine036" type="CollisionShape3D" parent="TreeTrunks" unique_id=1457768578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -276.19644, 15.936545, 115.41166)
+shape = SubResource("CylinderShape3D_nlgsw")
+
+[node name="Pine037" type="CollisionShape3D" parent="TreeTrunks" unique_id=724505642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -334.35504, 14.81776, 151.85724)
+shape = SubResource("CylinderShape3D_h3bxj")
+
+[node name="Pine038" type="CollisionShape3D" parent="TreeTrunks" unique_id=942725920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -290.06787, 24.701551, 192.13597)
+shape = SubResource("CylinderShape3D_kvdhd")
+
+[node name="Pine039" type="CollisionShape3D" parent="TreeTrunks" unique_id=470610566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -353.2646, 14.93596, 130.91714)
+shape = SubResource("CylinderShape3D_7jyxj")
+
+[node name="Pine040" type="CollisionShape3D" parent="TreeTrunks" unique_id=863848047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -366.43744, 15.199068, 142.87602)
+shape = SubResource("CylinderShape3D_8ilwm")
+
+[node name="Pine041" type="CollisionShape3D" parent="TreeTrunks" unique_id=1110247494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -336.18604, 14.416491, 167.91695)
+shape = SubResource("CylinderShape3D_stvqc")
+
+[node name="Pine042" type="CollisionShape3D" parent="TreeTrunks" unique_id=888797044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -360.02402, 15.274252, 119.960594)
+shape = SubResource("CylinderShape3D_pj64o")
+
+[node name="Pine043" type="CollisionShape3D" parent="TreeTrunks" unique_id=1751047240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.78967, 15.410938, 120.44064)
+shape = SubResource("CylinderShape3D_ixkb7")
+
+[node name="Pine044" type="CollisionShape3D" parent="TreeTrunks" unique_id=111590123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -364.96042, 14.589236, 199.9083)
+shape = SubResource("CylinderShape3D_usqeb")
+
+[node name="Pine045" type="CollisionShape3D" parent="TreeTrunks" unique_id=645126172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -348.76526, 14.34862, 210.5239)
+shape = SubResource("CylinderShape3D_1b3hl")
+
+[node name="Pine046" type="CollisionShape3D" parent="TreeTrunks" unique_id=833463302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -326.31964, 14.170132, 194.25803)
+shape = SubResource("CylinderShape3D_kjv2o")
+
+[node name="Pine047" type="CollisionShape3D" parent="TreeTrunks" unique_id=1568688830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -302.867, 15.276051, 161.89331)
+shape = SubResource("CylinderShape3D_dd0xp")
+
+[node name="Pine048" type="CollisionShape3D" parent="TreeTrunks" unique_id=1442177517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -231.10364, 16.621609, 62.665344)
+shape = SubResource("CylinderShape3D_jdpim")
+
+[node name="Pine049" type="CollisionShape3D" parent="TreeTrunks" unique_id=498960631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -264.89456, 23.407642, 147.14313)
+shape = SubResource("CylinderShape3D_q6k4u")
+
+[node name="Pine050" type="CollisionShape3D" parent="TreeTrunks" unique_id=1378618640]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -297.50195, 15.135202, 148.2752)
+shape = SubResource("CylinderShape3D_xamik")
+
+[node name="Pine051" type="CollisionShape3D" parent="TreeTrunks" unique_id=2107902200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -355.0327, 15.264166, 160.18616)
+shape = SubResource("CylinderShape3D_8iojl")
+
+[node name="Pine052" type="CollisionShape3D" parent="TreeTrunks" unique_id=842412929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -339.63, 14.1235485, 195.80772)
+shape = SubResource("CylinderShape3D_xvy37")
+
+[node name="Pine053" type="CollisionShape3D" parent="TreeTrunks" unique_id=1225792479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -237.75432, 34.0237, 177.32475)
+shape = SubResource("CylinderShape3D_ilvbm")
+
+[node name="Pine054" type="CollisionShape3D" parent="TreeTrunks" unique_id=1365673880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -354.0423, 15.104669, 201.14052)
+shape = SubResource("CylinderShape3D_rkd1m")
+
+[node name="Pine055" type="CollisionShape3D" parent="TreeTrunks" unique_id=961292027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -329.93323, 14.164208, 117.12057)
+shape = SubResource("CylinderShape3D_mker7")
+
+[node name="Pine056" type="CollisionShape3D" parent="TreeTrunks" unique_id=646062624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -337.76657, 14.828276, 111.80078)
+shape = SubResource("CylinderShape3D_pp516")
+
+[node name="Pine057" type="CollisionShape3D" parent="TreeTrunks" unique_id=569265814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -249.74104, 14.621856, 112.21134)
+shape = SubResource("CylinderShape3D_faj2g")
+
+[node name="Pine058" type="CollisionShape3D" parent="TreeTrunks" unique_id=741273843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.35486, 18.503407, 169.88014)
+shape = SubResource("CylinderShape3D_2bw7n")
+
+[node name="Pine059" type="CollisionShape3D" parent="TreeTrunks" unique_id=813256127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -306.10486, 15.4277115, 184.55885)
+shape = SubResource("CylinderShape3D_l11hq")
+
+[node name="Pine060" type="CollisionShape3D" parent="TreeTrunks" unique_id=534678280]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -377.6543, 14.520362, 140.94977)
+shape = SubResource("CylinderShape3D_1cwmd")
+
+[node name="Pine061" type="CollisionShape3D" parent="TreeTrunks" unique_id=186403345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -231.41023, 32.690002, 186.39891)
+shape = SubResource("CylinderShape3D_gy7rh")
+
+[node name="Pine062" type="CollisionShape3D" parent="TreeTrunks" unique_id=13317963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -364.40536, 14.511127, 177.43866)
+shape = SubResource("CylinderShape3D_iqovr")
+
+[node name="Pine063" type="CollisionShape3D" parent="TreeTrunks" unique_id=516279149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -241.2974, 18.241776, 141.02173)
+shape = SubResource("CylinderShape3D_u5yjp")
+
+[node name="Pine064" type="CollisionShape3D" parent="TreeTrunks" unique_id=1402783865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -262.08594, 16.318956, 76.97936)
+shape = SubResource("CylinderShape3D_bohfy")
+
+[node name="Pine065" type="CollisionShape3D" parent="TreeTrunks" unique_id=1608501816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -246.13672, 14.882616, 102.656525)
+shape = SubResource("CylinderShape3D_kdwla")
+
+[node name="Pine066" type="CollisionShape3D" parent="TreeTrunks" unique_id=1209728067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -232.68349, 20.94717, 150.29027)
+shape = SubResource("CylinderShape3D_yyeao")
+
+[node name="Pine067" type="CollisionShape3D" parent="TreeTrunks" unique_id=366804456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -331.54037, 16.980804, 99.53878)
+shape = SubResource("CylinderShape3D_6gy5a")
+
+[node name="Pine068" type="CollisionShape3D" parent="TreeTrunks" unique_id=1940574108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -335.53586, 14.829068, 209.54668)
+shape = SubResource("CylinderShape3D_r0bpd")
+
+[node name="Pine069" type="CollisionShape3D" parent="TreeTrunks" unique_id=1285734568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -372.3686, 14.271971, 169.07394)
+shape = SubResource("CylinderShape3D_ombrx")
+
+[node name="Pine070" type="CollisionShape3D" parent="TreeTrunks" unique_id=795671202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -272.8474, 15.647878, 84.5255)
+shape = SubResource("CylinderShape3D_b86on")
+
+[node name="Pine071" type="CollisionShape3D" parent="TreeTrunks" unique_id=698853153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -235.87056, 26.946507, 35.30762)
+shape = SubResource("CylinderShape3D_bla3b")
+
+[node name="Pine072" type="CollisionShape3D" parent="TreeTrunks" unique_id=111912765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -234.00658, 15.437277, 123.980736)
+shape = SubResource("CylinderShape3D_63fea")
+
+[node name="Pine073" type="CollisionShape3D" parent="TreeTrunks" unique_id=2102817600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.77344, 15.722341, 108.124886)
+shape = SubResource("CylinderShape3D_s826r")
+
+[node name="Pine074" type="CollisionShape3D" parent="TreeTrunks" unique_id=185377999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -269.1137, 17.50233, 123.110146)
+shape = SubResource("CylinderShape3D_kmaqd")
+
+[node name="Pine075" type="CollisionShape3D" parent="TreeTrunks" unique_id=1527955932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -374.72086, 14.725765, 178.73744)
+shape = SubResource("CylinderShape3D_38tej")
+
+[node name="Pine076" type="CollisionShape3D" parent="TreeTrunks" unique_id=1612863448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250.37755, 18.076506, 64.808784)
+shape = SubResource("CylinderShape3D_vgn4n")
+
+[node name="Pine077" type="CollisionShape3D" parent="TreeTrunks" unique_id=388224758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -387.55173, 15.2647705, 188.52522)
+shape = SubResource("CylinderShape3D_qwdex")
+
+[node name="Pine078" type="CollisionShape3D" parent="TreeTrunks" unique_id=696972666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -368.3935, 15.252716, 189.18457)
+shape = SubResource("CylinderShape3D_ijw0e")
+
+[node name="Pine079" type="CollisionShape3D" parent="TreeTrunks" unique_id=1991350221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -288.38382, 15.336128, 91.5004)
+shape = SubResource("CylinderShape3D_gk157")
+
+[node name="Pine080" type="CollisionShape3D" parent="TreeTrunks" unique_id=22553578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -304.08472, 15.099703, 172.01083)
+shape = SubResource("CylinderShape3D_a4rw3")
+
+[node name="Pine081" type="CollisionShape3D" parent="TreeTrunks" unique_id=785431177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -273.0592, 24.599747, 152.10204)
+shape = SubResource("CylinderShape3D_dmae0")
+
+[node name="Pine082" type="CollisionShape3D" parent="TreeTrunks" unique_id=984588505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -290.73355, 16.420904, 137.64407)
+shape = SubResource("CylinderShape3D_0smwk")
+
+[node name="Pine083" type="CollisionShape3D" parent="TreeTrunks" unique_id=1755945468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -324.3091, 15.053997, 129.67758)
+shape = SubResource("CylinderShape3D_7nmpm")
+
+[node name="Pine084" type="CollisionShape3D" parent="TreeTrunks" unique_id=1209062986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -340.5056, 14.591843, 141.65222)
+shape = SubResource("CylinderShape3D_tkgwg")
+
+[node name="Pine085" type="CollisionShape3D" parent="TreeTrunks" unique_id=878951424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -309.18506, 15.79307, 193.11356)
+shape = SubResource("CylinderShape3D_v3wpb")
+
+[node name="Pine086" type="CollisionShape3D" parent="TreeTrunks" unique_id=237021149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -296.85812, 34.21093, 214.35709)
+shape = SubResource("CylinderShape3D_u0x47")
+
+[node name="Pine087" type="CollisionShape3D" parent="TreeTrunks" unique_id=2071564126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -306.78082, 15.319599, 147.22122)
+shape = SubResource("CylinderShape3D_kcux4")
+
+[node name="Pine088" type="CollisionShape3D" parent="TreeTrunks" unique_id=1347929026]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -323.10562, 15.305037, 210.18884)
+shape = SubResource("CylinderShape3D_47mfm")
+
+[node name="Pine089" type="CollisionShape3D" parent="TreeTrunks" unique_id=1187081534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -225.29834, 16.907282, 104.88532)
+shape = SubResource("CylinderShape3D_xie4k")
+
+[node name="Pine090" type="CollisionShape3D" parent="TreeTrunks" unique_id=851601455]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -387.5544, 14.324537, 132.61575)
+shape = SubResource("CylinderShape3D_gb2rr")
+
+[node name="Pine091" type="CollisionShape3D" parent="TreeTrunks" unique_id=221995065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -383.8495, 14.055293, 177.42911)
+shape = SubResource("CylinderShape3D_yyr8m")
+
+[node name="Pine092" type="CollisionShape3D" parent="TreeTrunks" unique_id=732969199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -349.57135, 14.447205, 121.57738)
+shape = SubResource("CylinderShape3D_gvirn")
+
+[node name="Pine093" type="CollisionShape3D" parent="TreeTrunks" unique_id=1895928819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -374.36212, 16.01242, 116.433205)
+shape = SubResource("CylinderShape3D_akugu")
+
+[node name="Pine094" type="CollisionShape3D" parent="TreeTrunks" unique_id=837850528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -270.45966, 35.687954, 181.86488)
+shape = SubResource("CylinderShape3D_7p7w2")
+
+[node name="Pine095" type="CollisionShape3D" parent="TreeTrunks" unique_id=111587684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -345.5362, 14.486843, 160.62126)
+shape = SubResource("CylinderShape3D_hrj2g")
+
+[node name="Pine096" type="CollisionShape3D" parent="TreeTrunks" unique_id=390953190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -358.92426, 14.125641, 149.62222)
+shape = SubResource("CylinderShape3D_6n8vx")
+
+[node name="Pine097" type="CollisionShape3D" parent="TreeTrunks" unique_id=934182677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -243.03093, 25.110762, 45.604366)
+shape = SubResource("CylinderShape3D_vwr5b")
+
+[node name="Pine098" type="CollisionShape3D" parent="TreeTrunks" unique_id=1650383974]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -235.46556, 15.059013, 99.69069)
+shape = SubResource("CylinderShape3D_n8qy0")
+
+[node name="Pine099" type="CollisionShape3D" parent="TreeTrunks" unique_id=1665048591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -327.2088, 14.870615, 163.72656)
+shape = SubResource("CylinderShape3D_e61y8")
+
+[node name="Pines_-4_2" type="MultiMeshInstance3D" parent="." unique_id=1125328184]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_sn6qo")
+
+[node name="Pines_-5_2" type="MultiMeshInstance3D" parent="." unique_id=143572149]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_ppnal")
+
+[node name="Pines_-3_1" type="MultiMeshInstance3D" parent="." unique_id=1839277549]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_vx0bu")
+
+[node name="Pines_-5_1" type="MultiMeshInstance3D" parent="." unique_id=517273869]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_4rn5m")
+
+[node name="Pines_-4_0" type="MultiMeshInstance3D" parent="." unique_id=393124635]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_g672i")
+
+[node name="Pines_-4_1" type="MultiMeshInstance3D" parent="." unique_id=1224577346]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_gwgma")
+
+[node name="Pines_-3_2" type="MultiMeshInstance3D" parent="." unique_id=755582485]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_pfmy8")
+
+[node name="Pines_-3_0" type="MultiMeshInstance3D" parent="." unique_id=2140000002]
+layers = 262145
+visibility_range_end = 750.0
+visibility_range_end_margin = 40.0
+visibility_range_fade_mode = 1
+metadata/exterior_chunk = true
+multimesh = SubResource("MultiMesh_yvf0m")

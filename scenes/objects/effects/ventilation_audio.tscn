@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/powered_loop_audio.gd" id="logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/ventilation.ogg" id="sound"]
+
+[node name="VentilationAudio" type="AudioStreamPlayer3D"]
+bus = &"Machinery"
+script = ExtResource("logic")
+stream = ExtResource("sound")
+volume_db = -80.0
+running_volume_db = -27.0
+unit_size = 3.0
+max_distance = 16.0

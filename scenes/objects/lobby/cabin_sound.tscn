@@ -25,6 +25,7 @@ _data = {&"RESET": SubResource("reset"), &"arrival": SubResource("arrival")}
 [node name="CabinSound" type="Node"]
 
 [node name="CabinLoop" type="AudioStreamPlayer" parent="."]
+bus = &"Vehicles"
 stream = ExtResource("1")
 volume_db = -12.0
 autoplay = true

@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[node name="BulletImpactAudio" type="AudioStreamPlayer3D"]
+bus = &"Weapons"
+volume_db = -18.0
+unit_size = 3.0
+max_distance = 40.0

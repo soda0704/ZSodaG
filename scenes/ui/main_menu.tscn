@@ -57,6 +57,7 @@ grow_vertical = 2
 script = ExtResource("1_script")
 
 [node name="BackgroundVideo" type="VideoStreamPlayer" parent="."]
+volume_db = -80.0
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

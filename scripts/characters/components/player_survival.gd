@@ -67,7 +67,9 @@ func _physics_process(delta: float) -> void:
 			var level := get_tree().get_first_node_in_group("expedition_level") as Node3D
 			var local_pos: Vector3 = level.to_local(player.global_position) if level != null else player.global_position
 			var bottom := -160.0 if level != null else -40.0
-			if local_pos.y < bottom or absf(local_pos.x) > 240.0 or absf(local_pos.z) > 240.0:
+			# Horizontal limits are physical colliders in SnowExterior.
+			# This fallback only catches a player that falls through the level.
+			if local_pos.y < bottom:
 				damage(100.0, "Выход за пределы комплекса")
 			if not player.is_on_floor() and player.velocity.y < -2.0:
 				_air_time += delta
@@ -122,7 +124,7 @@ func _respawn() -> void:
 		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
 		if world != null:
 			index = world.get_peer_spawn_index(player.owner_peer_id)
-		target = level.get_day_start_transform(index)
+		target = level.get_respawn_transform(index)
 	player.teleport_authoritative(target.origin + Vector3.UP * 0.1, target.basis.get_euler().y)
 	health = 100.0
 	radiation = 0.0

@@ -10,11 +10,14 @@
 [ext_resource type="Script" uid="uid://c0i4vftqbx20d" path="res://scripts/characters/components/item_drag.gd" id="8_drag"]
 [ext_resource type="Script" uid="uid://c81hc2rhqqv84" path="res://scripts/characters/components/player_ragdoll.gd" id="9_ragdoll"]
 [ext_resource type="PackedScene" path="res://scenes/characters/footstep_audio.tscn" id="foot_audio"]
+[ext_resource type="PackedScene" path="res://scenes/characters/player_audio.tscn" id="player_audio"]
+
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
 radius = 0.35
 height = 1.8
+
 
 [node name="Player" type="CharacterBody3D" unique_id=412239836]
 collision_layer = 2
@@ -140,3 +143,24 @@ text = "БАТАРЕЯ: 100%"
 horizontal_alignment = 2
 
 [node name="FootstepAudio" parent="." unique_id=8281142 instance=ExtResource("foot_audio")]
+
+[node name="SprintLabel" type="Label" parent="PlayerUI"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 66.0
+offset_right = -24.0
+offset_bottom = 96.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.58, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "БЕГ: 6.0 с"
+horizontal_alignment = 2
+
+[node name="PlayerAudio" parent="." instance=ExtResource("player_audio")]

@@ -83,6 +83,7 @@ func _ready() -> void:
 	_siren = AudioStreamPlayer.new()
 	_siren.stream = preload("res://scripts/gameplay/base/power_siren.gd").make_stream()
 	_siren.volume_db = -27.0
+	_siren.bus = &"Effects"
 	add_child(_siren)
 	var steam_network := get_node_or_null("/root/SteamNetwork")
 	if (

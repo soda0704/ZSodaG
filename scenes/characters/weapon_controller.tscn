@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/weapon_controller.gd" id="controller"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/pistol.ogg" id="pistol"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/m4a1.ogg" id="rifle"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/pistol_reload.ogg" id="pistol_reload"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/rifle_reload.ogg" id="rifle_reload"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/pistol_empty.ogg" id="pistol_empty"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/rifle_empty.ogg" id="rifle_empty"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/impact_concrete.ogg" id="impact_concrete"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/impact_metal.ogg" id="impact_metal"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/impact_snow.ogg" id="impact_snow"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/bullet_impact_audio.tscn" id="impact_audio"]
+
+[node name="Weapon" type="Node3D"]
+script = ExtResource("controller")
+pistol_sound = ExtResource("pistol")
+rifle_sound = ExtResource("rifle")
+pistol_reload_sound = ExtResource("pistol_reload")
+rifle_reload_sound = ExtResource("rifle_reload")
+pistol_empty_sound = ExtResource("pistol_empty")
+rifle_empty_sound = ExtResource("rifle_empty")
+concrete_impact_sound = ExtResource("impact_concrete")
+metal_impact_sound = ExtResource("impact_metal")
+snow_impact_sound = ExtResource("impact_snow")
+impact_audio_scene = ExtResource("impact_audio")
+
+[node name="ShotAudio" type="AudioStreamPlayer3D" parent="."]
+bus = &"Weapons"
+position = Vector3(0, 1.4, 0)
+volume_db = -28.0
+unit_size = 2.0
+max_distance = 90.0
+max_polyphony = 8
+
+[node name="MechanismAudio" type="AudioStreamPlayer3D" parent="."]
+bus = &"Weapons"
+position = Vector3(0, 1.4, 0)
+stream = ExtResource("pistol_reload")
+volume_db = -19.0
+unit_size = 2.0
+max_distance = 18.0

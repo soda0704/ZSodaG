@@ -204,6 +204,17 @@ func is_door_open_at(anchor: Node3D) -> bool:
 	return false
 
 
+func get_acoustic_openness_at(anchor: Node3D) -> float:
+	for door in _doors:
+		if door.anchor != anchor:
+			continue
+		for pair in door.leaf_pairs:
+			var travel: Vector3 = pair.open_position - pair.closed_position
+			if travel.length_squared() > 0.0001:
+				return clampf(((pair.leaf as Node3D).position - Vector3(pair.closed_position)).dot(travel) / travel.length_squared(), 0.0, 1.0)
+		return 1.0 if door.open else 0.0
+	return 0.0
+
 func get_door_indicator_color_at(anchor: Node3D) -> Color:
 	for door in _doors:
 		if door.anchor != anchor or (door.indicators as Array).is_empty():

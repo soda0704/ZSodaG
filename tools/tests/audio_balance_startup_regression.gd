@@ -1,0 +1,71 @@
+extends SceneTree
+var failures: Array[String] = []
+func _initialize() -> void: run.call_deferred()
+func check(value: bool, label: String) -> void:
+	print("PASS " if value else "FAIL ", label)
+	if not value: failures.append(label)
+func run() -> void:
+	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, "user://audio_balance_startup_test.cfg")
+	var world = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	root.add_child(world)
+	root.get_node("GameMenu").force_close_menu()
+	await process_frame
+	await process_frame
+	var player: GamePlayer = get_first_node_in_group("network_players")
+	player.set_physics_process(false)
+	player.survival.set_physics_process(false)
+	var audio = player.player_audio
+	audio.set_process(false)
+	player.global_position = Vector3(180, 30, 180)
+	var pickup: AudioStreamPlayer3D = audio.get_node("Pickup")
+	check(pickup.global_position.distance_to(player.global_position + Vector3.UP * 1.4) < 0.01, "pickup source follows player's world position")
+	var flashlight: AudioStreamPlayer3D = audio.get_node("FlashlightOn")
+	check(flashlight.global_position.distance_to(player.head.global_position) < 1.0, "flashlight click is audible at the held equipment rather than world origin")
+	audio.play_cue(&"pickup")
+	audio.play_cue(&"flashlight_on")
+	check(pickup.playing and flashlight.playing and pickup.bus == &"Effects", "interaction cues play on independently adjustable effects bus")
+	check(player.weapon.get_node("ShotAudio").volume_db <= -28.0 and player.weapon.get_node("ShotAudio").bus == &"Weapons", "gunshots substantially reduced and independently routed")
+	check(audio.recovery_volume_db == -20 and audio.calm_volume_db == -30, "recovery breathing quieter while calm breathing unchanged")
+	var menu = root.get_node("GameMenu")
+	var mixer: AudioMixController = menu.audio_mix
+	mixer.set_process(false)
+	var original: Dictionary = menu._settings_data.duplicate()
+	for key in menu.AUDIO_OPTIONS:
+		check(menu.get_node("%%%sSlider" % key) is HSlider, key + " has authored slider")
+	mixer.apply_settings({"WeaponsVolume": 25, "EffectsVolume": 0, "RoomReverb": 100})
+	check(is_equal_approx(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Weapons")), linear_to_db(0.25)), "weapon category volume applies")
+	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("Effects")) and not AudioServer.is_bus_mute(AudioServer.get_bus_index("Vehicles")), "category mute leaves vehicles independent")
+	mixer.update_acoustics(10.0, 1.0)
+	var reverb: AudioEffectReverb = AudioServer.get_bus_effect(AudioServer.get_bus_index("World"), 0)
+	var filter: AudioEffectLowPassFilter = AudioServer.get_bus_effect(AudioServer.get_bus_index("World"), 1)
+	check(reverb.wet > 0.1 and reverb.wet <= 0.12, "indoors has subtle bounded native reverb")
+	mixer.update_acoustics(10.0, 0.0)
+	check(reverb.wet < 0.001 and filter.cutoff_hz < 11000, "outdoors dry and slightly softer")
+	mixer.apply_settings(original)
+	var vehicle = load("res://scenes/objects/vehicles/snowmobile.tscn").instantiate()
+	vehicle.set_physics_process(false)
+	world.add_child(vehicle)
+	await process_frame
+	vehicle.driver_peer = player.owner_peer_id
+	vehicle.fuel_liters = 10.0
+	vehicle.set_driver_input(player.owner_peer_id, Vector2(0, -1), true)
+	vehicle._physics_process(0.1)
+	check(vehicle.is_engine_starting() and vehicle._speed == 0 and vehicle.fuel_liters == 10, "ignition blocks acceleration and boost fuel consumption")
+	vehicle._advance_ignition(vehicle.ignition_duration() - 0.1)
+	vehicle.set_driver_input(player.owner_peer_id, Vector2(0, -1), true)
+	vehicle._physics_process(0.05)
+	check(vehicle._speed == 0, "still stationary before ignition completes")
+	vehicle.set_driver_input(player.owner_peer_id, Vector2(0, -1), true)
+	vehicle._physics_process(0.1)
+	check(not vehicle.is_engine_starting() and vehicle._speed > 0 and vehicle.fuel_liters < 10, "completed ignition enables movement and fuel consumption")
+	vehicle._start_audio.stop()
+	vehicle._update_engine_audio(2.0)
+	check(vehicle._idle_audio.playing and vehicle._idle_audio.volume_db > -13.0, "steady idle remains audible without silence after startup")
+	vehicle._speed = vehicle.max_speed
+	vehicle._update_engine_audio(2.0)
+	check(vehicle._idle_audio.playing and vehicle._loop_audio.playing and vehicle._loop_audio.volume_db < vehicle._idle_audio.volume_db - 8, "driving keeps idle tone as main bed with quiet low-pitched layer")
+	check(vehicle._loop_audio.pitch_scale < 0.8 and vehicle._idle_audio.pitch_scale < 1.15, "drive timbre softened and idle pitch changes gently")
+	vehicle._receive_state(vehicle.global_transform, 2, player.owner_peer_id, 0, 1.5)
+	check(is_equal_approx(vehicle._ignition_left, 1.5), "remaining startup time replicates to observers")
+	print("RESULT ", failures)
+	quit(0 if failures.is_empty() else 1)

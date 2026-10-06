@@ -23,6 +23,7 @@ tracks/0/keys = {"times": PackedFloat32Array(0, 0.5, 1, 2, 3, 3.5, 4), "transiti
 _data = {&"open": SubResource("open")}
 [node name="GarageGate" type="Node3D"]
 script = ExtResource("1")
+metadata/impact_surface = "metal"
 [node name="Visual" parent="." instance=ExtResource("3")]
 [node name="GateBody" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
 sync_to_physics = false

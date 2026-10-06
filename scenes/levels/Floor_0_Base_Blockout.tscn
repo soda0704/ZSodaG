@@ -41,26 +41,8 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/vehicles/snowmobile.tscn" id="42_snowmobile"]
 [ext_resource type="PackedScene" path="res://scenes/art/blood/level_0_blood.tscn" id="blood_dressing"]
 
-[sub_resource type="BoxShape3D" id="Shape_indoor_hub"]
-size = Vector3(15.8, 8, 15.8)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_west"]
-size = Vector3(27.8, 5.5, 15.8)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_standard_wing"]
-size = Vector3(15.8, 5.5, 15.8)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_east"]
-size = Vector3(23.8, 5.5, 15.8)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_connector_ew"]
-size = Vector3(2.2, 5.5, 3.8)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_connector_ns"]
-size = Vector3(3.8, 5.5, 2.2)
-
-[sub_resource type="BoxShape3D" id="Shape_indoor_subsurface"]
-size = Vector3(128, 72, 128)
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/acoustic_portal.tscn" id="acoustic_portal"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/ventilation_audio.tscn" id="vent_audio"]
 
 [sub_resource type="BoxShape3D" id="Shape_day1_west_vehicle_gate_blocker"]
 size = Vector3(5.56, 3.55, 0.14)
@@ -86,91 +68,10 @@ albedo_color = Color(0.82, 0.16, 0.04, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_living"]
 albedo_color = Color(0.08, 0.52, 0.24, 1)
 
+[sub_resource type="BoxShape3D" id="Shape_acoustic_pedestrian"]
+size = Vector3(1.5, 3.5, 1.5)
+
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
-
-[node name="InteriorEnvironmentZones" type="Node3D" parent="." unique_id=419655897]
-editor_description = "Явные объёмы помещений для переключения внутреннего окружения. Формы повторяют основные перекрытия базы; слой 2 соответствует игрокам."
-visible = false
-
-[node name="CenterHub" type="Area3D" parent="InteriorEnvironmentZones" unique_id=82207099 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/CenterHub" unique_id=1826596768]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-shape = SubResource("Shape_indoor_hub")
-
-[node name="WestEntrance" type="Area3D" parent="InteriorEnvironmentZones" unique_id=897267892 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/WestEntrance" unique_id=1307874327]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2.75, 0)
-shape = SubResource("Shape_indoor_west")
-
-[node name="SouthTechnical" type="Area3D" parent="InteriorEnvironmentZones" unique_id=671055074 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SouthTechnical" unique_id=2036564844]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 18)
-shape = SubResource("Shape_indoor_standard_wing")
-
-[node name="EastLiving" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1759104075 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/EastLiving" unique_id=104706976]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.75, 0)
-shape = SubResource("Shape_indoor_east")
-
-[node name="NorthScience" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1407506035 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/NorthScience" unique_id=430411440]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -18)
-shape = SubResource("Shape_indoor_standard_wing")
-
-[node name="WestConnector" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1525777121 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/WestConnector" unique_id=1379088933]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2.75, 0)
-shape = SubResource("Shape_indoor_connector_ew")
-
-[node name="SouthConnector" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1958804283 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SouthConnector" unique_id=823619525]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 9)
-shape = SubResource("Shape_indoor_connector_ns")
-
-[node name="EastConnector" type="Area3D" parent="InteriorEnvironmentZones" unique_id=264573444 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/EastConnector" unique_id=577886740]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.75, 0)
-shape = SubResource("Shape_indoor_connector_ew")
-
-[node name="NorthConnector" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1466717840 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/NorthConnector" unique_id=697973301]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -9)
-shape = SubResource("Shape_indoor_connector_ns")
-
-[node name="SubsurfaceLevels" type="Area3D" parent="InteriorEnvironmentZones" unique_id=1773792674 groups=["indoor_environment_zone"]]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorEnvironmentZones/SubsurfaceLevels" unique_id=611502496]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -39, 0)
-shape = SubResource("Shape_indoor_subsurface")
 
 [node name="Doors" type="Node3D" parent="." unique_id=1659585370]
 editor_description = "Все двери нулевого уровня, их контроллер и временные блокирующие коллизии."
@@ -1078,3 +979,25 @@ use_collision = true
 size = Vector3(4, 0.4, 2)
 
 [node name="BloodDressing" parent="." unique_id=270346482 instance=ExtResource("blood_dressing")]
+
+[node name="GarageWindPassage" parent="Doors" instance=ExtResource("acoustic_portal")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -38.003, 0, -2.5)
+door_path = NodePath("../West_Vehicle_Exterior_Gate_Visual_Prototype")
+
+[node name="PedestrianWindPassage" parent="Doors" instance=ExtResource("acoustic_portal")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -38.003, 0, 3)
+door_path = NodePath("../West_Pedestrian_Exterior_Door_Visual_Prototype")
+door_manager_path = NodePath("../AutomaticDoors")
+
+[node name="CollisionShape3D" parent="Doors/PedestrianWindPassage/Passage" index="0"]
+shape = SubResource("Shape_acoustic_pedestrian")
+
+[node name="VentilationAudio" parent="South_Technical/South_Connector/Fixtures/South_Connector_West_Vent_Blockout" instance=ExtResource("vent_audio")]
+
+[node name="VentilationAudio" parent="South_Technical/South_Connector/Fixtures/South_Connector_East_Vent_Blockout" instance=ExtResource("vent_audio")]
+
+[node name="VentilationAudio" parent="East_Living/East_Connector/Fixtures/East_Connector_North_Vent_Blockout" instance=ExtResource("vent_audio")]
+
+[node name="VentilationAudio" parent="East_Living/East_Connector/Fixtures/East_Connector_South_Vent_Blockout" instance=ExtResource("vent_audio")]
+
+[editable path="Doors/PedestrianWindPassage"]

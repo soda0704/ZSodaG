@@ -12,18 +12,6 @@ transform = Transform3D(-0.6138909, 0.29912093, -0.7305235, 0.4380237, 0.8989634
 [node name="FallenPine01" type="Node3D" parent="." unique_id=1472192059 instance=ExtResource("1_srxr3")]
 transform = Transform3D(0.25298586, 0.050704267, 0.9661404, -0.19651522, 0.9805008, 0, -0.9473014, -0.18986128, 0.258017, -225, 25.367296, 190)
 
-[node name="FallenPine02" type="Node3D" parent="." unique_id=1256918906 instance=ExtResource("1_srxr3")]
-transform = Transform3D(0.27771, -0.50307053, -0.8184114, 0.8754644, 0.48328263, 0, 0.395524, -0.7164901, 0.5746327, -180, 97.75208, 250)
-
-[node name="FallenPine03" type="Node3D" parent="." unique_id=1143119374 instance=ExtResource("1_srxr3")]
-transform = Transform3D(0.6207258, -0.46246317, 0.6331092, 0.5974494, 0.8019066, 0, -0.5076945, 0.37825072, 0.77406245, -90, 105.44835, -255)
-
-[node name="FallenPine04" type="Node3D" parent="." unique_id=455209581 instance=ExtResource("1_srxr3")]
-transform = Transform3D(0.77504385, -0.63111, -0.031738214, 0.6314281, 0.7754345, 0, 0.024610905, -0.0200404, 0.9994962, 155, 129.50706, -255)
-
-[node name="FallenPine05" type="Node3D" parent="." unique_id=2107968939 instance=ExtResource("1_srxr3")]
-transform = Transform3D(0.32349592, -0.03910827, -0.94542104, 0.12001876, 0.9927717, 0, 0.9385872, -0.11346826, 0.3258513, 235, 14.822965, 60)
-
 [node name="FallenPine06" type="Node3D" parent="." unique_id=1632880346 instance=ExtResource("1_srxr3")]
 transform = Transform3D(-0.24149759, 0.11987137, -0.96296924, 0.44460818, 0.8957252, 0, 0.8625558, -0.42814404, -0.26961124, 100, 30.15951, 245)
 
@@ -41,24 +29,6 @@ transform = Transform3D(-0.7839089, 0, -3.1703713, 0, 2.0635328, 0, 2.255404, 0,
 
 [node name="GlacialIce02" type="Node3D" parent="." unique_id=1954249103 instance=ExtResource("2_p1dov")]
 transform = Transform3D(-1.370737, 0, 1.8476964, 0, 2.3907027, 0, -1.394995, 0, -1.8155662, -226.73874, 21.267464, -220.28085)
-
-[node name="GlacialIce03" type="Node3D" parent="." unique_id=302784424 instance=ExtResource("3_bomvv")]
-transform = Transform3D(1.6720265, 0, -2.0500364, 0, 2.1182852, 0, 1.9439123, 0, 1.7633075, -83.51198, 91.85093, -272.61523)
-
-[node name="GlacialIce04" type="Node3D" parent="." unique_id=1395435932 instance=ExtResource("2_p1dov")]
-transform = Transform3D(-0.72055113, 0, -3.42096, 0, 3.1851122, 0, 3.0701053, 0, -0.80289644, -82.98212, 91.07519, -272.61066)
-
-[node name="GlacialIce05" type="Node3D" parent="." unique_id=2074244878 instance=ExtResource("3_bomvv")]
-transform = Transform3D(-2.7454288, 0, 1.984524, 0, 2.2322273, 0, -2.0849435, 0, -2.6131976, -76.64189, 101.96596, -268.69366)
-
-[node name="GlacialIce06" type="Node3D" parent="." unique_id=1769499606 instance=ExtResource("2_p1dov")]
-transform = Transform3D(-0.60455406, 0, -2.637812, 0, 1.3119817, 0, 2.096496, 0, -0.7606501, 176.11057, 121.032845, -257.54694)
-
-[node name="GlacialIce07" type="Node3D" parent="." unique_id=1324537378 instance=ExtResource("3_bomvv")]
-transform = Transform3D(0.027011154, 0, 2.2916849, 0, 2.090574, 0, -3.0163746, 0, 0.020521672, 178.03932, 113.877144, -255.0405)
-
-[node name="GlacialIce08" type="Node3D" parent="." unique_id=240023081 instance=ExtResource("2_p1dov")]
-transform = Transform3D(-2.841447, 0, 0.6649004, 0, 1.9253798, 0, -0.5907135, 0, -3.1983006, 174.14105, 124.43262, -257.50357)
 
 [node name="GlacialIce09" type="Node3D" parent="." unique_id=841756321 instance=ExtResource("3_bomvv")]
 transform = Transform3D(2.2941916, 0, -0.6613483, 0, 2.736312, 0, 0.77716744, 0, 1.9522943, -260.48984, 37.32721, 36.731373)
@@ -87,11 +57,3 @@ transform = Transform3D(-2.616758, 0, -0.44877455, 0, 2.9800425, 0, 0.58272725, 
 [node name="GlacialIce17" type="Node3D" parent="." unique_id=563518215 instance=ExtResource("3_bomvv")]
 transform = Transform3D(1.7320821, 0, 3.2378335, 0, 2.061582, 0, -2.9607732, 0, 1.8941653, 53.354042, 28.413963, 247.01399)
 
-[node name="GlacialIce18" type="Node3D" parent="." unique_id=1353080145 instance=ExtResource("2_p1dov")]
-transform = Transform3D(-1.3193423, 0, -2.076266, 0, 3.250675, 0, 2.146283, 0, -1.2763021, 230.14583, 13.385359, 146.88799)
-
-[node name="GlacialIce19" type="Node3D" parent="." unique_id=1136086817 instance=ExtResource("3_bomvv")]
-transform = Transform3D(-2.2471175, 0, -0.06858757, 0, 3.1850343, 0, 0.07198107, 0, -2.1411788, 239.38777, 11.256803, 146.87627)
-
-[node name="GlacialIce20" type="Node3D" parent="." unique_id=686223966 instance=ExtResource("2_p1dov")]
-transform = Transform3D(1.002569, 0, 2.4545295, 0, 3.512065, 0, -1.8908938, 0, 1.3014138, 231.75333, 12.702862, 141.60031)

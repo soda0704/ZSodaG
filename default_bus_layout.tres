@@ -1,15 +1,57 @@
 [gd_resource type="AudioBusLayout" format=3]
 
+[sub_resource type="AudioEffectLowPassFilter" id="muffled_weather"]
+cutoff_hz = 1200.0
+
+[sub_resource type="AudioEffectReverb" id="room"]
+room_size = 0.35
+damping = 0.65
+spread = 0.5
+wet = 0.0
+dry = 1.0
+
+[sub_resource type="AudioEffectLowPassFilter" id="outdoor"]
+cutoff_hz = 10000.0
+
+[sub_resource type="AudioEffectLowPassFilter" id="engine_tone"]
+cutoff_hz = 2400.0
+
 [resource]
 bus/0/name = &"Master"
-bus/0/solo = false
-bus/0/mute = false
-bus/0/bypass_fx = false
-bus/0/volume_db = 0.0
 bus/0/send = &""
+bus/0/volume_db = 0.0
 bus/1/name = &"Music"
-bus/1/solo = false
-bus/1/mute = false
-bus/1/bypass_fx = false
-bus/1/volume_db = 0.0
 bus/1/send = &"Master"
+bus/1/volume_db = 0.0
+bus/2/name = &"World"
+bus/2/send = &"Master"
+bus/2/volume_db = 0.0
+bus/3/name = &"Effects"
+bus/3/send = &"World"
+bus/3/volume_db = 0.0
+bus/4/name = &"Weapons"
+bus/4/send = &"World"
+bus/4/volume_db = 0.0
+bus/5/name = &"Vehicles"
+bus/5/send = &"World"
+bus/5/volume_db = 0.0
+bus/6/name = &"Machinery"
+bus/6/send = &"World"
+bus/6/volume_db = 0.0
+bus/7/name = &"Ambience"
+bus/7/send = &"World"
+bus/7/volume_db = 0.0
+bus/8/name = &"Breathing"
+bus/8/send = &"Master"
+bus/8/volume_db = 0.0
+bus/9/name = &"MuffledWeather"
+bus/9/send = &"Ambience"
+bus/9/volume_db = 0.0
+bus/2/effect/0/effect = SubResource("room")
+bus/2/effect/0/enabled = true
+bus/2/effect/1/effect = SubResource("outdoor")
+bus/2/effect/1/enabled = true
+bus/5/effect/0/effect = SubResource("engine_tone")
+bus/5/effect/0/enabled = true
+bus/9/effect/0/effect = SubResource("muffled_weather")
+bus/9/effect/0/enabled = true

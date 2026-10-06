@@ -38,9 +38,6 @@ func apply_node(node: Node) -> void:
 		return
 	if node is WorldEnvironment and node.environment != null:
 		apply_environment(node.environment)
-	if node is EnvironmentZoneController:
-		apply_environment(node.indoor_environment)
-		apply_environment(node._transition_environment)
 	if node is Light3D:
 		if not node.has_meta("quality_shadow_original"):
 			node.set_meta("quality_shadow_original", node.shadow_enabled)
@@ -63,6 +60,6 @@ func apply_environment(env: Environment) -> void:
 	env.adjustment_brightness = clampf(float(values.Brightness)/100.0, 0.7, 1.4)
 	var gamma := clampi(roundi(float(values.Gamma)/10.0)*10, 70, 150)
 	env.adjustment_color_correction = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else null
-	for pair in [["ssao_enabled", "SSAO"], ["ssil_enabled", "SSIL"], ["ssr_enabled", "SSR"], ["glow_enabled", "Glow"], ["fog_enabled", "Fog"]]:
+	for pair in [["ssao_enabled", "SSAO"], ["ssil_enabled", "SSIL"], ["ssr_enabled", "SSR"], ["glow_enabled", "Glow"], ["fog_enabled", "Fog"], ["volumetric_fog_enabled", "Fog"]]:
 		if not env.has_meta(pair[0]): env.set_meta(pair[0], env.get(pair[0]))
 		env.set(pair[0], bool(values[pair[1]]) and (bool(env.get_meta(pair[0])) if pair[1] == "Fog" else true))

@@ -14,8 +14,7 @@ var last_hold := 0
 func begin_interaction() -> bool:
 	if player.is_driving():
 		return false
-	player.interaction_ray.force_raycast_update()
-	var target := player.interaction_ray.get_collider() as Node
+	var target := player.get_interaction_target()
 	while target != null and not target is WorldItemPickup:
 		target = target.get_parent()
 	if target == null:
@@ -54,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		var destination := origin - player.head.global_basis.z * carry_distance
 		var ray := PhysicsRayQueryParameters3D.create(origin, destination, 1, [player.get_rid(), body.get_rid()])
 		var hit := player.get_world_3d().direct_space_state.intersect_ray(ray)
-		if not hit.is_empty():
+		if not player.debug_across and not hit.is_empty():
 			destination = hit.position + hit.normal * 0.25
 		body.sleeping = false
 		body.linear_velocity = ((destination - body.global_position) * pull_speed).limit_length(8.0)
@@ -75,7 +74,7 @@ func _valid_item(path: NodePath) -> WorldItemPickup:
 	if item == null or item._collected or item.drag_owner_peer not in [0, player.owner_peer_id] or item.global_position.distance_to(player.head.global_position) > 3.5:
 		return null
 	var ray := PhysicsRayQueryParameters3D.create(player.head.global_position, item.global_position, 1, [player.get_rid(), item.get_rid()])
-	if not player.get_world_3d().direct_space_state.intersect_ray(ray).is_empty():
+	if not player.debug_across and not player.get_world_3d().direct_space_state.intersect_ray(ray).is_empty():
 		return null
 	return item
 

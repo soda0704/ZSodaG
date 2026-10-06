@@ -114,6 +114,10 @@ func _apply_pose(instant: bool = false) -> void:
 			animation.pause()
 	_refresh_status()
 
+func get_acoustic_openness() -> float:
+	var pivot: Node3D = $Visual/GateAssembly/GateStates/DoorPivot
+	return clampf(absf(pivot.rotation.x) / (PI * 0.5), 0.0, 1.0)
+
 func _refresh_status() -> void:
 	if animation.is_playing():
 		$Status.text = "ВОРОТА ОТКРЫВАЮТСЯ" if _target_open else "ВОРОТА ЗАКРЫВАЮТСЯ"
