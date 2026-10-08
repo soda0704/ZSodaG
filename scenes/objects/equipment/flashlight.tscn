@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfgm16dp3jxns"]
+[gd_scene load_steps=5 format=3 uid="uid://cfgm16dp3jxns"]
 
 [ext_resource type="Script" uid="uid://dsuv8rgy2wrbk" path="res://scripts/gameplay/equipment/player_flashlight.gd" id="1_flashlight"]
 [ext_resource type="PackedScene" uid="uid://cll50ac4xfef2" path="res://scenes/objects/equipment/flashlight_model.tscn" id="2_model"]
+
+[sub_resource type="StandardMaterial3D" id="CellMaterial"]
+albedo_color = Color(0.2706,0.4314,0.2824,1)
+metallic = 0.4
+
+[sub_resource type="CylinderMesh" id="CellMesh"]
+material = SubResource("CellMaterial")
+top_radius = 0.012
+bottom_radius = 0.012
+height = 0.065
 
 [node name="Flashlight" type="Node3D"]
 unique_name_in_owner = true
@@ -9,6 +19,10 @@ script = ExtResource("1_flashlight")
 
 [node name="Model" parent="." instance=ExtResource("2_model")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.22)
+
+[node name="ReplacementCell" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CellMesh")
 
 [node name="Beam" type="SpotLight3D" parent="."]
 unique_name_in_owner = true

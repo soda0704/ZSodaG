@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/items/duct_tape/gameplay.res" id="1_j4b2p"]
+
+[node name="ItemModel" type="Node3D" unique_id=297729355]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=817117187]
+mesh = ExtResource("1_j4b2p")

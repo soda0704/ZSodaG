@@ -1,6 +1,8 @@
 class_name SkeletalRagdoll
 extends Node3D
 
+@export var exclude_self_collision := false
+
 var skeleton: Skeleton3D
 var bodies: Array[RigidBody3D] = []
 var bone_indices: Array[int] = []
@@ -32,6 +34,10 @@ func initialize(rig: Skeleton3D, simulate: bool, initial_velocity := Vector3.ZER
 		child.linear_velocity = initial_velocity.limit_length(8.0)
 	if bodies.is_empty():
 		return
+	if exclude_self_collision:
+		for first in bodies:
+			for second in bodies:
+				if first != second: first.add_collision_exception_with(second)
 	root_body = bodies[0]
 	# Imported rigs keep a non-deforming root above the first physical bone.
 	# When the corpse falls, leaving that root at its old world position makes
@@ -42,20 +48,41 @@ func initialize(rig: Skeleton3D, simulate: bool, initial_velocity := Vector3.ZER
 	if root_bone_index >= 0:
 		var root_pose := rig.global_transform * rig.get_bone_global_pose(root_bone_index)
 		root_offset = root_body.global_transform.affine_inverse() * root_pose
-	for joint in get_children():
-		if joint is ConeTwistJoint3D:
-			var child_body := get_node(joint.get_meta("child_body")) as RigidBody3D
-			var index := bodies.find(child_body)
-			var anchor := skeleton.to_global(skeleton.get_bone_global_pose(bone_indices[index]).origin)
-			# Rebuild the constraint after matching the actual animation pose.
-			joint.node_a = NodePath()
-			joint.node_b = NodePath()
-			joint.global_transform = Transform3D(child_body.global_basis, anchor)
-			joint.node_a = joint.get_path_to(get_node(joint.get_meta("parent_body")))
-			joint.node_b = joint.get_path_to(child_body)
+	rebuild_joints_from_pose()
 	initialized = true
 	if simulate:
 		root_body.apply_central_impulse(Vector3(0.5, 0, -1.5))
+
+func rebuild_joints_from_pose() -> void:
+	# Frozen bodies can be animated to a new pose. Rebind the native joint
+	# anchors there before resuming physics, rather than at the spawn pose.
+	for joint in get_children():
+		if joint is ConeTwistJoint3D or joint is HingeJoint3D:
+			var child_body := get_node(joint.get_meta("child_body")) as RigidBody3D
+			var index := bodies.find(child_body)
+			var anchor := (child_body.global_transform * offsets[index]).origin
+			# Rebuild the constraint after matching the actual animation pose.
+			joint.node_a = NodePath()
+			joint.node_b = NodePath()
+			var axes := child_body.global_basis
+			if joint is HingeJoint3D:
+				var bone := bone_indices[index]
+				var bone_pose := skeleton.global_basis * skeleton.get_bone_global_pose(bone).basis
+				var axis: Vector3 = bone_pose * skeleton.get_bone_global_rest(bone).basis.inverse() * joint.get_meta("hinge_axis",Vector3.RIGHT)
+				axis = axis.normalized()
+				var x := child_body.global_basis.y.cross(axis).normalized()
+				axes = Basis(x,axis.cross(x).normalized(),axis)
+				var parent_body := get_node(joint.get_meta("parent_body")) as RigidBody3D
+				var bend := acos(clampf(parent_body.global_basis.y.dot(child_body.global_basis.y),-1,1))
+				joint.set_param(HingeJoint3D.PARAM_LIMIT_LOWER,-bend-0.08)
+				joint.set_param(HingeJoint3D.PARAM_LIMIT_UPPER,2.45-bend)
+			elif exclude_self_collision:
+				var x := child_body.global_basis.y
+				var y := child_body.global_basis.x
+				axes = Basis(x,y,x.cross(y))
+			joint.global_transform = Transform3D(axes, anchor)
+			joint.node_a = joint.get_path_to(get_node(joint.get_meta("parent_body")))
+			joint.node_b = joint.get_path_to(child_body)
 
 func _process(_delta: float) -> void:
 	if not initialized or not is_instance_valid(skeleton):

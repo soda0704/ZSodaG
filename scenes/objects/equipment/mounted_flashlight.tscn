@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight_model.tscn" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="TapeMaterial"]
+albedo_color = Color(0.16,0.17,0.18,1)
+roughness = 0.95
+
+[sub_resource type="TorusMesh" id="TapeMesh"]
+material = SubResource("TapeMaterial")
+inner_radius = 0.012
+outer_radius = 0.015
+rings = 24
+ring_segments = 8
+
+[sub_resource type="BoxMesh" id="BridgeMesh"]
+material = SubResource("TapeMaterial")
+size = Vector3(0.044,0.006,0.01)
+
+[node name="MountedLamp" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1")]
+scale = Vector3(0.72,0.72,0.72)
+
+[node name="TapeBack" type="MeshInstance3D" parent="."]
+position = Vector3(0,0,0.03)
+rotation = Vector3(1.5707963,0,0)
+scale = Vector3(1,3.333333,1)
+mesh = SubResource("TapeMesh")
+
+[node name="TapeFront" type="MeshInstance3D" parent="."]
+position = Vector3(0,0,-0.045)
+rotation = Vector3(1.5707963,0,0)
+scale = Vector3(1,3.333333,1)
+mesh = SubResource("TapeMesh")
+
+[node name="BridgeBack" type="MeshInstance3D" parent="."]
+position = Vector3(-0.027,0,0.03)
+mesh = SubResource("BridgeMesh")
+
+[node name="BridgeFront" type="MeshInstance3D" parent="."]
+position = Vector3(-0.027,0,-0.045)
+mesh = SubResource("BridgeMesh")
+
+[node name="Beam" type="SpotLight3D" parent="."]
+position = Vector3(0,0,-0.125)
+visible = false
+spot_range = 25.0
+spot_angle = 32.0
+light_energy = 3.0
+light_color = Color(1,0.94,0.808,1)
+shadow_enabled = true
+shadow_caster_mask = 524287

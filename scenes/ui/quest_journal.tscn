@@ -1,5 +1,1048 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3]
+
 [ext_resource type="Script" path="res://scripts/ui/quest_journal.gd" id="1"]
-[node name="QuestJournal" type="CanvasLayer"]
+[ext_resource type="Theme" path="res://scenes/ui/journal/journal_theme.tres" id="2_d6kok"]
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/book/articulated_journal.tscn" id="3_kulbg"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/journal.png" id="4_cfmn2"]
+[ext_resource type="Script" path="res://scripts/ui/journal_photo_card.gd" id="5_hfhmu"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/key.png" id="6_equ7m"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/flashlight.png" id="7_7qus1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/battery.png" id="8_nxq7l"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/fuel_can.png" id="9_efk7f"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/fuse.png" id="10_1k7br"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/pistol.png" id="11_ul5hq"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/m4a1.png" id="12_uuj7m"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/kitchen_knife.png" id="13_gbkr1"]
+[ext_resource type="Animation" path="res://scenes/ui/journal/journal_presentation_open.tres" id="17_open"]
+
+[sub_resource type="Environment" id="Environment_cfmn2"]
+ambient_light_source = 2
+ambient_light_color = Color(0.8980392, 0.8392157, 0.7372549, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfhmu"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_equ7m"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qus1"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nxq7l"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efk7f"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1k7br"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ul5hq"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uuj7m"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbkr1"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ald27"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iks3q"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2xtj"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsu7t"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6aduo"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ex512"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkh17"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knd1s"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kp7g2"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utjyv"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47w58"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nv6p1"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ffe86"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_voaia"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u0lvp"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17imv"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxor1"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gaj8"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vjkc"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abj6v"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3cnpm"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ci7e2"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lcs2"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ls8v"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c05eq"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1sq5i"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_roxsm"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vh4yy"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yl10t"]
+bg_color = Color(0.35, 0.22, 0.12, 0.045)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3t5x6"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ns82b"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.24, 0.15, 0.45)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scsko"]
+content_margin_left = 28.0
+content_margin_top = 28.0
+content_margin_right = 28.0
+content_margin_bottom = 28.0
+bg_color = Color(0.9372549, 0.88235295, 0.76862746, 1)
+shadow_color = Color(0.1, 0.06, 0.02, 0.32)
+shadow_size = 18
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qwaim"]
+_data = {
+&"open": ExtResource("17_open")
+}
+
+[node name="QuestJournal" type="CanvasLayer" unique_id=590509800]
+process_mode = 3
 layer = 80
 script = ExtResource("1")
+
+[node name="JournalRoot" type="Control" parent="." unique_id=1186189571]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_d6kok")
+
+[node name="Backdrop" type="ColorRect" parent="JournalRoot" unique_id=2013016290]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.035, 0.025, 0.015, 0.54)
+
+[node name="ModelViewport" type="SubViewportContainer" parent="JournalRoot" unique_id=1427475692]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="JournalRoot/ModelViewport" unique_id=1810415175]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(960, 960)
+render_target_update_mode = 0
+metadata/ui_presentation = true
+
+[node name="World" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport" unique_id=351528420]
+
+[node name="Environment" type="WorldEnvironment" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=993528505]
+environment = SubResource("Environment_cfmn2")
+
+[node name="SoftKey" type="DirectionalLight3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=770207471]
+transform = Transform3D(0.92718387, 0.17586714, -0.33075798, 0, 0.88294756, 0.46947157, 0.37460658, -0.43528646, 0.8186547, 0, 0, 0)
+light_color = Color(1, 0.9411765, 0.84705883, 1)
+light_energy = 1.5
+
+[node name="Camera" type="Camera3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=620620336]
+current = true
+fov = 45.0
+near = 0.01
+far = 5.0
+
+[node name="JournalPose" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=774406563]
+transform = Transform3D(0.9383316, 0.09652381, 0.3319887, -0.26817563, 0.8092465, 0.52268726, -0.21820885, -0.5794854, 0.78522706, 0.12, -0.46, -0.58)
+
+[node name="ModelAlignment" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World/JournalPose" unique_id=206922088]
+
+[node name="Model" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World/JournalPose/ModelAlignment" unique_id=1372829979 instance=ExtResource("3_kulbg")]
+
+[node name="Hands" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=1017241659]
+
+[node name="NotebookPivot" type="Control" parent="JournalRoot" unique_id=1440596591]
+anchors_preset = 0
+offset_left = 260.0
+offset_top = 467.0
+offset_right = 1660.0
+offset_bottom = 1453.0
+scale = Vector2(1.3285714, 1.3285714)
+pivot_offset = Vector2(700, 493)
+mouse_filter = 2
+
+[node name="Reveal" type="Control" parent="JournalRoot/NotebookPivot" unique_id=1494309649]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 0
+offset_right = 1400.0
+offset_bottom = 986.0
+rotation = 0.018
+scale = Vector2(0.96, 0.96)
+pivot_offset = Vector2(700, 493)
+mouse_filter = 2
+
+[node name="BookImage" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal" unique_id=1098457102]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("4_cfmn2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ink" type="Control" parent="JournalRoot/NotebookPivot/Reveal" unique_id=429402111]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="LeftPage" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=236397426]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 132.0
+offset_right = 635.0
+offset_bottom = 820.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Day" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage" unique_id=1614628969]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 23
+text = "ПОЛЕВЫЕ ЗАПИСИ"
+
+[node name="Objective" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage" unique_id=2008556070]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 36
+autowrap_mode = 3
+
+[node name="TaskScroll" type="ScrollContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage" unique_id=2109291523]
+custom_minimum_size = Vector2(0, 225)
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Tasks" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/TaskScroll" unique_id=238733724]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_constants/line_spacing = 7
+theme_override_font_sizes/font_size = 28
+autowrap_mode = 3
+
+[node name="QuestPhotoRow" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage" unique_id=1261812014]
+layout_mode = 2
+alignment = 1
+
+[node name="QuestPhoto" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow" unique_id=1751436712]
+custom_minimum_size = Vector2(244, 220)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hfhmu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_equ7m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7qus1")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_nxq7l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_efk7f")
+script = ExtResource("5_hfhmu")
+item_id = &"key"
+metadata/item_title = "Ключ шифрования"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow/QuestPhoto" unique_id=1963016158]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow/QuestPhoto/Content" unique_id=2081049788]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_equ7m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow/QuestPhoto/Content" unique_id=233712475]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Ключ шифрования"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow/QuestPhoto/Content" unique_id=18339511]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="CoopStatus" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/LeftPage" unique_id=45254268]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+
+[node name="RightPage" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=213891958]
+layout_mode = 0
+offset_left = 785.0
+offset_top = 132.0
+offset_right = 1245.0
+offset_bottom = 820.0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Heading" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage" unique_id=784456934]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 23
+text = "СНАРЯЖЕНИЕ"
+
+[node name="InventoryScroll" type="ScrollContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage" unique_id=908572579]
+custom_minimum_size = Vector2(0, 470)
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="InventoryGrid" type="GridContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll" unique_id=125893360]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 18
+columns = 2
+
+[node name="Flashlight" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=1592352440]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_1k7br")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ul5hq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uuj7m")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gbkr1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ald27")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flashlight"
+metadata/item_title = "Фонарик"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flashlight" unique_id=364428987]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flashlight/Content" unique_id=1490507195]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_7qus1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flashlight/Content" unique_id=1575128800]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Фонарик"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flashlight/Content" unique_id=104362447]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Battery" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=1213459950]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_iks3q")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o2xtj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wsu7t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6aduo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ex512")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"battery"
+metadata/item_title = "Батарейки"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Battery" unique_id=2095222934]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Battery/Content" unique_id=400444552]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_nxq7l")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Battery/Content" unique_id=1013261269]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Батарейки"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Battery/Content" unique_id=972628729]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Fuel Can" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=225561638]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_rkh17")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_knd1s")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kp7g2")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_utjyv")
+theme_override_styles/focus = SubResource("StyleBoxFlat_47w58")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"fuel_can"
+metadata/item_title = "Канистра"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuel Can" unique_id=956233946]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuel Can/Content" unique_id=2129676000]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_efk7f")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuel Can/Content" unique_id=1713380326]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Канистра"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuel Can/Content" unique_id=1863674625]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Fuse" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=1407470359]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_nv6p1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ffe86")
+theme_override_styles/hover = SubResource("StyleBoxFlat_voaia")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_u0lvp")
+theme_override_styles/focus = SubResource("StyleBoxFlat_17imv")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"fuse"
+metadata/item_title = "Предохранитель"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuse" unique_id=1798496961]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuse/Content" unique_id=720946223]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_1k7br")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuse/Content" unique_id=198244825]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Предохранитель"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Fuse/Content" unique_id=1854467928]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Pistol" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=1737143417]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bxor1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1gaj8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5vjkc")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_abj6v")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3cnpm")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"pistol"
+metadata/item_title = "Пистолет"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Pistol" unique_id=2041659312]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Pistol/Content" unique_id=1932951555]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("11_ul5hq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Pistol/Content" unique_id=1827971407]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Пистолет"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Pistol/Content" unique_id=1482829093]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="M 4a 1" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=635828261]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ci7e2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1lcs2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5ls8v")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_c05eq")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1sq5i")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"m4a1"
+metadata/item_title = "M4A1"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/M 4a 1" unique_id=1772954102]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/M 4a 1/Content" unique_id=1509486860]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_uuj7m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/M 4a 1/Content" unique_id=2052924379]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "M4A1"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/M 4a 1/Content" unique_id=1693720643]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Kitchen Knife" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid" unique_id=743470006]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"kitchen_knife"
+metadata/item_title = "Кухонный нож"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Kitchen Knife" unique_id=1336814443]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Kitchen Knife/Content" unique_id=1460045902]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("13_gbkr1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Kitchen Knife/Content" unique_id=1334353557]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Кухонный нож"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Kitchen Knife/Content" unique_id=1199169408]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="InventoryNote" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage" unique_id=1185879609]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 23
+autowrap_mode = 3
+
+[node name="Actions" type="HFlowContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage" unique_id=6598595]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+
+[node name="ReplaceBattery" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions" unique_id=1319562459]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Заменить батарейку"
+
+[node name="DropItem" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions" unique_id=963378460]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Выбросить"
+
+[node name="MountLight" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions" unique_id=1495632287]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Примотать фонарь"
+
+[node name="Footer" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=530872865]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 830.0
+offset_right = 1245.0
+offset_bottom = 880.0
+mouse_filter = 2
+theme_override_constants/separation = 22
+
+[node name="CloseHint" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/Footer" unique_id=89153885]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 22
+text = "J / ESC · Закрыть журнал"
+
+[node name="HelpButton" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/Footer" unique_id=1438524402]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Управление"
+
+[node name="CloseButton" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/Footer" unique_id=1395890387]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Закрыть"
+
+[node name="HelpPanel" type="PanelContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=1981944157]
+visible = false
+layout_mode = 0
+offset_left = 245.0
+offset_top = 245.0
+offset_right = 1155.0
+offset_bottom = 705.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_scsko")
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel" unique_id=1710496267]
+layout_mode = 2
+
+[node name="Heading" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel/Content" unique_id=907345812]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 30
+text = "УПРАВЛЕНИЕ"
+
+[node name="Controls" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel/Content" unique_id=985919634]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+
+[node name="Dismiss" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel/Content" unique_id=1038023094]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Понятно"
+
+[node name="TransitionBlocker" type="Control" parent="JournalRoot" unique_id=1662237978]
+visible = false
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PresentationAnimation" type="AnimationPlayer" parent="." unique_id=1889093219]
+libraries/ = SubResource("AnimationLibrary_qwaim")

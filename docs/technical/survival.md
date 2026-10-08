@@ -1,31 +1,21 @@
-# Death and radiation prototype
+# Здоровье, смерть и радиация
 
-The server owns health, death, dose and respawn. PlayerSurvival sends state over
-the reliable authority-only channel, including periodic state for late joiners.
-Clients cannot apply damage or revive themselves. Health/dose are session state;
-loading a checkpoint starts alive and healthy.
+## Поведение
 
-- 100 health. Landing impact is measured before move_and_slide, with moving-floor
-  velocity taken into account. Up to 11 m/s is safe; 22 m/s is lethal at full health.
-- More than 3 seconds of descending freefall kills even without landing.
-- Expedition bounds: Y below -160, or X/Z beyond ±240 relative to level root.
-  Level 4's authored descent reaches approximately -144; legitimate shaft
-  geometry is not clipped by the kill plane. Staging fallback bottom is -40.
-- Death disables movement, interactions and inventory actions, stows the light,
-  cancels pending battery replacement through the inventory revision, and shows
-  the cause plus a four-second countdown. Pause menu remains accessible.
-- Respawn uses the assigned base day-start marker (initial spawn outside V3).
-  Equipment and shared quest progress are retained: this is explicitly a forgiving
-  prototype rule, not corpse recovery or permadeath. HP/dose reset on respawn.
+`PlayerSurvival` (`scripts/characters/components/player_survival.gd`) принадлежит сцене игрока. Здоровье, дозу, урон и респавн рассчитывает хост. Клиент не может самостоятельно оживить персонажа.
 
-RadiationZone is attached to Level 2 Water/Central_Reservoir_Water at runtime.
-It spans a 9 m horizontal radius, from 2 m below to 8 m above the water origin,
-covering the inspection bridge but not neighboring floors. Intensity fades from
-1 at the center to 0.25 at the edge. Dose rises by up to 18 points/s and decays by
-9 points/s outside. Above 35 dose it damages health, including residual exposure
-after leaving the source. The warning sign and colored light identify the source.
-Rates and fall thresholds are prototype tuning values, not real radiation units.
+Максимальное здоровье — 100 по умолчанию. Падение до 11 м/с безопасно; при 22 м/с расчёт достигает максимального здоровья. Скорость платформы учитывается при приземлении. Нисходящее свободное падение более 3 секунд также смертельно. Нижняя страховочная граница комплекса — Y < −160; горизонтальные границы наружной карты являются физическими барьерами и не убивают игрока.
 
-Tests: tools/tests/survival_test.gd (optional -- visual), plus the host/client
-day_two_network_peer.tscn test, which now covers replicated death, inventory lock,
-respawn, and subsequent quest delivery. Tests use isolated save paths.
+Смерть блокирует игровые действия, убирает фонарик и показывает причину. Через 4 секунды выполняется респавн. Если питание базы выключено, используется первоначальный spawn у вертолёта; при включённом питании — маркер начала дня. Проверка привязана к состоянию щита, а не только к факту прошлого сна.
+
+Снаряжение и сюжетный прогресс сохраняются по текущему мягкому правилу респавна. HP и радиация сбрасываются. Это не система потери инвентаря после смерти.
+
+## Радиация
+
+Зона связана с резервуаром уровня 2. Внутри накапливается условная доза, вне зоны она уменьшается. По умолчанию: накопление до 4,5 единицы/с, восстановление 9 единиц/с, порог урона 35, коэффициент 0,22. В центре зоны урон начинается примерно через 7,8 секунды; ближе к краю доза растёт медленнее. Остаточная доза может причинять урон после выхода. Значения не обозначают физические единицы радиации.
+
+## Настройка и проверка
+
+Inspector компонента содержит `max_health`, пороги падения, задержку респавна и параметры радиации. Геометрию источника задаёт зона и её привязка; не расширяйте её на соседний этаж случайным глобальным объёмом.
+
+Проверка: `tools/tests/respawn_debug_controls_regression.gd`. В игре проверить смерть до запуска питания, после запуска и после исчерпания топлива; падение с кабины; вход/выход из резервуара; клиентский респавн. Сохранение здоровья между запусками не заявлено.

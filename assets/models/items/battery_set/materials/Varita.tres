@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/items/battery_set/textures/Varita_baseColor.png" id="1_mj6vj"]
+
+[resource]
+resource_name = "Varita"
+cull_mode = 2
+albedo_texture = ExtResource("1_mj6vj")
+metallic = 1.0
+roughness = 0.228
+metadata/_gltf_primary_texture_coord = 0

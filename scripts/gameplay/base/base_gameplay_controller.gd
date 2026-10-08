@@ -29,6 +29,9 @@ enum QuestStage { UNAVAILABLE, OFFERED, ACCEPTED, COLLECTED, DELIVERED }
 var quest_stage: QuestStage = QuestStage.UNAVAILABLE
 
 @export_range(1, 5, 1) var starting_day_index: int = FIRST_DAY
+const LEVEL_TWO_DAY_INDEX := 3
+const CONTAINMENT_DAY_INDEX := 4
+var _last_checkpoint_msec := -5000
 
 var day_index: int = FIRST_DAY
 var phase: BasePhase = BasePhase.ARRIVAL
@@ -50,7 +53,8 @@ func _process(delta: float) -> void:
 		if fuel_liters <= 0.0:
 			snapshot.main_breaker_on = false
 			snapshot.fuel_delivered = false
-		_broadcast_snapshot(snapshot)
+		# Fuel replication is not a new checkpoint every tick; depletion is important.
+		_broadcast_snapshot(snapshot, fuel_liters <= 0.0)
 
 
 func refill_authoritative(peer_id: int, amount: float) -> float:
@@ -204,7 +208,8 @@ func can_end_current_day() -> bool:
 	return main_breaker_on and (
 		day_index == 1
 		or (day_index == 2 and quest_stage == QuestStage.DELIVERED)
-		or (day_index == 3 and bool(containment.get("resolved", false)))
+		or (day_index == LEVEL_TWO_DAY_INDEX and bool(containment.get("level2", false)))
+		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
 	)
 
 
@@ -353,9 +358,11 @@ func advance_day_authoritative() -> bool:
 	return true
 
 
-func save_progress_authoritative() -> bool:
+func save_progress_authoritative(periodic: bool = false) -> bool:
 	if not progress_persistence_enabled or not multiplayer.is_server():
 		return false
+	if periodic and Time.get_ticks_msec() - _last_checkpoint_msec < 5000:
+		return true
 	var config := ConfigFile.new()
 	var snapshot := _make_persistent_snapshot()
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -371,6 +378,7 @@ func save_progress_authoritative() -> bool:
 	if error != OK:
 		push_warning("Could not save base progress: %s" % error_string(error))
 		return false
+	_last_checkpoint_msec = Time.get_ticks_msec()
 	return true
 
 
@@ -406,6 +414,23 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	# Preserve old combat progress when the former combined day is split in two.
+	if int(config.get_value("base", "campaign_layout_version", 1)) < 2:
+		var old_day := int(snapshot.day_index)
+		var encounter_data: Dictionary = snapshot.containment
+		var combat_started: bool = (
+			bool(encounter_data.get("level3", false))
+			or bool(encounter_data.get("fault", false))
+			or bool(encounter_data.get("resolved", false))
+			or not (encounter_data.get("bodies", {}) as Dictionary).is_empty()
+			or encounter_data.get("health", [120.0, 90.0, 75.0]) != [120.0, 90.0, 75.0]
+		)
+		if old_day == 3 and combat_started:
+			snapshot.day_index = CONTAINMENT_DAY_INDEX
+			encounter_data["level2"] = true
+			encounter_data["level3"] = true
+		elif old_day >= 4:
+			snapshot.day_index = mini(old_day + 1, 5)
 	return snapshot
 
 
@@ -466,19 +491,19 @@ func sync_network_state_to_peer(peer_id: int) -> void:
 	_receive_snapshot.rpc_id(peer_id, get_snapshot())
 
 
-func _broadcast_snapshot(snapshot: Dictionary) -> void:
+func _broadcast_snapshot(snapshot: Dictionary, persist: bool = true) -> void:
 	if not multiplayer.is_server():
 		return
-	_receive_snapshot.rpc(snapshot)
+	_receive_snapshot.rpc(snapshot, persist)
 	_update_end_day_consensus_signal()
 
 
 @rpc("authority", "call_local", "reliable")
-func _receive_snapshot(snapshot: Dictionary) -> void:
-	_apply_snapshot(snapshot)
+func _receive_snapshot(snapshot: Dictionary, persist: bool = true) -> void:
+	_apply_snapshot(snapshot, false, persist)
 
 
-func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
+func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist: bool = true) -> void:
 	var previous_day := day_index
 	var previous_phase := phase
 	var previous_fuel := fuel_delivered
@@ -536,7 +561,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false) -> void:
 	if force_signals or previous_sleeping != sleeping_peer_ids:
 		sleeping_state_changed.emit(sleeping_peer_ids.duplicate())
 	snapshot_changed.emit(get_snapshot())
-	if multiplayer.is_server():
+	if multiplayer.is_server() and persist:
 		save_progress_authoritative()
 
 
@@ -627,9 +652,18 @@ func _make_persistent_snapshot() -> Dictionary:
 		[],
 		[]
 	)
+	persistent["campaign_layout_version"] = 2
 	if is_inside_tree():
 		for vehicle_node in get_tree().get_nodes_in_group("snowmobiles"):
 			persistent.maintenance["snowmobile"] = vehicle_node.capture_checkpoint()
+	if is_inside_tree():
+		var recovery: Dictionary = persistent.maintenance.get("corpse_recovery", {}).duplicate(true)
+		var bodies: Dictionary = recovery.get("bodies", {}).duplicate(true)
+		for corpse in get_tree().get_nodes_in_group("medical_corpses"):
+			if corpse.initialized and corpse.state == self:
+				bodies[str(corpse.corpse_id)] = corpse.capture_checkpoint()
+		recovery["bodies"] = bodies
+		persistent.maintenance["corpse_recovery"] = recovery
 	return persistent
 
 

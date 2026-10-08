@@ -7,6 +7,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $launcherScript = $MyInvocation.MyCommand.Path
 $backgroundPath = Join-Path $PSScriptRoot "launcher\northernlab_launcher.png"
+$applicationIcon = Join-Path $projectRoot "assets\ui\application\northernlab.ico"
 $localEditorDirectory = Join-Path $PSScriptRoot ".local\godotsteam-editor"
 $localGodot = Join-Path $localEditorDirectory "godot.exe"
 $godotSteamDirectory = Join-Path $projectRoot "addons\godotsteam"
@@ -275,9 +276,21 @@ function New-LauncherShortcut {
     if (Test-Path -LiteralPath $outputExecutable) {
         $shortcut.IconLocation = "$outputExecutable,0"
     }
+    else {
+        $shortcut.IconLocation = "$applicationIcon,0"
+    }
     $shortcut.Save()
 }
 
+
+function Get-GameVersion {
+    $projectConfig = Get-Content -LiteralPath (Join-Path $projectRoot "project.godot") -Raw
+    $versionMatch = [regex]::Match($projectConfig, '(?m)^config/version="([^"]+)"\s*$')
+    if (-not $versionMatch.Success) {
+        throw "Set Application > Config > Version in Godot Project Settings."
+    }
+    return $versionMatch.Groups[1].Value
+}
 
 function Invoke-DevelopmentBuild {
     param([scriptblock]$StatusCallback)
@@ -291,7 +304,7 @@ function Invoke-DevelopmentBuild {
     $templateVersion = Initialize-ExportTemplate
 
     if ($StatusCallback) {
-        & $StatusCallback "Building NorthernLab ($templateVersion)..."
+        & $StatusCallback "Building NorthernLab v$(Get-GameVersion)..."
     }
 
     $buildRoot = Join-Path $projectRoot "build"
@@ -355,6 +368,12 @@ function Invoke-DevelopmentBuild {
     Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "MONSTER_CREDITS.md") -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $outputDirectory "MOUNTAIN_CREDITS.txt") -Force
     Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "PINE_CREDITS.md") -Force
+
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "SNOWMOBILE_CREDITS.md") -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "CORPSE_CREDITS.md") -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "JOURNAL_CREDITS.md") -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "CHARACTER_CREDITS.md") -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $outputDirectory "ITEM_MODEL_CREDITS.md") -Force
 
     $revision = "unavailable"
     $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
@@ -587,6 +606,7 @@ $xaml = @'
 
 $reader = New-Object System.Xml.XmlNodeReader ([xml]$xaml)
 $window = [Windows.Markup.XamlReader]::Load($reader)
+$window.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Uri]::new($applicationIcon))
 $rootGrid = $window.FindName("RootGrid")
 $windowModeBox = $window.FindName("WindowModeBox")
 $resolutionBox = $window.FindName("ResolutionBox")

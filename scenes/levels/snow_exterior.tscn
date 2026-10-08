@@ -96,6 +96,9 @@ seamless = true
 [sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_ud8tr"]
 _shader_parameters = {
 &"cliff_replacement_bounds": Vector4(258, 342, -364, 364),
+&"ridge_snow_bounds": Vector4(210, 280, -366, 366),
+&"ridge_snow_amount": 0.65,
+&"ridge_snow_color": Color(0.82, 0.88, 0.92, 1),
 &"auto_base_texture": 1,
 &"auto_height_reduction": 0.0,
 &"auto_overlay_texture": 0,

@@ -1,92 +1,33 @@
-# Snow exterior
+# Снежное окружение и следы
 
-The base and underground floors retain their coordinates. The exterior now has a
-1024 × 1024 m Terrain3D landscape, uneven steep slopes, pine groups, six rock mesh
-variants with collision, and sixteen distant background ridges. Snow on rocks is
-part of their slope-dependent material, replacing separate spherical snow caps.
-The existing sky panorama and daylight remain.
+## Сцена
 
-Terrain3D 1.0.2 stable is vendored under `addons/terrain_3d`, including its MIT license.
-Source: https://github.com/TokisanGames/Terrain3D/releases/tag/v1.0.2-stable
+`scenes/levels/snow_exterior.tscn` содержит Terrain3D, игровую растительность, камни, долину, бурю, физические границы и окружение. Регионы рельефа находятся в `assets/environments/snow/expanded_terrain`. Terrain3D поставляется в `addons/terrain_3d` с лицензией MIT.
 
-Edit the sixteen regions in `assets/environments/snow/expanded_terrain` with the Terrain3D
-editor tools. Save the scene AND modified terrain regions. The shaft has a hole;
-do not paint terrain over it. Runtime full-region collision supports players far
-from the host camera. Render layer 18 receives snow decals; outdoor scenery uses
-layer 19 and held weapons use 20. Sunlight now affects all normal geometry layers,
-including the base, so authored walls/roofs and native shadows block direct light. Terrain3D's internal
-high layer bit is preserved. `minimum_view_distance` exposes the 2600 m camera
-clipping distance needed by the background ridges.
-The console command `/outside` moves the caller beside the garage; `/level 0` returns.
-The separate `/testroom` is buried at (180, -130, 180), outside the base interiors.
+Игровые сосны используют общие mesh-ресурсы и пространственные MultiMesh-группы; стволы имеют отдельные коллизии. Дальний лес использует атласные плоскости без коллизии и теней. Группы участвуют в регулировке дальности растительности через metadata.
 
-Lighting uses the shared authored WorldEnvironment; entering rooms no longer
-overrides camera environment, ambient light, sky or fog. All broad indoor audio
-volumes are removed. Small AcousticPortal scenes at the garage and pedestrian
-entrances follow actual door opening; positional ventilation is attached to vents.
-Roof snow is generated only
-for visible CSG roofs in `exterior_snow_roof`; hiding an art/blockout branch must not
-leave its snow cap floating above the map.
+Панорама `assets/environments/snow/alpine_overcast_panorama.exr` импортируется с ограничением 4096×2048, HDR-сжатием и mipmaps. Исходник сохраняет более высокое разрешение для редактирования. Ближний рельеф и обрыв — отдельные физические поверхности.
 
-## Editing the expanded exterior
+## Редактирование
 
-- Edit `Landscape` MultiMeshes and `RockAndTreeCollision` together when moving
-  trees/rocks. Ridge meshes are in `DistantMountains`; their materials and meshes
-  are in `assets/environments/snow`. They are saved assets, not runtime scenery
-  generators. Background mountains are scenery beyond the playable valley.
-- The old `terrain_data` directory is retained but not loaded by the new scene.
-  Central terrain control maps, including the shaft hole, were preserved.
-- `scenes/objects/lobby/arrival_site.tscn` owns the imported heliport, its concave
-  collider, metal ramp, existing Chinook instance and arrival markers. Pad center:
-  (-125, 8, 95), about 157 m from the base origin. The 3 m wide ramp exits east
-  onto a graded snow corridor toward the base. Ribs are visual; walking collision
-  is a continuous slope. Landing uses the existing readiness/fade flow and markers.
-- The landed helicopter ramp starts open; its logic and animations remain in the
-  existing Chinook scene.
+Terrain3D редактируется штатными кистями. Сохраняйте сцену и изменённые регионы. Не закрашивайте отверстие шахты и участок замены восточного обрыва без согласования коллизий.
 
-## Temporary snow tracks
+Перемещая деревья или камни, обновляйте одновременно визуальные экземпляры и соответствующие формы коллизии. Не восстанавливайте декорации на высоких вершинах массовым спавном. Свет, туман и GPUParticles3D бури редактируются в сценах и материалах.
 
-`SnowTracks` runs `scripts/effects/snow_tracks.gd`. It samples local/replicated
-players and snowmobiles and emits native Decal scenes from `scenes/objects/effects`.
-Textures, sizes, receiver masks and fades are editable scene resources. Foot
-spacing, ski separation, vehicle offsets, contact tolerance, count and lifetime
-are Inspector settings.
+Физические границы не убивают игрока. Буря является оформлением внешней зоны, а не заменой коллизии границ. Темнота помещения определяется геометрией, светом и тенями; глобального купола изменения освещения нет.
 
-Contacts must hit Terrain3D close to the actor's feet. Metal, indoor floors,
-airborne movement, flight, noclip, dead players and seated drivers do not emit
-footprints. Large position jumps reset spacing. Stationary actors add nothing.
-There are at most 512 marks per client, lasting 75 seconds with a final 10-second
-fade. Oldest marks are replaced at the cap. These are cosmetic surface marks,
-not terrain deformation or saved evidence. Clients generate them locally from
-actor positions; exact placement/history is not synchronized or restored on join.
+Посадочная площадка принадлежит `scenes/objects/lobby/arrival_site.tscn`. Снег крыш обслуживает группа `exterior_snow_roof`; скрытая секция не должна оставлять снег в воздухе.
 
-## Validation
+## Снежные следы
 
-`tools/tests/landscape_grounding_test.gd` checks all 516 saved rock instances
-against terrain heights and matching collision transforms. Run it with a graphical
-renderer: the headless rendering server cannot inspect MultiMesh transforms.
-Rock bases are embedded across their footprint, including slopes. Background
-ridge heights and shared vertex normals have been smoothed in the saved meshes.
+`SnowTracks` (`scripts/effects/snow_tracks.gd`) создаёт сцены Decal из `scenes/objects/effects/`. След возникает только при контакте с Terrain3D. В помещении, на металле, в воздухе, в отладочном полёте, у мёртвого или сидящего водителя следы ног не создаются.
 
-    tools/.local/godotsteam-editor/godot.exe --path . -s tools/tests/snow_expansion_test.gd
+Ступни ориентируются по направлению тела, а расстояние шага — по перемещению: движение задом не разворачивает носки. Следы снегохода используют маркеры новой модели и интерполяцию пройденного участка.
 
-This loads the real level without persistent progression, checks both arrival
-markers, moves the player body up/down the ramp and along the route to the base
-without jumping, and checks
-footprint surface filters, vehicle tracks, count limits and expiration. A graphical
-run saves `user://snow_expansion_tracks.png`; failed checks exit nonzero.
+Inspector задаёт расстояние, контактный допуск, количество, жизнь и исчезновение. Значения сцены: до 512 следов, 75 с, последние 10 с — fade; Graphics может снизить лимит. Следы локальные, не деформируют рельеф и не сохраняются. Поздний клиент не восстанавливает старую историю.
 
-The scene was visually checked using Forward+. A live two-computer Steam co-op
-session and lower-end GPU performance still need manual playtesting; this test
-does not simulate network transport or Steam input.
+## Проверка и источники
 
-## Heliport attribution
+Проверки: `snow_expansion_test.gd`, `landscape_grounding_test.gd`, `world_boundary_regression.gd`, `south_forest_cliff_regression.gd`, `snow_track_heading_regression.gd` в `tools/tests`. Проверки MultiMesh и внешний вид требуют графического рендерера.
 
-This work is based on “Heliport helicopter-45MB” by adventurer, licensed under
-CC-BY-4.0, from the user-provided archive. The scene scales the model and adds a
-separate ramp and collider. Original model files and `license.txt` remain in
-`assets/models/environment/heliport`.
-
-- Model: https://sketchfab.com/3d-models/heliport-helicopter-45mb-0067900e00954ba6b519078a36c90936
-- Author: https://sketchfab.com/ahmagh2e
-- License: https://creativecommons.org/licenses/by/4.0/
+Лицензия исходного горного рельефа: `assets/environments/snow/mountain_source_LICENSE.txt`. Модель площадки и её атрибуция: `assets/models/environment/heliport/license.txt`. При передаче или экспорте сохраняйте эти файлы. См. [обрыв](east_cliff_revision.md) и [подготовку ресурсов](art_pipeline.md).

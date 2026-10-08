@@ -81,9 +81,6 @@ func _ready() -> void:
 	radiation.name = "ReservoirRadiation"
 	reservoir.add_child(radiation)
 	_install_quest_terminals()
-	var encounter := preload("res://scripts/gameplay/containment_encounter.gd").new()
-	encounter.name = "ContainmentEncounter"
-	add_child(encounter)
 	if network_runtime_managed:
 		return
 	spawn_standalone_gameplay()
@@ -180,7 +177,8 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 func spawn_standalone_gameplay() -> void:
 	for index in WEAPON_LOOT.size():
 		var loot: Dictionary = WEAPON_LOOT[index]
-		var pickup := preload("res://scenes/objects/items/weapon_pickup.tscn").instantiate()
+		var scene: PackedScene = preload("res://scenes/objects/items/pistol_pickup.tscn") if loot.type==&"pistol" else preload("res://scenes/objects/items/m4a1_pickup.tscn") if loot.type==&"m4a1" else preload("res://scenes/objects/items/weapon_pickup.tscn")
+		var pickup := scene.instantiate()
 		pickup.setup_spawn({"pickup_name": "WeaponLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": Transform3D(Basis.IDENTITY, loot.position)})
 		add_child(pickup)
 	if get_node_or_null("RuntimePlayers") == null:

@@ -13,6 +13,51 @@
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/impact_snow.ogg" id="impact_snow"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/bullet_impact_audio.tscn" id="impact_audio"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/impact_glass.ogg" id="impact_glass"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/bullet_surface_mark.tscn" id="surface_mark"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/snow.png" id="mark_snow"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_00.tres" id="mark_metal_0"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_01.tres" id="mark_metal_1"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_02.tres" id="mark_metal_2"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_03.tres" id="mark_metal_3"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_04.tres" id="mark_metal_4"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_05.tres" id="mark_metal_5"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_06.tres" id="mark_metal_6"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_07.tres" id="mark_metal_7"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_08.tres" id="mark_metal_8"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_09.tres" id="mark_metal_9"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_10.tres" id="mark_metal_10"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_11.tres" id="mark_metal_11"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_12.tres" id="mark_metal_12"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_13.tres" id="mark_metal_13"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_14.tres" id="mark_metal_14"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/metal_15.tres" id="mark_metal_15"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_00.tres" id="mark_concrete_0"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_01.tres" id="mark_concrete_1"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_02.tres" id="mark_concrete_2"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_03.tres" id="mark_concrete_3"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_04.tres" id="mark_concrete_4"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_05.tres" id="mark_concrete_5"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_06.tres" id="mark_concrete_6"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_07.tres" id="mark_concrete_7"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_08.tres" id="mark_concrete_8"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_09.tres" id="mark_concrete_9"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_10.tres" id="mark_concrete_10"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_11.tres" id="mark_concrete_11"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_12.tres" id="mark_concrete_12"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_13.tres" id="mark_concrete_13"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_14.tres" id="mark_concrete_14"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_15.tres" id="mark_concrete_15"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_16.tres" id="mark_concrete_16"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_17.tres" id="mark_concrete_17"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_18.tres" id="mark_concrete_18"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/concrete_19.tres" id="mark_concrete_19"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_00.tres" id="mark_glass_0"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_01.tres" id="mark_glass_1"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_02.tres" id="mark_glass_2"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_03.tres" id="mark_glass_3"]
+[ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_04.tres" id="mark_glass_4"]
+
 [node name="Weapon" type="Node3D"]
 script = ExtResource("controller")
 pistol_sound = ExtResource("pistol")
@@ -25,6 +70,13 @@ concrete_impact_sound = ExtResource("impact_concrete")
 metal_impact_sound = ExtResource("impact_metal")
 snow_impact_sound = ExtResource("impact_snow")
 impact_audio_scene = ExtResource("impact_audio")
+glass_impact_sound = ExtResource("impact_glass")
+surface_mark_scene = ExtResource("surface_mark")
+snow_mark_textures = Array[Texture2D]([ExtResource("mark_snow")])
+metal_mark_textures = Array[Texture2D]([ExtResource("mark_metal_0"), ExtResource("mark_metal_1"), ExtResource("mark_metal_2"), ExtResource("mark_metal_3"), ExtResource("mark_metal_4"), ExtResource("mark_metal_5"), ExtResource("mark_metal_6"), ExtResource("mark_metal_7"), ExtResource("mark_metal_8"), ExtResource("mark_metal_9"), ExtResource("mark_metal_10"), ExtResource("mark_metal_11"), ExtResource("mark_metal_12"), ExtResource("mark_metal_13"), ExtResource("mark_metal_14"), ExtResource("mark_metal_15")])
+concrete_mark_textures = Array[Texture2D]([ExtResource("mark_concrete_0"), ExtResource("mark_concrete_1"), ExtResource("mark_concrete_2"), ExtResource("mark_concrete_3"), ExtResource("mark_concrete_4"), ExtResource("mark_concrete_5"), ExtResource("mark_concrete_6"), ExtResource("mark_concrete_7"), ExtResource("mark_concrete_8"), ExtResource("mark_concrete_9"), ExtResource("mark_concrete_10"), ExtResource("mark_concrete_11"), ExtResource("mark_concrete_12"), ExtResource("mark_concrete_13"), ExtResource("mark_concrete_14"), ExtResource("mark_concrete_15"), ExtResource("mark_concrete_16"), ExtResource("mark_concrete_17"), ExtResource("mark_concrete_18"), ExtResource("mark_concrete_19")])
+glass_mark_textures = Array[Texture2D]([ExtResource("mark_glass_0"), ExtResource("mark_glass_1"), ExtResource("mark_glass_2"), ExtResource("mark_glass_3"), ExtResource("mark_glass_4")])
+
 
 [node name="ShotAudio" type="AudioStreamPlayer3D" parent="."]
 bus = &"Weapons"
@@ -41,3 +93,25 @@ stream = ExtResource("pistol_reload")
 volume_db = -19.0
 unit_size = 2.0
 max_distance = 18.0
+
+[node name="MuzzleTimer" type="Timer" parent="."]
+wait_time = 0.045
+one_shot = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="WeaponLabel" type="Label" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -100.0
+offset_right = -30.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 22

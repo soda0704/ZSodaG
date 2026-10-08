@@ -13,6 +13,7 @@ extends Control
 @onready var status_label: Label = %StatusLabel
 @onready var save_status_label: Label = %SaveStatusLabel
 @onready var fade: ColorRect = %Fade
+@onready var version_label: Label = %VersionLabel
 @onready var new_game_confirmation: ConfirmationDialog = %NewGameConfirmation
 @onready var delete_save_confirmation: ConfirmationDialog = %DeleteSaveConfirmation
 
@@ -20,6 +21,7 @@ var _transition_in_progress: bool = false
 
 
 func _ready() -> void:
+	version_label.text = "ВЕРСИЯ %s" % str(ProjectSettings.get_setting("application/config/version", "1.00"))
 	BaseGameplayController.save_scope = "solo"
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	GameMenu.force_close_menu()

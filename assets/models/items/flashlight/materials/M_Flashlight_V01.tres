@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/items/flashlight/textures/M_Flashlight_V01_baseColor.png" id="1_fd22i"]
+[ext_resource type="Texture2D" path="res://assets/models/items/flashlight/textures/M_Flashlight_V01_emissive.png" id="2_ljxap"]
+[ext_resource type="Texture2D" path="res://assets/models/items/flashlight/textures/M_Flashlight_V01_metallicRoughness.png" id="3_ducbp"]
+[ext_resource type="Texture2D" path="res://assets/models/items/flashlight/textures/M_Flashlight_V01_normal.png" id="4_vtxhp"]
+
+[resource]
+resource_name = "M_Flashlight_V01"
+cull_mode = 2
+albedo_texture = ExtResource("1_fd22i")
+metallic = 1.0
+metallic_texture = ExtResource("3_ducbp")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_ducbp")
+roughness_texture_channel = 1
+emission = Color(1, 1, 1, 1)
+emission_operator = 1
+emission_texture = ExtResource("2_ljxap")
+normal_enabled = true
+normal_texture = ExtResource("4_vtxhp")
+metadata/_gltf_primary_texture_coord = 0

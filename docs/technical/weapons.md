@@ -1,38 +1,37 @@
-# Prototype weapons and ammunition
+# Оружие и боеприпасы
 
-Original Blender 5.1 models: assets/models/weapons/{pistol,m4a1,kitchen_knife,
-rifle_magazine,pistol_ammo}.glb. Editable .blend files are in the adjacent source
-folder, excluded from Godot import. Rebuild with tools/build_weapon_models.py.
-Journal pictures are renders of these same models, not generated concept art.
+## Правила
 
-No range, targets, or dispensers are installed in the playable level. Test-only
-targets are instantiated by weapons_test.gd. Level 0 has exactly one of each:
+Поддерживаются пистолет, M4A1 и кухонный нож. Атаку, дистанцию, темп, расход и попадание проверяет хост. Дружественный огонь отключён. Стрельба за рулём недоступна.
 
-- Pistol: garage service bench (-30, 1.2, 7.25).
-- M4A1: technical maintenance bench (-7.35, 1.25, 22.5).
-- Kitchen knife: living-area dining table (15, 1, -3.5).
-- Two 12-round pistol ammo pickups and two 30-round rifle magazines nearby.
+| Параметр | Пистолет | M4A1 | Нож |
+| --- | --- | --- | --- |
+| Урон | 35 | 25 | 50 |
+| Интервал действия | 0,24 с | 0,1 с | 0,55 с |
+| Перезарядка | 1,35 с | 2,1 с | — |
+| Дальность | 120 м | 120 м | 2 м |
+| Ёмкость | 12 | 30 | — |
 
-The pistol has a 12-round magazine, semi-auto fire, and a 1.35-second reload.
-M4A1 has 30 rounds, automatic fire at a 0.1-second interval, and a 2.1-second reload.
-Reserve ammunition is finite, replacing the original infinite-reserve prototype.
-Pistol reload inserts only missing rounds. Rifle reload selects the fullest spare
-magazine and returns the old magazine if nonempty; repeated reload cannot destroy
-usable ammunition. Reserve limits: 240 pistol rounds, 10 rifle magazines.
-Death or weapon changes cancel pending reload. Checkpoint load also cancels reload,
-preserving magazine and reserves. Partial magazines survive dropping/picking up.
+Это значения экспортированных параметров контроллера. Изменяйте баланс в `scenes/characters/weapon_controller.tscn`; правила ёмкости согласованы с инвентарём и не имеют отдельного независимого регулятора.
 
-LMB / R2: attack. R / D-pad Up: reload when a weapon is held, otherwise replace
-flashlight battery. G: drop the held item. Weapons use the existing single hand
-slot, with flashlight pocketed. Server owns cadence, ammunition and hit checks;
-friendly fire is disabled. Knife reach is 2 m. Effects and reload movements are
-procedural prototype animations, without character hand animation or ADS yet.
+Пистолет использует одиночный выстрел, M4A1 — автоматический. `ЛКМ`/`R2` атакует, `R`/крестовина вверх выполняет контекстную перезарядку. Смена оружия, смерть и загрузка отменяют незавершённое действие.
 
-Inventory checkpoints contain weapon_layout_version=1. Older checkpoints get the
-new loot layout once; subsequent loads restore saved pickups without seeding again.
-User-facing level labels use 0, 1, 2, 3, 4. Legacy Floor_Minus resource/node paths
-and negative world-space Y coordinates remain unchanged for compatibility.
+## Резерв
 
-Checks: weapons_test.gd (optional -- visual), base_gameplay_controller_test.gd,
-and host/client day_two_network_peer.tscn. The network test includes client fire
-and finite-ammo reload in addition to prior survival and quest checks.
+Пистолет добирает только недостающие патроны. Винтовка выбирает наиболее полный запасной магазин и возвращает непустой старый. Лимиты: 240 пистолетных патронов и 10 винтовочных магазинов. Остаток сохраняется при выбросе, подборе и продолжении игры.
+
+## Ресурсы
+
+Логика: `scripts/gameplay/weapon_controller.gd`. Пистолет G17 и M4A1 используют подготовленные сцены `scenes/objects/items/pistol_model.tscn` и `scenes/objects/items/m4a1_model.tscn`. Исходные модели, лицензии и материалы находятся в `assets/models/weapons/g17/` и `assets/models/weapons/m4a1/`. Подготовка: `tools/authoring/prepare_item_models.gd`. Общая база pickup: `scenes/objects/items/weapon_pickup.tscn`; оружие имеет отдельные наследуемые сцены с коллизиями. См. [модели снаряжения](item_models.md).
+
+Нож, патроны и запасной магазин сохраняют прежние GLB в `assets/models/weapons/`. `tools/build_weapon_models.py` остаётся инструментом их подготовки; прежние блоковые модели пистолета и автомата не используются в игре.
+
+Начальная раскладка определяется `WEAPON_LOOT` в `scripts/levels/base_blockout_runtime.gd`. Иллюстрации журнала находятся в `assets/ui/journal_sketches`, а не генерируются из модели при запуске.
+
+## Эффекты и проверка
+
+Звук и след поверхности выбираются по материалу попадания. Система не деформирует Terrain3D и не разбивает стекло. См. [следы пуль](bullet_surface_marks.md).
+
+Модели закреплены на `RightHand/Equipment` визуальной сцены персонажа. Левая рука использует TwoBoneIK с SupportHand-маркером; во время перезарядки включается отдельный клип. Отдача, удар ножом и замена батарейки используют AnimationTree. Контроллер больше не создаёт модель, HUD или свет при запуске. См. [персонажи и анимация](character_visuals.md).
+
+Проверки: `weapon_vehicle_audio_regression.gd`, `bullet_surface_marks_regression.gd`, `character_integration_regression.gd`. В игре проверить конечный резерв, частичный магазин, отмену перезарядки, стену перед целью и выстрел клиента.

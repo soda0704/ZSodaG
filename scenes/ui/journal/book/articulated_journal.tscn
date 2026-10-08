@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_2_cover.res" id="1_g61ir"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_3_cover.res" id="2_3wns4"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/inner_cover.res" id="4_nyp3i"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_2_body.res" id="5_llba3"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_3_body.res" id="6_m6ekm"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/reading_page.res" id="7_wyrcx"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_0.res" id="8_y5rcm"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_1.res" id="9_t7trt"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_2.res" id="10_dcmm2"]
+[ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/paper_binding.res" id="10_g61ir"]
+
+[sub_resource type="Skin" id="Skin_g61ir"]
+bind_count = 2
+bind/0/name = &""
+bind/0/bone = 0
+bind/0/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0, -0.008)
+bind/1/name = &""
+bind/1/bone = 1
+bind/1/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ArticulatedJournal" type="Node3D" unique_id=1372829979]
+
+[node name="FrontCoverPivot" type="Node3D" parent="." unique_id=1448174926]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.105, 0, 0.008)
+
+[node name="Object_2Cover" type="MeshInstance3D" parent="FrontCoverPivot" unique_id=434758543]
+mesh = ExtResource("1_g61ir")
+
+[node name="Object_3Cover" type="MeshInstance3D" parent="FrontCoverPivot" unique_id=909930622]
+mesh = ExtResource("2_3wns4")
+
+[node name="InnerCover" type="MeshInstance3D" parent="FrontCoverPivot" unique_id=1822079031]
+mesh = ExtResource("4_nyp3i")
+
+[node name="Leaf0Pivot" type="Node3D" parent="FrontCoverPivot" unique_id=502791709]
+
+[node name="Leaf0" type="MeshInstance3D" parent="FrontCoverPivot/Leaf0Pivot" unique_id=1130675550]
+mesh = ExtResource("8_y5rcm")
+
+[node name="Leaf1Pivot" type="Node3D" parent="FrontCoverPivot" unique_id=1832749785]
+
+[node name="Leaf1" type="MeshInstance3D" parent="FrontCoverPivot/Leaf1Pivot" unique_id=693333590]
+mesh = ExtResource("9_t7trt")
+
+[node name="Leaf2Pivot" type="Node3D" parent="FrontCoverPivot" unique_id=283107303]
+
+[node name="Leaf2" type="MeshInstance3D" parent="FrontCoverPivot/Leaf2Pivot" unique_id=1009320335]
+mesh = ExtResource("10_dcmm2")
+
+[node name="Object_2Body" type="MeshInstance3D" parent="." unique_id=154722040]
+mesh = ExtResource("5_llba3")
+
+[node name="Object_3Body" type="MeshInstance3D" parent="." unique_id=1368031438]
+mesh = ExtResource("6_m6ekm")
+
+[node name="ReadingPage" type="MeshInstance3D" parent="." unique_id=338191106]
+mesh = ExtResource("7_wyrcx")
+
+[node name="PaperBindingRig" type="Skeleton3D" parent="." unique_id=1672043922]
+bones/0/name = "CoverFold"
+bones/0/parent = -1
+bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.105, 0, 0.008)
+bones/0/enabled = true
+bones/0/position = Vector3(-0.105, 0, 0.008)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/name = "FixedFold"
+bones/1/parent = -1
+bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+bones/1/enabled = true
+bones/1/position = Vector3(0, 0, 0)
+bones/1/rotation = Quaternion(0, 0, 0, 1)
+bones/1/scale = Vector3(1, 1, 1)
+
+[node name="PaperBinding" type="MeshInstance3D" parent="." unique_id=1461930633]
+cast_shadow = 0
+mesh = ExtResource("10_g61ir")
+skin = SubResource("Skin_g61ir")
+skeleton = NodePath("../PaperBindingRig")

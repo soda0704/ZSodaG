@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/medical_corpse_bed.gd" id="1"]
+
+[sub_resource type="BoxShape3D" id="bed_interaction"]
+size = Vector3(2.32, 1.25, 1.16)
+
+[node name="CorpseBed" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1")
+
+[node name="InteractionShape" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.625, 0)
+shape = SubResource("bed_interaction")
+
+[node name="RestPose" type="Marker3D" parent="."]
+position = Vector3(0, 1.13, 0)
+rotation = Vector3(-1.5707963, 1.5707963, 0)

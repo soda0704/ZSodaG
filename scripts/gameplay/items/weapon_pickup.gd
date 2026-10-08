@@ -1,17 +1,25 @@
 extends WorldItemPickup
 
+## Enable to keep the CollisionShape authored in the scene instead of automatic fitting.
+@export var use_authored_collision := false
+@export var model_scene: PackedScene
+
 func _ready() -> void:
 	super._ready()
-	display_name = WeaponController.TITLES.get(item_type, "оружие")
-	if item_type in [&"pistol_ammo", &"rifle_magazine"]:
-		display_name = "патроны для пистолета" if item_type == &"pistol_ammo" else "магазин M4A1"
+	if display_name == "предмет":
+		display_name = WeaponController.TITLES.get(item_type, "оружие")
+		if item_type in [&"pistol_ammo", &"rifle_magazine"]:
+			display_name = "патроны для пистолета" if item_type == &"pistol_ammo" else "магазин M4A1"
 	if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"]:
-		var model := (load("res://assets/models/weapons/%s.glb" % item_type) as PackedScene).instantiate()
+		var scene: PackedScene = model_scene if model_scene != null else WeaponController.MODEL_SCENES[item_type]
+		var model := scene.instantiate()
+		model.name = "Model"
 		add_child(model)
 		if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
-			var mount := preload("res://scripts/gameplay/tool_models.gd").build_mount()
-			mount.position = Vector3(0.075, 0.01, -0.16)
+			var mount := preload("res://scenes/objects/equipment/mounted_flashlight.tscn").instantiate()
+			mount.position = Vector3(0.053, 0.01, -0.16)
 			add_child(mount)
+		if use_authored_collision: return
 		var shape := BoxShape3D.new()
 		shape.size = Vector3(0.08, 0.32, 0.85) if item_type == &"m4a1" else Vector3(0.07, 0.18, 0.38)
 		$CollisionShape3D.shape = shape
@@ -36,6 +44,7 @@ func _ready() -> void:
 				add_child(target)
 
 func get_interaction_prompt() -> String:
+	if not pickup_enabled: return ""
 	if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
 		return "%s · фонарик на скотче · %d%%" % [WeaponController.TITLES[item_type], roundi(float(item_state.mounted_charge) * 100.0)]
 	if item_type == &"pistol_ammo":

@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/weapons/g17/gameplay.res" id="1_go5qs"]
+
+[node name="ItemModel" type="Node3D" unique_id=787671746]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=367283428]
+mesh = ExtResource("1_go5qs")
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=1931060213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, -0.18799655)

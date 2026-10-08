@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/items/battery_set/textures/Batria_baseColor.png" id="1_38gmd"]
+
+[resource]
+resource_name = "Batria"
+cull_mode = 2
+albedo_texture = ExtResource("1_38gmd")
+metallic = 1.0
+roughness = 0.228
+metadata/_gltf_primary_texture_coord = 0

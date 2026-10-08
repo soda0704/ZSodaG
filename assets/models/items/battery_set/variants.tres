@@ -1,0 +1,76 @@
+[gd_resource type="MeshLibrary" format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_0.res" id="1_k60i2"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_1.res" id="2_usarq"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_2.res" id="3_3hlfj"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_3.res" id="4_pavmr"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_4.res" id="5_p3d38"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_5.res" id="6_egbmf"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_6.res" id="7_u75vh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_7.res" id="8_nxsu6"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/battery_set/variant_8.res" id="9_7jba8"]
+
+[resource]
+item/0/name = "AA Amazan_0"
+item/0/mesh = ExtResource("1_k60i2")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/mesh_cast_shadow = 1
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+item/1/name = "AAA Ikae_1"
+item/1/mesh = ExtResource("2_usarq")
+item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/mesh_cast_shadow = 1
+item/1/shapes = []
+item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/navigation_layers = 1
+item/2/name = "AA Amazan 2_2"
+item/2/mesh = ExtResource("3_3hlfj")
+item/2/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/mesh_cast_shadow = 1
+item/2/shapes = []
+item/2/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/navigation_layers = 1
+item/3/name = "AA Ansfrau_3"
+item/3/mesh = ExtResource("4_pavmr")
+item/3/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/3/mesh_cast_shadow = 1
+item/3/shapes = []
+item/3/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/3/navigation_layers = 1
+item/4/name = "AA Mitsusubi_4"
+item/4/mesh = ExtResource("5_p3d38")
+item/4/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/4/mesh_cast_shadow = 1
+item/4/shapes = []
+item/4/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/4/navigation_layers = 1
+item/5/name = "AA Blender_5"
+item/5/mesh = ExtResource("6_egbmf")
+item/5/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/5/mesh_cast_shadow = 1
+item/5/shapes = []
+item/5/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/5/navigation_layers = 1
+item/6/name = "AAA Battria_6"
+item/6/mesh = ExtResource("7_u75vh")
+item/6/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/6/mesh_cast_shadow = 1
+item/6/shapes = []
+item/6/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/6/navigation_layers = 1
+item/7/name = "AAA Varita_7"
+item/7/mesh = ExtResource("8_nxsu6")
+item/7/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/7/mesh_cast_shadow = 1
+item/7/shapes = []
+item/7/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/7/navigation_layers = 1
+item/8/name = "AAA Varita 2_8"
+item/8/mesh = ExtResource("9_7jba8")
+item/8/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/8/mesh_cast_shadow = 1
+item/8/shapes = []
+item/8/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/8/navigation_layers = 1

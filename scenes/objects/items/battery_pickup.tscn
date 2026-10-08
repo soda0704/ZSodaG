@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scripts/gameplay/items/world_item_pickup.gd" id="1_item"]
+[ext_resource type="Script" path="res://scripts/gameplay/items/battery_pickup.gd" id="1_item"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/battery_model.tscn" id="2_model"]
 
 [sub_resource type="BoxShape3D" id="Shape_battery"]
@@ -16,6 +16,8 @@ script = ExtResource("1_item")
 item_type = &"battery"
 display_name = "батарейку"
 item_state = {"charge_amount": 0.5}
+
+metadata/impact_surface = &"metal"
 
 [node name="Model" parent="." instance=ExtResource("2_model")]
 

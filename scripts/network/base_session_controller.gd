@@ -3,13 +3,14 @@ extends Node3D
 const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
+const BATTERY_PICKUP_SCRIPT := preload("res://scripts/gameplay/items/battery_pickup.gd")
 const ITEM_SCENES := {
 	&"tape": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"crowbar": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"pistol_ammo": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"rifle_magazine": preload("res://scenes/objects/items/weapon_pickup.tscn"),
-	&"pistol": preload("res://scenes/objects/items/weapon_pickup.tscn"),
-	&"m4a1": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+	&"pistol": preload("res://scenes/objects/items/pistol_pickup.tscn"),
+	&"m4a1": preload("res://scenes/objects/items/m4a1_pickup.tscn"),
 	&"kitchen_knife": preload("res://scenes/objects/items/weapon_pickup.tscn"),
 	&"flashlight": preload(
 		"res://scenes/objects/equipment/flashlight_pickup.tscn"
@@ -68,6 +69,7 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 var _initial_items_spawned: bool = false
 var _next_item_id: int = 1
 var _player_roster: Dictionary = {}
+var _host_character_variant := -1
 var _entered_v3_level: bool = false
 var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
@@ -92,12 +94,12 @@ func _process(delta: float) -> void:
 		_inventory_save_elapsed += delta
 		if _inventory_save_elapsed >= 5.0:
 			_inventory_save_elapsed = 0.0
-			save_inventory_checkpoint()
+			save_inventory_checkpoint(true)
 
 
-func save_inventory_checkpoint() -> void:
+func save_inventory_checkpoint(periodic: bool = false) -> void:
 	if multiplayer.is_server() and _v3_items_spawned and is_instance_valid(_base_gameplay_controller):
-		_base_gameplay_controller.save_progress_authoritative()
+		_base_gameplay_controller.save_progress_authoritative(periodic)
 
 
 func _inventory_id(peer_id: int) -> String:
@@ -109,7 +111,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 		return {}
 	var equipment: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {}).duplicate(true)
 	for player in players.get_children():
-		if not player.is_queued_for_deletion():
+		if player is GamePlayer and not player.is_queued_for_deletion():
 			equipment[_inventory_id(int(player.owner_peer_id))] = player.get_inventory_snapshot()
 	var pickups: Array[Dictionary] = []
 	for pickup in world_items.get_children():
@@ -247,6 +249,8 @@ func _request_v3_runtime_state() -> void:
 		_base_gameplay_controller.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(_v3_elevator_controller):
 		_v3_elevator_controller.sync_network_state_to_peer(sender_id)
+	for corpse in get_tree().get_nodes_in_group("medical_corpses"):
+		corpse.sync_network_state_to_peer(sender_id)
 
 
 func spawn_player_for_peer(peer_id: int) -> void:
@@ -263,6 +267,9 @@ func spawn_player_for_peer(peer_id: int) -> void:
 		else SteamNetwork.get_peer_persona_name(peer_id)
 	)
 	var spawn_index := get_available_spawn_index()
+	if _host_character_variant < 0:
+		_host_character_variant = randi_range(0,1)
+	var character_variant := _host_character_variant if peer_id==1 else 1-_host_character_variant
 	var hue := fmod(float(peer_id) * 0.173, 1.0)
 	var spawn_data := {
 		"peer_id": peer_id,
@@ -270,6 +277,7 @@ func spawn_player_for_peer(peer_id: int) -> void:
 		"position": get_spawn_position(spawn_index),
 		"yaw": get_spawn_yaw(spawn_index),
 		"spawn_index": spawn_index,
+		"character_variant": character_variant,
 		"color": Color.from_hsv(hue, 0.72, 0.95),
 	}
 	_player_roster[peer_id] = spawn_data
@@ -296,7 +304,8 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 		str(spawn_data.get("display_name", "Player")),
 		spawn_data.get("position", Vector3.ZERO) as Vector3,
 		spawn_data.get("color", Color.WHITE) as Color,
-		float(spawn_data.get("yaw", 0.0))
+		float(spawn_data.get("yaw", 0.0)),
+		int(spawn_data.get("character_variant", 0))
 	)
 	players.add_child(player)
 	if _v3_items_spawned:
@@ -577,7 +586,7 @@ func spawn_v3_world_items() -> void:
 		for loot: Dictionary in BaseBlockoutRuntime.WEAPON_LOOT:
 			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
 	for player in players.get_children():
-		_restore_player_equipment(player)
+		if player is GamePlayer: _restore_player_equipment(player)
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty():
 		for data: Dictionary in _base_gameplay_controller.inventory_checkpoint.get("pickups", []):
 			var restored: Transform3D = data.get("transform", Transform3D.IDENTITY)
@@ -671,10 +680,11 @@ func spawn_world_item(
 		_next_item_id,
 	]
 	_next_item_id += 1
+	var state := BATTERY_PICKUP_SCRIPT.prepare_state(item_state) if item_type==&"battery" else item_state.duplicate(true)
 	var spawn_data := {
 		"pickup_name": pickup_name,
 		"item_type": item_type,
-		"item_state": item_state.duplicate(true),
+		"item_state": state,
 		"transform": spawn_transform,
 		"linear_velocity": linear_velocity,
 		"angular_velocity": angular_velocity,
@@ -781,6 +791,7 @@ func _on_session_closed(_reason: String) -> void:
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()
+	_host_character_variant = -1
 	if is_instance_valid(power_switch):
 		power_switch.apply_power_state(false, true)
 	if is_instance_valid(interactive_door):

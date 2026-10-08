@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/weapons/m4a1/gameplay.res" id="1_p5orj"]
+
+[node name="ItemModel" type="Node3D" unique_id=1863964161]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=589589228]
+mesh = ExtResource("1_p5orj")
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=404956548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.064, -0.5568814)

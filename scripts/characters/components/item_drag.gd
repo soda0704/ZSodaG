@@ -12,12 +12,12 @@ var body: WorldItemPickup
 var last_hold := 0
 
 func begin_interaction() -> bool:
-	if player.is_driving():
+	if player.is_driving() or player.is_carrying_corpse():
 		return false
 	var target := player.get_interaction_target()
 	while target != null and not target is WorldItemPickup:
 		target = target.get_parent()
-	if target == null:
+	if target == null or not target.draggable:
 		return false
 	pending = target.get_path()
 	held_time = 0
@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 				else:
 					_request_hold.rpc_id(1, pending)
 	if multiplayer.is_server() and is_instance_valid(body):
-		if Time.get_ticks_msec() - last_hold > 400 or player.survival.dead or player.is_driving() or player.is_sleeping_in_bunk() or body._collected or body.global_position.distance_to(player.head.global_position) > 4.5:
+		if Time.get_ticks_msec() - last_hold > 400 or player.survival.dead or player.is_driving() or player.is_carrying_corpse() or player.is_sleeping_in_bunk() or body._collected or body.global_position.distance_to(player.head.global_position) > 4.5:
 			_release()
 			return
 		var origin := player.head.global_position
@@ -68,10 +68,10 @@ func cancel() -> void:
 		_request_release.rpc_id(1)
 
 func _valid_item(path: NodePath) -> WorldItemPickup:
-	if path.is_empty() or player.survival.dead or player.is_driving() or player.is_sleeping_in_bunk():
+	if path.is_empty() or player.survival.dead or player.is_driving() or player.is_carrying_corpse() or player.is_sleeping_in_bunk():
 		return null
 	var item := get_node_or_null(path) as WorldItemPickup
-	if item == null or item._collected or item.drag_owner_peer not in [0, player.owner_peer_id] or item.global_position.distance_to(player.head.global_position) > 3.5:
+	if item == null or item._collected or item.drag_owner_peer not in [0, player.owner_peer_id] or item.global_position.distance_to(player.head.global_position) > item.drag_distance:
 		return null
 	var ray := PhysicsRayQueryParameters3D.create(player.head.global_position, item.global_position, 1, [player.get_rid(), item.get_rid()])
 	if not player.debug_across and not player.get_world_3d().direct_space_state.intersect_ray(ray).is_empty():
@@ -80,7 +80,7 @@ func _valid_item(path: NodePath) -> WorldItemPickup:
 
 func _hold(path: NodePath) -> void:
 	var item := _valid_item(path)
-	if item == null:
+	if item == null or not item.draggable:
 		_release()
 		return
 	if body != item:

@@ -36,6 +36,8 @@ func _visit(node: Node) -> void:
 func apply_node(node: Node) -> void:
 	if not is_instance_valid(node) or values.is_empty():
 		return
+	if node.get_viewport() != null and node.get_viewport().has_meta("ui_presentation"):
+		return
 	if node is WorldEnvironment and node.environment != null:
 		apply_environment(node.environment)
 	if node is Light3D:

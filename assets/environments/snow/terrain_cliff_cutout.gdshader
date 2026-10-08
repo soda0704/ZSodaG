@@ -1,6 +1,9 @@
 // Terrain3D generated autoshader, retained with a local replacement-surface cutout.
 // Regenerate from Terrain3D when upgrading the addon; preserve the three cutout additions.
 shader_type spatial;
+uniform vec4 ridge_snow_bounds = vec4(210.0, 280.0, -366.0, 366.0);
+uniform float ridge_snow_amount : hint_range(0.0, 1.0) = 0.65;
+uniform vec4 ridge_snow_color : source_color = vec4(0.82, 0.88, 0.92, 1.0);
 uniform vec4 cliff_replacement_bounds = vec4(258.0, 342.0, -364.0, 364.0);
 bool inside_cliff_replacement(vec2 p) {
  return p.x > cliff_replacement_bounds.x && p.x < cliff_replacement_bounds.y
@@ -561,11 +564,20 @@ void fragment() {
  
  
  ALBEDO = mat.albedo_height.rgb * color_map.rgb * macrov;
+ // Local snow dusting on the uphill join; editable bounds, no terrain displacement.
+ float ridge_mask = smoothstep(ridge_snow_bounds.x, ridge_snow_bounds.x + 18.0, v_vertex.x)
+  * (1.0-smoothstep(ridge_snow_bounds.y-12.0,ridge_snow_bounds.y,v_vertex.x))
+  * smoothstep(ridge_snow_bounds.z,ridge_snow_bounds.z+40.0,v_vertex.z)
+  * (1.0-smoothstep(ridge_snow_bounds.w-40.0,ridge_snow_bounds.w,v_vertex.z));
+ float ridge_patch = texture(noise_texture,v_vertex.xz*0.037).r;
+ float ridge_cover = ridge_mask * ridge_snow_amount
+  * (0.2+0.8*smoothstep(0.08,0.62,w_normal.y+(ridge_patch-0.5)*0.28));
+ ALBEDO = mix(ALBEDO,ridge_snow_color.rgb*(0.94+ridge_patch*0.06),ridge_cover);
  ROUGHNESS = roughness;
  SPECULAR = 1. - mat.normal_rough.a;
  
  NORMAL_MAP = fma(normalize(mat.normal_rough.xzy), vec3(0.5), vec3(0.5));
- NORMAL_MAP_DEPTH = mat.normal_map_depth;
+ NORMAL_MAP_DEPTH = mat.normal_map_depth * (1.0-ridge_cover*0.45);
 
  
  float ao = (1. - (mat.albedo_height.a * log(2.1 - mat.ao_strength))) * (1. - mat.normal_rough.y);

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cjvlp1oauosdf" path="res://scripts/gameplay/equipment/flashlight_pickup.gd" id="2_pickup"]
 
 [sub_resource type="BoxShape3D" id="Shape_pickup"]
-size = Vector3(0.075, 0.065, 0.26)
+size = Vector3(0.06, 0.06, 0.245)
 
 [node name="FlashlightPickup" type="RigidBody3D"]
 collision_layer = 4
@@ -14,7 +14,10 @@ linear_damp = 0.35
 angular_damp = 1.2
 script = ExtResource("2_pickup")
 
+metadata/impact_surface = &"metal"
+
 [node name="Model" parent="." instance=ExtResource("1_model")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0, -0.05)
 shape = SubResource("Shape_pickup")

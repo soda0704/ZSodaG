@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterVisualVariant" load_steps=7 format=3]
+[ext_resource type="Script" path="res://scripts/characters/character_visual_variant.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/body.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/first_person.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/journal_arms.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/ragdoll.tscn" id="5"]
+[ext_resource type="BoneMap" path="res://assets/config/characters/humanoid_bone_map.tres" id="6"]
+[resource]
+script = ExtResource("1")
+variant_id = 1
+display_name = "Military"
+body_scene = ExtResource("2")
+first_person_scene = ExtResource("3")
+journal_arms_scene = ExtResource("4")
+ragdoll_scene = ExtResource("5")
+retarget_bone_map = ExtResource("6")
+forward_walk_stride_speed = 2.50
+

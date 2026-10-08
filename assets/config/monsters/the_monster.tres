@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MonsterAIProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/monster_ai_profile.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+behavior = 2
+max_health = 340.0
+chase_speed = 1.65
+patrol_speed = 0.45
+patrol_radius = 5.0
+territory_radius = 20.0
+attack_damage = 32.0
+attack_windup = 0.9
+attack_cooldown = 2.3
+sight_distance = 24.0

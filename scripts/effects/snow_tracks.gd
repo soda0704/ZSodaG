@@ -7,7 +7,7 @@ extends Node3D
 @export var tread_scene: PackedScene
 @export var ski_scene: PackedScene
 @export_range(0.2, 2.0) var step_distance := 0.65
-@export_range(0.2, 2.0) var track_distance := 0.85
+@export_range(0.2, 2.0) var track_distance := 0.55
 @export_range(16, 1024) var max_marks := 512
 @export var lifetime := 75.0
 @export var fade_seconds := 10.0
@@ -43,16 +43,21 @@ func _physics_process(delta: float) -> void:
 		_remove_oldest()
 	for mark in _marks:
 		var remaining := lifetime - (_clock - float(mark.born))
-		if remaining < fade_seconds:
-			(mark.node as Decal).modulate.a = clampf(remaining / maxf(fade_seconds, 0.01), 0.0, 1.0)
+		# Marks are ordered by birth: newer marks cannot be fading yet.
+		if remaining >= fade_seconds:
+			break
+		(mark.node as Decal).modulate.a = clampf(remaining / maxf(fade_seconds, 0.01), 0.0, 1.0)
 
 func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	var id := actor.get_instance_id()
 	var point := actor.global_position
 	if not _actors.has(id):
-		_actors[id] = {"position": point, "distance": 0.0, "left": false}
+		_actors[id] = {"position": point, "pose": actor.global_transform, "distance": 0.0, "left": false}
 		return
 	var state: Dictionary = _actors[id]
+	var previous_pose: Transform3D = state.pose
+	state.pose = actor.global_transform
+	var previous_point: Vector3 = state.position
 	var movement: Vector3 = point - Vector3(state.position)
 	state.position = point
 	var blocked := false
@@ -66,13 +71,15 @@ func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	var distance := movement.length()
 	if distance < 0.001:
 		return
-	if _contact(point, actor).is_empty():
+	if not vehicle and _contact(point, actor).is_empty():
 		state.distance = 0.0
 		return
+	var carried: float = state.distance
 	state.distance += distance
 	var spacing := track_distance if vehicle else step_distance
 	if float(state.distance) < spacing:
 		return
+	var sample_count := mini(int(float(state.distance) / spacing), 8)
 	state.distance = fmod(float(state.distance), spacing)
 	# Feet keep the body's heading when backpedalling or strafing.
 	# Movement determines step spacing, not the direction the toes face.
@@ -81,11 +88,25 @@ func _sample(actor: CharacterBody3D, vehicle: bool) -> void:
 	forward = forward.normalized()
 	var right := forward.cross(Vector3.UP).normalized()
 	if vehicle:
-		forward = -actor.global_basis.z.normalized()
-		right = actor.global_basis.x.normalized()
-		_stamp(tread_scene, point - forward * tread_back_offset, forward, actor)
-		for side in [-0.5, 0.5]:
-			_stamp(ski_scene, point + forward * ski_forward_offset + right * ski_separation * side, forward, actor)
+		var contacts: Array = []
+		if actor.has_method("get_snow_contact_markers"):
+			contacts = actor.call("get_snow_contact_markers")
+		# Interpolate the travelled segment so fast movement does not leave dotted trails.
+		for sample in sample_count:
+			var t := clampf((spacing-carried+sample*spacing)/distance, 0.0, 1.0)
+			var pose := previous_pose.interpolate_with(actor.global_transform, t)
+			var heading := -pose.basis.z.normalized()
+			if not contacts.is_empty():
+				for i in contacts.size():
+					var local_point := actor.to_local((contacts[i] as Marker3D).global_position)
+					var contact_basis: Basis = actor.global_basis.inverse() * contacts[i].global_basis
+					var contact_heading := -(pose.basis * contact_basis).z.normalized()
+					_stamp(tread_scene if i == 0 else ski_scene, pose*local_point, contact_heading, actor)
+			else:
+				var center := previous_point.lerp(point, t)
+				_stamp(tread_scene, center-heading*tread_back_offset, heading, actor)
+				for side in [-0.5, 0.5]:
+					_stamp(ski_scene, center+heading*ski_forward_offset+pose.basis.x*ski_separation*side, heading, actor)
 	else:
 		state.left = not bool(state.left)
 		_stamp(footprint_scene, point + right * (-0.13 if state.left else 0.13), forward, actor)

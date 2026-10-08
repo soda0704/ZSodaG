@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/items/weapon_pickup.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/pistol_model.tscn" id="2"]
+
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(0.039,0.16,0.23)
+
+[node name="PistolPickup" instance=ExtResource("1")]
+item_type = &"pistol"
+mass = 0.9
+use_authored_collision = true
+model_scene = ExtResource("2")
+
+[node name="CollisionShape3D" parent="." index="0"]
+position = Vector3(0,-0.0083,-0.0755)
+shape = SubResource("Shape")

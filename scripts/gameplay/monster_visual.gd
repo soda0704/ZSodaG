@@ -15,8 +15,7 @@ var motion_state := ""
 
 func setup(id: String, height: float = 2.1) -> void:
 	model_id = id
-	model = (load("res://assets/monsters/%s/scene.gltf" % id) as PackedScene).instantiate()
-	add_child(model)
+	model = get_node("Model")
 	for mesh in model.find_children("*", "MeshInstance3D", true, false):
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	var players := model.find_children("*", "AnimationPlayer", true, false)
@@ -30,15 +29,8 @@ func setup(id: String, height: float = 2.1) -> void:
 			animator.play(animation_name)
 			animator.seek(0.0, true)
 			animator.pause()
-	# Calibrated from skinned pose bounds, not the unskinned mesh AABB.
-	# Fixed calibration also works on headless authoritative servers.
-	var sizes := {"the_monster": 0.833777, "slasher": 1.17651, "smily": 0.02173}
-	var offsets := {"the_monster": Vector3(0.051237, 0.079778, 2.856270), "slasher": Vector3(-0.003169, 0.001185, 0.008035), "smily": Vector3(1.694613, 0.03887, -0.173227)}
-	model.scale *= float(sizes[id]) * height / 2.1
-	model.position = offsets[id] * height / 2.1
+	# Model placement, scale and facing are authored in the creature scene.
 	base_y = model.position.y
-	# Imported creatures face +Z; the character controller faces -Z.
-	rotation.y = PI
 	if id == "the_monster":
 		skeleton = model.find_children("*", "Skeleton3D", true, false)[0]
 		root_bone = skeleton.find_bone("root_02")

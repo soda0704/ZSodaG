@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/generator/gameplay.res" id="1_4olf8"]
+
+[node name="ItemModel" type="Node3D" unique_id=1295627908]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1191117136]
+mesh = ExtResource("1_4olf8")

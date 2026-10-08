@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btsewb7aj2aw7"
-path="res://.godot/imported/CommonRoomArt_Image_3_17.png-8658d55cd72f5bd7970672a81f1e912f.ctex"
+path.s3tc="res://.godot/imported/CommonRoomArt_Image_3_17.png-8658d55cd72f5bd7970672a81f1e912f.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "b114a6ccceb9976429ebafe5686fb9eb"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/Base/Living/CommonRoom/CommonRoomArt_Image_3_17.png"
-dest_files=["res://.godot/imported/CommonRoomArt_Image_3_17.png-8658d55cd72f5bd7970672a81f1e912f.ctex"]
+dest_files=["res://.godot/imported/CommonRoomArt_Image_3_17.png-8658d55cd72f5bd7970672a81f1e912f.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

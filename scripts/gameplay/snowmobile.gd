@@ -1,14 +1,29 @@
 extends CharacterBody3D
 
+@export_group("Movement")
 @export var max_step_height := 0.45
+## Height in expedition coordinates, below the playable world; recovery for a physics fall-through.
+@export var recovery_min_height := -160.0
+@export_group("Fuel")
 @export var tank_capacity := 20.0
 @export var fuel_per_second := 0.025
+@export_group("Speed and steering")
 @export var max_speed := 12.0
 @export_range(1.0, 2.0) var boost_speed_multiplier := 1.2
 @export_range(1.0, 4.0) var boost_fuel_multiplier := 2.0
 @export var reverse_speed := 3.0
 @export var acceleration := 5.0
 @export var steering_speed := 1.2
+@export_group("Driving physics")
+@export var braking_deceleration := 9.0
+@export var coasting_deceleration := 1.6
+@export var lateral_grip := 5.5
+@export var slope_gravity := 3.5
+@export var air_control := 0.12
+@export var exit_max_speed := 1.0
+@export var terrain_alignment_speed := 8.0
+@export_range(0.0, 45.0) var ski_steering_angle := 22.0
+@export_group("Engine audio")
 @export_range(0.1, 2.0) var engine_idle_pitch := 1.0
 @export_range(0.1, 2.0) var engine_driving_pitch := 0.74
 @export_range(0.1, 2.0) var engine_low_speed_pitch := 0.66
@@ -26,6 +41,7 @@ extends CharacterBody3D
 var _audio_engine_on := false
 var _audio_speed := 0.0
 var _received_speed := 0.0
+var _steering_input := 0.0
 var _received_audio_state := false
 var _skip_engine_start := false
 var _engine_powered := false
@@ -74,11 +90,16 @@ func _bind() -> void:
 func capture_checkpoint() -> Dictionary:
 	return {"transform": global_transform, "fuel_liters": fuel_liters}
 
+func get_driving_speed() -> float:
+	return Vector2(velocity.x, velocity.z).length() if multiplayer.is_server() else _received_speed
+
 func get_interaction_prompt() -> String:
+	if driver_peer != 0 and get_driving_speed() > exit_max_speed:
+		return ""
 	return "Снегоход · %.1f / %.0f л" % [fuel_liters, tank_capacity] if driver_peer == 0 else "Снегоход занят"
 
 func network_interact(peer: int, player: Node) -> void:
-	if not multiplayer.is_server() or player == null or player.owner_peer_id != peer or player.survival.dead or player.is_sleeping_in_bunk() or player.global_position.distance_to(global_position) > 4.0:
+	if not multiplayer.is_server() or player == null or player.owner_peer_id != peer or player.survival.dead or player.is_sleeping_in_bunk() or player.is_carrying_corpse() or player.global_position.distance_to(global_position) > 4.0:
 		return
 	if player.has_held_item(&"fuel_can"):
 		if driver_peer != 0:
@@ -106,7 +127,7 @@ func set_driver_input(peer: int, value: Vector2, boosting: bool = false) -> void
 		_input_age = 0.0
 
 func exit_driver() -> bool:
-	if not multiplayer.is_server() or driver_peer == 0:
+	if not multiplayer.is_server() or driver_peer == 0 or Vector2(velocity.x, velocity.z).length() > exit_max_speed:
 		return false
 	var player := _player(driver_peer)
 	if player != null:
@@ -175,19 +196,17 @@ func _physics_process(delta: float) -> void:
 		var command := _input if driver_peer != 0 and _input_age < 0.5 and fuel_liters > 0 and not is_engine_starting() else Vector2.ZERO
 		var boosting := _input_boost and command.y < 0.0
 		var forward_speed := max_speed * (boost_speed_multiplier if boosting else 1.0)
-		var target_speed := -command.y * (forward_speed if command.y < 0 else reverse_speed)
-		_speed = move_toward(_speed, target_speed, acceleration * delta)
-		if is_on_floor():
-			rotation.y -= command.x * steering_speed * clampf(_speed / 3.0, -1, 1) * delta
-		var forward := -global_basis.z
-		velocity.x = move_toward(velocity.x, forward.x * _speed, 14.0 * delta)
-		velocity.z = move_toward(velocity.z, forward.z * _speed, 14.0 * delta)
+		_drive(delta, command, forward_speed, is_on_floor(), get_floor_normal() if is_on_floor() else Vector3.UP)
 		velocity.y = -0.5 if is_on_floor() else velocity.y - 9.8 * delta
 		if not preload("res://scripts/characters/components/step_motion.gd").try_step(self, delta, max_step_height):
 			move_and_slide()
-		if not command.is_zero_approx():
+		if get_slide_collision_count() > 0:
+			_speed = Vector3(velocity.x, 0, velocity.z).dot(-global_basis.z)
+		if command.y < -0.05 or (command.y > 0.05 and _speed <= 0.1):
 			fuel_liters = maxf(0, fuel_liters - fuel_per_second * (boost_fuel_multiplier if boosting else 1.0) * delta)
-		if global_position.y < -10:
+		var level := get_tree().get_first_node_in_group("expedition_level") as Node3D
+		var recovery_position := level.to_local(global_position) if level != null else global_position
+		if recovery_position.y < recovery_min_height:
 			global_transform = _spawn
 			velocity = Vector3.ZERO
 			_speed = 0
@@ -197,7 +216,7 @@ func _physics_process(delta: float) -> void:
 			var world := get_tree().get_first_node_in_group("network_gameplay_controller")
 			if world != null and world.has_method("get_ready_v3_peers"):
 				for peer in world.get_ready_v3_peers():
-					_receive_state.rpc_id(peer, global_transform, fuel_liters, driver_peer, absf(_speed), _ignition_left)
+					_receive_state.rpc_id(peer, global_transform, fuel_liters, driver_peer, get_driving_speed(), _ignition_left, _steering_input)
 	else:
 		global_transform = global_transform.interpolate_with(_target, minf(delta * 15, 1))
 	var driver := _player(driver_peer) if driver_peer != 0 else null
@@ -209,19 +228,75 @@ func _physics_process(delta: float) -> void:
 		driver.rotation.y = global_rotation.y
 		driver.velocity = Vector3.ZERO
 		driver.survival.reset_fall()
+	_align_visual_to_ground(delta)
 	_update_engine_audio(delta)
 	# The world label is directly above the seat, too close to the driver's camera.
 	$Status.visible = driver == null or not driver.is_local_player()
 	$Status.text = "СНЕГОХОД · %.1f / %.0f л" % [fuel_liters, tank_capacity]
 
+## S brakes forward motion before engaging reverse. Steering alone does not burn fuel.
+func _drive(delta: float, command: Vector2, forward_limit: float, grounded: bool, normal: Vector3) -> void:
+	var target_speed := -command.y * (forward_limit if command.y < 0.0 else reverse_speed)
+	var reversing := _speed * target_speed < 0.0 and absf(_speed) > 0.15
+	var rate := braking_deceleration if reversing else coasting_deceleration if absf(command.y) < 0.05 else acceleration
+	if reversing: target_speed = 0.0
+	_speed = move_toward(_speed, target_speed, rate * delta * (1.0 if grounded else air_control))
+	if grounded and not is_engine_starting():
+		var downhill := Vector3.DOWN.slide(normal) * slope_gravity
+		_speed += downhill.dot(-global_basis.z) * delta
+	_steering_input = move_toward(_steering_input, command.x, delta * 4.0)
+	if grounded:
+		# Less aggressive steering at speed, reversed steering while backing up.
+		var speed_factor := clampf(_speed / 3.0, -1.0, 1.0)
+		var high_speed_factor := lerpf(1.0, 0.55, clampf(absf(_speed) / max_speed, 0.0, 1.0))
+		rotation.y -= _steering_input * steering_speed * speed_factor * high_speed_factor * delta
+	var forward := -global_basis.z
+	var right := global_basis.x
+	var lateral := Vector3(velocity.x, 0, velocity.z).dot(right)
+	lateral *= exp(-lateral_grip * delta * (1.0 if grounded else air_control))
+	var motion := forward * _speed + right * lateral
+	velocity.x = motion.x
+	velocity.z = motion.z
+
+func get_snow_contact_markers() -> Array[Marker3D]:
+	return [$Visual/TrackContact, $Visual/SkiPatrol/SkiLeftPivot/SnowContact, $Visual/SkiPatrol/SkiRightPivot/SnowContact]
+
+func _align_visual_to_ground(delta: float) -> void:
+	var steering_angle := -_steering_input * deg_to_rad(ski_steering_angle)
+	for part in [$Visual/SkiPatrol/SkiLeftPivot, $Visual/SkiPatrol/SkiRightPivot, $Visual/SkiPatrol/HandlebarPivot]:
+		part.rotation.y = lerp_angle(part.rotation.y, steering_angle, 1.0-exp(-12.0*delta))
+	var up := Vector3.ZERO
+	for ray: RayCast3D in [$GroundFrontLeft, $GroundFrontRight, $GroundRear]:
+		if ray.is_colliding(): up += ray.get_collision_normal()
+	var target := Vector3.ZERO
+	if up.length_squared() > 0.01:
+		up = global_basis.inverse() * up.normalized()
+		target.x = clampf(atan2(up.z, up.y), -0.5, 0.5)
+		target.z = clampf(atan2(-up.x, up.y), -0.4, 0.4)
+	var vertical_offset := 0.0
+	var markers := get_snow_contact_markers()
+	var contacts := [markers[1], markers[2], markers[0]]
+	var probes := [$GroundFrontLeft, $GroundFrontRight, $GroundRear]
+	var contact_count := 0
+	for i in probes.size():
+		if probes[i].is_colliding():
+			var contact_position: Vector3 = Basis.from_euler(target) * $Visual.to_local(contacts[i].global_position)
+			vertical_offset += to_local(probes[i].get_collision_point()).y - contact_position.y
+			contact_count += 1
+	if contact_count > 0:
+		vertical_offset = clampf(vertical_offset / contact_count, -1.0, 0.4)
+	$Visual.position.y = lerpf($Visual.position.y, vertical_offset, 1.0-exp(-terrain_alignment_speed*delta))
+	$Visual.rotation = $Visual.rotation.lerp(target, 1.0-exp(-terrain_alignment_speed*delta))
+
 @rpc("authority", "call_remote", "unreliable_ordered", 3)
-func _receive_state(pose: Transform3D, fuel: float, peer: int, speed: float = 0.0, ignition_left: float = -1.0) -> void:
+func _receive_state(pose: Transform3D, fuel: float, peer: int, speed: float = 0.0, ignition_left: float = -1.0, steering: float = 0.0) -> void:
 	if ignition_left >= 0.0:
 		_ignition_left = clampf(ignition_left, 0.0, ignition_duration())
 	if not _received_audio_state:
 		_skip_engine_start = peer != 0 and _ignition_left <= 0.0
 		_received_audio_state = true
 	_received_speed = clampf(speed, 0.0, max_speed * boost_speed_multiplier)
+	_steering_input = clampf(steering, -1.0, 1.0)
 	_target = pose
 	fuel_liters = fuel
 	if driver_peer != 0 and driver_peer != peer:

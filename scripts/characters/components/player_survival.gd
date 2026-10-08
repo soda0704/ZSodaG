@@ -1,9 +1,17 @@
 class_name PlayerSurvival
 extends Node
 
+@export_group("Health")
+@export_range(1.0, 1000.0) var max_health := 100.0
+@export_group("Falls and respawn")
 @export var safe_fall_speed: float = 11.0
 @export var lethal_fall_speed: float = 22.0
 @export var respawn_delay: float = 4.0
+@export_group("Radiation")
+@export_range(0.0, 100.0) var radiation_gain_per_second := 4.5
+@export_range(0.0, 100.0) var radiation_recovery_per_second := 9.0
+@export_range(0.0, 100.0) var radiation_damage_threshold := 35.0
+@export_range(0.0, 5.0) var radiation_damage_scale := 0.22
 var health: float = 100.0
 var debug_invincible := false
 var radiation: float = 0.0
@@ -17,8 +25,10 @@ var _hud: Label
 var _cover: ColorRect
 var _death_text: Label
 var _sync_time: float = 0.0
+var death_velocity := Vector3.ZERO
 
 func _ready() -> void:
+	health = max_health
 	_spawn = get_parent().global_transform
 	var layer := CanvasLayer.new()
 	layer.layer = 90
@@ -51,7 +61,7 @@ func observe_motion(incoming_y: float, grounded: bool, platform_y: float) -> voi
 	if grounded:
 		var impact := maxf(_fall_speed, -incoming_y) + platform_y
 		if impact > safe_fall_speed:
-			damage(100.0 * (impact - safe_fall_speed) / (lethal_fall_speed - safe_fall_speed), "Падение с высоты")
+			damage(max_health * (impact - safe_fall_speed) / (lethal_fall_speed - safe_fall_speed), "Падение с высоты")
 		reset_fall()
 	else:
 		_fall_speed = maxf(_fall_speed, -incoming_y)
@@ -70,23 +80,23 @@ func _physics_process(delta: float) -> void:
 			# Horizontal limits are physical colliders in SnowExterior.
 			# This fallback only catches a player that falls through the level.
 			if local_pos.y < bottom:
-				damage(100.0, "Выход за пределы комплекса")
+				damage(max_health, "Выход за пределы комплекса")
 			if not player.is_on_floor() and player.velocity.y < -2.0:
 				_air_time += delta
 				if _air_time > 3.0:
-					damage(100.0, "Падение в шахту")
+					damage(max_health, "Падение в шахту")
 			else:
 				_air_time = 0.0
 			var exposure := 0.0
 			for zone in get_tree().get_nodes_in_group("radiation_zones"):
 				exposure += float(zone.intensity_at(player.global_position))
-			radiation = clampf(radiation + (exposure * 18.0 if exposure > 0.0 else -9.0) * delta, 0.0, 100.0)
-			if radiation > 35.0:
-				damage((radiation - 35.0) * 0.22 * delta, "Радиационное поражение")
+			radiation = clampf(radiation + (exposure * radiation_gain_per_second if exposure > 0.0 else -radiation_recovery_per_second) * delta, 0.0, 100.0)
+			if radiation > radiation_damage_threshold:
+				damage((radiation - radiation_damage_threshold) * radiation_damage_scale * delta, "Радиационное поражение")
 		_sync_time += delta
 		if _sync_time >= 0.15:
 			_sync_time = 0.0
-			_sync.rpc(health, radiation, dead, reason, respawn_remaining)
+			_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity)
 	_refresh_ui()
 
 func damage(amount: float, cause: String) -> void:
@@ -102,13 +112,14 @@ func damage(amount: float, cause: String) -> void:
 		reason = cause
 		respawn_remaining = respawn_delay
 		var player := get_parent()
+		death_velocity = player.velocity
 		player.velocity = Vector3.ZERO
 		player._flashlight_enabled = false
 		player._flashlight_malfunctioning = false
 		if player._held_item_type == player.FLASHLIGHT_ITEM:
 			player._held_item_type = player.NO_ITEM
 		player._publish_inventory()
-		_sync.rpc(health, radiation, dead, reason, respawn_remaining)
+		_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity)
 
 @rpc("authority", "call_local", "unreliable")
 func _blood() -> void:
@@ -126,19 +137,20 @@ func _respawn() -> void:
 			index = world.get_peer_spawn_index(player.owner_peer_id)
 		target = level.get_respawn_transform(index)
 	player.teleport_authoritative(target.origin + Vector3.UP * 0.1, target.basis.get_euler().y)
-	health = 100.0
+	health = max_health
 	radiation = 0.0
 	dead = false
 	reason = ""
 	reset_fall()
-	_sync.rpc(health, radiation, dead, reason, 0.0)
+	_sync.rpc(health, radiation, dead, reason, 0.0, Vector3.ZERO)
 
 @rpc("authority", "call_local", "reliable", 2)
-func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: float) -> void:
+func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: float, momentum: Vector3 = Vector3.ZERO) -> void:
 	var was_dead := dead
 	health = hp
 	radiation = dose
 	dead = is_dead
+	death_velocity = momentum
 	reason = cause
 	respawn_remaining = remaining
 	var player := get_parent()

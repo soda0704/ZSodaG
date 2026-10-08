@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/ShoulderPads_baseColor.png" id="1_4druf"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/ShoulderPads_metallicRoughness.png" id="2_gktk7"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/ShoulderPads_normal.png" id="3_4pc77"]
+
+[resource]
+resource_name = "ShoulderPads"
+cull_mode = 2
+albedo_texture = ExtResource("1_4druf")
+metallic_texture = ExtResource("2_gktk7")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_gktk7")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_4pc77")
+ao_enabled = true
+ao_texture = ExtResource("2_gktk7")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0

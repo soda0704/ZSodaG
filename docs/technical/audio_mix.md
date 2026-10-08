@@ -1,34 +1,38 @@
-# Sound mix
+# Звук и акустика
 
-The Audio settings tab retains Master and Music and adds Effects/interactions,
-Weapons, Vehicles, Machinery, Ambience, Breathing and RoomReverb. Values are
-saved through the existing GameMenu settings file. Category buses are authored
-in `default_bus_layout.tres`; world sounds feed a shared World reverb/filter,
-while music and subjective breathing bypass it.
+## Маршрутизация
 
-AudioMixController blends room wet level using existing doorway/geometry
-acoustics, without room dome volumes or changes to lighting. Reverb defaults to
-6% wet (maximum 12% at 100% RoomReverb), with a small damped room. Outdoors is dry
-with a gentle 10 kHz high-frequency cutoff. The Vehicles bus has a 2.4 kHz filter.
-Unassigned positional effect sources are routed to Effects; explicit Inspector
-bus assignments are preserved.
+Шины заданы в `default_bus_layout.tres`. Пользовательские настройки применяет `scripts/effects/audio_mix_controller.gd`.
 
-PlayerAudio is now Node3D. Its positional pickup, battery and flashlight children
-inherit the player's world transform, fixing their previous placement at the
-world origin. Pickup/click gains are raised; gunshots are reduced from -12 to
--28 dB. Recovery breathing is -20 dB instead of -17; calm remains -30 dB.
-Generator gain is -8 dB, unit size 8 m and maximum distance 40 m; native vent
-instances keep their own quieter -27 dB override.
+| Шина | Содержание | Выход |
+| --- | --- | --- |
+| `Music` | Меню и фоновая музыка | Master |
+| `Effects` | Взаимодействия и обычные эффекты | World |
+| `Weapons` | Выстрелы, перезарядка и попадания | World |
+| `Vehicles` | Снегоход | World |
+| `Machinery` | Генератор, вентиляция и механизмы | World |
+| `Ambience` | Ветер и окружение | World |
+| `Breathing` | Локальное дыхание игрока | Master |
+| `MuffledWeather` | Приглушённый ветер под крышей | Ambience |
 
-Snowmobile ignition now locks movement on the server for the recording duration.
-Remaining ignition time travels in existing vehicle state snapshots; late
-observers seek into an in-progress startup or skip completed ignition.
-Idle stays the dominant bed at -11 dB and pitch 1.0–1.096. The driving layer is
--23 dB, pitch 0.66–0.756, filtered and blended in gently. Startup is -13 dB and
-overlaps idle. Exiting or losing fuel still fades the loops under shutdown.
+RoomReverb — параметр эффекта World, а не отдельная аудиошина. Источник `AudioStreamPlayer3D` без назначенной категории автоматически направляется из Master в Effects. Явное назначение Inspector сохраняется.
 
-`audio_balance_startup_regression.gd` checks source transforms, category controls,
-bus mute independence, indoor/outdoor DSP, startup movement locking, fuel and
-startup replication. Existing audio events and sprint/boost regressions pass.
-Final subjective tone/volume should be heard in gameplay, especially at the
-driver seat, with current Master and category settings.
+## Помещение и улица
+
+Купол и широкие внутренние звуковые объёмы не используются. `ExteriorAcoustics` определяет укрытие по геометрии и переходам через `AcousticPortal`; крыша проверяется при появлении, телепорте или достаточном перемещении. Порталы входов учитывают открытие двери.
+
+В помещении плавно добавляется слабая реверберация. По умолчанию RoomReverb 50% даёт до 6% wet, максимум — 12%. На улице реверберация сухая, World использует фильтр 10 кГц. Двигатель отдельно фильтруется на Vehicles (2,4 кГц). Музыка и субъективное дыхание обходят World.
+
+## Источники и переходы
+
+`PlayerAudio` в `scenes/characters/player_audio.tscn` — Node3D: подбор, батарейка и фонарик звучат в позиции игрока. Спокойное дыхание, восстановление после короткого/длинного бега и перенос тела смешиваются с плавными переходами. За рулём и во время сна дыхание подавляется.
+
+Снегоход сочетает запуск, холостой и движущийся слои. Холостой перекрывает конец запуска; движение блокируется до завершения запуска. Выход и исчерпание топлива гасят циклы под звук остановки. Регуляторы pitch, gain и crossfade находятся на снегоходе.
+
+В игровых сценах движущийся слой снегохода настроен на −20 dB, контакт со снегом — на −23 dB. У PlayerAudio подбор звучит на −17 dB, отдышка после бега — на −23 dB, при переносе тела — на −25 dB; спокойное дыхание остаётся на −30 dB. Это уровни источников до пользовательских регуляторов шин.
+
+Фоновая музыка использует `scenes/objects/effects/background_music.tscn` и `scripts/effects/background_music.gd`, повтор и плавный вход. Вентиляция — позиционные экземпляры `ventilation_audio.tscn`. Циклы и точки повтора редактируются в аудиоресурсах и `.import`; не каждый звук должен повторяться.
+
+## Проверка
+
+`audio_balance_startup_regression.gd`, `expanded_audio_regression.gd`, `background_music_regression.gd`, `acoustic_portal_regression.gd` в `tools/tests`. Они проверяют события, маршрутизацию и переходы. Естественность стыка цикла и относительная громкость проверяются прослушиванием у водителя, у генератора и на входе в помещение. Не оценивайте микс только по значениям dB без текущих пользовательских настроек.

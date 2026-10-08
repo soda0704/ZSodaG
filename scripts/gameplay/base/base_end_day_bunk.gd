@@ -37,7 +37,13 @@ func get_interaction_prompt() -> String:
 	]:
 		return "Сначала восстановите питание"
 	if not controller.can_end_current_day():
-		return "Сначала доставьте ключ на базу" if controller.day_index == 2 else "Конец доступного прототипа"
+		if controller.day_index == 2:
+			return "Сначала доставьте ключ на базу"
+		if controller.day_index == controller.LEVEL_TWO_DAY_INDEX:
+			return "Сначала обследуйте уровень 2"
+		if controller.day_index == controller.CONTAINMENT_DAY_INDEX:
+			return "Сначала зачистите уровень и восстановите питание"
+		return "Конец доступного прототипа"
 
 	var local_peer_id := multiplayer.get_unique_id()
 	if controller.get_player_slot(local_peer_id) != assigned_player_slot:
@@ -69,6 +75,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		not multiplayer.is_server()
 		or interactor == null
+		or (interactor is GamePlayer and interactor.is_carrying_corpse())
 		or int(interactor.get("owner_peer_id")) != peer_id
 	):
 		return
@@ -89,6 +96,7 @@ func network_sleep_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		not multiplayer.is_server()
 		or interactor == null
+		or (interactor is GamePlayer and interactor.is_carrying_corpse())
 		or int(interactor.get("owner_peer_id")) != peer_id
 	):
 		return
@@ -113,6 +121,7 @@ func cancel_sleep_authoritative(peer_id: int, interactor: Node) -> bool:
 	if (
 		not multiplayer.is_server()
 		or interactor == null
+		or (interactor is GamePlayer and interactor.is_carrying_corpse())
 		or int(interactor.get("owner_peer_id")) != peer_id
 		or controller == null
 		or controller.get_player_slot(peer_id) != assigned_player_slot

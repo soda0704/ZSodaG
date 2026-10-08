@@ -2,6 +2,7 @@ class_name DayTwoTerminal
 extends StaticBody3D
 
 @export var is_key_terminal: bool = false
+@export_range(0.1, 10.0) var interaction_distance := 4.0
 @onready var status: Label3D = $Status
 @onready var key_visual: MeshInstance3D = $Key
 @onready var screen: MeshInstance3D = $Screen
@@ -44,7 +45,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		_controller == null or not multiplayer.is_server()
 		or not interactor is Node3D
 		or int(interactor.get("owner_peer_id")) != peer_id
-		or (interactor as Node3D).global_position.distance_to(global_position) > 4.0
+		or (interactor as Node3D).global_position.distance_to(global_position) > interaction_distance
 	):
 		return
 	var stage := _controller.quest_stage

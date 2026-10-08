@@ -1,0 +1,73 @@
+[gd_resource type="Theme" format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/journal/body.ttf" id="1_ju4yd"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/journal/headings.otf" id="2_heading"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ju4yd"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxfb3"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5882353, 0.45490196, 0.31764707, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jaagd"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.38, 0.23, 0.12, 0.1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwopx"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cf5a4"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.38, 0.23, 0.12, 0.1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[resource]
+default_font = ExtResource("1_ju4yd")
+default_font_size = 26
+Button/colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+Button/colors/font_disabled_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+Button/colors/font_focus_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+Button/colors/font_hover_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+Button/colors/font_pressed_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+Button/styles/disabled = SubResource("StyleBoxFlat_ju4yd")
+Button/styles/focus = SubResource("StyleBoxFlat_oxfb3")
+Button/styles/hover = SubResource("StyleBoxFlat_jaagd")
+Button/styles/normal = SubResource("StyleBoxFlat_rwopx")
+Button/styles/pressed = SubResource("StyleBoxFlat_cf5a4")
+Label/colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+
+JournalHeading/base_type = &"Label"
+JournalHeading/fonts/font = ExtResource("2_heading")

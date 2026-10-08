@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
+[ext_resource type="Script" path="res://scripts/gameplay/medical_corpse_bed.gd" id="2_bed"]
+[ext_resource type="Script" path="res://scripts/gameplay/items/pickup_interaction_area.gd" id="3_interaction"]
+
+[sub_resource type="BoxShape3D" id="bed_interaction"]
+size = Vector3(2.4, 1.4, 1.3)
 
 [node name="MedicalRoomArt" type="Node3D"]
 editor_description = "Art-обёртка медпункта East Living. Двери и gameplay-сокеты остаются в основной сцене."
@@ -67,11 +72,41 @@ material = ExtResource("1_living_blockout_material")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.45000005, 5.5)
 use_collision = true
 size = Vector3(2.2, 0.9, 1)
+script = ExtResource("2_bed")
+legacy_bed_path = NodePath("Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/MedicalBedA")
+
+[node name="RestPose" type="Marker3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout"]
+position = Vector3(0, 0.68, 0)
+rotation = Vector3(-1.5707963, 1.5707963, 0)
+
+[node name="InteractionArea" type="Area3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_interaction")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout/InteractionArea"]
+position = Vector3(0, 0.2, 0)
+shape = SubResource("bed_interaction")
 
 [node name="Medical_Exam_Bed_Secondary_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=710917016]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.45, 5.5)
 use_collision = true
 size = Vector3(2.2, 0.9, 1)
+script = ExtResource("2_bed")
+legacy_bed_path = NodePath("Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/MedicalBedB")
+
+[node name="RestPose" type="Marker3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Secondary_Blockout"]
+position = Vector3(0, 0.68, 0)
+rotation = Vector3(-1.5707963, 1.5707963, 0)
+
+[node name="InteractionArea" type="Area3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Secondary_Blockout"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_interaction")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blockout/Medical_Room/Examination/Medical_Exam_Bed_Secondary_Blockout/InteractionArea"]
+position = Vector3(0, 0.2, 0)
+shape = SubResource("bed_interaction")
 
 [node name="Medical_Primary_Bed_Backrest_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Examination" unique_id=95181043]
 transform = Transform3D(0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, 0, 1, 23.05, 0.85, 5.5)

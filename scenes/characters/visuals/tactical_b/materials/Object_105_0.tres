@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_b/textures/Mil_Suit_R5__Plate_baseColor.jpeg" id="1_q605w"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_b/textures/Mil_Suit_R5__Plate_metallicRoughness.png" id="2_aihli"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_b/textures/Mil_Suit_R5__Plate_normal.png" id="3_bxjlw"]
+
+[resource]
+resource_name = "Mil_Suit_R5__Plate"
+cull_mode = 2
+albedo_texture = ExtResource("1_q605w")
+metallic = 1.0
+metallic_texture = ExtResource("2_aihli")
+metallic_texture_channel = 2
+roughness = 0.7420975
+roughness_texture = ExtResource("2_aihli")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_bxjlw")
+ao_enabled = true
+ao_texture = ExtResource("2_aihli")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0

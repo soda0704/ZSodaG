@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/art/base/technical/generator_model.tscn" id="generator_model"]
+
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/generator.ogg" id="generator"]
 [ext_resource type="Script" path="res://scripts/effects/powered_loop_audio.gd" id="generator_audio_logic"]
 
@@ -20,6 +22,9 @@ albedo_color = Color(0.9, 0.38, 0.06, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_technical"]
 albedo_color = Color(0.82, 0.16, 0.04, 1)
 
+
+[sub_resource type="BoxShape3D" id="GeneratorShape"]
+size = Vector3(4.5,3.0,2.85)
 
 [node name="GeneratorRoomArt" type="Node3D"]
 editor_description = "Генераторная, оборудование и относящиеся к ней сюжетные пропсы."
@@ -59,45 +64,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.15, 22)
 use_collision = true
 size = Vector3(6.6, 0.3, 4.1)
 
-[node name="Technical_Main_Generator_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=669072076]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.8, 22)
-use_collision = true
-size = Vector3(6, 3, 3.5)
-metadata/impact_surface = "metal"
-
-[node name="Technical_Generator_North_Access_Panel_A_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1036092205]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.8, 20.21)
-size = Vector3(1.55, 1.8, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Generator_North_Access_Panel_B_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1647369500]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.8, 20.21)
-size = Vector3(1.55, 1.8, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Generator_North_Access_Panel_C_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1648553460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.8, 20.21)
-size = Vector3(1.55, 1.8, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Generator_North_Lower_Vent_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1149792243]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.65, 20.19)
-size = Vector3(4.8, 0.3, 0.12)
-
-[node name="Technical_Generator_Control_Panel_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=256322137]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 1.5, 22)
-use_collision = true
-size = Vector3(0.2, 2, 1.2)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Generator_Control_Display_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1004116097]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.74, 1.65, 22)
-size = Vector3(0.08, 0.75, 0.75)
-
-[node name="Technical_Generator_Emergency_Stop_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=1054898389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.76, 0.95, 21.65)
-size = Vector3(0.12, 0.28, 0.28)
-material = SubResource("StandardMaterial3D_hub_technical")
+[node name="Technical_Main_Generator_Blockout" parent="Blockout/Generator_Room/Power_Generation" instance=ExtResource("generator_model")]
+position = Vector3(1.5,0.3,22)
+metadata/impact_surface = &"metal"
 
 [node name="Technical_Generator_Exhaust_A_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Power_Generation" unique_id=533548068]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4, 22)
@@ -255,9 +224,17 @@ size = Vector3(0.32, 0.08, 0.12)
 material = SubResource("StandardMaterial3D_hub_arrival")
 
 [node name="GeneratorAudio" type="AudioStreamPlayer3D" parent="Blockout/Generator_Room/Power_Generation/Technical_Main_Generator_Blockout"]
+position = Vector3(0,1.5,0)
 bus = &"Machinery"
 stream = ExtResource("generator")
 script = ExtResource("generator_audio_logic")
 volume_db = -80.0
 unit_size = 8.0
 max_distance = 40.0
+
+[node name="GeneratorBody" type="StaticBody3D" parent="ArtCollision"]
+position = Vector3(1.5,1.8,22)
+metadata/impact_surface = &"metal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArtCollision/GeneratorBody"]
+shape = SubResource("GeneratorShape")

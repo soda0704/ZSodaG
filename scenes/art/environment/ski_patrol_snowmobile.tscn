@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Body_SnowmobileBODY_0.res" id="1_61oxi"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Mirrors_base_material_0.res" id="2_y1dsg"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Mirrors_mirror_0.res" id="3_lslu4"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Tracks_TRACKS_0.res" id="4_yqw3l"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Windshield_Plastic_0.res" id="5_dd1p7"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Windshield_Glass_0.res" id="6_64bar"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/SteerL_steer_0.res" id="7_7fhs7"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/SteerR_steer_0.res" id="8_qyvgi"]
+[ext_resource type="ArrayMesh" path="res://assets/models/snowmobile_ski_patrol/Handlebars_Handlebars_0.res" id="9_rncqg"]
+
+[node name="SkiPatrolSnowmobile" type="Node3D" unique_id=1471642780]
+
+[node name="Body_SnowmobileBODY_0" type="MeshInstance3D" parent="." unique_id=146001207]
+transform = Transform3D(0.83488536, 0.21038903, -0.50862813, -0.11912467, 0.9712308, 0.20620342, 0.53737825, -0.11156607, 0.83592916, 0.02817546, 1.1076671, -0.27405536)
+mesh = ExtResource("1_61oxi")
+
+[node name="Mirrors_base_material_0" type="MeshInstance3D" parent="." unique_id=2126719857]
+transform = Transform3D(-0.33606172, -0.047129564, -0.3376158, -0.0141457, 0.4756118, -0.052312523, -0.34059584, 0.02674897, 0.33529404, 0.26206934, 1.6390328, 0.60458946)
+mesh = ExtResource("2_y1dsg")
+
+[node name="Mirrors_mirror_0" type="MeshInstance3D" parent="." unique_id=1814503776]
+transform = Transform3D(-0.33606172, -0.047129564, -0.3376158, -0.0141457, 0.4756118, -0.052312523, -0.34059584, 0.02674897, 0.33529404, 0.26206934, 1.6390328, 0.60458946)
+mesh = ExtResource("3_lslu4")
+
+[node name="Tracks_TRACKS_0" type="MeshInstance3D" parent="." unique_id=179293246]
+transform = Transform3D(-0.008558223, -1.1641532e-10, 4.656613e-10, 0, -0.009948175, -3.608875e-09, 1.1641532e-09, -3.608875e-09, 0.010754789, 0.011877822, 0.6752583, -0.98869246)
+mesh = ExtResource("4_yqw3l")
+
+[node name="Windshield_Plastic_0" type="MeshInstance3D" parent="." unique_id=763398277]
+transform = Transform3D(0.83488536, 0.21038903, -0.5086281, -0.11912467, 0.9712308, 0.20620337, 0.53737825, -0.11156606, 0.83592904, 0.028175453, 1.0797926, -0.27405533)
+mesh = ExtResource("5_dd1p7")
+
+[node name="Windshield_Glass_0" type="MeshInstance3D" parent="." unique_id=303746859]
+transform = Transform3D(0.83488536, 0.21038903, -0.5086281, -0.11912467, 0.9712308, 0.20620337, 0.53737825, -0.11156606, 0.83592904, 0.028175453, 1.0797926, -0.27405533)
+mesh = ExtResource("6_64bar")
+
+[node name="SkiLeftPivot" type="Node3D" parent="." unique_id=43231880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.445, 0.63, 0.72)
+
+[node name="SteerL_steer_0" type="MeshInstance3D" parent="SkiLeftPivot" unique_id=1153586495]
+transform = Transform3D(-0.0077828793, 6.9849193e-10, -3.259629e-09, -4.656613e-10, -0.011292447, -3.0267984e-09, -9.313226e-10, -3.608875e-09, 0.011292446, 0.013825893, 0.09140223, 0.14500129)
+mesh = ExtResource("7_7fhs7")
+
+[node name="SnowContact" type="Marker3D" parent="SkiLeftPivot" unique_id=749537542]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.09, 0.317)
+
+[node name="SkiRightPivot" type="Node3D" parent="." unique_id=549087277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.428, 0.63, 0.72)
+
+[node name="SteerR_steer_0" type="MeshInstance3D" parent="SkiRightPivot" unique_id=198627615]
+transform = Transform3D(0.0077828793, 2.3283064e-10, -9.313226e-10, 2.910383e-10, -0.011292447, -3.7252903e-09, -9.313226e-10, -4.0745363e-09, 0.011292447, -0.014081746, 0.09140217, 0.123595476)
+mesh = ExtResource("8_qyvgi")
+
+[node name="SnowContact" type="Marker3D" parent="SkiRightPivot" unique_id=1432619529]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.09, 0.317)
+
+[node name="HandlebarPivot" type="Node3D" parent="." unique_id=565367542]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0.3)
+
+[node name="Handlebars_Handlebars_0" type="MeshInstance3D" parent="HandlebarPivot" unique_id=1569182759]
+transform = Transform3D(0.9999999, 8.940697e-08, -5.9604645e-08, 5.9604645e-08, -1.7881393e-07, 0.99999994, -2.9802322e-08, -0.9999999, -1.4901161e-07, -0.009363843, 0.20519805, 0.025420547)
+mesh = ExtResource("9_rncqg")

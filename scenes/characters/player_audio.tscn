@@ -11,6 +11,8 @@
 
 [node name="PlayerAudio" type="Node3D"]
 script = ExtResource("logic")
+recovery_volume_db = -23.0
+carrying_volume_db = -25.0
 short_breath = ExtResource("breath_short")
 long_breath = ExtResource("breath_long")
 
@@ -27,7 +29,7 @@ volume_db = -80.0
 bus = &"Effects"
 position = Vector3(0, 1.4, 0)
 stream = ExtResource("pickup")
-volume_db = -14.0
+volume_db = -17.0
 unit_size = 1.0
 max_distance = 12.0
 

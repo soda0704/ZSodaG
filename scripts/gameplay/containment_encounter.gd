@@ -1,30 +1,48 @@
 extends Node3D
 
-const START_HEALTH := [120.0, 90.0, 75.0]
-var state: Node
+const CREATURE_SCENES := [preload("res://scenes/characters/monsters/the_monster.tscn"), preload("res://scenes/characters/monsters/slasher.tscn"), preload("res://scenes/characters/monsters/smily.tscn")]
+@export var state_path := NodePath("../BaseGameplayController")
+@export var navigation_level_path := NodePath("../Floor_Minus3_Biocontainment_Blockout")
+@export var level_two_zone_path := NodePath("../Floor_Minus2_Life_Support_Blockout/InvestigationZone")
+@export var level_three_zone_path := NodePath("../Floor_Minus3_Biocontainment_Blockout/InvestigationZone")
+@export var monster_spawn_paths: Array[NodePath] = []
+var state: BaseGameplayController
+var _zones: Array[Area3D] = []
 var navigation_ready: bool = false
 var region: NavigationRegion3D
-var _tick: float = 0.0
 var _spawn_serial := 0
 
 func _ready() -> void:
 	add_to_group("containment_encounter")
-	state = get_parent().get_node("BaseGameplayController")
+	state = get_node_or_null(state_path) as BaseGameplayController
+	if state == null:
+		push_error("ContainmentEncounter: assign the base state in Inspector")
+		return
 	state.snapshot_changed.connect(_on_state)
-	var level := get_parent().get_node("Floor_Minus3_Biocontainment_Blockout") as Node3D
+	var level := get_node_or_null(navigation_level_path) as Node3D
 	for index in 3:
-		var monster := preload("res://scripts/gameplay/hostile_monster.gd").new()
-		monster.name = "Monster%d" % index
-		monster.monster_id = index
-		monster.model_id = ["the_monster", "slasher", "smily"][index]
+		if index >= monster_spawn_paths.size():
+			push_error("ContainmentEncounter: assign three spawn markers in Inspector")
+			return
+		var marker := get_node_or_null(monster_spawn_paths[index]) as Marker3D
+		if marker == null:
+			push_error("ContainmentEncounter: missing spawn marker")
+			return
+		var monster := get_node("Monster%d" % index)
 		monster.encounter = self
-		add_child(monster)
-		monster.global_position = level.to_global([Vector3(-29.5, 0.1, -7.5), Vector3(-33, 0.1, -18), Vector3(-20, 0.1, -24)][index])
+		monster.global_transform = marker.global_transform
 		monster._home = monster.global_position
 		monster._target_position = monster.position
-	if multiplayer.is_server():
+	_zones = [get_node_or_null(level_two_zone_path) as Area3D, get_node_or_null(level_three_zone_path) as Area3D]
+	for index in _zones.size():
+		if _zones[index] == null:
+			push_error("ContainmentEncounter: assign investigation zones in Inspector")
+			continue
+		_zones[index].body_entered.connect(_on_zone_entered.bind(index))
+	if multiplayer.is_server() and level != null:
 		_bake.call_deferred(level)
 	_on_state({})
+	_check_current_zones.call_deferred()
 
 func _bake(level: Node3D) -> void:
 	await get_tree().physics_frame
@@ -45,28 +63,23 @@ func _bake(level: Node3D) -> void:
 	region.bake_finished.connect(func(): navigation_ready = mesh.get_polygon_count() > 0)
 	region.bake_navigation_mesh(true)
 
-func _physics_process(delta: float) -> void:
-	if not multiplayer.is_server() or state.day_index != 3:
+func _on_zone_entered(body: Node3D, index: int) -> void:
+	if not multiplayer.is_server() or state == null or not body is GamePlayer:
 		return
-	_tick += delta
-	if _tick < 0.25:
+	var required_day := state.LEVEL_TWO_DAY_INDEX if index == 0 else state.CONTAINMENT_DAY_INDEX
+	var key := "level2" if index == 0 else "level3"
+	if state.day_index != required_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
 		return
-	_tick = 0.0
-	var data: Dictionary = state.containment.duplicate(true)
-	var changed := false
-	for peer in state.get_connected_player_peer_ids():
-		var player: Node3D = state.get_player_node(peer)
-		if player == null or player.survival.dead:
-			continue
-		var point: Vector3 = get_parent().to_local(player.global_position)
-		if absf(point.y + 36.0) < 2.0 and point.x < -7.0 and not data.get("level2", false):
-			data.level2 = true
-			changed = true
-		if absf(point.y + 54.0) < 3.0 and point.x < -3.0 and data.get("level2", false) and not data.get("level3", false):
-			data.level3 = true
-			changed = true
-	if changed:
-		_commit(data)
+	var data := state.containment.duplicate(true)
+	data[key] = true
+	_commit(data)
+
+func _check_current_zones() -> void:
+	if not multiplayer.is_server(): return
+	for index in _zones.size():
+		if _zones[index] != null:
+			for body in _zones[index].get_overlapping_bodies():
+				_on_zone_entered(body, index)
 
 func get_ready_peers() -> Array[int]:
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -75,15 +88,15 @@ func get_ready_peers() -> Array[int]:
 		peers.assign(world.get_ready_v3_peers())
 	return peers
 
-func closest_player(point: Vector3, accepts: Callable = Callable()) -> Node3D:
+func closest_player(point: Vector3, accepts: Callable = Callable(), search_distance:float = 40.0, vertical_distance:float = 3.5) -> Node3D:
 	var best: Node3D
-	var distance := 40.0
+	var distance := search_distance
 	for peer in state.get_connected_player_peer_ids():
 		var player_node = state.get_player_node(peer)
 		if not player_node is Node3D:
 			continue
 		var player := player_node as Node3D
-		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or absf(player.global_position.y - point.y) > 3.5:
+		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or absf(player.global_position.y - point.y) > vertical_distance:
 			continue
 		var candidate := point.distance_to(player.global_position)
 		if candidate < distance and (not accepts.is_valid() or accepts.call(player)):
@@ -91,14 +104,20 @@ func closest_player(point: Vector3, accepts: Callable = Callable()) -> Node3D:
 			best = player
 	return best
 
+func get_start_health() -> Array:
+	var values: Array = []
+	for index in 3:
+		values.append(get_node("Monster%d" % index).ai_profile.max_health)
+	return values
+
 func get_monster_health(index: int) -> float:
-	return float(state.containment.get("health", START_HEALTH)[index])
+	return float(state.containment.get("health", get_start_health())[index])
 
 func damage_monster(index: int, amount: float) -> void:
 	if not multiplayer.is_server() or amount <= 0.0:
 		return
 	var data: Dictionary = state.containment.duplicate(true)
-	var health: Array = data.get("health", START_HEALTH).duplicate()
+	var health: Array = data.get("health", get_start_health()).duplicate()
 	if health[index] <= 0.0:
 		return
 	health[index] = maxf(0.0, float(health[index]) - amount)
@@ -160,7 +179,7 @@ func debug_reset() -> void:
 	if not multiplayer.is_server():
 		return
 	var data: Dictionary = state.containment.duplicate(true)
-	data.health = START_HEALTH.duplicate()
+	data.health = get_start_health()
 	data.bodies = {}
 	# Resetting the encounter must not repair an already triggered power fault.
 	_commit(data)
@@ -190,7 +209,7 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 		var spawn_point := center + forward * distance + side * lateral
 		if at_point:
 			spawn_point = center + forward * float(row) * 1.25 + side * float(column) * 1.25
-		var monster := preload("res://scripts/gameplay/hostile_monster.gd").new()
+		var monster = CREATURE_SCENES[model_index].instantiate()
 		monster.name = "DebugMonster%d" % serial
 		monster.monster_id = model_index
 		monster.model_id = ["the_monster", "slasher", "smily"][model_index]
@@ -225,5 +244,12 @@ func _reset_actors() -> void:
 		get_node("Monster%d" % index).reset_enemy()
 
 func _on_state(_snapshot: Dictionary) -> void:
-	if multiplayer.is_server() and state.day_index == 3 and state.containment.get("level2", false):
-		get_parent().get_node("Elevator_Functional_Blockout").set_day(4)
+	# Story creatures belong to the separate containment day; debug spawns are independent.
+	var active := state.day_index >= state.CONTAINMENT_DAY_INDEX
+	for index in 3:
+		var monster := get_node_or_null("Monster%d" % index) as CharacterBody3D
+		if monster != null:
+			monster.visible = active
+			monster.set_physics_process(active)
+			monster.collision_layer = 2 if active and get_monster_health(index) > 0.0 else 0
+	_check_current_zones.call_deferred()

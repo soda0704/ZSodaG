@@ -1,0 +1,11 @@
+Model Information:
+* title:	Leather journal
+* source:	https://sketchfab.com/3d-models/leather-journal-18f2248f31e6497f8e8bd9fd517f0137
+* author:	Jeant_220 (https://sketchfab.com/juanfranciscotorresvicuna)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Leather journal" (https://sketchfab.com/3d-models/leather-journal-18f2248f31e6497f8e8bd9fd517f0137) by Jeant_220 (https://sketchfab.com/juanfranciscotorresvicuna) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

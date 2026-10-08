@@ -37,14 +37,18 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @export var owner_peer_id: int = 1
 @export var player_display_name: String = "Player"
 @export var avatar_color: Color = Color(0.25, 0.75, 1.0)
+@export_range(0, 1) var character_variant_id := 0
 
 @export_group("Movement")
 @export var walk_speed: float = 4.0
 @export var sprint_speed: float = 6.8
-@export_range(0.5, 30.0) var sprint_duration: float = 6.0
-@export_range(0.5, 30.0) var sprint_rest_duration: float = 4.0
-var _sprint_remaining := 6.0
-var _sprint_rest := 0.0
+@export_range(0.5, 30.0) var sprint_duration: float = 10.0
+## Seconds of sprint restored per second of walking or resting.
+@export_range(0.1, 5.0) var sprint_recovery_per_second: float = 1.0
+## Small reserve needed only after complete exhaustion, to avoid tick-by-tick toggling.
+@export_range(0.1, 5.0) var sprint_restart_reserve: float = 1.0
+var _sprint_remaining := 10.0
+var _sprint_exhausted := false
 var _sprint_active := false
 @export var crouch_speed: float = 2.2
 @export var acceleration: float = 14.0
@@ -70,15 +74,15 @@ var _sprint_active := false
 @onready var head: Node3D = %Head
 @onready var camera: FirstPersonCameraMotion = %Camera3D
 @onready var collision_shape: CollisionShape3D = %CollisionShape3D
-@onready var body_animator: PrototypeCharacterAnimator = %BodyVisual
+@onready var body_animator: GameCharacterPresentation = %BodyVisual
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
 @onready var held_fuse: Node3D = %HeldFuse
 @onready var held_fuel_can: Node3D = %HeldFuelCan
+@export_range(0.5, 10.0) var interaction_reach := 3.0
 @onready var interaction_ray: RayCast3D = %InteractionRay
 @onready var interaction_prompt_label: Label = %InteractionPromptLabel
 @onready var battery_label: Label = %BatteryLabel
-@onready var sprint_label: Label = %SprintLabel
 @onready var player_audio: Node = $PlayerAudio
 @onready var crosshair: Control = %Crosshair
 
@@ -121,8 +125,17 @@ var _remote_target_velocity: Vector3 = Vector3.ZERO
 var _remote_target_yaw: float = 0.0
 var _remote_target_pitch: float = 0.0
 var _remote_crouching: bool = false
+var _remote_grounded: bool = true
+var _journal_phase := 0
 var _has_remote_snapshot: bool = false
 var _has_flashlight: bool = false
+@export_range(0.2, 1.0) var corpse_carry_speed_multiplier := 0.6
+var carried_corpse: Node3D
+var corpse_action_busy := false
+
+func is_carrying_corpse() -> bool:
+	return is_instance_valid(carried_corpse)
+
 var _held_item_type: StringName = NO_ITEM
 var _flashlight_enabled: bool = false
 var _flashlight_malfunctioning: bool = false
@@ -148,12 +161,14 @@ func setup(
 	display_name_value: String,
 	spawn_position: Vector3,
 	color: Color,
-	spawn_yaw: float = 0.0
+	spawn_yaw: float = 0.0,
+	visual_variant: int = 0
 ) -> void:
 	owner_peer_id = peer_id
 	player_display_name = display_name_value.left(32)
 	position = spawn_position
 	avatar_color = color
+	character_variant_id = clampi(visual_variant,0,1)
 	rotation.y = spawn_yaw
 	_input_yaw = spawn_yaw
 	_server_yaw = spawn_yaw
@@ -170,7 +185,14 @@ func _ready() -> void:
 	add_child(weapon)
 	name_label.text = player_display_name
 	name_label.modulate = avatar_color
-	body_animator.set_avatar_color(avatar_color)
+	flashlight.reparent(body_animator.equipment_socket("FlashlightGrip"), false)
+	flashlight.transform = Transform3D.IDENTITY
+	flashlight.rig_attached = true
+	flashlight.rig_animator = body_animator
+	held_fuse.reparent(body_animator.equipment_socket("FuseGrip"), false)
+	held_fuse.transform = Transform3D.IDENTITY
+	held_fuel_can.reparent(body_animator.equipment_socket("FuelGrip"), false)
+	held_fuel_can.transform = Transform3D.IDENTITY
 
 	var local_player := is_local_player()
 	camera.current = local_player
@@ -178,6 +200,10 @@ func _ready() -> void:
 	for mesh in body_animator.find_children("*", "MeshInstance3D", true, false):
 		mesh.layers |= 1 << 18 # Receive outdoor sunlight and cast a body shadow on snow.
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY if local_player else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	if local_player:
+		for mesh: MeshInstance3D in body_animator.first_person_model.find_children("*","MeshInstance3D",true,false):
+			mesh.layers = 1 << 19
+			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	name_label.visible = not local_player
 	crosshair.visible = local_player
 	interaction_prompt_label.visible = false
@@ -256,9 +282,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if is_local_player():
-		sprint_label.visible = not survival.dead and not is_driving() and not _is_sleeping_in_bunk
-		sprint_label.text = "БЕГ: отдых %.1f с" % _sprint_rest if _sprint_rest > 0.0 else "БЕГ: %.1f с" % _sprint_remaining
 	if survival.dead:
 		if multiplayer.is_server() or is_local_player():
 			_update_sprint(delta)
@@ -303,22 +326,18 @@ func _update_sprint(delta: float) -> void:
 	var wants_sprint := _server_sprint if multiplayer.is_server() else _input_sprint
 	var movement := _server_move if multiplayer.is_server() else _input_move
 	var crouching := _server_crouch if multiplayer.is_server() else _input_crouch
-	var allowed := wants_sprint and movement.length_squared() > 0.01 and not crouching and not _is_crouching and not survival.dead and not is_driving() and not _is_sleeping_in_bunk and not debug_fly
-	if _sprint_active and not allowed:
-		_sprint_active = false
-		_sprint_rest = sprint_rest_duration
-	if _sprint_rest > 0.0:
-		_sprint_rest = maxf(0.0, _sprint_rest - delta)
-		if _sprint_rest <= 0.0:
-			_sprint_remaining = sprint_duration
-		return
-	_sprint_active = allowed and _sprint_remaining > 0.0
+	var allowed := not is_carrying_corpse() and wants_sprint and movement.length_squared() > 0.01 and not crouching and not _is_crouching and not survival.dead and not is_driving() and not _is_sleeping_in_bunk and not debug_fly
+	_sprint_active = allowed and not _sprint_exhausted and _sprint_remaining > 0.0
 	if _sprint_active:
 		_sprint_remaining = maxf(0.0, _sprint_remaining - delta)
 		if _sprint_remaining <= 0.00001:
 			_sprint_active = false
 			_sprint_remaining = 0.0
-			_sprint_rest = sprint_rest_duration
+			_sprint_exhausted = true
+	else:
+		_sprint_remaining = minf(sprint_duration, _sprint_remaining + sprint_recovery_per_second*delta)
+		if _sprint_remaining >= minf(sprint_restart_reserve,sprint_duration):
+			_sprint_exhausted = false
 
 
 func collect_local_input() -> void:
@@ -446,19 +465,20 @@ func update_character_animation(delta: float) -> void:
 		if is_remote_client_player
 		else _sprint_active
 	)
-	var grounded := (
-		absf(animation_velocity.y) < 0.12
-		if is_remote_client_player
-		else is_on_floor()
-	)
-	body_animator.update_pose(
-		delta,
-		horizontal_speed,
-		grounded,
-		sprinting and not crouching,
-		crouching,
-		animation_velocity.y
-	)
+	var grounded := _remote_grounded if is_remote_client_player else is_on_floor()
+	body_animator.update_context(delta,{
+		"velocity": animation_velocity,
+		"grounded": grounded,
+		"sprinting": sprinting and not crouching,
+		"crouching": crouching,
+		"yaw": rotation.y,
+		"pitch": head.rotation.x,
+		"held_item": _held_item_type,
+		"journal_phase": _journal_phase,
+		"carrying": is_carrying_corpse(),
+		"driving": is_driving(),
+		"reloading": weapon != null and weapon.reload_left>0.0
+	})
 	name_label.visible = not is_local_player() and not _is_sleeping_in_bunk
 	name_label.position.y = lerpf(
 		name_label.position.y,
@@ -643,6 +663,9 @@ func simulate_movement(
 	rotation.y = yaw
 	head.rotation.y = 0
 	head.rotation.x = pitch
+	if corpse_action_busy:
+		move_input = Vector2.ZERO
+		should_jump = false
 	update_crouch_state(delta, crouching)
 	if debug_fly and not survival.dead:
 		var flight_direction := head.global_basis * Vector3(move_input.x, 0, move_input.y)
@@ -673,6 +696,8 @@ func simulate_movement(
 		if _is_crouching
 		else sprint_speed if sprinting else walk_speed
 	)
+	if is_carrying_corpse():
+		speed *= corpse_carry_speed_multiplier
 	var carried_weight := 0.0
 	for item in get_tree().get_nodes_in_group("world_items"):
 		if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.75:
@@ -741,6 +766,7 @@ func can_stand_up() -> bool:
 
 
 func get_interaction_target() -> Node:
+	interaction_ray.target_position = Vector3(0, 0, -interaction_reach)
 	interaction_ray.collision_mask = 4 if debug_across else 5
 	force_update_transform()
 	head.force_update_transform()
@@ -773,6 +799,9 @@ func refresh_interaction_prompt() -> void:
 	if is_driving():
 		interaction_prompt_label.visible = true
 		interaction_prompt_label.text = "Бензин: %.0f%%" % (vehicle.fuel_liters / vehicle.tank_capacity * 100.0)
+		interaction_prompt_label.text += " · S — тормоз / назад"
+		if vehicle.get_driving_speed() <= vehicle.exit_max_speed:
+			interaction_prompt_label.text += " · E — выйти"
 		if vehicle.is_engine_starting():
 			interaction_prompt_label.text = "Двигатель заводится…"
 		return
@@ -801,6 +830,34 @@ func _is_journal_open() -> bool:
 		return true
 	var journal := get_node_or_null("/root/QuestJournal")
 	return journal != null and bool(journal.call("is_journal_open"))
+
+
+func request_journal_phase(phase: int) -> void:
+	if not is_local_player(): return
+	_journal_phase = clampi(phase,0,3)
+	if multiplayer.is_server():
+		_publish_journal_phase(_journal_phase)
+	else:
+		_submit_journal_phase.rpc_id(1,_journal_phase)
+
+
+@rpc("any_peer","call_remote","reliable",2)
+func _submit_journal_phase(phase: int) -> void:
+	if not multiplayer.is_server() or multiplayer.get_remote_sender_id()!=owner_peer_id: return
+	if survival.dead and phase!=0: return
+	_publish_journal_phase(clampi(phase,0,3))
+
+
+func _publish_journal_phase(phase: int) -> void:
+	_journal_phase = phase
+	_refresh_equipment_visuals()
+	_receive_journal_phase.rpc(phase)
+
+
+@rpc("authority","call_remote","reliable",2)
+func _receive_journal_phase(phase: int) -> void:
+	_journal_phase = clampi(phase,0,3)
+	_refresh_equipment_visuals()
 
 
 func teleport_authoritative(
@@ -917,7 +974,7 @@ func pickup_world_item_authoritative(
 	item_type: StringName,
 	item_state: Dictionary
 ) -> bool:
-	if not multiplayer.is_server() or survival.dead:
+	if not multiplayer.is_server() or survival.dead or is_carrying_corpse():
 		return false
 
 	if item_type == &"pistol_ammo":
@@ -1063,7 +1120,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 
 
 func toggle_flashlight_authoritative() -> bool:
-	if survival.dead:
+	if survival.dead or is_carrying_corpse():
 		return false
 	if not multiplayer.is_server() or not _has_flashlight or _is_sleeping_in_bunk:
 		return false
@@ -1147,7 +1204,7 @@ func _play_battery_action() -> void:
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
-	if is_driving():
+	if is_driving() or is_carrying_corpse():
 		return false
 	if survival.dead:
 		return false
@@ -1264,6 +1321,8 @@ func get_held_item_drop_linear_velocity() -> Vector3:
 
 
 func drop_current_item_authoritative() -> bool:
+	if is_carrying_corpse():
+		return carried_corpse.drop_from_shoulder(owner_peer_id)
 	if survival.dead:
 		return false
 	return drop_current_item_at_authoritative(
@@ -1376,6 +1435,8 @@ func spawn_dropped_item_authoritative(
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
 		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
 		else preload("res://scenes/objects/items/tool_pickup.tscn") if item_type in [&"tape", &"crowbar"]
+		else preload("res://scenes/objects/items/pistol_pickup.tscn") if item_type==&"pistol"
+		else preload("res://scenes/objects/items/m4a1_pickup.tscn") if item_type==&"m4a1"
 		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"] else null
 	)
 	if pickup_scene == null or get_tree().current_scene == null:
@@ -1455,7 +1516,8 @@ func send_snapshot_if_due(delta: float) -> void:
 		_flashlight_malfunctioning,
 		_server_last_sequence,
 		get_inventory_snapshot(),
-		Vector3(_sprint_remaining, _sprint_rest, 1.0 if _sprint_active else 0.0)
+		Vector3(_sprint_remaining, 1.0 if _sprint_exhausted else 0.0, 1.0 if _sprint_active else 0.0),
+		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"variant":character_variant_id}
 	)
 
 
@@ -1473,11 +1535,14 @@ func _receive_authoritative_state(
 	server_flashlight_malfunctioning: bool,
 	_acknowledged_input: int,
 	server_inventory: Dictionary = {},
-	server_sprint_state: Vector3 = Vector3(-1.0, 0.0, 0.0)
+	server_sprint_state: Vector3 = Vector3(-1.0, 0.0, 0.0),
+	server_animation: Dictionary = {}
 ) -> void:
+	_remote_grounded = bool(server_animation.get("grounded",_remote_grounded))
+	_journal_phase = int(server_animation.get("journal_phase",_journal_phase))
 	if server_sprint_state.x >= 0.0:
 		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)
-		_sprint_rest = clampf(server_sprint_state.y, 0.0, sprint_rest_duration)
+		_sprint_exhausted = server_sprint_state.y > 0.5
 		_sprint_active = server_sprint_state.z > 0.5
 	if not server_inventory.is_empty():
 		apply_inventory_snapshot(server_inventory)
@@ -1582,8 +1647,11 @@ func apply_held_item_inventory(
 
 
 func _refresh_equipment_visuals() -> void:
+	if is_local_player() and (_journal_phase>0 or _is_journal_open()) and body_animator.first_person_model!=null:
+		body_animator.first_person_model.hide()
+	var journal_equipment_hidden := _journal_phase>0 or (is_local_player() and _is_journal_open())
 	flashlight.set_battery_charge(_battery_charge, false)
-	flashlight.set_equipped(_held_item_type == FLASHLIGHT_ITEM)
+	flashlight.set_equipped(_held_item_type == FLASHLIGHT_ITEM and not journal_equipment_hidden)
 	if _flashlight_malfunctioning:
 		flashlight.set_enabled(true, false)
 		flashlight.begin_malfunction(true)
@@ -1591,8 +1659,8 @@ func _refresh_equipment_visuals() -> void:
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
 		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted, false)
-	held_fuse.visible = _held_item_type == FUSE_ITEM
-	held_fuel_can.visible = _held_item_type == FUEL_ITEM
+	held_fuse.visible = _held_item_type == FUSE_ITEM and not journal_equipment_hidden
+	held_fuel_can.visible = _held_item_type == FUEL_ITEM and not journal_equipment_hidden
 	update_battery_ui()
 
 

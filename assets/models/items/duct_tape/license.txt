@@ -1,0 +1,8 @@
+Model Information:
+* title:	Duct Tape
+* source:	https://sketchfab.com/3d-models/duct-tape-b7d56b4235a34c54899fa02ee92319f5
+* author:	lonesomeducky (https://sketchfab.com/lonesomeducky)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

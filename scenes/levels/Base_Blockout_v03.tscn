@@ -15,6 +15,20 @@
 
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_ambience.tscn" id="ambience_audio"]
 
+[ext_resource type="Script" path="res://scripts/gameplay/containment_encounter.gd" id="containment_logic"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/medical/medical_corpse.tscn" id="medical_corpse"]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/monsters/the_monster.tscn" id="creature_0"]
+[ext_resource type="PackedScene" path="res://scenes/characters/monsters/slasher.tscn" id="creature_1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/monsters/smily.tscn" id="creature_2"]
+
+[sub_resource type="BoxShape3D" id="level2_visit_shape"]
+size = Vector3(55, 4, 80)
+
+[sub_resource type="BoxShape3D" id="level3_visit_shape"]
+size = Vector3(46.5, 6, 80)
+
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
 script = ExtResource("1_runtime")
@@ -53,3 +67,52 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)
 [node name="ArrivalSite" parent="." unique_id=320115555 instance=ExtResource("15_arrival")]
 
 [node name="BaseAmbience" parent="." instance=ExtResource("ambience_audio")]
+
+[node name="InvestigationZone" type="Area3D" parent="Floor_Minus2_Life_Support_Blockout"]
+editor_description = "Temporary level 2 investigation area. Resize the CollisionShape in the editor when the level 2 objective is designed."
+position = Vector3(-41.5, 0, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus2_Life_Support_Blockout/InvestigationZone"]
+shape = SubResource("level2_visit_shape")
+
+[node name="InvestigationZone" type="Area3D" parent="Floor_Minus3_Biocontainment_Blockout"]
+position = Vector3(-36.75, 0, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus3_Biocontainment_Blockout/InvestigationZone"]
+shape = SubResource("level3_visit_shape")
+
+[node name="MonsterSpawns" type="Node3D" parent="Floor_Minus3_Biocontainment_Blockout"]
+
+[node name="Tail" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns"]
+position = Vector3(-29.5, 0.1, -7.5)
+
+[node name="Slasher" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns"]
+position = Vector3(-33, 0.1, -18)
+
+[node name="Smily" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns"]
+position = Vector3(-20, 0.1, -24)
+
+[node name="ContainmentEncounter" type="Node3D" parent="."]
+script = ExtResource("containment_logic")
+monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Tail"), NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Slasher"), NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Smily")])
+
+[node name="Monster0" parent="ContainmentEncounter" instance=ExtResource("creature_0")]
+
+[node name="Monster1" parent="ContainmentEncounter" instance=ExtResource("creature_1")]
+
+[node name="Monster2" parent="ContainmentEncounter" instance=ExtResource("creature_2")]
+
+[node name="CorpseByBridge" parent="Floor_Minus2_Life_Support_Blockout" instance=ExtResource("medical_corpse")]
+position = Vector3(-42, 2.5, 0.7)
+rotation = Vector3(-1.5707963, 0.12, 0)
+corpse_id = 0
+
+[node name="CorpseInReservoir" parent="Floor_Minus2_Life_Support_Blockout" instance=ExtResource("medical_corpse")]
+position = Vector3(-36.5, -0.15, 5.5)
+rotation = Vector3(-1.5707963, 0.7, 0)
+corpse_id = 1
+recoverable = false

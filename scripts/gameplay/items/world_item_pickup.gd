@@ -3,14 +3,23 @@ extends RigidBody3D
 
 const PHYSICS_SYNC_RATE := 10.0
 
+@export_group("Item")
 @export var item_type: StringName = &""
 @export var display_name: String = "предмет"
 @export var item_state: Dictionary = {}
+@export_group("Interaction")
+@export var pickup_enabled := true
+@export var draggable := true
+@export_range(0.1, 10.0) var drag_distance := 3.5
+@export_range(0.1, 10.0) var interaction_distance := 4.0
+## -1 keeps the existing item-type resistance; nonnegative values override it.
+@export_range(-1.0, 50.0) var push_resistance := -1.0
 
 var _collected: bool = false
 var drag_owner_peer := 0
 
 func get_push_resistance() -> float:
+	if push_resistance >= 0.0: return push_resistance
 	return 4.0 if item_type == &"fuel_can" else 1.6 if item_type in [&"pistol", &"m4a1", &"kitchen_knife"] else 0.8
 var _sync_accumulator: float = 0.0
 var _initial_linear_velocity: Vector3 = Vector3.ZERO
@@ -141,6 +150,7 @@ func release_elevator_cargo() -> void:
 
 
 func get_interaction_prompt() -> String:
+	if not pickup_enabled: return ""
 	match item_type:
 		&"flashlight":
 			return "Фонарик · %d%%" % roundi(
@@ -165,11 +175,12 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		not multiplayer.is_server()
 		or _collected
+		or not pickup_enabled
 		or drag_owner_peer != 0
 		or not interactor.has_method("pickup_world_item_authoritative")
 		or int(interactor.get("owner_peer_id")) != peer_id
 		or not interactor is Node3D
-		or global_position.distance_to((interactor as Node3D).global_position) > 4.0
+		or global_position.distance_to((interactor as Node3D).global_position) > interaction_distance
 	):
 		return
 

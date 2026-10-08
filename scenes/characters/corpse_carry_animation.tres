@@ -1,0 +1,59 @@
+[gd_resource type="AnimationLibrary" format=3]
+
+[sub_resource type="Animation" id="Animation_4lhdf"]
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:upper_arm.R_013")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.07339887, -0.6694559, 0.406418, 0.6174672, 1, 1, -0.07339887, -0.6694559, 0.406418, 0.6174672)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:forearm.R_014")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.5611369, -0.16783662, 0.7999751, -0.13036898, 1, 1, -0.5611369, -0.16783662, 0.7999751, -0.13036898)
+
+[sub_resource type="Animation" id="Animation_hqyhk"]
+length = 1.6
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:upper_arm.R_013")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.27572343, -0.6674873, 0.47732565, 0.50059724, 0.45, 1, -0.16572246, -0.6735585, 0.441615, 0.56906176, 1.35, 1, -0.07339887, -0.6694559, 0.406418, 0.6174672, 1.6, 1, -0.07339887, -0.6694559, 0.406418, 0.6174672)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:forearm.R_014")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.21165137, -0.10571394, 0.013405842, 0.9715187, 0.45, 1, 0.5130797, 0.05449526, -0.5469345, 0.659274, 1.35, 1, -0.5611369, -0.16783662, 0.7999751, -0.13036898, 1.6, 1, -0.5611369, -0.16783662, 0.7999751, -0.13036898)
+
+[sub_resource type="Animation" id="Animation_1feeh"]
+length = 1.8
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:upper_arm.R_013")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.07339887, -0.6694559, 0.406418, 0.6174672, 0.8, 1, -0.16572246, -0.6735585, 0.441615, 0.56906176, 1.8, 1, -0.27572343, -0.6674873, 0.47732565, 0.50059724)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyVisual/CharacterModel/Sketchfab_model/de8d3af3f2ef40fcae709f7a4aa579d3_fbx/RootNode/low poly base mesh/Object_4/Skeleton3D:forearm.R_014")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.5611369, -0.16783662, 0.7999751, -0.13036898, 0.8, 1, 0.5130797, 0.05449526, -0.5469345, 0.659274, 1.8, 1, 0.21165137, -0.10571394, 0.013405842, 0.9715187)
+
+[resource]
+_data = {
+&"carry": SubResource("Animation_4lhdf"),
+&"pickup": SubResource("Animation_hqyhk"),
+&"place": SubResource("Animation_1feeh")
+}

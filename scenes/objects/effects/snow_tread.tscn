@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" path="res://assets/environments/snow/tread.svg" id="1"]
 
 [node name="Tread" type="Decal"]
-size = Vector3(0.65, 0.4, 1.1)
+size = Vector3(0.45, 0.4, 0.75)
 texture_albedo = ExtResource("1")
 upper_fade = 0.15
 lower_fade = 0.15

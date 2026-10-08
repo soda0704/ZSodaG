@@ -13,6 +13,7 @@ const FLICKER_VISIBILITY = [false, true, false, true, false]
 
 @export var starts_available: bool = false
 @export var starts_enabled: bool = false
+@export var rig_attached := false
 
 @export_group("Battery")
 @export_range(1.0, 1800.0, 1.0) var battery_duration_seconds: float = 180.0
@@ -59,24 +60,14 @@ var _equip_offset: float = 0.0
 var _battery_tween: Tween
 var _battery_pose: float = 0.0
 var _replacement_cell: MeshInstance3D
+var rig_animator: Node
 
 
 func _ready() -> void:
 	_rest_position = position
 	_rest_rotation = rotation
 	prepare_lens_material()
-	_replacement_cell = MeshInstance3D.new()
-	var cell_mesh := CylinderMesh.new()
-	cell_mesh.top_radius = 0.012
-	cell_mesh.bottom_radius = 0.012
-	cell_mesh.height = 0.065
-	_replacement_cell.mesh = cell_mesh
-	var cell_material := StandardMaterial3D.new()
-	cell_material.albedo_color = Color("456e48")
-	cell_material.metallic = 0.4
-	_replacement_cell.material_override = cell_material
-	add_child(_replacement_cell)
-	_replacement_cell.hide()
+	_replacement_cell = $ReplacementCell
 	malfunction_timer.timeout.connect(begin_malfunction)
 	flicker_timer.timeout.connect(play_next_flicker_step)
 	battery_charge = clampf(starts_battery_charge, 0.0, 1.0)
@@ -151,6 +142,12 @@ func set_available(value: bool, should_emit_signal: bool = true) -> void:
 
 
 func set_equipped(value: bool) -> void:
+	if rig_attached:
+		_equipped = value
+		set_available(value,false)
+		position = Vector3.ZERO
+		rotation = Vector3.ZERO
+		return
 	if value == _equipped:
 		# Recover visibility if a stale stow/availability update hid an equipped light.
 		if value and (not is_available or not visible):
@@ -187,6 +184,9 @@ func _set_equip_offset(value: float) -> void:
 
 
 func play_battery_action() -> void:
+	if rig_attached:
+		if _equipped and rig_animator != null: rig_animator.weapon_battery_action(&"flashlight")
+		return
 	if not _equipped:
 		return
 	if _battery_tween != null and _battery_tween.is_valid():
@@ -322,6 +322,7 @@ func apply_light_output(value: bool) -> void:
 
 
 func add_look_impulse(mouse_delta: Vector2) -> void:
+	if rig_attached: return
 	if not is_available:
 		return
 
@@ -349,6 +350,7 @@ func update_motion(
 	is_grounded: bool,
 	is_sprinting: bool
 ) -> void:
+	if rig_attached: return
 	if not is_available:
 		return
 

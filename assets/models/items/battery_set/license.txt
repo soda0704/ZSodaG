@@ -1,0 +1,11 @@
+Model Information:
+* title:	Battery / Rechargeable Battery Set
+* source:	https://sketchfab.com/3d-models/battery-rechargeable-battery-set-5057a677e4064bb99e5257119f0ef1c8
+* author:	BlackCube (https://sketchfab.com/blackcube4)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Battery / Rechargeable Battery Set" (https://sketchfab.com/3d-models/battery-rechargeable-battery-set-5057a677e4064bb99e5257119f0ef1c8) by BlackCube (https://sketchfab.com/blackcube4) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -12,5 +12,7 @@ linear_damp = 0.45
 angular_damp = 1.4
 script = ExtResource("1")
 
+metadata/impact_surface = &"metal"
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("shape")

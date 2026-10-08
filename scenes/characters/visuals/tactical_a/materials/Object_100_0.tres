@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/Head_baseColor.png" id="1_inc8v"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/Head_metallicRoughness.png" id="2_v0p5v"]
+[ext_resource type="Texture2D" path="res://assets/characters/tactical_a/textures/Head_normal.png" id="3_rgl2w"]
+
+[resource]
+resource_name = "Head"
+cull_mode = 2
+albedo_texture = ExtResource("1_inc8v")
+metallic = 1.0
+metallic_texture = ExtResource("2_v0p5v")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_v0p5v")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_rgl2w")
+ao_enabled = true
+ao_texture = ExtResource("2_v0p5v")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0

@@ -25,7 +25,8 @@ func run() -> void:
 	audio.play_cue(&"flashlight_on")
 	check(pickup.playing and flashlight.playing and pickup.bus == &"Effects", "interaction cues play on independently adjustable effects bus")
 	check(player.weapon.get_node("ShotAudio").volume_db <= -28.0 and player.weapon.get_node("ShotAudio").bus == &"Weapons", "gunshots substantially reduced and independently routed")
-	check(audio.recovery_volume_db == -20 and audio.calm_volume_db == -30, "recovery breathing quieter while calm breathing unchanged")
+	check(audio.recovery_volume_db == -23 and audio.carrying_volume_db == -25 and audio.calm_volume_db == -30, "recovery and exertion breathing quieter while calm breathing unchanged")
+	check(pickup.volume_db == -17,"pickup is quieter without changing its positional routing")
 	var menu = root.get_node("GameMenu")
 	var mixer: AudioMixController = menu.audio_mix
 	mixer.set_process(false)
@@ -63,6 +64,7 @@ func run() -> void:
 	check(vehicle._idle_audio.playing and vehicle._idle_audio.volume_db > -13.0, "steady idle remains audible without silence after startup")
 	vehicle._speed = vehicle.max_speed
 	vehicle._update_engine_audio(2.0)
+	check(vehicle.engine_driving_volume_db == -20 and vehicle.snow_contact_volume_db == -23,"driving and snow contact layers are slightly louder")
 	check(vehicle._idle_audio.playing and vehicle._loop_audio.playing and vehicle._loop_audio.volume_db < vehicle._idle_audio.volume_db - 8, "driving keeps idle tone as main bed with quiet low-pitched layer")
 	check(vehicle._loop_audio.pitch_scale < 0.8 and vehicle._idle_audio.pitch_scale < 1.15, "drive timbre softened and idle pitch changes gently")
 	vehicle._receive_state(vehicle.global_transform, 2, player.owner_peer_id, 0, 1.5)

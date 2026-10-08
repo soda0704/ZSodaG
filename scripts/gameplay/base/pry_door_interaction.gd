@@ -4,6 +4,14 @@ var manager: Node
 var door: Dictionary
 var busy := false
 
+func resolve_bullet_hit(origin:Vector3,end:Vector3,fallback:Dictionary) -> Dictionary:
+	if door.is_empty(): return fallback
+	var query:=PhysicsRayQueryParameters3D.create(origin,end,17,[get_rid()])
+	var precise:=get_world_3d().direct_space_state.intersect_ray(query)
+	if not precise.is_empty() and door.visual.is_ancestor_of(precise.collider):
+		return precise
+	return fallback
+
 func get_interaction_prompt() -> String:
 	if busy:
 		return "Вскрытие…"

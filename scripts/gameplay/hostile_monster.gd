@@ -1,7 +1,10 @@
 extends CharacterBody3D
 
-var monster_id: int = 0
-var model_id: String = "the_monster"
+@export_group("Creature")
+@export_range(0, 2) var monster_id: int = 0
+@export_storage var model_id: String = "the_monster"
+@export var ai_profile: MonsterAIProfile
+@export_range(0.1, 3.0) var eye_height := 1.45
 var encounter: Node
 var health: float = 100.0
 var visual: MonsterVisual
@@ -29,28 +32,23 @@ var _last_seen := Vector3.ZERO
 var _patrol_left := 0.0
 var _patrol_goal := Vector3.ZERO
 var _sight_left := 0.0
+var _retreat_left := 0.0
+var _visual_rest_transform := Transform3D.IDENTITY
 
 func _ready() -> void:
 	add_to_group("hostile_monsters")
-	add_child(preload("res://scenes/objects/monster_audio.tscn").instantiate())
+	if ai_profile == null:
+		push_error("Monster: assign an AI profile in Inspector")
+		set_physics_process(false)
+		return
 	if debug_spawned:
 		add_to_group("debug_spawned_monsters")
-	collision_layer = 2
-	collision_mask = 3
-	var shape := CollisionShape3D.new()
-	var capsule := CapsuleShape3D.new()
-	capsule.radius = 0.4
-	capsule.height = 1.1 if monster_id == 2 else 1.9
-	shape.shape = capsule
-	shape.position.y = capsule.height * 0.5
-	add_child(shape)
-	visual = preload("res://scripts/gameplay/monster_visual.gd").new()
-	add_child(visual)
-	visual.setup(model_id, 2.25 if monster_id == 0 else 1.15 if monster_id == 2 else 1.95)
-	agent = NavigationAgent3D.new()
-	agent.path_desired_distance = 0.35
-	agent.target_desired_distance = 1.3
-	add_child(agent)
+		debug_health = ai_profile.max_health
+	health = ai_profile.max_health
+	visual = $Visual
+	visual.setup(model_id)
+	_visual_rest_transform = visual.transform
+	agent = $NavigationAgent3D
 	_home = global_position
 	_patrol_goal = _home
 	_target_position = position
@@ -104,20 +102,29 @@ func _physics_process(delta: float) -> void:
 			_windup = maxf(0.0, _windup - delta)
 			velocity.x = 0
 			velocity.z = 0
-			if _windup == 0.0 and is_instance_valid(_victim) and not _victim.survival.dead and _can_reach(_victim, 2.0):
-				_victim.survival.damage(24.0 if monster_id == 0 else 18.0, "Атака существа")
+			if _windup == 0.0 and is_instance_valid(_victim) and not _victim.survival.dead and _can_reach(_victim, ai_profile.attack_reach):
+				_victim.survival.damage(ai_profile.attack_damage, "Атака существа")
+				if ai_profile.behavior == MonsterAIProfile.Behavior.SKIRMISHER:
+					_retreat_left = ai_profile.retreat_duration
+		elif target != null and _retreat_left > 0.0:
+			_retreat_left = maxf(0.0, _retreat_left - delta)
+			var away := global_position - target.global_position
+			away.y = 0.0
+			var direction := away.normalized() if away.length() < ai_profile.retreat_distance and _can_reach(target, ai_profile.retreat_distance) else Vector3.ZERO
+			velocity.x = direction.x * ai_profile.chase_speed
+			velocity.z = direction.z * ai_profile.chase_speed
 		elif target != null:
 			var offset := _last_seen - global_position
-			if offset.length() < 1.65 and _attack_left <= 0.0 and _can_reach(target, 1.8):
+			if offset.length() < ai_profile.attack_distance and _attack_left <= 0.0 and _can_reach(target, ai_profile.attack_reach):
 				_victim = target
-				_windup = 0.5
-				_attack_left = 1.6
+				_windup = ai_profile.attack_windup
+				_attack_left = maxf(ai_profile.attack_cooldown, ai_profile.attack_windup)
 			_path_time -= delta
 			if _path_time <= 0.0:
-				_path_time = 0.3
+				_path_time = ai_profile.path_update_interval
 				agent.target_position = _last_seen
 			var direction := Vector3.ZERO
-			if offset.length() > 1.4:
+			if offset.length() > ai_profile.stop_distance:
 				direction = offset
 				var level_three_y: float = encounter.get_parent().to_global(Vector3(0, -54, 0)).y
 				if encounter.navigation_ready and absf(global_position.y - level_three_y) < 4.0 and not agent.is_navigation_finished():
@@ -126,15 +133,15 @@ func _physics_process(delta: float) -> void:
 						direction = nav_direction
 				direction.y = 0
 				direction = direction.normalized()
-			velocity.x = direction.x * (2.2 if monster_id == 0 else 2.7)
-			velocity.z = direction.z * (2.2 if monster_id == 0 else 2.7)
+			velocity.x = direction.x * ai_profile.chase_speed
+			velocity.z = direction.z * ai_profile.chase_speed
 			if offset.length() > 0.01:
-				rotation.y = lerp_angle(rotation.y, atan2(-offset.x, -offset.z), minf(delta * 6, 1.0))
+				rotation.y = lerp_angle(rotation.y, atan2(-offset.x, -offset.z), minf(delta * ai_profile.turn_speed, 1.0))
 		else:
 			_patrol_left -= delta
 			if _patrol_left <= 0.0:
-				_patrol_left = randf_range(5.0, 10.0)
-				var candidate := _home + Vector3(randf_range(-8.0, 8.0), 0, randf_range(-8.0, 8.0))
+				_patrol_left = randf_range(ai_profile.patrol_interval_min, maxf(ai_profile.patrol_interval_min, ai_profile.patrol_interval_max))
+				var candidate := _home + Vector3(randf_range(-ai_profile.patrol_radius, ai_profile.patrol_radius), 0, randf_range(-ai_profile.patrol_radius, ai_profile.patrol_radius))
 				if encounter.navigation_ready:
 					_patrol_goal = NavigationServer3D.map_get_closest_point(agent.get_navigation_map(), candidate)
 					if absf(_patrol_goal.y - _home.y) > 3.0:
@@ -146,12 +153,12 @@ func _physics_process(delta: float) -> void:
 			if encounter.navigation_ready and not agent.is_navigation_finished():
 				direction = agent.get_next_path_position() - global_position
 			direction.y = 0.0
-			if direction.length() < 0.7:
+			if direction.length() < ai_profile.patrol_stop_distance:
 				direction = Vector3.ZERO
 			else:
 				direction = direction.normalized()
-			velocity.x = direction.x * 0.8
-			velocity.z = direction.z * 0.8
+			velocity.x = direction.x * ai_profile.patrol_speed
+			velocity.z = direction.z * ai_profile.patrol_speed
 			if not direction.is_zero_approx():
 				rotation.y = lerp_angle(rotation.y, atan2(-direction.x, -direction.z), minf(delta * 3.0, 1.0))
 		if not is_on_floor():
@@ -177,45 +184,55 @@ func _can_reach(target: Node3D, reach: float) -> bool:
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 
 func hear_noise(source: Node3D, point: Vector3, radius: float) -> void:
-	if not multiplayer.is_server() or health <= 0.0 or not is_instance_valid(source):
+	if not ai_profile.hearing_enabled or not multiplayer.is_server() or health <= 0.0 or not is_instance_valid(source):
+		return
+	radius *= ai_profile.hearing_multiplier
+	if radius <= 0.0:
 		return
 	# Do not lure actors between vertically stacked levels through the ceiling.
-	if absf(point.y - global_position.y) > 4.0 or global_position.distance_to(point) > radius:
+	if absf(point.y - global_position.y) > ai_profile.vertical_awareness or global_position.distance_to(point) > radius:
 		return
 	var ray := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, point + Vector3.UP, 1, [get_rid()])
-	if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty() and global_position.distance_to(point) > radius * 0.55:
+	if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty() and global_position.distance_to(point) > radius * ai_profile.occluded_hearing_multiplier:
 		return
 	# Hearing must not overwrite a target currently in clear view.
 	if is_instance_valid(_alert_target) and _can_see(_alert_target):
 		return
 	_alert_target = source
 	_last_seen = point
-	_awareness = 8.0
+	_awareness = ai_profile.hearing_memory
 	_path_time = 0.0
 
 func _find_target(delta: float) -> Node3D:
 	_awareness = maxf(0.0, _awareness - delta)
 	_sight_left -= delta
 	if _sight_left <= 0.0:
-		_sight_left = 0.15
-		var candidate: Node3D = encounter.closest_player(global_position, _can_see)
+		_sight_left = ai_profile.sight_interval
+		var candidate: Node3D = encounter.closest_player(global_position, _can_see, ai_profile.sight_distance, ai_profile.vertical_awareness)
 		if candidate != null:
 			_alert_target = candidate
 			_last_seen = candidate.global_position
-			_awareness = 12.0
+			_awareness = ai_profile.sight_memory
 	if _awareness <= 0.0 or not is_instance_valid(_alert_target) or _alert_target.survival.dead:
 		_alert_target = null
+	if is_instance_valid(_alert_target) and ai_profile.behavior == MonsterAIProfile.Behavior.TERRITORIAL:
+		if _last_seen.distance_to(_home) > ai_profile.territory_radius or global_position.distance_to(_home) > ai_profile.territory_radius:
+			_alert_target = null
+			_awareness = 0.0
+			_patrol_goal = _home
+			_patrol_left = ai_profile.patrol_interval_min
 	return _alert_target
 
 func _can_see(target: Node3D) -> bool:
-	var eye := global_position + Vector3.UP * (1.45 if monster_id != 2 else 0.75)
+	if not ai_profile.sight_enabled: return false
+	var eye := global_position + Vector3.UP * eye_height
 	var target_point := target.global_position + Vector3.UP
 	var offset := target_point - eye
 	var distance := offset.length()
-	if distance > 28.0:
+	if distance > ai_profile.sight_distance:
 		return false
 	var forward := -global_basis.z
-	if distance > 3.0 and forward.dot(offset.normalized()) < cos(deg_to_rad(58.0)):
+	if distance > ai_profile.close_awareness_distance and forward.dot(offset.normalized()) < cos(deg_to_rad(ai_profile.field_of_view * 0.5)):
 		return false
 	var query := PhysicsRayQueryParameters3D.create(eye, target_point, 1, [get_rid()])
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
@@ -225,7 +242,7 @@ func apply_weapon_damage(amount: float) -> void:
 		_alert_target = encounter.closest_player(global_position)
 		if is_instance_valid(_alert_target):
 			_last_seen = _alert_target.global_position
-			_awareness = 12.0
+			_awareness = ai_profile.sight_memory
 		if amount > 0.0:
 			_blood.rpc()
 		if debug_spawned:
@@ -281,8 +298,7 @@ func reset_enemy() -> void:
 		else:
 			corpse.queue_free()
 		corpse = null
-	visual.rotation = Vector3(0, PI, 0)
-	visual.position = Vector3.ZERO
+	visual.transform = _visual_rest_transform
 	visual.death_time = 0
 	death_elapsed = 0
 	_death_started = false
@@ -290,6 +306,12 @@ func reset_enemy() -> void:
 	collision_layer = 2
 	global_transform = Transform3D(Basis.IDENTITY, _home)
 	velocity = Vector3.ZERO
+	_awareness = 0.0
+	_alert_target = null
+	_victim = null
+	_windup = 0.0
+	_retreat_left = 0.0
+	_attack_left = 0.0
 
 @rpc("authority", "call_remote", "unreliable_ordered", 3)
 func _sync(next_position: Vector3, yaw: float, moving: bool, windup: float) -> void:

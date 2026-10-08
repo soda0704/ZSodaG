@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/medical_corpse.gd" id="1_cl2bf"]
+[ext_resource type="PackedScene" path="res://assets/models/lewis_corpse/scene.gltf" id="2_qhyja"]
+[ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/lewis.tscn" id="3_lm3sa"]
+[ext_resource type="Script" path="res://scripts/gameplay/skeletal_ragdoll.gd" id="4_cu7i7"]
+[ext_resource type="Script" path="res://scripts/gameplay/items/pickup_interaction_area.gd" id="5_mturb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_utg3b"]
+radius = 0.6
+height = 1.2
+
+[sub_resource type="Animation" id="Animation_ptamo"]
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(":action_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.2, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.1, 0.88, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LiftOffset:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.88, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.3, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kn4ar"]
+length = 1.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(":action_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45, 1.35, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.1, 0.88, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LiftOffset:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.99, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.15, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y6i0i"]
+_data = {
+&"pickup": SubResource("Animation_ptamo"),
+&"place": SubResource("Animation_kn4ar")
+}
+
+[node name="MedicalCorpse" type="Node3D" unique_id=916840569]
+script = ExtResource("1_cl2bf")
+
+[node name="Model" type="Node3D" parent="." unique_id=2077845646 instance=ExtResource("2_qhyja")]
+
+[node name="Ragdoll" type="Node3D" parent="." unique_id=1219748739 instance=ExtResource("3_lm3sa")]
+script = ExtResource("4_cu7i7")
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1886762001]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("5_mturb")
+
+[node name="@CollisionShape3D@146" type="CollisionShape3D" parent="InteractionArea" unique_id=1837679710]
+shape = SubResource("CapsuleShape3D_utg3b")
+
+[node name="LiftOffset" type="Node3D" parent="." unique_id=770505785]
+
+[node name="ActionAnimation" type="AnimationPlayer" parent="." unique_id=555632020]
+libraries/ = SubResource("AnimationLibrary_y6i0i")

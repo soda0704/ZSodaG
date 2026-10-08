@@ -313,6 +313,7 @@ static func compute_source_identity() -> String:
 	var paths: Array[String] = ["res://project.godot", "res://game_actions_480.vdf"]
 	_collect_identity_paths("res://scripts", paths)
 	_collect_identity_paths("res://scenes", paths)
+	_collect_identity_paths("res://assets/config/characters", paths)
 	paths.sort()
 	var context := HashingContext.new()
 	context.start(HashingContext.HASH_SHA256)

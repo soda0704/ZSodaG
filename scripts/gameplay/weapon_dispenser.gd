@@ -10,7 +10,7 @@ func _ready() -> void:
 	box.size = Vector3(0.65, 0.6, 0.9)
 	shape.shape = box
 	add_child(shape)
-	var model := (load("res://assets/models/weapons/%s.glb" % item_type) as PackedScene).instantiate()
+	var model := (WeaponController.MODEL_SCENES[item_type] as PackedScene).instantiate()
 	add_child(model)
 	model.rotation_degrees = Vector3(0, 90, -20)
 	var plate := MeshInstance3D.new()

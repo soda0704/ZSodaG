@@ -13,7 +13,7 @@ func setup_spawn(data: Dictionary) -> void:
 	if not normalized_data.has("item_state"):
 		normalized_data["item_state"] = {
 			"battery_charge": clampf(
-				float(normalized_data.get("battery_charge", 1.0)),
+				float(normalized_data.get("battery_charge", item_state.get("battery_charge", 1.0))),
 				0.0,
 				1.0
 			),
