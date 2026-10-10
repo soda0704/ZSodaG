@@ -329,6 +329,17 @@ func get_settings_path() -> String:
 	return local_app_data.path_join(SETTINGS_DIRECTORY).path_join(SETTINGS_FILE)
 
 
+func get_character_variant_id() -> int:
+	return clampi(int(_settings_data.get("CharacterVariant", 0)), 0, 1)
+
+
+func set_character_variant_id(variant_id: int) -> void:
+	if variant_id not in [0, 1]:
+		return
+	_settings_data["CharacterVariant"] = variant_id
+	save_settings_data()
+
+
 func load_settings_data() -> Dictionary:
 	var defaults := {
 		"Resolution": "1920x1080",
@@ -345,6 +356,7 @@ func load_settings_data() -> Dictionary:
 		"BreathingVolume": 100.0,
 		"RoomReverb": 50.0,
 		"MouseSensitivity": 1.0,
+		"CharacterVariant": 0,
 	}
 	var path := get_settings_path()
 	if not FileAccess.file_exists(path):

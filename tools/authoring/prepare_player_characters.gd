@@ -3,7 +3,7 @@ extends SceneTree
 
 const OUT := "res://scenes/characters/visuals/"
 const TURN := Basis(Vector3.UP, PI)
-const AnimationAuthor := preload("res://tools/authoring/character_animation_author.gd")
+const AnimationAuthor := preload("res://tools/authoring/presentation_animation_author.gd")
 var sources: Dictionary = {}
 var models: Dictionary = {}
 
@@ -25,7 +25,9 @@ func load_source(id: String) -> Dictionary:
 	var instance: Node3D = load("res://assets/characters/tactical_%s/scene.gltf" % id).instantiate()
 	root.add_child(instance)
 	var rig: Skeleton3D = instance.find_children("*", "Skeleton3D", true, false)[0]
-	var meshes: Array = instance.find_children("*", "MeshInstance3D", true, false).filter(func(mesh): return mesh.skin != null)
+	var all_meshes: Array = instance.find_children("*", "MeshInstance3D", true, false)
+	var meshes: Array = all_meshes.filter(func(mesh): return mesh.skin != null)
+	var rigid_meshes: Array = all_meshes.filter(func(mesh): return mesh.skin == null)
 	var skin: Skin = meshes[0].skin
 	var bind_by_bone: Dictionary = {}
 	for i in skin.get_bind_count():
@@ -60,7 +62,7 @@ func load_source(id: String) -> Dictionary:
 		rests.append(transform)
 		names.append(bone_name(rig.get_bone_name(i)))
 	var animation_player: AnimationPlayer = instance.find_children("*", "AnimationPlayer", true, false)[0]
-	return {"instance": instance, "rig": rig, "meshes": meshes, "skin": skin, "normalization": normalization, "rests": rests, "names": names, "player": animation_player, "clip": animation_player.get_animation(animation_player.get_animation_list()[0])}
+	return {"instance": instance, "rig": rig, "meshes": meshes, "rigid_meshes": rigid_meshes, "local_scale": local_scale, "skin": skin, "normalization": normalization, "rests": rests, "names": names, "player": animation_player, "clip": animation_player.get_animation(animation_player.get_animation_list()[0])}
 
 func make_rig(source: Dictionary, scene: Node3D) -> Skeleton3D:
 	var rig := Skeleton3D.new()
@@ -78,27 +80,144 @@ func native_skin(rig: Skeleton3D) -> Skin:
 	for i in rig.get_bone_count(): skin.add_bind(i, rig.get_bone_global_rest(i).affine_inverse())
 	return skin
 
-func repair_accessory(arrays: Array, label: String, source: Dictionary) -> void:
-	# The Sketchfab A export contains a detached head/visor and a glove object
-	# in an unrelated object space. The source archives remain untouched.
+func fit_geometry(arrays: Array, size: Vector3, center: Vector3) -> void:
 	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
 	var bounds := AABB(vertices[0], Vector3.ZERO)
 	for vertex in vertices: bounds = bounds.expand(vertex)
-	var target := bounds.get_center()
-	var scale_factor := 1.0
+	var scale := size / bounds.size
+	var basis := Basis.from_scale(scale)
+	var normal_basis := basis.inverse().transposed()
+	for i in vertices.size(): vertices[i] = basis * (vertices[i] - bounds.get_center()) + center
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	for i in normals.size(): normals[i] = (normal_basis * normals[i]).normalized()
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	var tangents: PackedFloat32Array = arrays[Mesh.ARRAY_TANGENT]
+	for i in tangents.size() / 4:
+		var tangent := (basis * Vector3(tangents[i*4], tangents[i*4+1], tangents[i*4+2])).normalized()
+		tangents[i*4] = tangent.x; tangents[i*4+1] = tangent.y; tangents[i*4+2] = tangent.z
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+
+func attach_to_head(arrays: Array, source: Dictionary) -> void:
+	# Caps, lenses and headset frames are rigid. Neck/arm/terminal weights
+	# from the exports otherwise pull them away when looking or crouching.
+	var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+	var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+	for slot in bones.size():
+		bones[slot] = source.names.find("Head")
+		weights[slot] = 1.0 if slot % 4 == 0 else 0.0
+	arrays[Mesh.ARRAY_BONES] = bones
+	arrays[Mesh.ARRAY_WEIGHTS] = weights
+
+func fit_shoulder_straps(arrays: Array, source: Dictionary) -> void:
+	# Seat the upper straps on the actual jacket/pads and borrow the supporting
+	# triangle's skin weights. Matching only rest-space height clips during crouch.
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+	var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+	var supports: Array = []
+	for mesh: MeshInstance3D in source.meshes:
+		if mesh.get_active_material(0).resource_name not in ["jumpsuit", "ShoulderPads"]: continue
+		var data := mesh.mesh.surface_get_arrays(0)
+		var points: PackedVector3Array = data[Mesh.ARRAY_VERTEX]
+		for i in points.size(): points[i] = source.normalization * points[i]
+		data[Mesh.ARRAY_VERTEX] = points
+		supports.append({"mesh": mesh, "arrays": data})
+	for vertex in vertices.size():
+		var point := vertices[vertex]
+		if point.y < 1.46: continue
+		var top := -INF
+		var support: Dictionary = {}
+		var triangle := Vector3i.ZERO
+		var hit_point := Vector3.ZERO
+		for entry in supports:
+			var data: Array = entry.arrays
+			var points: PackedVector3Array = data[Mesh.ARRAY_VERTEX]
+			var indices: PackedInt32Array = data[Mesh.ARRAY_INDEX]
+			for face in range(0, indices.size(), 3):
+				var ids := Vector3i(indices[face], indices[face+1], indices[face+2])
+				var hit: Variant = Geometry3D.segment_intersects_triangle(Vector3(point.x, 1.8, point.z), Vector3(point.x, 1.3, point.z), points[ids.x], points[ids.y], points[ids.z])
+				if hit != null and hit.y > top:
+					top = hit.y; hit_point = hit; support = entry; triangle = ids
+		if support.is_empty() or point.y > top + 0.025: continue
+		vertices[vertex].y = maxf(point.y, top + 0.006)
+		var data: Array = support.arrays
+		var p: PackedVector3Array = data[Mesh.ARRAY_VERTEX]
+		var edge0 := p[triangle.y] - p[triangle.x]
+		var edge1 := p[triangle.z] - p[triangle.x]
+		var delta := hit_point - p[triangle.x]
+		var denominator := edge0.length_squared() * edge1.length_squared() - pow(edge0.dot(edge1), 2)
+		var v := (edge1.length_squared() * delta.dot(edge0) - edge0.dot(edge1) * delta.dot(edge1)) / denominator
+		var w := (edge0.length_squared() * delta.dot(edge1) - edge0.dot(edge1) * delta.dot(edge0)) / denominator
+		var barycentric := Vector3(1.0 - v - w, v, w)
+		var blended := {}
+		for corner in 3:
+			for slot in 4:
+				var at := triangle[corner] * 4 + slot
+				var bone: int = source.rig.find_bone(support.mesh.skin.get_bind_name(data[Mesh.ARRAY_BONES][at]))
+				blended[bone] = blended.get(bone, 0.0) + maxf(0.0, barycentric[corner]) * data[Mesh.ARRAY_WEIGHTS][at]
+		var strongest := blended.keys()
+		strongest.sort_custom(func(a, b): return blended[a] > blended[b])
+		var total := 0.0
+		for slot in mini(4, strongest.size()): total += blended[strongest[slot]]
+		for slot in 4:
+			bones[vertex*4+slot] = strongest[slot] if slot < strongest.size() else 0
+			weights[vertex*4+slot] = blended[strongest[slot]] / total if slot < strongest.size() else 0.0
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_BONES] = bones
+	arrays[Mesh.ARRAY_WEIGHTS] = weights
+
+func repair_accessory(arrays: Array, label: String, part_name: String, source: Dictionary) -> void:
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var bounds := AABB(vertices[0], Vector3.ZERO)
+	for vertex in vertices: bounds = bounds.expand(vertex)
 	if source == sources.a:
 		if label == "Head":
-			target = Vector3(0, 1.67, -0.015)
-			scale_factor = 0.235 / bounds.size.y
-		elif label == "Material.001": target = Vector3(0,1.745,-0.015)
-		elif label == "material": target = Vector3(0, 1.69, -0.105)
+			fit_geometry(arrays, bounds.size * (0.235 / bounds.size.y), Vector3(0, 1.67, -0.015))
+			attach_to_head(arrays, source)
+		elif label == "Material.001":
+			# These are red goggle lenses, not the cap. Use the exact same
+			# transform as their frame, which is part of the Head surface.
+			var head_mesh: MeshInstance3D = source.meshes.filter(func(mesh): return mesh.get_active_material(0).resource_name == "Head")[0]
+			var head_bounds: AABB = source.normalization * head_mesh.mesh.get_aabb()
+			var scale := 0.235 / head_bounds.size.y
+			fit_geometry(arrays, bounds.size * scale, (bounds.get_center() - head_bounds.get_center()) * scale + Vector3(0, 1.67, -0.015))
+			attach_to_head(arrays, source)
+		elif label == "material":
+			# A's exported cap is flattened on Y and Z. Restore its crown and
+			# brim proportions around the fitted head, retaining authored UVs.
+			fit_geometry(arrays, Vector3(0.19, 0.115, 0.27), Vector3(0, 1.76, -0.025))
+			attach_to_head(arrays, source)
+		elif label == "Headphones":
+			fit_geometry(arrays, Vector3(0.21, 0.195, bounds.size.z), Vector3(0, 1.718, -0.0305))
+			attach_to_head(arrays, source)
+		elif part_name == "Object_98":
+			# Align shoulder straps with the suit rather than the base of the
+			# head, and bring the front/back plates onto the torso.
+			fit_geometry(arrays, bounds.size * Vector3(1, 1, 0.9), Vector3(bounds.get_center().x, bounds.get_center().y - 0.09, 0.016))
+			fit_shoulder_straps(arrays, source)
+		elif part_name == "Object_96":
+			fit_geometry(arrays, bounds.size, Vector3(bounds.get_center().x, 1.135, 0.180))
 	else:
-		if label == "GreenCap": target = Vector3(0, 1.79, 0.015)
+		if label == "GreenCap":
+			# Its authored location already fits B. Recentring it raised the
+			# cap above the skull and displaced the brim behind the forehead.
+			attach_to_head(arrays, source)
 		elif label == "HeadphonesT":
-			target = Vector3(0,1.70,0.012)
-			scale_factor = 0.26/bounds.size.y
-	for i in vertices.size(): vertices[i] = (vertices[i] - bounds.get_center()) * scale_factor + target
-	arrays[Mesh.ARRAY_VERTEX] = vertices
+			fit_geometry(arrays, Vector3(0.22, 0.22, bounds.size.z), Vector3(0, 1.712, -0.045))
+			attach_to_head(arrays, source)
+		elif part_name == "Object_101":
+			# The hard knee shells must follow their pad bones as a whole.
+			# The export also blends them with the thigh, stretching the shell
+			# open when the knee bends deeply during crouch.
+			var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+			var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+			for vertex in vertices.size():
+				var bone: int = source.names.find(("Left" if vertices[vertex].x < 0 else "Right") + "_Knee_Pads")
+				for slot in 4:
+					bones[vertex*4+slot] = bone
+					weights[vertex*4+slot] = 1.0 if slot == 0 else 0.0
+			arrays[Mesh.ARRAY_BONES] = bones; arrays[Mesh.ARRAY_WEIGHTS] = weights
 
 func arrays_for(mesh: MeshInstance3D, surface: int, source: Dictionary, target: Dictionary) -> Array:
 	var arrays := mesh.mesh.surface_get_arrays(surface).duplicate(true)
@@ -121,7 +240,7 @@ func arrays_for(mesh: MeshInstance3D, surface: int, source: Dictionary, target: 
 	if source == target:
 		for slot in bone_ids.size(): bone_ids[slot] = source.rig.find_bone(mesh.skin.get_bind_name(bone_ids[slot]))
 		arrays[Mesh.ARRAY_BONES] = bone_ids
-		repair_accessory(arrays, mesh.get_active_material(surface).resource_name, source)
+		repair_accessory(arrays, mesh.get_active_material(surface).resource_name, String(mesh.name), source)
 	else:
 		# Transfer the second supplied model's intact articulated gloves to A.
 		# Bone names, proportions and all finger weights are retained.
@@ -147,7 +266,40 @@ func arrays_for(mesh: MeshInstance3D, surface: int, source: Dictionary, target: 
 		arrays[Mesh.ARRAY_BONES] = bone_ids
 	return arrays
 
-func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
+func cache_rigid_frames(source: Dictionary) -> void:
+	# BoneAttachment transforms update on a frame boundary. Cache the matching
+	# source pose before animation authoring seeks either source rig repeatedly.
+	source.rigid_frames = {}
+	var head: int = source.names.find("Head")
+	var source_head: Transform3D = source.rig.global_transform * source.rig.get_bone_global_pose(head)
+	for mesh: MeshInstance3D in source.rigid_meshes:
+		assert(mesh.get_parent().name == &"Mil_R5_Eye", "Unmapped rigid character part: " + String(mesh.name))
+		source.rigid_frames[mesh.get_instance_id()] = source.rests[head] * Transform3D(Basis.from_scale(Vector3.ONE * source.local_scale), Vector3.ZERO) * source_head.affine_inverse() * mesh.global_transform
+
+func rigid_arrays_for(mesh: MeshInstance3D, surface: int, source: Dictionary) -> Array:
+	# Military's eyes are a rigid child of the source head, not a skinned mesh.
+	var transform: Transform3D = source.rigid_frames[mesh.get_instance_id()]
+	var arrays := mesh.mesh.surface_get_arrays(surface).duplicate(true)
+	for channel in range(Mesh.ARRAY_CUSTOM0, Mesh.ARRAY_CUSTOM3 + 1): arrays[channel] = null
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var tangents: PackedFloat32Array = arrays[Mesh.ARRAY_TANGENT]
+	for i in vertices.size():
+		vertices[i] = transform * vertices[i]
+		normals[i] = (transform.basis.inverse().transposed() * normals[i]).normalized()
+		if tangents.size() > i * 4:
+			var tangent := (transform.basis * Vector3(tangents[i*4], tangents[i*4+1], tangents[i*4+2])).normalized()
+			tangents[i*4] = tangent.x; tangents[i*4+1] = tangent.y; tangents[i*4+2] = tangent.z
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+	var bones := PackedInt32Array(); bones.resize(vertices.size() * 4)
+	var weights := PackedFloat32Array(); weights.resize(vertices.size() * 4)
+	arrays[Mesh.ARRAY_BONES] = bones; arrays[Mesh.ARRAY_WEIGHTS] = weights
+	attach_to_head(arrays, source)
+	return arrays
+
+func save_meshes(id: String, rig: Skeleton3D, scene: Node3D, body_only: bool = false) -> void:
 	var source: Dictionary = sources[id]
 	var full := ArrayMesh.new()
 	var arms := ArrayMesh.new()
@@ -161,10 +313,19 @@ func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
 		for surface in part.mesh.get_surface_count():
 			var arrays := arrays_for(part, surface, input, source)
 			var material := part.get_active_material(surface).duplicate() as StandardMaterial3D
-			if material.resource_name=="Material.001":
-				material.albedo_color = Color(0.075,0.075,0.078)
-				material.metallic = 0.05
-				material.roughness = 0.72
+			if material.resource_name in ["Head", "material"]:
+				material.metallic = 0.0
+				material.roughness = 0.9
+			if material.resource_name == "material":
+				# The cap's packed map contains polished regions; it is cloth,
+				# not metal. Keep its colour/stitching without silver highlights.
+				material.roughness = 0.95
+				material.roughness_texture = null
+				material.metallic_texture = null
+				material.normal_scale = 0.4
+				material.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
+			material.metallic_specular = 0.25
+			if material.resource_name in ["jumpsuit","Mil_Suit_R5","gloves"]: material.roughness = 0.95
 			material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 			material_path(material, id, String(part.name) + "_%d" % surface)
 			full.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
@@ -180,20 +341,25 @@ func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
 					var v := indices[triangle+corner]
 					var arm_weight := 0.0
 					var right_weight := 0.0
+					var pad_weight := 0.0
+					var body_weight := 0.0
 					for slot in 4:
 						var name: String = source.names[arrays[Mesh.ARRAY_BONES][v*4+slot]]
+						if "Elbow_Pads" in name: pad_weight += arrays[Mesh.ARRAY_WEIGHTS][v*4+slot]
+						if "Shoulder" in name or "Head" in name or "Neck" in name or "Spine" in name: body_weight += arrays[Mesh.ARRAY_WEIGHTS][v*4+slot]
 						if "Arm" in name or "Hand" in name or "Shoulder" in name or "Elbow" in name:
 							arm_weight += arrays[Mesh.ARRAY_WEIGHTS][v*4+slot]
 							if name.begins_with("Right"): right_weight += arrays[Mesh.ARRAY_WEIGHTS][v*4+slot]
 					arm_triangle = arm_triangle and arm_weight > 0.48
-					# Keep sleeves and gloves; the deltoid/shoulder belongs to the
-					# world body, not the camera rig. Journal arms remain complete.
+					# Preserve a continuous sleeve through the elbow. Its proximal
+					# cut stays outside the view; shoulder/torso weights are excluded
+					# separately instead of cutting a visible stump at the elbow.
 					var side := "Right" if right_weight > arm_weight*0.5 else "Left"
 					var shoulder: Vector3 = source.rests[source.names.find(side+"Arm")].origin
 					var elbow: Vector3 = source.rests[source.names.find(side+"ForeArm")].origin
 					var upper_arm := elbow-shoulder
 					var along: float = (arrays[Mesh.ARRAY_VERTEX][v]-shoulder).dot(upper_arm.normalized())
-					view_triangle = view_triangle and along > upper_arm.length()*0.30
+					view_triangle = view_triangle and arm_triangle and pad_weight<0.05 and body_weight<=0.10 and along > upper_arm.length()*0.20
 				if arm_triangle:
 					for corner in 3: arm_indices.append(indices[triangle+corner])
 					if view_triangle:
@@ -202,11 +368,20 @@ func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
 				arm_arrays[Mesh.ARRAY_INDEX] = arm_indices
 				arms.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arm_arrays)
 				arms.surface_set_material(arms.get_surface_count()-1, material)
-			if not view_indices.is_empty():
+			if not view_indices.is_empty() and "Pads" not in material.resource_name:
 				var view_arrays := arrays.duplicate(true)
 				view_arrays[Mesh.ARRAY_INDEX] = view_indices
 				view_arms.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,view_arrays)
 				view_arms.surface_set_material(view_arms.get_surface_count()-1,material)
+	for part: MeshInstance3D in source.rigid_meshes:
+		for surface in part.mesh.get_surface_count():
+			var material := part.get_active_material(surface).duplicate() as StandardMaterial3D
+			material.resource_name = "Mil_Suit_R5_Eyes"
+			material.metallic_specular = 0.25
+			material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			material_path(material, id, "Eyes_%d" % surface)
+			full.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, rigid_arrays_for(part, surface, source))
+			full.surface_set_material(full.get_surface_count()-1, material)
 	var directory := OUT + "tactical_" + id + "/"
 	var lod_mesh := ImporterMesh.new()
 	for surface in full.get_surface_count():
@@ -214,6 +389,8 @@ func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
 	lod_mesh.generate_lods(25.0,60.0,[])
 	full = lod_mesh.get_mesh()
 	assert(ResourceSaver.save(full, directory + "body.res") == OK)
+	if body_only:
+		return
 	assert(ResourceSaver.save(arms, directory + "arms.res") == OK)
 	assert(ResourceSaver.save(view_arms, directory + "view_arms.res") == OK)
 	full.take_over_path(directory+"body.res")
@@ -228,13 +405,27 @@ func save_meshes(id: String, rig: Skeleton3D, scene: Node3D) -> void:
 
 func material_path(material: Material, id: String, label: String) -> void:
 	var path := OUT + "tactical_" + id + "/materials/" + label + ".tres"
+	# Unchanged resources do not need rewriting (Windows may hold texture/material
+	# streams open while reviewing). This also avoids unrelated material diffs.
+	if FileAccess.file_exists(path):
+		var existing: StandardMaterial3D=load(path)
+		if existing.metallic==material.metallic and existing.metallic_specular==material.metallic_specular and existing.specular_mode==material.specular_mode and existing.roughness==material.roughness and existing.roughness_texture==material.roughness_texture and existing.albedo_color==material.albedo_color:
+			material.take_over_path(path)
+			return
 	assert(ResourceSaver.save(material, path) == OK)
 	material.take_over_path(path)
 
 func save_scene(scene: Node3D, path: String) -> void:
 	var packed := PackedScene.new()
 	assert(packed.pack(scene) == OK)
-	assert(ResourceSaver.save(packed, path) == OK)
+	var error:=ResourceSaver.save(packed,path)
+	# Windows editor/file watchers occasionally hold a scene open for reading
+	# during asset regeneration. Retry only this transient authoring write.
+	for attempt in 8:
+		if error==OK:break
+		OS.delay_msec(100)
+		error=ResourceSaver.save(packed,path)
+	assert(error==OK)
 
 func equipment(rig: Skeleton3D, scene: Node3D, author: RefCounted, first_person: bool = false) -> void:
 	var hand := BoneAttachment3D.new()
@@ -250,15 +441,21 @@ func equipment(rig: Skeleton3D, scene: Node3D, author: RefCounted, first_person:
 		# Preserve the source ownership: edited meshes are inherited overrides,
 		# not replacement nodes that would orphan the source children on load.
 		scene.set_editable_instance(model,true)
-		model.position = Vector3(0,-0.025,-0.065)
+		model.position = -author.GRIPS["Pistol" if kind=="pistol" else "Rifle"] if kind in ["pistol","m4a1"] else Vector3(0,0.045,-0.075)
 		model.visible = false
 		for mesh in model.find_children("*","MeshInstance3D",true,false):
 			mesh.layers = (1<<19) if first_person else 1|(1<<18)
 			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if first_person else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		var support := Marker3D.new()
-		support.position = Vector3(-0.12,-0.045,-0.12) if kind=="m4a1" else Vector3(-0.045,-0.065,0.005)
-		support.basis = author.hand_basis("Left",0,true)
+		support.position = author.SUPPORTS["Rifle" if kind=="m4a1" else "Pistol"] if kind in ["pistol","m4a1"] else Vector3(-0.045,-0.065,0.005)
+		support.basis = author.support_basis("Rifle" if kind=="m4a1" else "Pistol")
 		own(support,model,scene,"SupportHand")
+		var right_grip := Marker3D.new()
+		right_grip.position = author.GRIPS["Rifle" if kind=="m4a1" else "Pistol"] if kind in ["pistol","m4a1"] else Vector3.ZERO
+		right_grip.basis = author.hand_basis("Right",0,true)
+		own(right_grip,model,scene,"RightHandGrip")
+		var left_grip := support.duplicate()
+		own(left_grip,model,scene,"LeftHandGrip")
 	var lamp: Node3D = load("res://scenes/objects/equipment/mounted_flashlight.tscn").instantiate()
 	own(lamp,equipment_root,scene,"MountedLamp")
 	scene.set_editable_instance(lamp,true)
@@ -277,15 +474,21 @@ func equipment(rig: Skeleton3D, scene: Node3D, author: RefCounted, first_person:
 	muzzle.visible = false
 	for label in ["FlashlightGrip","FuseGrip","FuelGrip"]:
 		var marker := Marker3D.new()
-		marker.position = Vector3(0,-0.065,0.16) if label=="FlashlightGrip" else Vector3(0,-0.293,0) if label=="FuelGrip" else Vector3(0,-0.055,-0.065)
+		marker.position = -author.GRIPS.Flashlight if label=="FlashlightGrip" else Vector3(0,-0.293,0) if label=="FuelGrip" else Vector3(0,-0.055,-0.065)
 		if label=="FuseGrip": marker.rotation.z = PI*0.5
+		if label=="FuelGrip":
+			var compensation: Basis = author.hand_basis("Right",0,true)*author.hand_basis("Right",0,false).inverse()
+			marker.basis=compensation
+			marker.position=compensation*marker.position
 		marker.scale = Vector3.ONE * (0.72 if label=="FuelGrip" else 1.0)
 		own(marker,equipment_root,scene,label)
 	var journal: Node3D = load("res://scenes/ui/journal/book/articulated_journal.tscn").instantiate()
-	own(journal,equipment_root,scene,"Journal")
-	journal.position = Vector3(-0.10,-0.025,-0.02)
-	journal.rotation.x = -0.85
+	own(journal,scene,scene,"Journal")
+	journal.scale=Vector3.ONE*(1.0 if first_person else 0.8)
 	journal.visible = false
+	for side in ["Left","Right"]:
+		var book_grip := Marker3D.new(); book_grip.transform=author.journal_grip(side)
+		own(book_grip,journal,scene,side+"Grip")
 	for mesh in journal.find_children("*","MeshInstance3D",true,false):
 		mesh.layers = (1<<19) if first_person else 1|(1<<18)
 	var left_ik := TwoBoneIK3D.new()
@@ -300,8 +503,19 @@ func equipment(rig: Skeleton3D, scene: Node3D, author: RefCounted, first_person:
 	left_ik.active = false
 	left_ik.influence = 0.0
 	own(left_ik,rig,scene,"SupportHandIK")
-	left_ik.set_target_node(0,left_ik.get_path_to(equipment_root.get_node("m4a1/SupportHand")))
+	left_ik.set_target_node(0,left_ik.get_path_to(equipment_root.get_node("m4a1/LeftHandGrip")))
 	left_ik.set_pole_node(0,left_ik.get_path_to(pole))
+	for side in ["Left","Right"]:
+		var target := Marker3D.new()
+		own(target,rig,scene,side+"WristTarget")
+		if side=="Right":
+			var ik := TwoBoneIK3D.new(); ik.set_setting_count(1)
+			ik.set_root_bone_name(0,"RightArm"); ik.set_middle_bone_name(0,"RightForeArm"); ik.set_end_bone_name(0,"RightHand")
+			ik.set_pole_direction_vector(0,Vector3(0.5,-0.5,0.2))
+			own(ik,rig,scene,"RightGripIK")
+			var right_pole := Marker3D.new(); right_pole.position=Vector3(0.48,1.02,0.08)
+			own(right_pole,scene,scene,"RightElbowPole")
+			ik.set_pole_node(0,ik.get_path_to(right_pole)); ik.set_target_node(0,ik.get_path_to(target)); ik.active=false
 
 func animation_nodes(scene: Node3D, author: RefCounted, library_path: String, first: bool = false) -> void:
 	var animation_player := AnimationPlayer.new()
@@ -323,8 +537,35 @@ func first_person(id: String) -> void:
 	scene.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	root.add_child(scene)
 	var rig := make_rig(sources[id],scene)
+	var source_rests: Array[Transform3D]=[]
+	for bone in rig.get_bone_count(): source_rests.append(rig.get_bone_global_rest(bone))
+	# A view rig has its own sleeve proportions; fingers retain their source rest.
+	for side in ["Left","Right"]:
+		for label in [side+"ForeArm",side+"Hand"]:
+			var bone:=rig.find_bone(label); var rest:=rig.get_bone_rest(bone)
+			rest.origin*=1.26; rig.set_bone_rest(bone,rest)
+	rig.reset_bone_poses()
+	var view_mesh:=ArrayMesh.new()
+	var source_mesh: ArrayMesh=load(directory+"view_arms.res")
+	for surface in source_mesh.get_surface_count():
+		var arrays:=source_mesh.surface_get_arrays(surface)
+		var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+		var normals: PackedVector3Array=arrays[Mesh.ARRAY_NORMAL]
+		for vertex in vertices.size():
+			var point:=Vector3.ZERO; var normal:=Vector3.ZERO
+			for slot in 4:
+				var at:=vertex*4+slot; var bone: int=arrays[Mesh.ARRAY_BONES][at]
+				var transfer:=rig.get_bone_global_rest(bone)*source_rests[bone].affine_inverse()
+				point+=transfer*vertices[vertex]*arrays[Mesh.ARRAY_WEIGHTS][at]
+				normal+=transfer.basis*normals[vertex]*arrays[Mesh.ARRAY_WEIGHTS][at]
+			vertices[vertex]=point; normals[vertex]=normal.normalized()
+		arrays[Mesh.ARRAY_VERTEX]=vertices; arrays[Mesh.ARRAY_NORMAL]=normals
+		view_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+		view_mesh.surface_set_material(surface,source_mesh.surface_get_material(surface))
+	assert(ResourceSaver.save(view_mesh,directory+"view_arms.res")==OK)
+	view_mesh.take_over_path(directory+"view_arms.res")
 	var mesh := MeshInstance3D.new()
-	mesh.mesh = load(directory+"view_arms.res")
+	mesh.mesh = view_mesh
 	mesh.skin = native_skin(rig)
 	mesh.skeleton = NodePath("..")
 	mesh.layers = 1<<19
@@ -333,63 +574,20 @@ func first_person(id: String) -> void:
 	own(mesh,rig,scene,"Arms")
 	var author := AnimationAuthor.new()
 	author.initialize(rig,sources[id],sources)
-	var library := author.build(true)
+	var library := author.build_fp()
 	assert(ResourceSaver.save(library,directory+"first_person_animations.tres") == OK)
 	library.take_over_path(directory+"first_person_animations.tres")
 	animation_nodes(scene,author,directory+"first_person_animations.tres",true)
+	scene.get_node("AnimationTree").tree_root = author.fp_graph()
 	equipment(rig,scene,author,true)
+	var book := scene.get_node("Journal")
+	scene.set_editable_instance(book,true)
+	for book_mesh in book.find_children("*","MeshInstance3D",true,false):
+		book_mesh.layers=1<<19; book_mesh.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	assert(ResourceSaver.save(library,directory+"first_person_animations.tres")==OK)
 	rig.reset_bone_poses()
 	save_scene(scene,directory+"first_person.tscn")
-	# The journal viewport shares the same complete arms and actual finger rig.
-	scene.get_node("AnimationTree").queue_free()
-	scene.get_node("Skeleton3D/RightHand").queue_free()
-	scene.get_node("Skeleton3D/SupportHandIK").queue_free()
-	await process_frame
-	mesh.layers = 1
-	mesh.mesh = load(directory+"arms.res")
-	var journal_library := AnimationLibrary.new()
-	var journal_author := AnimationAuthor.new()
-	journal_author.initialize(rig,sources[id],sources)
-	var journal_ui := root.get_node("QuestJournal")
-	journal_author.add_clip("JournalOpen",1.85,false,func(t): journal_author.journal_view(t,journal_ui))
-	journal_author.add_clip("JournalReading",3.0,true,func(t): journal_author.journal_view(1.85,journal_ui))
-	journal_author.add_clip("JournalClose",1.85,false,func(t): journal_author.journal_view(1.85-t,journal_ui))
-	for name in ["JournalOpen","JournalReading","JournalClose"]:
-		var animation: Animation = journal_author.library.get_animation(name).duplicate(true)
-		for track in range(animation.get_track_count()-1,-1,-1):
-			if not String(animation.track_get_path(track)).begins_with("Skeleton3D:"): animation.remove_track(track)
-		journal_library.add_animation(name,animation)
-	assert(ResourceSaver.save(journal_library,directory+"journal_animations.tres") == OK)
-	journal_library.take_over_path(directory+"journal_animations.tres")
-	var journal_player: AnimationPlayer = scene.get_node("AnimationPlayer")
-	journal_player.remove_animation_library(&"")
-	journal_player.add_animation_library(&"",journal_library)
-	save_scene(scene,directory+"journal_arms.tscn")
 	scene.queue_free()
-
-func migrate_journal_arms() -> void:
-	var journal := root.get_node("QuestJournal")
-	var world: Node3D = journal.get_node("JournalRoot/ModelViewport/SubViewport/World")
-	var hands: Node3D = world.get_node_or_null("Hands")
-	if hands==null:
-		hands = Node3D.new()
-		world.add_child(hands)
-		hands.name = "Hands"
-	hands.owner = journal
-	for child in hands.get_children(): child.queue_free()
-	hands.transform = Transform3D.IDENTITY
-	var player: AnimationPlayer = journal.get_node("PresentationAnimation")
-	player.play("open")
-	player.seek(0.0,true)
-	player.pause()
-	var animation: Animation = player.get_animation("open")
-	for track in range(animation.get_track_count()-1,-1,-1):
-		if "/Hands" in String(animation.track_get_path(track)): animation.remove_track(track)
-	assert(ResourceSaver.save(animation,"res://scenes/ui/journal/journal_presentation_open.tres") == OK)
-	await process_frame
-	var packed := PackedScene.new()
-	assert(packed.pack(journal) == OK)
-	assert(ResourceSaver.save(packed,"res://scenes/ui/quest_journal.tscn") == OK)
 
 func look_modifiers(scene: Node3D, rig: Skeleton3D) -> void:
 	var target := Marker3D.new()
@@ -436,6 +634,8 @@ func ragdoll(id: String, rig: Skeleton3D) -> void:
 		body.continuous_cd = true
 		body.linear_damp = 0.45
 		body.angular_damp = 1.25
+		var contact_material:=PhysicsMaterial.new(); contact_material.friction=0.8; contact_material.bounce=0.0
+		body.physics_material_override=contact_material
 		body.set_meta("bone",part[0]); body.set_meta("end_bone",part[1])
 		own(body,scene,scene,part[0])
 		var shape := CapsuleShape3D.new()
@@ -491,6 +691,35 @@ func run() -> void:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + "tactical_" + id + "/materials/"))
 		sources[id] = load_source(id)
 	await process_frame
+	for data in sources.values(): cache_rigid_frames(data)
+	if "--body-only" in OS.get_cmdline_user_args() or "--world-only" in OS.get_cmdline_user_args() or "--idle-only" in OS.get_cmdline_user_args():
+		for id in ["a", "b"]:
+			var scene := Node3D.new()
+			root.add_child(scene)
+			var rig := make_rig(sources[id], scene)
+			if "--idle-only" in OS.get_cmdline_user_args():
+				var author := AnimationAuthor.new()
+				author.initialize(rig, sources[id], sources)
+				author.add_clip("Idle", 3.0, true, func(t): author.idle(t))
+				var path: String = OUT + "tactical_" + id + "/animations.tres"
+				var library: AnimationLibrary = load(path).duplicate(true)
+				library.remove_animation("Idle")
+				library.add_animation("Idle", author.library.get_animation("Idle"))
+				assert(ResourceSaver.save(library, path) == OK)
+				print("AUTHORED IDLE ", id)
+				scene.queue_free()
+				continue
+			save_meshes(id, rig, scene, true)
+			if "--world-only" in OS.get_cmdline_user_args():
+				var author := AnimationAuthor.new()
+				author.initialize(rig, sources[id], sources)
+				assert(ResourceSaver.save(author.build(), OUT + "tactical_" + id + "/animations.tres") == OK)
+			print("AUTHORED BODY ", id)
+			scene.queue_free()
+		for data in sources.values(): data.instance.queue_free()
+		await process_frame
+		quit()
+		return
 	for id in ["a", "b"]:
 		var scene := Node3D.new()
 		scene.name = "CharacterModel"
@@ -515,6 +744,5 @@ func run() -> void:
 		print("AUTHORED ", id, " bones ", rig.get_bone_count(), " body bounds ", rig.get_node("Body").mesh.get_aabb())
 	for data in sources.values(): data.instance.queue_free()
 	for data in models.values(): data.scene.queue_free()
-	await migrate_journal_arms()
 	await process_frame
 	quit()

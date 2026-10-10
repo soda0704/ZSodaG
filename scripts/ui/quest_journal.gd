@@ -20,8 +20,6 @@ enum PresentationState { CLOSED, OPENING, OPEN, CLOSING }
 @onready var close_hint: Label = $JournalRoot/NotebookPivot/Reveal/Ink/Footer/CloseHint
 @onready var help_panel: PanelContainer = $JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel
 @onready var _quest_card: JournalPhotoCard = $JournalRoot/NotebookPivot/Reveal/Ink/LeftPage/QuestPhotoRow/QuestPhoto
-@onready var _animation: AnimationPlayer = $PresentationAnimation
-@onready var _model_viewport: SubViewport = $JournalRoot/ModelViewport/SubViewport
 @onready var _blocker: Control = $JournalRoot/TransitionBlocker
 var _cards: Dictionary = {}
 var _selected_item: StringName = &""
@@ -30,6 +28,10 @@ var _phase := PresentationState.CLOSED
 var _fit_scale := Vector2.ONE
 var _character_arms: Node3D
 var _arms_variant := -1
+var _ink_viewport: SubViewport
+var _page_surfaces: Array[MeshInstance3D] = []
+var _phase_time := 0.0
+var _last_ink_point := Vector2.ZERO
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -43,17 +45,28 @@ func _ready() -> void:
 	close_button.pressed.connect(close_journal)
 	$JournalRoot/NotebookPivot/Reveal/Ink/Footer/HelpButton.pressed.connect(_toggle_help)
 	$JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel/Content/Dismiss.pressed.connect(_toggle_help)
-	_animation.animation_finished.connect(_animation_finished)
 	get_viewport().size_changed.connect(_layout_book)
 	force_close()
 	_layout_book()
 	call_deferred("_bind_controller")
+	_initialize_book_ui()
 
-func _process(_delta: float) -> void:
-	if _character_arms != null and _phase in [PresentationState.OPENING,PresentationState.CLOSING]:
-		var arms_animation: AnimationPlayer = _character_arms.get_node("AnimationPlayer")
-		arms_animation.seek(_animation.current_animation_position,true)
-		arms_animation.advance(0)
+func _initialize_book_ui() -> void:
+	_ink_viewport=SubViewport.new(); _ink_viewport.name="JournalInkViewport"
+	_ink_viewport.size=Vector2i(1400,986); _ink_viewport.disable_3d=true; _ink_viewport.transparent_bg=true
+	_ink_viewport.handle_input_locally=true; _ink_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
+	add_child(_ink_viewport)
+	notebook_pivot.reparent(_ink_viewport)
+	notebook_pivot.theme=journal_root.theme; notebook_pivot.position=Vector2.ZERO; notebook_pivot.scale=Vector2.ONE; notebook_pivot.pivot_offset=Vector2.ZERO
+	var reveal: Control=notebook_pivot.get_node("Reveal")
+	reveal.position=Vector2.ZERO; reveal.scale=Vector2.ONE; reveal.rotation=0; reveal.modulate=Color.WHITE
+	reveal.get_node("Ink").modulate=Color.WHITE
+	journal_root.get_node("Backdrop").modulate.a=0.12
+
+func _process(delta: float) -> void:
+	if _phase in [PresentationState.OPENING,PresentationState.CLOSING]:
+		_phase_time+=delta
+		if _phase_time>=(0.88 if _phase==PresentationState.OPENING else 0.72): _animation_finished(&"")
 	if not is_instance_valid(_controller):
 		_bind_controller()
 	if _phase == PresentationState.OPEN:
@@ -72,11 +85,12 @@ func _toggle_help() -> void:
 	if _phase != PresentationState.OPEN: return
 	help_panel.visible = not help_panel.visible
 	if help_panel.visible:
-		$JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel/Content/Dismiss.grab_focus()
+		notebook_pivot.get_node("Reveal/Ink/HelpPanel/Content/Dismiss").grab_focus()
 	else:
 		close_button.grab_focus()
 
 func _layout_book() -> void:
+	if _ink_viewport!=null: return
 	var viewport_size := get_viewport().get_visible_rect().size
 	var book_size := notebook_pivot.size
 	var fit := minf((viewport_size.x - screen_margin.x) / book_size.x, (viewport_size.y - screen_margin.y) / book_size.y)
@@ -99,21 +113,19 @@ func open_journal() -> void:
 	if _phase in [PresentationState.OPEN, PresentationState.OPENING]: return
 	if get_tree().get_first_node_in_group("wiring_ui") != null: return
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
-	if player == null or player.survival.dead or get_node("/root/GameMenu").is_menu_open() or player.is_sleeping_in_bunk(): return
-	var position := _animation.current_animation_position if _phase == PresentationState.CLOSING else 0.0
+	if player == null or player.survival.dead or player.is_debug_free_camera_active() or get_node("/root/GameMenu").is_menu_open() or player.is_sleeping_in_bunk(): return
 	_bind_controller()
 	_refresh_content()
 	journal_root.show()
 	help_panel.hide()
 	_blocker.show()
+	_phase_time=0.88*(1-clampf(_phase_time/0.72,0,1)) if _phase==PresentationState.CLOSING else 0.0
 	_phase = PresentationState.OPENING
-	_bind_character_arms(player,position)
+	_bind_character_arms(player)
 	player.request_journal_phase(1)
-	_model_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_ink_viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_layout_book()
-	_animation.play("open")
-	_animation.seek(position, true)
 	_set_player_journal_visuals(true)
 
 func close_journal() -> void:
@@ -121,14 +133,11 @@ func close_journal() -> void:
 	if help_panel.visible:
 		_toggle_help()
 		return
-	var position := _animation.current_animation_position if _phase == PresentationState.OPENING else _animation.get_animation("open").length
+	_phase_time=0.72*(1-clampf(_phase_time/0.88,0,1)) if _phase==PresentationState.OPENING else 0.0
 	_phase = PresentationState.CLOSING
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null: player.request_journal_phase(3)
 	_blocker.show()
-	_model_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	_animation.play("open", -1.0, -closing_speed, true)
-	_animation.seek(position, true)
 
 func _animation_finished(_clip: StringName) -> void:
 	if _phase == PresentationState.CLOSING:
@@ -138,7 +147,6 @@ func _animation_finished(_clip: StringName) -> void:
 		var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 		if player != null: player.request_journal_phase(2)
 		_blocker.hide()
-		_model_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		close_button.grab_focus()
 
 func force_close() -> void:
@@ -146,11 +154,10 @@ func force_close() -> void:
 	_phase = PresentationState.CLOSED
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null and was_open: player.request_journal_phase(0)
-	_animation.stop()
 	journal_root.hide()
 	help_panel.hide()
 	_blocker.hide()
-	_model_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	if _ink_viewport!=null: _ink_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
 	_set_player_journal_visuals(false)
 	if was_open and get_tree().get_first_node_in_group("local_player") != null and not get_node("/root/GameMenu").is_menu_open():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -164,19 +171,59 @@ func _set_player_journal_visuals(open: bool) -> void:
 func is_journal_open() -> bool:
 	return _phase != PresentationState.CLOSED
 
-func _bind_character_arms(player: GamePlayer, time: float = 0.0) -> void:
-	if _arms_variant != player.character_variant_id or not is_instance_valid(_character_arms):
-		if is_instance_valid(_character_arms):
-			_character_arms.hide()
-			_character_arms.queue_free()
-		_character_arms = player.body_animator.variant.journal_arms_scene.instantiate()
-		_model_viewport.get_node("World/Hands").add_child(_character_arms)
-		_arms_variant = player.character_variant_id
-	var animation: AnimationPlayer = _character_arms.get_node("AnimationPlayer")
-	animation.play("JournalOpen")
-	animation.pause()
-	animation.seek(time,true)
-	animation.advance(0)
+func _bind_character_arms(player: GamePlayer) -> void:
+	_character_arms=player.body_animator.first_person_model
+	_arms_variant=player.character_variant_id
+	var book: Node3D=_character_arms.get_node("Journal")
+	_page_surfaces.clear()
+	for side in ["Left","Right"]:
+		var surface: MeshInstance3D=book.get_node_or_null("FrontCoverPivot/InkLeft" if side=="Left" else "InkRight")
+		if surface==null:
+			surface=MeshInstance3D.new(); surface.name="Ink"+side
+			(book.get_node("FrontCoverPivot") if side=="Left" else book).add_child(surface)
+			var quad:=QuadMesh.new(); quad.size=Vector2(0.210,0.303); surface.mesh=quad
+			surface.position=Vector3(0.105,0,-0.0062) if side=="Left" else Vector3(0,0,0.0122)
+			if side=="Left": surface.rotation.y=PI
+			surface.layers=1<<19; surface.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var material:=ShaderMaterial.new(); material.shader=preload("res://assets/shaders/journal_ink.gdshader")
+		material.set_shader_parameter("ink_texture",_ink_viewport.get_texture()); material.set_shader_parameter("atlas_offset",0.0 if side=="Left" else 0.5)
+		surface.material_override=material
+		_page_surfaces.append(surface)
+
+func _input(event: InputEvent) -> void:
+	if _phase!=PresentationState.OPEN or _page_surfaces.is_empty(): return
+	var player:=get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if player==null: return
+	if event is InputEventMouse:
+		var view_camera: Camera3D=player.body_animator.first_person.view_camera
+		var origin:=view_camera.project_ray_origin(event.position)
+		var direction:=view_camera.project_ray_normal(event.position)
+		for i in _page_surfaces.size():
+			var page:=_page_surfaces[i]
+			var inverse:=page.global_transform.affine_inverse()
+			var ray_origin:=inverse*origin; var ray_direction:=inverse.basis*direction
+			if absf(ray_direction.z)<0.0001: continue
+			var distance: float=-ray_origin.z/ray_direction.z
+			if distance<0: continue
+			var hit:=ray_origin+ray_direction*distance
+			var size: Vector2=page.mesh.size
+			if absf(hit.x)>size.x*0.5 or absf(hit.y)>size.y*0.5: continue
+			var uv:=Vector2(hit.x/size.x+0.5,0.5-hit.y/size.y)
+			var point: Vector2=Vector2((uv.x*0.5+i*0.5)*1400,uv.y*986)
+			var forwarded:=event.duplicate() as InputEventMouse
+			forwarded.position=point; forwarded.global_position=point
+			if forwarded is InputEventMouseMotion: forwarded.relative=point-_last_ink_point
+			_last_ink_point=point
+			_ink_viewport.push_input(forwarded,true)
+			get_viewport().set_input_as_handled()
+			return
+		# Release/leave events also reach the UI when the cursor leaves a page.
+		# Otherwise a card can remain pressed after a drag outside the spread.
+		var outside:=event.duplicate() as InputEventMouse
+		outside.position=Vector2(-100,-100); outside.global_position=outside.position
+		_ink_viewport.push_input(outside,true)
+	elif event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey:
+		if not event.is_action_pressed("journal") and not event.is_action_pressed("ui_cancel"): _ink_viewport.push_input(event)
 
 func _bind_controller() -> void:
 	var next := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
@@ -312,7 +359,7 @@ func _refresh_inventory() -> void:
 		inventory_label.text += "\nСкотч: %d · Монтировка: %s" % [int(data.get("tape_count", 0)), "есть" if int(data.get("crowbar_uses", 0)) > 0 else "нет"]
 	close_hint.text = "%s / %s · Закрыть журнал" % [get_node("/root/SteamInput").get_action_hint(&"journal"), get_node("/root/SteamInput").get_action_hint(&"ui_cancel")]
 	if _phase == PresentationState.OPEN:
-		var focused := get_viewport().gui_get_focus_owner()
+		var focused := _ink_viewport.gui_get_focus_owner()
 		if focused == null or not focused.is_visible_in_tree():
 			close_button.grab_focus()
 

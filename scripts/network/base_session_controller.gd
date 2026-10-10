@@ -69,7 +69,6 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 var _initial_items_spawned: bool = false
 var _next_item_id: int = 1
 var _player_roster: Dictionary = {}
-var _host_character_variant := -1
 var _entered_v3_level: bool = false
 var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
@@ -191,13 +190,15 @@ func _on_session_ready(as_host: bool) -> void:
 		if not uses_staging_lobby or CoopLobby.game_has_started:
 			spawn_initial_items()
 	else:
-		_request_player_spawn.rpc_id(1)
+		_request_player_spawn.rpc_id(1, GameMenu.get_character_variant_id())
 		_request_gameplay_state.rpc_id(1)
 
 
 @rpc("any_peer", "call_remote", "reliable")
-func _request_player_spawn() -> void:
+func _request_player_spawn(character_variant: int = 0) -> void:
 	if not multiplayer.is_server():
+		return
+	if character_variant not in [0, 1]:
 		return
 
 	var sender_id := multiplayer.get_remote_sender_id()
@@ -206,7 +207,7 @@ func _request_player_spawn() -> void:
 		await get_tree().process_frame
 	if not multiplayer.get_peers().has(sender_id):
 		return
-	spawn_player_for_peer(sender_id)
+	spawn_player_for_peer(sender_id, character_variant)
 	send_player_roster(sender_id)
 
 
@@ -253,7 +254,7 @@ func _request_v3_runtime_state() -> void:
 		corpse.sync_network_state_to_peer(sender_id)
 
 
-func spawn_player_for_peer(peer_id: int) -> void:
+func spawn_player_for_peer(peer_id: int, selected_variant: int = -1) -> void:
 	if (
 		not multiplayer.is_server()
 		or _player_roster.has(peer_id)
@@ -267,9 +268,9 @@ func spawn_player_for_peer(peer_id: int) -> void:
 		else SteamNetwork.get_peer_persona_name(peer_id)
 	)
 	var spawn_index := get_available_spawn_index()
-	if _host_character_variant < 0:
-		_host_character_variant = randi_range(0,1)
-	var character_variant := _host_character_variant if peer_id==1 else 1-_host_character_variant
+	var character_variant := GameMenu.get_character_variant_id() if peer_id == multiplayer.get_unique_id() else selected_variant
+	if character_variant not in [0, 1]:
+		character_variant = 0
 	var hue := fmod(float(peer_id) * 0.173, 1.0)
 	var spawn_data := {
 		"peer_id": peer_id,
@@ -791,7 +792,6 @@ func _on_session_closed(_reason: String) -> void:
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()
-	_host_character_variant = -1
 	if is_instance_valid(power_switch):
 		power_switch.apply_power_state(false, true)
 	if is_instance_valid(interactive_door):

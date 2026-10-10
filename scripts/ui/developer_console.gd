@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
+const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
 const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/day 1", "/day 2", "/day 3", "/day 4", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
@@ -27,6 +28,8 @@ const COMMAND_DETAILS := {"/level 0": "Телепортироваться: по�
 
 func _help_text() -> String:
 	var lines: PackedStringArray = []
+	lines.append("[url=/freecam]/freecam[/url] — Выйти из тела / вернуться; WASD, мышь, Space/Ctrl, Shift ×3")
+	lines.append("[url=/freecam speed 5]/freecam speed 5[/url] — Скорость камеры (0.1–100 м/с); /freecam speed reset — сброс")
 	for command in COMMANDS:
 		lines.append("[url=%s]%s[/url] — %s" % [command, command, COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
 	return "\n".join(lines)
@@ -120,7 +123,7 @@ func complete_command() -> void:
 			partial = "/" + partial
 		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
 		_completion_suffix = entry.text.substr(bounds.y)
-		for command in COMMANDS:
+		for command in FREECAM_COMMANDS + COMMANDS:
 			if command.begins_with(partial):
 				_completion_options.append(command)
 		_completion_index = -1
@@ -140,10 +143,11 @@ func capture_target() -> void:
 	if player == null:
 		target_label.text = "Цель: нет игрока"
 		return
-	var ray := PhysicsRayQueryParameters3D.create(player.camera.global_position, player.camera.global_position - player.camera.global_basis.z * 60.0, 7, [player.get_rid()])
+	var view: Camera3D = player.debug_free_camera if player.is_debug_free_camera_active() else player.camera
+	var ray := PhysicsRayQueryParameters3D.create(view.global_position, view.global_position - view.global_basis.z * 60.0, 7, [player.get_rid()])
 	ray.collide_with_areas = true
 	var hit := player.get_world_3d().direct_space_state.intersect_ray(ray)
-	target_point = hit.get("position", player.camera.global_position - player.camera.global_basis.z * 3.0)
+	target_point = hit.get("position", view.global_position - view.global_basis.z * 3.0)
 	if not hit.is_empty():
 		var target: Node = TargetCommands.resolve(hit.collider, get_tree())
 		if target != null:
@@ -181,11 +185,38 @@ func _execute_one(line: String) -> String:
 	if args[0] == "/clear":
 		output.text = _help_text()
 		return ""
+	# Camera inspection is local even for a co-op client: never send it to the host.
+	if args[0] == "/freecam":
+		return _execute_freecam(args)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
 	if not multiplayer.is_server():
 		_request_command.rpc_id(1, line.left(1024), target_path, target_point)
 		return "Команда отправлена серверу..."
 	return _execute_authoritative(args, state, multiplayer.get_unique_id(), target_path, target_point)
+
+
+func _execute_freecam(args: PackedStringArray) -> String:
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if player == null:
+		return "Сначала загрузите игру и войдите на карту."
+	var freecam = player.debug_free_camera
+	if args.size() == 3 and args[1] == "speed":
+		if args[2] != "reset" and not args[2].is_valid_float():
+			return "Использование: /freecam speed 5 или /freecam speed reset (0.1–100 м/с)."
+		var speed := 5.0 if args[2] == "reset" else args[2].to_float()
+		if not is_finite(speed) or speed < 0.1 or speed > 100.0:
+			return "Скорость камеры должна быть от 0.1 до 100 м/с."
+		freecam.speed = speed
+		return "Скорость свободной камеры: %.2f м/с. Shift — ×3." % speed
+	if args.size() > 2 or (args.size() == 2 and args[1] not in ["on", "off"]):
+		return "Использование: /freecam [on|off] или /freecam speed 5."
+	var enable: bool = not freecam.enabled if args.size() == 1 else args[1] == "on"
+	if enable and (player.survival.dead or player.is_sleeping_in_bunk()):
+		return "Свободная камера доступна живому игроку вне сна."
+	if enable and player._is_journal_open():
+		return "Закройте журнал или панель проводки перед включением свободной камеры."
+	freecam.set_enabled(enable)
+	return "Свободная камера включена. Закройте консоль: WASD + мышь, Space — вверх, Ctrl — вниз, Shift — ×3. /freecam — вернуться в тело." if enable else "Камера возвращена в тело."
 
 
 @rpc("any_peer", "call_remote", "reliable")

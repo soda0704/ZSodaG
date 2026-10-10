@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/ui/character_skin_selection.gd" id="3_skin"]
 [ext_resource type="VideoStream" path="res://assets/ui/main_menu.ogv" id="2_background_video"]
 
 [sub_resource type="StyleBoxFlat" id="Style_button_normal"]
@@ -289,6 +290,56 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.68, 0.38, 1)
 theme_override_font_sizes/font_size = 13
 text = "CHECKPOINT НЕ НАЙДЕН"
+autowrap_mode = 2
+
+[node name="SkinCard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -378.0
+offset_top = -285.0
+offset_right = -46.0
+offset_bottom = 265.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_card")
+script = ExtResource("3_skin")
+
+[node name="Content" type="VBoxContainer" parent="SkinCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="SkinCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.71, 0.77, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "СКИН ПЕРСОНАЖА"
+
+[node name="Preview" type="SubViewportContainer" parent="SkinCard/Content"]
+custom_minimum_size = Vector2(0, 330)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="SkinCard/Content/Preview"]
+handle_input_locally = false
+own_world_3d = true
+size = Vector2i(288, 330)
+render_target_update_mode = 4
+
+[node name="SkinOption" type="OptionButton" parent="SkinCard/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="Hint" type="Label" parent="SkinCard/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.71, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "Для одиночной игры и кооператива.\nВыбор сохраняется."
 autowrap_mode = 2
 
 [node name="NewsCard" type="PanelContainer" parent="."]

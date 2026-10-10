@@ -1,0 +1,8 @@
+Model Information:
+* title:	Kitchen Knife
+* source:	https://sketchfab.com/3d-models/kitchen-knife-1d91ba79869d4370948f71c10cc17ab7
+* author:	Bornx (https://sketchfab.com/bornx)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

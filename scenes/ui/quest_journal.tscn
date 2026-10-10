@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/ui/quest_journal.gd" id="1"]
 [ext_resource type="Theme" path="res://scenes/ui/journal/journal_theme.tres" id="2_d6kok"]
-[ext_resource type="PackedScene" path="res://scenes/ui/journal/book/articulated_journal.tscn" id="3_kulbg"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal/journal.png" id="4_cfmn2"]
 [ext_resource type="Script" path="res://scripts/ui/journal_photo_card.gd" id="5_hfhmu"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/key.png" id="6_equ7m"]
@@ -13,13 +12,6 @@
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/pistol.png" id="11_ul5hq"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/m4a1.png" id="12_uuj7m"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/kitchen_knife.png" id="13_gbkr1"]
-[ext_resource type="Animation" path="res://scenes/ui/journal/journal_presentation_open.tres" id="17_open"]
-
-[sub_resource type="Environment" id="Environment_cfmn2"]
-ambient_light_source = 2
-ambient_light_color = Color(0.8980392, 0.8392157, 0.7372549, 1)
-ambient_light_energy = 0.8
-tonemap_mode = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfhmu"]
 bg_color = Color(1, 1, 1, 0)
@@ -390,11 +382,6 @@ bg_color = Color(0.9372549, 0.88235295, 0.76862746, 1)
 shadow_color = Color(0.1, 0.06, 0.02, 0.32)
 shadow_size = 18
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_qwaim"]
-_data = {
-&"open": ExtResource("17_open")
-}
-
 [node name="QuestJournal" type="CanvasLayer" unique_id=590509800]
 process_mode = 3
 layer = 80
@@ -416,48 +403,6 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.035, 0.025, 0.015, 0.54)
-
-[node name="ModelViewport" type="SubViewportContainer" parent="JournalRoot" unique_id=1427475692]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-stretch = true
-stretch_shrink = 2
-
-[node name="SubViewport" type="SubViewport" parent="JournalRoot/ModelViewport" unique_id=1810415175]
-own_world_3d = true
-transparent_bg = true
-handle_input_locally = false
-msaa_3d = 2
-size = Vector2i(960, 960)
-render_target_update_mode = 0
-metadata/ui_presentation = true
-
-[node name="World" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport" unique_id=351528420]
-
-[node name="Environment" type="WorldEnvironment" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=993528505]
-environment = SubResource("Environment_cfmn2")
-
-[node name="SoftKey" type="DirectionalLight3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=770207471]
-transform = Transform3D(0.92718387, 0.17586714, -0.33075798, 0, 0.88294756, 0.46947157, 0.37460658, -0.43528646, 0.8186547, 0, 0, 0)
-light_color = Color(1, 0.9411765, 0.84705883, 1)
-light_energy = 1.5
-
-[node name="Camera" type="Camera3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=620620336]
-current = true
-fov = 45.0
-near = 0.01
-far = 5.0
-
-[node name="JournalPose" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=774406563]
-transform = Transform3D(0.9383316, 0.09652381, 0.3319887, -0.26817563, 0.8092465, 0.52268726, -0.21820885, -0.5794854, 0.78522706, 0.12, -0.46, -0.58)
-
-[node name="ModelAlignment" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World/JournalPose" unique_id=206922088]
-
-[node name="Model" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World/JournalPose/ModelAlignment" unique_id=1372829979 instance=ExtResource("3_kulbg")]
-
-[node name="Hands" type="Node3D" parent="JournalRoot/ModelViewport/SubViewport/World" unique_id=1017241659]
 
 [node name="NotebookPivot" type="Control" parent="JournalRoot" unique_id=1440596591]
 anchors_preset = 0
@@ -982,7 +927,7 @@ text = "Примотать фонарь"
 layout_mode = 0
 offset_left = 155.0
 offset_top = 830.0
-offset_right = 1245.0
+offset_right = 1120.0
 offset_bottom = 880.0
 mouse_filter = 2
 theme_override_constants/separation = 22
@@ -1043,6 +988,3 @@ visible = false
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="PresentationAnimation" type="AnimationPlayer" parent="." unique_id=1889093219]
-libraries/ = SubResource("AnimationLibrary_qwaim")

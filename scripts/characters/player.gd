@@ -10,6 +10,10 @@ var debug_speed_multiplier := 1.0
 var _flight_vertical := 0.0
 var weapon: WeaponController
 var vehicle: Node3D
+var debug_free_camera
+
+func is_debug_free_camera_active() -> bool:
+	return is_instance_valid(debug_free_camera) and debug_free_camera.enabled
 
 func is_driving() -> bool:
 	return is_instance_valid(vehicle)
@@ -127,6 +131,8 @@ var _remote_target_pitch: float = 0.0
 var _remote_crouching: bool = false
 var _remote_grounded: bool = true
 var _journal_phase := 0
+var _aiming := false
+var _aim_serial_state := false
 var _has_remote_snapshot: bool = false
 var _has_flashlight: bool = false
 @export_range(0.2, 1.0) var corpse_carry_speed_multiplier := 0.6
@@ -225,9 +231,15 @@ func _ready() -> void:
 			_on_authoritative_flashlight_malfunction_started
 		)
 	apply_held_item_inventory(NO_ITEM, {})
+	if local_player:
+		debug_free_camera = preload("res://scripts/characters/components/debug_free_camera.gd").new()
+		debug_free_camera.name = "DebugFreeCamera"
+		add_child(debug_free_camera)
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_debug_free_camera_active():
+		return
 	if survival.dead:
 		return
 	if not is_local_player():
@@ -293,7 +305,8 @@ func _physics_process(delta: float) -> void:
 		return
 	if is_local_player():
 		collect_local_input()
-		_flight_vertical = (float(Input.is_action_pressed("jump")) - float(Input.is_action_pressed("crouch"))) if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else 0.0
+		_update_aim_intent()
+		_flight_vertical = (float(Input.is_action_pressed("jump")) - float(Input.is_action_pressed("crouch"))) if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not is_debug_free_camera_active() else 0.0
 		collect_local_look(delta)
 		refresh_interaction_prompt()
 		update_battery_ui()
@@ -341,6 +354,13 @@ func _update_sprint(delta: float) -> void:
 
 
 func collect_local_input() -> void:
+	if is_debug_free_camera_active():
+		_input_move = Vector2.ZERO
+		_input_sprint = false
+		_input_crouch = _is_crouching
+		_pad_sprint = false
+		_pad_crouch = false
+		return
 	if (
 		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
 		or _is_sleeping_in_bunk
@@ -375,6 +395,8 @@ func collect_local_input() -> void:
 
 
 func collect_local_look(delta: float) -> void:
+	if is_debug_free_camera_active():
+		return
 	if (
 		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
 		or _is_sleeping_in_bunk
@@ -477,7 +499,8 @@ func update_character_animation(delta: float) -> void:
 		"journal_phase": _journal_phase,
 		"carrying": is_carrying_corpse(),
 		"driving": is_driving(),
-		"reloading": weapon != null and weapon.reload_left>0.0
+		"reloading": weapon != null and weapon.reload_left>0.0,
+		"aiming": _aiming
 	})
 	name_label.visible = not is_local_player() and not _is_sleeping_in_bunk
 	name_label.position.y = lerpf(
@@ -789,6 +812,7 @@ func try_authoritative_interaction() -> void:
 func refresh_interaction_prompt() -> void:
 	if (
 		not is_local_player()
+		or is_debug_free_camera_active()
 		or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
 		or _is_sleeping_in_bunk
 		or _is_journal_open()
@@ -839,6 +863,25 @@ func request_journal_phase(phase: int) -> void:
 		_publish_journal_phase(_journal_phase)
 	else:
 		_submit_journal_phase.rpc_id(1,_journal_phase)
+
+func _update_aim_intent() -> void:
+	if is_debug_free_camera_active():
+		return
+	var value:=Input.is_action_pressed("weapon_aim") and _held_item_type in [&"pistol",&"m4a1"] and not survival.dead and not _is_journal_open() and not _is_sleeping_in_bunk and not is_driving()
+	_aiming=value
+	if value==_aim_serial_state: return
+	_aim_serial_state=value
+	if multiplayer.is_server(): _receive_aim_state.rpc(value)
+	else: _submit_aim_state.rpc_id(1,value)
+
+@rpc("any_peer","call_remote","reliable",2)
+func _submit_aim_state(value: bool) -> void:
+	if not multiplayer.is_server() or multiplayer.get_remote_sender_id()!=owner_peer_id: return
+	_receive_aim_state.rpc(value and _held_item_type in [&"pistol",&"m4a1"] and not survival.dead)
+
+@rpc("authority","call_local","reliable",2)
+func _receive_aim_state(value: bool) -> void:
+	_aiming=value
 
 
 @rpc("any_peer","call_remote","reliable",2)
@@ -906,7 +949,8 @@ func _server_request_leave_bunk(peer_id: int) -> void:
 				return
 
 
-func apply_weapon_damage(amount: float) -> void:
+func apply_weapon_damage(amount: float, hit_impulse: Vector3 = Vector3.ZERO) -> void:
+	survival.pending_hit_impulse=hit_impulse.limit_length(35.0)
 	if multiplayer.is_server():
 		survival.damage(amount, "Огнестрельное ранение")
 
@@ -1517,7 +1561,7 @@ func send_snapshot_if_due(delta: float) -> void:
 		_server_last_sequence,
 		get_inventory_snapshot(),
 		Vector3(_sprint_remaining, 1.0 if _sprint_exhausted else 0.0, 1.0 if _sprint_active else 0.0),
-		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"variant":character_variant_id}
+		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"variant":character_variant_id,"aiming":_aiming}
 	)
 
 
@@ -1540,6 +1584,7 @@ func _receive_authoritative_state(
 ) -> void:
 	_remote_grounded = bool(server_animation.get("grounded",_remote_grounded))
 	_journal_phase = int(server_animation.get("journal_phase",_journal_phase))
+	if not is_local_player(): _aiming=bool(server_animation.get("aiming",false))
 	if server_sprint_state.x >= 0.0:
 		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)
 		_sprint_exhausted = server_sprint_state.y > 0.5
@@ -1647,8 +1692,6 @@ func apply_held_item_inventory(
 
 
 func _refresh_equipment_visuals() -> void:
-	if is_local_player() and (_journal_phase>0 or _is_journal_open()) and body_animator.first_person_model!=null:
-		body_animator.first_person_model.hide()
 	var journal_equipment_hidden := _journal_phase>0 or (is_local_player() and _is_journal_open())
 	flashlight.set_battery_charge(_battery_charge, false)
 	flashlight.set_equipped(_held_item_type == FLASHLIGHT_ITEM and not journal_equipment_hidden)
@@ -1672,6 +1715,9 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func update_battery_ui() -> void:
+	if is_debug_free_camera_active():
+		battery_label.hide()
+		return
 	if is_local_player() and _has_flashlight and Time.get_ticks_msec() < _equipment_notice_until and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open():
 		battery_label.visible = true
 		battery_label.text = "Фонарик в инвентаре · сначала освободите руки"

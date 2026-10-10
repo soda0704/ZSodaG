@@ -5,7 +5,6 @@ extends Resource
 @export var display_name := ""
 @export var body_scene: PackedScene
 @export var first_person_scene: PackedScene
-@export var journal_arms_scene: PackedScene
 @export var ragdoll_scene: PackedScene
 @export var retarget_bone_map: BoneMap
 @export_range(0.5, 2.0) var locomotion_rate := 1.0

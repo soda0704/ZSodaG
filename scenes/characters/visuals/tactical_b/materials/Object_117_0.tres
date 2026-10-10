@@ -7,6 +7,7 @@
 resource_name = "Mil_Suit_Pads__R5"
 cull_mode = 2
 albedo_texture = ExtResource("1_l0027")
+metallic_specular = 0.25
 roughness = 0.81524056
 normal_enabled = true
 normal_scale = 0.5714303

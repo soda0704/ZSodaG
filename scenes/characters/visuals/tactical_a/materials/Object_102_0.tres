@@ -7,13 +7,14 @@
 [resource]
 resource_name = "material"
 cull_mode = 2
+specular_mode = 2
 albedo_texture = ExtResource("1_38juj")
-metallic = 1.0
-metallic_texture = ExtResource("2_retke")
+metallic_specular = 0.25
 metallic_texture_channel = 2
-roughness_texture = ExtResource("2_retke")
+roughness = 0.95
 roughness_texture_channel = 1
 normal_enabled = true
+normal_scale = 0.4
 normal_texture = ExtResource("3_twyxv")
 ao_enabled = true
 ao_texture = ExtResource("2_retke")

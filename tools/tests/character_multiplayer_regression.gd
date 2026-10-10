@@ -6,6 +6,7 @@ extends Node
 var host := false
 var port := 28741
 var order := -1
+var same_skin := false
 var world: Node3D
 var failures := 0
 var stage := "boot"
@@ -39,14 +40,15 @@ func _physics_process(delta: float) -> void:
 	root.get_node("GameMenu").force_close_menu()
 	root.get_node("SteamInput").using_controller = false
 	if not root.get_node("QuestJournal").is_journal_open(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	for action in ["move_forward","move_backward","move_right","sprint","crouch"]: Input.action_release(action)
+	for action in ["move_forward","move_backward","move_right","sprint","crouch","weapon_aim"]: Input.action_release(action)
+	if stage=="aim": Input.action_press("weapon_aim")
 	if stage in ["walk","run","crouch_walk","rifle_walk","rifle_run","rifle_crouch"]: Input.action_press("move_forward")
 	if stage in ["run","rifle_run"]: Input.action_press("sprint")
 	if stage=="strafe": Input.action_press("move_right")
 	if stage=="backward": Input.action_press("move_backward")
 	if stage in ["crouch","crouch_walk","rifle_crouch"]: Input.action_press("crouch")
-	player._input_pitch = 0.80 if stage in ["look","rifle_up"] else -0.80 if stage in ["look_down","rifle_down"] else 0.0
-	player._input_yaw = 0.75 if stage=="look" else 0.0
+	player._input_pitch = 1.48 if stage in ["look","rifle_up"] else -1.48 if stage in ["look_down","rifle_down"] else 0.0
+	player._input_yaw = wrapf(clock_time*12,-PI,PI) if stage=="fast_turn" else 0.75 if stage=="look" else 0.0
 	if stage in ["jump","rifle_jump"] and not _jumped:
 		player._jump_serial += 1
 		_jumped = true
@@ -73,12 +75,14 @@ func _physics_process(delta: float) -> void:
 		if actor._sprint_active: record["run"] = true
 		if actor._journal_phase>0: record["journal"] = true
 		if actor._flashlight_enabled: record["torch"] = true
+		if actor._aiming: record["aim"] = true
 		if actor.survival.dead: record["death"] = true
 		if actor.get_node("PlayerRagdoll").ragdoll!=null: record["ragdoll"] = true
 		if actor.weapon.kind in [&"pistol",&"m4a1"]: record[String(actor.weapon.kind)] = true
 		if actor.weapon.reload_left>0: record["reload"] = true
 		if actor.velocity.y>1.0 or actor._remote_target_velocity.y>1.0: record["jump"] = true
-	if not _captured and clock_time>0.55 and stage in ["idle","run","crouch","jump","pistol","rifle","rifle_walk","rifle_run","rifle_crouch","rifle_jump","rifle_up","rifle_down","torch","journal","death_client","death_host"]:
+	var capture_time:=1.4 if stage in ["journal","death_client","death_host"] else 0.55
+	if not _captured and clock_time>capture_time and stage in ["idle","run","crouch","jump","pistol","rifle","rifle_walk","rifle_run","rifle_crouch","rifle_jump","rifle_up","rifle_down","torch","journal","death_client","death_host"]:
 		_captured = true
 		capture_remote.call_deferred()
 
@@ -89,6 +93,10 @@ func capture_remote() -> void:
 		if not candidate.is_local_player(): actor = candidate
 	if actor==null: return
 	var camera: Camera3D = world.get_node("OverviewCamera")
+	if stage=="journal":
+		print("JOURNAL WORLD SAMPLE peer=",actor.owner_peer_id," phase=",actor._journal_phase," movement=",actor.body_animator.model.get_node("AnimationTree").get("parameters/Movement/playback").get_current_node()," book=",actor.body_animator.model.get_node("Journal").transform," cover=",actor.body_animator.model.get_node("Journal/FrontCoverPivot").rotation," hand=",actor.body_animator.skeleton.get_bone_global_pose(actor.body_animator.skeleton.find_bone("RightHand")).origin)
+		check(actor._journal_phase==2 and actor.body_animator.model.get_node("AnimationTree").get("parameters/Movement/playback").get_current_node()==&"JournalReading","remote native world journal reaches reading state")
+		check(actor.body_animator.model.get_node("Journal").position.y>1.25 and absf(actor.body_animator.model.get_node("Journal/FrontCoverPivot").rotation.y)>3.0,"remote world book reaches chest and opens fully")
 	camera.cull_mask = 1 | (1<<18)
 	camera.global_position = actor.global_position+actor.global_basis*Vector3(0,1.45,-3.0)
 	camera.look_at(actor.global_position+Vector3(0,0.95,0))
@@ -178,12 +186,16 @@ func finish(code: int) -> void:
 	get_tree().quit(code)
 
 func run() -> void:
-	root.size = Vector2i(640,360)
-	root.position = Vector2i(3000,2000)
+	Engine.max_fps=60
+	root.size = Vector2i(1280,720)
 	for arg in OS.get_cmdline_user_args():
 		if arg=="--host": host = true
 		elif arg.begins_with("--port="): port = int(arg.trim_prefix("--port="))
 		elif arg.begins_with("--order="): order = int(arg.trim_prefix("--order="))
+		elif arg=="--same-skin": same_skin = true
+	var host_variant := order if order>=0 else 0
+	root.get_node("GameMenu")._settings_data["CharacterVariant"] = host_variant if host or same_skin else 1-host_variant
+	root.position = Vector2i(40,40) if host else Vector2i(700,100)
 	root.get_node("GameMenu").force_close_menu()
 	var input_service := root.get_node("SteamInput")
 	input_service.set_process(false)
@@ -198,8 +210,7 @@ func run() -> void:
 	if result!=OK: get_tree().quit(1); return
 	multiplayer.multiplayer_peer = peer
 	if host:
-		# Test both deterministic permutations; normal sessions use randi_range.
-		if order>=0: world._host_character_variant = order
+		# The menu preference is passed through the production spawn request.
 		world._on_session_ready(true)
 		# Existing items must keep the host-selected design for a joining peer.
 		seed(424242)
@@ -213,11 +224,11 @@ func run() -> void:
 	if players().size()<2: get_tree().quit(1); return
 	await delay(0.4)
 	var actors := players()
-	check(actors[0].character_variant_id!=actors[1].character_variant_id,"host assigns two different variants")
+	check(actors[0].character_variant_id==host_variant and actors[1].character_variant_id==(host_variant if same_skin else 1-host_variant),"both players receive their independently selected skins")
 	for actor: GamePlayer in actors:
 		print("VISUAL MODEL ",actor.owner_peer_id," variant ",actor.character_variant_id," scene ",actor.body_animator.model.scene_file_path," bones ",actor.body_animator.skeleton.get_bone_count())
 		check(actor.body_animator.skeleton.get_bone_count()==(79 if actor.character_variant_id==0 else 88),"host loaded assigned native rig")
-	for name in ["idle","walk","run","stop","strafe","backward","look","look_down","crouch","crouch_walk","stand","jump","land"]:
+	for name in ["idle","walk","run","stop","strafe","backward","look","look_down","fast_turn","crouch","crouch_walk","stand","jump","land"]:
 		set_stage.rpc(name)
 		await delay(0.85)
 	equip(&"pistol")
@@ -226,6 +237,7 @@ func run() -> void:
 	equip(&"m4a1")
 	set_stage.rpc("rifle")
 	await delay(3.0)
+	set_stage.rpc("aim"); await delay(0.85)
 	for name in ["rifle_walk","rifle_run","rifle_crouch","rifle_jump","rifle_up","rifle_down"]:
 		set_stage.rpc(name)
 		await delay(0.85)
@@ -259,7 +271,7 @@ func run() -> void:
 			var key := str(actor.owner_peer_id)
 			check(report.has(key) and report[key].variant==actor.character_variant_id and report[key].model==actor.character_variant_id,"both peers agree on variant %s"%key)
 			check(report.get(key,{}).get("bones",0)==(79 if actor.character_variant_id==0 else 88),"client loaded matching native rig %s"%key)
-			for state in ["crouch","run","jump","pistol","m4a1","reload","torch","journal","death","ragdoll"]:
+			for state in ["crouch","run","jump","pistol","m4a1","aim","reload","torch","journal","death","ragdoll"]:
 				check(report.get(key,{}).get("observed",{}).get(state,false),"client observes %s for player %s"%[state,key])
 				check(observed.get(key,{}).get(state,false),"host observes %s for player %s"%[state,key])
 	var code := 1 if failures else 0

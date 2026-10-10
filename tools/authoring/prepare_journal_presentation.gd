@@ -137,24 +137,8 @@ func binding() -> void:
 	node.skeleton = NodePath("../PaperBindingRig")
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	own(node, book, "PaperBinding")
-	var animation: Animation = load("res://scenes/ui/journal/journal_presentation_open.tres")
-	var cover_path := NodePath("JournalRoot/ModelViewport/SubViewport/World/JournalPose/ModelAlignment/Model/FrontCoverPivot:rotation:y")
-	var cover_track := animation.find_track(cover_path,Animation.TYPE_BEZIER)
-	assert(cover_track >= 0)
-	var binding_path := NodePath("JournalRoot/ModelViewport/SubViewport/World/JournalPose/ModelAlignment/Model/PaperBindingRig:CoverFold")
-	for i in range(animation.get_track_count()-1,-1,-1):
-		if animation.track_get_path(i) == binding_path: animation.remove_track(i)
-	cover_track = animation.find_track(cover_path,Animation.TYPE_BEZIER)
-	var track := animation.add_track(Animation.TYPE_ROTATION_3D)
-	animation.track_set_path(track,binding_path)
-	animation.track_set_interpolation_type(track,Animation.INTERPOLATION_LINEAR)
-	animation.track_set_interpolation_loop_wrap(track,false)
-	for step in 125:
-		var time := step * 0.01
-		var angle := animation.bezier_track_interpolate(cover_track,time)
-		animation.track_insert_key(track,time,Quaternion(Vector3.UP,angle))
-	animation.track_insert_key(track,animation.length,Quaternion(Vector3.UP,-PI))
-	assert(ResourceSaver.save(animation,"res://scenes/ui/journal/journal_presentation_open.tres") == OK)
+	# Motion belongs to the separate FP/world variant AnimationLibraries.
+	# Rebuild those with prepare_player_characters.gd after changing this mesh.
 
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT))

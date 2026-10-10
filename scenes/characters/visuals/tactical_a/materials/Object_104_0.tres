@@ -9,6 +9,7 @@ resource_name = "boots"
 cull_mode = 2
 albedo_texture = ExtResource("1_qx3oa")
 metallic = 1.0
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_jj52s")
 metallic_texture_channel = 2
 roughness_texture = ExtResource("2_jj52s")

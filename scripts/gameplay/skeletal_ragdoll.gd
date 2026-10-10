@@ -12,7 +12,7 @@ var root_bone_index := -1
 var root_offset := Transform3D.IDENTITY
 var initialized := false
 
-func initialize(rig: Skeleton3D, simulate: bool, initial_velocity := Vector3.ZERO) -> void:
+func initialize(rig: Skeleton3D, simulate: bool, initial_velocity := Vector3.ZERO, hit_impulse := Vector3.ZERO) -> void:
 	skeleton = rig
 	for child in get_children():
 		if not child is RigidBody3D:
@@ -51,7 +51,14 @@ func initialize(rig: Skeleton3D, simulate: bool, initial_velocity := Vector3.ZER
 	rebuild_joints_from_pose()
 	initialized = true
 	if simulate:
-		root_body.apply_central_impulse(Vector3(0.5, 0, -1.5))
+		if hit_impulse.length()>0.01:
+			root_body.apply_central_impulse(hit_impulse.limit_length(35)*0.35)
+			bodies[mini(3,bodies.size()-1)].apply_central_impulse(hit_impulse.limit_length(35)*0.65)
+		elif initial_velocity.length()<0.1:
+			# A small imbalance at chest height releases an upright corpse from
+			# its support polygon; a pelvis-only nudge could leave it kneeling.
+			root_body.apply_central_impulse(rig.global_basis*Vector3(0.35,0,-3.0))
+			bodies[mini(3,bodies.size()-1)].apply_central_impulse(rig.global_basis*Vector3(0.5,0,-8.0))
 
 func rebuild_joints_from_pose() -> void:
 	# Frozen bodies can be animated to a new pose. Rebind the native joint

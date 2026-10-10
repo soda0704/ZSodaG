@@ -26,6 +26,8 @@ var _cover: ColorRect
 var _death_text: Label
 var _sync_time: float = 0.0
 var death_velocity := Vector3.ZERO
+var pending_hit_impulse:=Vector3.ZERO
+var death_hit_impulse:=Vector3.ZERO
 
 func _ready() -> void:
 	health = max_health
@@ -96,7 +98,7 @@ func _physics_process(delta: float) -> void:
 		_sync_time += delta
 		if _sync_time >= 0.15:
 			_sync_time = 0.0
-			_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity)
+			_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity,death_hit_impulse)
 	_refresh_ui()
 
 func damage(amount: float, cause: String) -> void:
@@ -113,13 +115,15 @@ func damage(amount: float, cause: String) -> void:
 		respawn_remaining = respawn_delay
 		var player := get_parent()
 		death_velocity = player.velocity
+		death_hit_impulse=pending_hit_impulse
 		player.velocity = Vector3.ZERO
 		player._flashlight_enabled = false
 		player._flashlight_malfunctioning = false
 		if player._held_item_type == player.FLASHLIGHT_ITEM:
 			player._held_item_type = player.NO_ITEM
 		player._publish_inventory()
-		_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity)
+		_sync.rpc(health, radiation, dead, reason, respawn_remaining, death_velocity,death_hit_impulse)
+	pending_hit_impulse=Vector3.ZERO
 
 @rpc("authority", "call_local", "unreliable")
 func _blood() -> void:
@@ -140,17 +144,19 @@ func _respawn() -> void:
 	health = max_health
 	radiation = 0.0
 	dead = false
+	death_hit_impulse=Vector3.ZERO
 	reason = ""
 	reset_fall()
 	_sync.rpc(health, radiation, dead, reason, 0.0, Vector3.ZERO)
 
 @rpc("authority", "call_local", "reliable", 2)
-func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: float, momentum: Vector3 = Vector3.ZERO) -> void:
+func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: float, momentum: Vector3 = Vector3.ZERO, hit_impulse: Vector3 = Vector3.ZERO) -> void:
 	var was_dead := dead
 	health = hp
 	radiation = dose
 	dead = is_dead
 	death_velocity = momentum
+	death_hit_impulse=hit_impulse
 	reason = cause
 	respawn_remaining = remaining
 	var player := get_parent()

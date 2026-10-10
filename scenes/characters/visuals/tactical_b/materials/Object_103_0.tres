@@ -9,6 +9,7 @@ resource_name = "Mil_Suit_R5_Puches"
 cull_mode = 2
 albedo_texture = ExtResource("1_e0cam")
 metallic = 1.0
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_oaxqf")
 metallic_texture_channel = 2
 roughness = 0.82133585

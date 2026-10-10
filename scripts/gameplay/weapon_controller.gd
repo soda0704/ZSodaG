@@ -71,6 +71,12 @@ var _mounted_lamp: Node3D
 var _mounted_beam: SpotLight3D
 
 func _ready() -> void:
+	if not InputMap.has_action("weapon_aim"):
+		InputMap.add_action("weapon_aim")
+		var aim_input:=InputEventMouseButton.new(); aim_input.button_index=MOUSE_BUTTON_RIGHT
+		InputMap.action_add_event("weapon_aim",aim_input)
+		var aim_trigger:=InputEventJoypadMotion.new(); aim_trigger.axis=JOY_AXIS_TRIGGER_LEFT; aim_trigger.axis_value=1.0
+		InputMap.action_add_event("weapon_aim",aim_trigger)
 	_pose = get_parent().body_animator.equipment_root()
 	_mounted_lamp = _pose.get_node("MountedLamp")
 	_mounted_beam = _mounted_lamp.get_node("Beam")
@@ -120,7 +126,7 @@ func _physics_process(delta: float) -> void:
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
 	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
 	var local: bool = player.is_local_player()
-	_hud.visible = active and local and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
+	_hud.visible = active and local and not player.is_debug_free_camera_active() and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:
 		var controller: bool = get_node("/root/SteamInput").using_controller
 		_hud.text = str(TITLES[kind])
@@ -142,7 +148,7 @@ func _physics_process(delta: float) -> void:
 		_cooldown = maxf(0.0, _cooldown - delta)
 
 func request_action(action: StringName) -> void:
-	if not get_parent().is_local_player():
+	if not get_parent().is_local_player() or get_parent().is_debug_free_camera_active():
 		return
 	if multiplayer.is_server():
 		perform_action(action)
@@ -194,7 +200,9 @@ func perform_action(action: StringName) -> bool:
 	if not hit.is_empty():
 		var target: Node = hit.collider
 		if target.has_method("apply_weapon_damage"):
-			target.apply_weapon_damage(knife_damage if kind == &"kitchen_knife" else rifle_damage if kind == &"m4a1" else pistol_damage)
+			var hit_damage:=knife_damage if kind == &"kitchen_knife" else rifle_damage if kind == &"m4a1" else pistol_damage
+			if target is GamePlayer: target.apply_weapon_damage(hit_damage,direction*(24 if kind==&"m4a1" else 18))
+			else: target.apply_weapon_damage(hit_damage)
 		if target is RigidBody3D:
 			if target.has_method("release_elevator_cargo"):
 				target.release_elevator_cargo()

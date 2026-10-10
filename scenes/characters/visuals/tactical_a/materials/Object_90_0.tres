@@ -3,7 +3,8 @@
 [resource]
 resource_name = "Material.001"
 cull_mode = 2
-albedo_color = Color(0.075, 0.075, 0.078, 1)
-metallic = 0.05
-roughness = 0.72
+albedo_color = Color(0.4662186, 0.0034622878, 0, 1)
+metallic = 0.53485876
+metallic_specular = 0.25
+roughness = 0.14209263
 texture_filter = 5

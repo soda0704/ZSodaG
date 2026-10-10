@@ -8,9 +8,10 @@
 resource_name = "Head"
 cull_mode = 2
 albedo_texture = ExtResource("1_inc8v")
-metallic = 1.0
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_v0p5v")
 metallic_texture_channel = 2
+roughness = 0.9
 roughness_texture = ExtResource("2_v0p5v")
 roughness_texture_channel = 1
 normal_enabled = true

@@ -10,6 +10,8 @@ var names: Array[String] = []
 var rests: Array[Transform3D] = []
 var parents: Array[int] = []
 var journal_transform := Transform3D.IDENTITY
+var active_clip := ""
+var soles := {"Left": [], "Right": []}
 
 func initialize(target: Skeleton3D, data: Dictionary, all_sources: Dictionary) -> void:
 	rig = target
@@ -19,6 +21,21 @@ func initialize(target: Skeleton3D, data: Dictionary, all_sources: Dictionary) -
 		names.append(rig.get_bone_name(i))
 		rests.append(rig.get_bone_global_rest(i))
 		parents.append(rig.get_bone_parent(i))
+	for mesh: MeshInstance3D in data.meshes:
+		if mesh.get_active_material(0).resource_name != "boots" and String(mesh.name) != "Object_123": continue
+		var arrays := mesh.mesh.surface_get_arrays(0)
+		var points: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+		var minimum := INF
+		for point in points: minimum = minf(minimum, (data.normalization * point).y)
+		for vertex in points.size():
+			var point: Vector3 = data.normalization * points[vertex]
+			if point.y > minimum + 0.028: continue
+			var influences := []
+			for slot in 4:
+				var at := vertex * 4 + slot
+				var bone: int = data.rig.find_bone(mesh.skin.get_bind_name(arrays[Mesh.ARRAY_BONES][at]))
+				influences.append([bone, arrays[Mesh.ARRAY_WEIGHTS][at]])
+			soles["Left" if point.x < 0 else "Right"].append({"point": point, "influences": influences})
 
 func index(name: String) -> int: return names.find(name)
 
@@ -137,6 +154,14 @@ func stance(crouch: float = 0.0) -> void:
 		var sign_value := -1.0 if side == "Left" else 1.0
 		foot(side, Vector3(sign_value*0.12, rests[index(side+"Foot")].origin.y, 0.01))
 
+func idle(time: float) -> void:
+	# The source idle swings the hip/leg chains without anchoring the feet.
+	# Keep one balanced lower-body stance; breathing belongs above the pelvis.
+	stance()
+	var breath := sin(time / 3.0 * TAU)
+	tilt("Spine", breath * 0.003)
+	tilt("Spine2", breath * 0.006)
+
 func gait(time: float, running: bool, direction: Vector2, crouched: bool = false) -> void:
 	stance(1.0 if crouched else 0.25 if running else 0.0)
 	var duration := 0.56 if running else 0.88
@@ -154,7 +179,11 @@ func gait(time: float, running: bool, direction: Vector2, crouched: bool = false
 		if absf(direction.x) > 0.5: target.x = sign_value * maxf(0.065, absf(target.x))
 		foot(side,target,-0.24 if running and p.y>0.10 else 0.0)
 		var arm_stride := p.x * (-0.32 if running else -0.23)
-		arm(side, Vector3(sign_value*(0.25 if running else 0.28), (1.20 if running else 0.91), arm_stride-0.10),0.0,running)
+		var hand_target:=Vector3(sign_value*(0.23 if running else 0.28),1.06 if running else 0.91,arm_stride-0.14)
+		# Running elbows stay near the torso, trailing the hands. The full-body
+		# grip pole would flare them sideways when the empty hands bend upwards.
+		two_bone(side+"Arm",side+"ForeArm",side+"Hand",hand_target,Vector3(sign_value*(0.34 if running else 0.42),1.10,0.16))
+		global_rotation(index(side+"Hand"),hand_basis(side,0.0,running))
 	if running:
 		tilt("Spine", -0.13)
 		tilt("Spine2", -0.18)
@@ -250,7 +279,39 @@ func journal_view(time: float, ui: Node) -> void:
 	cover.origin.y += 1.65
 	journal_hands(frame,cover)
 
+func sole_height(side: String) -> float:
+	var transforms: Array[Transform3D] = []
+	for bone in names.size(): transforms.append(rig.get_bone_global_pose(bone) * rests[bone].affine_inverse())
+	var minimum := INF
+	for sample in soles[side]:
+		var point := Vector3.ZERO
+		for influence in sample.influences:
+			point += transforms[influence[0]] * sample.point * influence[1]
+		minimum = minf(minimum, point.y)
+	return minimum
+
+func finish_sample() -> void:
+	# Bake support against the actual boot soles, not just ankle bone heights.
+	# Airborne, seated and additive clips must retain their authored offsets.
+	if active_clip in ["JumpStart", "InAir", "Vehicle", "Sleep"] or active_clip.begins_with("Lean") or active_clip.ends_with("Recoil"): return
+	if soles.Left.is_empty() or soles.Right.is_empty(): return
+	var both := active_clip == "Idle" or active_clip in ["CrouchIdle", "CrouchEnter", "CrouchExit", "Landing", "Death"] or active_clip.begins_with("Journal") or active_clip.begins_with("Carry")
+	if both:
+		for side in ["Left", "Right"]:
+			global_rotation(index(side + "Foot"), rests[index(side + "Foot")].basis)
+			global_rotation(index(side + "ToeBase"), rests[index(side + "ToeBase")].basis)
+	var gap := minf(sole_height("Left"), sole_height("Right"))
+	var offset := rig.get_bone_pose_position(index("Hips")) - rig.get_bone_rest(index("Hips")).origin
+	hip_offset(rests[0].basis * offset + Vector3(0, -gap, 0))
+	if both:
+		for iteration in 3:
+			for side in ["Left", "Right"]:
+				var ankle := global_point(side + "Foot")
+				ankle.y -= sole_height(side)
+				foot(side, ankle)
+
 func add_clip(name: String, length: float, loop: bool, sampler: Callable) -> void:
+	active_clip = name
 	var clip := Animation.new()
 	clip.length = length
 	clip.loop_mode = Animation.LOOP_LINEAR if loop else Animation.LOOP_NONE
@@ -274,11 +335,12 @@ func add_clip(name: String, length: float, loop: bool, sampler: Callable) -> voi
 	for frame in range(frames+1):
 		var time := minf(length,float(frame)*length/frames)
 		sampler.call(0.0 if loop and frame==frames else time)
+		finish_sample()
 		if journal_position>=0:
 			var socket := rig.get_bone_global_pose(index("RightHand"))*Transform3D(hand_basis("Right",0,true).inverse(),Vector3.ZERO)
 			var local := socket.affine_inverse()*journal_transform
 			clip.position_track_insert_key(journal_position,time,local.origin)
-			clip.rotation_track_insert_key(journal_rotation,time,local.basis.get_rotation_quaternion())
+			clip.rotation_track_insert_key(journal_rotation,time,local.basis.orthonormalized().get_rotation_quaternion())
 		for i in names.size():
 			clip.rotation_track_insert_key(rotations[i],time,rig.get_bone_pose_rotation(i).normalized())
 			clip.position_track_insert_key(positions[i],time,rig.get_bone_pose_position(i))
@@ -312,7 +374,7 @@ func add_clip(name: String, length: float, loop: bool, sampler: Callable) -> voi
 	library.add_animation(name,clip)
 
 func build(first_person: bool = false) -> AnimationLibrary:
-	add_clip("Idle",sources.b.clip.length,true,func(t): retarget(sources.b,t,true))
+	add_clip("Idle",3.0,true,func(t): idle(t))
 	add_clip("WalkForward",0.88,true,func(t): retarget(sources.a,t/0.88*sources.a.clip.length))
 	for direction in ["Backward","Left","Right"]:
 		var vector := Vector2(0,1) if direction=="Backward" else Vector2(-1,0) if direction=="Left" else Vector2(1,0)
@@ -329,7 +391,7 @@ func build(first_person: bool = false) -> AnimationLibrary:
 	add_clip("Landing",0.33,false,func(t): stance(sin(clampf(t/0.33,0,1)*PI)*0.30))
 	for kind in ["Rifle","Pistol","Knife","Flashlight","Fuse","Fuel","Carry"]:
 		for aim in [-1,0,1]:
-			add_clip(kind+"Aim"+str(aim),3.0,true,func(t): held(kind,aim*1.25,t,first_person))
+			add_clip(kind+"Aim"+str(aim),3.0,true,func(t): held(kind,aim*0.62,t,first_person))
 	add_clip("JournalOpen",1.85,false,func(t): journal(t,1.25,false,first_person))
 	add_clip("JournalReading",3.0,true,func(t): journal(1.85,1.85,false,first_person))
 	add_clip("JournalClose",0.92,false,func(t): journal(t,0.92,true,first_person))
@@ -419,9 +481,9 @@ func graph(first_person: bool = false) -> AnimationNodeBlendTree:
 	for kind in ["Rifle","Pistol","Knife","Flashlight","Fuse","Fuel","Carry"]:
 		choice.set("input_%d/name"%input_index,kind)
 		var aim := AnimationNodeBlendSpace1D.new()
-		aim.min_space = -1.25
-		aim.max_space = 1.25
-		for point in [-1,0,1]: aim.add_blend_point(clip_node(kind+"Aim"+str(point)),point*1.25)
+		aim.min_space = -0.62
+		aim.max_space = 0.62
+		for point in [-1,0,1]: aim.add_blend_point(clip_node(kind+"Aim"+str(point)),point*0.62)
 		tree.add_node(kind,aim,Vector2(0,100+input_index*70))
 		input_index += 1
 	tree.add_node("Equipment",choice,Vector2(300,200))

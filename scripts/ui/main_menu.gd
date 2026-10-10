@@ -16,6 +16,7 @@ extends Control
 @onready var version_label: Label = %VersionLabel
 @onready var new_game_confirmation: ConfirmationDialog = %NewGameConfirmation
 @onready var delete_save_confirmation: ConfirmationDialog = %DeleteSaveConfirmation
+@onready var skin_option: OptionButton = $SkinCard/Content/SkinOption
 
 var _transition_in_progress: bool = false
 
@@ -72,6 +73,7 @@ func refresh_steam_status() -> void:
 
 
 func set_menu_enabled(value: bool) -> void:
+	skin_option.disabled = not value
 	continue_game_button.disabled = (
 		not value
 		or BaseGameplayController.get_saved_progress_summary().is_empty()

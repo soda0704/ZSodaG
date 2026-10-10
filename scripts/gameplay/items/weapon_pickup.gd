@@ -25,8 +25,14 @@ func _ready() -> void:
 		$CollisionShape3D.shape = shape
 		$CollisionShape3D.position.z = -0.13
 		if item_type == &"kitchen_knife":
-			shape.size = Vector3(0.05, 0.028, 0.35)
-			$CollisionShape3D.position.z = -0.07
+			var bounds := AABB()
+			var first := true
+			for mesh: MeshInstance3D in model.find_children("*","MeshInstance3D",true,false):
+				var part: AABB = (model.global_transform.affine_inverse()*mesh.global_transform)*mesh.get_aabb()
+				bounds=part if first else bounds.merge(part)
+				first=false
+			shape.size=bounds.size+Vector3.ONE*0.006
+			$CollisionShape3D.position=bounds.get_center()
 		if item_type in [&"pistol_ammo", &"rifle_magazine"]:
 			shape.size = Vector3(0.09, 0.16, 0.1)
 			$CollisionShape3D.position.z = 0.0

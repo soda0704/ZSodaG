@@ -83,15 +83,11 @@ func run() -> void:
 		journal.open_journal()
 		await ticks(6)
 		check(journal._arms_variant==id and journal._character_arms!=null,"variant %d journal loads matching complete arms"%id)
-		var arms_animation: AnimationPlayer = journal._character_arms.get_node("AnimationPlayer")
 		var arms_rig: Skeleton3D = journal._character_arms.get_node("Skeleton3D")
-		arms_animation.seek(0.1,true)
-		arms_animation.advance(0)
 		var initial := arms_rig.get_bone_global_pose(arms_rig.find_bone("LeftHand")).origin
-		arms_animation.seek(1.4,true)
-		arms_animation.advance(0)
+		await pose(player,{"journal_phase":1},50)
 		var raised := arms_rig.get_bone_global_pose(arms_rig.find_bone("LeftHand")).origin
-		check(initial.distance_to(raised)>0.20,"variant %d journal hand actually raises and follows opening"%id)
+		check(initial.distance_to(raised)>0.20,"variant %d independent FP journal raises its hands through AnimationTree"%id)
 		journal.force_close()
 		player.global_position = Vector3(8,0.1,-1.8)
 		player.survival.death_velocity = Vector3(0,0,-5)

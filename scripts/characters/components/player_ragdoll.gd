@@ -46,7 +46,7 @@ func start() -> void:
 	ragdoll.name = "DeathPhysics"
 	player.add_child(ragdoll)
 	player.body_animator.reparent(ragdoll,true)
-	ragdoll.initialize(player.body_animator.skeleton,multiplayer.is_server(),player.survival.death_velocity)
+	ragdoll.initialize(player.body_animator.skeleton,multiplayer.is_server(),player.survival.death_velocity,player.survival.death_hit_impulse)
 	player.collision_shape.set_deferred("disabled",true)
 	player.name_label.hide()
 	_transitioning = false

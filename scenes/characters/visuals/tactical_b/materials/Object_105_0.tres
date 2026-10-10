@@ -9,6 +9,7 @@ resource_name = "Mil_Suit_R5__Plate"
 cull_mode = 2
 albedo_texture = ExtResource("1_q605w")
 metallic = 1.0
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_aihli")
 metallic_texture_channel = 2
 roughness = 0.7420975

@@ -8,6 +8,7 @@
 resource_name = "ShoulderPads"
 cull_mode = 2
 albedo_texture = ExtResource("1_4druf")
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_gktk7")
 metallic_texture_channel = 2
 roughness_texture = ExtResource("2_gktk7")

@@ -9,6 +9,7 @@ resource_name = "Headphones"
 cull_mode = 2
 albedo_texture = ExtResource("1_begtb")
 metallic = 1.0
+metallic_specular = 0.25
 metallic_texture = ExtResource("2_1p0iq")
 metallic_texture_channel = 2
 roughness_texture = ExtResource("2_1p0iq")
