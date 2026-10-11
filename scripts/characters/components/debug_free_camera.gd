@@ -44,7 +44,7 @@ func set_enabled(value: bool) -> void:
 		player.battery_label.hide()
 	else:
 		player.camera.make_current()
-	player.crosshair.visible = not value and not player.survival.dead
+	player.refresh_crosshair_visibility()
 
 
 func _can_control() -> bool:

@@ -2,6 +2,9 @@
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
 
 [ext_resource type="Script" path="res://scripts/ui/character_skin_selection.gd" id="1_wk3ts"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="2_choice"]
+
+[sub_resource type="StyleBoxEmpty" id="ChoiceFocus"]
 
 [sub_resource type="Environment" id="Environment_ptmoy"]
 background_mode = 1
@@ -52,6 +55,8 @@ current = true
 fov = 38.0
 
 [node name="SkinOption" type="OptionButton" parent="." unique_id=2004722994]
+script = ExtResource("2_choice")
+theme_override_styles/focus = SubResource("ChoiceFocus")
 custom_minimum_size = Vector2(460, 70)
 layout_mode = 0
 offset_left = 90.0

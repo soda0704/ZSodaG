@@ -4,6 +4,7 @@ extends CanvasLayer
 
 enum MenuView { MAIN, SESSION, JOIN, SETTINGS }
 @export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.72
+@export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.48
 const MECHANICS_TEST_ROOM_SCENE := "res://scenes/levels/base_session.tscn"
 const SETTINGS_DIRECTORY := "NorthernLab"
 const SETTINGS_FILE := "launcher_settings.json"
@@ -134,7 +135,8 @@ func show_view(view: MenuView) -> void:
 	feedback_label.text = ""
 	shell.rails(view != MenuView.MAIN)
 	var lobby_context := view == MenuView.SESSION or (view == MenuView.SETTINGS and _settings_origin == MenuView.SESSION and not _settings_return_to_main_scene)
-	shell.shade.color.a = lobby_background_opacity if lobby_context else 0.15
+	var escape_context := not _in_main_scene() and (view == MenuView.MAIN or view == MenuView.SETTINGS)
+	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.15)
 	shell.top_rail.color.a = 1.0 if _in_main_scene() else 0.0
 	shell.bottom_rail.color.a = 1.0 if _in_main_scene() else 0.0
 	if view != MenuView.SETTINGS:

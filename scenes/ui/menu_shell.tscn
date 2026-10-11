@@ -13,22 +13,22 @@ grow_vertical = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_kn1yp")
 
-[node name="Content" type="Control" parent="." unique_id=960076605]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 146.0
-offset_bottom = -152.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="Shade" type="ColorRect" parent="." unique_id=1275590422]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0.008, 0.012, 0.012, 0.15)
+
+[node name="Content" type="Control" parent="." unique_id=960076605]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 140.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TopRail" type="ColorRect" parent="." unique_id=588861012]
 layout_mode = 0

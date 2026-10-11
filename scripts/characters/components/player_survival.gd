@@ -160,7 +160,7 @@ func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: floa
 	reason = cause
 	respawn_remaining = remaining
 	var player := get_parent()
-	player.crosshair.visible = player.is_local_player() and not dead
+	player.refresh_crosshair_visibility()
 	player.body_animator.set_sleeping(dead or player.is_sleeping_in_bunk())
 	if dead:
 		player._server_consumed_jump_serial = player._server_jump_serial

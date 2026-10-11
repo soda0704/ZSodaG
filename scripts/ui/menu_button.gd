@@ -27,6 +27,19 @@ func _process(delta: float) -> void:
 			add_theme_color_override(state, color)
 		queue_redraw()
 
+func selection_line_rect() -> Rect2:
+	var style := get_theme_stylebox("normal")
+	var left := style.get_content_margin(SIDE_LEFT)
+	var right := style.get_content_margin(SIDE_RIGHT)
+	var available := maxf(0.0, size.x - left - right)
+	var width := minf(available, get_theme_font("font").get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, get_theme_font_size("font_size")).x)
+	if alignment == HORIZONTAL_ALIGNMENT_CENTER:
+		left += (available - width) * 0.5
+	elif alignment == HORIZONTAL_ALIGNMENT_RIGHT:
+		left += available - width
+	return Rect2(Vector2(left, size.y - 1), Vector2(width * _hover, 1))
+
 func _draw() -> void:
 	if _hover > 0.005 and not get_parent().has_method("navigation_indicator"):
-		draw_line(Vector2(0, size.y - 1), Vector2(size.x * _hover, size.y - 1), Color(0.40, 0.25, 0.23, _hover), 1.0)
+		var line := selection_line_rect()
+		draw_line(line.position, line.position + Vector2(line.size.x, 0), Color(0.40, 0.25, 0.23, _hover), 1.0)

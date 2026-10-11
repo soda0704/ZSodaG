@@ -51,10 +51,19 @@ func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	scroll.follow_focus = true
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	add_child(scroll)
+	# Keep the centered hover enlargement inside the scroll viewport on both sides.
+	var hover_inset := MarginContainer.new()
+	hover_inset.name = "HoverInset"
+	hover_inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left", "right"]:
+		hover_inset.add_theme_constant_override("margin_" + side, 12)
+	for side in ["top", "bottom"]:
+		hover_inset.add_theme_constant_override("margin_" + side, 4)
+	scroll.add_child(hover_inset)
 	rows = VBoxContainer.new()
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rows.add_theme_constant_override("separation", 5)
-	scroll.add_child(rows)
+	hover_inset.add_child(rows)
 	NorthernMenuStyle.rule(self)
 	description = NorthernMenuStyle.label("Изменения вступят в силу после применения.", 18, NorthernMenuStyle.MUTED)
 	description.custom_minimum_size.y = 132

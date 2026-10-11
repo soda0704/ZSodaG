@@ -93,7 +93,7 @@ function Initialize-GitLfsAssets {
     $gitDirectory = Join-Path $projectRoot ".git"
     if (-not (Test-Path -LiteralPath $gitDirectory)) {
         throw (
-            "The 4K menu video was not downloaded. This project must be " +
+            "The menu video was not downloaded. This project must be " +
             "cloned with Git, not downloaded as a ZIP archive."
         )
     }
@@ -124,7 +124,7 @@ function Initialize-GitLfsAssets {
         lfs pull `
         --include="assets/ui/main_menu.ogv" *> $null
     if ($LASTEXITCODE -ne 0) {
-        throw "Git LFS could not download the 4K menu video."
+        throw "Git LFS could not download the menu video."
     }
 
     if (

@@ -211,7 +211,8 @@ func _ready() -> void:
 			mesh.layers = 1 << 19
 			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	name_label.visible = not local_player
-	crosshair.visible = local_player
+	refresh_crosshair_visibility()
+	get_node("/root/GameMenu").menu_root.visibility_changed.connect(refresh_crosshair_visibility)
 	interaction_prompt_label.visible = false
 	battery_label.visible = false
 
@@ -294,6 +295,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	refresh_crosshair_visibility()
 	if survival.dead:
 		if multiplayer.is_server() or is_local_player():
 			_update_sprint(delta)
@@ -333,6 +335,10 @@ func _physics_process(delta: float) -> void:
 
 func is_local_player() -> bool:
 	return owner_peer_id == multiplayer.get_unique_id()
+
+
+func refresh_crosshair_visibility() -> void:
+	crosshair.visible = is_local_player() and not survival.dead and not is_debug_free_camera_active() and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 
 
 func _update_sprint(delta: float) -> void:

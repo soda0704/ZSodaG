@@ -162,10 +162,10 @@ func force_close() -> void:
 	if was_open and get_tree().get_first_node_in_group("local_player") != null and not get_node("/root/GameMenu").is_menu_open():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func _set_player_journal_visuals(open: bool) -> void:
+func _set_player_journal_visuals(_open: bool) -> void:
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null:
-		player.crosshair.visible = not open and not player.survival.dead
+		player.refresh_crosshair_visibility()
 		player._refresh_equipment_visuals()
 
 func is_journal_open() -> bool:
