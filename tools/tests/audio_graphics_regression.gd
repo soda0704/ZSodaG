@@ -27,8 +27,7 @@ func run():
 	check(zone.environment.ssr_enabled and not zone.environment.fog_enabled,"reflections enabled without adding fog")
 	quality.apply({"Gamma":130,"Brightness":115})
 	check(is_equal_approx(zone.environment.adjustment_brightness,1.15) and zone.environment.adjustment_color_correction != null,"brightness and gamma affect the environment")
-	var tabs := root.get_node("GameMenu").settings_panel.get_node("SettingsTabs") as TabContainer
-	check(tabs.get_tab_count()==4,"settings are separated into four tabs")
+	check(NorthernSettingsMenu.CATEGORIES.size() == 4, "settings are separated into four categories")
 	zone.free()
 	var elevator = load("res://scenes/objects/elevator/elevator_functional_blockout.tscn").instantiate()
 	root.add_child(elevator)

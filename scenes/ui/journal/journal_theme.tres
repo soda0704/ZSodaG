@@ -1,8 +1,7 @@
-[gd_resource type="Theme" format=3]
+[gd_resource type="Theme" format=3 uid="uid://bn0ljskbcf6bp"]
 
-[ext_resource type="FontFile" path="res://assets/fonts/journal/body.ttf" id="1_ju4yd"]
-
-[ext_resource type="FontFile" path="res://assets/fonts/journal/headings.otf" id="2_heading"]
+[ext_resource type="FontFile" uid="uid://bj0u7k5r3m87k" path="res://assets/fonts/journal/body.ttf" id="1_ju4yd"]
+[ext_resource type="FontFile" uid="uid://mx87ktmx5n0i" path="res://assets/fonts/journal/headings.otf" id="2_heading"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ju4yd"]
 content_margin_left = 10.0
@@ -67,7 +66,6 @@ Button/styles/focus = SubResource("StyleBoxFlat_oxfb3")
 Button/styles/hover = SubResource("StyleBoxFlat_jaagd")
 Button/styles/normal = SubResource("StyleBoxFlat_rwopx")
 Button/styles/pressed = SubResource("StyleBoxFlat_cf5a4")
-Label/colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
-
 JournalHeading/base_type = &"Label"
 JournalHeading/fonts/font = ExtResource("2_heading")
+Label/colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)

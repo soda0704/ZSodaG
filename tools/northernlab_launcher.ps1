@@ -17,6 +17,7 @@ $shortcutPath = Join-Path $projectRoot "NorthernLab.lnk"
 $settingsDirectory = Join-Path $env:LOCALAPPDATA "NorthernLab"
 $settingsPath = Join-Path $settingsDirectory "launcher_settings.json"
 $mainMenuVideo = Join-Path $projectRoot "assets\ui\main_menu.ogv"
+$buildLogDirectory = Join-Path $PSScriptRoot ".local\launcher-logs"
 
 
 function Get-SteamLibraries {
@@ -292,6 +293,89 @@ function Get-GameVersion {
     return $versionMatch.Groups[1].Value
 }
 
+function Assert-BuildNotRunning {
+    if (Test-Path -LiteralPath $outputExecutable) {
+        try {
+            $handle = [System.IO.File]::Open($outputExecutable, 'Open', 'ReadWrite', 'None')
+            $handle.Dispose()
+        }
+        catch {
+            throw "Close NorthernLab.exe before rebuilding. The current build has been kept."
+        }
+    }
+}
+
+
+function Invoke-GodotBuildStep {
+    param([string]$Name, [int]$TimeoutSeconds, [string[]]$Arguments)
+
+    $logPath = Join-Path $buildLogDirectory "$Name.log"
+    # Truncate the previous run so a startup failure cannot reuse its success log.
+    Set-Content -LiteralPath $logPath -Value "" -Encoding UTF8
+    $process = Start-Process -FilePath $localGodot `
+        -ArgumentList ($Arguments + @("--log-file", "`"$logPath`"")) `
+        -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru
+    if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+        Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
+        throw "Godot $Name timed out. See $logPath. The current build has been kept."
+    }
+    $process.Refresh()
+    $engineError = Select-String -LiteralPath $logPath -Pattern '^(SCRIPT ERROR:|ERROR:)' |
+        Select-Object -First 1
+    if ($process.ExitCode -ne 0 -or $engineError) {
+        throw "Godot $Name failed (code $($process.ExitCode)). See $logPath. $engineError"
+    }
+}
+
+
+function Publish-DevelopmentBuild {
+    param([string]$StagingDirectory)
+
+    Assert-BuildNotRunning
+    $backupDirectory = Join-Path $projectRoot ("build\.windows-dev-previous-" + [guid]::NewGuid().ToString("N"))
+    $safeRoot = [System.IO.Path]::GetFullPath((Join-Path $projectRoot "build"))
+    foreach ($candidate in @($StagingDirectory, $outputDirectory, $backupDirectory)) {
+        $absolute = [System.IO.Path]::GetFullPath($candidate)
+        $leaf = [System.IO.Path]::GetFileName($absolute)
+        if ([System.IO.Path]::GetDirectoryName($absolute) -ne $safeRoot -or
+            ($leaf -ne 'windows-dev' -and -not $leaf.StartsWith('.windows-dev-'))) {
+            throw "Unsafe build publication path: $absolute"
+        }
+    }
+    $hadPrevious = Test-Path -LiteralPath $outputDirectory
+    if ($hadPrevious) {
+        Move-Item -LiteralPath $outputDirectory -Destination $backupDirectory
+    }
+    try {
+        Move-Item -LiteralPath $StagingDirectory -Destination $outputDirectory
+    }
+    catch {
+        if ($hadPrevious) {
+            Move-Item -LiteralPath $backupDirectory -Destination $outputDirectory
+        }
+        throw
+    }
+    if ($hadPrevious) {
+        Remove-BuildStagingDirectory $backupDirectory
+    }
+}
+
+
+function Remove-BuildStagingDirectory {
+    param([string]$Path)
+
+    if (Test-Path -LiteralPath $Path) {
+        $resolved = (Resolve-Path -LiteralPath $Path).Path
+        $safeRoot = [System.IO.Path]::GetFullPath((Join-Path $projectRoot "build"))
+        if ([System.IO.Path]::GetDirectoryName($resolved) -ne $safeRoot -or
+            -not [System.IO.Path]::GetFileName($resolved).StartsWith(".windows-dev-")) {
+            throw "Unsafe staging path: $resolved"
+        }
+        Remove-Item -LiteralPath $resolved -Recurse -Force
+    }
+}
+
+
 function Invoke-DevelopmentBuild {
     param([scriptblock]$StatusCallback)
 
@@ -309,98 +393,82 @@ function Invoke-DevelopmentBuild {
 
     $buildRoot = Join-Path $projectRoot "build"
     New-Item -ItemType Directory -Path $buildRoot -Force | Out-Null
-    if (Test-Path -LiteralPath $outputDirectory) {
-        $resolvedOutput = (Resolve-Path -LiteralPath $outputDirectory).Path
-        $resolvedBuildRoot = (Resolve-Path -LiteralPath $buildRoot).Path
-        if (
-            -not $resolvedOutput.StartsWith(
-                $resolvedBuildRoot + "\",
-                [System.StringComparison]::OrdinalIgnoreCase
-            )
-        ) {
-            throw "Unsafe build output path: $resolvedOutput"
+    Assert-BuildNotRunning
+    New-Item -ItemType Directory -Path $buildLogDirectory -Force | Out-Null
+    $stagingDirectory = Join-Path $buildRoot (".windows-dev-" + [guid]::NewGuid().ToString("N"))
+    New-Item -ItemType Directory -Path $stagingDirectory -Force | Out-Null
+    $stagingExecutable = Join-Path $stagingDirectory "NorthernLab.exe"
+
+    try {
+        $exportArguments = @(
+            "--headless",
+            "--path",
+            "`"$projectRoot`"",
+            "--export-debug",
+            "`"Windows Dev`"",
+            "`"$stagingExecutable`""
+        )
+        Invoke-GodotBuildStep -Name "identity" -TimeoutSeconds 120 -Arguments @(
+            "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
+        )
+        if ($StatusCallback) {
+            & $StatusCallback "Exporting NorthernLab v$(Get-GameVersion)..."
         }
-        Remove-Item -LiteralPath $resolvedOutput -Recurse -Force
-    }
-    New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
+        Invoke-GodotBuildStep -Name "export" -TimeoutSeconds 600 -Arguments $exportArguments
+        if (-not (Test-Path -LiteralPath $stagingExecutable)) {
+            throw "Godot reported success but did not create $stagingExecutable"
+        }
 
-    $exportArguments = @(
-        "--headless",
-        "--path",
-        "`"$projectRoot`"",
-        "--export-debug",
-        "`"Windows Dev`"",
-        "`"$outputExecutable`""
-    )
-    $identityProcess = Start-Process `
-        -FilePath $localGodot `
-        -ArgumentList @("--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd") `
-        -WorkingDirectory $projectRoot `
-        -WindowStyle Hidden `
-        -Wait `
-        -PassThru
-    if ($identityProcess.ExitCode -ne 0) {
-        throw "Could not generate the network build identity."
-    }
-    $exportProcess = Start-Process `
-        -FilePath $localGodot `
-        -ArgumentList $exportArguments `
-        -WorkingDirectory $projectRoot `
-        -WindowStyle Hidden `
-        -Wait `
-        -PassThru
-    if ($exportProcess.ExitCode -ne 0) {
-        throw "Godot export failed with code $($exportProcess.ExitCode)."
-    }
-    if (-not (Test-Path -LiteralPath $outputExecutable)) {
-        throw "Godot reported success but did not create $outputExecutable"
-    }
+        Set-Content `
+            -LiteralPath (Join-Path $stagingDirectory "steam_appid.txt") `
+            -Value "480" `
+            -Encoding ASCII
+        Copy-Item `
+            -LiteralPath (Join-Path $projectRoot "game_actions_480.vdf") `
+            -Destination (Join-Path $stagingDirectory "game_actions_480.vdf") `
+            -Force
 
-    Set-Content `
-        -LiteralPath (Join-Path $outputDirectory "steam_appid.txt") `
-        -Value "480" `
-        -Encoding ASCII
-    Copy-Item `
-        -LiteralPath (Join-Path $projectRoot "game_actions_480.vdf") `
-        -Destination (Join-Path $outputDirectory "game_actions_480.vdf") `
-        -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
 
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "MONSTER_CREDITS.md") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $outputDirectory "MOUNTAIN_CREDITS.txt") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "PINE_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "SNOWMOBILE_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CORPSE_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "JOURNAL_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CHARACTER_CREDITS.md") -Force
+        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $stagingDirectory "ITEM_MODEL_CREDITS.md") -Force
 
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "SNOWMOBILE_CREDITS.md") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "CORPSE_CREDITS.md") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "JOURNAL_CREDITS.md") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $outputDirectory "CHARACTER_CREDITS.md") -Force
-    Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $outputDirectory "ITEM_MODEL_CREDITS.md") -Force
-
-    $revision = "unavailable"
-    $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
-    if ($gitCommand) {
-        $revisionOutput = (& $gitCommand.Source `
-            -C $projectRoot rev-parse --short HEAD 2>$null)
-        if (
-            $LASTEXITCODE -eq 0 -and
-            -not [string]::IsNullOrWhiteSpace($revisionOutput)
-        ) {
-            $revision = $revisionOutput.Trim()
-            $workingTreeStatus = (& $gitCommand.Source `
-                -C $projectRoot status --porcelain 2>$null)
-            if (-not [string]::IsNullOrWhiteSpace($workingTreeStatus)) {
-                $revision += "-dirty"
+        $revision = "unavailable"
+        $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
+        if ($gitCommand) {
+            $revisionOutput = (& $gitCommand.Source `
+                -C $projectRoot rev-parse --short HEAD 2>$null)
+            if (
+                $LASTEXITCODE -eq 0 -and
+                -not [string]::IsNullOrWhiteSpace($revisionOutput)
+            ) {
+                $revision = $revisionOutput.Trim()
+                $workingTreeStatus = (& $gitCommand.Source `
+                    -C $projectRoot status --porcelain 2>$null)
+                if (-not [string]::IsNullOrWhiteSpace($workingTreeStatus)) {
+                    $revision += "-dirty"
+                }
             }
         }
-    }
-    Set-Content `
-        -LiteralPath (Join-Path $outputDirectory "build_info.txt") `
-        -Value @(
-            "NorthernLab development build"
-            "Revision: $revision"
-            "Built: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')"
-        ) `
-        -Encoding UTF8
+        Set-Content `
+            -LiteralPath (Join-Path $stagingDirectory "build_info.txt") `
+            -Value @(
+                "NorthernLab development build"
+                "Revision: $revision"
+                "Built: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')"
+            ) `
+            -Encoding UTF8
 
+        Publish-DevelopmentBuild $stagingDirectory
+    }
+    finally {
+        Remove-BuildStagingDirectory $stagingDirectory
+    }
     New-LauncherShortcut
     if ($StatusCallback) {
         & $StatusCallback "Build ready: build/windows-dev"

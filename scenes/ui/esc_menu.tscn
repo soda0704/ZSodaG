@@ -1,0 +1,120 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/esc_menu.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="2_1apln"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_navigation.gd" id="navigation"]
+
+[node name="ESC_MENU" type="VBoxContainer" unique_id=1915385551]
+theme = ExtResource("menu_theme")
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 0
+script = ExtResource("1")
+
+[node name="Brand" type="Label" parent="." unique_id=715439103]
+theme_override_constants/line_spacing = 0
+custom_minimum_size = Vector2(0, 124)
+theme_type_variation = &"MenuBrand"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 74
+text = "NORTHERN\nLAB"
+vertical_alignment = 1
+
+[node name="BrandGap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tagline" type="Label" parent="." unique_id=1380886674]
+theme_type_variation = &"MenuTagline"
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "СЕВЕРНАЯ ИССЛЕДОВАТЕЛЬСКАЯ СТАНЦИЯ"
+vertical_alignment = 1
+
+[node name="@Control@18" type="Control" parent="." unique_id=1617242537]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Navigation" type="HBoxContainer" parent="." unique_id=1959555857]
+script = ExtResource("navigation")
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Continue" type="Button" parent="Navigation" unique_id=1094987120]
+theme_type_variation = &"MenuEscapeNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+disabled = true
+text = "ПРОДОЛЖИТЬ"
+alignment = 0
+script = ExtResource("2_1apln")
+
+[node name="Settings" type="Button" parent="Navigation" unique_id=278523086]
+theme_type_variation = &"MenuEscapeNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "НАСТРОЙКИ"
+alignment = 0
+script = ExtResource("2_1apln")
+
+[node name="MainMenu" type="Button" parent="Navigation" unique_id=1218651804]
+theme_type_variation = &"MenuEscapeNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "ГЛАВНОЕ МЕНЮ"
+alignment = 0
+script = ExtResource("2_1apln")
+
+[node name="@Control@23" type="Control" parent="." unique_id=429286256]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="@Label@24" type="Label" parent="." unique_id=1458384143]
+custom_minimum_size = Vector2(0, 39)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "ТЕКУЩАЯ ЭКСПЕДИЦИЯ"
+vertical_alignment = 1
+
+[node name="Context" type="Label" parent="." unique_id=191394183]
+custom_minimum_size = Vector2(0, 81)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+text = "День 1 · Северная база\nОдиночная игра"
+vertical_alignment = 1
+
+[node name="@Label@26" type="Label" parent="." unique_id=111996980]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "Игра продолжается на фоне"
+vertical_alignment = 1
+
+[node name="@Control@27" type="Control" parent="." unique_id=1549282395]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="@Label@28" type="Label" parent="." unique_id=8347598]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "ESC   Вернуться в игру"
+vertical_alignment = 1

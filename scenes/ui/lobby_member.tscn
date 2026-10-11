@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="1_theme"]
+
+[node name="LobbyMember" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 150)
+theme = ExtResource("1_theme")
+theme_type_variation = &"LobbyMember"
+mouse_filter = 2
+
+[node name="Content" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Order" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+theme_override_font_sizes/font_size = 18
+text = "01"
+vertical_alignment = 1
+
+[node name="Identity" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="MemberName" type="Label" parent="Content/Identity"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+text = "Ожидание напарника"
+
+[node name="Role" type="Label" parent="Content/Identity"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+theme_override_font_sizes/font_size = 17
+text = "МОЖНО ПРИСОЕДИНИТЬСЯ ПО ID"
+
+[node name="Ready" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1

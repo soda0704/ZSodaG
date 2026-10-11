@@ -32,7 +32,10 @@ func run() -> void:
 	mixer.set_process(false)
 	var original: Dictionary = menu._settings_data.duplicate()
 	for key in menu.AUDIO_OPTIONS:
-		check(menu.get_node("%%%sSlider" % key) is HSlider, key + " has authored slider")
+		var available := false
+		for spec in NorthernSettingsMenu.AUDIO:
+			if spec[0] == key: available = true
+		check(available, key + " has a native menu control")
 	mixer.apply_settings({"WeaponsVolume": 25, "EffectsVolume": 0, "RoomReverb": 100})
 	check(is_equal_approx(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Weapons")), linear_to_db(0.25)), "weapon category volume applies")
 	check(AudioServer.is_bus_mute(AudioServer.get_bus_index("Effects")) and not AudioServer.is_bus_mute(AudioServer.get_bus_index("Vehicles")), "category mute leaves vehicles independent")

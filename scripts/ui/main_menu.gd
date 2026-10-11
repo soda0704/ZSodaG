@@ -1,204 +1,196 @@
 class_name NorthernLabMainMenu
 extends Control
 
-@onready var continue_game_button: Button = %ContinueGameButton
-@onready var single_player_button: Button = %SinglePlayerButton
-@onready var delete_save_button: Button = %DeleteSaveButton
-@onready var host_button: Button = %HostButton
-@onready var join_button: Button = %JoinButton
-@onready var settings_button: Button = %SettingsButton
-@onready var exit_button: Button = %ExitButton
-@onready var background_video: VideoStreamPlayer = %BackgroundVideo
-@onready var steam_status_label: Label = %SteamStatusLabel
-@onready var status_label: Label = %StatusLabel
-@onready var save_status_label: Label = %SaveStatusLabel
-@onready var fade: ColorRect = %Fade
-@onready var version_label: Label = %VersionLabel
-@onready var new_game_confirmation: ConfirmationDialog = %NewGameConfirmation
-@onready var delete_save_confirmation: ConfirmationDialog = %DeleteSaveConfirmation
-@onready var skin_option: OptionButton = $SkinCard/Content/SkinOption
-
-var _transition_in_progress: bool = false
-
+var shell: NorthernMenuShell
+var background_video: VideoStreamPlayer
+var continue_game_button: Button
+var single_player_button: Button
+var settings_button: Button
+var exit_button: Button
+var skin_option: OptionButton
+var status_label: Label
+var selector: NorthernCharacterSelection
+var current_view := "home"
+var _transition_in_progress := false
+var _character_flow := "solo"
+var _last_focus: Control
 
 func _ready() -> void:
-	version_label.text = "ВЕРСИЯ %s" % str(ProjectSettings.get_setting("application/config/version", "1.00"))
 	BaseGameplayController.save_scope = "solo"
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	GameMenu.force_close_menu()
-
-	continue_game_button.pressed.connect(_on_continue_game_pressed)
-	single_player_button.pressed.connect(_on_single_player_pressed)
-	delete_save_button.pressed.connect(_on_delete_save_pressed)
-	host_button.pressed.connect(_on_host_pressed)
-	join_button.pressed.connect(_on_join_pressed)
-	settings_button.pressed.connect(_on_settings_pressed)
-	exit_button.pressed.connect(_on_exit_pressed)
-	new_game_confirmation.confirmed.connect(_start_new_game)
-	delete_save_confirmation.confirmed.connect(_delete_save_confirmed)
-	background_video.finished.connect(_on_background_video_finished)
-	# Assign after the autoload has created/loaded the Music bus. Otherwise Godot
-	# falls back to Master if the scene property resolves before the bus layout.
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	shell = $Shell
+	background_video = $BackgroundVideo
+	shell.video = background_video
 	background_video.bus = &"Music"
-
-	SteamNetwork.state_changed.connect(_on_steam_state_changed)
-	SteamNetwork.steam_initialized.connect(_on_steam_initialized)
-	SteamNetwork.steam_initialization_failed.connect(
-		_on_steam_initialization_failed
-	)
-
-	refresh_steam_status()
-	refresh_save_ui()
-	if continue_game_button.disabled:
-		single_player_button.grab_focus()
-	else:
-		continue_game_button.grab_focus()
+	background_video.finished.connect(background_video.play)
 	if not background_video.is_playing():
 		background_video.play()
+	SteamNetwork.state_changed.connect(_on_steam_state_changed)
+	_show_home()
+	shell.appear()
 
+func _page(template: String) -> VBoxContainer:
+	if is_instance_valid(selector):
+		selector.queue_free()
+		selector = null
+		skin_option = null
+	var page: VBoxContainer = load(template).instantiate()
+	shell.replace(page)
+	if current_view == "home":
+		page.offset_left = 27
+	shell.content.clip_contents = true
+	shell.clear(shell.header)
+	shell.clear(shell.footer)
+	shell.footer.add_child(NorthernMenuStyle.label("NORTHERNLAB · ВЕРСИЯ %s" % str(ProjectSettings.get_setting("application/config/version", "1.00")), 18, NorthernMenuStyle.MUTED))
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	shell.footer.add_child(spacer)
+	var steam := "STEAM ONLINE · " + SteamNetwork.local_user_name if SteamNetwork.steam_available else "STEAM OFFLINE · ОДИНОЧНАЯ ИГРА ДОСТУПНА"
+	shell.footer.add_child(NorthernMenuStyle.label(steam, 18, NorthernMenuStyle.MUTED))
+	if current_view != "home":
+		shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", back, 15))
+	status_label = page.get_node_or_null("Status")
+	return page
 
-func _on_background_video_finished() -> void:
-	background_video.play()
+func _show_home() -> void:
+	current_view = "home"
+	var page := _page("res://scenes/ui/menu_home.tscn")
+	continue_game_button = page.get_node("Navigation/Continue")
+	single_player_button = page.get_node("Navigation/NewGame")
+	settings_button = page.get_node("Navigation/Settings")
+	exit_button = page.get_node("Navigation/Exit")
+	continue_game_button.disabled = BaseGameplayController.get_saved_progress_summary().is_empty()
+	continue_game_button.pressed.connect(func(): _navigate(_show_checkpoint))
+	single_player_button.pressed.connect(_on_single_player_pressed)
+	page.get_node("Navigation/Coop").pressed.connect(func(): _navigate(_show_coop))
+	settings_button.pressed.connect(func(): _navigate(func(): GameMenu.open_settings()))
+	exit_button.pressed.connect(_on_exit_pressed)
+	(single_player_button if continue_game_button.disabled else continue_game_button).grab_focus()
 
-
-func refresh_steam_status() -> void:
-	if SteamNetwork.steam_available:
-		steam_status_label.text = "STEAM ONLINE\n%s" % SteamNetwork.local_user_name
-		host_button.disabled = false
-		join_button.disabled = false
-	else:
-		steam_status_label.text = "STEAM OFFLINE\nОдиночная игра доступна"
-		host_button.disabled = true
-		join_button.disabled = true
-
-
-func set_menu_enabled(value: bool) -> void:
-	skin_option.disabled = not value
-	continue_game_button.disabled = (
-		not value
-		or BaseGameplayController.get_saved_progress_summary().is_empty()
-	)
-	single_player_button.disabled = not value
-	delete_save_button.disabled = (
-		not value or not BaseGameplayController.has_progress_save_file()
-	)
-	host_button.disabled = not value or not SteamNetwork.steam_available
-	join_button.disabled = not value or not SteamNetwork.steam_available
-	settings_button.disabled = not value
-	exit_button.disabled = not value
-
-
-func begin_transition(message: String) -> void:
-	_transition_in_progress = true
-	set_menu_enabled(false)
-	status_label.text = message
-	var tween := create_tween()
-	tween.tween_property(fade, "color:a", 1.0, 0.22)
-	await tween.finished
-
+func _navigate(callback: Callable) -> void:
+	if _transition_in_progress or shell.busy or GameMenu.is_menu_open():
+		return
+	shell.transition(callback)
 
 func _on_single_player_pressed() -> void:
-	if _transition_in_progress:
-		return
-	if BaseGameplayController.has_progress_save_file():
-		new_game_confirmation.popup_centered()
-		return
-	_start_new_game()
+	_navigate(func():
+		if BaseGameplayController.has_progress_save_file():
+			GameMenu.confirm("Новая экспедиция", "После начала новой игры одиночное сохранение будет заменено.", [{"label": "Выбрать персонажа", "action": show_character.bind("solo")}])
+		else:
+			show_character("solo")
+	)
 
+func show_character(flow: String = "solo") -> void:
+	current_view = "character"
+	_character_flow = flow
+	_page("res://scenes/ui/menu_character.tscn")
+	selector = preload("res://scenes/ui/character_selection.tscn").instantiate()
+	selector.name = "SkinCard"
+	shell.add_child(selector)
+	shell.move_child(selector, shell.content.get_index() + 1)
+	NorthernMenuStyle.fill(selector)
+	skin_option = selector.option
+	shell.footer.get_child(shell.footer.get_child_count() - 1).queue_free()
+	shell.footer.add_child(NorthernMenuStyle.button("Начать экспедицию" if flow == "solo" else "Выбрать", _confirm_character, 23))
+	shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", back, 21))
+	skin_option.grab_focus()
 
-func _on_continue_game_pressed() -> void:
-	if (
-		_transition_in_progress
-		or BaseGameplayController.get_saved_progress_summary().is_empty()
-	):
-		return
-	await begin_transition("ЗАГРУЗКА СОХРАНЁННОЙ ЭКСПЕДИЦИИ...")
-	GameMenu.start_standalone_flow(true)
-
-
-func _start_new_game() -> void:
-	if _transition_in_progress:
-		return
-	if not BaseGameplayController.delete_progress_save():
-		status_label.text = "НЕ УДАЛОСЬ ОЧИСТИТЬ СОХРАНЕНИЕ"
-		refresh_save_ui()
-		return
-	await begin_transition("ЗАПУСК ЛОКАЛЬНОЙ ЭКСПЕДИЦИИ...")
-	GameMenu.start_standalone_flow()
-
-
-func _on_delete_save_pressed() -> void:
-	if _transition_in_progress or not BaseGameplayController.has_progress_save_file():
-		return
-	delete_save_confirmation.popup_centered()
-
-
-func _delete_save_confirmed() -> void:
-	if BaseGameplayController.delete_progress_save():
-		status_label.text = "СОХРАНЕНИЕ УДАЛЕНО"
+func _confirm_character() -> void:
+	if _character_flow == "coop":
+		_navigate(_show_coop)
 	else:
-		status_label.text = "НЕ УДАЛОСЬ УДАЛИТЬ СОХРАНЕНИЕ"
-	refresh_save_ui()
+		_start_solo(false)
 
-
-func refresh_save_ui() -> void:
+func _show_checkpoint() -> void:
+	current_view = "checkpoint"
+	var page := _page("res://scenes/ui/menu_checkpoint.tscn")
 	var summary := BaseGameplayController.get_saved_progress_summary()
-	var has_file := BaseGameplayController.has_progress_save_file()
-	continue_game_button.disabled = summary.is_empty()
-	delete_save_button.disabled = not has_file
-	delete_save_button.visible = has_file
-	if not has_file and delete_save_button.has_focus():
-		single_player_button.grab_focus()
-	if not summary.is_empty():
-		var power_text := (
-			"ПИТАНИЕ ВКЛЮЧЕНО"
-			if bool(summary.get("main_breaker_on", false))
-			else "ПИТАНИЕ ОТКЛЮЧЕНО"
-		)
-		save_status_label.text = "CHECKPOINT: DAY %d  •  %s" % [
-			int(summary.get("day_index", 1)),
-			power_text,
-		]
-	elif has_file:
-		save_status_label.text = "CHECKPOINT ПОВРЕЖДЁН ИЛИ НЕСОВМЕСТИМ"
+	page.get_node("Day").text = "ДЕНЬ %d" % int(summary.get("day_index", 1))
+	page.get_node("Power").text = "Питание включено" if bool(summary.get("main_breaker_on", false)) else "Питание отключено"
+	page.get_node("Continue").pressed.connect(_start_solo.bind(true))
+	page.get_node("Delete").pressed.connect(func(): GameMenu.confirm("Удалить сохранение?", "Одиночный прогресс будет удалён.", [{"label": "Удалить", "action": _delete_save}]))
+
+func _delete_save() -> void:
+	if BaseGameplayController.delete_progress_save():
+		_show_home()
 	else:
-		save_status_label.text = ""
-	save_status_label.visible = has_file
+		show_status("Не удалось удалить сохранение.")
 
+func _show_coop() -> void:
+	current_view = "coop"
+	var page := _page("res://scenes/ui/menu_coop.tscn")
+	var host: Button = page.get_node("Host")
+	var join: Button = page.get_node("Join")
+	host.disabled = not SteamNetwork.steam_available
+	join.disabled = not SteamNetwork.steam_available
+	host.pressed.connect(func(): _navigate(func(): GameMenu.start_host_flow()))
+	join.pressed.connect(func(): _navigate(func(): GameMenu.open_menu(GlobalGameMenu.MenuView.JOIN)))
+	page.get_node("Character").pressed.connect(func(): _navigate(show_character.bind("coop")))
+	page.get_node("OfflineHint").visible = not SteamNetwork.steam_available
 
-func _on_host_pressed() -> void:
-	if _transition_in_progress or not SteamNetwork.steam_available:
+func _start_solo(resume_checkpoint: bool) -> void:
+	if _transition_in_progress or shell.busy:
 		return
-	status_label.text = "СОЗДАНИЕ STEAM-ЛОББИ..."
-	GameMenu.start_host_flow()
-
-
-func _on_join_pressed() -> void:
-	if _transition_in_progress or not SteamNetwork.steam_available:
-		return
-	GameMenu.open_menu(GlobalGameMenu.MenuView.JOIN)
-
-
-func _on_settings_pressed() -> void:
-	GameMenu.open_settings()
-
+	_transition_in_progress = true
+	set_menu_enabled(false)
+	await shell.transition(func(): GameMenu.start_standalone_flow(resume_checkpoint))
+	if is_inside_tree():
+		_transition_in_progress = false
+		set_menu_enabled(true)
 
 func _on_exit_pressed() -> void:
-	get_tree().quit()
+	if shell.busy or _transition_in_progress or GameMenu.is_menu_open():
+		return
+	shell.busy = true
+	await create_tween().tween_property(exit_button, "modulate:a", 0.55, 0.17).set_custom_interpolator(NorthernMenuStyle.ease).finished
+	shell.busy = false
+	exit_button.modulate.a = 1
+	GameMenu.confirm("Выход из игры", "Завершить игру?", [{"label": "Выйти", "action": func(): get_tree().quit()}])
 
+func set_menu_enabled(value: bool) -> void:
+	_set_controls_enabled(shell.content, value)
+	_set_controls_enabled(shell.footer, value)
+	if is_instance_valid(selector):
+		_set_controls_enabled(selector, value)
+
+func _set_controls_enabled(node: Node, enabled: bool) -> void:
+	if node is BaseButton:
+		node.disabled = not enabled
+	for child in node.get_children():
+		_set_controls_enabled(child, enabled)
+	if enabled and current_view == "home":
+		continue_game_button.disabled = BaseGameplayController.get_saved_progress_summary().is_empty()
+
+func set_overlay_visible(value: bool) -> void:
+	if shell == null:
+		return
+	if value:
+		_last_focus = get_viewport().gui_get_focus_owner()
+	shell.content.visible = not value or GameMenu.dialog != null
+	if is_instance_valid(selector):
+		selector.visible = shell.content.visible
+	if not value and is_instance_valid(_last_focus) and _last_focus.is_visible_in_tree():
+		_last_focus.grab_focus()
 
 func show_status(message: String) -> void:
-	if not message.is_empty():
-		status_label.text = message.to_upper()
+	if status_label != null:
+		status_label.text = message
 
+func back() -> void:
+	if shell.busy or _transition_in_progress:
+		return
+	_navigate(_show_coop if current_view == "character" and _character_flow == "coop" else _show_home)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if GameMenu.is_menu_open() or event.is_echo():
+		return
+	if current_view != "home" and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
+		back()
+		get_viewport().set_input_as_handled()
 
 func _on_steam_state_changed(_state: int, _message: String) -> void:
-	refresh_steam_status()
-
-
-func _on_steam_initialized(_user_name: String) -> void:
-	refresh_steam_status()
-
-
-func _on_steam_initialization_failed(_reason: String) -> void:
-	refresh_steam_status()
+	if current_view == "home":
+		_show_home()
+	elif current_view == "coop":
+		_show_coop()

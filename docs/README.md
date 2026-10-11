@@ -41,6 +41,7 @@
 
 ## Интерфейс, звук и окружение
 
+- [Главное меню, Esc и лобби](technical/menus.md).
 - [Журнал и анимация](technical/journal_presentation.md).
 - [Иллюстрации журнала](technical/journal_illustration_style.md).
 - [Звук и акустика](technical/audio_mix.md).

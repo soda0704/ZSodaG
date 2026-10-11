@@ -1,0 +1,17 @@
+[gd_resource type="FontVariation" format=3 uid="uid://op5wq0dlp8j0"]
+
+[sub_resource type="SystemFont" id="Body"]
+font_names = PackedStringArray("Bahnschrift", "Arial", "Noto Sans")
+font_stretch = 87
+multichannel_signed_distance_field = true
+msdf_size = 96
+
+[resource]
+base_font = SubResource("Body")
+variation_opentype = {
+2003072104: 87,
+2003265652: 400,
+"wdth": 87.5,
+"wght": 400.0
+}
+spacing_glyph = 1

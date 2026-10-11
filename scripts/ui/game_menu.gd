@@ -1,161 +1,76 @@
 class_name GlobalGameMenu
 extends CanvasLayer
+## Stable gameplay API; native views share one settings and network service.
 
-enum MenuView {
-	MAIN,
-	SESSION,
-	JOIN,
-	SETTINGS,
-}
-
-const MECHANICS_TEST_ROOM_SCENE := (
-	"res://scenes/levels/base_session.tscn"
-)
+enum MenuView { MAIN, SESSION, JOIN, SETTINGS }
+@export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.72
+const MECHANICS_TEST_ROOM_SCENE := "res://scenes/levels/base_session.tscn"
 const SETTINGS_DIRECTORY := "NorthernLab"
 const SETTINGS_FILE := "launcher_settings.json"
-const RESOLUTIONS := [
-	Vector2i(1280, 720),
-	Vector2i(1366, 768),
-	Vector2i(1600, 900),
-	Vector2i(1920, 1080),
-	Vector2i(2560, 1440),
-	Vector2i(3840, 2160),
-]
+const RESOLUTIONS := [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440), Vector2i(3840, 2160)]
 const WINDOW_MODES := ["fullscreen", "windowed", "maximized"]
-
-@onready var menu_root: Control = %MenuRoot
-@onready var main_panel: VBoxContainer = %MainPanel
-@onready var session_panel: VBoxContainer = %SessionPanel
-@onready var join_panel: VBoxContainer = %JoinPanel
-@onready var settings_panel: VBoxContainer = %SettingsPanel
-
-@onready var steam_status_label: Label = %SteamStatusLabel
-@onready var feedback_label: Label = %FeedbackLabel
-@onready var continue_button: Button = %ContinueButton
-@onready var host_button: Button = %HostButton
-@onready var join_button: Button = %JoinButton
-@onready var settings_button: Button = %SettingsButton
-@onready var exit_button: Button = %ExitButton
-
-@onready var session_status_label: Label = %SessionStatusLabel
-@onready var lobby_id_value: LineEdit = %LobbyIdValue
-@onready var copy_lobby_id_button: Button = %CopyLobbyIdButton
-@onready var invite_button: Button = %InviteButton
-@onready var members_label: Label = %MembersLabel
-@onready var ready_status_label: Label = %ReadyStatusLabel
-@onready var ready_button: Button = %ReadyButton
-@onready var start_game_button: Button = %StartGameButton
-@onready var leave_lobby_button: Button = %LeaveLobbyButton
-@onready var session_back_button: Button = %SessionBackButton
-
-@onready var lobby_id_input: LineEdit = %LobbyIdInput
-@onready var connect_button: Button = %ConnectButton
-@onready var join_back_button: Button = %JoinBackButton
-
-@onready var resolution_option: OptionButton = %ResolutionOption
-@onready var window_mode_option: OptionButton = %WindowModeOption
-@onready var screen_option: OptionButton = %ScreenOption
-@onready var vsync_check: CheckButton = %VSyncCheck
-@onready var master_volume_slider: HSlider = %MasterVolumeSlider
-@onready var master_volume_value: Label = %MasterVolumeValue
-@onready var music_volume_slider: HSlider = %MusicVolumeSlider
-@onready var music_volume_value: Label = %MusicVolumeValue
-@onready var audio_mix: AudioMixController = $AudioMix
 const AUDIO_OPTIONS := ["EffectsVolume", "WeaponsVolume", "VehiclesVolume", "MachineryVolume", "AmbienceVolume", "BreathingVolume", "RoomReverb"]
-@onready var mouse_sensitivity_slider: HSlider = %MouseSensitivitySlider
-@onready var mouse_sensitivity_value: Label = %MouseSensitivityValue
-@onready var settings_back_button: Button = %SettingsBackButton
 
+@onready var audio_mix: AudioMixController = $AudioMix
+var menu_root: Control
+var shell: NorthernMenuShell
+var main_panel: NorthernEscapeMenu
+var session_panel: NorthernLobbyMenu
+var join_panel: VBoxContainer
+var settings_panel: NorthernSettingsMenu
+var feedback_label: Label
+var steam_status_label: Label
+var session_status_label: Label
+var lobby_id_value: LineEdit
+var lobby_id_input: LineEdit
+var ready_button: Button
+var start_game_button: Button
+var dialog: NorthernMenuDialog
 var _current_view: MenuView = MenuView.MAIN
-var _transition_in_progress: bool = false
-var _settings_return_to_main_scene: bool = false
+var _settings_origin: MenuView = MenuView.MAIN
+var _settings_return_to_main_scene := false
+var _transition_in_progress := false
 var _settings_data: Dictionary = {}
-var _mouse_sensitivity_multiplier: float = 1.0
-var _host_choice: ConfirmationDialog
-var _host_reset: ConfirmationDialog
-
+var _mouse_sensitivity_multiplier := 1.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	menu_root.visible = false
-	%ControlsButton.pressed.connect($ControlSettings.show_settings)
-	connect_ui_signals()
+	ensure_music_bus()
+	_settings_data = load_settings_data()
+	apply_settings_data()
+	NorthernMenuStyle.install_cursor()
+	menu_root = $MenuRoot
+	shell = $MenuRoot/Shell
+	main_panel = $MenuRoot/Shell/Content/ESC_MENU
+	NorthernMenuStyle.fill(main_panel)
+	main_panel.configure(self)
+	session_panel = $MenuRoot/Shell/Content/LOBBY_MENU
+	NorthernMenuStyle.fill(session_panel)
+	session_panel.anchor_right = 0
+	session_panel.offset_right = 1350
+	session_panel.offset_top = 21
+	session_panel.configure(self)
+	session_status_label = session_panel.session_status_label
+	lobby_id_value = session_panel.lobby_id_value
+	ready_button = session_panel.ready_button
+	start_game_button = session_panel.start_button
+	join_panel = $MenuRoot/Shell/Content/JoinPage
+	NorthernMenuStyle.fill(join_panel)
+	lobby_id_input = $MenuRoot/Shell/Content/JoinPage/LobbyInput
+	lobby_id_input.text_submitted.connect(connect_to_lobby_from_text)
+	join_panel.get_node("Connect").pressed.connect(func(): connect_to_lobby_from_text(lobby_id_input.text))
+	steam_status_label = NorthernMenuStyle.label("", 18, NorthernMenuStyle.MUTED)
+	feedback_label = NorthernMenuStyle.label("", 20, NorthernMenuStyle.MUTED)
+	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	menu_root.add_child(feedback_label)
+	feedback_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	feedback_label.offset_left = 90
+	feedback_label.offset_top = -152
+	feedback_label.offset_right = -90
+	feedback_label.offset_bottom = -90
 	connect_network_signals()
-	initialize_settings()
-	%GraphicsPanel.configure(self)
-	%CalibrationPanel.configure(self)
-	refresh_network_ui()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	var current_scene := get_tree().current_scene
-	var is_main_scene := (
-		current_scene != null and current_scene.is_in_group("main_menu")
-	)
-	var pause_requested := event.is_action_pressed("pause")
-	var quest_journal := get_node_or_null("/root/QuestJournal")
-	if (
-		quest_journal != null
-		and bool(quest_journal.call("is_journal_open"))
-		and (pause_requested or event.is_action_pressed("ui_cancel"))
-		and not (event is InputEventKey and event.echo)
-	):
-		quest_journal.call("close_journal")
-		get_viewport().set_input_as_handled()
-		return
-	var menu_back_requested := (
-		menu_root.visible and event.is_action_pressed("ui_cancel")
-	)
-	if (
-		(pause_requested or menu_back_requested)
-		and not (event is InputEventKey and event.echo)
-		and not _transition_in_progress
-	):
-		if is_main_scene and not menu_root.visible:
-			return
-		if menu_root.visible:
-			if _current_view == MenuView.SETTINGS:
-				close_settings()
-			else:
-				close_menu()
-		else:
-			var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-			var waiting: bool = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
-			open_menu(MenuView.SESSION if waiting else MenuView.MAIN)
-		get_viewport().set_input_as_handled()
-
-
-func connect_ui_signals() -> void:
-	continue_button.pressed.connect(close_menu)
-	host_button.pressed.connect(_on_host_pressed)
-	join_button.pressed.connect(_on_join_pressed)
-	settings_button.pressed.connect(open_settings)
-	exit_button.pressed.connect(_on_return_to_main_menu_pressed)
-
-	copy_lobby_id_button.pressed.connect(_on_copy_lobby_id_pressed)
-	invite_button.pressed.connect(_on_invite_pressed)
-	ready_button.pressed.connect(_on_ready_pressed)
-	start_game_button.pressed.connect(_on_start_game_pressed)
-	leave_lobby_button.pressed.connect(_on_leave_lobby_pressed)
-	session_back_button.pressed.connect(show_view.bind(MenuView.MAIN))
-
-	connect_button.pressed.connect(_on_connect_pressed)
-	lobby_id_input.text_submitted.connect(_on_lobby_id_submitted)
-	join_back_button.pressed.connect(show_view.bind(MenuView.MAIN))
-
-	resolution_option.item_selected.connect(_on_display_setting_changed)
-	window_mode_option.item_selected.connect(_on_display_setting_changed)
-	screen_option.item_selected.connect(_on_display_setting_changed)
-	vsync_check.toggled.connect(_on_vsync_toggled)
-	master_volume_slider.value_changed.connect(_on_master_volume_changed)
-	music_volume_slider.value_changed.connect(_on_music_volume_changed)
-	for key in AUDIO_OPTIONS:
-		get_node("%%%sSlider" % key).value_changed.connect(_on_audio_category_changed.bind(key))
-	mouse_sensitivity_slider.value_changed.connect(
-		_on_mouse_sensitivity_changed
-	)
-	settings_back_button.pressed.connect(close_settings)
-
+	show_view(MenuView.MAIN)
+	menu_root.hide()
 
 func connect_network_signals() -> void:
 	SteamNetwork.state_changed.connect(_on_network_state_changed)
@@ -167,171 +82,313 @@ func connect_network_signals() -> void:
 	CoopLobby.ready_state_changed.connect(_on_ready_state_changed)
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy:
+		return
+	if not event.is_action_pressed("pause") and not (menu_root.visible and event.is_action_pressed("ui_cancel")):
+		return
+	var journal := get_node_or_null("/root/QuestJournal")
+	if journal != null and journal.is_journal_open():
+		journal.close_journal()
+	elif menu_root.visible:
+		if _current_view == MenuView.SETTINGS:
+			settings_panel.request_back()
+		else:
+			close_menu()
+	elif not _in_main_scene():
+		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+		var waiting: bool = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
+		open_menu(MenuView.SESSION if waiting else MenuView.MAIN)
+	else:
+		return
+	get_viewport().set_input_as_handled()
+
+func _in_main_scene() -> bool:
+	var scene := get_tree().current_scene
+	return scene != null and scene.is_in_group("main_menu")
+
+func _sync_main_overlay() -> void:
+	var scene := get_tree().current_scene
+	if scene != null and scene.has_method("set_overlay_visible"):
+		scene.set_overlay_visible(menu_root.visible)
 
 func open_menu(view: MenuView = MenuView.MAIN) -> void:
-	var quest_journal := get_node_or_null("/root/QuestJournal")
-	if quest_journal != null:
-		quest_journal.call("force_close")
-	menu_root.visible = true
+	var journal := get_node_or_null("/root/QuestJournal")
+	if journal != null:
+		journal.force_close()
+	menu_root.show()
+	shell.show()
 	show_view(view)
-	refresh_network_ui()
-	# The ESC overlay never pauses only one peer. Remote players and world
-	# simulation continue, while the local player stops because the mouse is free.
+	shell.appear()
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-
-func open_settings() -> void:
-	var current_scene := get_tree().current_scene
-	_settings_return_to_main_scene = (
-		current_scene != null and current_scene.is_in_group("main_menu")
-	)
-	open_menu(MenuView.SETTINGS)
-	resolution_option.grab_focus()
-
-
-func close_settings() -> void:
-	if _settings_return_to_main_scene:
-		force_close_menu()
-		return
-	show_view(MenuView.MAIN)
-	settings_button.grab_focus()
-
-
-func close_menu() -> void:
-	if _transition_in_progress:
-		return
-
-	if is_lobby_gate_active():
-		show_view(MenuView.SESSION)
-		feedback_label.text = "Дождитесь завершения подключения к Steam-лобби."
-		get_tree().paused = false
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		return
-
-	force_close_menu()
-
-
-func force_close_menu() -> void:
-	menu_root.visible = false
-	get_tree().paused = false
-	if get_tree().get_first_node_in_group("local_player") != null:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	else:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-
-func is_menu_open() -> bool:
-	return menu_root.visible
-
-
-func is_lobby_gate_active() -> bool:
-	return SteamNetwork.state in [
-		SteamNetworkService.SessionState.CREATING_LOBBY,
-		SteamNetworkService.SessionState.JOINING_LOBBY,
-		SteamNetworkService.SessionState.CONNECTING,
-	]
-
-
-func start_standalone_flow(resume_checkpoint: bool = false) -> void:
-	BaseGameplayController.save_scope = "solo"
-	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
-		open_menu(MenuView.MAIN)
-		feedback_label.text = "Не удалось очистить одиночное сохранение."
-		return
-	_transition_in_progress = true
-	menu_root.visible = false
-	get_tree().paused = false
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-	var change_result := get_tree().change_scene_to_file(
-		MECHANICS_TEST_ROOM_SCENE
-	)
-	if change_result != OK:
-		_transition_in_progress = false
-		open_menu(MenuView.MAIN)
-		feedback_label.text = "Не удалось открыть базу."
-		return
-
-	await get_tree().scene_changed
-	var gameplay_controller := get_tree().current_scene
-	if gameplay_controller != null and gameplay_controller.has_method(
-		"start_standalone_game"
-	):
-		gameplay_controller.set("resume_base_on_start", resume_checkpoint)
-		gameplay_controller.call("start_standalone_game")
-		if resume_checkpoint:
-			await gameplay_controller.call("_enter_v3_level")
-	_transition_in_progress = false
-
+	_sync_main_overlay()
 
 func show_view(view: MenuView) -> void:
 	_current_view = view
 	main_panel.visible = view == MenuView.MAIN
 	session_panel.visible = view == MenuView.SESSION
 	join_panel.visible = view == MenuView.JOIN
-	settings_panel.visible = view == MenuView.SETTINGS
+	if is_instance_valid(settings_panel):
+		settings_panel.visible = view == MenuView.SETTINGS
 	feedback_label.text = ""
+	shell.rails(view != MenuView.MAIN)
+	var lobby_context := view == MenuView.SESSION or (view == MenuView.SETTINGS and _settings_origin == MenuView.SESSION and not _settings_return_to_main_scene)
+	shell.shade.color.a = lobby_background_opacity if lobby_context else 0.15
+	shell.top_rail.color.a = 1.0 if _in_main_scene() else 0.0
+	shell.bottom_rail.color.a = 1.0 if _in_main_scene() else 0.0
+	if view != MenuView.SETTINGS:
+		shell.clear(shell.header)
+		shell.clear(shell.footer)
+		if view != MenuView.MAIN:
+			shell.header.add_child(NorthernMenuStyle.label("NORTHERNLAB  /  КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ", 18, NorthernMenuStyle.MUTED))
+			shell.footer.add_child(NorthernMenuStyle.label("CH-47 · ПОДГОТОВКА К ВЫСАДКЕ", 18, NorthernMenuStyle.MUTED))
+			var spacer := Control.new()
+			spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			shell.footer.add_child(spacer)
+			if view == MenuView.SESSION:
+				shell.footer.add_child(NorthernMenuStyle.button("Настройки", open_settings, 21))
+			shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", close_menu, 21))
+	match view:
+		MenuView.MAIN:
+			main_panel.refresh()
+			main_panel.continue_button.grab_focus()
+		MenuView.SESSION:
+			refresh_session_ui()
+			ready_button.grab_focus()
+		MenuView.JOIN:
+			lobby_id_input.grab_focus()
+		MenuView.SETTINGS:
+			pass
 
-	if view == MenuView.MAIN:
-		continue_button.grab_focus()
-	elif view == MenuView.JOIN:
-		lobby_id_input.grab_focus()
-		lobby_id_input.select_all()
-	elif view == MenuView.SESSION:
-		refresh_session_ui()
-		ready_button.grab_focus()
-	elif view == MenuView.SETTINGS:
-		refresh_settings_ui()
+func open_settings() -> void:
+	if shell.busy or _transition_in_progress:
+		return
+	_settings_origin = _current_view
+	_settings_return_to_main_scene = _in_main_scene() and not menu_root.visible
+	var display := func():
+		if is_instance_valid(settings_panel):
+			settings_panel.free()
+		settings_panel = NorthernSettingsMenu.new()
+		shell.content.add_child(settings_panel)
+		NorthernMenuStyle.fill(settings_panel)
+		settings_panel.anchor_right = 0
+		settings_panel.offset_right = minf(1020, shell.content.size.x * 0.75)
+		settings_panel.configure(self, shell)
+		settings_panel.back_requested.connect(close_settings)
+		menu_root.show()
+		show_view(MenuView.SETTINGS)
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		_sync_main_overlay()
+	if menu_root.visible:
+		shell.transition(display)
+	else:
+		display.call()
+		shell.appear()
 
-
-func initialize_settings() -> void:
-	ensure_music_bus()
-	populate_settings_options()
-	_settings_data = load_settings_data()
-	apply_settings_data()
-	refresh_settings_ui()
-
-
-func populate_settings_options() -> void:
-	resolution_option.clear()
-	for resolution in RESOLUTIONS:
-		resolution_option.add_item("%d × %d" % [resolution.x, resolution.y])
-
-	window_mode_option.clear()
-	for label in ["Полный экран", "Оконный", "Развёрнутое окно"]:
-		window_mode_option.add_item(label)
-
-	screen_option.clear()
-	var is_headless := DisplayServer.get_name() == "headless"
-	var screen_count := (
-		1 if is_headless else maxi(DisplayServer.get_screen_count(), 1)
+func close_settings() -> void:
+	shell.transition(func():
+		if _settings_return_to_main_scene:
+			force_close_menu()
+		else:
+			show_view(_settings_origin)
 	)
-	for screen_index in screen_count:
-		var screen_size := (
-			Vector2i(1920, 1080)
-			if is_headless
-			else DisplayServer.screen_get_size(screen_index)
-		)
-		screen_option.add_item(
-			"Монитор %d — %d × %d" % [
-				screen_index + 1,
-				screen_size.x,
-				screen_size.y,
-			]
-		)
+
+func close_menu() -> void:
+	if _transition_in_progress or shell.busy:
+		return
+	if is_lobby_gate_active():
+		feedback_label.text = "Дождитесь завершения подключения к Steam-лобби."
+		return
+	if _in_main_scene():
+		force_close_menu()
+		return
+	shell.transition(force_close_menu)
+
+func force_close_menu() -> void:
+	shell.cancel_transition()
+	if is_instance_valid(dialog):
+		dialog.queue_free()
+		dialog = null
+	menu_root.hide()
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if get_tree().get_first_node_in_group("local_player") != null else Input.MOUSE_MODE_VISIBLE
+	_sync_main_overlay()
+
+func is_menu_open() -> bool:
+	return menu_root != null and menu_root.visible
+
+func is_lobby_gate_active() -> bool:
+	return SteamNetwork.state in [SteamNetworkService.SessionState.CREATING_LOBBY, SteamNetworkService.SessionState.JOINING_LOBBY, SteamNetworkService.SessionState.CONNECTING]
+
+func confirm(title: String, message: String, choices: Array) -> void:
+	if is_instance_valid(dialog):
+		return
+	var was_open := menu_root.visible
+	menu_root.show()
+	if not was_open:
+		shell.hide()
+		feedback_label.hide()
+	dialog = preload("res://scenes/ui/menu_dialog.tscn").instantiate()
+	menu_root.add_child(dialog)
+	var typed_choices: Array[Dictionary] = []
+	for choice in choices:
+		typed_choices.append(choice)
+	dialog.closed.connect(func():
+		dialog = null
+		shell.show()
+		feedback_label.show()
+		if not was_open:
+			menu_root.hide()
+		_sync_main_overlay()
+	)
+	dialog.present(title, message, typed_choices)
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_sync_main_overlay()
+
+func start_host_flow() -> void:
+	if _transition_in_progress or not SteamNetwork.steam_available:
+		return
+	var previous_scope := BaseGameplayController.save_scope
+	BaseGameplayController.save_scope = "coop"
+	var summary := BaseGameplayController.get_saved_progress_summary()
+	var has_save := BaseGameplayController.has_progress_save_file()
+	BaseGameplayController.save_scope = previous_scope
+	if not has_save:
+		_begin_host_session(false)
+		return
+	confirm("Кооперативная экспедиция", "Продолжить сохранённую экспедицию или начать новую? Одиночный прогресс хранится отдельно.", [
+		{"label": "Продолжить", "disabled": summary.is_empty(), "action": _begin_host_session.bind(true)},
+		{"label": "Новая экспедиция", "action": _confirm_new_coop_game},
+	])
+
+func _confirm_new_coop_game() -> void:
+	confirm("Новая кооп-игра", "Заменить сохранение кооперативной экспедиции?", [{"label": "Начать заново", "action": _begin_host_session.bind(false)}])
+
+func _begin_host_session(resume_checkpoint: bool) -> void:
+	if _transition_in_progress:
+		return
+	BaseGameplayController.save_scope = "coop"
+	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
+		confirm("Не удалось начать игру", "Не удалось очистить кооперативное сохранение.", [])
+		return
+	_transition_in_progress = true
+	var scene_ready := await ensure_network_scene()
+	_transition_in_progress = false
+	open_menu(MenuView.SESSION)
+	if not scene_ready:
+		session_status_label.text = "Не удалось открыть базу."
+		return
+	get_tree().current_scene.set("resume_base_on_start", resume_checkpoint)
+	session_status_label.text = "Создаём Steam-лобби…"
+	if not SteamNetwork.create_friends_lobby():
+		session_status_label.text = "Steam не смог начать создание лобби."
+
+func connect_to_lobby_from_text(value: String) -> void:
+	var clean := value.strip_edges()
+	if not clean.is_valid_int() or clean.length() < 16 or clean.length() > 19 or int(clean) <= 0:
+		feedback_label.text = "Проверьте ID лобби: требуется числовой идентификатор Steam."
+		lobby_id_input.grab_focus()
+		return
+	start_join_flow(int(clean))
+
+func start_join_flow(target_lobby_id: int) -> void:
+	if _transition_in_progress or not SteamNetwork.steam_available:
+		return
+	_transition_in_progress = true
+	var scene_ready := await ensure_network_scene()
+	_transition_in_progress = false
+	open_menu(MenuView.SESSION)
+	if not scene_ready:
+		session_status_label.text = "Не удалось открыть базу."
+		return
+	if not SteamNetwork.join_lobby(target_lobby_id):
+		session_status_label.text = "Не удалось начать подключение к лобби."
+
+func _on_copy_lobby_id_pressed() -> void:
+	if SteamNetwork.lobby_id > 0:
+		DisplayServer.clipboard_set(str(SteamNetwork.lobby_id))
+		feedback_label.text = "ID лобби скопирован."
+
+func _on_invite_pressed() -> void:
+	if not SteamNetwork.is_overlay_enabled():
+		feedback_label.text = "Приглашения доступны при запуске через Steam. Можно отправить другу ID лобби."
+	elif not SteamNetwork.open_invite_overlay():
+		feedback_label.text = "Не удалось открыть приглашение Steam."
+
+func _on_ready_pressed() -> void:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival():
+		world.begin_solo_arrival()
+		return
+	if CoopLobby.game_has_started:
+		close_menu()
+		return
+	if not CoopLobby.set_local_ready(not CoopLobby.is_local_ready()):
+		feedback_label.text = "Сетевая сессия ещё не готова."
+	refresh_ready_ui()
+
+func _on_start_game_pressed() -> void:
+	if not CoopLobby.start_game():
+		feedback_label.text = "Все подключённые игроки должны подтвердить готовность."
+	refresh_ready_ui()
+
+func _on_leave_lobby_pressed() -> void:
+	confirm("Покинуть экспедицию?", "Текущая сессия будет закрыта.", [{"label": "Покинуть", "action": return_to_main_menu.bind("Вы покинули экспедицию.")}])
+
+func _on_return_to_main_menu_pressed() -> void:
+	confirm("Вернуться в главное меню?", "Прогресс будет сохранён по правилам экспедиции. Текущая сессия будет закрыта.", [{"label": "Главное меню", "action": return_to_main_menu.bind("Возврат из экспедиции.")}])
+
+func refresh_network_ui() -> void:
+	main_panel.refresh()
+	refresh_session_ui()
+
+func refresh_session_ui() -> void:
+	session_panel.refresh()
+
+func refresh_ready_ui() -> void:
+	session_panel.refresh()
+
+func _on_network_state_changed(state: SteamNetworkService.SessionState, message: String) -> void:
+	if session_status_label != null:
+		session_status_label.text = get_localized_state_message(state, message)
+	refresh_network_ui()
+
+func _on_lobby_entered(_lobby_id: int, _as_host: bool) -> void:
+	refresh_session_ui()
+
+func _on_lobby_members_changed(_members: Array[Dictionary]) -> void:
+	refresh_session_ui()
+
+func _on_session_ready(_as_host: bool) -> void:
+	refresh_session_ui()
+	force_close_menu()
+
+func _on_session_closed(reason: String) -> void:
+	_transition_in_progress = true
+	call_deferred("_finish_return_to_main_menu", reason)
+
+func _on_invite_join_requested(requested_lobby_id: int) -> void:
+	lobby_id_input.text = str(requested_lobby_id)
+	start_join_flow(requested_lobby_id)
+
+func _on_ready_state_changed(_ready_states: Dictionary) -> void:
+	refresh_ready_ui()
+
+func _on_gameplay_started() -> void:
+	force_close_menu()
 
 
 func get_settings_path() -> String:
+	if ProjectSettings.has_setting("northern_lab/testing/settings_path"):
+		return str(ProjectSettings.get_setting("northern_lab/testing/settings_path"))
 	var local_app_data := OS.get_environment("LOCALAPPDATA")
 	if local_app_data.is_empty():
 		return "user://%s" % SETTINGS_FILE
 	return local_app_data.path_join(SETTINGS_DIRECTORY).path_join(SETTINGS_FILE)
 
-
 func get_character_variant_id() -> int:
 	return clampi(int(_settings_data.get("CharacterVariant", 0)), 0, 1)
-
 
 func set_character_variant_id(variant_id: int) -> void:
 	if variant_id not in [0, 1]:
@@ -339,25 +396,8 @@ func set_character_variant_id(variant_id: int) -> void:
 	_settings_data["CharacterVariant"] = variant_id
 	save_settings_data()
 
-
 func load_settings_data() -> Dictionary:
-	var defaults := {
-		"Resolution": "1920x1080",
-		"WindowMode": "fullscreen",
-		"Screen": 0,
-		"VSync": true,
-		"MasterVolume": 80.0,
-		"MusicVolume": 70.0,
-		"EffectsVolume": 100.0,
-		"WeaponsVolume": 100.0,
-		"VehiclesVolume": 100.0,
-		"MachineryVolume": 100.0,
-		"AmbienceVolume": 100.0,
-		"BreathingVolume": 100.0,
-		"RoomReverb": 50.0,
-		"MouseSensitivity": 1.0,
-		"CharacterVariant": 0,
-	}
+	var defaults := default_settings_data()
 	var path := get_settings_path()
 	if not FileAccess.file_exists(path):
 		return defaults
@@ -370,7 +410,6 @@ func load_settings_data() -> Dictionary:
 			defaults[key] = (parsed as Dictionary)[key]
 	return defaults
 
-
 func save_settings_data() -> void:
 	var path := get_settings_path()
 	var directory := path.get_base_dir()
@@ -381,7 +420,6 @@ func save_settings_data() -> void:
 		push_warning("Could not save settings to %s" % path)
 		return
 	file.store_string(JSON.stringify(_settings_data, "  "))
-
 
 func apply_settings_data() -> void:
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
@@ -452,60 +490,14 @@ func apply_settings_data() -> void:
 	)
 	audio_mix.apply_settings(_settings_data)
 
-
-func refresh_settings_ui() -> void:
-	for key in AUDIO_OPTIONS:
-		get_node("%%%sSlider" % key).set_value_no_signal(float(_settings_data.get(key, 50.0 if key == "RoomReverb" else 100.0)))
-	var resolution_text := str(
-		_settings_data.get("Resolution", "1920x1080")
-	)
-	var resolution_index := 0
-	for index in RESOLUTIONS.size():
-		if resolution_to_text(RESOLUTIONS[index]) == resolution_text:
-			resolution_index = index
-			break
-	resolution_option.select(resolution_index)
-
-	var window_mode := str(
-		_settings_data.get("WindowMode", "fullscreen")
-	)
-	window_mode_option.select(maxi(WINDOW_MODES.find(window_mode), 0))
-	screen_option.select(clampi(
-		int(_settings_data.get("Screen", 0)),
-		0,
-		maxi(screen_option.item_count - 1, 0)
-	))
-	vsync_check.button_pressed = bool(_settings_data.get("VSync", true))
-	master_volume_slider.value = float(
-		_settings_data.get("MasterVolume", 80.0)
-	)
-	music_volume_slider.value = float(
-		_settings_data.get("MusicVolume", 70.0)
-	)
-	mouse_sensitivity_slider.value = float(
-		_settings_data.get("MouseSensitivity", 1.0)
-	)
-	refresh_settings_value_labels()
-
-
 func parse_resolution(value: String) -> Vector2i:
 	var parts := value.to_lower().split("x")
 	if parts.size() != 2:
 		return Vector2i(1920, 1080)
 	return Vector2i(maxi(int(parts[0]), 640), maxi(int(parts[1]), 360))
 
-
 func resolution_to_text(value: Vector2i) -> String:
 	return "%dx%d" % [value.x, value.y]
-
-
-func refresh_settings_value_labels() -> void:
-	for key in AUDIO_OPTIONS:
-		get_node("%%%sValue" % key).text = "%d%%" % int(get_node("%%%sSlider" % key).value)
-	master_volume_value.text = "%d%%" % int(master_volume_slider.value)
-	music_volume_value.text = "%d%%" % int(music_volume_slider.value)
-	mouse_sensitivity_value.text = "%.2f×" % mouse_sensitivity_slider.value
-
 
 func ensure_music_bus() -> void:
 	if AudioServer.get_bus_index("Music") >= 0:
@@ -515,141 +507,93 @@ func ensure_music_bus() -> void:
 	AudioServer.set_bus_name(music_bus, "Music")
 	AudioServer.set_bus_send(music_bus, "Master")
 
-
 func get_mouse_sensitivity_multiplier() -> float:
 	return _mouse_sensitivity_multiplier
 
+func start_standalone_flow(resume_checkpoint: bool = false) -> void:
+	BaseGameplayController.save_scope = "solo"
+	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
+		open_menu(MenuView.MAIN)
+		feedback_label.text = "Не удалось очистить одиночное сохранение."
+		return
+	_transition_in_progress = true
+	menu_root.visible = false
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-func _on_display_setting_changed(_index: int) -> void:
-	var resolution: Vector2i = RESOLUTIONS[resolution_option.selected]
-	_settings_data["Resolution"] = resolution_to_text(resolution)
-	_settings_data["WindowMode"] = WINDOW_MODES[window_mode_option.selected]
-	_settings_data["Screen"] = screen_option.selected
-	apply_settings_data()
-	save_settings_data()
-
-
-func _on_vsync_toggled(enabled: bool) -> void:
-	_settings_data["VSync"] = enabled
-	apply_settings_data()
-	save_settings_data()
-
-
-func _on_master_volume_changed(value: float) -> void:
-	_settings_data["MasterVolume"] = value
-	apply_settings_data()
-	refresh_settings_value_labels()
-	save_settings_data()
-
-
-func _on_audio_category_changed(value: float, key: String) -> void:
-	_settings_data[key] = value
-	audio_mix.apply_settings(_settings_data)
-	refresh_settings_value_labels()
-	save_settings_data()
-
-func _on_music_volume_changed(value: float) -> void:
-	_settings_data["MusicVolume"] = value
-	apply_settings_data()
-	refresh_settings_value_labels()
-	save_settings_data()
-
-
-func _on_mouse_sensitivity_changed(value: float) -> void:
-	_settings_data["MouseSensitivity"] = value
-	_mouse_sensitivity_multiplier = value
-	refresh_settings_value_labels()
-	save_settings_data()
-
-
-func refresh_network_ui() -> void:
-	if SteamNetwork.steam_available:
-		steam_status_label.text = "Steam: %s" % SteamNetwork.local_user_name
-	else:
-		steam_status_label.text = "Steam недоступен: %s" % SteamNetwork.state_message
-
-	var in_session := SteamNetwork.has_active_session()
-	continue_button.disabled = (
-		get_tree().get_first_node_in_group("local_player") == null
+	var change_result := get_tree().change_scene_to_file(
+		MECHANICS_TEST_ROOM_SCENE
 	)
-	host_button.disabled = not SteamNetwork.steam_available
-	join_button.disabled = not SteamNetwork.steam_available
-	host_button.text = (
-		"Показать Steam-лобби"
-		if in_session
-		else "Играть с друзьями"
+	if change_result != OK:
+		_transition_in_progress = false
+		open_menu(MenuView.MAIN)
+		feedback_label.text = "Не удалось открыть базу."
+		return
+
+	await get_tree().scene_changed
+	var gameplay_controller := get_tree().current_scene
+	if gameplay_controller != null and gameplay_controller.has_method(
+		"start_standalone_game"
+	):
+		gameplay_controller.set("resume_base_on_start", resume_checkpoint)
+		gameplay_controller.call("start_standalone_game")
+		if resume_checkpoint:
+			await gameplay_controller.call("_enter_v3_level")
+	_transition_in_progress = false
+
+func ensure_network_scene() -> bool:
+	var current_scene := get_tree().current_scene
+	if (
+		current_scene != null
+		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
+	):
+		# A running standalone world or previous Steam session must not be reused.
+		if get_tree().get_first_node_in_group("local_player") == null:
+			return true
+
+	menu_root.visible = false
+	get_tree().paused = false
+	var change_result := get_tree().change_scene_to_file(
+		MECHANICS_TEST_ROOM_SCENE
 	)
-	refresh_session_ui()
+	if change_result != OK:
+		return false
 
+	await get_tree().scene_changed
+	return true
 
-func refresh_session_ui() -> void:
-	var current_lobby_id := SteamNetwork.lobby_id
-	lobby_id_value.text = (
-		str(current_lobby_id)
-		if current_lobby_id > 0
-		else "Лобби создаётся..."
-	)
-	copy_lobby_id_button.disabled = current_lobby_id <= 0
-	invite_button.disabled = current_lobby_id <= 0 or not SteamNetwork.is_host
-	leave_lobby_button.disabled = not SteamNetwork.has_active_session()
-	session_status_label.text = get_localized_state_message(
-		SteamNetwork.state,
-		SteamNetwork.state_message
-	)
-	refresh_member_list(SteamNetwork.get_lobby_members())
-	refresh_ready_ui()
-
-
-func refresh_ready_ui() -> void:
+func return_to_main_menu(reason: String = "") -> void:
+	if _transition_in_progress:
+		return
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival():
-		ready_status_label.text = "Вы на борту CH-47. Подтвердите готовность к высадке."
-		ready_button.text = "Готов к посадке"
-		ready_button.disabled = false
-		start_game_button.visible = false
-		return
-	if CoopLobby.game_has_started:
-		ready_status_label.text = "Игра запущена."
-		ready_button.text = "Продолжить игру"
-		ready_button.disabled = false
-		start_game_button.visible = false
-		return
+	if world != null and world.has_method("save_inventory_checkpoint"):
+		world.call("save_inventory_checkpoint")
+	_transition_in_progress = true
+	menu_root.visible = false
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-	if not CoopLobby.session_active:
-		ready_status_label.text = "Готовность: ожидаем соединение..."
-		ready_button.text = "Готов"
-		ready_button.disabled = true
-		start_game_button.visible = SteamNetwork.is_host
-		start_game_button.disabled = true
+	if SteamNetwork.has_active_session():
+		SteamNetwork.leave_session(reason)
 		return
+	call_deferred("_finish_return_to_main_menu", reason)
 
-	var ready_lines: PackedStringArray = []
-	var peer_ids := CoopLobby.ready_states.keys()
-	peer_ids.sort()
-	for peer_id_variant in peer_ids:
-		var peer_id := int(peer_id_variant)
-		var player_name := SteamNetwork.get_peer_persona_name(peer_id)
-		var state_text := (
-			"ГОТОВ"
-			if bool(CoopLobby.ready_states.get(peer_id, false))
-			else "НЕ ГОТОВ"
+func _finish_return_to_main_menu(reason: String) -> void:
+	var current_scene := get_tree().current_scene
+	if current_scene != null and not current_scene.is_in_group("main_menu"):
+		var main_scene := str(
+			ProjectSettings.get_setting("application/run/main_scene", "")
 		)
-		ready_lines.append("• %s — %s" % [player_name, state_text])
+		if not main_scene.is_empty():
+			var change_result := get_tree().change_scene_to_file(main_scene)
+			if change_result == OK:
+				await get_tree().scene_changed
 
-	if CoopLobby.get_player_count() < CoopLobby.MAX_PLAYERS:
-		ready_lines.append("• Второй игрок сможет подключиться позже.")
-	ready_status_label.text = "Готовность:\n%s" % "\n".join(ready_lines)
-
-	ready_button.disabled = false
-	ready_button.text = (
-		"Отменить готовность"
-		if CoopLobby.is_local_ready()
-		else "Готов"
-	)
-	start_game_button.visible = SteamNetwork.is_host
-	start_game_button.disabled = not CoopLobby.can_host_start()
-	start_game_button.text = "Начать посадку"
-
+	_transition_in_progress = false
+	force_close_menu()
+	current_scene = get_tree().current_scene
+	if current_scene != null and current_scene.has_method("show_status"):
+		current_scene.call("show_status", reason)
 
 func get_localized_state_message(
 	state: SteamNetworkService.SessionState,
@@ -676,307 +620,22 @@ func get_localized_state_message(
 			return "Покидаем Steam-лобби..."
 	return fallback
 
-
-func refresh_member_list(members: Array[Dictionary]) -> void:
-	if members.is_empty():
-		members_label.text = "Участники: ожидаем данные Steam..."
-		return
-
-	var lines: PackedStringArray = []
-	for member in members:
-		var host_suffix := " — HOST" if bool(member.get("is_host", false)) else ""
-		lines.append("• %s%s" % [member.get("name", "Player"), host_suffix])
-	members_label.text = "Участники:\n%s" % "\n".join(lines)
-
-
-func _on_host_pressed() -> void:
-	if SteamNetwork.has_active_session():
-		show_view(MenuView.SESSION)
-		return
-	start_host_flow()
-
-
-func start_host_flow() -> void:
-	if _transition_in_progress:
-		return
-	# Explicitly choose the co-op checkpoint without touching the solo slot.
-	var previous_scope := BaseGameplayController.save_scope
-	BaseGameplayController.save_scope = "coop"
-	var summary := BaseGameplayController.get_saved_progress_summary()
-	var has_save := BaseGameplayController.has_progress_save_file()
-	BaseGameplayController.save_scope = previous_scope
-	if not has_save:
-		_begin_host_session(false)
-		return
-	if not is_instance_valid(_host_choice):
-		_host_choice = ConfirmationDialog.new()
-		_host_choice.title = "Кооперативная экспедиция"
-		_host_choice.ok_button_text = "Продолжить"
-		_host_choice.cancel_button_text = "Отмена"
-		_host_choice.add_button("Новая кооп-игра", true, "new")
-		_host_choice.confirmed.connect(_begin_host_session.bind(true))
-		_host_choice.custom_action.connect(_confirm_new_coop_game)
-		add_child(_host_choice)
-	_host_choice.dialog_text = (
-		"Кооп-checkpoint: день %d. Одиночный прогресс хранится отдельно." % int(summary.get("day_index", 1))
-		if not summary.is_empty() else "Кооп-checkpoint повреждён. Можно начать новую кооп-игру."
-	)
-	_host_choice.get_ok_button().disabled = summary.is_empty()
-	_host_choice.popup_centered()
-
-
-func _confirm_new_coop_game(_action: StringName) -> void:
-	_host_choice.hide()
-	if not is_instance_valid(_host_reset):
-		_host_reset = ConfirmationDialog.new()
-		_host_reset.title = "Новая кооп-игра"
-		_host_reset.dialog_text = "Удалить кооп-checkpoint и начать заново? Одиночное сохранение останется."
-		_host_reset.ok_button_text = "Начать заново"
-		_host_reset.cancel_button_text = "Отмена"
-		_host_reset.confirmed.connect(_begin_host_session.bind(false))
-		add_child(_host_reset)
-	_host_reset.popup_centered()
-
-
-func _begin_host_session(resume_checkpoint: bool) -> void:
-	if _transition_in_progress:
-		return
-	BaseGameplayController.save_scope = "coop"
-	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
-		open_menu(MenuView.MAIN)
-		feedback_label.text = "Не удалось очистить кооп-checkpoint."
-		return
-
-	_transition_in_progress = true
-	feedback_label.text = "Открываем базу..."
-	var scene_ready := await ensure_network_scene()
-	_transition_in_progress = false
-	open_menu(MenuView.SESSION)
-
-	if not scene_ready:
-		session_status_label.text = "Не удалось открыть базу."
-		return
-	var controller := get_tree().current_scene
-	controller.set("resume_base_on_start", resume_checkpoint)
-
-	session_status_label.text = "Создаём Steam-лобби..."
-	if not SteamNetwork.create_friends_lobby():
-		session_status_label.text = "Steam не смог начать создание лобби."
-
-
-func _on_join_pressed() -> void:
-	show_view(MenuView.JOIN)
-
-
-func _on_connect_pressed() -> void:
-	connect_to_lobby_from_text(lobby_id_input.text)
-
-
-func _on_lobby_id_submitted(value: String) -> void:
-	connect_to_lobby_from_text(value)
-
-
-func connect_to_lobby_from_text(value: String) -> void:
-	var clean_value := value.strip_edges()
-	if not clean_value.is_valid_int() or int(clean_value) <= 0:
-		feedback_label.text = "Введите Lobby ID из меню хоста — только цифры."
-		lobby_id_input.grab_focus()
-		return
-	start_join_flow(int(clean_value))
-
-
-func start_join_flow(target_lobby_id: int) -> void:
-	if _transition_in_progress:
-		return
-
-	_transition_in_progress = true
-	feedback_label.text = "Открываем базу..."
-	var scene_ready := await ensure_network_scene()
-	_transition_in_progress = false
-	open_menu(MenuView.SESSION)
-
-	if not scene_ready:
-		session_status_label.text = "Не удалось открыть базу."
-		return
-
-	lobby_id_value.text = str(target_lobby_id)
-	session_status_label.text = "Подключаемся к Steam-лобби..."
-	if not SteamNetwork.join_lobby(target_lobby_id):
-		session_status_label.text = "Не удалось начать подключение к лобби."
-
-
-func ensure_network_scene() -> bool:
-	var current_scene := get_tree().current_scene
-	if (
-		current_scene != null
-		and current_scene.scene_file_path == MECHANICS_TEST_ROOM_SCENE
-	):
-		# A running standalone world or previous Steam session must not be reused.
-		if get_tree().get_first_node_in_group("local_player") == null:
-			return true
-
-	menu_root.visible = false
-	get_tree().paused = false
-	var change_result := get_tree().change_scene_to_file(
-		MECHANICS_TEST_ROOM_SCENE
-	)
-	if change_result != OK:
-		return false
-
-	await get_tree().scene_changed
-	return true
-
-
-func _on_copy_lobby_id_pressed() -> void:
-	if SteamNetwork.lobby_id <= 0:
-		return
-	DisplayServer.clipboard_set(str(SteamNetwork.lobby_id))
-	feedback_label.text = "Lobby ID скопирован. Отправьте его другу."
-
-
-func _on_invite_pressed() -> void:
-	if not SteamNetwork.is_overlay_enabled():
-		feedback_label.text = (
-			"Steam API работает, но Overlay не подключён к процессу игры. "
-			+ "Добавьте build/windows-dev/NorthernLab.exe в библиотеку Steam и "
-			+ "запустите игру оттуда. Пока можно отправить другу Lobby ID."
-		)
-		return
-
-	if SteamNetwork.open_invite_overlay():
-		feedback_label.text = "Открываем окно приглашения Steam..."
-	else:
-		feedback_label.text = "Сначала создайте Steam-лобби."
-
-
-func _on_ready_pressed() -> void:
-	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival():
-		world.begin_solo_arrival()
-		return
-	if CoopLobby.game_has_started:
-		close_menu()
-		return
-
-	var next_ready_state := not CoopLobby.is_local_ready()
-	if CoopLobby.set_local_ready(next_ready_state):
-		feedback_label.text = (
-			"Готовность подтверждена."
-			if next_ready_state
-			else "Готовность отменена."
-		)
-	else:
-		feedback_label.text = "Сетевая сессия ещё не готова."
-	refresh_ready_ui()
-
-
-func _on_start_game_pressed() -> void:
-	if CoopLobby.start_game():
-		start_game_button.disabled = true
-		session_status_label.text = "Запускаем игру для всех игроков..."
-	else:
-		feedback_label.text = (
-			"Все подключённые игроки должны подтвердить готовность."
-		)
-	refresh_ready_ui()
-
-
-func _on_leave_lobby_pressed() -> void:
-	return_to_main_menu("Вы покинули Steam-лобби.")
-
-
-func _on_return_to_main_menu_pressed() -> void:
-	return_to_main_menu("Возврат из экспедиции.")
-
-
-func return_to_main_menu(reason: String = "") -> void:
-	if _transition_in_progress:
-		return
-	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("save_inventory_checkpoint"):
-		world.call("save_inventory_checkpoint")
-	_transition_in_progress = true
-	menu_root.visible = false
-	get_tree().paused = false
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-	if SteamNetwork.has_active_session():
-		SteamNetwork.leave_session(reason)
-		return
-	call_deferred("_finish_return_to_main_menu", reason)
-
-
-func _on_network_state_changed(
-	state: SteamNetworkService.SessionState,
-	message: String
-) -> void:
-	steam_status_label.text = (
-		"Steam: %s" % SteamNetwork.local_user_name
-		if SteamNetwork.steam_available
-		else "Steam недоступен: %s" % message
-	)
-	if _current_view == MenuView.SESSION:
-		session_status_label.text = get_localized_state_message(state, message)
-	refresh_network_ui()
-
-
-func _on_lobby_entered(_lobby_id: int, _as_host: bool) -> void:
-	refresh_session_ui()
-	if menu_root.visible:
-		show_view(MenuView.SESSION)
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
-
-func _on_lobby_members_changed(members: Array[Dictionary]) -> void:
-	refresh_member_list(members)
-	refresh_session_ui()
-
-
-func _on_session_ready(as_host: bool) -> void:
-	refresh_session_ui()
-	session_status_label.text = (
-		"Лобби готово. Подтвердите готовность или передайте Lobby ID другу."
-		if as_host
-		else "Подключено к хосту через Steam."
-	)
-	if menu_root.visible:
-		force_close_menu()
-
-
-func _on_session_closed(reason: String) -> void:
-	refresh_network_ui()
-	_transition_in_progress = true
-	call_deferred("_finish_return_to_main_menu", reason)
-
-
-func _finish_return_to_main_menu(reason: String) -> void:
-	var current_scene := get_tree().current_scene
-	if current_scene != null and not current_scene.is_in_group("main_menu"):
-		var main_scene := str(
-			ProjectSettings.get_setting("application/run/main_scene", "")
-		)
-		if not main_scene.is_empty():
-			var change_result := get_tree().change_scene_to_file(main_scene)
-			if change_result == OK:
-				await get_tree().scene_changed
-
-	_transition_in_progress = false
-	force_close_menu()
-	current_scene = get_tree().current_scene
-	if current_scene != null and current_scene.has_method("show_status"):
-		current_scene.call("show_status", reason)
-
-
-func _on_invite_join_requested(requested_lobby_id: int) -> void:
-	lobby_id_input.text = str(requested_lobby_id)
-	open_menu(MenuView.JOIN)
-	start_join_flow(requested_lobby_id)
-
-
-func _on_ready_state_changed(_ready_states: Dictionary) -> void:
-	refresh_ready_ui()
-
-
-func _on_gameplay_started() -> void:
-	feedback_label.text = "Игра началась. Друг сможет подключиться позже."
-	force_close_menu()
+func default_settings_data() -> Dictionary:
+	var defaults := {
+		"Resolution": "1920x1080",
+		"WindowMode": "fullscreen",
+		"Screen": 0,
+		"VSync": true,
+		"MasterVolume": 80.0,
+		"MusicVolume": 70.0,
+		"EffectsVolume": 100.0,
+		"WeaponsVolume": 100.0,
+		"VehiclesVolume": 100.0,
+		"MachineryVolume": 100.0,
+		"AmbienceVolume": 100.0,
+		"BreathingVolume": 100.0,
+		"RoomReverb": 50.0,
+		"MouseSensitivity": 1.0,
+		"CharacterVariant": 0,
+	}
+	return defaults

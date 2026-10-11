@@ -1,0 +1,78 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_dialog.gd" id="1_17kyf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8hol"]
+content_margin_left = 48.0
+content_margin_top = 40.0
+content_margin_right = 48.0
+content_margin_bottom = 40.0
+bg_color = Color(0.04, 0.047, 0.043, 0.97)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.71, 0.65, 0.18)
+
+[sub_resource type="Gradient" id="AccentGradient"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.396, 0.255, 0.235, 1, 0.635, 0.573, 0.459, 0.67, 0.635, 0.573, 0.459, 0)
+
+[sub_resource type="GradientTexture2D" id="AccentTexture"]
+gradient = SubResource("AccentGradient")
+width = 930
+height = 1
+
+[node name="MenuDialog" type="Control" unique_id=1496585528]
+theme = ExtResource("menu_theme")
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_17kyf")
+
+[node name="Shade" type="ColorRect" parent="." unique_id=1283354095]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.005, 0.008, 0.008, 0.32)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1657919444]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=840433087]
+custom_minimum_size = Vector2(930, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8hol")
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel" unique_id=940339020]
+layout_mode = 2
+theme_override_constants/separation = 23
+
+[node name="Title" type="Label" parent="Center/Panel/Content" unique_id=179254375]
+theme_type_variation = &"MenuTitle"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 38
+text = "ПОДТВЕРЖДЕНИЕ"
+vertical_alignment = 1
+
+[node name="Message" type="Label" parent="Center/Panel/Content" unique_id=1354065936]
+custom_minimum_size = Vector2(834, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 21
+text = "Сообщение"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Actions" type="HBoxContainer" parent="Center/Panel/Content" unique_id=182773214]
+layout_mode = 2
+alignment = 2
+
+[node name="AccentLine" type="TextureRect" parent="."]
+mouse_filter = 2
+texture = SubResource("AccentTexture")
+expand_mode = 1

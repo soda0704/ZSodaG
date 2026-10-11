@@ -1,0 +1,24 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[node name="CharacterPage" type="VBoxContainer" unique_id=139375246]
+theme = ExtResource("menu_theme")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 16
+
+[node name="@Label@115" type="Label" parent="." unique_id=865204811]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "УЧАСТНИК ЭКСПЕДИЦИИ"
+vertical_alignment = 1
+
+[node name="@Label@116" type="Label" parent="." unique_id=444946601]
+theme_type_variation = &"MenuTitle"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 33
+text = "ВЫБОР ПЕРСОНАЖА"
+vertical_alignment = 1

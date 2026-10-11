@@ -20,6 +20,7 @@ $godotExe = '.\tools\.local\godotsteam-editor\godot.exe'
 | Область | Файлы в `tools/tests/` |
 | --- | --- |
 | Ресурсы | `project_resource_audit.gd` |
+| Меню Menu, ESC_MENU, LOBBY_MENU и применение настроек | `menu_integration_regression.gd` (для визуальной проверки без `--headless`, с `-- --capture`) |
 | Модели предметов и батарейки | `item_models_regression.gd` |
 | Персонажи и физический скелет | `character_integration_regression.gd`, `character_visual_review.gd`, `run_character_multiplayer.gd`, `character_skin_selection_regression.gd`, `character_accessory_fit_regression.gd`, `character_model_integrity_regression.gd`, `character_idle_stability_regression.gd`, `character_view_isolation_regression.gd` |
 | Дни и checkpoint | `day_split_checkpoint_regression.gd` |

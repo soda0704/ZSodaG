@@ -1,0 +1,167 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/lobby_menu.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="2_5f87v"]
+
+[node name="LOBBY_MENU" type="VBoxContainer" unique_id=350491390]
+theme = ExtResource("menu_theme")
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 0
+script = ExtResource("1")
+
+[node name="@Label@29" type="Label" parent="." unique_id=1388644006]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "НА БОРТУ CH-47"
+vertical_alignment = 1
+
+[node name="@Label@30" type="Label" parent="." unique_id=1654056328]
+custom_minimum_size = Vector2(0, 106)
+theme_type_variation = &"MenuTitle"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 33
+text = "ПОДГОТОВКА К ВЫСАДКЕ"
+vertical_alignment = 0
+
+[node name="@Control@31" type="Control" parent="." unique_id=743326085]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="@HBoxContainer@32" type="HBoxContainer" parent="." unique_id=587566179]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/separation = 69
+
+[node name="@VBoxContainer@33" type="VBoxContainer" parent="@HBoxContainer@32" unique_id=1620305073]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.8
+theme_override_constants/separation = 0
+
+[node name="@HBoxContainer@34" type="HBoxContainer" parent="@HBoxContainer@32/@VBoxContainer@33" unique_id=1042285185]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="@Label@35" type="Label" parent="@HBoxContainer@32/@VBoxContainer@33/@HBoxContainer@34" unique_id=1110226240]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+text = "СОСТАВ ЭКСПЕДИЦИИ"
+vertical_alignment = 1
+
+[node name="Count" type="Label" parent="@HBoxContainer@32/@VBoxContainer@33/@HBoxContainer@34" unique_id=366066685]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+
+[node name="@ColorRect@37" type="ColorRect" parent="@HBoxContainer@32/@VBoxContainer@33" unique_id=754563423]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.72, 0.71, 0.65, 0.18)
+
+[node name="Crew" type="VBoxContainer" parent="@HBoxContainer@32/@VBoxContainer@33" unique_id=1519882678]
+layout_mode = 2
+
+[node name="ReadyStatus" type="Label" parent="@HBoxContainer@32/@VBoxContainer@33" unique_id=299008087]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="@HBoxContainer@40" type="HBoxContainer" parent="@HBoxContainer@32/@VBoxContainer@33" unique_id=375307670]
+layout_mode = 2
+
+[node name="Ready" type="Button" parent="@HBoxContainer@32/@VBoxContainer@33/@HBoxContainer@40" unique_id=340806982]
+theme_type_variation = &"MenuAction"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "ГОТОВ К ВЫСАДКЕ"
+alignment = 0
+script = ExtResource("2_5f87v")
+
+[node name="Launch" type="Button" parent="@HBoxContainer@32/@VBoxContainer@33/@HBoxContainer@40" unique_id=137083720]
+theme_type_variation = &"MenuAction"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "НАЧАТЬ ПОСАДКУ"
+alignment = 0
+script = ExtResource("2_5f87v")
+
+[node name="@VBoxContainer@43" type="VBoxContainer" parent="@HBoxContainer@32" unique_id=1919237527]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="@Label@44" type="Label" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=1643670532]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+text = "ID ЛОББИ"
+vertical_alignment = 1
+
+[node name="LobbyID" type="LineEdit" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=491188139]
+theme_override_font_sizes/font_size = 21
+layout_mode = 2
+editable = false
+
+[node name="CopyID" type="Button" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=1455322109]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "КОПИРОВАТЬ ID"
+alignment = 0
+script = ExtResource("2_5f87v")
+
+[node name="Invite" type="Button" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=407939682]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "ПРИГЛАСИТЬ ДРУГА"
+alignment = 0
+script = ExtResource("2_5f87v")
+
+[node name="SessionStatus" type="Label" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=489909248]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 20
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="@Control@49" type="Control" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=2086079084]
+custom_minimum_size = Vector2(0, 51)
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 2
+
+[node name="@ColorRect@50" type="ColorRect" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=691286447]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.72, 0.71, 0.65, 0.18)
+
+[node name="Leave" type="Button" parent="@HBoxContainer@32/@VBoxContainer@43" unique_id=1488945944]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "ПОКИНУТЬ ЛОББИ"
+alignment = 0
+script = ExtResource("2_5f87v")

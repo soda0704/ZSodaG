@@ -1,0 +1,80 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_cj5tf"]
+
+[node name="CoopPage" type="VBoxContainer" unique_id=748633676]
+theme = ExtResource("menu_theme")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 16
+
+[node name="@Label@87" type="Label" parent="." unique_id=991444388]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "СОВМЕСТНАЯ ЭКСПЕДИЦИЯ"
+vertical_alignment = 1
+
+[node name="@Label@88" type="Label" parent="." unique_id=1306247142]
+theme_type_variation = &"MenuTitle"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 33
+text = "ИГРАТЬ С ДРУЗЬЯМИ"
+vertical_alignment = 1
+
+[node name="@Label@89" type="Label" parent="." unique_id=1100414575]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 20
+text = "Создайте лобби или присоединитесь к напарнику."
+vertical_alignment = 1
+
+[node name="@Control@90" type="Control" parent="." unique_id=1648666431]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Host" type="Button" parent="." unique_id=1031016990]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+disabled = true
+text = "СОЗДАТЬ STEAM-ЛОББИ"
+alignment = 0
+script = ExtResource("1_cj5tf")
+
+[node name="Join" type="Button" parent="." unique_id=130832763]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+disabled = true
+text = "ПОДКЛЮЧИТЬСЯ ПО ID"
+alignment = 0
+script = ExtResource("1_cj5tf")
+
+[node name="Character" type="Button" parent="." unique_id=1650142558]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
+text = "ВЫБРАТЬ ПЕРСОНАЖА"
+alignment = 0
+script = ExtResource("1_cj5tf")
+
+[node name="OfflineHint" type="Label" parent="." unique_id=2004687326]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+text = "Для кооператива запустите игру через Steam."
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="." unique_id=2147023247]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1

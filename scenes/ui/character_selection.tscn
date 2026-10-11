@@ -1,0 +1,77 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/character_skin_selection.gd" id="1_wk3ts"]
+
+[sub_resource type="Environment" id="Environment_ptmoy"]
+background_mode = 1
+background_color = Color(1, 1, 1, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.78, 0.8, 0.76, 1)
+ambient_light_energy = 0.75
+
+[sub_resource type="World3D" id="World3D_j6qxg"]
+environment = SubResource("Environment_ptmoy")
+
+[node name="SkinCard" type="Control" unique_id=2001415178]
+theme = ExtResource("menu_theme")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_wk3ts")
+
+[node name="Preview" type="SubViewportContainer" parent="." unique_id=2025599347]
+layout_mode = 0
+anchor_left = 0.42
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Preview" unique_id=687658685]
+world_3d = SubResource("World3D_j6qxg")
+transparent_bg = true
+size = Vector2i(2, 2)
+metadata/ui_presentation = true
+
+[node name="@WorldEnvironment@129" type="WorldEnvironment" parent="Preview/Viewport" unique_id=9290407]
+environment = SubResource("Environment_ptmoy")
+
+[node name="@DirectionalLight3D@130" type="DirectionalLight3D" parent="Preview/Viewport" unique_id=1898559380]
+transform = Transform3D(-0.90630776, -0.24240392, 0.34618866, 0, 0.81915206, 0.57357645, -0.42261833, 0.5198368, -0.74240386, 0, 0, 0)
+light_energy = 1.7
+
+[node name="@DirectionalLight3D@131" type="DirectionalLight3D" parent="Preview/Viewport" unique_id=1035010627]
+transform = Transform3D(0.81915206, 0.1961747, -0.53898555, 0, 0.9396926, 0.34202012, 0.57357645, -0.28016648, 0.76975113, 0, 0, 0)
+light_color = Color(0.65, 0.72, 0.78, 1)
+light_energy = 0.65
+
+[node name="Camera" type="Camera3D" parent="Preview/Viewport" unique_id=500606190]
+transform = Transform3D(-1, 5.640057e-10, -8.742096e-08, 0, 0.9999792, 0.006451473, 8.742278e-08, 0.006451473, -0.9999792, 0, 1.45, -1.55)
+current = true
+fov = 38.0
+
+[node name="SkinOption" type="OptionButton" parent="." unique_id=2004722994]
+custom_minimum_size = Vector2(460, 70)
+layout_mode = 0
+offset_left = 90.0
+offset_right = 550.0
+offset_top = 384.0
+offset_bottom = 454.0
+selected = 0
+item_count = 2
+popup/item_0/text = "Tactical"
+popup/item_0/id = 0
+popup/item_1/text = "Military"
+popup/item_1/id = 1
+
+[node name="@Label@128" type="Label" parent="." unique_id=460463809]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 550.0
+offset_top = 504.0
+offset_bottom = 650.0
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 22
+text = "Выберите участника экспедиции.\n\nЛКМ — поворот модели\nКолесо мыши — приближение"
+vertical_alignment = 1

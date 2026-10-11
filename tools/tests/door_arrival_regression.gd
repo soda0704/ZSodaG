@@ -21,6 +21,7 @@ func run():
 	menu._unhandled_input(escape)
 	check(menu.session_panel.visible and not menu.ready_button.disabled, "ESC exposes solo readiness")
 	menu.close_menu()
+	await create_timer(0.6).timeout
 	check(world.is_solo_arrival() and not menu.is_menu_open(), "closing ESC does not land")
 	menu.open_menu(menu.MenuView.SESSION)
 	menu._on_ready_pressed()

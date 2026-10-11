@@ -37,7 +37,9 @@ func run() -> void:
 		var main = load("res://scenes/ui/main_menu.tscn").instantiate()
 		root.add_child(main)
 		current_scene = main
-		var selector = main.get_node("SkinCard")
+		check(main.current_view == "home" and main.selector == null, "character selection follows new game instead of appearing on home")
+		main.show_character()
+		var selector = main.selector
 		check(selector.option.item_count == 2 and selector.option.get_selected_id() == 1 - variant_id, "main menu displays both skins and restores preference")
 		selector.option.select(variant_id)
 		selector.option.item_selected.emit(variant_id)

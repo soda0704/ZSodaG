@@ -22,8 +22,8 @@ func apply(data: Dictionary) -> void:
 		DisplayServer.window_set_hdr_output_reference_luminance(clampf(float(values.HDRWhite), 100.0, 400.0))
 	var viewport := get_viewport()
 	viewport.scaling_3d_scale = clampf(float(values.Scale) / 100.0, 0.5, 1.0)
-	viewport.msaa_3d = clampi(int(values.MSAA), 0, 3)
-	viewport.screen_space_aa = 1 if values.FXAA else 0
+	viewport.msaa_3d = clampi(int(values.MSAA), 0, 3) as Viewport.MSAA
+	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if values.FXAA else Viewport.SCREEN_SPACE_AA_DISABLED
 	viewport.mesh_lod_threshold = float(values.LOD)
 	Engine.max_fps = maxi(0, int(values.FPS))
 	_visit(get_tree().root)

@@ -25,7 +25,9 @@ git lfs pull
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/northernlab_launcher.ps1 -BuildOnly
 ```
 
-Результат: `build/windows-dev/NorthernLab.exe`. Для ручного экспорта сначала запишите идентичность исходников:
+Результат: `build/windows-dev/NorthernLab.exe`. Экспорт сначала выполняется в отдельную временную папку; предыдущая сборка заменяется только после успешного экспорта и подготовки всех файлов. Перед пересборкой закройте запущенную NorthernLab.exe. Журналы этапов находятся в `tools/.local/launcher-logs/identity.log` и `export.log`; при ошибке или превышении времени ожидания лаунчер указывает журнал и сохраняет предыдущий билд.
+
+Для ручного экспорта сначала запишите идентичность исходников:
 
 ```powershell
 & .\tools\.local\godotsteam-editor\godot.exe --headless --path . --script res://tools/write_build_identity.gd

@@ -8,6 +8,7 @@ extends CanvasLayer
 
 var _transition_generation: int = 0
 var _transition_tween: Tween
+var _waiting_for_arrival := false
 
 
 func _ready() -> void:
@@ -18,11 +19,16 @@ func _ready() -> void:
 	refresh()
 
 
+func _process(_delta: float) -> void:
+	lobby_panel.visible = _waiting_for_arrival and not GameMenu.is_menu_open()
+
+
 func refresh() -> void:
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
 	var waiting: bool = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
-	lobby_panel.visible = waiting
-	if not lobby_panel.visible:
+	_waiting_for_arrival = waiting
+	lobby_panel.visible = waiting and not GameMenu.is_menu_open()
+	if not waiting:
 		return
 
 	if world.is_solo_arrival():

@@ -1,0 +1,120 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_d3o33"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_navigation.gd" id="navigation"]
+
+[node name="HomePage" type="VBoxContainer" unique_id=1750901319]
+theme = ExtResource("menu_theme")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 0
+
+[node name="@Control@70" type="Control" parent="." unique_id=1100852791]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Brand" type="Label" parent="." unique_id=96502130]
+theme_override_constants/line_spacing = 0
+custom_minimum_size = Vector2(0, 124)
+theme_type_variation = &"MenuBrand"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 74
+text = "NORTHERN\nLAB"
+vertical_alignment = 1
+
+[node name="BrandGap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tagline" type="Label" parent="." unique_id=1302152555]
+theme_type_variation = &"MenuTagline"
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "СЕВЕРНАЯ ИССЛЕДОВАТЕЛЬСКАЯ СТАНЦИЯ"
+vertical_alignment = 1
+
+[node name="@Control@73" type="Control" parent="." unique_id=1092574040]
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Navigation" type="VBoxContainer" parent="." unique_id=1991053604]
+script = ExtResource("navigation")
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="Continue" type="Button" parent="Navigation" unique_id=1592227051]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+disabled = true
+text = "ПРОДОЛЖИТЬ ИГРУ"
+alignment = 0
+script = ExtResource("1_d3o33")
+
+[node name="NewGame" type="Button" parent="Navigation" unique_id=1995339932]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "НОВАЯ ИГРА"
+alignment = 0
+script = ExtResource("1_d3o33")
+
+[node name="Coop" type="Button" parent="Navigation" unique_id=660551539]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "КООПЕРАТИВ"
+alignment = 0
+script = ExtResource("1_d3o33")
+
+[node name="Settings" type="Button" parent="Navigation" unique_id=1100669142]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "НАСТРОЙКИ"
+alignment = 0
+script = ExtResource("1_d3o33")
+
+[node name="Exit" type="Button" parent="Navigation" unique_id=1052726191]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 23
+text = "ВЫХОД"
+alignment = 0
+script = ExtResource("1_d3o33")
+
+[node name="@Control@80" type="Control" parent="." unique_id=1508993208]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Status" type="Label" parent="." unique_id=904998187]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 21
+vertical_alignment = 1
