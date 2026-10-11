@@ -980,7 +980,7 @@ tracks/40/enabled = true
 tracks/40/path = NodePath("Skeleton3D:RightHandRing1")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
-tracks/40/keys = PackedFloat32Array(0, 1, 0.89034045, -0.0811507, -0.06922021, 0.44262514)
+tracks/40/keys = PackedFloat32Array(0, 1, 0.87641215, -0.09575767, -0.054719362, 0.4687622)
 tracks/41/type = "position_3d"
 tracks/41/imported = false
 tracks/41/enabled = true
@@ -994,7 +994,7 @@ tracks/42/enabled = true
 tracks/42/path = NodePath("Skeleton3D:RightHandRing2")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
-tracks/42/keys = PackedFloat32Array(0, 1, -0.010687051, 0.13805398, -0.06440457, 0.9882707)
+tracks/42/keys = PackedFloat32Array(0, 1, -0.015315681, 0.13606048, -0.06151703, 0.9886702)
 tracks/43/type = "position_3d"
 tracks/43/imported = false
 tracks/43/enabled = true
@@ -1008,7 +1008,7 @@ tracks/44/enabled = true
 tracks/44/path = NodePath("Skeleton3D:RightHandRing3")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
-tracks/44/keys = PackedFloat32Array(0, 1, 0.569206, 0.18314381, -0.22798242, 0.7684314)
+tracks/44/keys = PackedFloat32Array(0, 1, 0.47282195, 0.19464304, -0.23046637, 0.82791233)
 tracks/45/type = "position_3d"
 tracks/45/imported = false
 tracks/45/enabled = true
@@ -1036,7 +1036,7 @@ tracks/48/enabled = true
 tracks/48/path = NodePath("Skeleton3D:RightHandPinky1")
 tracks/48/interp = 1
 tracks/48/loop_wrap = true
-tracks/48/keys = PackedFloat32Array(0, 1, 0.90024465, 0.033641975, 0.090934075, 0.4244512)
+tracks/48/keys = PackedFloat32Array(0, 1, 0.8785068, 0.018530814, 0.10826059, 0.46493247)
 tracks/49/type = "position_3d"
 tracks/49/imported = false
 tracks/49/enabled = true
@@ -1050,7 +1050,7 @@ tracks/50/enabled = true
 tracks/50/path = NodePath("Skeleton3D:RightHandPinky2")
 tracks/50/interp = 1
 tracks/50/loop_wrap = true
-tracks/50/keys = PackedFloat32Array(0, 1, 0.007193069, 0.0877187, -0.058868874, 0.99437827)
+tracks/50/keys = PackedFloat32Array(0, 1, -0.0014157651, 0.08423323, -0.057082474, 0.99480873)
 tracks/51/type = "position_3d"
 tracks/51/imported = false
 tracks/51/enabled = true
@@ -1064,7 +1064,7 @@ tracks/52/enabled = true
 tracks/52/path = NodePath("Skeleton3D:RightHandPinky3")
 tracks/52/interp = 1
 tracks/52/loop_wrap = true
-tracks/52/keys = PackedFloat32Array(0, 1, 0.3585214, 0.14179043, -0.1434963, 0.91146404)
+tracks/52/keys = PackedFloat32Array(0, 1, 0.2922584, 0.14201604, -0.16083777, 0.93195903)
 tracks/53/type = "position_3d"
 tracks/53/imported = false
 tracks/53/enabled = true
@@ -3474,21 +3474,21 @@ bones/20/parent = 11
 bones/20/rest = Transform3D(0.9788492, -0.17545383, -0.10521657, 0.14090392, 0.9510457, -0.27506045, 0.14832614, 0.2544173, 0.9556523, -0.023608118, 0.09944284, -0.011217892)
 bones/20/enabled = true
 bones/20/position = Vector3(-0.023608118, 0.09944284, -0.011217892)
-bones/20/rotation = Quaternion(0.89034057, -0.08115071, -0.069220215, 0.4426251)
+bones/20/rotation = Quaternion(0.8764123, -0.09575768, -0.054719362, 0.46876225)
 bones/20/scale = Vector3(1.0000001, 1, 1)
 bones/21/name = "RightHandRing2"
 bones/21/parent = 20
 bones/21/rest = Transform3D(0.9765682, -0.042866737, 0.21089613, 0.084105074, 0.9780474, -0.19065621, -0.19809356, 0.20392619, 0.9587352, 8.195639e-08, 0.03175026, 1.7881393e-07)
 bones/21/enabled = true
 bones/21/position = Vector3(8.195639e-08, 0.03175026, 1.7881393e-07)
-bones/21/rotation = Quaternion(-0.010687057, 0.138054, -0.06440457, 0.98827076)
+bones/21/rotation = Quaternion(-0.015315679, 0.13606048, -0.061517023, 0.9886702)
 bones/21/scale = Vector3(1.0000001, 1, 1.0000001)
 bones/22/name = "RightHandRing3"
 bones/22/parent = 21
 bones/22/rest = Transform3D(0.92073774, 0.023154682, 0.3894945, 0.126136, 0.9269739, -0.35328352, -0.36923137, 0.37441075, 0.8505791, -1.4901161e-08, 0.030147672, -1.1920929e-07)
 bones/22/enabled = true
 bones/22/position = Vector3(-1.4901161e-08, 0.030147672, -1.1920929e-07)
-bones/22/rotation = Quaternion(0.569206, 0.18314381, -0.2279824, 0.7684314)
+bones/22/rotation = Quaternion(0.47282192, 0.19464304, -0.23046634, 0.82791233)
 bones/22/scale = Vector3(1, 1, 1)
 bones/23/name = "RightHandRing4"
 bones/23/parent = 22
@@ -3502,21 +3502,21 @@ bones/24/parent = 11
 bones/24/rest = Transform3D(0.87553155, -0.40986452, 0.25584346, 0.48314905, 0.74644864, -0.45758227, -0.0034272838, 0.5242382, 0.85156494, -0.041727066, 0.08544457, -0.011532426)
 bones/24/enabled = true
 bones/24/position = Vector3(-0.041727066, 0.08544457, -0.011532426)
-bones/24/rotation = Quaternion(0.9002447, 0.033641968, 0.09093406, 0.42445126)
+bones/24/rotation = Quaternion(0.8785068, 0.018530807, 0.10826057, 0.46493244)
 bones/24/scale = Vector3(1.0000001, 1.0000001, 1.0000001)
 bones/25/name = "RightHandPinky2"
 bones/25/parent = 24
 bones/25/rest = Transform3D(0.99395955, 0.09568913, 0.05373887, -0.091457315, 0.99287814, -0.076345935, -0.060661644, 0.07096997, 0.9956322, 2.9802322e-08, 0.03742647, -8.940697e-08)
 bones/25/enabled = true
 bones/25/position = Vector3(2.9802322e-08, 0.03742647, -8.940697e-08)
-bones/25/rotation = Quaternion(0.007193066, 0.08771872, -0.05886887, 0.99437827)
+bones/25/rotation = Quaternion(-0.0014157648, 0.08423323, -0.057082467, 0.9948087)
 bones/25/scale = Vector3(0.9999999, 1, 1)
 bones/26/name = "RightHandPinky3"
 bones/26/parent = 25
 bones/26/rest = Transform3D(0.98275894, 0.09477341, 0.15875354, -0.062829465, 0.97872144, -0.19533758, -0.17388833, 0.1819954, 0.96780187, 4.0978193e-08, 0.026607275, -2.9802322e-08)
 bones/26/enabled = true
 bones/26/position = Vector3(4.0978193e-08, 0.026607275, -2.9802322e-08)
-bones/26/rotation = Quaternion(0.35852146, 0.14179043, -0.1434963, 0.91146404)
+bones/26/rotation = Quaternion(0.29225844, 0.14201604, -0.16083778, 0.93195903)
 bones/26/scale = Vector3(0.9999999, 0.99999994, 0.99999994)
 bones/27/name = "RightHandPinky4"
 bones/27/parent = 26
@@ -4099,19 +4099,19 @@ visible = false
 [node name="FlashlightStudy" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1286504799 instance=ExtResource("26_rvytr")]
 transform = Transform3D(1, 0, 0, 0, 0.99026805, 0.1391731, 0, -0.1391731, 0.99026805, -0.038, -0.041527033, -0.022438928)
 
-[node name="Body" type="MeshInstance3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=1228603772]
+[node name="Body" type="MeshInstance3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=1401993154]
 layers = 262145
 mesh = ExtResource("25_t1n20")
 
-[node name="Grip" type="Marker3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=1144411060]
+[node name="Grip" type="Marker3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=889280085]
 transform = Transform3D(0.026627569, -0.17857829, -0.98356533, 0.8535784, -0.5080345, 0.11534835, -0.5202838, -0.8426215, 0.13890283, 0.038, 0.038, 0.028)
 
-[node name="Lens" type="MeshInstance3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=795879827]
+[node name="Lens" type="MeshInstance3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=938618321]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.166)
 layers = 262145
 mesh = SubResource("CylinderMesh_mq4rh")
 
-[node name="Beam" type="SpotLight3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=570521121]
+[node name="Beam" type="SpotLight3D" parent="Skeleton3D/RightHand/Equipment/FlashlightStudy" unique_id=553785170]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.166)
 visible = false
 light_color = Color(1, 0.92, 0.8, 1)

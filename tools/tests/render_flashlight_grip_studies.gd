@@ -1,5 +1,5 @@
 extends SceneTree
-const OUT:="res://tools/.local/flashlight-grip-review-r1/"
+const OUT:="res://tools/.local/flashlight-grip-review-r2/"
 func _initialize():run.call_deferred()
 func run():
 	if DisplayServer.get_name()=="headless":quit(1);return

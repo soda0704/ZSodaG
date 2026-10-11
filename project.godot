@@ -12,10 +12,10 @@ config_version=5
 
 config/name="NorthernLab"
 config/version="1.00"
-config/icon="res://assets/ui/application/northernlab.png"
-config/windows_native_icon="res://assets/ui/application/northernlab.ico"
 run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
+config/icon="res://assets/ui/application/northernlab.png"
+config/windows_native_icon="res://assets/ui/application/northernlab.ico"
 
 [autoload]
 
@@ -126,5 +126,5 @@ common/physics_interpolation=true
 
 [rendering]
 
-rendering_device/driver.windows="d3d12"
 rendering_device/d3d12/max_resource_descriptors=131072
+rendering_device/driver.windows="d3d12"

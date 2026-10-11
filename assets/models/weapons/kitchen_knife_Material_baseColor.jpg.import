@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhefg2tlgykls"
-path="res://.godot/imported/kitchen_knife_Material_baseColor.jpg-3c98319f4adc31c4c7c78a99b27a5c83.ctex"
+path.s3tc="res://.godot/imported/kitchen_knife_Material_baseColor.jpg-3c98319f4adc31c4c7c78a99b27a5c83.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "cedf33ff848c30b4841f1b461304efcd"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/weapons/kitchen_knife_Material_baseColor.jpg"
-dest_files=["res://.godot/imported/kitchen_knife_Material_baseColor.jpg-3c98319f4adc31c4c7c78a99b27a5c83.ctex"]
+dest_files=["res://.godot/imported/kitchen_knife_Material_baseColor.jpg-3c98319f4adc31c4c7c78a99b27a5c83.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

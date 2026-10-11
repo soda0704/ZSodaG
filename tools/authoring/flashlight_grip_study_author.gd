@@ -12,10 +12,12 @@ func flashlight_pose(first_person:bool)->void:
 	for finger in ["Index","Middle","Ring","Pinky"]:
 		var proximal:Vector3=item.affine_inverse()*global_point("RightHand"+finger+"1")
 		var z:float={"Index":-.055,"Middle":-.027,"Ring":.001,"Pinky":.027}[finger]
-		two_bone("RightHand"+finger+"1","RightHand"+finger+"2","RightHand"+finger+"3",item*Vector3(-.021,-.005,z),item*Vector3(.004,-.047,z))
+		var dip:=Vector3(-.027,-.008,z) if finger=="Ring" else Vector3(-.030,-.010,z) if finger=="Pinky" else Vector3(-.021,-.005,z)
+		var tip_contact:=Vector3(-.023,.015,z) if finger=="Ring" else Vector3(-.025,.014,z) if finger=="Pinky" else Vector3(-.011,.017,z)
+		two_bone("RightHand"+finger+"1","RightHand"+finger+"2","RightHand"+finger+"3",item*dip,item*Vector3(.004,-.047,z))
 		var distal:=index("RightHand"+finger+"3");var tip:=index("RightHand"+finger+"4")
 		var current:Vector3=(global_point(names[tip])-global_point(names[distal])).normalized()
-		var toward:Vector3=(item*Vector3(-.011,.017,z)-global_point(names[distal])).normalized()
+		var toward:Vector3=(item*tip_contact-global_point(names[distal])).normalized()
 		global_rotation(distal,Basis(Quaternion(current,toward))*rig.get_bone_global_pose(distal).basis)
 	var contact:Vector3=item.affine_inverse()*global_point("RightHandIndex2")
 	aim_finger("Right","Thumb",[item*Vector3(.015,.022,contact.z-.012),item*Vector3(-.016,.017,contact.z-.009),item*Vector3(-.023,.0,contact.z-.004)])

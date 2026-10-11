@@ -175,6 +175,10 @@ func _bind_character_arms(player: GamePlayer) -> void:
 	_character_arms=player.body_animator.first_person_model
 	_arms_variant=player.character_variant_id
 	var book: Node3D=_character_arms.get_node("Journal")
+	# Widen the physical spread and its UI surfaces together, once per instance.
+	if not book.has_meta("reading_width_fitted"):
+		book.scale.x *= 1.04
+		book.set_meta("reading_width_fitted",true)
 	_page_surfaces.clear()
 	for side in ["Left","Right"]:
 		var surface: MeshInstance3D=book.get_node_or_null("FrontCoverPivot/InkLeft" if side=="Left" else "InkRight")
