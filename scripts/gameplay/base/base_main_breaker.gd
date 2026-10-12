@@ -99,11 +99,12 @@ func _apply_power_state(is_powered: bool, instant: bool = false) -> void:
 
 	if is_instance_valid(_lever_tween):
 		_lever_tween.kill()
-	var target_rotation := deg_to_rad(38.0 if is_powered else -38.0)
+	# Sweep in the vertical plane, always through the space in front of the panel.
+	var target_rotation := deg_to_rad(-38.0 if is_powered else -142.0)
 	if instant:
 		lever_pivot.rotation.x = target_rotation
 		return
 	_lever_tween = create_tween()
-	_lever_tween.set_trans(Tween.TRANS_BACK)
-	_lever_tween.set_ease(Tween.EASE_OUT)
+	_lever_tween.set_trans(Tween.TRANS_SINE)
+	_lever_tween.set_ease(Tween.EASE_IN_OUT)
 	_lever_tween.tween_property(lever_pivot, "rotation:x", target_rotation, 0.3)

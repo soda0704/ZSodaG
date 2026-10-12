@@ -221,6 +221,9 @@ func weapon_effect(kind: StringName, reload: bool) -> void:
 			tree.set("parameters/Action/transition_request","KnifeAttack")
 			tree.set("parameters/Handling/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		elif reload:
+			var handling:AnimationNodeOneShot=tree.tree_root.get_node("Handling")
+			handling.fadein_time=0.16 if name=="Pistol" else 0.18
+			handling.fadeout_time=0.22 if name=="Pistol" else 0.24
 			tree.set("parameters/Action/transition_request",name+"Reload")
 			tree.set("parameters/Handling/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 		else:

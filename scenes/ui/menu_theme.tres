@@ -11,23 +11,14 @@ content_margin_right = 8.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yh44"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1j2s8"]
 content_margin_left = 0.0
 content_margin_top = 10.0
 content_margin_right = 8.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 0)
-border_width_bottom = 1
-border_color = Color(0.39607844, 0.25490198, 0.23529412, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_co6rk"]
-content_margin_left = 0.0
-content_margin_top = 10.0
-content_margin_right = 8.0
-content_margin_bottom = 10.0
-bg_color = Color(1, 1, 1, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1j2s8"]
 content_margin_left = 0.0
 content_margin_top = 10.0
 content_margin_right = 8.0

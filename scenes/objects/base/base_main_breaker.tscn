@@ -49,7 +49,8 @@ mesh = SubResource("Mesh_indicator")
 
 [node name="LeverPivot" type="Node3D" parent="."]
 unique_name_in_owner = true
-position = Vector3(0, 0, -0.14)
+position = Vector3(0, 0, -0.17)
+rotation = Vector3(-2.4783675, 0, 0)
 
 [node name="Lever" type="MeshInstance3D" parent="LeverPivot"]
 position = Vector3(0, 0.22, 0)

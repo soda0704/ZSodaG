@@ -40,6 +40,20 @@ func _bind_runtime() -> void:
 			_on_end_day_consensus_reached
 		)
 	_apply_day(_gameplay_controller.day_index)
+	_gameplay_controller.snapshot_changed.connect(_on_snapshot_changed)
+	_apply_elevator_power()
+
+
+func _on_snapshot_changed(_snapshot: Dictionary) -> void:
+	_apply_elevator_power()
+
+
+func _apply_elevator_power() -> void:
+	if not multiplayer.is_server() or _elevator_controller == null:
+		return
+	var powered := _gameplay_controller.is_elevator_powered()
+	if _elevator_controller.is_powered != powered:
+		_elevator_controller.set_powered(powered)
 
 
 func _on_end_day_consensus_reached(completed_day_index: int) -> void:

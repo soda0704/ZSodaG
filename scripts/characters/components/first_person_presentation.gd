@@ -8,9 +8,14 @@ const KINDS := {&"m4a1":"Rifle",&"pistol":"Pistol",&"flashlight":"Flashlight",&"
 @export var angular_mass := 0.014
 @export var max_lag_degrees := 1.5
 @export var settling_frequency := 13.0
+@export_range(35.0, 90.0) var viewmodel_fov := 55.0
+@export_range(35.0, 90.0) var viewmodel_ads_fov := 54.0
+@export_range(0.0, 12.0) var viewmodel_framing_pitch := 8.0
 
 var model: Node3D
 var tree: AnimationTree
+var recoil_player: AnimationPlayer
+var aim_pivot: Node3D
 var camera: Camera3D
 var view_camera: Camera3D
 var viewport: SubViewport
@@ -39,7 +44,28 @@ var _environment_dirty:=true
 func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	camera=owner_camera
 	model=asset.instantiate()
-	add_child(model)
+	aim_pivot=Node3D.new();aim_pivot.name="AimAlignment";add_child(aim_pivot)
+	var recoil_pivot:=Node3D.new();recoil_pivot.name="RecoilPivot";aim_pivot.add_child(recoil_pivot)
+	recoil_pivot.add_child(model)
+	for weapon_name in ["pistol","m4a1"]:
+		var source:Node3D=load("res://scenes/objects/items/"+weapon_name+"_model.tscn").instantiate()
+		var visual:Node3D=model.get_node("Skeleton3D/RightHand/Equipment/"+weapon_name)
+		for sight_name in ["RearSight","FrontSight"]:
+			var marker:Node3D=visual.get_node_or_null(sight_name)
+			if marker==null:
+				marker=Marker3D.new();marker.name=sight_name;visual.add_child(marker)
+			marker.transform=source.get_node(sight_name).transform
+		source.free()
+	recoil_player=AnimationPlayer.new();recoil_pivot.add_child(recoil_player)
+	var recoil_clip:=Animation.new();recoil_clip.length=0.24
+	var recoil_rotation:=recoil_clip.add_track(Animation.TYPE_ROTATION_3D);recoil_clip.track_set_path(recoil_rotation,NodePath("."))
+	var recoil_position:=recoil_clip.add_track(Animation.TYPE_POSITION_3D);recoil_clip.track_set_path(recoil_position,NodePath("."))
+	for sample in 25:
+		var t:float=sample*0.01
+		var amount:float=smoothstep(0.0,0.04,t)*(1.0-smoothstep(0.04,0.24,t))
+		recoil_clip.rotation_track_insert_key(recoil_rotation,t,Quaternion(Vector3.RIGHT,deg_to_rad(0.8)*amount))
+		recoil_clip.position_track_insert_key(recoil_position,t,Vector3(0,0,0.006*amount))
+	var recoil_library:=AnimationLibrary.new();recoil_library.add_animation("Pistol",recoil_clip);recoil_player.add_animation_library("",recoil_library)
 	tree=model.get_node("AnimationTree")
 	tree.callback_mode_process=AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
 	tree.active=true
@@ -138,12 +164,37 @@ func _process(delta: float) -> void:
 	position=_offset.limit_length(0.025); rotation=_angle.limit_length(deg_to_rad(2.0))
 	_refresh_visibility()
 	view_camera.global_transform=camera.global_transform
+	view_camera.global_basis=camera.global_basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
 	_sync_environment()
-	view_camera.fov=lerpf(lerpf(camera.fov,camera.fov-6.0,_ads),45.0,book_weight)
+	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
 	# Only the spring integration needs a bounded step. Animation playback must
 	# keep real time even on a heavy level at less than 25 rendered frames/sec.
 	tree.advance(animation_delta)
 	update_grips(model,kind,book_phase,context.get("reloading",false),delta)
+	_align_weapon_sights()
+
+func _align_weapon_sights() -> void:
+	aim_pivot.transform=Transform3D.IDENTITY
+	if kind not in ["Pistol","Rifle"] or _ads<=0.001: return
+	var recoil_pivot:Node3D=recoil_player.get_parent()
+	var kick_transform:=recoil_pivot.transform
+	recoil_pivot.transform=Transform3D.IDENTITY
+	var sk:Skeleton3D=model.get_node("Skeleton3D")
+	sk.force_update_all_bone_transforms()
+	# Use the authored hand socket directly; BoneAttachment updates can lag
+	# behind manual AnimationTree advancement by one frame.
+	var sockets:Node3D=sk.get_node("RightHand/Equipment")
+	var pistol:Node3D=sockets.get_node("pistol" if kind=="Pistol" else "m4a1")
+	var gun:Transform3D=sk.global_transform*sk.get_bone_global_pose(sk.find_bone("RightHand"))*sockets.transform*pistol.transform
+	var rear:Vector3=pistol.get_node("RearSight").position if pistol.has_node("RearSight") else Vector3(0,.067,.025) if kind=="Pistol" else Vector3(-.0083,.100,-.008)
+	var front:Vector3=pistol.get_node("FrontSight").position if pistol.has_node("FrontSight") else Vector3(0,.067,-.17) if kind=="Pistol" else Vector3(-.0083,.092,-.403)
+	var sight_frame:=Basis.looking_at((front-rear).normalized(),Vector3.UP)
+	var weapon_basis:Basis=camera.global_basis*sight_frame.inverse()
+	var distance:float=.38 if kind=="Pistol" else .40
+	var desired:=Transform3D(weapon_basis,camera.global_position+camera.global_basis*Vector3(0,0,-distance)-weapon_basis*rear)
+	var aligned:Transform3D=global_transform.affine_inverse()*(desired*gun.affine_inverse())*global_transform
+	aim_pivot.transform=Transform3D.IDENTITY.interpolate_with(aligned,_ads)
+	recoil_pivot.transform=kick_transform
 
 func _environment_changed() -> void:
 	_environment_dirty=true
@@ -188,13 +239,22 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 func action(item: String, label: String) -> void:
 	if _journal_phase>0 or item=="Relaxed": return
 	if label=="Recoil":
+		if item=="Pistol":
+			recoil_player.stop();recoil_player.play("Pistol")
+			return
 		tree.set("parameters/Recoil/transition_request",item)
 		tree.set("parameters/Kick/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	else:
+		var handling:AnimationNodeOneShot=tree.tree_root.get_node("Handling")
+		handling.fadein_time=(0.16 if item=="Pistol" else 0.18) if label=="Reload" else 0.08
+		handling.fadeout_time=(0.22 if item=="Pistol" else 0.24) if label=="Reload" else 0.16
 		tree.set("parameters/Action/transition_request",item+label)
 		tree.set("parameters/Handling/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 func cancel_action() -> void:
+	if recoil_player!=null:
+		recoil_player.stop()
+		(recoil_player.get_parent() as Node3D).transform=Transform3D.IDENTITY
 	tree.set("parameters/Handling/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	tree.set("parameters/Kick/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 
@@ -227,3 +287,4 @@ func set_dead(value: bool) -> void:
 
 func _exit_tree() -> void:
 	if is_instance_valid(overlay): overlay.queue_free()
+

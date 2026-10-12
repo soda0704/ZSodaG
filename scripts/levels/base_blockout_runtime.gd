@@ -2,24 +2,32 @@ class_name BaseBlockoutRuntime
 extends Node3D
 
 const WEAPON_LOOT := [
-	{"type": &"pistol", "position": Vector3(-29.7, 1.12, 7.05), "state": {"rounds": 12}},
-	{"type": &"m4a1", "position": Vector3(-7.35, 1.25, 22.5), "state": {"rounds": 30}},
-	{"type": &"kitchen_knife", "position": Vector3(11.6, 1.08, -7.35), "state": {}},
+	{"type": &"pistol", "position": Vector3(-29.7, 1.06, 7.05), "rotation": Vector3(0, 17, 90), "state": {"rounds": 12}},
+	{"type": &"m4a1", "position": Vector3(-7.22, 0.11, 18.85), "rotation": Vector3(0, -23, 90), "state": {"rounds": 30}},
+	{"type": &"kitchen_knife", "position": Vector3(14.05, 1.12, -7.25), "rotation": Vector3(0, 19, 90), "state": {}},
 	{"type": &"pistol_ammo", "position": Vector3(-29.25, 1.12, 7.05), "state": {"amount": 12}},
 	{"type": &"pistol_ammo", "position": Vector3(2.5, 1.1, 17.25), "state": {"amount": 12}},
-	{"type": &"rifle_magazine", "position": Vector3(-7.35, 1.2, 23.2), "state": {"rounds": 30}},
+	{"type": &"rifle_magazine", "position": Vector3(-6.93, 0.10, 18.75), "rotation": Vector3(90, 31, 0), "state": {"rounds": 30}},
 	{"type": &"rifle_magazine", "position": Vector3(-29, 1.2, 7.25), "state": {"rounds": 30}},
 ]
 
 const TOOL_LOOT := [
 	{"type": &"tape", "position": Vector3(-29.0, 1.2, 7.8), "state": {}},
-	{"type": &"tape", "position": Vector3(-7.0, 1.2, 22.8), "state": {}},
+	{"type": &"tape", "position": Vector3(-7.49, 0.08, 19.06), "rotation": Vector3(0, -11, 0), "state": {}},
 	{"type": &"crowbar", "position": Vector3(-24.8, 0.25, 3.5), "state": {"uses": 3}},
 ]
 
+const EXTRA_LOOT := [
+	{"type": &"kitchen_knife", "position": Vector3(14.52, 1.12, -7.39), "rotation": Vector3(0, -28, 90), "state": {}},
+	{"type": &"flashlight", "position": Vector3(2.08, 1.07, 17.12), "rotation": Vector3(0, 52, 0), "state": {"battery_charge": 1.0}},
+	{"type": &"battery", "position": Vector3(2.45, 1.06, 17.40), "rotation": Vector3(0, -34, 0), "state": {"charge_amount": 1.0}},
+	{"type": &"battery", "position": Vector3(2.62, 1.06, 17.24), "rotation": Vector3(0, 67, 0), "state": {"charge_amount": 1.0}},
+	{"type": &"pistol_ammo", "position": Vector3(2.97, 1.07, 17.13), "rotation": Vector3(0, -21, 0), "state": {"amount": 6}},
+]
+
 const DISCOVERABLE_LOOT := [
-	{"type": &"kitchen_knife", "position": Vector3(11.6, 1.08, -7.35), "state": {}},
-	{"type": &"pistol", "position": Vector3(-29.7, 1.12, 7.05), "state": {"rounds": 12}},
+	{"type": &"kitchen_knife", "position": Vector3(14.05, 1.12, -7.25), "rotation": Vector3(0, 19, 90), "state": {}},
+	{"type": &"pistol", "position": Vector3(-29.7, 1.06, 7.05), "rotation": Vector3(0, 17, 90), "state": {"rounds": 12}},
 	{"type": &"pistol_ammo", "position": Vector3(-29.25, 1.12, 7.05), "state": {"amount": 12}},
 	{"type": &"crowbar", "position": Vector3(-24.8, 0.25, 3.5), "state": {"uses": 3}},
 ]
@@ -39,9 +47,10 @@ const FUEL_PICKUP_SCENE := preload(
 ])
 @export var player_spawn_yaws := PackedFloat32Array([PI * 0.5, PI * 0.5])
 @export var arrival_spawns_path := NodePath("ArrivalSite/Spawns")
+@export var elevator_backup_fuse_spawn_path := NodePath("Floor_0_Base_Blockout/Gameplay/MedicalFuseTray/Spawn")
 @export var standalone_flashlight_transform := Transform3D(
-	Basis.IDENTITY,
-	Vector3(4.6, 0.1, -4.8)
+	Basis(Vector3.UP, -0.43),
+	Vector3(-24.2, 0.08, 3.85)
 )
 @export var task_terminal_transform := Transform3D(
 	Basis.IDENTITY,
@@ -49,7 +58,7 @@ const FUEL_PICKUP_SCENE := preload(
 )
 @export var fuel_can_spawn_transform := Transform3D(
 	Basis.IDENTITY,
-	Vector3(-3.2, 0.36, 19.2)
+	Vector3(-34.5, 0.36, 6.3)
 )
 @export var bunk_item_drop_transforms: Array[Transform3D] = [
 	Transform3D(Basis.IDENTITY, Vector3(23.25, 0.4, -5.55)),
@@ -61,6 +70,22 @@ const FUEL_PICKUP_SCENE := preload(
 ]
 
 var network_runtime_managed: bool = false
+var _fuel_scatter: Array[Transform3D] = []
+
+
+static func loot_transform(loot: Dictionary) -> Transform3D:
+	var angles: Vector3 = loot.get("rotation", Vector3.ZERO)
+	return Transform3D(Basis.from_euler(angles * PI / 180.0), loot.position)
+
+
+func get_fuel_can_spawn_transforms() -> Array[Transform3D]:
+	if _fuel_scatter.is_empty():
+		# Separate clear floor areas; only the server chooses and replicates poses.
+		for center in [fuel_can_spawn_transform.origin, Vector3(-27.2, 0.36, -5.7), Vector3(-36.4, 0.36, -3.5)]:
+			var spawn_position: Vector3 = center + Vector3(randf_range(-0.25, 0.25), 0, randf_range(-0.25, 0.25))
+			_fuel_scatter.append(Transform3D(Basis(Vector3.UP, randf_range(-PI, PI)), spawn_position))
+		_fuel_scatter.shuffle()
+	return _fuel_scatter.duplicate()
 
 
 func _enter_tree() -> void:
@@ -149,7 +174,11 @@ func _arrival_marker(index: int) -> Marker3D:
 
 
 func get_fuel_can_spawn_transform() -> Transform3D:
-	return fuel_can_spawn_transform
+	return get_fuel_can_spawn_transforms()[0]
+
+
+func get_elevator_backup_fuse_spawn_transform() -> Transform3D:
+	return (get_node(elevator_backup_fuse_spawn_path) as Marker3D).global_transform
 
 
 func get_bunk_item_drop_transform(player_slot: int) -> Transform3D:
@@ -175,11 +204,16 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 
 
 func spawn_standalone_gameplay() -> void:
+	var state := get_node("BaseGameplayController") as BaseGameplayController
+	if not state.elevator_backup_installed and not has_node("ElevatorBackupFuse"):
+		var fuse := preload("res://scenes/objects/items/fuse_pickup.tscn").instantiate() as WorldItemPickup
+		fuse.setup_spawn({"pickup_name": "ElevatorBackupFuse", "transform": get_elevator_backup_fuse_spawn_transform()})
+		add_child(fuse)
 	for index in WEAPON_LOOT.size():
 		var loot: Dictionary = WEAPON_LOOT[index]
 		var scene: PackedScene = preload("res://scenes/objects/items/pistol_pickup.tscn") if loot.type==&"pistol" else preload("res://scenes/objects/items/m4a1_pickup.tscn") if loot.type==&"m4a1" else preload("res://scenes/objects/items/weapon_pickup.tscn")
 		var pickup := scene.instantiate()
-		pickup.setup_spawn({"pickup_name": "WeaponLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": Transform3D(Basis.IDENTITY, loot.position)})
+		pickup.setup_spawn({"pickup_name": "WeaponLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": loot_transform(loot)})
 		add_child(pickup)
 	if get_node_or_null("RuntimePlayers") == null:
 		var runtime_players := Node3D.new()
@@ -215,19 +249,16 @@ func spawn_standalone_gameplay() -> void:
 		for index in TOOL_LOOT.size():
 			var loot: Dictionary = TOOL_LOOT[index]
 			var tool := preload("res://scenes/objects/items/tool_pickup.tscn").instantiate() as WorldItemPickup
-			tool.setup_spawn({"pickup_name": "StandaloneTool%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": Transform3D(Basis.IDENTITY, loot.position)})
+			tool.setup_spawn({"pickup_name": "StandaloneTool%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": loot_transform(loot)})
 			add_child(tool)
-		var fuel_can := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
-		fuel_can.setup_spawn({
-			"pickup_name": "StandaloneFuelCan",
-			"item_type": GamePlayer.FUEL_ITEM,
-			"item_state": {},
-		})
-		add_child(fuel_can)
-		fuel_can.global_transform = get_fuel_can_spawn_transform()
-		for index in 2:
-			var reserve := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
-			reserve.setup_spawn({"pickup_name": "ReserveFuelCan%d" % index, "item_type": GamePlayer.FUEL_ITEM, "item_state": {"fuel_liters": 20.0}})
-			add_child(reserve)
-			reserve.global_transform = get_fuel_can_spawn_transform()
-			reserve.global_position += Vector3(1.0, 0.0, index * 0.8)
+		var fuel_transforms := get_fuel_can_spawn_transforms()
+		for index in 3:
+			var fuel_can := FUEL_PICKUP_SCENE.instantiate() as WorldItemPickup
+			fuel_can.setup_spawn({"pickup_name": "StandaloneFuelCan" if index == 0 else "ReserveFuelCan%d" % index, "item_type": GamePlayer.FUEL_ITEM, "item_state": {"fuel_liters": 20.0}, "transform": fuel_transforms[index]})
+			add_child(fuel_can)
+	for index in EXTRA_LOOT.size():
+		var loot: Dictionary = EXTRA_LOOT[index]
+		var scene: PackedScene = FLASHLIGHT_PICKUP_SCENE if loot.type == &"flashlight" else preload("res://scenes/objects/items/battery_pickup.tscn") if loot.type == &"battery" else preload("res://scenes/objects/items/weapon_pickup.tscn")
+		var item := scene.instantiate() as WorldItemPickup
+		item.setup_spawn({"pickup_name": "ExtraLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": loot_transform(loot)})
+		add_child(item)

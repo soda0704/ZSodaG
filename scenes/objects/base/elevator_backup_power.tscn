@@ -1,0 +1,134 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/elevator_backup_power.gd" id="1_logic"]
+[ext_resource type="PackedScene" path="res://assets/models/elevator_backup/diesel_enclosure/scene.gltf" id="2_model"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="3_fuse"]
+
+[sub_resource type="BoxShape3D" id="body_shape"]
+size = Vector3(0.62, 0.92, 1.16)
+
+[sub_resource type="BoxShape3D" id="panel_shape"]
+size = Vector3(0.4, 0.36, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="housing_material"]
+albedo_color = Color(0.19, 0.23, 0.25, 1)
+metallic = 0.65
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="socket_material"]
+albedo_color = Color(0.018, 0.024, 0.027, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="rim_material"]
+albedo_color = Color(0.56, 0.61, 0.62, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="connected_material"]
+albedo_color = Color(0.06, 0.7, 0.28, 1)
+emission_enabled = true
+emission = Color(0.06, 0.7, 0.28, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="StandardMaterial3D" id="disconnected_material"]
+albedo_color = Color(0.8, 0.24, 0.035, 1)
+emission_enabled = true
+emission = Color(0.8, 0.24, 0.035, 1)
+emission_energy_multiplier = 1.0
+
+[sub_resource type="BoxMesh" id="housing_mesh"]
+size = Vector3(0.4, 0.36, 0.12)
+material = SubResource("housing_material")
+
+[sub_resource type="BoxMesh" id="socket_back_mesh"]
+size = Vector3(0.22, 0.11, 0.012)
+material = SubResource("socket_material")
+
+[sub_resource type="BoxMesh" id="horizontal_rim_mesh"]
+size = Vector3(0.26, 0.022, 0.075)
+material = SubResource("rim_material")
+
+[sub_resource type="BoxMesh" id="vertical_rim_mesh"]
+size = Vector3(0.022, 0.11, 0.075)
+material = SubResource("rim_material")
+
+[sub_resource type="SphereMesh" id="connected_mesh"]
+radius = 0.014
+height = 0.028
+material = SubResource("connected_material")
+
+[sub_resource type="SphereMesh" id="disconnected_mesh"]
+radius = 0.014
+height = 0.028
+material = SubResource("disconnected_material")
+
+[node name="ElevatorBackupPower" type="StaticBody3D"]
+editor_description = "Резерв лифта от наружной солнечной панели. Модель генератора используется как временный корпус накопителя. Гнездо, материалы и подписи редактируются в сцене; состояние сохраняет BaseGameplayController."
+script = ExtResource("1_logic")
+
+[node name="Model" parent="." instance=ExtResource("2_model")]
+position = Vector3(0, 0.071102, 0)
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.46, -0.01)
+shape = SubResource("body_shape")
+
+[node name="FuseBox" type="Node3D" parent="."]
+position = Vector3(0, 0.68, 0.62)
+
+[node name="Housing" type="MeshInstance3D" parent="FuseBox"]
+mesh = SubResource("housing_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FuseBox"]
+shape = SubResource("panel_shape")
+
+[node name="SocketBack" type="MeshInstance3D" parent="FuseBox"]
+position = Vector3(0, -0.015, 0.063)
+mesh = SubResource("socket_back_mesh")
+
+[node name="SocketTop" type="MeshInstance3D" parent="FuseBox"]
+position = Vector3(0, 0.051, 0.085)
+mesh = SubResource("horizontal_rim_mesh")
+
+[node name="SocketBottom" type="MeshInstance3D" parent="FuseBox"]
+position = Vector3(0, -0.081, 0.085)
+mesh = SubResource("horizontal_rim_mesh")
+
+[node name="SocketLeft" type="MeshInstance3D" parent="FuseBox"]
+position = Vector3(-0.12, -0.015, 0.085)
+mesh = SubResource("vertical_rim_mesh")
+
+[node name="SocketRight" type="MeshInstance3D" parent="FuseBox"]
+position = Vector3(0.12, -0.015, 0.085)
+mesh = SubResource("vertical_rim_mesh")
+
+[node name="InsertedFuse" parent="FuseBox" instance=ExtResource("3_fuse")]
+unique_name_in_owner = true
+position = Vector3(0, -0.015, 0.093)
+visible = false
+
+[node name="ConnectedIndicator" type="MeshInstance3D" parent="FuseBox"]
+unique_name_in_owner = true
+position = Vector3(0.165, 0.12, 0.068)
+visible = false
+mesh = SubResource("connected_mesh")
+
+[node name="DisconnectedIndicator" type="MeshInstance3D" parent="FuseBox"]
+unique_name_in_owner = true
+position = Vector3(0.165, 0.12, 0.068)
+mesh = SubResource("disconnected_mesh")
+
+[node name="Title" type="Label3D" parent="FuseBox"]
+position = Vector3(-0.015, 0.12, 0.068)
+pixel_size = 0.0009
+font_size = 18
+text = "СОЛНЕЧНЫЙ РЕЗЕРВ"
+outline_size = 2
+
+[node name="StatusLabel" type="Label3D" parent="FuseBox"]
+unique_name_in_owner = true
+position = Vector3(0, -0.135, 0.068)
+pixel_size = 0.0008
+font_size = 15
+text = "НУЖЕН ПРЕДОХРАНИТЕЛЬ"
+outline_size = 2

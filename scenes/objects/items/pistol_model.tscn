@@ -9,3 +9,9 @@ mesh = ExtResource("1_go5qs")
 
 [node name="Muzzle" type="Marker3D" parent="." unique_id=1931060213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, -0.18799655)
+
+[node name="RearSight" type="Marker3D" parent="."]
+position = Vector3(0, 0.067, 0.025)
+
+[node name="FrontSight" type="Marker3D" parent="."]
+position = Vector3(0, 0.067, -0.17)

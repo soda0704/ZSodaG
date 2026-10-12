@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/elevator_backup/solar_panel/scene.gltf" id="1_model"]
+
+[sub_resource type="BoxShape3D" id="panel_shape"]
+size = Vector3(1.48734, 0.86872, 0.86872)
+
+[node name="ElevatorBackupSolarPanel" type="StaticBody3D"]
+editor_description = "Наземная солнечная панель слева от пешеходного входа, если смотреть с улицы на базу. Положение, модель и коллизия задаются этой сценой и сценой этажа 0."
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+position = Vector3(0, 0.190614, 0.053765)
+scale = Vector3(0.009, 0.009, 0.009)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.43436, 0)
+shape = SubResource("panel_shape")

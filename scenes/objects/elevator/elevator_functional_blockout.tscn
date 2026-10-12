@@ -202,6 +202,7 @@ disabled = true
 [node name="PassengerArea" type="Area3D" parent="CabinMoving" unique_id=1486144732]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/PassengerArea" unique_id=1468579993]
 shape = SubResource("Shape_passenger_area")
@@ -209,6 +210,7 @@ shape = SubResource("Shape_passenger_area")
 [node name="DoorSafetyArea" type="Area3D" parent="CabinMoving" unique_id=92659606]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85, 1.8, 0)
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/DoorSafetyArea" unique_id=1467538016]
 shape = SubResource("Shape_door_safety_area")

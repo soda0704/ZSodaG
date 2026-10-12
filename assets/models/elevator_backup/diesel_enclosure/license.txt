@@ -1,0 +1,11 @@
+Model Information:
+* title:	Diesel Generator (low-poly game asset)
+* source:	https://sketchfab.com/3d-models/diesel-generator-low-poly-game-asset-03db834f3fd94212a6a07d3127630b3b
+* author:	Eugene Flerko (https://sketchfab.com/eugene.flerko)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Diesel Generator (low-poly game asset)" (https://sketchfab.com/3d-models/diesel-generator-low-poly-game-asset-03db834f3fd94212a6a07d3127630b3b) by Eugene Flerko (https://sketchfab.com/eugene.flerko) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

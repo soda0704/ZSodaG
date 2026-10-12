@@ -72,6 +72,7 @@ func refill_authoritative(peer_id: int, amount: float) -> float:
 	_broadcast_snapshot(snapshot)
 	return added
 var main_breaker_on: bool = false
+var elevator_backup_installed: bool = false
 var end_day_ready_peer_ids: Array[int] = []
 var sleeping_peer_ids: Array[int] = []
 var _end_day_consensus_announced: bool = false
@@ -206,11 +207,36 @@ func set_end_day_ready_authoritative(peer_id: int, is_ready: bool) -> bool:
 
 func can_end_current_day() -> bool:
 	return main_breaker_on and (
-		day_index == 1
+		(day_index == 1 and elevator_backup_installed)
 		or (day_index == 2 and quest_stage == QuestStage.DELIVERED)
 		or (day_index == LEVEL_TWO_DAY_INDEX and bool(containment.get("level2", false)))
 		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
 	)
+
+
+func is_elevator_powered() -> bool:
+	return main_breaker_on or elevator_backup_installed
+
+
+func install_elevator_backup_authoritative(peer_id: int) -> bool:
+	if not _can_mutate_for_peer(peer_id) or elevator_backup_installed:
+		return false
+	var player := get_player_node(peer_id) as GamePlayer
+	var socket := get_tree().get_first_node_in_group("elevator_backup_socket") as Node3D
+	if (
+		player == null or socket == null
+		or player.survival.dead or player.is_sleeping_in_bunk()
+		or player.is_carrying_corpse()
+		or player.global_position.distance_to(socket.global_position) > float(socket.get("interaction_distance"))
+	):
+		return false
+	if not player.consume_held_item_authoritative(GamePlayer.FUSE_ITEM):
+		return false
+	# Inventory consumption schedules its checkpoint; this snapshot includes both
+	# the installed fuse and the updated inventory before that deferred save runs.
+	elevator_backup_installed = true
+	_broadcast_snapshot(get_snapshot())
+	return true
 
 
 func advance_quest_authoritative(peer_id: int, expected_stage: QuestStage) -> bool:
@@ -320,6 +346,7 @@ func reset_day_one_authoritative() -> bool:
 	if not multiplayer.is_server():
 		return false
 	maintenance = {}
+	elevator_backup_installed = false
 	_broadcast_snapshot(
 		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [], [])
 	)
@@ -414,6 +441,11 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	# Existing campaigns beyond day one already used an always-powered elevator.
+	# Keep that access; new campaigns must install the fuse before their first night.
+	snapshot["elevator_backup_installed"] = bool(config.get_value(
+		"base", "elevator_backup_installed", int(snapshot.day_index) > FIRST_DAY
+	))
 	# Preserve old combat progress when the former combined day is split in two.
 	if int(config.get_value("base", "campaign_layout_version", 1)) < 2:
 		var old_day := int(snapshot.day_index)
@@ -522,6 +554,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	main_breaker_on = (
 		bool(snapshot.get("main_breaker_on", false)) and fuel_delivered
 	)
+	elevator_backup_installed = bool(snapshot.get("elevator_backup_installed", false))
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
@@ -579,6 +612,7 @@ func _make_snapshot(
 		"fuel_delivered": next_fuel_delivered,
 		"fuel_liters": fuel_liters if next_fuel_delivered else 0.0,
 		"main_breaker_on": next_main_breaker_on and next_fuel_delivered,
+		"elevator_backup_installed": elevator_backup_installed,
 		"end_day_ready_peer_ids": _normalize_peer_ids(next_ready_peer_ids),
 		"sleeping_peer_ids": _normalize_peer_ids(next_sleeping_peer_ids),
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,

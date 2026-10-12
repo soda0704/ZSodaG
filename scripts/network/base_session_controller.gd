@@ -74,6 +74,7 @@ var _v3_transition_in_progress: bool = false
 var _v3_items_spawned: bool = false
 var _v3_flashlight_transform: Transform3D = Transform3D.IDENTITY
 var _v3_fuel_can_transform: Transform3D = Transform3D.IDENTITY
+var _v3_fuel_can_transforms: Array[Transform3D] = []
 var _v3_spawn_positions := PackedVector3Array()
 var _v3_spawn_yaws := PackedFloat32Array()
 var _base_gameplay_controller: BaseGameplayController
@@ -124,7 +125,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1}
+	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1}
 
 
 func _restore_player_equipment(player: Node) -> void:
@@ -490,7 +491,9 @@ func _enter_v3_level() -> void:
 		if node != null:
 			node.free()
 	add_child(v3_level)
-	_v3_fuel_can_transform = v3_level.get_fuel_can_spawn_transform()
+	if multiplayer.is_server():
+		_v3_fuel_can_transforms = v3_level.get_fuel_can_spawn_transforms()
+		_v3_fuel_can_transform = _v3_fuel_can_transforms[0]
 	_v3_spawn_positions = PackedVector3Array()
 	_v3_spawn_yaws = PackedFloat32Array()
 	for spawn_index in v3_level.get_player_spawn_count():
@@ -565,35 +568,52 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	var migrate_backup := int(_base_gameplay_controller.inventory_checkpoint.get("elevator_backup_layout_version", 0)) < 1
+	if migrate_backup and not _base_gameplay_controller.elevator_backup_installed and not _checkpoint_has_fuse():
+		var level := get_node("V3Level") as BaseBlockoutRuntime
+		var fuse_transform := world_items.global_transform.affine_inverse() * level.get_elevator_backup_fuse_spawn_transform()
+		spawn_world_item(GamePlayer.FUSE_ITEM, fuse_transform, {})
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("tape_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
 			if loot.type == &"tape":
-				spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
+				spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * BaseBlockoutRuntime.loot_transform(loot), loot.state)
 	# One-time migration for saves made before these essentials got deliberate,
 	# easy-to-find placements. It intentionally runs only for an existing save;
 	# a fresh game receives the same entries from TOOL_LOOT/WEAPON_LOOT below.
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty() and int(_base_gameplay_controller.inventory_checkpoint.get("discoverable_layout_version", 0)) < 2:
 		for loot: Dictionary in BaseBlockoutRuntime.DISCOVERABLE_LOOT:
-			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * BaseBlockoutRuntime.loot_transform(loot), loot.state)
 	if int(_base_gameplay_controller.inventory_checkpoint.get("tools_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.TOOL_LOOT:
-			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * BaseBlockoutRuntime.loot_transform(loot), loot.state)
 	if int(_base_gameplay_controller.inventory_checkpoint.get("fuel_layout_version", 0)) < 1:
-		for offset in [Vector3(1.0, 0.0, 0.0), Vector3(1.0, 0.0, 0.8)]:
-			var fuel_transform := world_items.global_transform.affine_inverse() * _v3_fuel_can_transform
-			fuel_transform.origin += offset
+		for index in range(1, _v3_fuel_can_transforms.size()):
+			var fuel_transform := world_items.global_transform.affine_inverse() * _v3_fuel_can_transforms[index]
 			spawn_world_item(GamePlayer.FUEL_ITEM, fuel_transform, {"fuel_liters": 20.0})
 	if int(_base_gameplay_controller.inventory_checkpoint.get("weapon_layout_version", 0)) < 1:
 		for loot: Dictionary in BaseBlockoutRuntime.WEAPON_LOOT:
-			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, loot.position), loot.state)
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * BaseBlockoutRuntime.loot_transform(loot), loot.state)
+	var migrate_props := int(_base_gameplay_controller.inventory_checkpoint.get("prop_layout_version", 0)) < 1
+	if migrate_props:
+		for loot: Dictionary in BaseBlockoutRuntime.EXTRA_LOOT:
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * BaseBlockoutRuntime.loot_transform(loot), loot.state)
 	for player in players.get_children():
 		if player is GamePlayer: _restore_player_equipment(player)
 	if not _base_gameplay_controller.inventory_checkpoint.is_empty():
+		var migrated_fuel_count := 0
 		for data: Dictionary in _base_gameplay_controller.inventory_checkpoint.get("pickups", []):
 			var restored: Transform3D = data.get("transform", Transform3D.IDENTITY)
 			if bool(data.get("in_cabin", false)):
 				restored = _v3_elevator_controller.cabin.global_transform * restored
+			elif migrate_props:
+				if StringName(data.item_type) == GamePlayer.FUEL_ITEM and _is_original_fuel_location(restored.origin):
+					restored = _v3_fuel_can_transforms[migrated_fuel_count % _v3_fuel_can_transforms.size()]
+					migrated_fuel_count += 1
+				else:
+					restored = _migrate_prop_transform(StringName(data.item_type), restored)
 			spawn_world_item(StringName(data.item_type), world_items.global_transform.affine_inverse() * restored, data.item_state)
+		if migrate_props or migrate_backup:
+			save_inventory_checkpoint()
 		return
 	var local_transform := (
 		world_items.global_transform.affine_inverse()
@@ -613,11 +633,47 @@ func spawn_v3_world_items() -> void:
 		second_light.origin += Vector3(0.4, 0.0, 0.0)
 		spawn_world_item(GamePlayer.FLASHLIGHT_ITEM, second_light, {"battery_charge": 1.0})
 	for index in 3:
-		var cell_transform := local_transform
-		cell_transform.origin += Vector3(-0.25 + index * 0.18, 0.0, 0.4)
+		var cell_transform := world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, Vector3(4.35 + index * 0.18, 0.1, -4.4))
 		spawn_world_item(GamePlayer.BATTERY_ITEM, cell_transform, {"charge_amount": 1.0})
 	if not _base_gameplay_controller.fuel_delivered:
 		spawn_world_item(GamePlayer.FUEL_ITEM, local_fuel_transform, {})
+	if migrate_backup:
+		save_inventory_checkpoint()
+
+
+func _checkpoint_has_fuse() -> bool:
+	var checkpoint := _base_gameplay_controller.inventory_checkpoint
+	for equipment: Dictionary in (checkpoint.get("players", {}) as Dictionary).values():
+		if StringName(equipment.get("held_item", &"")) == GamePlayer.FUSE_ITEM:
+			return true
+	for pickup: Dictionary in checkpoint.get("pickups", []):
+		if StringName(pickup.get("item_type", &"")) == GamePlayer.FUSE_ITEM:
+			return true
+	return false
+
+
+func _is_original_fuel_location(position: Vector3) -> bool:
+	return position.y < 1.0 and position.x > -3.9 and position.x < -1.5 and position.z > 18.6 and position.z < 20.6
+
+
+func _migrate_prop_transform(item: StringName, original: Transform3D) -> Transform3D:
+	# Only relocate uncollected props still at their original authored locations.
+	# Inventory, cabin cargo and items carried elsewhere keep their saved state.
+	var moves := [
+		[&"pistol", Vector3(-29.7, 1.1, 7.05), BaseBlockoutRuntime.WEAPON_LOOT[0]],
+		[&"m4a1", Vector3(-7.35, 1.25, 22.5), BaseBlockoutRuntime.WEAPON_LOOT[1]],
+		[&"kitchen_knife", Vector3(11.6, 1.08, -7.35), BaseBlockoutRuntime.WEAPON_LOOT[2]],
+		[&"rifle_magazine", Vector3(-7.35, 1.2, 23.2), BaseBlockoutRuntime.WEAPON_LOOT[5]],
+		[&"tape", Vector3(-7, 1.2, 22.8), BaseBlockoutRuntime.TOOL_LOOT[1]],
+	]
+	for move: Array in moves:
+		if item == move[0] and original.origin.distance_to(move[1]) < 0.65:
+			return BaseBlockoutRuntime.loot_transform(move[2])
+	if item == GamePlayer.FLASHLIGHT_ITEM and original.origin.distance_to(Vector3(4.8, 0.1, -4.8)) < 0.7:
+		var result := _v3_flashlight_transform
+		result.origin.x += clampf(original.origin.x - 4.6, 0.0, 0.4)
+		return result
+	return original
 
 
 func spawn_initial_items() -> void:
@@ -789,6 +845,7 @@ func _on_session_closed(_reason: String) -> void:
 	_v3_spawn_positions = PackedVector3Array()
 	_v3_spawn_yaws = PackedFloat32Array()
 	_v3_fuel_can_transform = Transform3D.IDENTITY
+	_v3_fuel_can_transforms.clear()
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()

@@ -408,6 +408,13 @@ function Invoke-DevelopmentBuild {
             "`"Windows Dev`"",
             "`"$stagingExecutable`""
         )
+        if ($StatusCallback) {
+            & $StatusCallback "Importing project resources and script classes..."
+        }
+        # Script mode reads the editor's class cache; refresh it before loading autoloads.
+        Invoke-GodotBuildStep -Name "import" -TimeoutSeconds 600 -Arguments @(
+            "--headless", "--editor", "--path", "`"$projectRoot`"", "--import"
+        )
         Invoke-GodotBuildStep -Name "identity" -TimeoutSeconds 120 -Arguments @(
             "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
         )

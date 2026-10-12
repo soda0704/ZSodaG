@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c01lmao8jt0ry"]
+
+[sub_resource type="StandardMaterial3D" id="tray_material"]
+albedo_color = Color(0.52, 0.6, 0.62, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="tray_mesh"]
+material = SubResource("tray_material")
+size = Vector3(0.25, 0.015, 0.16)
+
+[sub_resource type="BoxShape3D" id="tray_shape"]
+size = Vector3(0.25, 0.015, 0.16)
+
+[node name="MedicalFuseTray" type="StaticBody3D" unique_id=582125481]
+editor_description = "Лоток на инструментальном столике медпункта. Spawn — редактируемая точка стартового предохранителя; подбор и сохранение используют общий WorldItemPickup."
+
+[node name="Tray" type="MeshInstance3D" parent="." unique_id=1354217217]
+mesh = SubResource("tray_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1227860760]
+shape = SubResource("tray_shape")
+
+[node name="Spawn" type="Marker3D" parent="." unique_id=1289014929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)

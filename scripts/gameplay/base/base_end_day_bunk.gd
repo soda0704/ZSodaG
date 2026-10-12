@@ -37,6 +37,8 @@ func get_interaction_prompt() -> String:
 	]:
 		return "Сначала восстановите питание"
 	if not controller.can_end_current_day():
+		if controller.day_index == 1 and not controller.elevator_backup_installed:
+			return "Сначала установите предохранитель резервного питания лифта"
 		if controller.day_index == 2:
 			return "Сначала доставьте ключ на базу"
 		if controller.day_index == controller.LEVEL_TWO_DAY_INDEX:

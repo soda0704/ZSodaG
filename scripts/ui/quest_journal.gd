@@ -256,7 +256,12 @@ func _refresh_content() -> void:
 		_quest_card.visible = day <= 2
 		if day == 1:
 			objective_label.text = "Вернуть базу к жизни"
-			tasks_label.text = "\n".join([_task_line(_controller.fuel_delivered, "Заправить бак"), _task_line(_controller.main_breaker_on, "Включить главный щит"), _task_line(_controller.are_all_connected_players_sleeping(), "Отдохнуть на базе")])
+			tasks_label.text = "\n".join([
+				_task_line(_controller.fuel_delivered, "Заправить бак"),
+				_task_line(_controller.main_breaker_on, "Включить главный щит"),
+				_task_line(_controller.elevator_backup_installed, "Найти предохранитель в медпункте и вставить в резервный блок у входа"),
+				_task_line(_controller.are_all_connected_players_sleeping(), "Отдохнуть на базе"),
+			])
 			_set_quest_photo("fuel_can", "Топливо для базы", "Доставлено" if _controller.fuel_delivered else "Найти в генераторной")
 		elif day == 2:
 			var stage := int(_controller.quest_stage)
