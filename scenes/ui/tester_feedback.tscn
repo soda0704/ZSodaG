@@ -1,0 +1,335 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/tester_feedback.gd" id="script"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="button"]
+[ext_resource type="Resource" path="res://assets/config/tester_feedback.tres" id="config"]
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.035, 0.043, 0.039, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.71, 0.65, 0.22)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="Field"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.065, 0.075, 0.067, 1)
+border_width_bottom = 1
+border_color = Color(0.72, 0.71, 0.65, 0.25)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_bottom = 2
+border_color = Color(0.64, 0.51, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="PreviewPanel"]
+bg_color = Color(0.014, 0.02, 0.017, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.71, 0.65, 0.18)
+
+[node name="TesterFeedback" type="PanelContainer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme")
+theme_override_styles/panel = SubResource("Panel")
+script = ExtResource("script")
+delivery_config = ExtResource("config")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="Layout" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Eyebrow" type="Label" parent="Margin/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+text = "NORTHERNLAB  /  ПОЛЕВОЙ ОТЧЁТ"
+
+[node name="Heading" type="Label" parent="Margin/Layout"]
+layout_mode = 2
+theme_type_variation = &"MenuTitle"
+theme_override_font_sizes/font_size = 38
+text = "Обратная связь"
+
+[node name="Intro" type="Label" parent="Margin/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+text = "Заметили проблему или хотите поделиться впечатлениями? Расскажите нам."
+autowrap_mode = 3
+
+[node name="Divider" type="HSeparator" parent="Margin/Layout"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/Layout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+horizontal_scroll_mode = 0
+
+[node name="Fields" type="VBoxContainer" parent="Margin/Layout/Body/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Margin/Layout/Body/Scroll/Fields"]
+layout_mode = 2
+text = "ЗАГОЛОВОК"
+theme_override_font_sizes/font_size = 16
+
+[node name="TitleInput" type="LineEdit" parent="Margin/Layout/Body/Scroll/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+theme_override_styles/normal = SubResource("Field")
+placeholder_text = "Например: дверь не открывается после включения питания"
+max_length = 120
+
+[node name="Options" type="HBoxContainer" parent="Margin/Layout/Body/Scroll/Fields"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Category" type="OptionButton" parent="Margin/Layout/Body/Scroll/Fields/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MenuChoice"
+selected = 0
+item_count = 3
+popup/item_0/text = "Ошибка"
+popup/item_0/id = 0
+popup/item_1/text = "Идея"
+popup/item_1/id = 1
+popup/item_2/text = "Впечатления"
+popup/item_2/id = 2
+
+[node name="Severity" type="OptionButton" parent="Margin/Layout/Body/Scroll/Fields/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MenuChoice"
+selected = 0
+item_count = 3
+popup/item_0/text = "Не мешает играть"
+popup/item_0/id = 0
+popup/item_1/text = "Мешает играть"
+popup/item_1/id = 1
+popup/item_2/text = "Блокирует прохождение"
+popup/item_2/id = 2
+
+[node name="DescriptionLabel" type="Label" parent="Margin/Layout/Body/Scroll/Fields"]
+layout_mode = 2
+text = "ЧТО ПРОИЗОШЛО?"
+theme_override_font_sizes/font_size = 16
+
+[node name="Description" type="TextEdit" parent="Margin/Layout/Body/Scroll/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 160)
+theme_override_styles/normal = SubResource("Field")
+theme_override_styles/focus = SubResource("Focus")
+theme_override_colors/font_color = Color(0.827, 0.82, 0.788, 1)
+theme_override_colors/font_placeholder_color = Color(0.65, 0.65, 0.62, 0.6)
+theme_override_colors/caret_color = Color(0.827, 0.82, 0.788, 1)
+placeholder_text = "Опишите проблему, ожидания или предложение. Чем конкретнее, тем проще нам разобраться."
+wrap_mode = 1
+
+[node name="Counter" type="Label" parent="Margin/Layout/Body/Scroll/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 8000"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+
+[node name="StepsLabel" type="Label" parent="Margin/Layout/Body/Scroll/Fields"]
+layout_mode = 2
+text = "КАК ПОВТОРИТЬ · НЕОБЯЗАТЕЛЬНО"
+theme_override_font_sizes/font_size = 16
+
+[node name="Steps" type="TextEdit" parent="Margin/Layout/Body/Scroll/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 110)
+theme_override_styles/normal = SubResource("Field")
+theme_override_styles/focus = SubResource("Focus")
+theme_override_colors/font_color = Color(0.827, 0.82, 0.788, 1)
+theme_override_colors/font_placeholder_color = Color(0.65, 0.65, 0.62, 0.6)
+theme_override_colors/caret_color = Color(0.827, 0.82, 0.788, 1)
+placeholder_text = "1. Где вы были?\n2. Что сделали?\n3. Что получилось?"
+wrap_mode = 1
+
+[node name="AttachmentColumn" type="VBoxContainer" parent="Margin/Layout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Attachment" type="Label" parent="Margin/Layout/Body/AttachmentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "СКРИНШОТ · НЕОБЯЗАТЕЛЬНО"
+
+[node name="ImageFrame" type="PanelContainer" parent="Margin/Layout/Body/AttachmentColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 180)
+theme_override_styles/panel = SubResource("PreviewPanel")
+
+[node name="Preview" type="TextureRect" parent="Margin/Layout/Body/AttachmentColumn/ImageFrame"]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="EmptyPreview" type="Label" parent="Margin/Layout/Body/AttachmentColumn/ImageFrame"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Снимок помогает увидеть проблему\nВыберите файл или снимите игру"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="AttachmentActions" type="HFlowContainer" parent="Margin/Layout/Body/AttachmentColumn"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+
+[node name="Capture" type="Button" parent="Margin/Layout/Body/AttachmentColumn/AttachmentActions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "СНЯТЬ ИГРУ"
+script = ExtResource("button")
+
+[node name="ChooseImage" type="Button" parent="Margin/Layout/Body/AttachmentColumn/AttachmentActions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ВЫБРАТЬ ФАЙЛ"
+script = ExtResource("button")
+
+[node name="RemoveImage" type="Button" parent="Margin/Layout/Body/AttachmentColumn/AttachmentActions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "УБРАТЬ"
+script = ExtResource("button")
+
+[node name="Context" type="Label" parent="Margin/Layout/Body/AttachmentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+text = "Контекст игры будет приложен автоматически."
+autowrap_mode = 3
+
+[node name="Delivery" type="Label" parent="Margin/Layout/Body/AttachmentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.65, 0.65, 0.62, 1)
+text = "После сохранения передайте ZIP команде.\nИгра продолжает идти, пока открыта форма."
+autowrap_mode = 3
+
+[node name="Status" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Actions" type="HFlowContainer" parent="Margin/Layout"]
+layout_mode = 2
+theme_override_constants/h_separation = 18
+
+[node name="Save" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MenuAction"
+text = "СОХРАНИТЬ ОТЧЁТ"
+script = ExtResource("button")
+
+[node name="Folder" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ПАПКА ОТЧЁТОВ"
+script = ExtResource("button")
+
+[node name="CopyPath" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "КОПИРОВАТЬ ПУТЬ"
+disabled = true
+script = ExtResource("button")
+
+[node name="LoadReport" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ЗАГРУЗИТЬ ОТЧЁТ"
+script = ExtResource("button")
+
+[node name="Back" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ESC  НАЗАД"
+script = ExtResource("button")
+
+[node name="Retry" type="Button" parent="Margin/Layout/Actions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "ПОВТОРИТЬ ОТПРАВКУ"
+script = ExtResource("button")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Выбрать скриншот"
+size = Vector2i(1000, 650)
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png,*.jpg,*.jpeg ; Изображения PNG / JPG")
+use_native_dialog = true
+
+[node name="Upload" type="HTTPRequest" parent="."]
+use_threads = true
+body_size_limit = 65536
+timeout = 45.0
+
+[node name="ReportDialog" type="FileDialog" parent="."]
+title = "Открыть сохранённый отчёт для повторной отправки"
+size = Vector2i(1000, 650)
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.zip ; Отчёт NorthernLab")
+use_native_dialog = true

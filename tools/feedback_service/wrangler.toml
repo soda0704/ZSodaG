@@ -1,0 +1,20 @@
+name = "northernlab-feedback"
+main = "worker.mjs"
+compatibility_date = "2026-10-13"
+
+[vars]
+GITHUB_REPOSITORY = "OWNER/NorthernLab-feedback"
+GITHUB_BRANCH = "main"
+
+[[durable_objects.bindings]]
+name = "RECEIPTS"
+class_name = "FeedbackReceipt"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["FeedbackReceipt"]
+
+[[ratelimits]]
+name = "REPORT_LIMITER"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }

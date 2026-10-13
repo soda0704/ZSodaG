@@ -68,6 +68,7 @@ func _show_home() -> void:
 	single_player_button.pressed.connect(_on_single_player_pressed)
 	page.get_node("Navigation/Coop").pressed.connect(func(): _navigate(_show_coop))
 	settings_button.pressed.connect(func(): _navigate(func(): GameMenu.open_settings()))
+	page.get_node("Navigation/Feedback").pressed.connect(func(): GameMenu.open_feedback())
 	exit_button.pressed.connect(_on_exit_pressed)
 	(single_player_button if continue_game_button.disabled else continue_game_button).grab_focus()
 

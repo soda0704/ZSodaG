@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TesterFeedbackConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/tester_feedback_config.gd" id="config"]
+
+[resource]
+script = ExtResource("config")
+endpoint = ""
+timeout_seconds = 45.0

@@ -61,6 +61,8 @@ func _input(event: InputEvent) -> void:
 			_resizing = false
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_QUOTELEFT or event.keycode == KEY_QUOTELEFT or event.unicode in [96, 126, 1105, 1025]:
+			var focused := get_viewport().gui_get_focus_owner()
+			if not opened and (focused is TextEdit or focused is LineEdit): return
 			set_open(not opened)
 			get_viewport().set_input_as_handled()
 		elif opened and event.keycode == KEY_ESCAPE:

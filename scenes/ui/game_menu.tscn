@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/esc_menu.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/ui/lobby_menu.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_join.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/ui/tester_feedback.tscn" id="feedback"]
 [node name="GameMenu" type="CanvasLayer"]
 layer = 100
 script = ExtResource("1")
@@ -24,6 +25,7 @@ grow_vertical = 2
 [node name="ESC_MENU" parent="MenuRoot/Shell/Content" instance=ExtResource("7")]
 [node name="LOBBY_MENU" parent="MenuRoot/Shell/Content" instance=ExtResource("8")]
 [node name="JoinPage" parent="MenuRoot/Shell/Content" instance=ExtResource("9")]
+[node name="TesterFeedback" parent="MenuRoot/Shell/Content" instance=ExtResource("feedback")]
 [node name="GraphicsQuality" type="Node" parent="."]
 script = ExtResource("2")
 [node name="AudioMix" type="Node" parent="."]

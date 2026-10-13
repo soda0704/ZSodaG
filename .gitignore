@@ -16,6 +16,11 @@ tools/.local/
 /NorthernLab.lnk
 /network_build.cfg
 
+# Feedback receiver secrets and local Cloudflare state never belong in the game.
+tools/feedback_service/.dev.vars*
+tools/feedback_service/.wrangler/
+tools/feedback_service/node_modules/
+
 # GodotSteam is a required project dependency, including native binaries.
 # These negations also override broad DLL/SO rules from a user's global ignore.
 !/addons/

@@ -119,6 +119,13 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
+[node name="Feedback" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "ОБРАТНАЯ СВЯЗЬ · F8"
+script = ExtResource("2_1apln")
+
 [node name="@Label@28" type="Label" parent="." unique_id=8347598]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)

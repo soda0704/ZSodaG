@@ -108,6 +108,16 @@ text = "ВЫХОД"
 alignment = 0
 script = ExtResource("1_d3o33")
 
+[node name="Feedback" type="Button" parent="Navigation"]
+size_flags_horizontal = 0
+theme_type_variation = &"MenuNav"
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ОБРАТНАЯ СВЯЗЬ · F8"
+alignment = 0
+script = ExtResource("1_d3o33")
+
 [node name="@Control@80" type="Control" parent="." unique_id=1508993208]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2

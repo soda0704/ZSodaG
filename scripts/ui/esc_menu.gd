@@ -17,6 +17,7 @@ func configure(menu: Node) -> void:
 	settings_button.pressed.connect(func(): _menu.open_settings())
 	return_button.pressed.connect(func(): _menu._on_return_to_main_menu_pressed())
 	$Save.pressed.connect(func(): _menu.manual_save())
+	$Feedback.pressed.connect(func(): _menu.open_feedback())
 
 func refresh() -> void:
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")

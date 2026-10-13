@@ -2,7 +2,7 @@ class_name GlobalGameMenu
 extends CanvasLayer
 ## Stable gameplay API; native views share one settings and network service.
 
-enum MenuView { MAIN, SESSION, JOIN, SETTINGS }
+enum MenuView { MAIN, SESSION, JOIN, SETTINGS, FEEDBACK }
 @export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.72
 @export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.48
 const MECHANICS_TEST_ROOM_SCENE := "res://scenes/levels/base_session.tscn"
@@ -19,6 +19,11 @@ var main_panel: NorthernEscapeMenu
 var session_panel: NorthernLobbyMenu
 var join_panel: VBoxContainer
 var settings_panel: NorthernSettingsMenu
+var tester_feedback: NorthernTesterFeedback
+var _feedback_origin: MenuView = MenuView.MAIN
+var _feedback_return_to_scene := false
+var _feedback_capture_busy := false
+var _feedback_epoch := 0
 var feedback_label: Label
 var steam_status_label: Label
 var session_status_label: Label
@@ -46,6 +51,8 @@ func _ready() -> void:
 	main_panel = $MenuRoot/Shell/Content/ESC_MENU
 	NorthernMenuStyle.fill(main_panel)
 	main_panel.configure(self)
+	tester_feedback = $MenuRoot/Shell/Content/TesterFeedback
+	tester_feedback.back_requested.connect(close_feedback)
 	session_panel = $MenuRoot/Shell/Content/LOBBY_MENU
 	NorthernMenuStyle.fill(session_panel)
 	session_panel.anchor_right = 0
@@ -97,7 +104,12 @@ func connect_network_signals() -> void:
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy:
+	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy or _feedback_capture_busy:
+		return
+	if event.is_action_pressed("tester_feedback"):
+		if not menu_root.visible or (_current_view != MenuView.SETTINGS and _current_view != MenuView.FEEDBACK):
+			open_feedback()
+		get_viewport().set_input_as_handled()
 		return
 	if not event.is_action_pressed("pause") and not (menu_root.visible and event.is_action_pressed("ui_cancel")):
 		return
@@ -105,7 +117,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if journal != null and journal.is_journal_open():
 		journal.close_journal()
 	elif menu_root.visible:
-		if _current_view == MenuView.SETTINGS:
+		if _current_view == MenuView.FEEDBACK:
+			tester_feedback.request_back()
+		elif _current_view == MenuView.SETTINGS:
 			settings_panel.request_back()
 		else:
 			close_menu()
@@ -145,17 +159,19 @@ func show_view(view: MenuView) -> void:
 	join_panel.visible = view == MenuView.JOIN
 	if is_instance_valid(settings_panel):
 		settings_panel.visible = view == MenuView.SETTINGS
+	tester_feedback.visible = view == MenuView.FEEDBACK
 	feedback_label.text = ""
 	shell.rails(view != MenuView.MAIN)
 	var lobby_context := view == MenuView.SESSION or (view == MenuView.SETTINGS and _settings_origin == MenuView.SESSION and not _settings_return_to_main_scene)
-	var escape_context := not _in_main_scene() and (view == MenuView.MAIN or view == MenuView.SETTINGS)
+	var escape_context := not _in_main_scene() and (view == MenuView.MAIN or view == MenuView.SETTINGS or view == MenuView.FEEDBACK)
 	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.15)
+	shell.content.offset_right = -72 if view == MenuView.FEEDBACK else 0
 	shell.top_rail.color.a = 1.0 if _in_main_scene() else 0.0
 	shell.bottom_rail.color.a = 1.0 if _in_main_scene() else 0.0
 	if view != MenuView.SETTINGS:
 		shell.clear(shell.header)
 		shell.clear(shell.footer)
-		if view != MenuView.MAIN:
+		if view != MenuView.MAIN and view != MenuView.FEEDBACK:
 			shell.header.add_child(NorthernMenuStyle.label("NORTHERNLAB  /  КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ", 18, NorthernMenuStyle.MUTED))
 			shell.footer.add_child(NorthernMenuStyle.label("CH-47 · ПОДГОТОВКА К ВЫСАДКЕ", 18, NorthernMenuStyle.MUTED))
 			var spacer := Control.new()
@@ -175,6 +191,73 @@ func show_view(view: MenuView) -> void:
 			lobby_id_input.grab_focus()
 		MenuView.SETTINGS:
 			pass
+		MenuView.FEEDBACK:
+			tester_feedback.title_input.grab_focus()
+
+func open_feedback() -> void:
+	if shell.busy or _transition_in_progress or dialog != null or _feedback_capture_busy:
+		return
+	if menu_root.visible and _current_view == MenuView.FEEDBACK: return
+	_feedback_origin = _current_view if menu_root.visible else MenuView.MAIN
+	_feedback_return_to_scene = not menu_root.visible
+	var journal := get_node_or_null("/root/QuestJournal")
+	if journal != null: journal.force_close()
+	var console := get_node_or_null("/root/DeveloperConsole")
+	if console != null and console.opened: console.set_open(false)
+	if not tester_feedback.has_draft():
+		# A saved report starts a fresh form. Unsaved drafts survive Escape/reopening.
+		tester_feedback.free()
+		tester_feedback = preload("res://scenes/ui/tester_feedback.tscn").instantiate()
+		shell.content.add_child(tester_feedback)
+		tester_feedback.back_requested.connect(close_feedback)
+		_feedback_capture_busy = true
+		var epoch := _feedback_epoch
+		var context := TesterFeedbackStore.collect_context(get_tree())
+		var image := await _capture_feedback_image()
+		_feedback_capture_busy = false
+		if epoch != _feedback_epoch: return
+		tester_feedback.begin(context, image)
+	menu_root.show()
+	shell.show()
+	show_view(MenuView.FEEDBACK)
+	shell.appear()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_sync_main_overlay()
+
+func _capture_feedback_image() -> Image:
+	if DisplayServer.get_name() == "headless": return null
+	var epoch := _feedback_epoch
+	var was_visible := menu_root.visible
+	menu_root.hide()
+	# Keep gameplay input blocked while the menu is absent from the render.
+	await RenderingServer.frame_post_draw
+	if epoch != _feedback_epoch: return null
+	var image := get_viewport().get_texture().get_image()
+	menu_root.visible = was_visible
+	return TesterFeedbackStore.prepare_image(image)
+
+func capture_feedback_screenshot() -> void:
+	if _feedback_capture_busy or _current_view != MenuView.FEEDBACK: return
+	_feedback_capture_busy = true
+	tester_feedback.set_busy(true)
+	var epoch := _feedback_epoch
+	var context := TesterFeedbackStore.collect_context(get_tree())
+	var image := await _capture_feedback_image()
+	_feedback_capture_busy = false
+	if epoch != _feedback_epoch: return
+	if image != null:
+		tester_feedback.begin(context, image)
+		tester_feedback.set_screenshot(image, true)
+	else:
+		tester_feedback.status.text = "Не удалось снять игру. Можно выбрать изображение с компьютера."
+	tester_feedback.set_busy(false)
+
+func close_feedback() -> void:
+	if _feedback_capture_busy or tester_feedback._busy: return
+	if _feedback_return_to_scene:
+		force_close_menu()
+	else:
+		show_view(_feedback_origin)
 
 func open_settings() -> void:
 	if shell.busy or _transition_in_progress:
@@ -221,6 +304,12 @@ func close_menu() -> void:
 	shell.transition(force_close_menu)
 
 func force_close_menu() -> void:
+	_feedback_epoch += 1
+	_feedback_capture_busy = false
+	if is_instance_valid(tester_feedback):
+		if not tester_feedback._sending: tester_feedback.set_busy(false)
+		tester_feedback.file_dialog.hide()
+		tester_feedback.get_node("ReportDialog").hide()
 	shell.cancel_transition()
 	if is_instance_valid(dialog):
 		dialog.queue_free()
@@ -231,7 +320,7 @@ func force_close_menu() -> void:
 	_sync_main_overlay()
 
 func is_menu_open() -> bool:
-	return menu_root != null and menu_root.visible
+	return _feedback_capture_busy or (menu_root != null and menu_root.visible)
 
 func is_lobby_gate_active() -> bool:
 	return SteamNetwork.state in [SteamNetworkService.SessionState.CREATING_LOBBY, SteamNetworkService.SessionState.JOINING_LOBBY, SteamNetworkService.SessionState.CONNECTING]
