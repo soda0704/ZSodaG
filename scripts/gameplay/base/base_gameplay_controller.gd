@@ -81,9 +81,11 @@ var containment: Dictionary = {}
 var maintenance: Dictionary = {}
 var _siren: AudioStreamPlayer
 var progress_persistence_enabled := true
+var _owns_saved_progress := false
 
 
 func _ready() -> void:
+	_owns_saved_progress = multiplayer.is_server()
 	add_to_group("base_gameplay_controller")
 	_siren = AudioStreamPlayer.new()
 	_siren.stream = preload("res://scripts/gameplay/base/power_siren.gd").make_stream()
@@ -167,6 +169,19 @@ func activate_main_breaker_authoritative(peer_id: int) -> bool:
 			sleeping_peer_ids
 		)
 	)
+	return true
+
+
+func deactivate_main_breaker_authoritative(peer_id: int) -> bool:
+	if not _can_mutate_for_peer(peer_id) or not main_breaker_on:
+		return false
+	var snapshot := get_snapshot()
+	snapshot.main_breaker_on = false
+	snapshot.phase = BasePhase.RESTORING_POWER
+	# Sleeping/ready votes cannot carry a powered-down base into the next day.
+	snapshot.end_day_ready_peer_ids = []
+	snapshot.sleeping_peer_ids = []
+	_broadcast_snapshot(snapshot)
 	return true
 
 
@@ -385,8 +400,8 @@ func advance_day_authoritative() -> bool:
 	return true
 
 
-func save_progress_authoritative(periodic: bool = false) -> bool:
-	if not progress_persistence_enabled or not multiplayer.is_server():
+func save_progress_authoritative(periodic: bool = false, kind: String = "progress", label: String = "") -> bool:
+	if not progress_persistence_enabled or not _owns_saved_progress or not multiplayer.is_server():
 		return false
 	if periodic and Time.get_ticks_msec() - _last_checkpoint_msec < 5000:
 		return true
@@ -399,26 +414,28 @@ func save_progress_authoritative(periodic: bool = false) -> bool:
 			inventory_checkpoint = captured
 	config.set_value("inventory", "checkpoint", inventory_checkpoint)
 	config.set_value("save", "version", SAVE_VERSION)
+	config.set_value("save", "label", label)
 	for key in snapshot:
 		config.set_value("base", str(key), snapshot[key])
-	var error := config.save(_get_save_path())
-	if error != OK:
-		push_warning("Could not save base progress: %s" % error_string(error))
+	if not ExpeditionSaveStore.write(config, save_scope, kind):
+		push_warning("Could not save expedition progress")
 		return false
 	_last_checkpoint_msec = Time.get_ticks_msec()
 	return true
 
 
+func save_story_checkpoint_authoritative(label: String) -> bool:
+	# Future story triggers call this BEFORE applying a consequential event.
+	return save_progress_authoritative(false, "event", label)
+
+
 func load_saved_snapshot() -> Dictionary:
 	if not progress_persistence_enabled:
 		return {}
-	var config := ConfigFile.new()
-	var error := config.load(_get_save_path())
-	if error == ERR_FILE_NOT_FOUND:
+	var data := ExpeditionSaveStore.read(save_scope)
+	if data.is_empty():
 		return {}
-	if error != OK:
-		push_warning("Could not load base progress: %s" % error_string(error))
-		return {}
+	var config: ConfigFile = data.config
 	if int(config.get_value("save", "version", 0)) != SAVE_VERSION:
 		return {}
 	inventory_checkpoint = config.get_value("inventory", "checkpoint", {}) as Dictionary
@@ -473,48 +490,22 @@ func clear_saved_progress_authoritative() -> bool:
 
 
 static func has_progress_save_file() -> bool:
-	return FileAccess.file_exists(get_progress_save_path())
+	return not ExpeditionSaveStore.read(save_scope).is_empty() or FileAccess.file_exists(get_progress_save_path())
 
 
 static func get_saved_progress_summary() -> Dictionary:
-	var config := ConfigFile.new()
-	if config.load(get_progress_save_path()) != OK:
-		return {}
-	if int(config.get_value("save", "version", 0)) != SAVE_VERSION:
-		return {}
-	var saved_day := int(config.get_value("base", "day_index", 0))
-	if saved_day < FIRST_DAY or saved_day > 5:
-		return {}
-	return {
-		"day_index": saved_day,
-		"phase": int(config.get_value("base", "phase", BasePhase.ARRIVAL)),
-		"fuel_delivered": bool(config.get_value(
-			"base",
-			"fuel_delivered",
-			false
-		)),
-		"main_breaker_on": bool(config.get_value(
-			"base",
-			"main_breaker_on",
-			false
-		)),
-	}
+	return ExpeditionSaveStore.summary(save_scope)
 
 
 static func delete_progress_save() -> bool:
-	var absolute_path := ProjectSettings.globalize_path(
-		get_progress_save_path()
-	)
-	if not FileAccess.file_exists(absolute_path):
-		return true
-	return DirAccess.remove_absolute(absolute_path) == OK
+	return ExpeditionSaveStore.clear(save_scope)
 
 
 static func get_progress_save_path() -> String:
-	return str(ProjectSettings.get_setting(
-		TEST_SAVE_PATH_SETTING,
-		COOP_SAVE_PATH if save_scope == "coop" else DEFAULT_SAVE_PATH
-	))
+	if not ExpeditionSaveStore.test_path().is_empty():
+		return ExpeditionSaveStore.test_path()
+	var data := ExpeditionSaveStore.read(save_scope)
+	return str(data.get("path", ExpeditionSaveStore.directory(save_scope).path_join("no_save.cfg")))
 
 
 func sync_network_state_to_peer(peer_id: int) -> void:
@@ -626,11 +617,11 @@ func connect_wire_authoritative(peer: int, left: int, right: int) -> bool:
 		return false
 	var player := get_player_node(peer) as Node3D
 	var breaker := get_tree().get_first_node_in_group("main_breaker") as Node3D
-	if player == null or breaker == null or player.global_position.distance_to(breaker.global_position) > 4.0 or player.survival.dead:
+	if breaker == null or not bool(breaker.call("can_use", peer, player)):
 		return false
 	var order: Array = maintenance.get("wire_order", [])
 	var links: Array = maintenance.get("wire_links", []).duplicate()
-	if left < 0 or left >= order.size() or right != int(order[left]) or links.has(left):
+	if order.size() != 4 or left < 0 or left >= 4 or right < 0 or right >= 4 or right != int(order[left]) or links.has(left):
 		return false
 	links.append(left)
 	var snapshot := get_snapshot()
@@ -650,9 +641,8 @@ func request_wire(left: int, right: int) -> void:
 func open_wiring_ui() -> void:
 	if get_tree().get_first_node_in_group("wiring_ui") != null or not maintenance.get("wires_required", false):
 		return
-	var ui := preload("res://scripts/ui/wiring_panel.gd").new()
-	ui.controller = self
-	get_tree().root.add_child(ui)
+	var breaker := get_tree().get_first_node_in_group("main_breaker") as Node3D
+	if breaker != null: breaker.get_node("Wiring").call("begin")
 
 
 func _normalize_peer_ids(peer_ids: Array) -> Array[int]:
@@ -688,6 +678,9 @@ func _make_persistent_snapshot() -> Dictionary:
 	)
 	persistent["campaign_layout_version"] = 2
 	if is_inside_tree():
+		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+		if world != null and is_instance_valid(world.get("_v3_elevator_controller")):
+			persistent.maintenance["elevator_floor"] = int(world.get("_v3_elevator_controller").current_floor_index)
 		for vehicle_node in get_tree().get_nodes_in_group("snowmobiles"):
 			persistent.maintenance["snowmobile"] = vehicle_node.capture_checkpoint()
 	if is_inside_tree():
@@ -699,10 +692,6 @@ func _make_persistent_snapshot() -> Dictionary:
 		recovery["bodies"] = bodies
 		persistent.maintenance["corpse_recovery"] = recovery
 	return persistent
-
-
-func _get_save_path() -> String:
-	return get_progress_save_path()
 
 
 func _can_mutate_for_peer(peer_id: int) -> bool:

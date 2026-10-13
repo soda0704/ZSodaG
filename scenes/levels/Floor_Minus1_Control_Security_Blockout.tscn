@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_response_coordination_gallery.tscn" id="l1_response_coordination_gallery"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l1_command_center.tscn" id="l1_command_center"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/base/day_two_terminal.tscn" id="quest_terminal"]
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.3, 0.34, 0.38, 1)
 metallic = 0.2
@@ -1052,16 +1054,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.8, 1.65, -6.46)
 size = Vector3(0.7, 1.1, 0.08)
 material = SubResource("Material_screen")
 
-[node name="Encryption_Key_Terminal" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=676418389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.3, 1.1, -4.8)
-use_collision = true
-size = Vector3(1.1, 2.2, 2)
-material = SubResource("Material_security")
-
-[node name="Encryption_Key_Status" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=578949645]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.71, 1.45, -4.8)
-size = Vector3(0.08, 0.8, 1.1)
-material = SubResource("Material_warning")
+[node name="Encryption_Key_Terminal" parent="Secure_Data_Vault" instance=ExtResource("quest_terminal")]
+position = Vector3(-55.3, 0.015, -4.8)
+rotation = Vector3(0, 1.5707964, 0)
+is_key_terminal = true
 
 [node name="Vault_Suppression_Bus" type="CSGBox3D" parent="Secure_Data_Vault" unique_id=1333513273]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 5.34, -9.5)

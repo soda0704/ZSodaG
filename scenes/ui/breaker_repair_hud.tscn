@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+
+[sub_resource type="StyleBoxFlat" id="strip"]
+bg_color = Color(0.025, 0.029, 0.032, 0.87)
+border_width_top = 1
+border_color = Color(0.58, 0.34, 0.12, 0.6)
+content_margin_left = 28.0
+content_margin_top = 18.0
+content_margin_right = 28.0
+content_margin_bottom = 18.0
+
+[node name="RepairHUD" type="CanvasLayer"]
+layer = 110
+visible = false
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("theme")
+
+[node name="Strip" type="PanelContainer" parent="Root"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("strip")
+
+[node name="Content" type="HBoxContainer" parent="Root/Strip"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Hint" type="Label" parent="Root/Strip/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.88, 0.85, 0.76, 1)
+autowrap_mode = 2
+text = "Выберите штекер, затем подходящее гнездо"
+
+[node name="Close" type="Button" parent="Root/Strip/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+size_flags_vertical = 4
+text = "Выйти · Esc / ○"
+focus_mode = 0

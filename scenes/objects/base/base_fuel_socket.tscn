@@ -1,90 +1,190 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/gameplay/base/base_fuel_socket.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_fuel_socket.gd" id="logic"]
 
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/fuel.ogg" id="sound_PourAudio"]
-[sub_resource type="StandardMaterial3D" id="Material_panel"]
-albedo_color = Color(0.12, 0.14, 0.13, 1)
-metallic = 0.65
+[ext_resource type="PackedScene" path="res://assets/models/electrical/fuel_tank/tank_body.tscn" id="tank"]
+
+[ext_resource type="PackedScene" path="res://assets/models/electrical/pressure_gauge/fuel_gauge.tscn" id="gauge"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/fuel_tank/tank_cap.obj" id="native_cap"]
+
+[ext_resource type="Material" path="res://assets/models/electrical/fuel_tank/tank_material.tres" id="tank_material"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/fuel.ogg" id="pour"]
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.2, 0.23, 0.24, 1)
+metallic = 0.8
 roughness = 0.38
 
-[sub_resource type="StandardMaterial3D" id="Material_accent"]
-albedo_color = Color(0.82, 0.28, 0.035, 1)
-roughness = 0.42
+[sub_resource type="StandardMaterial3D" id="brass"]
+albedo_color = Color(0.45, 0.28, 0.1, 1)
+metallic = 0.65
+roughness = 0.4
 
-[sub_resource type="StandardMaterial3D" id="Material_indicator"]
-albedo_color = Color(0.15, 0.65, 0.8, 1)
-emission_enabled = true
-emission = Color(0.15, 0.65, 0.8, 1)
-emission_energy_multiplier = 3.5
+[sub_resource type="BoxShape3D" id="body"]
+size = Vector3(2.482, 1.418, 1.4)
 
-[sub_resource type="BoxMesh" id="Mesh_panel"]
-material = SubResource("Material_panel")
-size = Vector3(1.35, 1.05, 0.14)
+[sub_resource type="BoxShape3D" id="filler_shape"]
+size = Vector3(0.34, 0.13, 0.34)
 
-[sub_resource type="BoxMesh" id="Mesh_indicator"]
-material = SubResource("Material_indicator")
-size = Vector3(0.9, 0.12, 0.035)
+[sub_resource type="TorusMesh" id="port"]
+inner_radius = 0.127
+outer_radius = 0.159
+rings = 32
+ring_segments = 12
+material = SubResource("brass")
 
-[sub_resource type="CylinderMesh" id="Mesh_cap"]
-material = SubResource("Material_accent")
-top_radius = 0.13
-bottom_radius = 0.13
-height = 0.12
-radial_segments = 16
+[sub_resource type="StandardMaterial3D" id="port_dark"]
+albedo_color = Color(0.015, 0.018, 0.019, 1)
+roughness = 0.9
 
-[sub_resource type="BoxMesh" id="Mesh_gauge_track"]
-material = SubResource("Material_panel")
-size = Vector3(0.94, 0.16, 0.025)
+[sub_resource type="CylinderMesh" id="port_hole"]
+top_radius = 0.130
+bottom_radius = 0.130
+height = 0.015
+radial_segments = 32
+material = SubResource("port_dark")
 
-[sub_resource type="BoxShape3D" id="Shape_panel"]
-size = Vector3(1.35, 1.05, 0.2)
+[sub_resource type="CylinderMesh" id="flange"]
+top_radius = 0.17
+bottom_radius = 0.17
+height = 0.025
+radial_segments = 24
+material = SubResource("brass")
+
+[sub_resource type="BoxMesh" id="mount"]
+size = Vector3(0.18, 0.11, 0.11)
+material = SubResource("steel")
+
+[sub_resource type="CylinderMesh" id="outlet_sleeve"]
+top_radius = 0.065
+bottom_radius = 0.065
+height = 0.13
+radial_segments = 24
+material = SubResource("steel")
+
+[sub_resource type="Curve3D" id="fuel_line"]
+_data = {"points": PackedVector3Array(0, 0, 0, 0.10, 0, 0, 1.14, 0.71, 0, -0.08, 0, 0, 0.06627417, 0, 0, 1.37, 0.71, 0, 0, 0.06627417, 0, 0, -0.12, 0, 1.49, 0.59, 0, 0, 0.12, 0, 0, 0, 0, 1.49, -0.13, 0), "tilts": PackedFloat32Array(0, 0, 0, 0)}
+point_count = 4
+bake_interval = 0.02
+
+[sub_resource type="Animation" id="level"]
+resource_name = "fuel_level"
+length = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gauge/Model/Sketchfab_model/root/GLTF_SceneRootNode/Needle_3:rotation")
+tracks/0/interp = 1
+tracks/0/keys = {"times": PackedFloat32Array(0, 1), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(0, 0, 0.106511408), Vector3(0, 0, -4.605877572)]}
+
+
+[sub_resource type="Animation" id="refill"]
+resource_name = "refill"
+length = 2.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("CapPivot:rotation")
+tracks/0/interp = 1
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.25, 2.05, 2.4), "transitions": PackedFloat32Array(1, 1, 1, 1), "update": 0, "values": [Vector3(0, 0, 0), Vector3(0, 2.3561945, 0), Vector3(0, 2.3561945, 0), Vector3(0, 0, 0)]}
+
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("CapPivot:position")
+tracks/1/interp = 1
+tracks/1/keys = {"times": PackedFloat32Array(0, 0.2, 0.45, 1.95, 2.2, 2.4), "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1), "update": 0, "values": [Vector3(0.68, 1.456, -0.18), Vector3(0.68, 1.60, -0.18), Vector3(1.0, 1.456, -0.18), Vector3(1.0, 1.456, -0.18), Vector3(0.68, 1.60, -0.18), Vector3(0.68, 1.456, -0.18)]}
+
+[sub_resource type="AnimationLibrary" id="level_lib"]
+_data = {&"fuel_level": SubResource("level")}
+
+[sub_resource type="AnimationLibrary" id="filler_lib"]
+_data = {&"refill": SubResource("refill")}
 
 [node name="BaseFuelSocket" type="StaticBody3D"]
-collision_layer = 4
+collision_layer = 5
 collision_mask = 0
-script = ExtResource("1_script")
+script = ExtResource("logic")
+metadata/impact_surface = &"metal"
+editor_description = "60 L fuel reservoir. Native gauge pose is driven by the shared fuel state. Tank lies on its side. Original top cap is relocated to the upward side at uniform scale; the original cap socket feeds the floor pipe. All mounting and poses are editable scene resources."
 
-[node name="Panel" type="MeshInstance3D" parent="."]
-mesh = SubResource("Mesh_panel")
-
-[node name="GaugeTrack" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.22, -0.075)
-mesh = SubResource("Mesh_gauge_track")
-
-[node name="Indicator" type="MeshInstance3D" parent="."]
-unique_name_in_owner = true
-position = Vector3(0, 0.22, -0.09)
-mesh = SubResource("Mesh_indicator")
-
-[node name="HeaderLabel" type="Label3D" parent="."]
-position = Vector3(0, 0.43, -0.09)
-rotation = Vector3(0, 3.14159, 0)
-text = "ТОПЛИВНЫЙ БАК"
-font_size = 27
-outline_size = 7
-
-[node name="CapPivot" type="Node3D" parent="."]
-unique_name_in_owner = true
-position = Vector3(0, -0.08, -0.12)
-
-[node name="Cap" type="MeshInstance3D" parent="CapPivot"]
-rotation = Vector3(1.5708, 0, 0)
-mesh = SubResource("Mesh_cap")
-
-[node name="StatusLabel" type="Label3D" parent="."]
-unique_name_in_owner = true
-position = Vector3(0, -0.3, -0.09)
-rotation = Vector3(0, 3.14159, 0)
-text = "БАК: ПУСТ"
-font_size = 28
-outline_size = 7
+[node name="Tank" parent="." instance=ExtResource("tank")]
+position = Vector3(0, 0.709, 0)
+rotation = Vector3(0, 3.1415927, 1.5707963)
+scale = Vector3(2.4, 2.4, 2.4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("Shape_panel")
+position = Vector3(0, 0.709, 0)
+shape = SubResource("body")
+
+[node name="FillerCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.68, 1.45, -0.18)
+shape = SubResource("filler_shape")
+
+[node name="InteractionPoint" type="Marker3D" parent="."]
+position = Vector3(0.68, 1.49, -0.18)
+
+[node name="FillerPort" type="MeshInstance3D" parent="."]
+position = Vector3(0.68, 1.431, -0.18)
+mesh = SubResource("port")
+
+[node name="CapPivot" type="Node3D" parent="."]
+position = Vector3(0.68, 1.456, -0.18)
+
+[node name="FillerHole" type="MeshInstance3D" parent="."]
+position = Vector3(0.68, 1.424, -0.18)
+mesh = SubResource("port_hole")
+
+[node name="Cap" type="MeshInstance3D" parent="CapPivot"]
+scale = Vector3(2.4, 2.4, 2.4)
+mesh = ExtResource("native_cap")
+material_override = ExtResource("tank_material")
+
+[node name="Gauge" type="Node3D" parent="."]
+position = Vector3(-0.72, 1.12, -0.84)
+rotation = Vector3(0, 3.1415927, 0)
+scale = Vector3(0.20, 0.20, 0.20)
+
+[node name="Model" parent="Gauge" instance=ExtResource("gauge")]
+position = Vector3(0.14062695, -1.8204353, -0.6791091)
+
+[node name="GaugeMount" type="MeshInstance3D" parent="."]
+position = Vector3(-0.72, 0.87, -0.755)
+mesh = SubResource("mount")
+
+[node name="GaugeAnimation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {&"": SubResource("level_lib")}
+
+[node name="FillerAnimation" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("filler_lib")}
+
+[node name="FuelLinePath" type="Path3D" parent="."]
+curve = SubResource("fuel_line")
+
+[node name="FuelLine" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(0.0450000, 0.0000000, 0.0415746, 0.0172208, 0.0318198, 0.0318198, 0.0172208, 0.0415746, 0.0000000, 0.0450000, -0.0172208, 0.0415746, -0.0318198, 0.0318198, -0.0415746, 0.0172208, -0.0450000, 0.0000000, -0.0415746, -0.0172208, -0.0318198, -0.0318198, -0.0172208, -0.0415746, -0.0000000, -0.0450000, 0.0172208, -0.0415746, 0.0318198, -0.0318198, 0.0415746, -0.0172208)
+mode = 2
+path_node = NodePath("../FuelLinePath")
+path_rotation = 2
+path_local = true
+path_interval = 0.01
+material = SubResource("steel")
+
+[node name="OutletFlange" type="MeshInstance3D" parent="."]
+position = Vector3(1.225, 0.71, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("flange")
+
+[node name="FloorFlange" type="MeshInstance3D" parent="."]
+position = Vector3(1.49, 0.025, 0)
+mesh = SubResource("flange")
+
+[node name="OutletSleeve" type="MeshInstance3D" parent="."]
+position = Vector3(1.23, 0.71, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("outlet_sleeve")
 
 [node name="PourAudio" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("sound_PourAudio")
+stream = ExtResource("pour")
 volume_db = -14.0
 max_distance = 24.0
 unit_size = 3.0
+bus = &"Effects"

@@ -36,6 +36,7 @@ var _mouse_sensitivity_multiplier := 1.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().auto_accept_quit = false
 	ensure_music_bus()
 	_settings_data = load_settings_data()
 	apply_settings_data()
@@ -72,6 +73,18 @@ func _ready() -> void:
 	connect_network_signals()
 	show_view(MenuView.MAIN)
 	menu_root.hide()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		quit_with_save()
+
+func quit_with_save(save_before_exit: bool = true) -> void:
+	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
+	if save_before_exit and base != null and multiplayer.is_server() and base.progress_persistence_enabled:
+		if not base.save_progress_authoritative():
+			confirm("Не удалось сохранить", "Последняя запись сохранена, но новые изменения не записались. Остаться в игре или выйти без них?", [{"label": "Выйти без сохранения", "action": quit_with_save.bind(false)}])
+			return
+	get_tree().quit()
 
 func connect_network_signals() -> void:
 	SteamNetwork.state_changed.connect(_on_network_state_changed)
@@ -250,6 +263,10 @@ func confirm(title: String, message: String, choices: Array) -> void:
 
 func start_host_flow() -> void:
 	if _transition_in_progress or not SteamNetwork.steam_available:
+		return
+	var main := get_tree().current_scene
+	if main != null and main.has_method("show_expeditions"):
+		main.show_expeditions("coop")
 		return
 	var previous_scope := BaseGameplayController.save_scope
 	BaseGameplayController.save_scope = "coop"
@@ -564,12 +581,14 @@ func ensure_network_scene() -> bool:
 	await get_tree().scene_changed
 	return true
 
-func return_to_main_menu(reason: String = "") -> void:
+func return_to_main_menu(reason: String = "", save_before_exit: bool = true) -> void:
 	if _transition_in_progress:
 		return
-	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("save_inventory_checkpoint"):
-		world.call("save_inventory_checkpoint")
+	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
+	if save_before_exit and base != null and multiplayer.is_server() and base.progress_persistence_enabled:
+		if not base.save_progress_authoritative():
+			confirm("Не удалось сохранить", "Новые изменения не записались. Предыдущая запись сохранена. Остаться в игре или закрыть сессию?", [{"label": "Выйти без сохранения", "action": return_to_main_menu.bind(reason, false)}])
+			return
 	_transition_in_progress = true
 	menu_root.visible = false
 	get_tree().paused = false
@@ -579,6 +598,13 @@ func return_to_main_menu(reason: String = "") -> void:
 		SteamNetwork.leave_session(reason)
 		return
 	call_deferred("_finish_return_to_main_menu", reason)
+
+func manual_save() -> void:
+	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
+	if base == null or not multiplayer.is_server():
+		feedback_label.text = "Сохранение доступно хосту на базе."
+		return
+	feedback_label.text = "Экспедиция сохранена." if base.save_progress_authoritative(false, "manual") else "Не удалось сохранить экспедицию. Предыдущая запись сохранена."
 
 func _finish_return_to_main_menu(reason: String) -> void:
 	var current_scene := get_tree().current_scene

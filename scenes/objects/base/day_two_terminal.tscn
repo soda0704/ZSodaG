@@ -1,61 +1,236 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/gameplay/base/day_two_terminal.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/day_two_terminal.gd" id="logic"]
+[ext_resource type="PackedScene" path="res://assets/models/terminals/scifi_terminal/scene.gltf" id="model"]
+[ext_resource type="PackedScene" path="res://assets/models/terminals/id_key_lanyard/scene.gltf" id="key"]
+[ext_resource type="PackedScene" path="res://scenes/ui/terminal_screen.tscn" id="ui"]
+[ext_resource type="Material" path="res://assets/models/terminals/housing_on.tres" id="on"]
+[ext_resource type="Material" path="res://assets/models/terminals/housing_off.tres" id="off"]
+[ext_resource type="Shader" path="res://assets/shaders/terminal_screen.gdshader" id="shader"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_baseColor.png" id="base_texture"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_emissive.png" id="emissive_texture"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_metallicRoughness.png" id="metal_texture"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="normal_texture"]
+[ext_resource type="PackedScene" path="res://scenes/ui/terminal_error.tscn" id="error_ui"]
 
-[sub_resource type="StandardMaterial3D" id="Housing"]
-albedo_color = Color(0.045, 0.065, 0.08, 1)
-metallic = 0.65
-roughness = 0.4
+[sub_resource type="ViewportTexture" id="screen_texture"]
+viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="BoxMesh" id="BodyMesh"]
-size = Vector3(0.85, 0.65, 0.18)
-material = SubResource("Housing")
+[sub_resource type="ViewportTexture" id="error_texture"]
+viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="BoxShape3D" id="Shape"]
-size = Vector3(0.85, 0.65, 0.18)
+[sub_resource type="ShaderMaterial" id="display_material"]
+resource_local_to_scene = true
+shader = ExtResource("shader")
+shader_parameter/screen_texture = SubResource("screen_texture")
+shader_parameter/error_texture = SubResource("error_texture")
+shader_parameter/key_missing = true
+shader_parameter/error_rect = Vector4(0.22, 0.43, 0.78, 0.7)
+shader_parameter/error_text_color = Color(1, 0.85, 0.82, 1)
+shader_parameter/glitch_strength = 0.065
+shader_parameter/glitch_rate = 5.0
+shader_parameter/chromatic_offset = 0.004
+shader_parameter/albedo_texture = ExtResource("base_texture")
+shader_parameter/emissive_texture = ExtResource("emissive_texture")
+shader_parameter/metallic_roughness_texture = ExtResource("metal_texture")
+shader_parameter/normal_texture = ExtResource("normal_texture")
+shader_parameter/screen_atlas_rect = Vector4(0.318359375, 0.021484375, 0.442626953125, 0.2763671875)
+shader_parameter/powered = false
+shader_parameter/emission_strength = 1.15
+shader_parameter/scanline_strength = 0.025
+shader_parameter/scanline_count = 488.0
+shader_parameter/sweep_strength = 0.012
 
-[sub_resource type="StandardMaterial3D" id="ScreenMaterial"]
-albedo_color = Color(0.015, 0.05, 0.08, 1)
-emission_enabled = true
-emission = Color(0.12, 0.55, 1, 1)
-emission_energy_multiplier = 1.5
+[sub_resource type="BoxShape3D" id="base_collision"]
+size = Vector3(0.64, 1.2, 0.61)
 
-[sub_resource type="BoxMesh" id="ScreenMesh"]
-size = Vector3(0.72, 0.43, 0.02)
-material = SubResource("ScreenMaterial")
+[sub_resource type="BoxShape3D" id="screen_collision"]
+size = Vector3(1.44, 0.74, 0.075)
 
-[sub_resource type="StandardMaterial3D" id="KeyMaterial"]
-albedo_color = Color(0.95, 0.58, 0.08, 1)
-metallic = 0.6
-emission_enabled = true
-emission = Color(0.5, 0.2, 0.01, 1)
+[sub_resource type="StandardMaterial3D" id="key_slot_material"]
+albedo_color = Color(0.026, 0.032, 0.036, 1)
+metallic = 0.7
+roughness = 0.5
 
-[sub_resource type="BoxMesh" id="KeyMesh"]
-size = Vector3(0.18, 0.055, 0.08)
-material = SubResource("KeyMaterial")
+[sub_resource type="BoxMesh" id="key_slot_mesh"]
+size = Vector3(0.07, 0.035, 0.026)
+material = SubResource("key_slot_material")
+
+[sub_resource type="Animation" id="reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("KeyRoot:scale")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("KeyRoot:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("KeyRoot:visible")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="extract"]
+resource_name = "extract"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/path = NodePath("KeyRoot:scale")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("KeyRoot:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.141593, 0)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("KeyRoot:visible")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="deliver"]
+resource_name = "deliver"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/path = NodePath("KeyRoot:scale")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("KeyRoot:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.141593, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("KeyRoot:visible")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+
+[sub_resource type="AnimationLibrary" id="clips"]
+_data = {&"RESET": SubResource("reset"), &"extract": SubResource("extract"), &"deliver": SubResource("deliver")}
 
 [node name="DayTwoTerminal" type="StaticBody3D"]
-script = ExtResource("1")
+editor_description = "Authored terminal, screen UI, glow and temporary native key clips. Main base power only; the elevator reserve does not power this device."
+collision_layer = 5
+collision_mask = 3
+script = ExtResource("logic")
+powered_housing_material = ExtResource("on")
+unpowered_housing_material = ExtResource("off")
+ready_glow_color = Color(0.3, 0.85, 0.38, 1)
+missing_glow_color = Color(1, 0.12, 0.16, 1)
+display_material = SubResource("display_material")
+display_mesh_path = NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/screen_low/screen_low_Material_0")
+material_mesh_paths = Array[NodePath]([NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/middle_piece_low/middle_piece_low_Material_0"), NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/screen_low/screen_low_Material_0"), NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/hinge_bottom_low/hinge_bottom_low_Material_0"), NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/back_piece_low/back_piece_low_Material_0"), NodePath("Model/Sketchfab_model/18544475a3184488884f51754a7e06dc_fbx/RootNode/front_piece_low/front_piece_low_Material_0")])
 
-[node name="Housing" type="MeshInstance3D" parent="."]
-mesh = SubResource("BodyMesh")
+[node name="Model" parent="." instance=ExtResource("model")]
+rotation = Vector3(0, 1.5707964, 0)
+scale = Vector3(0.32, 0.32, 0.32)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("Shape")
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.6, -0.04)
+shape = SubResource("base_collision")
 
-[node name="Screen" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.03, 0.105)
-mesh = SubResource("ScreenMesh")
+[node name="ScreenCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.487, 0.32)
+rotation = Vector3(-0.5235988, 0, 0)
+shape = SubResource("screen_collision")
 
-[node name="Key" type="MeshInstance3D" parent="."]
-position = Vector3(0, -0.22, 0.18)
-mesh = SubResource("KeyMesh")
+[node name="Screen" type="Marker3D" parent="."]
+position = Vector3(0, 1.489, 0.324)
+rotation = Vector3(-0.5235988, 0, 0)
 
-[node name="Status" type="Label3D" parent="."]
-position = Vector3(0, 0.52, 0.11)
-text = "ЗАДАНИЯ ЭКСПЕДИЦИИ"
-font_size = 32
-pixel_size = 0.003
-outline_size = 6
-width = 540.0
-autowrap_mode = 2
+[node name="ScreenGlow" type="OmniLight3D" parent="."]
+position = Vector3(0, 1.48, 0.51)
+visible = false
+light_color = Color(0.3, 0.85, 0.38, 1)
+light_energy = 0.16
+omni_range = 1.4
+omni_attenuation = 2.0
+shadow_enabled = false
+
+[node name="KeySlot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.2, 0.319)
+mesh = SubResource("key_slot_mesh")
+
+[node name="KeyRoot" type="Node3D" parent="."]
+position = Vector3(0, 1.075, 0.36)
+visible = false
+
+[node name="KeyPose" type="Node3D" parent="KeyRoot"]
+position = Vector3(0.05, 0, 0)
+rotation = Vector3(0, 0, 1.5707964)
+
+[node name="KeyModel" parent="KeyRoot/KeyPose" instance=ExtResource("key")]
+rotation = Vector3(1.5707964, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("clips")}
+
+[node name="ScreenViewport" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(1024, 488)
+render_target_update_mode = 0
+handle_input_locally = false
+
+[node name="TerminalScreen" parent="ScreenViewport" instance=ExtResource("ui")]
+
+[node name="ErrorViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(512, 128)
+render_target_update_mode = 1
+handle_input_locally = false
+
+[node name="Error" parent="ErrorViewport" instance=ExtResource("error_ui")]

@@ -53,6 +53,25 @@ func _ready() -> void:
 	_hud.add_theme_color_override("font_color", Color("ebc778"))
 	_refresh_ui()
 
+func capture_checkpoint() -> Dictionary:
+	return {"health": health, "radiation": radiation, "dead": dead,
+		"reason": reason, "respawn_remaining": respawn_remaining}
+
+func apply_checkpoint(data: Dictionary) -> void:
+	if data.is_empty():
+		return
+	_sync(clampf(float(data.get("health", max_health)), 0.0, max_health),
+		clampf(float(data.get("radiation", 0.0)), 0.0, 100.0),
+		bool(data.get("dead", false)), str(data.get("reason", "")),
+		clampf(float(data.get("respawn_remaining", 0.0)), 0.0, respawn_delay))
+	reset_fall()
+
+func restore_checkpoint_authoritative(data: Dictionary) -> void:
+	if not multiplayer.is_server() or data.is_empty():
+		return
+	apply_checkpoint(data)
+	_sync.rpc(health, radiation, dead, reason, respawn_remaining)
+
 func reset_fall() -> void:
 	_fall_speed = 0.0
 	_air_time = 0.0

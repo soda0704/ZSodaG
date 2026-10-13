@@ -24,6 +24,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
 		not multiplayer.is_server()
 		or not is_instance_valid(controller)
+		or not is_instance_valid(interactor)
 		or int(interactor.get("owner_peer_id")) != peer_id
 	):
 		return

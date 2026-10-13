@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/network/base_session_controller.gd" id="session"]
+[ext_resource type="PackedScene" path="res://scenes/ui/helicopter_lobby_hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://scenes/objects/elevator/elevator_functional_blockout.tscn" id="lift"]
+
+[node name="ElevatorNetworkSession" type="Node3D"]
+script = ExtResource("session")
+uses_staging_lobby = true
+staging_spawn_positions = PackedVector3Array(-0.6, 0.08, 0, 0.6, 0.08, 0)
+
+[node name="Elevator" parent="." instance=ExtResource("lift")]
+unlocked_floor_index = 2
+door_animation_duration = 0.4
+arrival_alignment_duration = 0.15
+travel_start_stop_time = 0.1
+
+[node name="Players" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="OverviewCamera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 2, 2)
+current = true
+
+[node name="Gameplay" type="Node3D" parent="."]
+[node name="WorldItems" type="Node3D" parent="Gameplay"]
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]
+spawn_path = NodePath("../WorldItems")
+[node name="LobbyHud" parent="." instance=ExtResource("hud")]

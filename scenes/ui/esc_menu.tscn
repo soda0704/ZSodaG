@@ -106,6 +106,13 @@ theme_override_font_sizes/font_size = 17
 text = "Игра продолжается на фоне"
 vertical_alignment = 1
 
+[node name="Save" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "СОХРАНИТЬ ЭКСПЕДИЦИЮ"
+script = ExtResource("2_1apln")
+
 [node name="@Control@27" type="Control" parent="." unique_id=1549282395]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2

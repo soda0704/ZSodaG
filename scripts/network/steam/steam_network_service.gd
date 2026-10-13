@@ -28,7 +28,7 @@ enum SessionState {
 const DEFAULT_APP_ID := 480
 const DEFAULT_MAX_MEMBERS := 2
 const DEFAULT_LOBBY_TAG := "northern_lab_story_coop_v1"
-const NETWORK_VERSION := "2"
+const NETWORK_VERSION := "4"
 const BUILD_ID_PATH := "res://network_build.cfg"
 var _build_identity: String = ""
 const STEAM_API_INIT_RESULT_OK := 0

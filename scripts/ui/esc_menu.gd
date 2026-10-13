@@ -16,6 +16,7 @@ func configure(menu: Node) -> void:
 	continue_button.pressed.connect(func(): _menu.close_menu())
 	settings_button.pressed.connect(func(): _menu.open_settings())
 	return_button.pressed.connect(func(): _menu._on_return_to_main_menu_pressed())
+	$Save.pressed.connect(func(): _menu.manual_save())
 
 func refresh() -> void:
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -27,3 +28,5 @@ func refresh() -> void:
 		mode = "Кооператив · %d участника" % maxi(1, CoopLobby.get_player_count())
 	context.text = "День %d · %s\n%s" % [day, "На борту CH-47" if waiting else "Северная база", mode]
 	continue_button.disabled = get_tree().get_first_node_in_group("local_player") == null
+	$Save.disabled = base == null or not multiplayer.is_server() or not bool(base.get("progress_persistence_enabled"))
+	$Save.text = "СОХРАНИТЬ ЭКСПЕДИЦИЮ" if multiplayer.is_server() else "СОХРАНЯЕТ ХОСТ"

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Scifi terminal
+* source:	https://sketchfab.com/3d-models/scifi-terminal-ace1b257e2c24ec184662d69e4befca1
+* author:	lorib2306 (https://sketchfab.com/lorib2306)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Scifi terminal" (https://sketchfab.com/3d-models/scifi-terminal-ace1b257e2c24ec184662d69e4befca1) by lorib2306 (https://sketchfab.com/lorib2306) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

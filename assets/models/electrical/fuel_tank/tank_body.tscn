@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/fuel_tank/tank_body.obj" id="body"]
+[ext_resource type="Material" path="res://assets/models/electrical/fuel_tank/tank_material.tres" id="material"]
+
+[node name="FuelTankBody" type="Node3D"]
+editor_description = "Original tank body with its screw cap separated offline. Mount and pose belong to the fuel station scene."
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = ExtResource("body")
+material_override = ExtResource("material")

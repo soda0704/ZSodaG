@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b7umtk7hao124"
+path="res://.godot/imported/housing.obj-517839487ee5a1327a2607e4f49ccfcd.mesh"
+
+[deps]
+
+files=["res://.godot/imported/housing.obj-517839487ee5a1327a2607e4f49ccfcd.mesh"]
+
+source_file="res://assets/models/electrical/mechanical_door_controls/housing.obj"
+dest_files=["res://.godot/imported/housing.obj-517839487ee5a1327a2607e4f49ccfcd.mesh", "res://.godot/imported/housing.obj-517839487ee5a1327a2607e4f49ccfcd.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

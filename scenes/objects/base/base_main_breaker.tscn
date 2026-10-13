@@ -1,74 +1,1021 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/gameplay/base/base_main_breaker.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_main_breaker.gd" id="logic"]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/breaker_wiring_interaction.gd" id="repair"]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/wiring_contact.gd" id="contact"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/mechanical_door_controls/housing.obj" id="housing"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/mechanical_door_controls/handle.obj" id="handle"]
+
+[ext_resource type="Material" path="res://assets/models/electrical/mechanical_door_controls/controls_on.tres" id="model_on"]
+
+[ext_resource type="Material" path="res://assets/models/electrical/mechanical_door_controls/controls_off.tres" id="model_off"]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/breaker_repair_hud.tscn" id="hud"]
 
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/power.ogg" id="power_audio"]
-[sub_resource type="StandardMaterial3D" id="Material_panel"]
-albedo_color = Color(0.1, 0.12, 0.13, 1)
-metallic = 0.7
-roughness = 0.35
 
-[sub_resource type="StandardMaterial3D" id="Material_lever"]
-albedo_color = Color(0.82, 0.18, 0.035, 1)
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/door.ogg" id="cover_audio"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/battery_insert.ogg" id="connect_audio"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/flashlight_off.ogg" id="error_audio"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/pickup.ogg" id="select_audio"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/loose_0.obj" id="loose0"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_0_0.obj" id="route00"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_0_1.obj" id="route01"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_0_2.obj" id="route02"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_0_3.obj" id="route03"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/loose_1.obj" id="loose1"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_1_0.obj" id="route10"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_1_1.obj" id="route11"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_1_2.obj" id="route12"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_1_3.obj" id="route13"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/loose_2.obj" id="loose2"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_2_0.obj" id="route20"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_2_1.obj" id="route21"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_2_2.obj" id="route22"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_2_3.obj" id="route23"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/loose_3.obj" id="loose3"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_3_0.obj" id="route30"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_3_1.obj" id="route31"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_3_2.obj" id="route32"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/electrical/wires/route_3_3.obj" id="route33"]
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.11, 0.13, 0.13, 1)
+metallic = 0.75
+roughness = 0.61
+
+[sub_resource type="StandardMaterial3D" id="board"]
+albedo_color = Color(0.045, 0.085, 0.068, 1)
+metallic = 0.25
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="copper"]
+albedo_color = Color(0.72, 0.41, 0.16, 1)
+metallic = 0.9
 roughness = 0.38
 
-[sub_resource type="StandardMaterial3D" id="Material_indicator"]
-albedo_color = Color(0.32, 0.025, 0.01, 1)
+[sub_resource type="StandardMaterial3D" id="black"]
+albedo_color = Color(0.025, 0.03, 0.028, 1)
+roughness = 0.63
+
+[sub_resource type="StandardMaterial3D" id="indicator_on"]
+albedo_color = Color(0.17, 0.9, 0.35, 1)
 emission_enabled = true
-emission = Color(0.95, 0.08, 0.02, 1)
-emission_energy_multiplier = 4.0
+emission = Color(0.17, 0.9, 0.35, 1)
+emission_energy_multiplier = 0.5
 
-[sub_resource type="BoxMesh" id="Mesh_panel"]
-material = SubResource("Material_panel")
-size = Vector3(0.95, 1.1, 0.16)
+[sub_resource type="StandardMaterial3D" id="indicator_off"]
+albedo_color = Color(0.9, 0.11, 0.025, 1)
+emission_enabled = true
+emission = Color(0.9, 0.11, 0.025, 1)
+emission_energy_multiplier = 0.5
 
-[sub_resource type="BoxMesh" id="Mesh_indicator"]
-material = SubResource("Material_indicator")
-size = Vector3(0.62, 0.13, 0.035)
+[sub_resource type="StandardMaterial3D" id="focus"]
+albedo_color = Color(0.95, 0.87, 0.57, 1)
+emission_enabled = true
+emission = Color(0.95, 0.87, 0.57, 1)
+emission_energy_multiplier = 0.7
 
-[sub_resource type="BoxMesh" id="Mesh_lever"]
-material = SubResource("Material_lever")
-size = Vector3(0.12, 0.55, 0.12)
+[sub_resource type="StandardMaterial3D" id="wire0_idle"]
+albedo_color = Color(0.95, 0.2, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.2, 0.12, 1)
+emission_energy_multiplier = 0
 
-[sub_resource type="BoxShape3D" id="Shape_panel"]
-size = Vector3(0.95, 1.1, 0.22)
+[sub_resource type="StandardMaterial3D" id="wire0_selected"]
+albedo_color = Color(0.95, 0.2, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.2, 0.12, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="wire0_connected"]
+albedo_color = Color(0.95, 0.2, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.2, 0.12, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="wire1_idle"]
+albedo_color = Color(0.1, 0.65, 0.85, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.85, 1)
+emission_energy_multiplier = 0
+
+[sub_resource type="StandardMaterial3D" id="wire1_selected"]
+albedo_color = Color(0.1, 0.65, 0.85, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.85, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="wire1_connected"]
+albedo_color = Color(0.1, 0.65, 0.85, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.85, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="wire2_idle"]
+albedo_color = Color(0.95, 0.68, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.68, 0.12, 1)
+emission_energy_multiplier = 0
+
+[sub_resource type="StandardMaterial3D" id="wire2_selected"]
+albedo_color = Color(0.95, 0.68, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.68, 0.12, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="wire2_connected"]
+albedo_color = Color(0.95, 0.68, 0.12, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.95, 0.68, 0.12, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="wire3_idle"]
+albedo_color = Color(0.68, 0.32, 0.9, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.68, 0.32, 0.9, 1)
+emission_energy_multiplier = 0
+
+[sub_resource type="StandardMaterial3D" id="wire3_selected"]
+albedo_color = Color(0.68, 0.32, 0.9, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.68, 0.32, 0.9, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="wire3_connected"]
+albedo_color = Color(0.68, 0.32, 0.9, 1)
+roughness = 0.4
+metallic = 0.15
+emission_enabled = true
+emission = Color(0.68, 0.32, 0.9, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="BoxMesh" id="back"]
+size = Vector3(0.90, 1.10, 0.05)
+material = SubResource("steel")
+
+[sub_resource type="BoxMesh" id="rail_v"]
+size = Vector3(0.035, 1.10, 0.25)
+material = SubResource("steel")
+
+[sub_resource type="BoxMesh" id="rail_h"]
+size = Vector3(0.83, 0.035, 0.25)
+material = SubResource("steel")
+
+[sub_resource type="BoxMesh" id="pcb"]
+size = Vector3(0.79, 0.96, 0.024)
+material = SubResource("board")
+
+[sub_resource type="BoxMesh" id="header"]
+size = Vector3(0.76, 0.105, 0.018)
+material = SubResource("black")
+
+[sub_resource type="BoxShape3D" id="body_shape"]
+size = Vector3(0.93, 1.14, 0.35)
+
+[sub_resource type="SphereShape3D" id="pin_shape"]
+radius = 0.042
+
+[sub_resource type="TorusMesh" id="socket_mesh"]
+inner_radius = 0.011
+outer_radius = 0.025
+rings = 16
+ring_segments = 10
+material = SubResource("copper")
+
+[sub_resource type="TorusMesh" id="focus_mesh"]
+inner_radius = 0.030
+outer_radius = 0.034
+rings = 16
+ring_segments = 8
+material = SubResource("focus")
+
+[sub_resource type="CylinderMesh" id="socket_body"]
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.021
+radial_segments = 16
+material = SubResource("black")
+
+[sub_resource type="CylinderMesh" id="plug_mesh"]
+top_radius = 0.010
+bottom_radius = 0.012
+height = 0.035
+radial_segments = 16
+material = SubResource("copper")
+
+[sub_resource type="SphereMesh" id="indicator_mesh"]
+radius = 0.010
+height = 0.020
+radial_segments = 12
+rings = 8
+material = SubResource("indicator_off")
+
+[sub_resource type="Animation" id="cover_open"]
+resource_name = "open"
+length = 0.55
+tracks/0/type = "value"
+tracks/0/path = NodePath("ServiceCover:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.55),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.95, 0)]
+}
+
+[sub_resource type="Animation" id="lever_switch"]
+resource_name = "switch"
+length = 0.32
+tracks/0/type = "value"
+tracks/0/path = NodePath("HandlePivot:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.7, 0, 0)]
+}
+
+[sub_resource type="Animation" id="focus_clip"]
+resource_name = "focus"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("RepairCamera:fov")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [64.0, 56.0]
+}
+
+[sub_resource type="Animation" id="selection_clip"]
+resource_name = "selected"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Plug:position")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.008), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="selection_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Plug:position")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="seat_clip"]
+resource_name = "seat"
+length = 0.22
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ring:scale")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.09, 0.22),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.15, 1.15, 1.15), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="cover_lib"]
+_data = {&"open": SubResource("cover_open")}
+
+[sub_resource type="AnimationLibrary" id="lever_lib"]
+_data = {&"switch": SubResource("lever_switch")}
+
+[sub_resource type="AnimationLibrary" id="focus_lib"]
+_data = {&"focus": SubResource("focus_clip")}
+
+[sub_resource type="AnimationLibrary" id="selection_lib"]
+_data = {&"selected": SubResource("selection_clip"), &"RESET": SubResource("selection_reset")}
+
+[sub_resource type="AnimationLibrary" id="seat_lib"]
+_data = {&"seat": SubResource("seat_clip")}
+
+[sub_resource type="StandardMaterial3D" id="ceramic_material"]
+albedo_color = Color(0.44, 0.37, 0.26, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="terminal_pad"]
+size = Vector3(0.073, 0.078, 0.032)
+material = SubResource("ceramic_material")
+
+[sub_resource type="CylinderMesh" id="mounting_screw"]
+top_radius = 0.010
+bottom_radius = 0.010
+height = 0.008
+radial_segments = 12
+material = SubResource("steel")
+
+[sub_resource type="CylinderMesh" id="hinge_barrel"]
+top_radius = 0.017
+bottom_radius = 0.017
+height = 0.12
+radial_segments = 16
+material = SubResource("steel")
+
+[sub_resource type="BoxMesh" id="hinge_plate"]
+size = Vector3(0.055, 0.105, 0.012)
+material = SubResource("steel")
+
+[sub_resource type="BoxMesh" id="mounting_lug"]
+size = Vector3(0.105, 0.085, 0.035)
+material = SubResource("steel")
 
 [node name="BaseMainBreaker" type="StaticBody3D"]
-collision_layer = 4
+collision_layer = 5
 collision_mask = 0
-script = ExtResource("1_script")
+script = ExtResource("logic")
+powered_model_material = ExtResource("model_on")
+unpowered_model_material = ExtResource("model_off")
+powered_indicator_material = SubResource("indicator_on")
+unpowered_indicator_material = SubResource("indicator_off")
 metadata/impact_surface = "metal"
+editor_description = "Mechanical controls from the supplied model, native cover/lever clips and authored 3D wiring board."
 
-[node name="Panel" type="MeshInstance3D" parent="."]
-mesh = SubResource("Mesh_panel")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0, -0.045)
+shape = SubResource("body_shape")
+
+[node name="InteractionPoint" type="Marker3D" parent="."]
+position = Vector3(0, 0.08, -0.26)
+
+[node name="Cabinet" type="Node3D" parent="."]
+
+
+[node name="Back" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0, 0, 0.08)
+mesh = SubResource("back")
+
+[node name="Left" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.4325, 0, -0.02)
+mesh = SubResource("rail_v")
+
+[node name="Right" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(-0.4325, 0, -0.02)
+mesh = SubResource("rail_v")
+
+[node name="Top" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0, 0.5325, -0.02)
+mesh = SubResource("rail_h")
+
+[node name="Bottom" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0, -0.5325, -0.02)
+mesh = SubResource("rail_h")
+
+[node name="HingeBarrel0" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.44, -0.38, -0.20)
+mesh = SubResource("hinge_barrel")
+
+[node name="HingeFixedPlate0" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.414, -0.38, -0.18)
+mesh = SubResource("hinge_plate")
+
+[node name="MountingLug00" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(-0.42, -0.38, 0.0875)
+mesh = SubResource("mounting_lug")
+
+[node name="MountingLug01" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.42, -0.38, 0.0875)
+mesh = SubResource("mounting_lug")
+
+[node name="HingeBarrel1" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.44, 0.38, -0.20)
+mesh = SubResource("hinge_barrel")
+
+[node name="HingeFixedPlate1" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.414, 0.38, -0.18)
+mesh = SubResource("hinge_plate")
+
+[node name="MountingLug10" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(-0.42, 0.38, 0.0875)
+mesh = SubResource("mounting_lug")
+
+[node name="MountingLug11" type="MeshInstance3D" parent="Cabinet"]
+position = Vector3(0.42, 0.38, 0.0875)
+mesh = SubResource("mounting_lug")
+
+[node name="ServiceCover" type="Node3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0.44, 0, -0.20)
+
+[node name="HingeMovingPlate0" type="MeshInstance3D" parent="ServiceCover"]
+position = Vector3(-0.026, -0.38, -0.008)
+mesh = SubResource("hinge_plate")
+
+[node name="HingeMovingPlate1" type="MeshInstance3D" parent="ServiceCover"]
+position = Vector3(-0.026, 0.38, -0.008)
+mesh = SubResource("hinge_plate")
+
+[node name="Controls" type="Node3D" parent="ServiceCover"]
+position = Vector3(-0.44, 0, 0)
+
+[node name="Housing" type="MeshInstance3D" parent="ServiceCover/Controls"]
+unique_name_in_owner = true
+mesh = ExtResource("housing")
+material_override = ExtResource("model_off")
+
+[node name="HandlePivot" type="Node3D" parent="ServiceCover/Controls"]
+position = Vector3(0.2583, -0.2645505, 0.0594)
+
+[node name="Handle" type="MeshInstance3D" parent="ServiceCover/Controls/HandlePivot"]
+unique_name_in_owner = true
+mesh = ExtResource("handle")
+material_override = ExtResource("model_off")
+
+[node name="LeverAnimation" type="AnimationPlayer" parent="ServiceCover/Controls"]
+unique_name_in_owner = true
+libraries = {&"": SubResource("lever_lib")}
+
+[node name="CoverAnimation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {&"": SubResource("cover_lib")}
 
 [node name="Indicator" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-position = Vector3(0, 0.39, -0.1)
-mesh = SubResource("Mesh_indicator")
-
-[node name="LeverPivot" type="Node3D" parent="."]
-unique_name_in_owner = true
-position = Vector3(0, 0, -0.17)
-rotation = Vector3(-2.4783675, 0, 0)
-
-[node name="Lever" type="MeshInstance3D" parent="LeverPivot"]
-position = Vector3(0, 0.22, 0)
-mesh = SubResource("Mesh_lever")
+position = Vector3(-0.39, 0.64, -0.23)
+mesh = SubResource("indicator_mesh")
 
 [node name="StatusLabel" type="Label3D" parent="."]
 unique_name_in_owner = true
-position = Vector3(0, -0.43, -0.1)
-rotation = Vector3(0, 3.14159, 0)
-text = "ГЛАВНЫЙ ЩИТ: ВЫКЛ"
-font_size = 25
-outline_size = 7
+position = Vector3(0, 0.64, -0.21)
+rotation = Vector3(0, 3.1415927, 0)
+font_size = 40
+pixel_size = 0.00055
+outline_size = 6
+text = "ОСНОВНОЕ ПИТАНИЕ / ВЫКЛ"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("Shape_panel")
+[node name="RepairLight" type="SpotLight3D" parent="."]
+position = Vector3(0, 0.48, -0.36)
+rotation = Vector3(-0.6, 3.1415927, 0)
+visible = false
+light_color = Color(1, 0.75, 0.48, 1)
+light_energy = 0.45
+spot_range = 1.8
+spot_angle = 62.0
+shadow_enabled = false
 
 [node name="PowerAudio" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("power_audio")
-volume_db = -12.0
-max_distance = 30.0
-unit_size = 4.0
+volume_db = -15
+max_distance = 18.0
+bus = &"Effects"
+
+[node name="CoverAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("cover_audio")
+volume_db = -25
+max_distance = 18.0
+bus = &"Effects"
+
+[node name="Wiring" type="Node3D" parent="."]
+script = ExtResource("repair")
+contact_mask = 2097152
+idle_materials = Array[Material]([SubResource("wire0_idle"), SubResource("wire1_idle"), SubResource("wire2_idle"), SubResource("wire3_idle")])
+selected_materials = Array[Material]([SubResource("wire0_selected"), SubResource("wire1_selected"), SubResource("wire2_selected"), SubResource("wire3_selected")])
+connected_materials = Array[Material]([SubResource("wire0_connected"), SubResource("wire1_connected"), SubResource("wire2_connected"), SubResource("wire3_connected")])
+loose_meshes = Array[Mesh]([ExtResource("loose0"), ExtResource("loose1"), ExtResource("loose2"), ExtResource("loose3")])
+route_meshes = Array[Mesh]([ExtResource("route00"), ExtResource("route01"), ExtResource("route02"), ExtResource("route03"), ExtResource("route10"), ExtResource("route11"), ExtResource("route12"), ExtResource("route13"), ExtResource("route20"), ExtResource("route21"), ExtResource("route22"), ExtResource("route23"), ExtResource("route30"), ExtResource("route31"), ExtResource("route32"), ExtResource("route33")])
+
+[node name="RepairCamera" type="Camera3D" parent="Wiring"]
+position = Vector3(0, 0.06, -1.50)
+rotation = Vector3(0, 3.1415927, 0)
+cull_mask = 393215
+fov = 56.0
+near = 0.015
+far = 12.0
+
+[node name="FocusAnimation" type="AnimationPlayer" parent="Wiring"]
+libraries = {&"": SubResource("focus_lib")}
+
+[node name="RepairHUD" parent="Wiring" instance=ExtResource("hud")]
+
+
+[node name="ConnectorAudio" type="AudioStreamPlayer3D" parent="Wiring"]
+stream = ExtResource("connect_audio")
+volume_db = -15
+max_distance = 9.0
+bus = &"Effects"
+
+[node name="SelectionAudio" type="AudioStreamPlayer3D" parent="Wiring"]
+stream = ExtResource("select_audio")
+volume_db = -22
+max_distance = 9.0
+bus = &"Effects"
+
+[node name="ErrorAudio" type="AudioStreamPlayer3D" parent="Wiring"]
+stream = ExtResource("error_audio")
+volume_db = -25
+max_distance = 9.0
+bus = &"Effects"
+
+[node name="Board" type="Node3D" parent="Wiring"]
+position = Vector3(0, 0, -0.055)
+rotation = Vector3(0, 3.1415927, 0)
+visible = false
+
+[node name="PCB" type="MeshInstance3D" parent="Wiring/Board"]
+mesh = SubResource("pcb")
+
+[node name="Status" type="Label3D" parent="Wiring/Board"]
+position = Vector3(0, 0.448, 0.04)
+text = "ОБЕСТОЧЕНО / 0 ИЗ 4 ЦЕПЕЙ"
+font_size = 34
+pixel_size = 0.0007
+outline_size = 5
+modulate = Color(0.85, 0.83, 0.7, 1)
+
+[node name="InputTitle" type="Label3D" parent="Wiring/Board"]
+position = Vector3(-0.26, 0.387, 0.06)
+text = "IN / 24V"
+font_size = 26
+pixel_size = 0.0007
+outline_size = 5
+modulate = Color(0.85, 0.83, 0.7, 1)
+
+[node name="OutputTitle" type="Label3D" parent="Wiring/Board"]
+position = Vector3(0.26, 0.387, 0.06)
+text = "OUT / СЕТЬ"
+font_size = 26
+pixel_size = 0.0007
+outline_size = 5
+modulate = Color(0.85, 0.83, 0.7, 1)
+
+[node name="Safety" type="Label3D" parent="Wiring/Board"]
+position = Vector3(0, -0.443, 0.04)
+text = "ОБСЛУЖИВАНИЕ ТОЛЬКО ПРИ СНЯТОМ ПИТАНИИ"
+font_size = 24
+pixel_size = 0.0007
+outline_size = 5
+modulate = Color(0.85, 0.83, 0.7, 1)
+
+[node name="Cable0" type="MeshInstance3D" parent="Wiring/Board"]
+mesh = ExtResource("loose0")
+material_override = SubResource("wire0_idle")
+
+[node name="Anchor0" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, 0.3, 0.05)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="CircuitLabel0" type="Label3D" parent="Wiring/Board"]
+position = Vector3(-0.345, 0.3, 0.055)
+text = "I"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Source0" type="Area3D" parent="Wiring/Board"]
+position = Vector3(-0.08, 0.22999999999999998, 0.15)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 0
+is_output = false
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Source0"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Source0"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Source0"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Source0"]
+position = Vector3(0.045, 0, 0.016)
+text = "I"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Plug" type="Node3D" parent="Wiring/Board/Source0"]
+
+
+[node name="Tip" type="MeshInstance3D" parent="Wiring/Board/Source0/Plug"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
+[node name="SelectionAnimation" type="AnimationPlayer" parent="Wiring/Board/Source0"]
+libraries = {&"": SubResource("selection_lib")}
+
+[node name="Output0" type="Area3D" parent="Wiring/Board"]
+position = Vector3(0.285, 0.3, 0.07)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 0
+is_output = true
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Output0"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Output0"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Output0"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Output0"]
+position = Vector3(0.065, 0, 0.016)
+text = "I"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Base" type="MeshInstance3D" parent="Wiring/Board/Output0"]
+position = Vector3(0, 0, -0.016)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output0"]
+libraries = {&"": SubResource("seat_lib")}
+
+[node name="Cable1" type="MeshInstance3D" parent="Wiring/Board"]
+mesh = ExtResource("loose1")
+material_override = SubResource("wire1_idle")
+
+[node name="Anchor1" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, 0.1, 0.05)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="CircuitLabel1" type="Label3D" parent="Wiring/Board"]
+position = Vector3(-0.345, 0.1, 0.055)
+text = "II"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Source1" type="Area3D" parent="Wiring/Board"]
+position = Vector3(-0.08, 0.03, 0.15)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 1
+is_output = false
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Source1"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Source1"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Source1"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Source1"]
+position = Vector3(0.045, 0, 0.016)
+text = "II"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Plug" type="Node3D" parent="Wiring/Board/Source1"]
+
+
+[node name="Tip" type="MeshInstance3D" parent="Wiring/Board/Source1/Plug"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
+[node name="SelectionAnimation" type="AnimationPlayer" parent="Wiring/Board/Source1"]
+libraries = {&"": SubResource("selection_lib")}
+
+[node name="Output1" type="Area3D" parent="Wiring/Board"]
+position = Vector3(0.285, 0.1, 0.07)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 1
+is_output = true
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Output1"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Output1"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Output1"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Output1"]
+position = Vector3(0.065, 0, 0.016)
+text = "II"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Base" type="MeshInstance3D" parent="Wiring/Board/Output1"]
+position = Vector3(0, 0, -0.016)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output1"]
+libraries = {&"": SubResource("seat_lib")}
+
+[node name="Cable2" type="MeshInstance3D" parent="Wiring/Board"]
+mesh = ExtResource("loose2")
+material_override = SubResource("wire2_idle")
+
+[node name="Anchor2" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, -0.1, 0.05)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="CircuitLabel2" type="Label3D" parent="Wiring/Board"]
+position = Vector3(-0.345, -0.1, 0.055)
+text = "III"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Source2" type="Area3D" parent="Wiring/Board"]
+position = Vector3(-0.08, -0.17, 0.15)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 2
+is_output = false
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Source2"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Source2"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Source2"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Source2"]
+position = Vector3(0.045, 0, 0.016)
+text = "III"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Plug" type="Node3D" parent="Wiring/Board/Source2"]
+
+
+[node name="Tip" type="MeshInstance3D" parent="Wiring/Board/Source2/Plug"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
+[node name="SelectionAnimation" type="AnimationPlayer" parent="Wiring/Board/Source2"]
+libraries = {&"": SubResource("selection_lib")}
+
+[node name="Output2" type="Area3D" parent="Wiring/Board"]
+position = Vector3(0.285, -0.1, 0.07)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 2
+is_output = true
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Output2"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Output2"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Output2"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Output2"]
+position = Vector3(0.065, 0, 0.016)
+text = "III"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Base" type="MeshInstance3D" parent="Wiring/Board/Output2"]
+position = Vector3(0, 0, -0.016)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output2"]
+libraries = {&"": SubResource("seat_lib")}
+
+[node name="Cable3" type="MeshInstance3D" parent="Wiring/Board"]
+mesh = ExtResource("loose3")
+material_override = SubResource("wire3_idle")
+
+[node name="Anchor3" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, -0.3, 0.05)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="CircuitLabel3" type="Label3D" parent="Wiring/Board"]
+position = Vector3(-0.345, -0.3, 0.055)
+text = "IV"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Source3" type="Area3D" parent="Wiring/Board"]
+position = Vector3(-0.08, -0.37, 0.15)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 3
+is_output = false
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Source3"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Source3"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Source3"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Source3"]
+position = Vector3(0.045, 0, 0.016)
+text = "IV"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Plug" type="Node3D" parent="Wiring/Board/Source3"]
+
+
+[node name="Tip" type="MeshInstance3D" parent="Wiring/Board/Source3/Plug"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
+[node name="SelectionAnimation" type="AnimationPlayer" parent="Wiring/Board/Source3"]
+libraries = {&"": SubResource("selection_lib")}
+
+[node name="Output3" type="Area3D" parent="Wiring/Board"]
+position = Vector3(0.285, -0.3, 0.07)
+collision_layer = 2097152
+collision_mask = 0
+script = ExtResource("contact")
+row = 3
+is_output = true
+
+[node name="Shape" type="CollisionShape3D" parent="Wiring/Board/Output3"]
+shape = SubResource("pin_shape")
+
+[node name="Ring" type="MeshInstance3D" parent="Wiring/Board/Output3"]
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_mesh")
+
+[node name="Focus" type="MeshInstance3D" parent="Wiring/Board/Output3"]
+rotation = Vector3(1.5707964, 0, 0)
+visible = false
+mesh = SubResource("focus_mesh")
+
+[node name="Label" type="Label3D" parent="Wiring/Board/Output3"]
+position = Vector3(0.065, 0, 0.016)
+text = "IV"
+font_size = 40
+pixel_size = 0.00065
+outline_size = 4
+
+[node name="Base" type="MeshInstance3D" parent="Wiring/Board/Output3"]
+position = Vector3(0, 0, -0.016)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("socket_body")
+
+[node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output3"]
+libraries = {&"": SubResource("seat_lib")}
+
+[node name="InputTerminalPad0" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, 0.3, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="OutputTerminalPad0" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.285, 0.3, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="InputTerminalPad1" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, 0.1, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="OutputTerminalPad1" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.285, 0.1, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="InputTerminalPad2" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, -0.1, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="OutputTerminalPad2" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.285, -0.1, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="InputTerminalPad3" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.285, -0.3, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="OutputTerminalPad3" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.285, -0.3, 0.015)
+mesh = SubResource("terminal_pad")
+
+[node name="MountingScrew0" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.36, 0.425, 0.018)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("mounting_screw")
+
+[node name="MountingScrew1" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.36, 0.425, 0.018)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("mounting_screw")
+
+[node name="MountingScrew2" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(-0.36, -0.425, 0.018)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("mounting_screw")
+
+[node name="MountingScrew3" type="MeshInstance3D" parent="Wiring/Board"]
+position = Vector3(0.36, -0.425, 0.018)
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("mounting_screw")

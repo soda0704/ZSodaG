@@ -1,0 +1,8 @@
+Model Information:
+* title:	ID Key Lanyard (X-Lab)
+* source:	https://sketchfab.com/3d-models/id-key-lanyard-x-lab-4c650ea2038d47e590725abf34d9f403
+* author:	Michael V (https://sketchfab.com/bossdeff)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

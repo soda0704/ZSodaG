@@ -33,7 +33,6 @@ const DISCOVERABLE_LOOT := [
 ]
 
 const PLAYER_SCENE := preload("res://scenes/characters/player.tscn")
-const QUEST_TERMINAL_SCENE := preload("res://scenes/objects/base/day_two_terminal.tscn")
 const FLASHLIGHT_PICKUP_SCENE := preload(
 	"res://scenes/objects/equipment/flashlight_pickup.tscn"
 )
@@ -51,10 +50,6 @@ const FUEL_PICKUP_SCENE := preload(
 @export var standalone_flashlight_transform := Transform3D(
 	Basis(Vector3.UP, -0.43),
 	Vector3(-24.2, 0.08, 3.85)
-)
-@export var task_terminal_transform := Transform3D(
-	Basis.IDENTITY,
-	Vector3(3.8, 1.25, -6.95)
 )
 @export var fuel_can_spawn_transform := Transform3D(
 	Basis.IDENTITY,
@@ -105,7 +100,6 @@ func _ready() -> void:
 	var radiation := preload("res://scripts/gameplay/radiation_zone.gd").new()
 	radiation.name = "ReservoirRadiation"
 	reservoir.add_child(radiation)
-	_install_quest_terminals()
 	if network_runtime_managed:
 		return
 	spawn_standalone_gameplay()
@@ -124,21 +118,6 @@ func toggle_developer_test_room(player: Node3D) -> bool:
 		var index := maxi(0, int(player.get("owner_peer_id")) - 1)
 		player.teleport_authoritative(room.spawn_position(index), 0.0)
 	return true
-
-
-func _install_quest_terminals() -> void:
-	var task_terminal := QUEST_TERMINAL_SCENE.instantiate() as DayTwoTerminal
-	task_terminal.name = "DayTwoTaskTerminal"
-	add_child(task_terminal)
-	task_terminal.global_transform = task_terminal_transform
-	var key_socket := get_node("Floor_Minus1_Control_Security_Blockout/Secure_Data_Vault/Encryption_Key_Terminal") as Node3D
-	var key_terminal := QUEST_TERMINAL_SCENE.instantiate() as DayTwoTerminal
-	key_terminal.name = "DayTwoKeyTerminal"
-	key_terminal.is_key_terminal = true
-	add_child(key_terminal)
-	# Mount the interaction panel on the existing cabinet's east-facing surface.
-	key_terminal.global_position = key_socket.global_position + Vector3(0.67, 0.35, 0)
-	key_terminal.rotation.y = PI * 0.5
 
 
 func get_player_spawn_position(index: int) -> Vector3:

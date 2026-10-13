@@ -59,9 +59,18 @@ var _cabin_motion_elapsed: float = 0.0
 var _cabin_motion_trip_serial: int = 0
 var _active_travel_duration: float = 0.01
 var _state_started_at_msec: int = 0
+var _synced_peers: Array[int] = []
+var _network_sync_elapsed: float = 0.0
+var _snapshot_received: bool = false
+var _clock_sample_elapsed: float = 0.0
+var _network_half_rtt: float = 0.0
+var _has_clock_sample: bool = false
+var _network_motion_elapsed_target: float = 0.0
+var _pending_network_snapshot: Dictionary = {}
 
 
 func _ready() -> void:
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	cabin.add_to_group("elevator_cabins")
 	is_powered = starts_powered
 	unlocked_floor_index = clampi(unlocked_floor_index, 0, MAX_FLOOR_INDEX)
@@ -89,10 +98,34 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not _pending_network_snapshot.is_empty():
+		var snapshot := _pending_network_snapshot
+		_pending_network_snapshot = {}
+		_apply_network_snapshot(snapshot)
+	if multiplayer.is_server():
+		_network_sync_elapsed += delta
+		if _network_sync_elapsed >= 0.5:
+			_network_sync_elapsed = 0.0
+			_broadcast_network_snapshot()
+	elif _snapshot_received:
+		_clock_sample_elapsed += delta
+		if _clock_sample_elapsed >= 1.0:
+			_clock_sample_elapsed = 0.0
+			_request_clock_sample.rpc_id(1, Time.get_ticks_msec())
 	if not _cabin_motion_active:
 		return
+	var motion_delta := delta
+	if not multiplayer.is_server():
+		_network_motion_elapsed_target += delta
+		# Correct phase gradually instead of restarting the acceleration curve or
+		# teleporting a platform beneath a predicted CharacterBody3D.
+		motion_delta += clampf(
+			_network_motion_elapsed_target - _cabin_motion_elapsed,
+			-delta * 0.25,
+			delta * 0.25
+		)
 	_cabin_motion_elapsed = minf(
-		_cabin_motion_elapsed + delta,
+		_cabin_motion_elapsed + motion_delta,
 		_cabin_motion_duration
 	)
 	var progress := _cabin_motion_elapsed / _cabin_motion_duration
@@ -107,6 +140,24 @@ func _physics_process(delta: float) -> void:
 	if _cabin_motion_elapsed >= _cabin_motion_duration:
 		_cabin_motion_active = false
 		cabin_motion_finished.emit(_cabin_motion_trip_serial)
+
+
+func restore_checkpoint_floor(floor_index: int) -> void:
+	if not multiplayer.is_server():
+		return
+	_trip_serial += 1
+	_cabin_motion_active = false
+	current_floor_index = clampi(floor_index, 0, unlocked_floor_index)
+	pending_floor_index = -1
+	_active_destination_floor_index = -1
+	_power_off_after_trip = false
+	cabin.position.y = _get_floor_y(current_floor_index)
+	cabin.reset_physics_interpolation()
+	for index in MAX_FLOOR_INDEX + 1:
+		_get_landing_door(index).set_open(index == current_floor_index, true)
+	cabin_door.set_open(true, true)
+	_set_cabin_door_travel_barrier_closed(false)
+	_set_state(ElevatorState.IDLE_OPEN if is_powered else ElevatorState.UNPOWERED)
 
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
@@ -163,18 +214,23 @@ func set_day(day_index: int) -> void:
 		return
 	var next_floor := clampi(day_index - 1, 0, MAX_FLOOR_INDEX)
 	if next_floor != unlocked_floor_index:
-		_apply_unlocked_floor.rpc(next_floor)
+		_apply_unlocked_floor(next_floor)
+		_broadcast_network_snapshot.call_deferred()
 
 
 func set_powered(value: bool) -> void:
 	if not multiplayer.is_server():
 		return
-	_apply_powered.rpc(value)
+	if is_powered != value:
+		_apply_powered(value)
+		_broadcast_network_snapshot.call_deferred()
 
 
 func sync_network_state_to_peer(peer_id: int) -> void:
-	if not multiplayer.is_server() or peer_id <= 0:
+	if not multiplayer.is_server() or not multiplayer.get_peers().has(peer_id):
 		return
+	if not _synced_peers.has(peer_id):
+		_synced_peers.append(peer_id)
 	_receive_network_snapshot.rpc_id(peer_id, get_network_snapshot())
 
 
@@ -189,6 +245,13 @@ func get_network_snapshot() -> Dictionary:
 		"active_destination_floor_index": _active_destination_floor_index,
 		"power_off_after_trip": _power_off_after_trip,
 		"active_travel_duration": _active_travel_duration,
+		"trip_serial": _trip_serial,
+		"motion_start_y": _cabin_motion_start_y,
+		"motion_target_y": _cabin_motion_target_y,
+		"motion_duration": _cabin_motion_duration,
+		"motion_elapsed": _cabin_motion_elapsed,
+		"cabin_door": cabin_door.get_network_snapshot(),
+		"landing_door": _get_landing_door(current_floor_index).get_network_snapshot(),
 		"motion_remaining_seconds": maxf(
 			_cabin_motion_duration - _cabin_motion_elapsed,
 			0.0
@@ -220,8 +283,14 @@ func _can_accept_destination(destination_floor_index: int) -> bool:
 
 
 func _try_begin_pending_trip() -> bool:
-	if pending_floor_index < 0:
+	if (
+		not is_inside_tree() or is_queued_for_deletion()
+		or not multiplayer.is_server() or not is_powered
+		or state not in [ElevatorState.IDLE_OPEN, ElevatorState.WAITING_FOR_PLAYERS]
+		or pending_floor_index < 0
+	):
 		return false
+	_refresh_presence()
 	if _pending_trip_requires_players and not _has_all_connected_players():
 		_set_state(ElevatorState.WAITING_FOR_PLAYERS)
 		interaction_blocked.emit("waiting_for_players")
@@ -243,11 +312,10 @@ func _try_begin_pending_trip() -> bool:
 	pending_floor_index = -1
 	_active_destination_floor_index = destination_floor_index
 	_active_travel_duration = travel_duration
-	_start_trip.rpc(destination_floor_index, travel_duration)
+	_start_trip(destination_floor_index, travel_duration)
 	return true
 
 
-@rpc("authority", "call_local", "reliable")
 func _start_trip(
 	destination_floor_index: int,
 	travel_duration: float
@@ -259,6 +327,13 @@ func _start_trip(
 	_set_current_doors_open(false)
 	await cabin_door.motion_finished
 	if active_trip_serial != _trip_serial or state != ElevatorState.CLOSING:
+		return
+	_refresh_presence()
+	if (
+		not _door_obstruction_peer_ids.is_empty()
+		or (_pending_trip_requires_players and not _has_all_connected_players())
+	):
+		_abort_departure()
 		return
 
 	_set_cabin_door_travel_barrier_closed(true)
@@ -293,16 +368,18 @@ func _start_trip(
 		_set_state(ElevatorState.IDLE_OPEN)
 
 
-@rpc("authority", "call_local", "reliable")
 func _abort_departure() -> void:
 	if state != ElevatorState.CLOSING:
 		return
 	_trip_serial += 1
+	var aborted_trip_serial := _trip_serial
 	pending_floor_index = _active_destination_floor_index
 	_active_destination_floor_index = -1
 	_set_state(ElevatorState.OPENING)
 	_set_current_doors_open(true)
 	await cabin_door.motion_finished
+	if aborted_trip_serial != _trip_serial:
+		return
 	if is_powered:
 		_set_state(ElevatorState.WAITING_FOR_PLAYERS)
 	else:
@@ -313,7 +390,6 @@ func _abort_departure() -> void:
 		call_deferred("_try_begin_pending_trip")
 
 
-@rpc("authority", "call_local", "reliable")
 func _apply_unlocked_floor(next_unlocked_floor_index: int) -> void:
 	unlocked_floor_index = clampi(
 		next_unlocked_floor_index,
@@ -323,7 +399,6 @@ func _apply_unlocked_floor(next_unlocked_floor_index: int) -> void:
 	_refresh_displays()
 
 
-@rpc("authority", "call_local", "reliable")
 func _apply_powered(value: bool) -> void:
 	is_powered = value
 	if value:
@@ -345,77 +420,88 @@ func _apply_powered(value: bool) -> void:
 
 
 @rpc("authority", "call_remote", "reliable")
-func _receive_network_snapshot(snapshot: Dictionary) -> void:
-	_trip_serial += 1
-	var resumed_trip_serial := _trip_serial
-	_cabin_motion_active = false
-	current_floor_index = clampi(
-		int(snapshot.get("current_floor_index", 0)),
-		0,
-		MAX_FLOOR_INDEX
-	)
+func _receive_network_snapshot(snapshot: Dictionary, clock_sample_msec: int = -1) -> void:
+	if clock_sample_msec >= 0:
+		var half_rtt := maxf(float(Time.get_ticks_msec() - clock_sample_msec) / 2000.0, 0.0)
+		half_rtt = minf(half_rtt, 0.5)
+		_network_half_rtt = lerpf(_network_half_rtt, half_rtt, 0.5) if _has_clock_sample else half_rtt
+		_has_clock_sample = true
+	# AnimatableBody transforms and their collisions must update together on a
+	# physics tick, including the very first late-join teleport.
+	_pending_network_snapshot = snapshot
+
+
+func _apply_network_snapshot(snapshot: Dictionary) -> void:
+	if not _snapshot_received:
+		_clock_sample_elapsed = 1.0
+	var previous_state := state
+	var previous_trip_serial := _trip_serial
+	var previous_floor := current_floor_index
+	_trip_serial = int(snapshot.get("trip_serial", 0))
+	_cabin_motion_trip_serial = _trip_serial
+	current_floor_index = clampi(int(snapshot.get("current_floor_index", 0)), 0, MAX_FLOOR_INDEX)
 	is_powered = bool(snapshot.get("is_powered", true))
-	unlocked_floor_index = clampi(
-		int(snapshot.get("unlocked_floor_index", 0)),
-		0,
-		MAX_FLOOR_INDEX
-	)
-	pending_floor_index = clampi(
-		int(snapshot.get("pending_floor_index", -1)),
-		-1,
-		MAX_FLOOR_INDEX
-	)
-	_active_destination_floor_index = clampi(
-		int(snapshot.get("active_destination_floor_index", -1)),
-		-1,
-		MAX_FLOOR_INDEX
-	)
+	unlocked_floor_index = clampi(int(snapshot.get("unlocked_floor_index", 0)), 0, MAX_FLOOR_INDEX)
+	pending_floor_index = clampi(int(snapshot.get("pending_floor_index", -1)), -1, MAX_FLOOR_INDEX)
+	_active_destination_floor_index = clampi(int(snapshot.get("active_destination_floor_index", -1)), -1, MAX_FLOOR_INDEX)
 	_power_off_after_trip = bool(snapshot.get("power_off_after_trip", false))
-	_active_travel_duration = maxf(
-		float(snapshot.get("active_travel_duration", 0.01)),
-		0.01
-	)
-	cabin.position.y = float(snapshot.get("cabin_y", 0.0))
-	cabin.reset_physics_interpolation()
-	var next_state := clampi(
-		int(snapshot.get("state", ElevatorState.IDLE_OPEN)),
-		ElevatorState.UNPOWERED,
-		ElevatorState.FAULT
-	) as ElevatorState
-	_set_state(next_state)
+	_active_travel_duration = maxf(float(snapshot.get("active_travel_duration", 0.01)), 0.01)
+	var next_state := clampi(int(snapshot.get("state", ElevatorState.IDLE_OPEN)), ElevatorState.UNPOWERED, ElevatorState.FAULT) as ElevatorState
+	if not _snapshot_received or state != next_state:
+		_set_state(next_state)
+	_cabin_motion_start_y = float(snapshot.get("motion_start_y", 0.0))
+	_cabin_motion_target_y = float(snapshot.get("motion_target_y", 0.0))
+	_cabin_motion_duration = maxf(float(snapshot.get("motion_duration", 0.01)), 0.01)
+	_network_motion_elapsed_target = clampf(float(snapshot.get("motion_elapsed", 0.0)) + _network_half_rtt, 0.0, _cabin_motion_duration)
+	_cabin_motion_active = state == ElevatorState.MOVING
+	if not _snapshot_received or previous_state != state or previous_trip_serial != _trip_serial:
+		_cabin_motion_elapsed = _network_motion_elapsed_target
+		cabin.position.y = float(snapshot.get("cabin_y", 0.0))
+		if not _snapshot_received:
+			cabin.reset_physics_interpolation()
+	elif state != ElevatorState.MOVING:
+		cabin.position.y = float(snapshot.get("cabin_y", 0.0))
+	# Only the host advances gameplay phases. Clients continue the same motion
+	# curve and native door animation until the next authoritative phase arrives.
 	for floor_index in MAX_FLOOR_INDEX + 1:
 		var landing_door := _get_landing_door(floor_index)
 		if is_instance_valid(landing_door):
-			landing_door.set_open(
-				floor_index == current_floor_index
-				and state in [
-					ElevatorState.IDLE_OPEN,
-					ElevatorState.WAITING_FOR_PLAYERS,
-					ElevatorState.UNPOWERED,
-				],
-				true
-			)
-	var cabin_doors_open := state in [
-		ElevatorState.IDLE_OPEN,
-		ElevatorState.WAITING_FOR_PLAYERS,
-		ElevatorState.UNPOWERED,
-	]
-	cabin_door.set_open(cabin_doors_open, true)
-	_set_cabin_door_travel_barrier_closed(
-		state in [ElevatorState.MOVING, ElevatorState.ARRIVING]
-	)
-	if state in [
-		ElevatorState.CLOSING,
-		ElevatorState.MOVING,
-		ElevatorState.ARRIVING,
-		ElevatorState.OPENING,
-	]:
-		_resume_network_trip(
-			resumed_trip_serial,
-			state,
-			float(snapshot.get("state_remaining_seconds", 0.0)),
-			float(snapshot.get("motion_remaining_seconds", 0.0))
-		)
+			if floor_index == current_floor_index:
+				landing_door.apply_network_snapshot(snapshot.get("landing_door", {}), _network_half_rtt)
+			else:
+				landing_door.set_open(false, true)
+	cabin_door.apply_network_snapshot(snapshot.get("cabin_door", {}), _network_half_rtt)
+	_set_cabin_door_travel_barrier_closed(state in [ElevatorState.MOVING, ElevatorState.ARRIVING])
+	_snapshot_received = true
+	if previous_floor != current_floor_index:
+		floor_changed.emit(current_floor_index)
+	_refresh_displays()
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _request_clock_sample(client_msec: int) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	if _synced_peers.has(sender) and multiplayer.get_peers().has(sender):
+		_receive_network_snapshot.rpc_id(sender, get_network_snapshot(), client_msec)
+
+
+func _broadcast_network_snapshot() -> void:
+	if not is_inside_tree() or is_queued_for_deletion() or not multiplayer.is_server():
+		return
+	var snapshot := get_network_snapshot()
+	for peer_id in _synced_peers:
+		if multiplayer.get_peers().has(peer_id):
+			_receive_network_snapshot.rpc_id(peer_id, snapshot)
+
+
+func _on_peer_disconnected(peer_id: int) -> void:
+	_synced_peers.erase(peer_id)
+	_passenger_peer_ids.erase(peer_id)
+	_door_obstruction_peer_ids.erase(peer_id)
+	if multiplayer.is_server() and state == ElevatorState.WAITING_FOR_PLAYERS:
+		_try_begin_pending_trip.call_deferred()
 
 
 func _set_current_doors_open(value: bool) -> void:
@@ -438,62 +524,6 @@ func _begin_cabin_motion(
 	_cabin_motion_elapsed = 0.0
 	_cabin_motion_trip_serial = trip_serial
 	_cabin_motion_active = true
-
-
-func _resume_network_trip(
-	resumed_trip_serial: int,
-	resumed_state: ElevatorState,
-	state_remaining_seconds: float,
-	motion_remaining_seconds: float
-) -> void:
-	var destination_floor_index := (
-		_active_destination_floor_index
-		if _active_destination_floor_index >= 0
-		else current_floor_index
-	)
-	if resumed_state == ElevatorState.CLOSING:
-		await get_tree().create_timer(maxf(state_remaining_seconds, 0.0)).timeout
-		if resumed_trip_serial != _trip_serial:
-			return
-		_set_state(ElevatorState.MOVING)
-		_begin_cabin_motion(
-			_get_floor_y(destination_floor_index),
-			_active_travel_duration,
-			resumed_trip_serial
-		)
-		await cabin_motion_finished
-	elif resumed_state == ElevatorState.MOVING:
-		_begin_cabin_motion(
-			_get_floor_y(destination_floor_index),
-			maxf(motion_remaining_seconds, 0.01),
-			resumed_trip_serial
-		)
-		await cabin_motion_finished
-	if resumed_trip_serial != _trip_serial:
-		return
-	if resumed_state in [ElevatorState.CLOSING, ElevatorState.MOVING]:
-		current_floor_index = destination_floor_index
-		_active_destination_floor_index = -1
-		floor_changed.emit(current_floor_index)
-		_set_state(ElevatorState.ARRIVING)
-		await get_tree().create_timer(arrival_alignment_duration).timeout
-	elif resumed_state == ElevatorState.ARRIVING:
-		await get_tree().create_timer(maxf(state_remaining_seconds, 0.0)).timeout
-	if resumed_trip_serial != _trip_serial:
-		return
-	if resumed_state != ElevatorState.OPENING:
-		_set_state(ElevatorState.OPENING)
-		await get_tree().create_timer(door_animation_duration).timeout
-	else:
-		await get_tree().create_timer(maxf(state_remaining_seconds, 0.0)).timeout
-	if resumed_trip_serial != _trip_serial:
-		return
-	_set_current_doors_open_instant(true)
-	if _power_off_after_trip or not is_powered:
-		_power_off_after_trip = false
-		_set_state(ElevatorState.UNPOWERED)
-	else:
-		_set_state(ElevatorState.IDLE_OPEN)
 
 
 func _set_cabin_door_travel_barrier_closed(value: bool) -> void:
@@ -539,8 +569,21 @@ func _has_all_connected_players() -> bool:
 	return not expected_peer_ids.is_empty()
 
 
+func _refresh_presence() -> void:
+	_passenger_peer_ids.clear()
+	_door_obstruction_peer_ids.clear()
+	for body in passenger_area.get_overlapping_bodies():
+		var peer_id := _get_body_peer_id(body)
+		if peer_id > 0 and not body.is_queued_for_deletion():
+			_passenger_peer_ids[peer_id] = true
+	for body in door_safety_area.get_overlapping_bodies():
+		var peer_id := _get_body_peer_id(body)
+		if peer_id > 0 and not body.is_queued_for_deletion():
+			_door_obstruction_peer_ids[peer_id] = true
+
+
 func _get_body_peer_id(body: Node) -> int:
-	if body == null:
+	if not is_instance_valid(body) or body.is_queued_for_deletion():
 		return 0
 	var peer_id_variant: Variant = body.get("owner_peer_id")
 	if peer_id_variant == null:
@@ -561,6 +604,8 @@ func _on_passenger_body_exited(body: Node3D) -> void:
 	var peer_id := _get_body_peer_id(body)
 	if peer_id > 0:
 		_passenger_peer_ids.erase(peer_id)
+		if multiplayer.is_server() and _pending_trip_requires_players and state == ElevatorState.CLOSING:
+			_abort_departure.call_deferred()
 
 
 func _on_door_safety_body_entered(body: Node3D) -> void:
@@ -569,7 +614,7 @@ func _on_door_safety_body_entered(body: Node3D) -> void:
 		return
 	_door_obstruction_peer_ids[peer_id] = true
 	if multiplayer.is_server() and state == ElevatorState.CLOSING:
-		_abort_departure.rpc()
+		_abort_departure.call_deferred()
 
 
 func _on_door_safety_body_exited(body: Node3D) -> void:
@@ -596,6 +641,8 @@ func _set_state(next_state: ElevatorState) -> void:
 		_audio_fade.tween_property(sound, "volume_db", -60.0, 0.45)
 		_audio_fade.tween_callback(sound.stop)
 	_state_started_at_msec = Time.get_ticks_msec()
+	if multiplayer.is_server():
+		_broadcast_network_snapshot.call_deferred()
 	state_changed.emit(int(state))
 	_refresh_displays()
 
@@ -612,14 +659,6 @@ func _get_state_remaining_seconds() -> float:
 			return maxf(arrival_alignment_duration - elapsed, 0.0)
 		_:
 			return 0.0
-
-
-func _set_current_doors_open_instant(value: bool) -> void:
-	cabin_door.set_open(value, true)
-	_set_cabin_door_travel_barrier_closed(not value)
-	var landing_door := _get_landing_door(current_floor_index)
-	if is_instance_valid(landing_door):
-		landing_door.set_open(value, true)
 
 
 func _refresh_displays() -> void:

@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_baseColor.jpeg" id="albedo"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_metallicRoughness.png" id="orm"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_normal.png" id="normal"]
+
+[resource]
+cull_mode = 2
+albedo_texture = ExtResource("albedo")
+metallic = 0.523499
+metallic_texture = ExtResource("orm")
+metallic_texture_channel = 2
+roughness = 0.983126
+roughness_texture = ExtResource("orm")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("normal")
+ao_enabled = true
+ao_texture = ExtResource("orm")
+ao_texture_channel = 0

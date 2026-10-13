@@ -5,17 +5,6 @@
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/generator.ogg" id="generator"]
 [ext_resource type="Script" path="res://scripts/effects/powered_loop_audio.gd" id="generator_audio_logic"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_hazard"]
-albedo_color = Color(0.95, 0.48, 0.035, 1)
-emission_enabled = true
-emission = Color(0.72, 0.18, 0.01, 1)
-emission_energy_multiplier = 1.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fuel_tank"]
-albedo_color = Color(0.32, 0.085, 0.012, 1)
-metallic = 0.55
-roughness = 0.34
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_arrival"]
 albedo_color = Color(0.9, 0.38, 0.06, 1)
 
@@ -91,76 +80,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.55, 1.25, 22)
 use_collision = true
 size = Vector3(0.6, 2.5, 3)
 
-[node name="Technical_Breaker_Bank_Seam_01_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Distribution" unique_id=1823001376]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.21, 1.25, 21)
-size = Vector3(0.08, 2.3, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Breaker_Bank_Seam_02_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Distribution" unique_id=2139571411]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.21, 1.25, 22)
-size = Vector3(0.08, 2.3, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Breaker_Bank_Seam_03_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Distribution" unique_id=1903972353]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.21, 1.25, 23)
-size = Vector3(0.08, 2.3, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Breaker_Status_Rail_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Distribution" unique_id=557722847]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.13, 1.65, 22)
-size = Vector3(0.08, 0.18, 2.6)
-material = SubResource("StandardMaterial3D_hub_technical")
-
 [node name="Technical_Distribution_Floor_Duct_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Distribution" unique_id=730883609]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.025, 0.015, 22)
 size = Vector3(2.45, 0.03, 0.55)
 material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Fuel_And_Cooling" type="Node3D" parent="Blockout/Generator_Room" unique_id=246708542]
-
-[node name="Technical_Fuel_Tank_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=2028490698]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.25, 25.25)
-use_collision = true
-size = Vector3(2, 2.5, 1.2)
-material = SubResource("StandardMaterial3D_fuel_tank")
-
-[node name="Technical_Fuel_Tank_Hazard_Band_Left" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=555989195]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 1.25, 24.62)
-size = Vector3(0.18, 2.3, 0.06)
-material = SubResource("StandardMaterial3D_fuel_hazard")
-
-[node name="Technical_Fuel_Tank_Hazard_Band_Right" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=709961196]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.25, 24.62)
-size = Vector3(0.18, 2.3, 0.06)
-material = SubResource("StandardMaterial3D_fuel_hazard")
-
-[node name="Technical_Fuel_Tank_Header" type="Label3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1416936230]
-transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, -5.5, 2.88, 24.59)
-modulate = Color(1, 0.63, 0.18, 1)
-visible = false
-text = ""
-font_size = 42
-outline_size = 10
-
-[node name="Technical_Fuel_Containment_North_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1597013005]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.015, 24.45)
-size = Vector3(2.5, 0.03, 0.16)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Fuel_Containment_West_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=919300638]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0.015, 25.15)
-size = Vector3(0.16, 0.03, 1.4)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Fuel_Containment_East_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1467409623]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 0.015, 25.15)
-size = Vector3(0.16, 0.03, 1.4)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_Fuel_Level_Panel_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1213393393]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.5, 24.61)
-size = Vector3(0.9, 0.65, 0.08)
-material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Technical_Cooling_Unit_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Fuel_And_Cooling" unique_id=1046720548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.55, 1.2, 25)

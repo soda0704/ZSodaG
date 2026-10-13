@@ -40,9 +40,16 @@ var _empty_elapsed := 1.0
 var _environment_source: Environment
 var _view_environment: Environment
 var _environment_dirty:=true
+var _view_frame := Transform3D.IDENTITY
 
 func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	camera=owner_camera
+	# OFF on the model alone still inherits an interpolated moving ancestor.
+	# Keep the rendered view rig independent of the physics camera hierarchy.
+	top_level = true
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	_view_frame = camera.get_global_transform_interpolated()
+	global_transform = _view_frame
 	model=asset.instantiate()
 	aim_pivot=Node3D.new();aim_pivot.name="AimAlignment";add_child(aim_pivot)
 	var recoil_pivot:=Node3D.new();recoil_pivot.name="RecoilPivot";aim_pivot.add_child(recoil_pivot)
@@ -105,6 +112,7 @@ func update_context(values: Dictionary) -> void:
 
 func _process(delta: float) -> void:
 	if model==null or _disabled: return
+	_view_frame = camera.get_global_transform_interpolated()
 	var animation_delta:=delta
 	delta=minf(delta,0.04)
 	var next: String=KINDS.get(context.get("held_item",&""),"Relaxed")
@@ -141,7 +149,7 @@ func _process(delta: float) -> void:
 	_ads=move_toward(_ads,1.0 if aiming else 0.0,delta*5.5)
 	for label in ["Rifle","Pistol"]: tree.set("parameters/%s/blend_position"%label,_ads)
 	var velocity: Vector3=context.get("velocity",Vector3.ZERO)
-	var local_velocity:=camera.global_basis.inverse()*velocity
+	var local_velocity:=_view_frame.basis.inverse()*velocity
 	var speed:=Vector2(velocity.x,velocity.z).length()
 	var grounded: bool=context.get("grounded",true)
 	if not _grounded and grounded: _offset_velocity.y-=0.16
@@ -152,19 +160,22 @@ func _process(delta: float) -> void:
 	var linear_target:=Vector3(-local_velocity.x*0.0015,0,local_velocity.z*0.001)*attenuation+sway
 	var rotation_target:=Vector3.ZERO
 	if _sampled:
-		var turn:=(_last_basis.inverse()*camera.global_basis).get_euler()/maxf(delta,0.001)
+		var turn:=(_last_basis.inverse()*_view_frame.basis).get_euler()/maxf(delta,0.001)
 		rotation_target=(-turn*angular_mass).limit_length(deg_to_rad(max_lag_degrees))*attenuation
-	_last_basis=camera.global_basis; _sampled=true
+	_last_basis=_view_frame.basis; _sampled=true
 	# Critically damped springs on the complete rig preserve both item contacts.
 	var omega:=settling_frequency
 	_offset_velocity+=(linear_target-_offset)*omega*omega*delta-_offset_velocity*2*omega*delta
 	_offset+=_offset_velocity*delta
 	_angle_velocity+=(rotation_target-_angle)*omega*omega*delta-_angle_velocity*2*omega*delta
 	_angle+=_angle_velocity*delta
-	position=_offset.limit_length(0.025); rotation=_angle.limit_length(deg_to_rad(2.0))
+	global_transform = _view_frame * Transform3D(
+		Basis.from_euler(_angle.limit_length(deg_to_rad(2.0))),
+		_offset.limit_length(0.025)
+	)
 	_refresh_visibility()
-	view_camera.global_transform=camera.global_transform
-	view_camera.global_basis=camera.global_basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
+	view_camera.global_transform=_view_frame
+	view_camera.global_basis=_view_frame.basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
 	_sync_environment()
 	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
 	# Only the spring integration needs a bounded step. Animation playback must
@@ -189,9 +200,9 @@ func _align_weapon_sights() -> void:
 	var rear:Vector3=pistol.get_node("RearSight").position if pistol.has_node("RearSight") else Vector3(0,.067,.025) if kind=="Pistol" else Vector3(-.0083,.100,-.008)
 	var front:Vector3=pistol.get_node("FrontSight").position if pistol.has_node("FrontSight") else Vector3(0,.067,-.17) if kind=="Pistol" else Vector3(-.0083,.092,-.403)
 	var sight_frame:=Basis.looking_at((front-rear).normalized(),Vector3.UP)
-	var weapon_basis:Basis=camera.global_basis*sight_frame.inverse()
+	var weapon_basis:Basis=_view_frame.basis*sight_frame.inverse()
 	var distance:float=.38 if kind=="Pistol" else .40
-	var desired:=Transform3D(weapon_basis,camera.global_position+camera.global_basis*Vector3(0,0,-distance)-weapon_basis*rear)
+	var desired:=Transform3D(weapon_basis,_view_frame.origin+_view_frame.basis*Vector3(0,0,-distance)-weapon_basis*rear)
 	var aligned:Transform3D=global_transform.affine_inverse()*(desired*gun.affine_inverse())*global_transform
 	aim_pivot.transform=Transform3D.IDENTITY.interpolate_with(aligned,_ads)
 	recoil_pivot.transform=kick_transform

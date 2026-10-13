@@ -90,6 +90,20 @@ func _bind() -> void:
 func capture_checkpoint() -> Dictionary:
 	return {"transform": global_transform, "fuel_liters": fuel_liters}
 
+func get_checkpoint_exit_transform(player: GamePlayer) -> Transform3D:
+	# Resume on foot beside the authored vehicle, using its existing exit markers.
+	for marker in [$ExitLeft, $ExitRight]:
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = player.collision_shape.shape
+		query.transform = Transform3D(Basis.IDENTITY, marker.global_position + Vector3.UP * 0.9)
+		query.collision_mask = 3
+		query.exclude = [get_rid(), player.get_rid()]
+		if get_world_3d().direct_space_state.intersect_shape(query).is_empty():
+			return Transform3D(Basis(Vector3.UP, rotation.y), marker.global_position)
+	var level := get_tree().get_first_node_in_group("expedition_level")
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	return level.get_respawn_transform(world.get_peer_spawn_index(player.owner_peer_id))
+
 func get_driving_speed() -> float:
 	return Vector2(velocity.x, velocity.z).length() if multiplayer.is_server() else _received_speed
 

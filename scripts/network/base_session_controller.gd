@@ -110,9 +110,23 @@ func capture_inventory_checkpoint() -> Dictionary:
 	if not _v3_items_spawned or not is_instance_valid(world_items):
 		return {}
 	var equipment: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {}).duplicate(true)
+	var participants: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).duplicate(true)
 	for player in players.get_children():
 		if player is GamePlayer and not player.is_queued_for_deletion():
 			equipment[_inventory_id(int(player.owner_peer_id))] = player.get_inventory_snapshot()
+			var pose: Transform3D = player.global_transform
+			var in_cabin := false
+			if player.is_sleeping_in_bunk():
+				pose = get_node("V3Level").get_day_start_transform(get_peer_spawn_index(player.owner_peer_id))
+			elif player.is_driving():
+				pose = player.vehicle.get_checkpoint_exit_transform(player)
+			elif is_instance_valid(_v3_elevator_controller):
+				var local: Vector3 = _v3_elevator_controller.cabin.to_local(pose.origin)
+				in_cabin = absf(local.x) < 2.7 and absf(local.z) < 2.7 and local.y > -0.2 and local.y < 4.0
+				if in_cabin:
+					pose = _v3_elevator_controller.cabin.global_transform.affine_inverse() * pose
+			participants[_inventory_id(int(player.owner_peer_id))] = {
+				"transform": pose, "in_cabin": in_cabin, "survival": player.survival.capture_checkpoint()}
 	var pickups: Array[Dictionary] = []
 	for pickup in world_items.get_children():
 		if pickup.is_queued_for_deletion() or bool(pickup.get("_collected")):
@@ -125,24 +139,38 @@ func capture_inventory_checkpoint() -> Dictionary:
 			if in_cabin:
 				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
 		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
-	return {"players": equipment, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1}
+	return {"players": equipment, "participants": participants, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1}
+
+
+func _equipment_for_resume(key: String, revision: int = 0) -> Dictionary:
+	var data: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {}).get(key, {}).duplicate(true)
+	if data.is_empty():
+		return data
+	data["revision"] = maxi(int(data.get("revision", 0)), revision) + 1
+	# Resume with the flashlight safely pocketed and switched off.
+	if StringName(data.get("held_item", &"")) == &"flashlight":
+		data["held_item"] = &""
+	data["flashlight_enabled"] = false
+	data["malfunctioning"] = false
+	data["weapon_reload"] = 0.0
+	return data
 
 
 func _restore_player_equipment(player: Node) -> void:
 	if not multiplayer.is_server() or not is_instance_valid(_base_gameplay_controller):
 		return
-	var saved_players: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("players", {})
 	var key := _inventory_id(int(player.owner_peer_id))
-	if saved_players.has(key):
-		var data: Dictionary = saved_players[key].duplicate(true)
-		data["revision"] = int(player.get("_inventory_revision")) + 1
-		# Resume with the flashlight safely pocketed and switched off.
-		if StringName(data.get("held_item", &"")) == &"flashlight":
-			data["held_item"] = &""
-		data["flashlight_enabled"] = false
-		data["malfunctioning"] = false
-		data["weapon_reload"] = 0.0
+	var data := _equipment_for_resume(key, int(player.get("_inventory_revision")))
+	if not data.is_empty():
 		player.apply_inventory_snapshot(data)
+	var participant: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).get(key, {})
+	if not participant.is_empty():
+		var pose: Transform3D = participant.get("transform", player.global_transform)
+		if bool(participant.get("in_cabin", false)) and is_instance_valid(_v3_elevator_controller):
+			pose = _v3_elevator_controller.cabin.global_transform * pose
+		if pose.origin.is_finite():
+			player.teleport_authoritative(pose.origin, pose.basis.get_euler().y)
+		player.survival.restore_checkpoint_authoritative(participant.get("survival", {}))
 
 
 func _ready() -> void:
@@ -282,6 +310,22 @@ func spawn_player_for_peer(peer_id: int, selected_variant: int = -1) -> void:
 		"character_variant": character_variant,
 		"color": Color.from_hsv(hue, 0.72, 0.95),
 	}
+	# Include restored state in the spawn RPC itself. Child RPCs issued during
+	# local spawning could otherwise arrive before that player exists remotely.
+	if _v3_items_spawned and is_instance_valid(_base_gameplay_controller):
+		var key := _inventory_id(peer_id)
+		var saved := _equipment_for_resume(key)
+		if not saved.is_empty():
+			spawn_data["inventory"] = saved
+		var participant: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).get(key, {})
+		if not participant.is_empty():
+			var pose: Transform3D = participant.get("transform", Transform3D.IDENTITY)
+			if bool(participant.get("in_cabin", false)):
+				pose = _v3_elevator_controller.cabin.global_transform * pose
+			if pose.origin.is_finite():
+				spawn_data["position"] = players.to_local(pose.origin)
+				spawn_data["yaw"] = pose.basis.get_euler().y
+			spawn_data["survival"] = participant.get("survival", {})
 	_player_roster[peer_id] = spawn_data
 	if _standalone_mode:
 		_spawn_player(spawn_data)
@@ -310,8 +354,6 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 		int(spawn_data.get("character_variant", 0))
 	)
 	players.add_child(player)
-	if _v3_items_spawned:
-		_restore_player_equipment(player)
 	_apply_roster_player_state(player, spawn_data)
 
 
@@ -322,6 +364,8 @@ func _apply_roster_player_state(player: GamePlayer, spawn_data: Dictionary) -> v
 		player._receive_bunk_sleep_state(
 			bool(spawn_data.sleeping), spawn_data.sleep_transform
 		)
+	if spawn_data.has("survival"):
+		player.survival.apply_checkpoint(spawn_data.survival)
 
 
 func send_player_roster(peer_id: int) -> void:
@@ -341,6 +385,7 @@ func send_player_roster(peer_id: int) -> void:
 			spawn_data["inventory"] = player.get_inventory_snapshot()
 			spawn_data["sleeping"] = player.is_sleeping_in_bunk()
 			spawn_data["sleep_transform"] = player.global_transform
+			spawn_data["survival"] = player.survival.capture_checkpoint()
 		roster.append(spawn_data)
 	_receive_player_roster.rpc_id(peer_id, roster)
 
@@ -512,6 +557,9 @@ func _enter_v3_level() -> void:
 	_v3_elevator_controller = v3_level.get_node_or_null(
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
+	if multiplayer.is_server():
+		_v3_elevator_controller.set_day(_base_gameplay_controller.day_index)
+		_v3_elevator_controller.restore_checkpoint_floor(int(_base_gameplay_controller.maintenance.get("elevator_floor", 0)))
 
 	overview_camera.current = false
 	# Let the authored terrain and CSG collision enter the physics world before
@@ -639,6 +687,7 @@ func spawn_v3_world_items() -> void:
 		spawn_world_item(GamePlayer.FUEL_ITEM, local_fuel_transform, {})
 	if migrate_backup:
 		save_inventory_checkpoint()
+	_base_gameplay_controller.save_progress_authoritative(false, "start", "Начало экспедиции")
 
 
 func _checkpoint_has_fuse() -> bool:
@@ -833,6 +882,8 @@ func _on_peer_joined(peer_id: int) -> void:
 
 
 func _on_session_closed(_reason: String) -> void:
+	if is_instance_valid(_base_gameplay_controller):
+		_base_gameplay_controller.progress_persistence_enabled = false
 	_v3_ready_peers.clear()
 	for player in players.get_children():
 		player.queue_free()

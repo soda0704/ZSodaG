@@ -67,6 +67,7 @@ func _on_end_day_consensus_reached(completed_day_index: int) -> void:
 	):
 		return
 	_wake_players_for_new_day()
+	_gameplay_controller.save_progress_authoritative(false, "sleep", "Утро дня %d" % _gameplay_controller.day_index)
 
 
 func _on_day_changed(next_day_index: int) -> void:

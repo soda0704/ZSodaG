@@ -6,7 +6,7 @@
 size = Vector3(1.48734, 0.86872, 0.86872)
 
 [node name="ElevatorBackupSolarPanel" type="StaticBody3D"]
-editor_description = "Наземная солнечная панель слева от пешеходного входа, если смотреть с улицы на базу. Положение, модель и коллизия задаются этой сценой и сценой этажа 0."
+editor_description = "Наземная солнечная панель у пешеходного входа в базу. Положение, модель и коллизия задаются этой сценой и сценой этажа 0."
 
 [node name="Model" parent="." instance=ExtResource("1_model")]
 position = Vector3(0, 0.190614, 0.053765)

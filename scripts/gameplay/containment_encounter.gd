@@ -75,7 +75,8 @@ func _on_zone_entered(body: Node3D, index: int) -> void:
 	_commit(data)
 
 func _check_current_zones() -> void:
-	if not multiplayer.is_server(): return
+	# A deferred zone check can outlive its level during checkpoint continuation.
+	if not is_inside_tree() or is_queued_for_deletion() or not multiplayer.is_server(): return
 	for index in _zones.size():
 		if _zones[index] != null:
 			for body in _zones[index].get_overlapping_bodies():

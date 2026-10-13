@@ -846,6 +846,11 @@ func refresh_interaction_prompt() -> void:
 		return
 
 	var prompt := "Взаимодействовать"
+	if target.has_method("get_interaction_hint_for"):
+		var hint := str(target.call("get_interaction_hint_for", self))
+		interaction_prompt_label.text = hint
+		interaction_prompt_label.visible = not hint.is_empty()
+		return
 	if target.has_method("get_interaction_prompt"):
 		prompt = str(target.call("get_interaction_prompt"))
 	if prompt.strip_edges().is_empty():

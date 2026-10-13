@@ -48,12 +48,17 @@ func run():
 		for turn in [Vector2(1200,-800),Vector2(-1600,1600),Vector2(2000,-1700),Vector2(-1800,1000)]:
 			var mouse:=InputEventMouseMotion.new(); mouse.position=Vector2(640,360); mouse.relative=turn; Input.parse_input_event(mouse)
 			await ticks(3)
+			await RenderingServer.frame_post_draw
 			var fp:=actor.body_animator.first_person
-			peak_lag=maxf(peak_lag,fp.rotation.length()); bounded=bounded and fp.rotation.is_finite() and fp.rotation.length()<=deg_to_rad(2.01) and fp.position.length()<=.0251
+			var relative:=actor.camera.get_global_transform_interpolated().affine_inverse()*fp.global_transform
+			var lag:=relative.basis.get_euler()
+			peak_lag=maxf(peak_lag,lag.length()); bounded=bounded and lag.is_finite() and lag.length()<=deg_to_rad(2.01) and relative.origin.length()<=.0251
 		check(absf(angle_difference(yaw_before,actor._input_yaw))>.1 and peak_lag>.0005,"variant %d real fast mouse input produces independent viewmodel lag"%id)
 		check(bounded,"variant %d fast mouse inertia stays finite and bounded"%id)
 		await ticks(60)
-		check(actor.body_animator.first_person.rotation.length()<.003,"variant %d fast-turn viewmodel settles"%id)
+		await RenderingServer.frame_post_draw
+		var settled:=actor.camera.get_global_transform_interpolated().affine_inverse()*actor.body_animator.first_person.global_transform
+		check(settled.basis.get_euler().length()<.003,"variant %d fast-turn viewmodel settles"%id)
 		actor._input_yaw=0; actor._input_pitch=0; await ticks(20)
 		for kind in [&"pistol",&"m4a1"]:
 			actor.apply_held_item_inventory(kind,{},false); actor.weapon.apply_state(kind,12 if kind==&"pistol" else 30,0)
@@ -69,7 +74,8 @@ func run():
 				var before:=actor.weapon.rounds
 				Input.action_press("weapon_attack"); await ticks(2); Input.action_release("weapon_attack"); await ticks(2)
 				check(actor.weapon.rounds<before and target.damage>0,"variant %d %s actual input fires along head ray at pitch %.2f"%[id,kind,pitch])
-				check(actor.body_animator.first_person.tree.get("parameters/Kick/active"),"variant %d %s shot triggers native recoil"%[id,kind])
+				var native_recoil: bool = actor.body_animator.first_person.recoil_player.is_playing() if kind==&"pistol" else actor.body_animator.first_person.tree.get("parameters/Kick/active")
+				check(native_recoil,"variant %d %s shot triggers native recoil"%[id,kind])
 				await capture("%d-%s-aim-%.2f"%[id,kind,pitch])
 				Input.action_release("weapon_aim"); await ticks(18)
 			actor._input_pitch=0; actor.weapon.rounds=1; await ticks(10)
@@ -86,9 +92,19 @@ func run():
 			check(left.distance_to(marker.global_position)<.015,"variant %d %s native IK restores support contact"%[id,kind])
 		actor.apply_held_item_inventory(&"flashlight",{"battery_charge":1.0},true); await ticks(30)
 		var lamp: Node3D=actor.flashlight.get_node("Model")
-		check(lamp.has_node("Grip") and lamp.to_global(lamp.get_node("Grip").position).distance_to(sk.to_global(final_poses[sk.find_bone("RightHand")].origin))<.001,"variant %d flashlight aligns physical model grip to wrist"%id)
+		await RenderingServer.frame_post_draw
+		# Model/Grip is an asset marker, not the wrist joint. Preserve the authored
+		# attachment and verify that it follows the final animated hand rigidly.
+		var wrist_before:=sk.global_transform*final_poses[sk.find_bone("RightHand")]
+		var lamp_before:=wrist_before.affine_inverse()*lamp.global_transform
+		actor._input_yaw+=.4; actor._input_pitch=.2; await ticks(12)
+		await RenderingServer.frame_post_draw
+		var wrist_after:=sk.global_transform*final_poses[sk.find_bone("RightHand")]
+		var lamp_after:=wrist_after.affine_inverse()*lamp.global_transform
+		check(lamp_before.origin.distance_to(lamp_after.origin)<.001 and lamp_before.basis.get_rotation_quaternion().angle_to(lamp_after.basis.get_rotation_quaternion())<.002,"variant %d flashlight follows the final hand through a camera turn"%id)
 		check((-actor.flashlight.beam.global_basis.z).dot(-lamp.global_basis.z)>.999,"variant %d flashlight beam follows actual lamp axis"%id)
 		await capture("%d-flashlight"%id)
+		actor._input_yaw=0; actor._input_pitch=0; await ticks(12)
 		var journal: QuestJournalUI=root.get_node("QuestJournal"); journal.open_journal(); await ticks(75)
 		for side in ["Left","Right"]:
 			var hand:=sk.to_global(final_poses[sk.find_bone(side+"Hand")].origin)

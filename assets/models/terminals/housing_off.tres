@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_baseColor.png" id="base"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_metallicRoughness.png" id="metal"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="normal"]
+
+[resource]
+albedo_texture = ExtResource("base")
+metallic = 1.0
+metallic_texture = ExtResource("metal")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("metal")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("normal")
+cull_mode = 2

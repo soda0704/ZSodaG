@@ -14,6 +14,8 @@ var current_view := "home"
 var _transition_in_progress := false
 var _character_flow := "solo"
 var _last_focus: Control
+var _expedition_scope := "solo"
+var _history_points: Array[Dictionary] = []
 
 func _ready() -> void:
 	BaseGameplayController.save_scope = "solo"
@@ -54,13 +56,14 @@ func _page(template: String) -> VBoxContainer:
 	return page
 
 func _show_home() -> void:
+	BaseGameplayController.save_scope = "solo"
 	current_view = "home"
 	var page := _page("res://scenes/ui/menu_home.tscn")
 	continue_game_button = page.get_node("Navigation/Continue")
 	single_player_button = page.get_node("Navigation/NewGame")
 	settings_button = page.get_node("Navigation/Settings")
 	exit_button = page.get_node("Navigation/Exit")
-	continue_game_button.disabled = BaseGameplayController.get_saved_progress_summary().is_empty()
+	continue_game_button.disabled = not ExpeditionSaveStore.has_any_save("solo")
 	continue_game_button.pressed.connect(func(): _navigate(_show_checkpoint))
 	single_player_button.pressed.connect(_on_single_player_pressed)
 	page.get_node("Navigation/Coop").pressed.connect(func(): _navigate(_show_coop))
@@ -74,12 +77,7 @@ func _navigate(callback: Callable) -> void:
 	shell.transition(callback)
 
 func _on_single_player_pressed() -> void:
-	_navigate(func():
-		if BaseGameplayController.has_progress_save_file():
-			GameMenu.confirm("Новая экспедиция", "После начала новой игры одиночное сохранение будет заменено.", [{"label": "Выбрать персонажа", "action": show_character.bind("solo")}])
-		else:
-			show_character("solo")
-	)
+	_navigate(show_expeditions.bind("solo"))
 
 func show_character(flow: String = "solo") -> void:
 	current_view = "character"
@@ -103,17 +101,90 @@ func _confirm_character() -> void:
 		_start_solo(false)
 
 func _show_checkpoint() -> void:
+	show_expeditions("solo")
+
+func show_expeditions(scope: String = "solo") -> void:
+	_expedition_scope = scope
+	BaseGameplayController.save_scope = scope
 	current_view = "checkpoint"
 	var page := _page("res://scenes/ui/menu_checkpoint.tscn")
+	page.get_node("Mode").text = "Кооператив · сохранения на этом компьютере хоста" if scope == "coop" else "Одиночная игра"
+	var slots: OptionButton = page.get_node("Slots")
+	var chosen := ExpeditionSaveStore.slot(scope)
+	for index in ExpeditionSaveStore.SLOT_COUNT:
+		ExpeditionSaveStore.select(scope, index + 1)
+		var item := BaseGameplayController.get_saved_progress_summary()
+		slots.add_item("%d · %s · %s" % [index + 1, ExpeditionSaveStore.slot_name(scope), "пусто" if item.is_empty() else "день %d" % int(item.day_index)])
+	ExpeditionSaveStore.select(scope, chosen)
+	slots.select(chosen - 1)
+	slots.item_selected.connect(func(index: int):
+		ExpeditionSaveStore.select(scope, index + 1)
+		show_expeditions(scope))
+	var body := page.get_node("Scroll/Body")
+	var name_input: LineEdit = body.get_node("Naming/Name")
+	name_input.text = ExpeditionSaveStore.slot_name(scope)
+	body.get_node("Naming/Rename").pressed.connect(func():
+		if ExpeditionSaveStore.rename_slot(scope, name_input.text):
+			show_expeditions(scope)
+		else:
+			show_status("Не удалось сохранить имя. Введите от 1 до 48 символов."))
 	var summary := BaseGameplayController.get_saved_progress_summary()
-	page.get_node("Day").text = "ДЕНЬ %d" % int(summary.get("day_index", 1))
-	page.get_node("Power").text = "Питание включено" if bool(summary.get("main_breaker_on", false)) else "Питание отключено"
-	page.get_node("Continue").pressed.connect(_start_solo.bind(true))
-	page.get_node("Delete").pressed.connect(func(): GameMenu.confirm("Удалить сохранение?", "Одиночный прогресс будет удалён.", [{"label": "Удалить", "action": _delete_save}]))
+	body.get_node("Day").text = "ПУСТОЙ СЛОТ" if summary.is_empty() else "ДЕНЬ %d" % int(summary.day_index)
+	body.get_node("Power").text = "" if summary.is_empty() else "%s · %s" % ["Питание включено" if bool(summary.main_breaker_on) else "Питание отключено", _save_time(summary)]
+	body.get_node("Continue").disabled = summary.is_empty() or (scope == "coop" and not SteamNetwork.steam_available)
+	body.get_node("Continue").pressed.connect(_continue_expedition)
+	body.get_node("New").disabled = scope == "coop" and not SteamNetwork.steam_available
+	body.get_node("New").pressed.connect(_new_expedition)
+	body.get_node("Delete").disabled = not BaseGameplayController.has_progress_save_file()
+	body.get_node("Delete").pressed.connect(func(): GameMenu.confirm("Очистить слот?", "Текущий прогресс и контрольные точки этой экспедиции будут удалены. Другие слоты сохранятся.", [{"label": "Очистить", "action": _delete_save}]))
+	_history_points = ExpeditionSaveStore.history(scope)
+	var history_option: OptionButton = body.get_node("History")
+	for point in _history_points:
+		var point_label := str(point.get("label", ""))
+		if point_label.is_empty():
+			point_label = "День %d · %s" % [int(point.day_index), "после сна" if point.kind == "sleep" else "перед событием" if point.kind == "event" else "начало"]
+		history_option.add_item("%s · %s" % [point_label, _save_time(point)])
+	if _history_points.is_empty():
+		history_option.add_item("Предыдущих контрольных точек пока нет")
+	history_option.disabled = _history_points.is_empty()
+	body.get_node("Rollback").disabled = _history_points.is_empty()
+	body.get_node("Rollback").pressed.connect(func():
+		var point := _history_points[history_option.selected]
+		GameMenu.confirm("Откатить экспедицию?", "Текущий прогресс будет заменён точкой дня %d. Более поздние точки станут недоступны. Откат применяется ко всей команде." % int(point.day_index), [{"label": "Откатить", "action": _rollback.bind(str(point.name))}]))
+	if bool(summary.get("recovered", false)):
+		show_status("Повреждён последний сейв. Доступна проверенная резервная копия.")
+
+func _save_time(summary: Dictionary) -> String:
+	var stamp := int(summary.get("saved_at", 0))
+	var local_stamp := stamp + int(Time.get_time_zone_from_system().bias) * 60
+	return Time.get_datetime_string_from_unix_time(local_stamp).replace("T", " ") if stamp > 0 else "старое сохранение"
+
+func _continue_expedition() -> void:
+	if _expedition_scope == "coop":
+		GameMenu._begin_host_session(true)
+	else:
+		_start_solo(true)
+
+func _new_expedition() -> void:
+	var action := func():
+		if _expedition_scope == "coop":
+			GameMenu._begin_host_session(false)
+		else:
+			show_character("solo")
+	if BaseGameplayController.has_progress_save_file():
+		GameMenu.confirm("Заменить экспедицию?", "Будут заменены только текущий слот и его контрольные точки.", [{"label": "Начать новую", "action": action}])
+	else:
+		action.call()
+
+func _rollback(name: String) -> void:
+	if ExpeditionSaveStore.rollback(_expedition_scope, name):
+		show_expeditions(_expedition_scope)
+	else:
+		show_status("Не удалось загрузить контрольную точку. Текущий прогресс сохранён.")
 
 func _delete_save() -> void:
 	if BaseGameplayController.delete_progress_save():
-		_show_home()
+		show_expeditions(_expedition_scope)
 	else:
 		show_status("Не удалось удалить сохранение.")
 
@@ -124,7 +195,7 @@ func _show_coop() -> void:
 	var join: Button = page.get_node("Join")
 	host.disabled = not SteamNetwork.steam_available
 	join.disabled = not SteamNetwork.steam_available
-	host.pressed.connect(func(): _navigate(func(): GameMenu.start_host_flow()))
+	host.pressed.connect(func(): _navigate(show_expeditions.bind("coop")))
 	join.pressed.connect(func(): _navigate(func(): GameMenu.open_menu(GlobalGameMenu.MenuView.JOIN)))
 	page.get_node("Character").pressed.connect(func(): _navigate(show_character.bind("coop")))
 	page.get_node("OfflineHint").visible = not SteamNetwork.steam_available
@@ -160,7 +231,7 @@ func _set_controls_enabled(node: Node, enabled: bool) -> void:
 	for child in node.get_children():
 		_set_controls_enabled(child, enabled)
 	if enabled and current_view == "home":
-		continue_game_button.disabled = BaseGameplayController.get_saved_progress_summary().is_empty()
+		continue_game_button.disabled = not ExpeditionSaveStore.has_any_save("solo")
 
 func set_overlay_visible(value: bool) -> void:
 	if shell == null:
@@ -180,7 +251,7 @@ func show_status(message: String) -> void:
 func back() -> void:
 	if shell.busy or _transition_in_progress:
 		return
-	_navigate(_show_coop if current_view == "character" and _character_flow == "coop" else _show_home)
+	_navigate(_show_coop if (current_view == "character" and _character_flow == "coop") or (current_view == "checkpoint" and _expedition_scope == "coop") else _show_home)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if GameMenu.is_menu_open() or event.is_echo():

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pressure Gauge Animated
+* source:	https://sketchfab.com/3d-models/pressure-gauge-animated-47c5a905482e45f4a9ee5b5ba32e8613
+* author:	guru2fifa (https://sketchfab.com/guru2fifa)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pressure Gauge Animated" (https://sketchfab.com/3d-models/pressure-gauge-animated-47c5a905482e45f4a9ee5b5ba32e8613) by guru2fifa (https://sketchfab.com/guru2fifa) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
