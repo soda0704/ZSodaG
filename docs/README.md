@@ -9,6 +9,7 @@
 - [Управление и проверка игрового маршрута](guides/playtesting.md).
 - [Автотесты и ручные проверки](guides/testing.md).
 - [Правила разработки и обновления документации](guides/contributing.md).
+- [Результат проверки перед Git — 13 октября 2026](reviews/2026-10-13_pre_git.md).
 
 ## Устройство игры
 
@@ -35,6 +36,7 @@
 - [Перенос тела и медицинские койки](technical/corpse_recovery.md).
 - [Здоровье, смерть и радиация](technical/survival.md).
 - [Двери](technical/interactive_door.md).
+- [Контейнер растений и ежедневный полив](technical/base_gameplay_state.md#контейнер-растений-и-ежедневный-полив).
 - [Снегоход и гараж](technical/garage_snowmobile.md).
 - [Настройка объектов в Inspector](technical/inspector_gameplay_tuning.md).
 - [Консоль разработчика](technical/developer_console.md).

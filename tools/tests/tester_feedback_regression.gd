@@ -102,9 +102,16 @@ func run() -> void:
 	check(main.shell.content.get_child(0).has_node("Navigation/Feedback"), "main menu has native feedback entry")
 	check(menu.main_panel.has_node("Feedback"), "Escape menu has native feedback entry")
 	check(InputMap.action_get_events("tester_feedback")[0].physical_keycode == KEY_F8, "F8 action uses correct physical key")
+	var keyboard_f8 := InputEventKey.new()
+	keyboard_f8.physical_keycode = KEY_F8
+	keyboard_f8.pressed = true
+	check(InputMap.event_is_action(keyboard_f8, "tester_feedback"), "ordinary keyboard F8 matches feedback action")
 	await menu.open_feedback()
 	await settle()
 	var form: NorthernTesterFeedback = menu.tester_feedback
+	# UI/storage regression must never submit fixtures to the deployed receiver.
+	form.delivery_config = form.delivery_config.duplicate() as TesterFeedbackConfig
+	form.delivery_config.endpoint = ""
 	check(menu.is_menu_open() and form.visible and menu._current_view == menu.MenuView.FEEDBACK, "feedback owns input through existing GameMenu")
 	check(form.save_button.disabled, "empty form cannot save")
 	form.title_input.text = fields.title

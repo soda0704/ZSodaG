@@ -2,7 +2,7 @@
 
 ## Обратная связь тестеров
 
-`tester_feedback_regression.gd` проверяет форму, ZIP/JSON/PNG, черновик, диагностику и возврат в игру; `--capture` добавляет графическую проверку снимка без меню и UI при 720p. `node --test tools/feedback_service/worker.test.mjs` проверяет сервис, а `node tools/tests/run_tester_feedback_delivery.mjs` проводит реальный HTTP-запрос из Godot через Worker с подменённым GitHub, включая повтор, timeout и неверные квитанции. [Подключение и ограничения](../technical/tester_feedback.md). Размещённый сервис и настоящий GitHub проверяются отдельно после настройки.
+`tester_feedback_regression.gd` проверяет форму, ZIP/JSON/PNG, черновик, диагностику и возврат в игру; `--capture` добавляет графическую проверку снимка без меню и UI при 720p. Тест отключает отправку в собственной копии конфигурации и не изменяет адрес игры. `node --test tools/feedback_service/worker.test.mjs` проверяет сервис, а `node tools/tests/run_tester_feedback_delivery.mjs` проводит реальный HTTP-запрос из Godot через локальный Worker с подменённым GitHub, включая повтор, timeout и неверные квитанции. Эти команды не создают отчёты в рабочем репозитории. [Подключение, результаты настоящей доставки и ограничения](../technical/tester_feedback.md).
 
 ## Подготовка
 
@@ -10,10 +10,12 @@
 
 ```powershell
 $godotExe = '.\tools\.local\godotsteam-editor\godot.exe'
-& $godotExe --headless --path . --editor --import
-& $godotExe --headless --path . --script res://tools/tests/project_resource_audit.gd
-& $godotExe --headless --path . --script res://tools/tests/day_split_checkpoint_regression.gd
+Start-Process -FilePath $godotExe -ArgumentList '--headless --path . --editor --import' -WindowStyle Hidden -Wait
+Start-Process -FilePath $godotExe -ArgumentList '--headless --path . --script res://tools/tests/project_resource_audit.gd --log-file tools/.local/resource-audit.log' -WindowStyle Hidden -Wait
+Start-Process -FilePath $godotExe -ArgumentList '--headless --path . --script res://tools/tests/day_split_checkpoint_regression.gd --log-file tools/.local/day-check.log' -WindowStyle Hidden -Wait
 ```
+
+Windows-редактор является GUI-приложением: обычный вызов `& $godotExe` может вернуть управление до окончания процесса. Команды ниже показывают аргументы отдельного запуска; при последовательном прогоне используйте `Start-Process … -Wait` и `--log-file`. Дождитесь завершения импорта перед игровыми проверками. Графические проверки требуют окна и реального рендерера.
 
 Ожидается успешное завершение и итог без ошибок. Часть старых тестов печатает `RESULT []`, новые — `RESULT FAILURES 0`. Проверяйте весь лог на `SCRIPT ERROR`, `ERROR` и `FAIL`, а не только последнюю строку. `project_resource_audit` проверяет существование зависимостей; это не загрузка каждой сцены и не проверка динамических имён ресурсов.
 
@@ -100,6 +102,8 @@ python tools/check_documentation.py
 
 Проверка ссылок не доказывает правильность описания поведения; это подтверждается кодом и профильным сценарием.
 
+`menu_export_render_regression.gd` проверяет графическое меню из готового пакета: новая игра → слот → персонаж, настройки, Esc, лобби и начало сессии. Запускайте редактор с `--path` на каталог сборки, `--main-pack` на её EXE и `--script` на абсолютный путь этого теста. Снимки направляются в каталог переменной `NORTHERNLAB_EXPORT_CAPTURE_DIR`. Для такого проверочного редактора DLL GodotSteam, Terrain3D и Steam API должны лежать рядом с его EXE: сам экспортированный EXE уже поставляется с ними. Запуск рядом с исходниками может скрыть отсутствующий файл через файловую систему проекта. Обычный экспортный EXE не исполняет внешний проверочный скрипт вместо игры.
+
 ## Слоты и полное продолжение
 
 ```powershell
@@ -140,3 +144,13 @@ python tools/tests/run_expedition_multiplayer.py --wiring
 ```
 
 Проверяются настоящий луч E, полный/частичный/пустой объём канистры, переполнение бака с сохранением остатка, отсутствие подсказки без подходящего предмета, запрет переливания из-за стены, вдали, во сне и после смерти, сохранение топлива и позы стрелки, расход генератора и труба в пол. Графические кадры — `tools/.local/fuel-*.png`. Headless не захватывает курсор: в нём проверяется содержимое контекстного значка, а видимость Label проверяется графическим запуском. Сетевой прогон проверяет клиентский production-ввод E, репликацию остатка, стрелки и единый checkpoint бака/канистры. На двух компьютерах через Steam повторить заправку и совместный ремонт; обходить бак и открытую крышку для визуальной проверки монтажа.
+
+## Ежедневный полив растений
+
+```powershell
+& $godotExe --headless --path . --script res://tools/tests/plant_watering_regression.gd
+& $godotExe --path . --script res://tools/tests/plant_watering_regression.gd -- --capture
+python tools/tests/run_expedition_multiplayer.py --plants
+```
+
+Проверяются настоящее E на исходной правой кнопке, основное питание, дистанция и препятствие, смерть, повторные нажатия, сохранение дневного лимита, продолжение, совместимость старого сейва, сон и следующий игровой день. Графический запуск сохраняет `tools/.local/plant-watering-ready.png` и `plant-watering-spray.png`, проверяет клип, обе форсунки, брызги и звук. Два ENet-процесса проверяют поздний вход без повторного полива, клиентский ввод, общий лимит, конкурирующее нажатие хоста и сохранение у хоста. На двух компьютерах через Steam отдельно проверить видимость капель и слышимость полива обоим участникам.

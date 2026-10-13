@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--terminal", action="store_true", help="test terminals and shared quest key")
     parser.add_argument("--wiring", action="store_true", help="test physical breaker wiring and concurrent repair")
+    parser.add_argument("--plants", action="store_true", help="test shared daily watering, late join and production E input")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
@@ -21,6 +22,11 @@ def main():
         driver = "run_wiring_multiplayer.gd"
         ready_marker = "HOST_READY_FOR_WIRING_CLIENT"
         result_marker = "WIRING COOP CHECKS"
+    if options.plants:
+        label = "plant"
+        driver = "run_plant_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_PLANT_CLIENT"
+        result_marker = "PLANT COOP CHECKS"
     project = Path(__file__).resolve().parents[2]
     output = project / "tools/.local"
     output.mkdir(exist_ok=True)

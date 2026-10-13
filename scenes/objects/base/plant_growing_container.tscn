@@ -1,0 +1,317 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/props/enclosed_plant_wall_module/enclosed_plant_wall_module.glb" id="1_model"]
+[ext_resource type="Material" path="res://assets/models/props/enclosed_plant_wall_module/housing_material.tres" id="housing"]
+[ext_resource type="Material" path="res://assets/models/props/enclosed_plant_wall_module/glass_labels_material.tres" id="labels"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/plant_watering_button.gd" id="watering_logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/fuel.ogg" id="water_audio"]
+
+[sub_resource type="BoxShape3D" id="ButtonShape"]
+size = Vector3(0.055, 0.055, 0.065)
+
+[sub_resource type="StandardMaterial3D" id="IndicatorOff"]
+albedo_color = Color(0.1, 0.13, 0.12, 1)
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="IndicatorReady"]
+albedo_color = Color(0.08, 0.42, 0.16, 1)
+emission_enabled = true
+emission = Color(0.12, 0.72, 0.25, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="StandardMaterial3D" id="IndicatorWatered"]
+albedo_color = Color(0.07, 0.21, 0.45, 1)
+emission_enabled = true
+emission = Color(0.1, 0.42, 0.8, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="IndicatorMesh"]
+radius = 0.0045
+height = 0.009
+radial_segments = 12
+rings = 6
+
+[sub_resource type="CylinderMesh" id="NozzleMesh"]
+top_radius = 0.012
+bottom_radius = 0.008
+height = 0.045
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="WaterMaterial"]
+transparency = 1
+albedo_color = Color(0.48, 0.75, 0.86, 0.72)
+metallic = 0.1
+roughness = 0.12
+
+[sub_resource type="SphereMesh" id="DropletMesh"]
+radius = 0.0038
+height = 0.012
+radial_segments = 8
+rings = 4
+material = SubResource("WaterMaterial")
+
+[sub_resource type="SphereMesh" id="SplashMesh"]
+radius = 0.0025
+height = 0.005
+radial_segments = 8
+rings = 4
+material = SubResource("WaterMaterial")
+
+[sub_resource type="Gradient" id="DropFade"]
+offsets = PackedFloat32Array(0, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 0.8, 1, 1, 1, 0.8, 1, 1, 1, 0)
+
+[sub_resource type="Animation" id="WaterReset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Model/Sketchfab_model/WaterButton:position")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 0, "values": [Vector3(-0.127114, 0.450965, 1.81952)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SprayLeft:emitting")
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SprayRight:emitting")
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SoilSplashes:emitting")
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+tracks/4/type = "value"
+tracks/4/path = NodePath("WaterAudio:playing")
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+[sub_resource type="Animation" id="WaterCycle"]
+resource_name = "water"
+length = 2.9
+tracks/0/type = "value"
+tracks/0/path = NodePath("Model/Sketchfab_model/WaterButton:position")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.1, 0.26), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [Vector3(-0.127114, 0.450965, 1.81952), Vector3(-0.127114, 0.450965, 1.79452), Vector3(-0.127114, 0.450965, 1.81952)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SprayLeft:emitting")
+tracks/1/keys = {"times": PackedFloat32Array(0, 0.08, 2.25), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [false, true, false]}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SprayRight:emitting")
+tracks/2/keys = {"times": PackedFloat32Array(0, 0.08, 2.25), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [false, true, false]}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SoilSplashes:emitting")
+tracks/3/keys = {"times": PackedFloat32Array(0, 0.57, 2.55), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [false, true, false]}
+tracks/4/type = "value"
+tracks/4/path = NodePath("WaterAudio:playing")
+tracks/4/keys = {"times": PackedFloat32Array(0, 0.08, 2.7), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [false, true, false]}
+
+[sub_resource type="AnimationLibrary" id="WaterLibrary"]
+_data = {&"RESET": SubResource("WaterReset"), &"water": SubResource("WaterCycle")}
+
+[sub_resource type="Animation" id="StatusOff"]
+resource_name = "off"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ButtonIndicator:material_override")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [SubResource("IndicatorOff")]}
+
+[sub_resource type="Animation" id="StatusReady"]
+resource_name = "ready"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ButtonIndicator:material_override")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [SubResource("IndicatorReady")]}
+
+[sub_resource type="Animation" id="StatusWatered"]
+resource_name = "watered"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ButtonIndicator:material_override")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [SubResource("IndicatorWatered")]}
+
+[sub_resource type="AnimationLibrary" id="StatusLibrary"]
+_data = {&"off": SubResource("StatusOff"), &"ready": SubResource("StatusReady"), &"watered": SubResource("StatusWatered")}
+
+[sub_resource type="StandardMaterial3D" id="GlassMaterial"]
+resource_name = "PlantContainer_Glass"
+transparency = 1
+albedo_color = Color(0.33, 0.65, 0.53, 0.14)
+metallic = 0.05
+roughness = 0.16
+cull_mode = 2
+
+[sub_resource type="BoxMesh" id="GlassPaneMesh"]
+size = Vector3(1.096, 0.66, 0.006)
+
+[sub_resource type="BoxMesh" id="GlassSideMesh"]
+size = Vector3(0.006, 0.66, 0.2286)
+
+[sub_resource type="StandardMaterial3D" id="MountMaterial"]
+albedo_color = Color(0.17, 0.19, 0.2, 1)
+metallic = 0.8
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="WallMountMesh"]
+size = Vector3(0.09, 0.95, 0.045)
+
+[sub_resource type="BoxShape3D" id="HousingShape"]
+size = Vector3(1.381832, 1.548529, 0.532935)
+
+[node name="PlantGrowingContainer" type="Node3D"]
+editor_description = "Настенный контейнер: одна рабочая кнопка полива, общий лимит один раз за игровой день и сохранение у хоста. Визуал, короткий клип нажатия и полива, форсунки, звук и частицы редактируются в этой сцене. Рост растений пока не подключён."
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+position = Vector3(0.106488, -0.002963, 0.002895)
+scale = Vector3(0.285, 0.285, 0.285)
+
+[node name="Cylinder_005_grey_0" parent="Model/Sketchfab_model" index="0"]
+material_override = ExtResource("housing")
+
+[node name="Cylinder_006_grey_0" parent="Model/Sketchfab_model" index="1"]
+material_override = ExtResource("housing")
+
+[node name="Plane_027_Atlas_B_0" parent="Model/Sketchfab_model" index="2"]
+material_override = ExtResource("labels")
+
+[node name="UpperCover" parent="Model/Sketchfab_model" index="3"]
+editor_description = "Исходная тонкая верхняя крышка отделена от корпуса и перенесена под нижний белый блок. Вертикальное отражение разворачивает её наружную поверхность вниз."
+position = Vector3(-0.127114, 4.896844, 1.81952)
+scale = Vector3(1, -1, 1)
+material_override = ExtResource("housing")
+
+[node name="WaterButton" parent="Model/Sketchfab_model" index="4"]
+material_override = ExtResource("housing")
+
+[node name="GlassPane" type="MeshInstance3D" parent="."]
+editor_description = "В архиве отсутствует отдельная стеклянная геометрия. Штатные прозрачные BoxMesh сохраняют стеклянную камеру; исходные надписи лежат отдельным материалом на импортированной геометрии."
+position = Vector3(0.09585, 0.707, 0.502)
+mesh = SubResource("GlassPaneMesh")
+material_override = SubResource("GlassMaterial")
+cast_shadow = 0
+
+[node name="GlassLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.45215, 0.707, 0.38405)
+mesh = SubResource("GlassSideMesh")
+material_override = SubResource("GlassMaterial")
+cast_shadow = 0
+
+[node name="GlassRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.64385, 0.707, 0.38405)
+mesh = SubResource("GlassSideMesh")
+material_override = SubResource("GlassMaterial")
+cast_shadow = 0
+
+[node name="WallMountLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.31, 0.78, -0.0225)
+mesh = SubResource("WallMountMesh")
+material_override = SubResource("MountMaterial")
+
+[node name="WallMountRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.5, 0.78, -0.0225)
+mesh = SubResource("WallMountMesh")
+material_override = SubResource("MountMaterial")
+
+[node name="WateringButton" type="StaticBody3D" parent="."]
+position = Vector3(0.07026, 0.12557, 0.546)
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("watering_logic")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WateringButton"]
+shape = SubResource("ButtonShape")
+
+[node name="InteractionPoint" type="Marker3D" parent="WateringButton"]
+position = Vector3(0, 0, 0.035)
+
+[node name="ButtonIndicator" type="MeshInstance3D" parent="."]
+position = Vector3(0.119, 0.12557, 0.543)
+mesh = SubResource("IndicatorMesh")
+material_override = SubResource("IndicatorOff")
+
+[node name="WaterLabel" type="Label3D" parent="."]
+position = Vector3(0.07, 0.207, 0.543)
+text = "ПОЛИВ"
+font_size = 22
+pixel_size = 0.0013
+modulate = Color(0.14, 0.19, 0.18, 1)
+outline_size = 0
+shaded = true
+no_depth_test = false
+
+[node name="NozzleLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.18, 1.063, 0.386)
+mesh = SubResource("NozzleMesh")
+material_override = SubResource("MountMaterial")
+
+[node name="NozzleRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.34, 1.063, 0.386)
+mesh = SubResource("NozzleMesh")
+material_override = SubResource("MountMaterial")
+
+[node name="SprayLeft" type="CPUParticles3D" parent="."]
+position = Vector3(-0.18, 1.038, 0.386)
+emitting = false
+amount = 90
+lifetime = 0.6
+randomness = 0.15
+mesh = SubResource("DropletMesh")
+direction = Vector3(0, -1, 0)
+spread = 9.0
+gravity = Vector3(0, -3, 0)
+initial_velocity_min = 0.24
+initial_velocity_max = 0.38
+scale_amount_min = 0.7
+scale_amount_max = 1.3
+color_ramp = SubResource("DropFade")
+
+[node name="SprayRight" type="CPUParticles3D" parent="."]
+position = Vector3(0.34, 1.038, 0.386)
+emitting = false
+amount = 90
+lifetime = 0.6
+randomness = 0.15
+mesh = SubResource("DropletMesh")
+direction = Vector3(0, -1, 0)
+spread = 9.0
+gravity = Vector3(0, -3, 0)
+initial_velocity_min = 0.24
+initial_velocity_max = 0.38
+scale_amount_min = 0.7
+scale_amount_max = 1.3
+color_ramp = SubResource("DropFade")
+
+[node name="SoilSplashes" type="CPUParticles3D" parent="."]
+position = Vector3(0.09585, 0.398, 0.386)
+emitting = false
+amount = 38
+lifetime = 0.18
+randomness = 0.3
+mesh = SubResource("SplashMesh")
+emission_shape = 3
+emission_box_extents = Vector3(0.34, 0, 0.055)
+direction = Vector3(0, 1, 0)
+spread = 55.0
+gravity = Vector3(0, -3.2, 0)
+initial_velocity_min = 0.15
+initial_velocity_max = 0.28
+scale_amount_min = 0.6
+scale_amount_max = 1.2
+color_ramp = SubResource("DropFade")
+
+[node name="WaterAudio" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0.09585, 0.8, 0.386)
+stream = ExtResource("water_audio")
+volume_db = -20.0
+unit_size = 1.0
+max_distance = 6.0
+bus = &"Effects"
+
+[node name="WateringAnimation" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("WaterLibrary")}
+
+[node name="StatusAnimation" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("StatusLibrary")}
+
+[node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.756081, 0.266467)
+shape = SubResource("HousingShape")
+
+[editable path="Model"]

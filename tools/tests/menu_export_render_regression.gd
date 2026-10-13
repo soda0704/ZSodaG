@@ -1,9 +1,14 @@
 extends SceneTree
-## Run with the editor binary, --main-pack <exported exe> and --script <absolute path>.
+## Run with the editor binary, --path <build directory>, --main-pack <exported exe>
+## and --script <absolute path>. Extension DLLs must also be next to the editor EXE.
 ## Uses the actual exported scenes/scripts, not the source project's resources.
 var failures: Array[String] = []
 
 func _initialize() -> void:
+	ProjectSettings.set_setting("northern_lab/testing/save_slots_root", "user://export_menu_slots_%d" % OS.get_process_id())
+	ProjectSettings.set_setting("northern_lab/testing/legacy_save_paths", {})
+	ProjectSettings.set_setting("northern_lab/testing/settings_path", "user://export_menu_settings_%d.json" % OS.get_process_id())
+	ProjectSettings.set_setting("northern_lab/testing/controls_path", "user://export_menu_controls_%d.cfg" % OS.get_process_id())
 	ProjectSettings.set_setting("northern_lab/testing/base_save_path", "user://export_menu_test_%d.cfg" % OS.get_process_id())
 	run.call_deferred()
 
@@ -55,7 +60,18 @@ func run() -> void:
 	await screenshot("export-menu-home")
 	click(main.single_player_button)
 	await wait_ui()
+	check(main.current_view == "checkpoint", "real click in exported menu opens expedition slots")
+	if main.current_view != "checkpoint":
+		quit(1)
+		return
+	var expedition_page = main.shell.content.get_child(0)
+	check(expedition_page.get_node("Slots").item_count == 3, "exported menu offers three isolated expedition slots")
+	click(expedition_page.get_node("Scroll/Body/New"))
+	await wait_ui()
 	check(main.current_view == "character" and is_instance_valid(main.selector), "real click in exported menu opens character selection")
+	if main.current_view != "character" or not is_instance_valid(main.selector):
+		quit(1)
+		return
 	var start_button = main.shell.footer.get_child(main.shell.footer.get_child_count() - 2)
 	start_button.grab_focus()
 	await wait_ui()

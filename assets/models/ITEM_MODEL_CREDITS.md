@@ -33,3 +33,9 @@ This work is based on "Low-Poly M4a1" (https://sketchfab.com/3d-models/low-poly-
 Duct Tape by lonesomeducky (https://sketchfab.com/lonesomeducky).
 Source: https://sketchfab.com/3d-models/duct-tape-b7d56b4235a34c54899fa02ee92319f5
 License: Sketchfab Standard (https://sketchfab.com/licenses). See assets/models/items/duct_tape/license.txt for the supplied notice.
+
+## Enclosed Plant Wall Module
+
+Enclosed Plant Wall Module by Joel T.Doorman.
+Source recorded in the supplied archive: https://sketchfab.com/3d-models/enclosed-plant-wall-module-89571785c0d640c3b2c3e3ad2545d1a7
+Prepared for the game from the owner-supplied archive: restored object transforms and separate PBR maps, separated the thin cover and original watering button, added scene-authored glass, collisions, mounts and watering effects. See `assets/models/props/enclosed_plant_wall_module/README.md` for preparation details.

@@ -1,0 +1,25 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_BaseColor.tga.png" id="albedo"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Normal.tga.png" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Metallic.tga.png" id="metallic"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Roughness.tga.png" id="roughness"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_AmbientOcclus.png" id="ao"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Emissive.tga.png" id="emission"]
+
+[resource]
+resource_name = "PlantContainer_Housing"
+albedo_texture = ExtResource("albedo")
+metallic = 1.0
+metallic_texture = ExtResource("metallic")
+metallic_texture_channel = 0
+roughness = 1.0
+roughness_texture = ExtResource("roughness")
+roughness_texture_channel = 0
+normal_enabled = true
+normal_texture = ExtResource("normal")
+ao_enabled = true
+ao_texture = ExtResource("ao")
+ao_texture_channel = 0
+emission_texture = ExtResource("emission")
+cull_mode = 2
