@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("config")
-endpoint = ""
+endpoint = "https://northernlab-feedback.denserbinlol.workers.dev/reports"
 timeout_seconds = 45.0

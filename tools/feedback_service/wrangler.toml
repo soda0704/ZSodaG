@@ -3,7 +3,7 @@ main = "worker.mjs"
 compatibility_date = "2026-10-13"
 
 [vars]
-GITHUB_REPOSITORY = "OWNER/NorthernLab-feedback"
+GITHUB_REPOSITORY = "soda0704/NorthernLab-feedback"
 GITHUB_BRANCH = "main"
 
 [[durable_objects.bindings]]

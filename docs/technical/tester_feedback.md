@@ -25,7 +25,7 @@ Esc и повторное открытие сохраняют черновик �
 ## Настройка
 
 - Разметка и стили: `scenes/ui/tester_feedback.tscn`, общий `menu_theme.tres`.
-- Адрес и timeout: **`assets/config/tester_feedback.tres`** в Inspector. Сейчас `endpoint` пуст: интерфейс явно предлагает локальное сохранение; реальная доставка в GitHub ещё не подключена.
+- Адрес и timeout: **`assets/config/tester_feedback.tres`** в Inspector. `endpoint` — `https://northernlab-feedback.denserbinlol.workers.dev/reports`; сервис подключён 13 октября 2026 года к закрытому `soda0704/NorthernLab-feedback`, ветке `main`. Windows-сборка пересобрана с этим адресом. ZIP сохраняется перед отправкой и остаётся доступен при сбое.
 - Однократное подключение: [инструкция сервиса](../../tools/feedback_service/README.md).
 
 Используются штатные [HTTPRequest](https://docs.godotengine.org/en/stable/classes/class_httprequest.html), [ZIPPacker](https://docs.godotengine.org/en/stable/classes/class_zippacker.html), [GitHub Issues API](https://docs.github.com/en/rest/issues/issues), [Contents API](https://docs.github.com/en/rest/repos/contents). Снимок берётся после [отрисовки Viewport](https://docs.godotengine.org/en/stable/classes/class_viewport.html).
@@ -41,4 +41,6 @@ node tools/tests/run_tester_feedback_delivery.mjs
 
 Проверяются ZIP, кириллица, ошибки записи/изображений, размеры, черновик, контекст реальной базы и меню. Графический запуск проверяет снимок без формы и UI при 720p. Тест сервиса проверяет ограничения, повторные/одновременные запросы и восстановление после потерянного ответа. Последний тест проводит реальный `HTTPRequest` из Godot через HTTP-сервер и рабочий код Worker с подменённым GitHub: JSON/PNG доходят до адаптера, неверные ответы/timeout не считаются доставкой, повтор/загрузка ZIP не создают второй Issue.
 
-Локальные проверки не подтверждают размещение сервиса. После подключения проверьте настоящие Issues, доступ коллег к файлам и отчёты хоста/гостя на двух компьютерах через Steam.
+Локальные проверки не подтверждают размещение сервиса. 13 октября 2026 года дополнительно проверена настоящая доставка: [Issue №1](https://github.com/soda0704/NorthernLab-feedback/issues/1), JSON и PNG созданы рабочим Worker. Намеренная потеря первого ответа, повтор и загрузка сохранённого ZIP не создали второй Issue; прямая HTTPS-отправка из Godot тоже прошла. Файлы проверены под аккаунтом владельца. Приглашение `xDiR0` ожидает принятия; затем нужно проверить ссылки под его аккаунтом. Отчёты хоста/гостя на двух компьютерах через Steam остаются отдельной проверкой.
+
+После перевыпуска токена подтверждён тип `GITHUB_TOKEN: secret_text` в Cloudflare и повторена настоящая доставка новым отчётом: [Issue №2](https://github.com/soda0704/NorthernLab-feedback/issues/2). JSON/PNG и повторные квитанции проверены; два тестовых отчёта создали ровно два Issue.
