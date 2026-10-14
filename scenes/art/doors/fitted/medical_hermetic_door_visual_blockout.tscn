@@ -101,7 +101,7 @@ resource_name = "M_Status_Teal"
 cull_mode = 2
 albedo_color = Color(0.22091636, 0.7014107, 0.58383155, 1)
 roughness = 0.5
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.2716998, 0.88082504, 0.7014107, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_lakbm"]

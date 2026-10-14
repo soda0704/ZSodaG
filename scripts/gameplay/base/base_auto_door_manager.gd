@@ -123,6 +123,11 @@ func _setup_doors() -> void:
 		var open_nodes: Array[Node] = []
 		var closed_nodes: Array[Node] = []
 		_collect_state_nodes(visual, open_nodes, closed_nodes)
+		# Moving leaves receive indirect light and cast real-time direct shadows.
+		# Injecting every fitted leaf into every voxel update is too expensive.
+		for state_node in open_nodes + closed_nodes:
+			for geometry in state_node.find_children("*", "GeometryInstance3D", true, false):
+				geometry.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		if open_nodes.is_empty() or closed_nodes.is_empty():
 			push_warning("Authored door has no open/closed states: %s" % visual.get_path())
 			continue
@@ -401,8 +406,9 @@ func _apply_door_state(door: Dictionary, is_open: bool, instant: bool = false) -
 		)
 	for mesh in door.indicators:
 		var material := (mesh as MeshInstance3D).material_override as StandardMaterial3D
+		material.set_meta("world_lighting_emission", true)
 		material.emission_enabled = true
-		material.emission_energy_multiplier = 4.5
+		material.emission_energy_multiplier = 0.35
 		tween.tween_property(material, "albedo_color", indicator_color.darkened(0.45), DOOR_MOVE_TIME * 0.65)
 		tween.tween_property(material, "emission", indicator_color, DOOR_MOVE_TIME * 0.65)
 	if is_open:
@@ -434,6 +440,7 @@ func _apply_indicator_color(door: Dictionary, color: Color) -> void:
 	for mesh in door.indicators:
 		var material := (mesh as MeshInstance3D).material_override as StandardMaterial3D
 		material.albedo_color = color.darkened(0.45)
+		material.set_meta("world_lighting_emission", true)
 		material.emission_enabled = true
 		material.emission = color
-		material.emission_energy_multiplier = 4.5
+		material.emission_energy_multiplier = 0.35

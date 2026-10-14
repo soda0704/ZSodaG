@@ -15,7 +15,6 @@ extends StaticBody3D
 @export var deliver_animation: StringName = &"deliver"
 @onready var screen: Node3D = $Screen
 @onready var key_visual: Node3D = $KeyRoot
-@onready var screen_glow: Light3D = $ScreenGlow
 @onready var screen_viewport: SubViewport = $ScreenViewport
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var ui: TerminalScreenUI = $ScreenViewport/TerminalScreen
@@ -104,7 +103,6 @@ func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 
 func _set_powered(powered: bool) -> void:
 	if _screen_material != null: _screen_material.set_shader_parameter("powered", powered)
-	screen_glow.visible = powered
 	for mesh in _housing_meshes:
 		if mesh == _display_mesh: continue
 		mesh.material_override = powered_housing_material if powered else unpowered_housing_material
@@ -115,7 +113,6 @@ func _refresh_screen() -> void:
 	var has_key := (is_key_terminal and stage in [1, 2]) or (not is_key_terminal and stage == 4)
 	ui.set_key_present(has_key)
 	_screen_material.set_shader_parameter("key_missing", not has_key)
-	screen_glow.light_color = ready_glow_color if has_key else missing_glow_color
 	ui.get_node("%Title").text = "X-LAB / ХРАНИЛИЩЕ ДАННЫХ · 1" if is_key_terminal else "NORTHERN LAB / ЭКСПЕДИЦИЯ"
 	ui.get_node("%Day").text = "ДЕНЬ %d" % _controller.day_index
 	ui.get_node("%System").text = "ПИТАНИЕ / СЕТЬ БАЗЫ · ТОПЛИВО %.1f Л · РЕЗЕРВ ЛИФТА %s" % [_controller.fuel_liters, "ГОТОВ" if _controller.elevator_backup_installed else "ОТКЛЮЧЁН"]

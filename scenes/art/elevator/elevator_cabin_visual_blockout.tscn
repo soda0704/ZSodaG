@@ -36,7 +36,7 @@ roughness = 0.36
 
 [sub_resource type="StandardMaterial3D" id="Material_light_emissive"]
 albedo_color = Color(0.62, 0.78, 0.92, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.42, 0.7, 1, 1)
 emission_energy_multiplier = 3.2
 roughness = 0.28
@@ -591,20 +591,6 @@ mesh = SubResource("Mesh_light_guard")
 [node name="SouthGuardEast" type="MeshInstance3D" parent="LightingModules"]
 position = Vector3(0.78, 3.81, 1.55)
 mesh = SubResource("Mesh_light_guard")
-
-[node name="NorthWorkLight" type="OmniLight3D" parent="LightingModules"]
-position = Vector3(0, 3.62, -1.55)
-light_color = Color(0.62, 0.8, 1, 1)
-light_energy = 1.65
-omni_range = 4.8
-omni_attenuation = 1.35
-
-[node name="SouthWorkLight" type="OmniLight3D" parent="LightingModules"]
-position = Vector3(0, 3.62, 1.55)
-light_color = Color(0.62, 0.8, 1, 1)
-light_energy = 1.65
-omni_range = 4.8
-omni_attenuation = 1.35
 
 [node name="CeilingServiceModule" type="Node3D" parent="."]
 

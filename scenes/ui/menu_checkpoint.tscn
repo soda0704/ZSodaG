@@ -1,100 +1,94 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://w2nlrxev54hw"]
 
-[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
-[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="button"]
+[ext_resource type="Script" uid="uid://b2qxkbqfeal5w" path="res://scripts/ui/menu_button.gd" id="button"]
+[ext_resource type="Theme" uid="uid://80qoqxslm4nr" path="res://scenes/ui/menu_theme.tres" id="theme"]
 
-[node name="CheckpointPage" type="VBoxContainer"]
-layout_mode = 0
+[node name="CheckpointPage" type="VBoxContainer" unique_id=265051962]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("theme")
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=1351182674]
 layout_mode = 2
 theme_type_variation = &"MenuTitle"
 theme_override_font_sizes/font_size = 33
 text = "ЭКСПЕДИЦИИ"
 
-[node name="Mode" type="Label" parent="."]
+[node name="Mode" type="Label" parent="." unique_id=427373996]
 layout_mode = 2
 text = "Одиночная игра"
 
-[node name="Slots" type="OptionButton" parent="."]
+[node name="Slots" type="OptionButton" parent="." unique_id=334556875]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Scroll" type="ScrollContainer" parent="."]
+[node name="Scroll" type="ScrollContainer" parent="." unique_id=1414609579]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Body" type="VBoxContainer" parent="Scroll"]
+[node name="Body" type="VBoxContainer" parent="Scroll" unique_id=1846891946]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Naming" type="HBoxContainer" parent="Scroll/Body"]
+[node name="Naming" type="HBoxContainer" parent="Scroll/Body" unique_id=1079605476]
 layout_mode = 2
 
-[node name="Name" type="LineEdit" parent="Scroll/Body/Naming"]
+[node name="Name" type="LineEdit" parent="Scroll/Body/Naming" unique_id=1479875782]
 custom_minimum_size = Vector2(320, 42)
 layout_mode = 2
-max_length = 48
 placeholder_text = "Название экспедиции"
+max_length = 48
 
-[node name="Rename" type="Button" parent="Scroll/Body/Naming"]
+[node name="Rename" type="Button" parent="Scroll/Body/Naming" unique_id=956560487]
 layout_mode = 2
 text = "ПЕРЕИМЕНОВАТЬ"
 script = ExtResource("button")
 
-[node name="Day" type="Label" parent="Scroll/Body"]
+[node name="Day" type="Label" parent="Scroll/Body" unique_id=688828627]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "ПУСТОЙ СЛОТ"
 
-[node name="Power" type="Label" parent="Scroll/Body"]
+[node name="Power" type="Label" parent="Scroll/Body" unique_id=2059287254]
 layout_mode = 2
 
-[node name="Help" type="Label" parent="Scroll/Body"]
-layout_mode = 2
-text = "Ручное сохранение обновляет текущий прогресс.
-После сна сохраняется контрольная точка; доступны две предыдущие.
-Откат заменяет текущий прогресс и удаляет будущие точки."
-
-[node name="Continue" type="Button" parent="Scroll/Body"]
+[node name="Continue" type="Button" parent="Scroll/Body" unique_id=1797408765]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-alignment = 0
 text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
+alignment = 0
 script = ExtResource("button")
 
-[node name="New" type="Button" parent="Scroll/Body"]
+[node name="New" type="Button" parent="Scroll/Body" unique_id=852881823]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-alignment = 0
 text = "НОВАЯ ЭКСПЕДИЦИЯ В ЭТОМ СЛОТЕ"
+alignment = 0
 script = ExtResource("button")
 
-[node name="History" type="OptionButton" parent="Scroll/Body"]
+[node name="History" type="OptionButton" parent="Scroll/Body" unique_id=921147793]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Rollback" type="Button" parent="Scroll/Body"]
+[node name="Rollback" type="Button" parent="Scroll/Body" unique_id=1868035960]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-alignment = 0
 text = "ОТКАТИТЬСЯ К ТОЧКЕ"
+alignment = 0
 script = ExtResource("button")
 
-[node name="Delete" type="Button" parent="Scroll/Body"]
+[node name="Delete" type="Button" parent="Scroll/Body" unique_id=1006732360]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-alignment = 0
 text = "ОЧИСТИТЬ ЭТОТ СЛОТ"
+alignment = 0
 script = ExtResource("button")
 
-[node name="Status" type="Label" parent="."]
+[node name="Status" type="Label" parent="." unique_id=352349274]
 layout_mode = 2

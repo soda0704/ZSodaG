@@ -26,7 +26,7 @@ roughness = 0.58
 
 [sub_resource type="StandardMaterial3D" id="Material_screen"]
 albedo_color = Color(0.24, 0.72, 0.9, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.05, 0.5, 0.82, 1)
 emission_energy_multiplier = 1.5
 
@@ -1837,27 +1837,6 @@ material = SubResource("Material_rock")
 [node name="Shaft_Review_Lighting" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=1414262496]
 editor_description = "Temporary non-diegetic blockout lighting for judging the descent silhouette. Replace or remove during the final lighting pass."
 
-[node name="Middle_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=1365654408]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.5, -27, -20)
-light_color = Color(0.34, 0.46, 0.5, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 15.0
-
-[node name="Cavern_Mouth_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=724165422]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, -53, -18)
-light_color = Color(0.26, 0.38, 0.4, 1)
-light_energy = 0.44
-shadow_enabled = true
-omni_range = 21.0
-
-[node name="Arrival_Review_Light" type="OmniLight3D" parent="Winch_Shaft_Blockout/Shaft_Review_Lighting" unique_id=415442251]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, -68.8, -19.5)
-light_color = Color(0.3, 0.42, 0.39, 1)
-light_energy = 0.26
-shadow_enabled = true
-omni_range = 9.0
-
 [node name="Winch_Cage_Travel_Contract" type="Node3D" parent="." unique_id=1492284378]
 editor_description = "LD contract for the separate winch cage. The cage travels vertically 72 m between Level 4 and the future Level 5; this route is independent from the main base elevator."
 
@@ -1869,71 +1848,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -72, -21)
 
 [node name="Lighting_Blockout" type="Node3D" parent="." unique_id=838118527]
 editor_description = "Temporary review lighting. Cool white light marks controlled expedition space; warmer industrial light begins at the cargo route."
-
-[node name="Arrival_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=52698170]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 3.7, 0)
-light_color = Color(0.64, 0.82, 0.92, 1)
-light_energy = 0.8
-omni_range = 6.0
-
-[node name="Checkpoint_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=231490597]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.7, 0)
-light_color = Color(0.52, 0.76, 0.88, 1)
-light_energy = 0.82
-omni_range = 6.5
-
-[node name="Cargo_Approach_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1659035104]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, -2)
-light_color = Color(0.9, 0.62, 0.28, 1)
-light_energy = 0.78
-omni_range = 7.0
-
-[node name="Dispatch_Hall_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=709517094]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3, 5.25, -3)
-light_color = Color(0.76, 0.72, 0.58, 1)
-light_energy = 0.92
-omni_range = 8.5
-
-[node name="Expedition_Control_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1213612801]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.75, 3.7, 1.8)
-light_color = Color(0.42, 0.7, 0.88, 1)
-light_energy = 0.68
-
-[node name="Rock_Connector_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=103687471]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.8, -9.5)
-light_color = Color(0.86, 0.6, 0.3, 1)
-light_energy = 0.72
-omni_range = 5.5
-
-[node name="Winch_Hall_Key_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1591026049]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 8.35, -20.5)
-light_color = Color(0.66, 0.78, 0.82, 1)
-light_energy = 1.05
-omni_range = 11.0
-
-[node name="Shaft_Seal_Warning_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1043210817]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.2, -21)
-light_color = Color(0.95, 0.28, 0.08, 1)
-light_energy = 0.55
-omni_range = 4.5
-
-[node name="Machine_Room_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2117271784]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 4.9, -21)
-light_color = Color(0.72, 0.82, 0.84, 1)
-light_energy = 0.9
-omni_range = 8.0
-
-[node name="Head_Sheave_Task_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=590961260]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.9, -23.7)
-light_color = Color(0.85, 0.72, 0.42, 1)
-light_energy = 0.55
-omni_range = 4.5
-
-[node name="Emergency_Manway_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1122553288]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.1, 2.4, -26.8)
-light_color = Color(0.88, 0.22, 0.12, 1)
-light_energy = 0.42
-omni_range = 3.5
 
 [node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]
 

@@ -58,7 +58,7 @@ size = Vector3(1.05, 0.42, 0.14)
 [sub_resource type="StandardMaterial3D" id="Material_service_light"]
 albedo_color = Color(0.62, 0.8, 0.96, 1)
 roughness = 0.25
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.42, 0.72, 1, 1)
 emission_energy_multiplier = 3.0
 
@@ -187,13 +187,6 @@ mesh = SubResource("Mesh_light_housing")
 [node name="ServiceLightPanel" type="MeshInstance3D" parent="ServiceRoute" unique_id=759089490]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.205)
 mesh = SubResource("Mesh_light_panel")
-
-[node name="ServiceLight" type="OmniLight3D" parent="ServiceRoute" unique_id=729131963]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.08)
-light_color = Color(0.58, 0.78, 1, 1)
-light_energy = 1.25
-omni_range = 4.5
-omni_attenuation = 1.4
 
 [node name="ModuleSockets" type="Node3D" parent="." unique_id=824977511]
 

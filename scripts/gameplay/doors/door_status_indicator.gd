@@ -6,7 +6,6 @@ extends Node3D
 
 @onready var front_lens: MeshInstance3D = %FrontLens
 @onready var back_lens: MeshInstance3D = %BackLens
-@onready var status_light: OmniLight3D = %StatusLight
 
 var is_unlocked: bool = false
 var _lens_material: StandardMaterial3D
@@ -25,8 +24,8 @@ func _ready() -> void:
 func set_unlocked(value: bool) -> void:
 	is_unlocked = value
 	var next_color := unlocked_color if is_unlocked else locked_color
-	status_light.light_color = next_color
 	_lens_material.albedo_color = next_color.darkened(0.35)
+	_lens_material.set_meta("world_lighting_emission", true)
 	_lens_material.emission_enabled = true
 	_lens_material.emission = next_color
-	_lens_material.emission_energy_multiplier = 4.0
+	_lens_material.emission_energy_multiplier = 0.35

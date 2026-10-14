@@ -7,10 +7,6 @@ const QUALITY := [
 	["Scale", "Масштаб 3D", 50, 100, 5, "%"],
 	["MSAA", "Сглаживание MSAA", ["Выкл.", "×2", "×4", "×8"], [0, 1, 2, 3]],
 	["FXAA", "Сглаживание FXAA"], ["FPS", "Ограничение кадров", ["Без ограничения", "30", "60", "90", "120", "144", "165", "240"], [0, 30, 60, 90, 120, 144, 165, 240]],
-	["SSAO", "Контактные тени"], ["SSIL", "Непрямое освещение"],
-	["SSR", "Отражения"], ["Glow", "Свечение"], ["Fog", "Туман"],
-	["SunShadows", "Тени солнца"], ["LocalShadows", "Тени источников света"],
-	["ShadowDistance", "Дальность теней", 30, 220, 10, " м"],
 	["LOD", "Упрощение моделей", 1, 8, 1, ""],
 	["DecalDistance", "Дальность следов и крови", 10, 70, 5, " м"],
 	["TrackCount", "Следы на снегу", 32, 512, 32, ""],
@@ -215,9 +211,9 @@ func _preset(index: int) -> void:
 	for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
 		data[key] = draft.Graphics[key]
 	if index == 1:
-		data.merge({"Scale": 70, "SSAO": false, "SSR": false, "Glow": false, "LocalShadows": false, "ShadowDistance": 50, "LOD": 8, "TrackCount": 32, "VegetationDistance": 200}, true)
+		data.merge({"Scale": 70, "LOD": 8, "TrackCount": 32, "VegetationDistance": 200}, true)
 	elif index == 3:
-		data.merge({"MSAA": 2, "FXAA": false, "SSAO": true, "SSR": true, "SSIL": true, "ShadowDistance": 220, "LOD": 1, "TrackCount": 256, "VegetationDistance": 700}, true)
+		data.merge({"MSAA": 2, "FXAA": false, "LOD": 1, "TrackCount": 256, "VegetationDistance": 700}, true)
 	draft.Graphics = data
 	select_category(category)
 

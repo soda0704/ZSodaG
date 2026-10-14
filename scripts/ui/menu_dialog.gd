@@ -8,6 +8,14 @@ var _closing := false
 var _previous_focus: Control
 var _entrance: Tween
 var _line_progress := 0.0
+@onready var _center: CenterContainer = $Center
+
+func _ready() -> void:
+	_center.resized.connect(_update_motion_pivot)
+	_update_motion_pivot()
+
+func _update_motion_pivot() -> void:
+	_center.pivot_offset = _center.size * 0.5
 
 func present(title: String, message: String, choices: Array[Dictionary]) -> void:
 	_previous_focus = get_viewport().gui_get_focus_owner()
@@ -28,19 +36,18 @@ func present(title: String, message: String, choices: Array[Dictionary]) -> void
 	back.grab_focus()
 	modulate.a = 0
 	panel.modulate.a = 0
-	panel.scale = Vector2.ONE * 0.988
-	panel.resized.connect(func(): panel.pivot_offset = panel.size * 0.5)
+	# CenterContainer owns the panel's position and scale. Animate its outer
+	# transform so delayed layout and resizing cannot overwrite the motion.
+	_center.scale = Vector2.ONE * 0.988
+	_center.position.y = 21
 	await get_tree().process_frame
 	if _closing:
 		return
-	panel.pivot_offset = panel.size * 0.5
-	var origin := panel.position
-	panel.position.y += 21
 	_entrance = create_tween().set_parallel(true)
 	_entrance.tween_property(self, "modulate:a", 1.0, 0.26).set_custom_interpolator(NorthernMenuStyle.ease)
 	_entrance.tween_property(panel, "modulate:a", 1.0, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(panel, "position", origin, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(panel, "scale", Vector2.ONE, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "position:y", 0.0, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "scale", Vector2.ONE, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
 	_entrance.tween_property(self, "_line_progress", 1.0, 0.46).set_custom_interpolator(NorthernMenuStyle.ease)
 	for index in $Center/Panel/Content.get_child_count():
 		var part: Control = $Center/Panel/Content.get_child(index)
@@ -49,8 +56,9 @@ func present(title: String, message: String, choices: Array[Dictionary]) -> void
 
 func _process(_delta: float) -> void:
 	if panel != null:
-		$AccentLine.position = panel.global_position - global_position - Vector2(0, 1)
-		$AccentLine.size = Vector2(panel.size.x, 1)
+		var panel_transform := get_global_transform().affine_inverse() * panel.get_global_transform()
+		$AccentLine.position = panel_transform.origin - Vector2(0, 1)
+		$AccentLine.size = Vector2(panel.size.x * panel_transform.x.length(), 1)
 		$AccentLine.scale.x = _line_progress
 
 func dismiss(action: Callable = Callable()) -> void:
@@ -63,8 +71,8 @@ func dismiss(action: Callable = Callable()) -> void:
 		button.disabled = true
 	var exit_motion := create_tween().set_parallel(true)
 	exit_motion.tween_property(self, "modulate:a", 0.0, 0.19).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(panel, "position:y", panel.position.y + 10.5, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(panel, "scale", Vector2.ONE * 0.995, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
+	exit_motion.tween_property(_center, "position:y", _center.position.y + 10.5, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
+	exit_motion.tween_property(_center, "scale", Vector2.ONE * 0.995, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
 	await exit_motion.finished
 	closed.emit()
 	if is_instance_valid(_previous_focus) and _previous_focus.is_visible_in_tree():

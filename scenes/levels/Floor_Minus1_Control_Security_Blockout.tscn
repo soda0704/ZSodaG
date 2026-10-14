@@ -38,7 +38,7 @@ roughness = 0.56
 
 [sub_resource type="StandardMaterial3D" id="Material_screen"]
 albedo_color = Color(0.28, 0.7, 0.92, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.08, 0.5, 0.9, 1)
 emission_energy_multiplier = 1.7
 
@@ -49,7 +49,7 @@ roughness = 0.56
 
 [sub_resource type="StandardMaterial3D" id="Material_warning"]
 albedo_color = Color(1, 0.38, 0.07, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.92, 0.14, 0.02, 1)
 emission_energy_multiplier = 1.35
 
@@ -1580,78 +1580,6 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -56, 0, 0)
 
 [node name="Lighting_Blockout" type="Node3D" parent="." unique_id=458453068]
 editor_description = "Temporary orientation lighting only. Final lighting pass is deferred."
-
-[node name="Checkpoint_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1216928674]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3.8, 0)
-light_color = Color(0.95, 0.32, 0.08, 1)
-light_energy = 1.1
-omni_range = 8.0
-
-[node name="Spine_Light_East" type="OmniLight3D" parent="Lighting_Blockout" unique_id=727513860]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3.8, 0)
-light_color = Color(0.2, 0.58, 0.9, 1)
-light_energy = 1.05
-omni_range = 9.0
-
-[node name="Spine_Light_Mid" type="OmniLight3D" parent="Lighting_Blockout" unique_id=646575456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, -4.4)
-light_color = Color(0.2, 0.58, 0.9, 1)
-light_energy = 1.05
-omni_range = 9.0
-
-[node name="Spine_Light_West" type="OmniLight3D" parent="Lighting_Blockout" unique_id=942414168]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3.8, 4.4)
-light_color = Color(0.2, 0.58, 0.9, 1)
-light_energy = 1.05
-omni_range = 9.0
-
-[node name="North_Operations_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1107470167]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.8, -13)
-light_color = Color(0.24, 0.64, 0.86, 1)
-light_energy = 0.9
-omni_range = 9.0
-
-[node name="South_Operations_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2094216755]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.8, 13)
-light_color = Color(0.82, 0.3, 0.12, 1)
-light_energy = 0.85
-omni_range = 9.0
-
-[node name="North_Gallery_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=657083602]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 3.8, -13)
-light_color = Color(0.2, 0.58, 0.9, 1)
-light_energy = 0.9
-omni_range = 9.0
-
-[node name="South_Gallery_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=2089206126]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 3.8, 13)
-light_color = Color(0.82, 0.3, 0.12, 1)
-light_energy = 0.85
-omni_range = 9.0
-
-[node name="North_Secure_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1693917900]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.8, -13)
-light_color = Color(0.16, 0.52, 0.7, 1)
-light_energy = 0.82
-omni_range = 9.0
-
-[node name="South_Secure_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=765201707]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.8, 13)
-light_color = Color(0.72, 0.24, 0.1, 1)
-light_energy = 0.8
-omni_range = 9.0
-
-[node name="Command_Center_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=1668029252]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 3.8, 0)
-light_color = Color(0.16, 0.62, 0.96, 1)
-light_energy = 1.45
-omni_range = 11.0
-
-[node name="Branch_Rejoin_Light" type="OmniLight3D" parent="Lighting_Blockout" unique_id=59776752]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.8, 0)
-light_color = Color(0.2, 0.58, 0.9, 1)
-light_energy = 1.05
-omni_range = 9.0
 
 [node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]
 

@@ -82,6 +82,7 @@ func _process(delta: float) -> void:
 
 func prepare_lens_material() -> void:
 	_lens_material = lens.get_active_material(0).duplicate() as StandardMaterial3D
+	_lens_material.set_meta("world_lighting_emission", true)
 	lens.material_override = _lens_material
 
 
@@ -315,10 +316,8 @@ func apply_light_output(value: bool) -> void:
 	beam.visible = value
 	spill.visible = value
 	_lens_material.emission_enabled = value
-
-	if value:
-		_lens_material.emission = beam.light_color
-		_lens_material.emission_energy_multiplier = 2.0
+	_lens_material.emission = Color(1.0, 0.92, 0.8)
+	_lens_material.emission_energy_multiplier = 0.25
 
 
 func add_look_impulse(mouse_delta: Vector2) -> void:

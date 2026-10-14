@@ -32,7 +32,7 @@ void fragment() {
 	METALLIC = metal_rough.b;
 	ROUGHNESS = metal_rough.g;
 	NORMAL_MAP = texture(normal_texture, UV).rgb;
-	EMISSION = powered ? original_emission * 0.12 : vec3(0.0);
+	EMISSION = original_emission * (powered ? 0.2 : 0.0);
 	bool display_region = UV.x >= screen_atlas_rect.x && UV.y >= screen_atlas_rect.y
 		&& UV.x <= screen_atlas_rect.z && UV.y <= screen_atlas_rect.w;
 	// Use the original texture's luminous mask, leaving its frame and bevel untouched.
@@ -66,6 +66,6 @@ void fragment() {
 		ALBEDO = mix(ALBEDO, powered ? vec3(0.0) : color, mask);
 		METALLIC = mix(METALLIC, 0.0, mask);
 		ROUGHNESS = mix(ROUGHNESS, 1.0, mask);
-		EMISSION = mix(EMISSION, powered ? color * (1.0 + emission_strength) : vec3(0.0), mask);
+		EMISSION = mix(EMISSION, powered ? color * 0.35 : vec3(0.0), mask);
 	}
 }

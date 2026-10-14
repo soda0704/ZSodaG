@@ -733,13 +733,6 @@ transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -1.2, 1.
 [node name="Player2" parent="Chinook/Spawns" index="1"]
 transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, 0.3, 1.22, 0.4)
 
-[node name="CabinLight" parent="Chinook" index="6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0)
-light_color = Color(0.78, 0.86, 1, 1)
-light_energy = 0.65
-shadow_enabled = true
-omni_range = 6.0
-metadata/quality_shadow_original = true
 
 [node name="Spawns" type="Node3D" parent="." unique_id=263331461]
 

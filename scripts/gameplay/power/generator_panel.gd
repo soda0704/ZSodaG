@@ -111,9 +111,10 @@ func update_visuals(instant: bool) -> void:
 		else Color(0.035, 0.04, 0.045, 1.0)
 	)
 	_indicator_material.albedo_color = indicator_color.darkened(0.35)
+	_indicator_material.set_meta("world_lighting_emission", true)
 	_indicator_material.emission_enabled = true
 	_indicator_material.emission = indicator_color
-	_indicator_material.emission_energy_multiplier = 4.0
+	_indicator_material.emission_energy_multiplier = 0.35
 	status_label.text = (
 		"ПИТАНИЕ ВКЛЮЧЕНО"
 		if is_powered

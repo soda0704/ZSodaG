@@ -26,13 +26,13 @@ roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="connected_material"]
 albedo_color = Color(0.06, 0.7, 0.28, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.06, 0.7, 0.28, 1)
 emission_energy_multiplier = 1.5
 
 [sub_resource type="StandardMaterial3D" id="disconnected_material"]
 albedo_color = Color(0.8, 0.24, 0.035, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.8, 0.24, 0.035, 1)
 emission_energy_multiplier = 1.0
 

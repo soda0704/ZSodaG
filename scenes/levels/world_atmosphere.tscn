@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://assets/environments/snow/ground_mist.gdshader" id="mist"]
+
+[sub_resource type="ShaderMaterial" id="MistMaterial"]
+shader = ExtResource("mist")
+shader_parameter/density = 0.004
+
+[node name="WorldAtmosphere" type="Node3D"]
+
+[node name="ValleyGroundMist" type="FogVolume" parent="."]
+shape = 4
+material = SubResource("MistMaterial")

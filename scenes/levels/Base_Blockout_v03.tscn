@@ -9,15 +9,52 @@
 [ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus4_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
 [ext_resource type="Script" uid="uid://cm677683w1h6w" path="res://scripts/gameplay/base/base_gameplay_controller.gd" id="9_base_gameplay"]
 [ext_resource type="Script" uid="uid://cpgrr88he7oiq" path="res://scripts/gameplay/base/base_power_lighting_controller.gd" id="10_power_lighting"]
+[ext_resource type="Shader" uid="uid://dtgioe1b1v8sn" path="res://assets/shaders/terminal_screen.gdshader" id="11_ac0f5"]
 [ext_resource type="Script" uid="uid://chmwubd0n2dsn" path="res://scripts/gameplay/base/base_day_progression_controller.gd" id="11_day_progression"]
+[ext_resource type="Texture2D" uid="uid://dan08c0bhtvs5" path="res://assets/models/terminals/scifi_terminal/textures/Material_baseColor.png" id="12_a28d3"]
 [ext_resource type="PackedScene" uid="uid://it38xnxigcbi" path="res://scenes/levels/snow_exterior.tscn" id="12_exterior"]
+[ext_resource type="Texture2D" uid="uid://d3772nkboa4bh" path="res://assets/models/terminals/scifi_terminal/textures/Material_emissive.png" id="13_uokct"]
+[ext_resource type="Texture2D" uid="uid://cuyppldb54484" path="res://assets/models/terminals/scifi_terminal/textures/Material_metallicRoughness.png" id="14_vq7lh"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/arrival_site.tscn" id="15_arrival"]
+[ext_resource type="Texture2D" uid="uid://dxc7ha7khcig4" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="15_p80ce"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_ambience.tscn" id="ambience_audio"]
 [ext_resource type="Script" uid="uid://gv836ybd7oii" path="res://scripts/gameplay/containment_encounter.gd" id="containment_logic"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/the_monster.tscn" id="creature_0"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/slasher.tscn" id="creature_1"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/smily.tscn" id="creature_2"]
+[ext_resource type="PackedScene" path="res://scenes/levels/world_indirect_lighting.tscn" id="indirect_lighting"]
 [ext_resource type="PackedScene" path="res://scenes/objects/medical/medical_corpse.tscn" id="medical_corpse"]
+[ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
+[ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ac0f5"]
+viewport_path = NodePath("ErrorViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a28d3"]
+viewport_path = NodePath("ScreenViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uokct"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("11_ac0f5")
+shader_parameter/screen_texture = SubResource("ViewportTexture_a28d3")
+shader_parameter/error_texture = SubResource("ViewportTexture_ac0f5")
+shader_parameter/albedo_texture = ExtResource("12_a28d3")
+shader_parameter/emissive_texture = ExtResource("13_uokct")
+shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
+shader_parameter/normal_texture = ExtResource("15_p80ce")
+shader_parameter/screen_atlas_rect = Vector4(0.31835938, 0.021484375, 0.44262695, 0.2763672)
+shader_parameter/powered = false
+shader_parameter/key_missing = true
+shader_parameter/error_rect = Vector4(0.22, 0.43, 0.78, 0.7)
+shader_parameter/error_text_color = Color(1, 0.85, 0.82, 1)
+shader_parameter/glitch_strength = 0.065
+shader_parameter/glitch_rate = 5.0
+shader_parameter/chromatic_offset = 0.004
+shader_parameter/emission_strength = 1.15
+shader_parameter/scanline_strength = 0.025
+shader_parameter/scanline_count = 488.0
+shader_parameter/sweep_strength = 0.012
 
 [sub_resource type="BoxShape3D" id="level2_visit_shape"]
 size = Vector3(55, 4, 80)
@@ -40,6 +77,658 @@ script = ExtResource("11_day_progression")
 
 [node name="SnowExterior" parent="." unique_id=1408054320 instance=ExtResource("12_exterior")]
 
+[node name="WorldLighting" parent="." unique_id=294664761 instance=ExtResource("world_lighting")]
+
+[node name="Garage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0" unique_id=1132081566]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32, 5.2446346, -2.5)
+light_energy = 3.0
+spot_range = 10.0
+spot_angle = 90.0
+
+[node name="Equipment" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="1" unique_id=1789615953]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -22, 4.9417405, 0.6183059)
+spot_range = 10.0
+spot_angle = 90.0
+
+[node name="Equipment2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="2" unique_id=474096536]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.47272, 2.730144, 4.611776)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="Decon" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="3" unique_id=1247956354]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 5.0077896, -3.3804176)
+spot_angle = 90.0
+
+[node name="Decon2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="4" unique_id=618924480]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 5.0077896, 3.4432883)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="HubWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="5" unique_id=37717285]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -4.7978897, 7.6238146, 0)
+light_energy = 10.0
+spot_angle = 90.0
+
+[node name="HubEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="6" unique_id=1196959985]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 4.633205, 7.724846, 0)
+light_energy = 10.0
+spot_angle = 90.0
+
+[node name="HubNorth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="7" unique_id=552831177]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 7.6467237, -4.3137345)
+light_energy = 10.0
+spot_angle = 90.0
+
+[node name="HubSouth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="8" unique_id=864299723]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 7.687809, 4.5192423)
+light_energy = 10.0
+spot_angle = 90.0
+
+[node name="LivingRoute" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="9" unique_id=851503846]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, 0)
+spot_angle = 90.0
+
+[node name="LivingRoute3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="10" unique_id=827006818]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, 4.7825603)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="LivingRoute2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="11" unique_id=13852950]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, -4.2792864)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="CommonRoom" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="12" unique_id=1752297696]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 23.919449, 5.0535674, 5.5071864)
+spot_angle = 90.0
+
+[node name="CommonRoom2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="13" unique_id=1463819810]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 27.999365, 5.0535674, 5.5071864)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="Bunks" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="14" unique_id=1581464155]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 22.410854, 5.153524, -4.865959)
+spot_angle = 90.0
+
+[node name="Bunks2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="15" unique_id=1113628022]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.037237, 5.153524, -4.865959)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="Briefing" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="16" unique_id=1215699014]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.231792, 5.0932264, -14.152635)
+spot_range = 10.0
+spot_angle = 88.0
+
+[node name="Briefing2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="17" unique_id=1799111014]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 4.156422, 5.0932264, -14.152635)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 10.0
+spot_attenuation = 1.2
+spot_angle = 88.0
+metadata/world_lighting = true
+
+[node name="Research" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="18" unique_id=325768141]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7134385, 5.2346945, -22.102057)
+spot_angle = 83.48
+
+[node name="Storage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="19" unique_id=1019436195]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.137316, 5.1180263, 14.130008)
+light_energy = 3.0
+spot_angle = 90.0
+
+[node name="Storage2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="20" unique_id=1136490357]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.035851, 5.1180263, 14.130008)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 3.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="Storage3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="21" unique_id=456689141]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.190652, 5.1180263, 14.130008)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 3.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 90.0
+metadata/world_lighting = true
+
+[node name="Generator" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="22" unique_id=1090106842]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.1435966, 5.180353, 22)
+light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
+spot_angle = 80.0
+
+[node name="Generator2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="23" unique_id=702240495]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.8342423, 5.180353, 22)
+light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
+light_energy = 2.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L1Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="24" unique_id=622496206]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, -12.75178, 0)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L1Spine" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="25" unique_id=1522050081]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.5, -12.87399, 0)
+spot_angle = 70.0
+
+[node name="L1North" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="26" unique_id=1576766069]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19.2065, -13.076548, -12.535298)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L1South" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="27" unique_id=900217690]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.903229, -12.77413, 12.136874)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L1GalleryNorth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="28" unique_id=268752620]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -35.668163, -13.002254, -12.32815)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L1GalleryNorth2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="29" unique_id=679454353]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.461756, -13.002254, -12.32815)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L1GallerySouth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="30" unique_id=978727173]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.733435, -13.027121, 13)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L1GallerySouth2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="31" unique_id=735491202]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.06095, -13.027121, 13)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L1Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="32" unique_id=820121962]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -50.745197, -13.00374, -13)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L1Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="33" unique_id=148201660]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -47.504143, -13.00374, -13)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L1Vault3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="34" unique_id=1758480331]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -44.287197, -13.00374, -13)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L1Command" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="35" unique_id=1495733667]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -59, -13.067945, 0)
+light_energy = 5.0
+spot_range = 12.0
+spot_angle = 80.0
+
+[node name="L2Entry" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="36" unique_id=448444136]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9, -28.69552, 0)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L2Reservoir" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="37" unique_id=1133849848]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.767235, -29.113695, 0)
+light_color = Color(0.7906348, 0.806979, 0.6031601, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L2Reservoir2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="38" unique_id=1406935218]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.310486, -29.113695, 0)
+light_color = Color(0.7906348, 0.806979, 0.6031601, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Filtration" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="39" unique_id=1743061387]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19.804705, -29.083967, -16)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L2Filtration2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="40" unique_id=1452762798]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.931164, -29.083967, -16)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Filtration3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="41" unique_id=836334050]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.794172, -29.083967, -16)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Filtration4" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="42" unique_id=1488208183]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -37.292263, -29.083967, -16)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Filtration5" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="43" unique_id=1995319423]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -43.801563, -29.083967, -16)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Pump" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="44" unique_id=1653509540]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -20.469007, -28.82847, 14)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L2Pump2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="45" unique_id=1148576580]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.757925, -28.82847, 14)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Pump3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="46" unique_id=1409514709]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -37.51819, -28.82847, 14)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Pump4" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="47" unique_id=1199655130]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -44.276455, -28.82847, 14)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 12.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L2Annex" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="48" unique_id=77548546]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -50.122223, -29.041079, 0)
+light_color = Color(0.8656014, 0.7575941, 0.7541479, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="49" unique_id=2090241799]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -50.17349, 0.037667155)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50" unique_id=1387741967]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -50.163277, 0)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Corridor" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51" unique_id=876517963]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -50.191265, -2.5892024)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Corridor2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52" unique_id=1516780077]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -50.191265, -7.3054028)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L3Lab" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53" unique_id=1065376193]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -50.118813, -16)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Lab2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54" unique_id=419328990]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -50.144573, -14.046828)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L3Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="55" unique_id=1685791742]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -50.141884, -19.37401)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="56" unique_id=713514229]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -50.141884, -14.601833)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L3Damaged" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="57" unique_id=2088297449]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.62126, -50.12058, -27.067616)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Damaged2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="58" unique_id=1410520326]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.553005, -50.12058, -27.067616)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L3Damaged3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="59" unique_id=208633472]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -16.327955, -50.12058, -27.067616)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L3Gallery" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="60" unique_id=225076279]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -50.03543, -16.778728)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L3Gallery2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="61" unique_id=1496636072]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -50.060646, -24.326042)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L4Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="62" unique_id=361351585]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -67.82141, 0)
+light_color = Color(0.8569854, 0.6912626, 0.6312529, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L4Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="63" unique_id=2073308522]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13, -67.57585, -0.53912157)
+light_color = Color(0.89015, 0.75139964, 0.71522003, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L4Dispatch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="64" unique_id=1524064318]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.831512, -66.33406, -3)
+light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L4Dispatch2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="65" unique_id=1402982798]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.394592, -66.43987, -3)
+light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
+light_energy = 5.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 1.5
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 9.0
+spot_attenuation = 1.2
+spot_angle = 80.0
+metadata/world_lighting = true
+
+[node name="L4Control" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="66" unique_id=163772674]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.75, -66.71353, 1.8)
+light_color = Color(0.91310155, 0.7459119, 0.6703188, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L4Connector" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="67" unique_id=927196085]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -67.30132, -9.5)
+light_color = Color(0.9040641, 0.7527789, 0.65081495, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="L4Winch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="68" unique_id=1884585502]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -63.378067, -18.195316)
+light_color = Color(0.88580453, 0.7619946, 0.6471212, 1)
+light_energy = 5.0
+spot_angle = 80.0
+
+[node name="Emergency" parent="WorldLighting" index="2" unique_id=718455498]
+visible = false
+
+[node name="WorldIndirectLighting" parent="." unique_id=2024796229 instance=ExtResource("indirect_lighting")]
+
+[node name="WorldAtmosphere" parent="." unique_id=85034148 instance=ExtResource("world_atmosphere")]
+
 [node name="Elevator_Functional_Blockout" parent="." unique_id=1503923236 instance=ExtResource("2_elevator")]
 unlocked_floor_index = 0
 starts_powered = false
@@ -48,6 +737,189 @@ use_built_in_surface_platform = false
 
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034671783, -0.014181614, 0.018938065)
+
+[node name="Hub_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="0" unique_id=1620052050]
+layers = 262145
+
+[node name="Hub_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="1" unique_id=1635290767]
+layers = 262145
+
+[node name="Hub_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="2" unique_id=79236908]
+layers = 262145
+
+[node name="Hub_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="3" unique_id=1451106545]
+layers = 262145
+
+[node name="West_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="0" unique_id=1256267171]
+layers = 262145
+
+[node name="West_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="1" unique_id=65948366]
+layers = 262145
+
+[node name="West_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="2" unique_id=1806335882]
+layers = 262145
+
+[node name="West_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="3" unique_id=673328411]
+layers = 262145
+
+[node name="West_Emergency_Guide_05_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="4" unique_id=1253388810]
+layers = 262145
+
+[node name="West_Emergency_Guide_05B_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="5" unique_id=251299842]
+layers = 262145
+
+[node name="West_Emergency_Guide_06_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="6" unique_id=1755859330]
+layers = 262145
+
+[node name="West_Emergency_Guide_07_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="7" unique_id=1850748681]
+layers = 262145
+
+[node name="West_Emergency_Guide_08_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="8" unique_id=2116085877]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="0" unique_id=296266619]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="1" unique_id=715261333]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="2" unique_id=267217720]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="3" unique_id=497864882]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_05_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="4" unique_id=1851198240]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_06_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="5" unique_id=19198713]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_07_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="6" unique_id=1148645542]
+layers = 262145
+
+[node name="Technical_Emergency_Guide_Breaker_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="7" unique_id=1487947278]
+layers = 262145
+
+[node name="West_Connector_Floor" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="0" unique_id=889035786]
+layers = 262145
+
+[node name="West_Connector_North_Wall" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="1" unique_id=518199408]
+layers = 262145
+
+[node name="West_Connector_South_Wall" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="2" unique_id=38072382]
+layers = 262145
+
+[node name="West_Connector_Ceiling" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="3" unique_id=1753964432]
+layers = 262145
+
+[node name="West_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="0" unique_id=272316757]
+layers = 262145
+
+[node name="West_Connector_To_Decon_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="1" unique_id=1642795010]
+layers = 262145
+
+[node name="West_Connector_To_Hub_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="2" unique_id=1923530864]
+layers = 262145
+
+[node name="South_Connector_Floor" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="0" unique_id=1552936644]
+layers = 262145
+
+[node name="South_Connector_West_Wall" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="1" unique_id=1865149918]
+layers = 262145
+
+[node name="South_Connector_East_Wall" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="2" unique_id=1275671781]
+layers = 262145
+
+[node name="South_Connector_Ceiling" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="3" unique_id=1380892307]
+layers = 262145
+
+[node name="South_Connector_West_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="0" unique_id=1947928711]
+layers = 262145
+
+[node name="South_Connector_West_Service_Status_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="1" unique_id=331667515]
+layers = 262145
+
+[node name="South_Connector_East_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="2" unique_id=1494009997]
+layers = 262145
+
+[node name="South_Connector_East_Service_Status_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="3" unique_id=989309990]
+layers = 262145
+
+[node name="South_Connector_West_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="4" unique_id=298137323]
+layers = 262145
+
+[node name="South_Connector_East_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="5" unique_id=2040995181]
+layers = 262145
+
+[node name="South_Connector_West_Vent_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="6" unique_id=1742872527]
+layers = 262145
+
+[node name="South_Connector_East_Vent_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="7" unique_id=499376265]
+layers = 262145
+
+[node name="South_Connector_Technical_Sign_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="8" unique_id=1662709511]
+layers = 262145
+
+[node name="South_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="9" unique_id=717494211]
+layers = 262145
+
+[node name="East_Connector_Floor" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="0" unique_id=1841078308]
+layers = 262145
+
+[node name="East_Connector_North_Wall" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="1" unique_id=393652554]
+layers = 262145
+
+[node name="East_Connector_South_Wall" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="2" unique_id=518718718]
+layers = 262145
+
+[node name="East_Connector_Ceiling" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="3" unique_id=1877587502]
+layers = 262145
+
+[node name="East_Connector_North_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="0" unique_id=837319771]
+layers = 262145
+
+[node name="East_Connector_North_Service_Status_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="1" unique_id=1570882100]
+layers = 262145
+
+[node name="East_Connector_South_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="2" unique_id=1410356917]
+layers = 262145
+
+[node name="East_Connector_South_Service_Status_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="3" unique_id=582603988]
+layers = 262145
+
+[node name="East_Connector_North_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="4" unique_id=1519153476]
+layers = 262145
+
+[node name="East_Connector_South_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="5" unique_id=1313244716]
+layers = 262145
+
+[node name="East_Connector_North_Vent_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="6" unique_id=755732914]
+layers = 262145
+
+[node name="East_Connector_South_Vent_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="7" unique_id=1368856407]
+layers = 262145
+
+[node name="East_Connector_Living_Sign_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="8" unique_id=768959893]
+layers = 262145
+
+[node name="East_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="9" unique_id=1370064485]
+layers = 262145
+
+[node name="North_Connector_Floor" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="0" unique_id=29604141]
+layers = 262145
+
+[node name="North_Connector_West_Wall" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="1" unique_id=1171315461]
+layers = 262145
+
+[node name="North_Connector_East_Wall" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="2" unique_id=749625941]
+layers = 262145
+
+[node name="North_Connector_Ceiling" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="3" unique_id=1511961533]
+layers = 262145
+
+[node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="9" unique_id=55254735]
+display_material = SubResource("ShaderMaterial_uokct")
 
 [node name="Floor_Minus1_Control_Security_Blockout" parent="." unique_id=154470757 instance=ExtResource("4_floor_minus1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -18, 0)
@@ -110,3 +982,8 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus3_Biocontainment_
 [node name="Monster1" parent="ContainmentEncounter" unique_id=1395137020 instance=ExtResource("creature_1")]
 
 [node name="Monster2" parent="ContainmentEncounter" unique_id=1995958805 instance=ExtResource("creature_2")]
+
+[editable path="WorldLighting"]
+[editable path="WorldIndirectLighting"]
+[editable path="Floor_0_Base_Blockout"]
+[editable path="Floor_0_Base_Blockout/Doors/PedestrianWindPassage"]

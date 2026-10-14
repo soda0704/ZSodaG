@@ -43,7 +43,7 @@ resource_name = "M_Status_Red"
 cull_mode = 2
 albedo_color = Color(0.82665706, 0.1428257, 0.086104214, 1)
 roughness = 0.3
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.9889292, 0.1792362, 0.11207495, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8q21i"]
@@ -51,7 +51,7 @@ resource_name = "M_Status_Green"
 cull_mode = 2
 albedo_color = Color(0.3133042, 0.7014107, 0.46135613, 1)
 roughness = 0.3
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.38109186, 0.84063077, 0.5563933, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_6agmm"]

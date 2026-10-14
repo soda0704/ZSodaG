@@ -69,11 +69,29 @@ rotation = Vector3(0, -1.5707963, 0)
 [node name="Player2" type="Marker3D" parent="Spawns"]
 position = Vector3(0.3, 1.22, 0.4)
 rotation = Vector3(0, -1.5707963, 0)
-[node name="CabinLight" type="OmniLight3D" parent="."]
-position = Vector3(0, 2.95, 0)
-light_color = Color(0.78, 0.86, 1, 1)
-light_energy = 0.65
-omni_range = 6.0
+
+[node name="CabinRearLamp" type="SpotLight3D" parent="."]
+position = Vector3(0, 2.8, -2.5)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.66, 0.76, 0.9, 1)
+light_energy = 1.2
+light_cull_mask = 393217
 shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.5
+spot_range = 5.0
+spot_angle = 70.0
+metadata/world_lighting = true
 
-
+[node name="CabinFrontLamp" type="SpotLight3D" parent="."]
+position = Vector3(0, 2.8, 2.5)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.66, 0.76, 0.9, 1)
+light_energy = 1.2
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.5
+spot_range = 5.0
+spot_angle = 70.0
+metadata/world_lighting = true

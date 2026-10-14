@@ -11,7 +11,7 @@ roughness = 0.38
 albedo_color = Color(0.82, 0.38, 0.035, 1)
 metallic = 0.35
 roughness = 0.34
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.52, 0.16, 0.01, 1)
 emission_energy_multiplier = 0.42
 

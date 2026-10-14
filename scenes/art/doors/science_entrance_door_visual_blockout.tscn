@@ -5,7 +5,7 @@
 [sub_resource type="StandardMaterial3D" id="Material_locked_red"]
 albedo_color = Color(0.62, 0.035, 0.02, 1)
 roughness = 0.28
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.78, 0.025, 0.012, 1)
 emission_energy_multiplier = 1.15
 

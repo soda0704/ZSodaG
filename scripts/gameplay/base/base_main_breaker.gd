@@ -145,7 +145,6 @@ func _apply_cover() -> void:
 	if not _initialized or _cover_open != _last_cover_open:
 		_set_clip(cover_animation, &"open", _cover_open, not _initialized)
 		if _initialized: $CoverAudio.play()
-	$RepairLight.visible = _cover_open
 	$Wiring/Board.visible = _cover_open
 	_last_cover_open = _cover_open
 

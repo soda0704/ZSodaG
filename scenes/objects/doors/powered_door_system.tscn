@@ -37,7 +37,7 @@ size = Vector3(0.58, 0.2, 0.22)
 [sub_resource type="StandardMaterial3D" id="Material_indicator_lens"]
 resource_local_to_scene = true
 albedo_color = Color(0.5, 0.02, 0.01, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(1, 0.05, 0.02, 1)
 emission_energy_multiplier = 4.0
 
@@ -128,14 +128,6 @@ mesh = SubResource("Mesh_indicator_guard")
 [node name="GuardRight" type="MeshInstance3D" parent="DoorStatusIndicator"]
 position = Vector3(0.26, 0, 0)
 mesh = SubResource("Mesh_indicator_guard")
-
-[node name="StatusLight" type="OmniLight3D" parent="DoorStatusIndicator"]
-unique_name_in_owner = true
-light_color = Color(1, 0.08, 0.035, 1)
-light_energy = 1.8
-shadow_enabled = false
-omni_range = 2.2
-omni_attenuation = 1.5
 
 [node name="DoorPowerSwitch" type="StaticBody3D" parent="."]
 position = Vector3(-2.85, 1.2, 0.18)

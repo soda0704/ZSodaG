@@ -39,14 +39,18 @@
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/research_lab_art.tscn" id="40_research_lab_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/science/isolation_room_art.tscn" id="41_isolation_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/objects/vehicles/snowmobile.tscn" id="42_snowmobile"]
+[ext_resource type="Shader" uid="uid://dtgioe1b1v8sn" path="res://assets/shaders/terminal_screen.gdshader" id="47_pyx6f"]
+[ext_resource type="Texture2D" uid="uid://dan08c0bhtvs5" path="res://assets/models/terminals/scifi_terminal/textures/Material_baseColor.png" id="48_xl840"]
+[ext_resource type="Texture2D" uid="uid://d3772nkboa4bh" path="res://assets/models/terminals/scifi_terminal/textures/Material_emissive.png" id="49_0j0ey"]
+[ext_resource type="Texture2D" uid="uid://cuyppldb54484" path="res://assets/models/terminals/scifi_terminal/textures/Material_metallicRoughness.png" id="50_j45sq"]
+[ext_resource type="Texture2D" uid="uid://dxc7ha7khcig4" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="51_bij03"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/acoustic_portal.tscn" id="acoustic_portal"]
 [ext_resource type="PackedScene" uid="uid://c01lmao8jt0ry" path="res://scenes/objects/base/medical_fuse_tray.tscn" id="backup_fuse_tray"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/elevator_backup_power.tscn" id="backup_power"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/west/elevator_backup_solar_panel.tscn" id="backup_solar"]
 [ext_resource type="PackedScene" path="res://scenes/art/blood/level_0_blood.tscn" id="blood_dressing"]
-[ext_resource type="PackedScene" path="res://scenes/objects/effects/ventilation_audio.tscn" id="vent_audio"]
-
 [ext_resource type="PackedScene" path="res://scenes/objects/base/day_two_terminal.tscn" id="quest_terminal"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/ventilation_audio.tscn" id="vent_audio"]
 
 [sub_resource type="BoxShape3D" id="Shape_day1_west_vehicle_gate_blocker"]
 size = Vector3(5.56, 3.55, 0.14)
@@ -65,7 +69,7 @@ size = Vector3(1.5, 3.5, 1.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_day1_emergency_red"]
 albedo_color = Color(0.72, 0.01, 0.005, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(1, 0.01, 0.005, 1)
 emission_energy_multiplier = 3.0
 
@@ -74,6 +78,35 @@ albedo_color = Color(0.82, 0.16, 0.04, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_living"]
 albedo_color = Color(0.08, 0.52, 0.24, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pyx6f"]
+viewport_path = NodePath("ErrorViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xl840"]
+viewport_path = NodePath("ScreenViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0j0ey"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("47_pyx6f")
+shader_parameter/screen_texture = SubResource("ViewportTexture_xl840")
+shader_parameter/error_texture = SubResource("ViewportTexture_pyx6f")
+shader_parameter/albedo_texture = ExtResource("48_xl840")
+shader_parameter/emissive_texture = ExtResource("49_0j0ey")
+shader_parameter/metallic_roughness_texture = ExtResource("50_j45sq")
+shader_parameter/normal_texture = ExtResource("51_bij03")
+shader_parameter/screen_atlas_rect = Vector4(0.31835938, 0.021484375, 0.44262695, 0.2763672)
+shader_parameter/powered = false
+shader_parameter/key_missing = true
+shader_parameter/error_rect = Vector4(0.22, 0.43, 0.78, 0.7)
+shader_parameter/error_text_color = Color(1, 0.85, 0.82, 1)
+shader_parameter/glitch_strength = 0.065
+shader_parameter/glitch_rate = 5.0
+shader_parameter/chromatic_offset = 0.004
+shader_parameter/emission_strength = 1.15
+shader_parameter/scanline_strength = 0.025
+shader_parameter/scanline_count = 488.0
+shader_parameter/sweep_strength = 0.012
 
 [node name="Floor_0_Base_Blockout" type="Node3D" unique_id=338372790]
 
@@ -213,256 +246,17 @@ editor_description = "Слои освещения для проверки сос
 
 [node name="Standard_Lighting_Blockout" type="Node3D" parent="Power_State_Lighting_Blockout" unique_id=16357671]
 editor_description = "Штатные источники света. Выключены для стартового состояния первого дня; после запуска главного щита должны включаться программно."
+visible = false
 
 [node name="Center_Hub" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=72392302]
 
-[node name="Hub_West_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/Center_Hub" unique_id=2106345782]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 3.8, 0)
-light_color = Color(1, 0.62, 0.38, 1)
-light_energy = 1.2
-omni_range = 5.5
-
-[node name="Hub_East_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/Center_Hub" unique_id=586872106]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.35, 3.8, 0)
-light_color = Color(0.48, 1, 0.66, 1)
-light_energy = 1.2
-omni_range = 5.5
-
-[node name="Hub_North_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/Center_Hub" unique_id=1926783333]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -6.35)
-light_color = Color(0.42, 0.68, 1, 1)
-light_energy = 1.2
-omni_range = 5.5
-
-[node name="Hub_South_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/Center_Hub" unique_id=226313821]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 6.35)
-light_color = Color(1, 0.34, 0.22, 1)
-light_energy = 1.2
-omni_range = 5.5
-
-[node name="Hub_Elevator_Key_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/Center_Hub" unique_id=1127534871]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7, 4.7, 0)
-light_color = Color(0.9, 0.94, 1, 1)
-light_energy = 1.8
-shadow_enabled = true
-omni_range = 6.5
-
 [node name="West_Entrance" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=1843167734]
-
-[node name="Garage_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=462864077]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 4.2, -2.5)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="Garage_Blockout_Light2" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=421384767]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 2.6, 4.8)
-light_energy = 1.2
-shadow_enabled = true
-omni_range = 6.0
-
-[node name="Equipment_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=1873669787]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4.2, -4.126)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="Equipment_South_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=2068782470]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4.2, 4.5)
-light_energy = 1.2
-shadow_enabled = true
-omni_range = 6.0
-
-[node name="Decon_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=2034596891]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.2, 0)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="West_Connector_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/West_Entrance" unique_id=330681965]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4.3, 0)
 
 [node name="South_Technical" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=1910847198]
 
-[node name="Storage_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=1338373869]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 14)
-light_color = Color(1, 0.82, 0.72, 1)
-light_energy = 0.85
-shadow_enabled = true
-omni_range = 6.0
-
-[node name="Storage_West_Bay_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=1342092261]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 3.8, 13.5)
-light_color = Color(1, 0.76, 0.64, 1)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 4.0
-
-[node name="Storage_East_Bay_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=1768603791]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 3.8, 14)
-light_color = Color(1, 0.76, 0.64, 1)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 4.5
-
-[node name="Storage_Sorting_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=534789646]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 3.6, 16.6)
-light_color = Color(1, 0.8, 0.68, 1)
-light_energy = 0.45
-shadow_enabled = true
-omni_range = 3.2
-
-[node name="Generator_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=476155447]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4.2, 22)
-light_color = Color(1, 0.72, 0.58, 1)
-light_energy = 0.9
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Generator_Service_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=1825951195]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 4.2, 22)
-light_color = Color(1, 0.78, 0.64, 1)
-light_energy = 0.65
-shadow_enabled = true
-omni_range = 4.8
-
-[node name="Generator_Distribution_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=525033623]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 4.1, 22.5)
-light_color = Color(1, 0.68, 0.54, 1)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 4.0
-
-[node name="South_Connector_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/South_Technical" unique_id=1772005661]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 9)
-light_color = Color(1, 0.76, 0.64, 1)
-light_energy = 0.75
-shadow_enabled = true
-omni_range = 4.0
-
 [node name="East_Living" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=2093036529]
 
-[node name="Common_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1862603883]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.2, 0)
-shadow_enabled = true
-omni_range = 6.0
-
-[node name="Common_Dining_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1542449626]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.15, -4.3)
-light_energy = 1.25
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Common_Lounge_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=387676885]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 4.15, 4.8)
-light_energy = 1.15
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Protected_Corridor_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=892883970]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4.2, 0)
-shadow_enabled = true
-omni_range = 5.5
-omni_attenuation = -0.98
-
-[node name="Protected_Corridor_West_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1294762435]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4.2, 0)
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Protected_Corridor_East_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=139469871]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 4.2, 0)
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Sleeping_Entry_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=310188243]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 4.736537, -3.1)
-light_energy = 0.65
-shadow_enabled = true
-omni_range = 4.5
-
-[node name="Sleeping_West_Bunk_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1156882149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 4.1565657, -6.3)
-light_energy = 0.45
-shadow_enabled = true
-omni_range = 3.2
-
-[node name="Sleeping_East_Bunk_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=849682027]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 4.6087065, -6.3)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 3.8
-
-[node name="Medical_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1752780005]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4.2, 4.75)
-light_color = Color(0.78, 0.88, 1, 1)
-light_energy = 0.75
-shadow_enabled = true
-omni_range = 5.5
-
-[node name="Medical_Entry_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1842168461]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 4.2, 2.8)
-light_color = Color(0.82, 0.91, 1, 1)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 4.0
-
-[node name="Medical_Primary_Exam_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=1497274996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.8, 5.5)
-light_color = Color(0.72, 0.86, 1, 1)
-light_energy = 0.85
-shadow_enabled = true
-omni_range = 3.2
-
-[node name="Medical_Secondary_Exam_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=177435885]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 3.8, 5.5)
-light_color = Color(0.72, 0.86, 1, 1)
-light_energy = 0.85
-shadow_enabled = true
-omni_range = 3.2
-
-[node name="East_Connector_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/East_Living" unique_id=596657140]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.2, 0)
-light_color = Color(0.86, 1, 0.9, 1)
-light_energy = 0.75
-shadow_enabled = true
-omni_range = 4.0
-
 [node name="North_Science" type="Node3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout" unique_id=559864874]
-
-[node name="Briefing_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=1447163792]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, -14)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="Research_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=629252587]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.2, -22.6)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="Research_Entry_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=1848757802]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 3.4, -19.2)
-light_color = Color(0.62, 0.76, 1, 1)
-shadow_enabled = true
-omni_range = 4.5
-
-[node name="Isolation_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=341441923]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.2, -22.5)
-light_energy = 1.5
-shadow_enabled = true
-omni_range = 8.0
-
-[node name="Isolation_Entry_Warning_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=1505309890]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 3.4, -22.5)
-light_color = Color(1, 0.38, 0.18, 1)
-light_energy = 0.8
-shadow_enabled = true
-omni_range = 3.5
-
-[node name="North_Connector_Blockout_Light" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Standard_Lighting_Blockout/North_Science" unique_id=1339450177]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, -9)
 
 [node name="Day1_Emergency_Lighting_Blockout" type="Node3D" parent="Power_State_Lighting_Blockout" unique_id=1703473362]
 editor_description = "Единый слой красной аварийной навигации первого дня. Выключается после подачи штатного питания."
@@ -474,48 +268,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 0.02, 0)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Hub_Emergency_Light_01" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1904586051]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 0.28, 0)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Hub_Emergency_Guide_02_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1635290767]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 0.02, 3.6)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Hub_Emergency_Light_02" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1866941688]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 0.28, 3.6)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="Hub_Emergency_Guide_03_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=79236908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.02, 6)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Hub_Emergency_Light_03" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1549639097]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.28, 6)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Hub_Emergency_Guide_04_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1451106545]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 7.4)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Hub_Emergency_Light_04" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" unique_id=1456644110]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 7.4)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.42
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="West_Entrance" type="Node3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout" unique_id=1639007829]
 
@@ -524,108 +290,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.02, 3)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="West_Emergency_Light_01" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=254970984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0.28, 3)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.42
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="West_Emergency_Guide_02_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=65948366]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8, 0.02, 3)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="West_Emergency_Light_02" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=2092095670]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8, 0.28, 3)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="West_Emergency_Guide_03_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1806335882]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 0.02, 2.4)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="West_Emergency_Light_03" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1315457331]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 0.28, 2.4)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.36
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="West_Emergency_Guide_04_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=673328411]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.02, 3.5)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="West_Emergency_Light_04" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=509362355]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.28, 3.5)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="West_Emergency_Guide_05_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1253388810]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0.02, 2.8)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="West_Emergency_Light_05" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=458726934]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0.28, 2.8)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.36
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="West_Emergency_Guide_05B_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=251299842]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.02, 0.2)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="West_Emergency_Light_05B" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1221550814]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0.28, 0.2)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.36
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="West_Emergency_Guide_06_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1755859330]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.02, -2.5)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="West_Emergency_Light_06" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1923301984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.28, -2.5)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="West_Emergency_Guide_07_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=1850748681]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0.02, -1.4)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="West_Emergency_Light_07" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=735937575]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0.28, -1.4)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.4
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="West_Emergency_Guide_08_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=2116085877]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8, 0.02, 0)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="West_Emergency_Light_08" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" unique_id=599951152]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8, 0.28, 0)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.42
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="South_Technical" type="Node3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout" unique_id=944350526]
 
@@ -634,96 +337,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 10.7)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Technical_Emergency_Light_01" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1610926566]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 10.7)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.42
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Technical_Emergency_Guide_02_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=715261333]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 14)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Technical_Emergency_Light_02" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1877009685]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 14)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="Technical_Emergency_Guide_03_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=267217720]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.02, 17)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Technical_Emergency_Light_03" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1333547076]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.28, 17)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.4
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Technical_Emergency_Guide_04_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=497864882]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.02, 19.2)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Technical_Emergency_Light_04" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1112585197]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.28, 19.2)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="Technical_Emergency_Guide_05_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1851198240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0.02, 22)
 size = Vector3(0.16, 0.04, 0.7)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Technical_Emergency_Light_05" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1097518840]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0.28, 22)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.4
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Technical_Emergency_Guide_06_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=19198713]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 23.5)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Technical_Emergency_Light_06" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=929124618]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 23.5)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="Technical_Emergency_Guide_07_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1148645542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.02, 22.5)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
 
-[node name="Technical_Emergency_Light_07" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=390408533]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.28, 22.5)
-light_color = Color(1, 0.025, 0.01, 1)
-light_energy = 0.38
-shadow_enabled = true
-omni_range = 2.6
-
 [node name="Technical_Emergency_Guide_Breaker_Blockout" type="CSGBox3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=1487947278]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.02, 22)
 size = Vector3(0.7, 0.04, 0.16)
 material = SubResource("StandardMaterial3D_day1_emergency_red")
-
-[node name="Technical_Emergency_Light_Breaker" type="OmniLight3D" parent="Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" unique_id=2080679158]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.32, 22)
-light_color = Color(1, 0.015, 0.005, 1)
-light_energy = 0.55
-shadow_enabled = true
-omni_range = 2.6
 
 [node name="Center_Hub" type="Node3D" parent="." unique_id=1142305586]
 
@@ -1008,7 +655,8 @@ size = Vector3(4, 0.4, 2)
 
 [node name="BloodDressing" parent="." unique_id=270346482 instance=ExtResource("blood_dressing")]
 
-[editable path="Doors/PedestrianWindPassage"]
+[node name="DayTwoTaskTerminal" parent="." unique_id=55254735 instance=ExtResource("quest_terminal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 0.015, -6.95)
+display_material = SubResource("ShaderMaterial_0j0ey")
 
-[node name="DayTwoTaskTerminal" parent="." instance=ExtResource("quest_terminal")]
-position = Vector3(3.8, 0.015, -6.95)
+[editable path="Doors/PedestrianWindPassage"]

@@ -191,15 +191,6 @@ shape = SubResource("screen_collision")
 position = Vector3(0, 1.489, 0.324)
 rotation = Vector3(-0.5235988, 0, 0)
 
-[node name="ScreenGlow" type="OmniLight3D" parent="."]
-position = Vector3(0, 1.48, 0.51)
-visible = false
-light_color = Color(0.3, 0.85, 0.38, 1)
-light_energy = 0.16
-omni_range = 1.4
-omni_attenuation = 2.0
-shadow_enabled = false
-
 [node name="KeySlot" type="MeshInstance3D" parent="."]
 position = Vector3(0, 1.2, 0.319)
 mesh = SubResource("key_slot_mesh")

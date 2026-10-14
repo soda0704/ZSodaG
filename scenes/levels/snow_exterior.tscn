@@ -2,12 +2,11 @@
 
 [ext_resource type="Script" uid="uid://h6maemd0l4fv" path="res://scripts/levels/snow_exterior.gd" id="1_si458"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_albedo.res" id="3_terrain_albedo"]
-[ext_resource type="Texture2D" uid="uid://d4b0rsy3enpjc" path="res://assets/environments/snow/alpine_overcast_panorama.exr" id="4_is1sx"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_granite_albedo.res" id="4_ptgxl"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_normal.res" id="4_terrain_normal"]
-[ext_resource type="Texture2D" uid="uid://dqwj0el1yf02l" path="res://assets/environments/calibration/gamma_70.tres" id="5_kcy4x"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_0.res" id="5_n2o3g"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_1.res" id="6_k7mqb"]
+[ext_resource type="Texture2D" uid="uid://bxw3bltkwi3hm" path="res://assets/environments/snow/overcast_soil_puresky_4k.exr" id="6_mpxvk"]
 [ext_resource type="Script" uid="uid://dwtjcl42wx78g" path="res://scripts/effects/snow_tracks.gd" id="7_tracks"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_2.res" id="7_w3rn4"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/snow_footprint.tscn" id="8_foot"]
@@ -17,45 +16,6 @@
 [ext_resource type="ArrayMesh" path="res://assets/environments/snow/meshes/rock_5.res" id="10_2s87s"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/snow_ski.tscn" id="10_ski"]
 [ext_resource type="PackedScene" path="res://scenes/art/environment/boundary_dressing.tscn" id="boundary_dressing"]
-[ext_resource type="PackedScene" path="res://scenes/art/environment/cliff_valley.tscn" id="valley_scenery"]
-
-[ext_resource type="Shader" path="res://assets/environments/snow/alpine_panorama_repair.gdshader" id="sky_repair_shader"]
-[ext_resource type="Texture2D" path="res://assets/environments/snow/alpine_panorama_repair.png" id="sky_repair_texture"]
-
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_-1.res" id="pine_chunk1"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_-2.res" id="pine_chunk2"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_0.res" id="pine_chunk3"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_1.res" id="pine_chunk4"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-1.res" id="pine_chunk5"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-2.res" id="pine_chunk6"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-3.res" id="pine_chunk7"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_0.res" id="pine_chunk8"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_1.res" id="pine_chunk9"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_-1.res" id="pine_chunk10"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_-2.res" id="pine_chunk11"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_0.res" id="pine_chunk12"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_1.res" id="pine_chunk13"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_-1.res" id="pine_chunk14"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_-2.res" id="pine_chunk15"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_-3.res" id="pine_chunk16"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_0.res" id="pine_chunk17"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_1.res" id="pine_chunk18"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_2.res" id="pine_chunk19"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_-1.res" id="pine_chunk20"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_-2.res" id="pine_chunk21"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_0.res" id="pine_chunk22"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_1.res" id="pine_chunk23"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_2.res" id="pine_chunk24"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_2_-1.res" id="pine_chunk25"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_2_0.res" id="pine_chunk26"]
-[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_2_1.res" id="pine_chunk27"]
-
-[ext_resource type="PackedScene" path="res://scenes/art/environment/south_pass_forest.tscn" id="south_pass_forest"]
-
-[ext_resource type="PackedScene" path="res://scenes/art/environment/native_east_cliff.tscn" id="native_east_cliff"]
-
-[ext_resource type="PackedScene" path="res://scenes/art/environment/west_pass_forest.tscn" id="west_pass_forest"]
-
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_0.res" id="clean_chunk_0"]
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_0.res" id="clean_chunk_1"]
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_1.res" id="clean_chunk_2"]
@@ -69,8 +29,25 @@
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_2.res" id="clean_chunk_10"]
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_2_1.res" id="clean_chunk_11"]
 [ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_2_-1.res" id="clean_chunk_12"]
-
-[ext_resource type="Shader" path="res://assets/environments/snow/terrain_cliff_cutout.gdshader" id="terrain_cliff_cutout"]
+[ext_resource type="PackedScene" path="res://scenes/art/environment/native_east_cliff.tscn" id="native_east_cliff"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_-1.res" id="pine_chunk1"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_0.res" id="pine_chunk3"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-1_1.res" id="pine_chunk4"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-1.res" id="pine_chunk5"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-2.res" id="pine_chunk6"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_-3.res" id="pine_chunk7"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_0.res" id="pine_chunk8"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-2_1.res" id="pine_chunk9"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_-2.res" id="pine_chunk11"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_-3_1.res" id="pine_chunk13"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_-1.res" id="pine_chunk14"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_0.res" id="pine_chunk17"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_0_1.res" id="pine_chunk18"]
+[ext_resource type="MultiMesh" path="res://assets/models/pine_tree/pinetrunks_1_2.res" id="pine_chunk24"]
+[ext_resource type="PackedScene" path="res://scenes/art/environment/south_pass_forest.tscn" id="south_pass_forest"]
+[ext_resource type="Shader" uid="uid://cwov3i35hwqh6" path="res://assets/environments/snow/terrain_cliff_cutout.gdshader" id="terrain_cliff_cutout"]
+[ext_resource type="PackedScene" path="res://scenes/art/environment/cliff_valley.tscn" id="valley_scenery"]
+[ext_resource type="PackedScene" path="res://scenes/art/environment/west_pass_forest.tscn" id="west_pass_forest"]
 
 [sub_resource type="Gradient" id="Gradient_64ytg"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -95,16 +72,13 @@ seamless = true
 
 [sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_ud8tr"]
 _shader_parameters = {
-&"cliff_replacement_bounds": Vector4(258, 342, -364, 364),
-&"ridge_snow_bounds": Vector4(210, 280, -366, 366),
-&"ridge_snow_amount": 0.65,
-&"ridge_snow_color": Color(0.82, 0.88, 0.92, 1),
 &"auto_base_texture": 1,
 &"auto_height_reduction": 0.0,
 &"auto_overlay_texture": 0,
 &"auto_slope": 1.2,
 &"bias_distance": null,
 &"blend_sharpness": 0.2,
+&"cliff_replacement_bounds": Vector4(258, 342, -364, 364),
 &"depth_blur": null,
 &"enable_macro_variation": null,
 &"enable_projection": true,
@@ -118,7 +92,10 @@ _shader_parameters = {
 &"noise1_scale": null,
 &"noise2_scale": null,
 &"noise_texture": SubResource("NoiseTexture2D_jvb8k"),
-&"projection_threshold": null
+&"projection_threshold": null,
+&"ridge_snow_amount": 0.65,
+&"ridge_snow_bounds": Vector4(210, 280, -366, 366),
+&"ridge_snow_color": Color(0.82, 0.88, 0.92, 1)
 }
 world_background = 0
 auto_shader = true
@@ -165,42 +142,61 @@ detiling_shift = 0.8
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_f3vxy")])
 texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_6yp6e"), SubResource("Terrain3DTextureAsset_kcy4x")])
 
-[sub_resource type="ShaderMaterial" id="PanoramaSkyMaterial_0my8v"]
-shader = ExtResource("sky_repair_shader")
-shader_parameter/panorama = ExtResource("4_is1sx")
-shader_parameter/repair_panorama = ExtResource("sky_repair_texture")
-shader_parameter/repair_bounds = Vector4(0.482, 0.482, 0.531, 0.523)
-shader_parameter/repair_feather = 0.004
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_e6i01"]
+panorama = ExtResource("6_mpxvk")
 
-[sub_resource type="Sky" id="Sky_nlojn"]
-sky_material = SubResource("PanoramaSkyMaterial_0my8v")
+[sub_resource type="Sky" id="Sky_b4o2f"]
+sky_material = SubResource("PanoramaSkyMaterial_e6i01")
+process_mode = 1
+radiance_size = 5
 
-[sub_resource type="Environment" id="Environment_7s1vo"]
+[sub_resource type="Environment" id="Environment_v51dc"]
 background_mode = 2
-background_energy_multiplier = 0.35
-sky = SubResource("Sky_nlojn")
+background_energy_multiplier = 0.55
+sky = SubResource("Sky_b4o2f")
+sky_rotation = Vector3(0, -0.6, 0)
 ambient_light_source = 2
-ambient_light_color = Color(0.7411765, 0.8156863, 0.8745098, 1)
-ambient_light_energy = 0.25
-tonemap_mode = 2
-ssr_enabled = true
+ambient_light_color = Color(0.74, 0.82, 0.88, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.12
+reflected_light_source = 1
+tonemap_mode = 4
 ssao_enabled = true
-ssil_enabled = true
+ssao_radius = 0.65
+ssao_intensity = 0.75
+ssao_power = 1.2
+ssao_detail = 0.4
+ssao_sharpness = 0.9
+sdfgi_enabled = false
 glow_enabled = true
-fog_light_color = Color(0.76862746, 0.83137256, 0.88235295, 1)
-fog_density = 0.002
-fog_sky_affect = 0.65
+glow_normalized = true
+glow_intensity = 0.12
+glow_blend_mode = 0
+glow_hdr_threshold = 1.7
+glow_hdr_scale = 1.2
+glow_hdr_luminance_cap = 4.0
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.53, 0.61, 0.7, 1)
+fog_light_energy = 0.65
+fog_density = 0.4
+fog_aerial_perspective = 0.35
+fog_sky_affect = 0.1
+fog_depth_curve = 1.4
+fog_depth_begin = 150.0
+fog_depth_end = 450.0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.0
-volumetric_fog_length = 500.0
+volumetric_fog_density = 0.0015
+volumetric_fog_albedo = Color(0.78, 0.85, 0.93, 1)
+volumetric_fog_anisotropy = 0.25
+volumetric_fog_gi_inject = 0.0
+volumetric_fog_ambient_inject = 0.08
+volumetric_fog_length = 160.0
+volumetric_fog_detail_spread = 2.0
+volumetric_fog_sky_affect = 0.15
+volumetric_fog_temporal_reprojection_enabled = false
 adjustment_enabled = true
-adjustment_brightness = 0.95
-adjustment_color_correction = ExtResource("5_kcy4x")
-metadata/ssao_enabled = true
-metadata/ssil_enabled = false
-metadata/ssr_enabled = false
-metadata/glow_enabled = true
-metadata/fog_enabled = true
+adjustment_saturation = 0.88
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_si458"]
 height = 12.613181
@@ -225,10 +221,6 @@ radius = 0.25333545
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kcy4x"]
 height = 6.0876384
 radius = 0.18262915
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_rikh2"]
-height = 11.7711935
-radius = 0.3531358
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aco0e"]
 height = 7.1854644
@@ -282,10 +274,6 @@ radius = 0.369663
 height = 7.2000437
 radius = 0.21600132
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_gx5vb"]
-height = 6.3959312
-radius = 0.19187793
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_idnty"]
 height = 8.638891
 radius = 0.25916675
@@ -294,10 +282,6 @@ radius = 0.25916675
 height = 6.449369
 radius = 0.19348107
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8axup"]
-height = 12.760506
-radius = 0.38281518
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_awwh7"]
 height = 14.583766
 radius = 0.437513
@@ -305,10 +289,6 @@ radius = 0.437513
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_llx8f"]
 height = 7.176049
 radius = 0.21528147
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7a8xg"]
-height = 9.775786
-radius = 0.2932736
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mpxvk"]
 height = 6.448433
@@ -354,17 +334,9 @@ radius = 0.2875779
 height = 13.709649
 radius = 0.41128948
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ypnvp"]
-height = 14.079107
-radius = 0.4223732
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_oyyxp"]
 height = 14.480885
 radius = 0.43442655
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_fs83m"]
-height = 12.742098
-radius = 0.38226295
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g7br2"]
 height = 10.01759
@@ -434,10 +406,6 @@ radius = 0.22592755
 height = 6.1630745
 radius = 0.18489224
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_js30p"]
-height = 14.301551
-radius = 0.4290465
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_gi2hg"]
 height = 13.899282
 radius = 0.41697848
@@ -453,10 +421,6 @@ radius = 0.20732085
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4nnws"]
 height = 13.556093
 radius = 0.4066828
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_kmgks"]
-height = 9.104443
-radius = 0.27313328
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aqn3s"]
 height = 8.214674
@@ -474,17 +438,9 @@ radius = 0.39187717
 height = 10.800134
 radius = 0.32400402
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7mv42"]
-height = 8.300493
-radius = 0.2490148
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g2vun"]
 height = 6.240803
 radius = 0.18722409
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_tddjk"]
-height = 7.8338985
-radius = 0.23501696
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_h4uc4"]
 height = 10.425322
@@ -646,10 +602,6 @@ radius = 0.38486966
 height = 12.0038
 radius = 0.360114
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_52qsi"]
-height = 10.993458
-radius = 0.32980374
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_f1qio"]
 height = 12.975185
 radius = 0.38925555
@@ -694,21 +646,9 @@ radius = 0.23887485
 height = 9.379325
 radius = 0.28137976
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_k58d4"]
-height = 6.7844834
-radius = 0.2035345
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0fxp7"]
-height = 12.536434
-radius = 0.37609303
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_dj42f"]
 height = 9.09605
 radius = 0.2728815
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7cuvb"]
-height = 6.883713
-radius = 0.20651138
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_clbv7"]
 height = 11.016579
@@ -733,10 +673,6 @@ radius = 0.27029505
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ya84b"]
 height = 13.093478
 radius = 0.39280435
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5nhnn"]
-height = 6.861889
-radius = 0.20585667
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_bxgx2"]
 height = 8.341595
@@ -781,10 +717,6 @@ radius = 0.19331351
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_thf54"]
 height = 7.068125
 radius = 0.21204375
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0xrq2"]
-height = 12.224975
-radius = 0.36674923
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_21e20"]
 height = 13.337345
@@ -866,10 +798,6 @@ radius = 0.31319058
 height = 12.49207
 radius = 0.37476212
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8yqro"]
-height = 9.539695
-radius = 0.28619084
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4412v"]
 height = 8.748368
 radius = 0.26245105
@@ -894,10 +822,6 @@ radius = 0.36447603
 height = 12.680151
 radius = 0.38040453
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xsa2p"]
-height = 8.323193
-radius = 0.24969578
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_s8rkp"]
 height = 13.017336
 radius = 0.39052007
@@ -917,10 +841,6 @@ radius = 0.30830917
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ab5gc"]
 height = 6.242463
 radius = 0.18727389
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_uswqu"]
-height = 6.7752438
-radius = 0.2032573
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l8rq2"]
 height = 14.805823
@@ -1046,10 +966,6 @@ radius = 0.42864713
 height = 8.547662
 radius = 0.25642985
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0lwcn"]
-height = 12.735852
-radius = 0.38207558
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hyimr"]
 height = 7.217503
 radius = 0.2165251
@@ -1078,10 +994,6 @@ radius = 0.41977972
 height = 14.124446
 radius = 0.42373338
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_jqeha"]
-height = 9.896777
-radius = 0.2969033
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_phyb6"]
 height = 6.863052
 radius = 0.20589155
@@ -1089,10 +1001,6 @@ radius = 0.20589155
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hjvcj"]
 height = 10.240519
 radius = 0.30721557
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_3522d"]
-height = 12.035475
-radius = 0.36106426
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_78xp0"]
 height = 6.665576
@@ -1150,10 +1058,6 @@ radius = 0.26533926
 height = 8.316784
 radius = 0.24950352
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_blekq"]
-height = 9.616341
-radius = 0.2884902
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_run44"]
 height = 9.396838
 radius = 0.28190514
@@ -1165,14 +1069,6 @@ radius = 0.21325189
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j36bh"]
 height = 13.662422
 radius = 0.40987265
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8sy7v"]
-height = 11.268882
-radius = 0.33806646
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0my8v"]
-height = 7.042429
-radius = 0.21127287
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7s1vo"]
 height = 6.571184
@@ -1186,10 +1082,6 @@ radius = 0.2447523
 height = 13.244202
 radius = 0.39732605
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_iujcn"]
-height = 13.82011
-radius = 0.41460332
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_caewp"]
 height = 14.152477
 radius = 0.42457432
@@ -1201,10 +1093,6 @@ radius = 0.40695655
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qucmx"]
 height = 13.547504
 radius = 0.40642512
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_pxxy2"]
-height = 7.352281
-radius = 0.22056843
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_2dx14"]
 height = 7.536709
@@ -1270,10 +1158,6 @@ radius = 0.32091042
 height = 13.98107
 radius = 0.41943207
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5ik2n"]
-height = 9.845397
-radius = 0.2953619
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qt00v"]
 height = 11.309475
 radius = 0.33928424
@@ -1286,25 +1170,9 @@ radius = 0.31637743
 height = 11.505579
 radius = 0.34516737
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ctgh4"]
-height = 6.187681
-radius = 0.18563044
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_fpx74"]
-height = 8.263707
-radius = 0.24791121
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hb0xl"]
 height = 10.831156
 radius = 0.32493466
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lrwbi"]
-height = 13.855978
-radius = 0.41567934
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_sn2bj"]
-height = 11.538871
-radius = 0.34616613
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g1y4n"]
 height = 13.775468
@@ -1321,10 +1189,6 @@ radius = 0.221294
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qc665"]
 height = 13.348442
 radius = 0.40045327
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_63cgp"]
-height = 6.318921
-radius = 0.18956763
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hdwst"]
 height = 9.592747
@@ -1406,17 +1270,9 @@ radius = 0.3831597
 height = 13.733423
 radius = 0.41200268
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_wn00s"]
-height = 7.8195276
-radius = 0.23458582
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_cgxos"]
 height = 9.713814
 radius = 0.2914144
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lvisn"]
-height = 14.178494
-radius = 0.42535484
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7ew4l"]
 height = 12.24
@@ -1514,10 +1370,6 @@ radius = 0.19325735
 height = 10.091305
 radius = 0.30273914
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5g1du"]
-height = 6.260598
-radius = 0.18781795
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_u8leb"]
 height = 9.342584
 radius = 0.28027752
@@ -1586,10 +1438,6 @@ radius = 0.37483114
 height = 8.608837
 radius = 0.2582651
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_83hsx"]
-height = 12.294401
-radius = 0.36883202
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ss2ek"]
 height = 6.176065
 radius = 0.18528195
@@ -1602,14 +1450,6 @@ radius = 0.3406321
 height = 10.126023
 radius = 0.3037807
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6pive"]
-height = 6.045337
-radius = 0.18136011
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_mocfb"]
-height = 11.319679
-radius = 0.33959037
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vvb6f"]
 height = 6.6598787
 radius = 0.19979636
@@ -1617,14 +1457,6 @@ radius = 0.19979636
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_q28vj"]
 height = 7.3834763
 radius = 0.22150429
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_sfuiy"]
-height = 7.3680725
-radius = 0.22104217
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_qo4y3"]
-height = 7.13163
-radius = 0.2139489
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_i0kxy"]
 height = 13.354642
@@ -1666,10 +1498,6 @@ radius = 0.29033816
 height = 6.723918
 radius = 0.20171754
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6v4ct"]
-height = 7.937279
-radius = 0.23811838
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_dtapd"]
 height = 13.654198
 radius = 0.40962592
@@ -1685,14 +1513,6 @@ radius = 0.18856415
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_y7e6c"]
 height = 11.231955
 radius = 0.33695865
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_id0at"]
-height = 14.9505825
-radius = 0.44851747
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_rj87v"]
-height = 10.176966
-radius = 0.30530897
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_acpdk"]
 height = 6.0234833
@@ -1717,10 +1537,6 @@ radius = 0.3642243
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0u18l"]
 height = 7.6580324
 radius = 0.22974098
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_uxds2"]
-height = 12.092953
-radius = 0.3627886
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_6d6r4"]
 height = 9.595955
@@ -1806,10 +1622,6 @@ radius = 0.30270413
 height = 11.992565
 radius = 0.35977694
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7362i"]
-height = 7.759079
-radius = 0.23277237
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_cuwyk"]
 height = 7.960226
 radius = 0.23880678
@@ -1886,14 +1698,6 @@ radius = 0.3077113
 height = 11.726327
 radius = 0.3517898
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ib15e"]
-height = 12.413645
-radius = 0.37240934
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_mtqjb"]
-height = 12.545868
-radius = 0.37637603
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rfp0b"]
 height = 11.166498
 radius = 0.33499494
@@ -1942,25 +1746,13 @@ radius = 0.34059414
 height = 10.69575
 radius = 0.32087252
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_sppli"]
-height = 6.4010253
-radius = 0.19203076
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_tvado"]
 height = 10.732203
 radius = 0.32196608
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_fufpw"]
-height = 11.558345
-radius = 0.34675035
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jblx1"]
 height = 6.408365
 radius = 0.19225094
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_p3klx"]
-height = 7.4874716
-radius = 0.22462414
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_sngcg"]
 height = 6.280948
@@ -1977,10 +1769,6 @@ radius = 0.20226593
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ge2uf"]
 height = 14.597039
 radius = 0.43791118
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_qu5n0"]
-height = 9.27488
-radius = 0.2782464
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_semlu"]
 height = 13.295775
@@ -2174,10 +1962,6 @@ radius = 0.3555919
 height = 8.7227335
 radius = 0.261682
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_78ne6"]
-height = 11.315508
-radius = 0.33946523
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4hwxn"]
 height = 13.943074
 radius = 0.41829222
@@ -2206,10 +1990,6 @@ radius = 0.23141032
 height = 9.356084
 radius = 0.2806825
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_wc4kw"]
-height = 14.039627
-radius = 0.4211888
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_u4j2e"]
 height = 9.002386
 radius = 0.2700716
@@ -2217,10 +1997,6 @@ radius = 0.2700716
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qphbw"]
 height = 14.408591
 radius = 0.43225774
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lo8dm"]
-height = 14.645392
-radius = 0.43936178
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ld1sk"]
 height = 6.677211
@@ -2290,10 +2066,6 @@ radius = 0.2570138
 height = 12.739232
 radius = 0.38217697
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8x4my"]
-height = 14.342295
-radius = 0.43026885
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1dq2o"]
 height = 6.6724567
 radius = 0.2001737
@@ -2354,10 +2126,6 @@ radius = 0.35064852
 height = 13.16515
 radius = 0.3949545
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ybfkk"]
-height = 13.446204
-radius = 0.40338612
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_tlvow"]
 height = 6.5095677
 radius = 0.19528703
@@ -2382,10 +2150,6 @@ radius = 0.422411
 height = 10.880978
 radius = 0.32642934
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ga1ci"]
-height = 12.525963
-radius = 0.37577888
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_egoq0"]
 height = 10.307411
 radius = 0.30922234
@@ -2397,10 +2161,6 @@ radius = 0.41146368
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_iap85"]
 height = 8.400841
 radius = 0.25202522
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_k87bw"]
-height = 10.1886635
-radius = 0.3056599
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mbifp"]
 height = 9.696827
@@ -2421,10 +2181,6 @@ radius = 0.39604336
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_i37tq"]
 height = 12.7332325
 radius = 0.381997
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_bqtqk"]
-height = 11.059445
-radius = 0.33178335
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4v045"]
 height = 9.891868
@@ -2453,10 +2209,6 @@ radius = 0.33253285
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_epl58"]
 height = 10.181149
 radius = 0.30543447
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_dsc28"]
-height = 8.417146
-radius = 0.25251436
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_2sq0y"]
 height = 7.990886
@@ -2509,10 +2261,6 @@ radius = 0.433463
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_dji1a"]
 height = 11.436626
 radius = 0.3430988
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_quo0o"]
-height = 10.470588
-radius = 0.31411764
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7c2ph"]
 height = 12.216193
@@ -2570,10 +2318,6 @@ radius = 0.37066522
 height = 12.645558
 radius = 0.37936676
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_n2bb0"]
-height = 12.015638
-radius = 0.36046916
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_tl4el"]
 height = 11.358609
 radius = 0.34075826
@@ -2597,10 +2341,6 @@ radius = 0.41330817
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_m23wf"]
 height = 10.079456
 radius = 0.3023837
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6dpob"]
-height = 9.44779
-radius = 0.2834337
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aw6kd"]
 height = 11.627686
@@ -2646,10 +2386,6 @@ radius = 0.35860765
 height = 14.947066
 radius = 0.448412
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1rsou"]
-height = 13.397203
-radius = 0.40191612
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ohdqt"]
 height = 8.570737
 radius = 0.2571221
@@ -2658,17 +2394,9 @@ radius = 0.2571221
 height = 14.677352
 radius = 0.44032055
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_e4uyf"]
-height = 13.639087
-radius = 0.4091726
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7ibq5"]
 height = 9.803396
 radius = 0.2941019
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0mk4u"]
-height = 13.102013
-radius = 0.3930604
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ja3m0"]
 height = 8.710466
@@ -2733,10 +2461,6 @@ radius = 0.33318254
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4gbuw"]
 height = 13.859953
 radius = 0.41579857
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_cy2qx"]
-height = 8.413551
-radius = 0.25240654
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_6y7yw"]
 height = 11.399532
@@ -2854,10 +2578,6 @@ radius = 0.4338026
 height = 7.8499637
 radius = 0.2354989
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xyjdn"]
-height = 8.961957
-radius = 0.2688587
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kym0e"]
 height = 7.4677
 radius = 0.224031
@@ -2890,10 +2610,6 @@ radius = 0.2921637
 height = 7.6942606
 radius = 0.23082782
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_tanch"]
-height = 6.6549406
-radius = 0.19964822
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4iejn"]
 height = 13.722686
 radius = 0.41168058
@@ -2901,10 +2617,6 @@ radius = 0.41168058
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_p4soj"]
 height = 7.5640545
 radius = 0.22692163
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_28sra"]
-height = 7.4365997
-radius = 0.223098
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_juxju"]
 height = 9.2281065
@@ -2945,10 +2657,6 @@ radius = 0.34291992
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_myg6u"]
 height = 8.964132
 radius = 0.26892397
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_da24r"]
-height = 6.9380093
-radius = 0.20814028
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_x302t"]
 height = 13.251711
@@ -3005,10 +2713,6 @@ radius = 0.36147738
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_76p52"]
 height = 9.0327425
 radius = 0.27098227
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_s6rfh"]
-height = 13.971884
-radius = 0.41915652
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ld85n"]
 height = 12.243016
@@ -3074,17 +2778,9 @@ radius = 0.42857766
 height = 14.375116
 radius = 0.4312535
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5ki3j"]
-height = 7.936197
-radius = 0.23808591
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wflln"]
 height = 11.267228
 radius = 0.33801684
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lw6el"]
-height = 11.901896
-radius = 0.3570569
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_gpfah"]
 height = 6.389782
@@ -3111,39 +2807,6 @@ points = PackedVector3Array(0.16128707, 0.40731037, -1.1725543, -0.026941895, 1.
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7hiuj"]
 points = PackedVector3Array(0.09991121, 2, -4.4822693e-05, 0.061047554, 0.9986068, 0.99889636, 0.6897253, 1.0151212, 0.6753125, 0.94285905, 0.5182436, -4.4822693e-05, 0.27905834, 1.3726585, -0.37921375, 0.060839653, 0.8776387, -0.9979936, -0.08567858, 1.5062188, -0.4937585, -0.28290677, 1.9849305, -0.09116453, -0.27916586, 1.9527276, 0.08452368, 0.12214875, 0.37023315, 1.0195422, -0.5977652, 0.93709064, 0.8357148, 0.6053473, 0.11570465, 0.5079621, 0.58539593, -0.108891465, -4.4822693e-05, 0.71341753, 0.3644531, -0.6470142, 0.12007046, 0.48108622, -1.0083165, -0.5553684, 0.90777755, -0.762353, -0.48034275, 1.5091088, -0.5328665, -0.7488557, 1.5016774, -0.2096796, -0.35460722, 1.936213, 0.045217156, 0.10926342, 0.04696337, 0.62052166, -0.5002942, 0.45177314, 0.76663065, -0.2860242, 0.05996848, 0.4952569, -0.6251984, 1.4934201, 0.16452634, -0.92696375, 0.92140186, 0.2953496, -0.8174387, 0.45941105, 0.27649033, -0.57552767, 0.091965176, 0.20939136, 0.100118995, -0.021571465, -0.5689967, 0.48875618, 0.017237417, -0.41038108, -0.28436154, 0.047376238, -0.49236888, -0.50237244, 0.5847142, -0.7702937, -1.1800975, 0.5706769, -0.40859437, -0.6143914, 0.10951174, -0.22377437)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8niu3"]
-albedo_color = Color(0.31764707, 0.29803923, 0.28627452, 1)
-roughness = 0.92
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_5n65q"]
-material = SubResource("StandardMaterial3D_8niu3")
-top_radius = 0.6
-bottom_radius = 1.0
-height = 1.0
-radial_segments = 7
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3hak"]
-albedo_color = Color(0.21176471, 0.29411766, 0.29411766, 1)
-roughness = 0.92
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_ab4ln"]
-material = SubResource("StandardMaterial3D_m3hak")
-top_radius = 0.0
-bottom_radius = 1.0
-height = 1.0
-radial_segments = 9
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_drqc2"]
-albedo_color = Color(0.8627451, 0.9019608, 0.9137255, 1)
-roughness = 0.92
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_3ni1h"]
-material = SubResource("StandardMaterial3D_drqc2")
-top_radius = 0.0
-bottom_radius = 1.0
-height = 1.0
-radial_segments = 9
 
 [sub_resource type="MultiMesh" id="MultiMesh_1t4vr"]
 transform_format = 1
@@ -3626,23 +3289,8 @@ free_editor_textures = false
 top_level = true
 metadata/_edit_lock_ = true
 
-[node name="OvercastDayEnvironment" type="WorldEnvironment" parent="." unique_id=630273367]
-environment = SubResource("Environment_7s1vo")
-metadata/ssao_enabled = false
-metadata/ssil_enabled = false
-metadata/ssr_enabled = false
-metadata/glow_enabled = false
-metadata/fog_enabled = true
-metadata/volumetric_fog_enabled = true
-
-[node name="OvercastDaySun" type="DirectionalLight3D" parent="." unique_id=367090212]
-transform = Transform3D(0.8480481, 0.3938068, -0.35458517, 0, 0.66913056, 0.74314487, 0.52991927, -0.63022256, 0.5674549, 0, 0, 0)
-light_color = Color(1, 0.9607843, 0.89411765, 1)
-light_energy = 1.15
-light_cull_mask = 1048575
-shadow_enabled = true
-directional_shadow_max_distance = 220.0
-metadata/quality_shadow_original = true
+[node name="OvercastDayEnvironment" type="WorldEnvironment" parent="." unique_id=391446019]
+environment = SubResource("Environment_v51dc")
 
 [node name="Landscape" type="Node3D" parent="." unique_id=423740609]
 
@@ -7545,20 +7193,20 @@ shape = SubResource("BoxShape3D_gusvm")
 transform = Transform3D(-0.011427794, 0, 0.9999347, 0, 1, 0, -0.9999347, 0, -0.011427794, -450, 150, 5)
 shape = SubResource("BoxShape3D_mvv5l")
 
+[node name="CeilingBarrier" type="CollisionShape3D" parent="WorldSafetyBoundary" unique_id=1654535893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 502, 0)
+shape = SubResource("BoxShape3D_world_cap")
+
+[node name="DepthBarrier" type="CollisionShape3D" parent="WorldSafetyBoundary" unique_id=682835666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -156, 0)
+shape = SubResource("BoxShape3D_world_cap")
+
 [node name="BoundaryDressing" parent="." unique_id=793403480 instance=ExtResource("boundary_dressing")]
 
 [node name="CliffValley" parent="." unique_id=1130337646 instance=ExtResource("valley_scenery")]
 
-[node name="CeilingBarrier" type="CollisionShape3D" parent="WorldSafetyBoundary"]
-position = Vector3(0, 502, 0)
-shape = SubResource("BoxShape3D_world_cap")
+[node name="SouthPassForest" parent="." unique_id=999216322 instance=ExtResource("south_pass_forest")]
 
-[node name="DepthBarrier" type="CollisionShape3D" parent="WorldSafetyBoundary"]
-position = Vector3(0, -156, 0)
-shape = SubResource("BoxShape3D_world_cap")
+[node name="EastCliffWall" parent="." unique_id=1971488321 instance=ExtResource("native_east_cliff")]
 
-[node name="SouthPassForest" parent="." instance=ExtResource("south_pass_forest")]
-
-[node name="EastCliffWall" parent="." instance=ExtResource("native_east_cliff")]
-
-[node name="WestPassForest" parent="." instance=ExtResource("west_pass_forest")]
+[node name="WestPassForest" parent="." unique_id=1431995551 instance=ExtResource("west_pass_forest")]

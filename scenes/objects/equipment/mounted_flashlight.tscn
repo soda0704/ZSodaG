@@ -43,11 +43,17 @@ position = Vector3(-0.027,0,-0.045)
 mesh = SubResource("BridgeMesh")
 
 [node name="Beam" type="SpotLight3D" parent="."]
+light_indirect_energy = 0.4
+light_volumetric_fog_energy = 2.0
+light_energy = 1.6
+light_color = Color(1, 0.92, 0.8, 1)
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.025
+shadow_normal_bias = 0.4
+spot_range = 22.0
+spot_angle = 27.0
+metadata/world_lighting = true
 position = Vector3(0,0,-0.125)
 visible = false
-spot_range = 25.0
-spot_angle = 32.0
-light_energy = 3.0
-light_color = Color(1,0.94,0.808,1)
-shadow_enabled = true
-shadow_caster_mask = 524287

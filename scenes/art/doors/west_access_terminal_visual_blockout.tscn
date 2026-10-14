@@ -4,7 +4,7 @@
 
 [sub_resource type="StandardMaterial3D" id="Material_west_screen"]
 albedo_color = Color(0.72, 0.24, 0.035, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.58, 0.14, 0.012, 1)
 emission_energy_multiplier = 0.75
 

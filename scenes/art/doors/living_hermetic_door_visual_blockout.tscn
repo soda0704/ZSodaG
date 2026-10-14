@@ -14,7 +14,7 @@ size = Vector3(0.12, 0.24, 0.07)
 [sub_resource type="StandardMaterial3D" id="Material_hermetic_red"]
 albedo_color = Color(0.5, 0.035, 0.025, 1)
 roughness = 0.25
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.72, 0.025, 0.015, 1)
 emission_energy_multiplier = 1.1
 
@@ -29,7 +29,7 @@ size = Vector3(0.22, 0.34, 0.1)
 [sub_resource type="StandardMaterial3D" id="Material_hermetic_green"]
 albedo_color = Color(0.08, 0.38, 0.14, 1)
 roughness = 0.24
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.08, 0.48, 0.15, 1)
 emission_energy_multiplier = 1.15
 

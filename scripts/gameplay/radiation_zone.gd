@@ -14,12 +14,6 @@ func _ready() -> void:
 	warning_label.font_size = 60
 	warning_label.modulate = Color("efd15b")
 	warning_label.no_depth_test = false
-	var light := OmniLight3D.new()
-	add_child(light)
-	light.position.y = 1.0
-	light.light_color = Color("b6c757")
-	light.light_energy = 1.8
-	light.omni_range = radius
 
 func intensity_at(world_position: Vector3) -> float:
 	var point := to_local(world_position)

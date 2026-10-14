@@ -1,13 +1,13 @@
 extends Node
-## Applies quality limits without changing authored materials or light placement.
+## Display quality; the authored horror lighting profile owns world illumination.
 var values: Dictionary = {}
-const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "SSAO": true, "SSIL": false, "SSR": false, "Glow": true, "Fog": true, "SunShadows": true, "LocalShadows": true, "ShadowDistance": 120, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
+const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "SSAO": false, "SSIL": false, "SSR": false, "Glow": false, "Fog": false, "SunShadows": false, "LocalShadows": false, "ShadowDistance": 120, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
 
 func _ready() -> void:
 	get_tree().node_added.connect(_schedule_node)
 
 func _schedule_node(node: Node) -> void:
-	if node is WorldEnvironment or node is Light3D or node is Decal or node.name == &"SnowTracks" or node is MultiMeshInstance3D or node.has_meta("boundary_detail"):
+	if node is WorldEnvironment or node is Camera3D or node is Light3D or node is GeometryInstance3D or node is Decal or node.name == &"SnowTracks" or node.has_meta("boundary_detail"):
 		_apply_node_id.call_deferred(node.get_instance_id())
 
 func _apply_node_id(id: int) -> void:
@@ -40,12 +40,8 @@ func apply_node(node: Node) -> void:
 		return
 	if node is WorldEnvironment and node.environment != null:
 		apply_environment(node.environment)
-	if node is Light3D:
-		if not node.has_meta("quality_shadow_original"):
-			node.set_meta("quality_shadow_original", node.shadow_enabled)
-		node.shadow_enabled = bool(node.get_meta("quality_shadow_original")) and bool(values.SunShadows if node is DirectionalLight3D else values.LocalShadows)
-		if node is DirectionalLight3D:
-			node.directional_shadow_max_distance = float(values.ShadowDistance)
+	if node is Camera3D and node.environment != null:
+		apply_environment(node.environment)
 	if node is Decal:
 		node.distance_fade_enabled = true
 		node.distance_fade_begin = float(values.DecalDistance) * 0.75
@@ -62,6 +58,7 @@ func apply_environment(env: Environment) -> void:
 	env.adjustment_brightness = clampf(float(values.Brightness)/100.0, 0.7, 1.4)
 	var gamma := clampi(roundi(float(values.Gamma)/10.0)*10, 70, 150)
 	env.adjustment_color_correction = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else null
-	for pair in [["ssao_enabled", "SSAO"], ["ssil_enabled", "SSIL"], ["ssr_enabled", "SSR"], ["glow_enabled", "Glow"], ["fog_enabled", "Fog"], ["volumetric_fog_enabled", "Fog"]]:
-		if not env.has_meta(pair[0]): env.set_meta(pair[0], env.get(pair[0]))
-		env.set(pair[0], bool(values[pair[1]]) and (bool(env.get_meta(pair[0])) if pair[1] == "Fog" else true))
+	# Keep the authored sky, ambient occlusion, bloom and distance haze.
+	# Authored VoxelGI and volumetric scattering own indirect light and atmosphere.
+	for effect in ["ssil_enabled", "ssr_enabled", "sdfgi_enabled"]:
+		env.set(effect, false)

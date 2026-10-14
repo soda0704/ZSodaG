@@ -11,10 +11,18 @@ sky_material = SubResource("sky_material")
 [sub_resource type="Environment" id="environment"]
 background_mode = 2
 sky = SubResource("sky")
-ambient_light_source = 3
 ambient_light_color = Color(0.75, 0.82, 0.9, 1)
-ambient_light_energy = 0.6
-tonemap_mode = 2
+tonemap_mode = 4
+ambient_light_source = 2
+ambient_light_energy = 0.018
+reflected_light_source = 1
+ssao_enabled = false
+ssil_enabled = false
+ssr_enabled = false
+sdfgi_enabled = false
+glow_enabled = false
+fog_enabled = false
+volumetric_fog_enabled = false
 
 [node name="BaseSession" type="Node3D"]
 script = ExtResource("1")
@@ -25,10 +33,6 @@ gameplay_origin_path = NodePath("Gameplay")
 [node name="CabinSound" parent="." instance=ExtResource("5_audio")]
 [node name="ArrivalEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("environment")
-[node name="ArrivalSun" type="DirectionalLight3D" parent="."]
-rotation = Vector3(-0.7, -0.5, 0)
-light_energy = 0.9
-shadow_enabled = true
 [node name="Gameplay" type="Node3D" parent="."]
 [node name="WorldItems" type="Node3D" parent="Gameplay"]
 [node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]

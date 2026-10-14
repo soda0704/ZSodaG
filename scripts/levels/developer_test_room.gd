@@ -21,16 +21,6 @@ func _ready() -> void:
 	_add_surface("SouthWall", Vector3(32, 8, 0.4), Vector3(0, 4, 12), wall_material)
 	_add_surface("WestWall", Vector3(0.4, 8, 24), Vector3(-16, 4, 0), wall_material)
 	_add_surface("EastWall", Vector3(0.4, 8, 24), Vector3(16, 4, 0), wall_material)
-	for x in [-10.0, 0.0, 10.0]:
-		for z in [-6.0, 6.0]:
-			var light := OmniLight3D.new()
-			light.position = Vector3(x, 6.8, z)
-			light.light_color = Color("e6f2ff")
-			light.light_energy = 8.0
-			light.omni_range = 15.0
-			light.omni_attenuation = 0.65
-			light.shadow_enabled = true
-			add_child(light)
 	var label := Label3D.new()
 	label.text = "DEV TEST ROOM\n/testroom — вернуться"
 	label.position = Vector3(0, 3.2, -11.75)

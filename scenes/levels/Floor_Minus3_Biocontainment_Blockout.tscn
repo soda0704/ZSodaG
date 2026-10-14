@@ -19,13 +19,13 @@ roughness = 0.52
 
 [sub_resource type="StandardMaterial3D" id="Material_warning"]
 albedo_color = Color(0.92, 0.38, 0.08, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.58, 0.12, 0.01, 1)
 emission_energy_multiplier = 1.05
 
 [sub_resource type="StandardMaterial3D" id="Material_screen"]
 albedo_color = Color(0.16, 0.72, 0.86, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.03, 0.48, 0.68, 1)
 emission_energy_multiplier = 1.35
 
@@ -43,7 +43,7 @@ roughness = 0.12
 [sub_resource type="StandardMaterial3D" id="Material_bio"]
 albedo_color = Color(0.14, 0.72, 0.54, 1)
 roughness = 0.46
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.025, 0.28, 0.18, 1)
 emission_energy_multiplier = 0.55
 
@@ -1628,88 +1628,5 @@ material = SubResource("Material_warning")
 
 [node name="Floor_Lighting_Blockout" type="Node3D" parent="." unique_id=670894966]
 editor_description = "Temporary blockout illumination. Cool laboratory light establishes navigation and room hierarchy; dim red emergency light is restricted to the damaged containment and incident-analysis zones. Final art lighting remains a later pass."
-
-[node name="Arrival_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=102545468]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3.65, 0)
-light_color = Color(0.62, 0.82, 0.92, 1)
-light_energy = 0.75
-omni_range = 5.8
-
-[node name="Sanitation_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1726326900]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 3.65, 0)
-light_color = Color(0.66, 0.86, 0.96, 1)
-light_energy = 0.9
-omni_range = 6.5
-
-[node name="Observation_Corridor_Light_West" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1695995424]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.55, -1.2)
-light_color = Color(0.48, 0.74, 0.9, 1)
-light_energy = 0.75
-omni_range = 6.5
-
-[node name="Observation_Corridor_Light_North" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=2041688155]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.55, -7)
-light_color = Color(0.42, 0.72, 0.9, 1)
-light_energy = 0.78
-omni_range = 7.0
-
-[node name="Central_Lab_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=384399478]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 3.55, -16)
-light_color = Color(0.5, 0.82, 0.96, 1)
-light_energy = 1.05
-omni_range = 8.5
-
-[node name="Central_Chamber_Key_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1036554546]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2.2, -16)
-light_color = Color(0.18, 0.78, 0.68, 1)
-light_energy = 0.65
-omni_range = 4.0
-
-[node name="Capsule_Vault_Light_South" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1816271563]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 3.55, -14.5)
-light_color = Color(0.3, 0.68, 0.9, 1)
-light_energy = 0.82
-omni_range = 6.3
-
-[node name="Capsule_Vault_Light_North" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1715765456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 3.55, -19.4)
-light_color = Color(0.28, 0.64, 0.88, 1)
-light_energy = 0.82
-omni_range = 6.3
-
-[node name="Damaged_Block_Upper_West_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1479647740]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 3.4, -27)
-light_color = Color(0.3, 0.62, 0.78, 1)
-light_energy = 0.65
-omni_range = 6.2
-
-[node name="Damaged_Block_Upper_East_Emergency_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1088509775]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3.3, -27)
-light_color = Color(0.95, 0.16, 0.08, 1)
-light_energy = 0.78
-omni_range = 6.5
-
-[node name="Damaged_Block_Lower_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=420806702]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -0.65, -27.5)
-light_color = Color(0.72, 0.16, 0.09, 1)
-light_energy = 0.62
-omni_range = 7.0
-
-[node name="East_Control_Gallery_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=494600042]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.55, -16.8)
-light_color = Color(0.46, 0.76, 0.92, 1)
-light_energy = 0.85
-omni_range = 6.4
-
-[node name="East_Gallery_Threshold_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=1509844622]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.45, -20.5)
-light_color = Color(0.4, 0.68, 0.86, 1)
-light_energy = 0.58
-
-[node name="Incident_Analysis_Emergency_Light" type="OmniLight3D" parent="Floor_Lighting_Blockout" unique_id=651797417]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.35, -24.7)
-light_color = Color(0.92, 0.22, 0.1, 1)
-light_energy = 0.72
-omni_range = 6.0
 
 [node name="BloodDressing" parent="." instance=ExtResource("blood_dressing")]

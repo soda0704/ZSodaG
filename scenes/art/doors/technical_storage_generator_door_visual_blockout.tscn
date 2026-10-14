@@ -12,7 +12,7 @@ roughness = 0.42
 
 [sub_resource type="StandardMaterial3D" id="Material_fire_seal"]
 albedo_color = Color(0.5, 0.045, 0.018, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.42, 0.025, 0.008, 1)
 emission_energy_multiplier = 0.7
 

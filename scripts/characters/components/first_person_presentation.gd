@@ -41,6 +41,9 @@ var _environment_source: Environment
 var _view_environment: Environment
 var _environment_dirty:=true
 var _view_frame := Transform3D.IDENTITY
+var _lighting_fill: DirectionalLight3D
+var _view_world_root:Node3D
+var _world_light_instances:Dictionary={}
 
 func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	camera=owner_camera
@@ -77,16 +80,27 @@ func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	tree.callback_mode_process=AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
 	tree.active=true
 	# Separate depth buffer keeps hands out of walls without changing the shot.
-	# Shared World3D supplies actual environmental lighting to the viewmodel.
+	# An isolated world avoids culling and lighting the entire base twice.
 	overlay=CanvasLayer.new(); overlay.name="ViewmodelComposite"; overlay.layer=4
 	add_child(overlay)
-	var surface:=SubViewportContainer.new(); surface.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	overlay.add_child(surface); surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); surface.stretch=true
+	var surface:=TextureRect.new(); surface.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	surface.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+	surface.stretch_mode=TextureRect.STRETCH_SCALE
+	overlay.add_child(surface); surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	viewport=SubViewport.new(); viewport.name="ViewmodelViewport"; viewport.transparent_bg=true
-	viewport.world_3d=camera.get_world_3d()
+	viewport.world_3d=World3D.new()
 	viewport.handle_input_locally=false; viewport.msaa_3d=Viewport.MSAA_4X
+	# The view rig never renders the world's shadow maps a second time.
+	viewport.positional_shadow_atlas_size=0
 	viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
-	surface.add_child(viewport)
+	overlay.add_child(viewport)
+	surface.texture=viewport.get_texture()
+	_sync_view_resolution()
+	_view_world_root=Node3D.new();_view_world_root.name="ViewRig"
+	_view_world_root.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+	viewport.add_child(_view_world_root)
+	_view_world_root.global_transform=global_transform
+	aim_pivot.reparent(_view_world_root,false)
 	view_camera=Camera3D.new(); view_camera.cull_mask=VIEW_LAYER; view_camera.near=0.01; view_camera.far=5.0
 	view_camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
 	viewport.add_child(view_camera); view_camera.current=true
@@ -94,18 +108,16 @@ func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	# Godot also applies camera layers to shadow casters. The local body is
 	# SHADOWS_ONLY, so this layer preserves its shadow without drawing its mesh.
 	camera.cull_mask |= LOCAL_BODY_LAYER
-	var fill:=OmniLight3D.new(); fill.name="ViewmodelFill"; fill.light_cull_mask=VIEW_LAYER
-	fill.layers=VIEW_LAYER
-	fill.light_energy=0.45; fill.omni_range=2.0; fill.position=Vector3(0,0.08,0.12); add_child(fill)
-	# Camera visibility layers also cull Light3D instances. Include existing and
-	# subsequently spawned lights in the view pass, without exposing world meshes.
-	for light in get_tree().root.find_children("*","Light3D",true,false): _include_light(light)
-	get_tree().node_added.connect(_include_light)
+	_lighting_fill=DirectionalLight3D.new()
+	_lighting_fill.name="ViewLighting"
+	_lighting_fill.set_meta("world_lighting",true)
+	_lighting_fill.layers=VIEW_LAYER; _lighting_fill.light_cull_mask=VIEW_LAYER
+	_lighting_fill.light_energy=0.0; _lighting_fill.shadow_enabled=false
+	_lighting_fill.light_indirect_energy=0.0
+	_lighting_fill.light_volumetric_fog_energy=0.0
+	_lighting_fill.rotation_degrees=Vector3(-25,-20,0)
+	_view_world_root.add_child(_lighting_fill)
 	_refresh_visibility()
-
-func _include_light(node: Node) -> void:
-	if node is Light3D:
-		node.layers|=VIEW_LAYER; node.light_cull_mask|=VIEW_LAYER
 
 func update_context(values: Dictionary) -> void:
 	context=values.duplicate()
@@ -113,6 +125,7 @@ func update_context(values: Dictionary) -> void:
 func _process(delta: float) -> void:
 	if model==null or _disabled: return
 	_view_frame = camera.get_global_transform_interpolated()
+	_sync_view_resolution()
 	var animation_delta:=delta
 	delta=minf(delta,0.04)
 	var next: String=KINDS.get(context.get("held_item",&""),"Relaxed")
@@ -173,16 +186,38 @@ func _process(delta: float) -> void:
 		Basis.from_euler(_angle.limit_length(deg_to_rad(2.0))),
 		_offset.limit_length(0.025)
 	)
+	_view_world_root.global_transform=global_transform
 	_refresh_visibility()
 	view_camera.global_transform=_view_frame
 	view_camera.global_basis=_view_frame.basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
 	_sync_environment()
+	_update_lighting(delta)
 	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
 	# Only the spring integration needs a bounded step. Animation playback must
 	# keep real time even on a heavy level at less than 25 rendered frames/sec.
 	tree.advance(animation_delta)
 	update_grips(model,kind,book_phase,context.get("reloading",false),delta)
 	_align_weapon_sights()
+	_sync_world_light_instances()
+
+func _sync_view_resolution() -> void:
+	# UI uses a fixed 1920x1080 canvas. Its logical size must not force an
+	# oversized 3D render target when the actual game window is smaller.
+	var output:Vector2i=camera.get_viewport().get("size")
+	output=Vector2i(maxi(output.x,2),maxi(output.y,2))
+	if viewport.size!=output:viewport.size=output
+	var scale:=camera.get_viewport().scaling_3d_scale
+	if not is_equal_approx(viewport.scaling_3d_scale,scale):viewport.scaling_3d_scale=scale
+
+func _sync_world_light_instances() -> void:
+	# Logical equipment and its sockets stay together. Only the lights' render
+	# instances join the gameplay scenario, keeping their exact animated pose,
+	# battery state and visibility without duplicating lights or shadow maps.
+	for light:Light3D in model.find_children("*","Light3D",true,false):
+		var instance:=light.get_instance()
+		if not _world_light_instances.has(instance):
+			RenderingServer.instance_set_scenario(instance,camera.get_world_3d().scenario)
+			_world_light_instances[instance]=true
 
 func _align_weapon_sights() -> void:
 	aim_pivot.transform=Transform3D.IDENTITY
@@ -211,19 +246,37 @@ func _environment_changed() -> void:
 	_environment_dirty=true
 
 func _sync_environment() -> void:
-	var source:=camera.get_world_3d().environment
+	var source:=camera.environment if camera.environment!=null else camera.get_world_3d().environment
 	if source!=_environment_source:
 		if _environment_source!=null and _environment_source.changed.is_connected(_environment_changed): _environment_source.changed.disconnect(_environment_changed)
 		_environment_source=source
 		if source!=null: source.changed.connect(_environment_changed)
+		_view_environment=source.duplicate() as Environment if source!=null else null
+		if _view_environment!=null:
+			_view_environment.volumetric_fog_enabled=false
+			_view_environment.fog_enabled=false
+			_view_environment.ssao_enabled=false
+			_view_environment.ssr_enabled=false
+		view_camera.environment=_view_environment
 		_environment_dirty=true
 	if _environment_dirty:
-		_view_environment=source.duplicate() as Environment if source!=null else null
-		# The transparent depth pass cannot support SSR. Everything else follows
-		# the actual environment, including changes made in graphics settings.
-		if _view_environment!=null: _view_environment.ssr_enabled=false
-		view_camera.environment=_view_environment
+		# Keep one GPU environment. Roof transitions must not allocate a new
+		# environment and its render bindings every frame.
+		if source!=null and _view_environment!=null:
+			for property in source.get_property_list():
+				var key:StringName=property.name
+				if not (property.usage & PROPERTY_USAGE_STORAGE) or str(key).begins_with("volumetric_fog") or str(key).begins_with("fog_") or str(key).begins_with("ssao_") or str(key).begins_with("ssr_"):continue
+				var value:Variant=source.get(key)
+				if _view_environment.get(key)!=value:_view_environment.set(key,value)
 		_environment_dirty=false
+
+func _update_lighting(delta: float) -> void:
+	var lighting := get_tree().get_first_node_in_group("world_lighting")
+	var target := Color(0.02,0.025,0.03)
+	if lighting != null: target=lighting.sample_view_light(camera)
+	var magnitude:=maxf(target.r,maxf(target.g,target.b))
+	_lighting_fill.light_color=target/magnitude if magnitude>0.0001 else Color.WHITE
+	_lighting_fill.light_energy=lerpf(_lighting_fill.light_energy,magnitude,1.0-exp(-8.0*delta))
 
 static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float) -> void:
 	var sk: Skeleton3D=instance.get_node("Skeleton3D")
@@ -274,7 +327,7 @@ func _refresh_visibility() -> void:
 	model.visible = not _disabled and (kind != "Relaxed" or _empty_elapsed < 0.32 or _journal_phase > 0 or book_weight > 0.01) and not context.get("driving", false) and not context.get("sleeping", false)
 	var draw_view := model.visible and camera.current and not _external_view
 	# Hide renderable geometry, including held items, from every camera.
-	# Keep the gameplay flashlight's Light3D children active in the shared world.
+	# Gameplay light render instances remain in the main world.
 	for geometry: GeometryInstance3D in model.find_children("*", "GeometryInstance3D", true, false):
 		var id := geometry.get_instance_id()
 		if draw_view:

@@ -196,9 +196,10 @@ func _refresh_visuals() -> void:
 	elif is_available:
 		color = Color(1.0, 0.55, 0.04, 1.0)
 	_indicator_material.albedo_color = color.darkened(0.4)
-	_indicator_material.emission_enabled = is_available
+	_indicator_material.set_meta("world_lighting_emission", true)
+	_indicator_material.emission_enabled = true
 	_indicator_material.emission = color
-	_indicator_material.emission_energy_multiplier = 3.5 if is_available else 0.0
+	_indicator_material.emission_energy_multiplier = 0.35
 
 	var player_number := assigned_player_slot + 1
 	if assigned_peer_id <= 0:

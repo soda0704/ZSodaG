@@ -80212,20 +80212,16 @@ mesh = SubResource("BridgeMesh")
 [node name="Beam" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125)
 visible = false
-light_color = Color(1, 0.94, 0.808, 1)
-light_energy = 3.0
-shadow_enabled = true
-shadow_caster_mask = 524287
-spot_range = 25.0
-spot_angle = 32.0
-metadata/quality_shadow_original = true
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Skeleton3D/RightHand/Equipment" unique_id=611477265]
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+light_energy = 1.2
+omni_range = 2.2
+light_cull_mask = 393217
+metadata/world_lighting = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.55)
 visible = false
-light_color = Color(1, 0.65, 0.22, 1)
-light_energy = 3.0
-metadata/quality_shadow_original = false
 
 [node name="FlashlightGrip" type="Marker3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1957628216]
 transform = Transform3D(0.026627587, 0.85357815, -0.5202843, -0.17857814, -0.5080344, -0.8426213, -0.98356557, 0.11534836, 0.13890283, -0.1333424, -0.13569202, 0.059661597)

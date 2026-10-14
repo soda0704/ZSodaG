@@ -25,31 +25,38 @@ visible = false
 mesh = SubResource("CellMesh")
 
 [node name="Beam" type="SpotLight3D" parent="."]
+light_indirect_energy = 0.4
+light_volumetric_fog_energy = 2.0
+light_energy = 1.6
+light_color = Color(1, 0.92, 0.8, 1)
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.025
+shadow_normal_bias = 0.4
+spot_range = 22.0
+spot_angle = 27.0
+metadata/world_lighting = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)
 visible = false
-light_color = Color(1, 0.92, 0.8, 1)
-light_energy = 2.6
-light_specular = 0.8
-light_volumetric_fog_energy = 0.65
-shadow_enabled = true
-spot_range = 10.5
-spot_attenuation = 1.55
-spot_angle = 19.0
-spot_angle_attenuation = 0.8
 
 [node name="Spill" type="SpotLight3D" parent="."]
+light_indirect_energy = 0.2
+light_volumetric_fog_energy = 0.0
+light_energy = 0.10
+light_color = Color(1, 0.92, 0.8, 1)
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.025
+shadow_normal_bias = 0.4
+spot_range = 3.5
+spot_angle = 65.0
+metadata/world_lighting = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.38)
 visible = false
-light_color = Color(1, 0.9, 0.75, 1)
-light_energy = 0.24
-light_specular = 0.35
-light_volumetric_fog_energy = 0.25
-spot_range = 5.5
-spot_attenuation = 1.8
-spot_angle = 36.0
-spot_angle_attenuation = 1.0
 
 [node name="MalfunctionTimer" type="Timer" parent="."]
 unique_name_in_owner = true

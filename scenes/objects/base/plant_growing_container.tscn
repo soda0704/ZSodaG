@@ -15,13 +15,13 @@ roughness = 0.65
 
 [sub_resource type="StandardMaterial3D" id="IndicatorReady"]
 albedo_color = Color(0.08, 0.42, 0.16, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.12, 0.72, 0.25, 1)
 emission_energy_multiplier = 0.7
 
 [sub_resource type="StandardMaterial3D" id="IndicatorWatered"]
 albedo_color = Color(0.07, 0.21, 0.45, 1)
-emission_enabled = true
+emission_enabled = false
 emission = Color(0.1, 0.42, 0.8, 1)
 emission_energy_multiplier = 0.6
 

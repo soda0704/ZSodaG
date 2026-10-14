@@ -65,10 +65,10 @@ var _cooldown: float = 0.0
 var _models: Dictionary = {}
 var _pose: Node3D
 var _hud: Label
-var _flash: OmniLight3D
+var _flash: Node3D
 var _audio: AudioStreamPlayer3D
 var _mounted_lamp: Node3D
-var _mounted_beam: SpotLight3D
+var _mounted_beam: Node3D
 
 func _ready() -> void:
 	if not InputMap.has_action("weapon_aim"):
