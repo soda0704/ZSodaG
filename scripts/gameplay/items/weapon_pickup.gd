@@ -15,9 +15,10 @@ func _ready() -> void:
 		var model := scene.instantiate()
 		model.name = "Model"
 		add_child(model)
-		if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
+		if item_state.has("mounted_charge") and item_type == &"m4a1":
 			var mount := preload("res://scenes/objects/equipment/mounted_flashlight.tscn").instantiate()
-			mount.position = Vector3(0.053, 0.01, -0.16)
+			mount.transform = model.get_node("FlashlightMount").transform
+			mount.visible = true
 			add_child(mount)
 		if use_authored_collision: return
 		var shape := BoxShape3D.new()
@@ -52,7 +53,7 @@ func _ready() -> void:
 func get_interaction_prompt() -> String:
 	if not pickup_enabled: return ""
 	if item_state.has("mounted_charge") and item_type in [&"pistol", &"m4a1"]:
-		return "%s · фонарик на скотче · %d%%" % [WeaponController.TITLES[item_type], roundi(float(item_state.mounted_charge) * 100.0)]
+		return "%s · фонарик%s · %d%%" % [WeaponController.TITLES[item_type], " на скотче" if item_type == &"m4a1" else "", roundi(float(item_state.mounted_charge) * 100.0)]
 	if item_type == &"pistol_ammo":
 		return "Патроны для пистолета · %d шт." % int(item_state.get("amount", 12))
 	if item_type == &"rifle_magazine":

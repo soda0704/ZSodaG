@@ -52,11 +52,14 @@ func run() -> void:
 		world._on_session_ready(false)
 		check(await until(func(): return world._entered_v3_level and not world._v3_transition_in_progress and world.players.get_child_count() == 2), "late client loads authored terminals")
 		bind_terminals()
-		check(await until(func(): return state.quest_stage == BaseGameplayController.QuestStage.ACCEPTED), "late client receives accepted assignment")
+		check(await until(func(): return state.quest_stage == BaseGameplayController.QuestStage.OFFERED), "late client can find key without a preliminary hub mission")
 		check(vault.key_visual.visible and not vault.animation_player.is_playing(), "late client sees key without replaying extraction")
 		var local: GamePlayer = get_tree().get_first_node_in_group("local_player")
 		vault.network_interact(local.owner_peer_id, local)
-		check(state.quest_stage == BaseGameplayController.QuestStage.ACCEPTED, "client cannot mutate quest locally")
+		check(state.quest_stage == BaseGameplayController.QuestStage.OFFERED, "client cannot mutate quest locally")
+		var lighting := get_tree().get_first_node_in_group("world_lighting") as WorldLighting
+		get_tree().root.get_node("DeveloperConsole").execute("/fullbright on")
+		check(lighting.debug_darkness == 0.0, "guest can enable local fullbright without a host command")
 		report.rpc_id(1, "initial", failures)
 		return
 	world._on_session_ready(true)
@@ -69,10 +72,11 @@ func run() -> void:
 	snapshot.main_breaker_on = true
 	snapshot.fuel_delivered = true
 	snapshot.fuel_liters = 20
-	snapshot.quest_stage = BaseGameplayController.QuestStage.ACCEPTED
+	snapshot.quest_stage = BaseGameplayController.QuestStage.OFFERED
 	state._broadcast_snapshot(snapshot)
 	print("HOST_READY_FOR_TERMINAL_CLIENT")
 	check(await until(func(): return reports.has("initial")), "late client confirms initial quest")
+	check((get_tree().get_first_node_in_group("world_lighting") as WorldLighting).debug_darkness == 1.0, "guest debug light does not affect host visibility")
 	if client_id == 0: get_tree().quit(1); return
 	var client_actor: GamePlayer = world.players.get_node(str(client_id))
 	await visit(client_actor, vault)
@@ -107,7 +111,7 @@ func verify_phase(phase: String) -> void:
 		check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED and not vault.key_visual.visible, "collected key synchronized to guest")
 		check(hub.ui.get_node("%Progress").text.contains("У КОМАНДЫ"), "guest screen shows shared key")
 	elif phase == "blackout":
-		check(not hub.screen_glow.visible and not vault.screen_glow.visible, "guest screen lights off on blackout")
+		check(not hub._screen_material.get_shader_parameter("powered") and not vault._screen_material.get_shader_parameter("powered"), "guest screens off on blackout")
 		check(not hub._screen_material.get_shader_parameter("powered") and not vault._screen_material.get_shader_parameter("powered"), "guest screen shaders off on blackout")
 	elif phase == "delivered":
 		check(state.quest_stage == BaseGameplayController.QuestStage.DELIVERED and hub.key_visual.visible and not vault.key_visual.visible, "guest sees delivered key once")

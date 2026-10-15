@@ -136,6 +136,7 @@ func damage(amount: float, cause: String) -> void:
 		death_velocity = player.velocity
 		death_hit_impulse=pending_hit_impulse
 		player.velocity = Vector3.ZERO
+		player._handheld_flashlight_drawn = false
 		player._flashlight_enabled = false
 		player._flashlight_malfunctioning = false
 		if player._held_item_type == player.FLASHLIGHT_ITEM:

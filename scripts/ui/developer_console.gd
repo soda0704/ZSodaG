@@ -2,6 +2,7 @@ extends CanvasLayer
 
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
+const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off"]
 const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/day 1", "/day 2", "/day 3", "/day 4", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
@@ -30,6 +31,7 @@ func _help_text() -> String:
 	var lines: PackedStringArray = []
 	lines.append("[url=/freecam]/freecam[/url] — Выйти из тела / вернуться; WASD, мышь, Space/Ctrl, Shift ×3")
 	lines.append("[url=/freecam speed 5]/freecam speed 5[/url] — Скорость камеры (0.1–100 м/с); /freecam speed reset — сброс")
+	lines.append("[url=/fullbright]/fullbright[/url] — Светлый тестовый режим без затемнения; on/off — включить/выключить")
 	for command in COMMANDS:
 		lines.append("[url=%s]%s[/url] — %s" % [command, command, COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
 	return "\n".join(lines)
@@ -125,7 +127,7 @@ func complete_command() -> void:
 			partial = "/" + partial
 		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
 		_completion_suffix = entry.text.substr(bounds.y)
-		for command in FREECAM_COMMANDS + COMMANDS:
+		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS:
 			if command.begins_with(partial):
 				_completion_options.append(command)
 		_completion_index = -1
@@ -190,11 +192,24 @@ func _execute_one(line: String) -> String:
 	# Camera inspection is local even for a co-op client: never send it to the host.
 	if args[0] == "/freecam":
 		return _execute_freecam(args)
+	if args[0] == "/fullbright":
+		return _execute_lighting(args)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
 	if not multiplayer.is_server():
 		_request_command.rpc_id(1, line.left(1024), target_path, target_point)
 		return "Команда отправлена серверу..."
 	return _execute_authoritative(args, state, multiplayer.get_unique_id(), target_path, target_point)
+
+
+func _execute_lighting(args: PackedStringArray) -> String:
+	var lighting := get_tree().get_first_node_in_group("world_lighting") as WorldLighting
+	if lighting == null:
+		return "Эта команда доступна на базе после высадки."
+	if args.size() > 2 or (args.size() == 2 and args[1] not in ["on", "off"]):
+		return "Использование: /fullbright [on|off]."
+	var enabled := lighting.debug_darkness > 0.0 if args.size() == 1 else args[1] == "on"
+	lighting.set_debug_darkness(0.0 if enabled else 1.0)
+	return "Светлый тестовый режим %s. В сейв не записывается." % ("включён" if enabled else "выключен")
 
 
 func _execute_freecam(args: PackedStringArray) -> String:

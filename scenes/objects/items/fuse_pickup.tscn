@@ -14,6 +14,7 @@ linear_damp = 0.45
 angular_damp = 1.4
 script = ExtResource("1_item")
 item_type = &"fuse"
+highlight_category = 1
 display_name = "предохранитель"
 
 [node name="Model" parent="." instance=ExtResource("2_model")]

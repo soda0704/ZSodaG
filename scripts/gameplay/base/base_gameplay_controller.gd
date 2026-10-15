@@ -268,7 +268,9 @@ func advance_quest_authoritative(peer_id: int, expected_stage: QuestStage) -> bo
 	):
 		return false
 	var snapshot := get_snapshot()
-	snapshot["quest_stage"] = int(quest_stage) + 1
+	# OFFERED now means the key is available, without a preliminary hub visit.
+	# ACCEPTED remains readable for existing saves.
+	snapshot["quest_stage"] = int(QuestStage.COLLECTED) if quest_stage == QuestStage.OFFERED else int(quest_stage) + 1
 	_broadcast_snapshot(snapshot)
 	return true
 

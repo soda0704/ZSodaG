@@ -145,8 +145,9 @@ func equip(kind: StringName) -> void:
 func request_report() -> void:
 	var actors := {}
 	for actor: GamePlayer in players():
-		actors[str(actor.owner_peer_id)] = {"variant":actor.character_variant_id,"model":actor.body_animator.variant.variant_id,"bones":actor.body_animator.skeleton.get_bone_count(),"scene":actor.body_animator.variant.body_scene.resource_path,"alive":not actor.survival.dead,"observed":observed.get(str(actor.owner_peer_id),{})}
+		actors[str(actor.owner_peer_id)] = {"variant":actor.character_variant_id,"model":actor.body_animator.variant.variant_id,"bones":actor.body_animator.skeleton.get_bone_count(),"scene":actor.body_animator.variant.body_scene.resource_path,"alive":not actor.survival.dead,"observed":observed.get(str(actor.owner_peer_id),{}), "hand": actor._held_item_type, "offhand": actor.is_offhand_flashlight_drawn(), "handheld": actor.is_handheld_flashlight_drawn(), "lamp_left": String(actor.flashlight.get_parent().get_path()).contains("/LeftHand/"), "lamp_visible": actor.flashlight.is_visible_in_tree(), "lamp_on": actor._flashlight_enabled}
 	actors["battery_items"] = battery_snapshot()
+	actors["focus"] = focus_snapshot()
 	receive_report.rpc_id(1,actors)
 
 func battery_snapshot() -> Dictionary:
@@ -228,6 +229,16 @@ func run() -> void:
 	for actor: GamePlayer in actors:
 		print("VISUAL MODEL ",actor.owner_peer_id," variant ",actor.character_variant_id," scene ",actor.body_animator.model.scene_file_path," bones ",actor.body_animator.skeleton.get_bone_count())
 		check(actor.body_animator.skeleton.get_bone_count()==(79 if actor.character_variant_id==0 else 88),"host loaded assigned native rig")
+	if OS.get_cmdline_user_args().has("--item-focus-only"):
+		if DisplayServer.get_name() == "headless":
+			push_error("Item focus regression requires graphical rendering and a captured cursor.")
+			get_tree().quit(1)
+			return
+		await run_item_focus_checks()
+		return
+	if OS.get_cmdline_user_args().has("--offhand-only"):
+		await run_offhand_checks()
+		return
 	for name in ["idle","walk","run","stop","strafe","backward","look","look_down","fast_turn","crouch","crouch_walk","stand","jump","land"]:
 		set_stage.rpc(name)
 		await delay(0.85)
@@ -279,3 +290,83 @@ func run() -> void:
 	finish.rpc(code)
 	await delay(0.15)
 	get_tree().quit(code)
+
+func run_offhand_checks() -> void:
+	for kind in [&"", &"pistol", &"fuel_can", &"fuse", &"kitchen_knife", &"m4a1"]:
+		for actor: GamePlayer in players():
+			actor.survival.set_physics_process(false)
+			actor.apply_inventory_snapshot({"held_item": kind, "has_flashlight": true, "battery_charge": 0.65, "handheld_flashlight_drawn": false, "weapon_rounds": 8})
+			actor._publish_inventory()
+		await delay(0.25)
+		set_stage.rpc("torch") # Both owners send production F input serials.
+		await delay(0.80)
+		var expected: bool = kind != &"m4a1"
+		var expected_hand: StringName = &"flashlight" if kind == &"" else kind
+		for actor: GamePlayer in players():
+			check(actor._held_item_type == expected_hand and actor.is_handheld_flashlight_drawn() == expected and actor._flashlight_enabled == expected, "host validates real owner input and inventory for %s owner %d" % [kind, actor.owner_peer_id])
+			if expected:
+				check(String(actor.flashlight.get_parent().get_path()).contains("/LeftHand/") and actor.flashlight.beam.is_visible_in_tree(), "host renders own/remote left-hand lamp")
+		reports.clear()
+		request_report.rpc()
+		await delay(0.30)
+		check(reports.size() == 1, "client reports actual replicated equipment")
+		for report: Dictionary in reports.values():
+			for actor: GamePlayer in players():
+				var data: Dictionary = report.get(str(actor.owner_peer_id), {})
+				check(StringName(data.get("hand", "")) == expected_hand and data.get("handheld", false) == expected and data.get("lamp_on", false) == expected, "client observes host and own authoritative flashlight state")
+				if expected: check(data.get("lamp_left", false) and data.get("lamp_visible", false), "client renders own/remote left-hand lamp")
+	print("OFFHAND NETWORK FAILURES ", failures)
+	finish.rpc(1 if failures else 0)
+	await delay(0.15)
+	get_tree().quit(1 if failures else 0)
+
+func focus_snapshot() -> Dictionary:
+	var local := local_player()
+	var current := local.item_focus.focused_item if local != null else null
+	var outlines: Array[StringName] = []
+	for item: WorldItemPickup in world.world_items.get_children():
+		for mesh: MeshInstance3D in item.find_children("*", "MeshInstance3D", true, false):
+			if mesh.material_overlay != null:
+				outlines.append(item.item_type)
+				break
+	return {"type": current.item_type if is_instance_valid(current) else &"", "outlines": outlines}
+
+@rpc("authority", "call_remote", "reliable")
+func pickup_focused_item() -> void:
+	var actor := local_player()
+	var item := actor.item_focus.focused_item
+	if is_instance_valid(item):
+		# Same owner-authenticated pickup RPC as the production E/drag controller.
+		actor.get_node("ItemDrag")._request_pickup.rpc_id(1, item.get_path())
+
+func run_item_focus_checks() -> void:
+	set_stage.rpc("idle")
+	for actor: GamePlayer in players():
+		actor.survival.set_physics_process(false)
+		var kind := &"fuel_can" if actor.owner_peer_id == 1 else &"fuse"
+		world.spawn_world_item(kind, Transform3D(Basis.IDENTITY, actor.head.global_position + Vector3(0,0,-1.4)), {})
+	for item: WorldItemPickup in world.world_items.get_children():
+		if item.item_type in [&"fuel_can", &"fuse"]:
+			item.freeze = true
+			item.gravity_scale = 0.0
+	await delay(0.8)
+	var current := focus_snapshot()
+	check(current.type == &"fuel_can" and current.outlines == [&"fuel_can"], "host outlines only its own canister target")
+	reports.clear(); request_report.rpc(); await delay(0.3)
+	check(reports.size() == 1, "client reports real local focus")
+	for report: Dictionary in reports.values():
+		check(report.focus.type == &"fuse" and report.focus.outlines == [&"fuse"], "client sees only its own story item, not host's outline")
+	pickup_focused_item.rpc()
+	await delay(0.6)
+	check(players()[1]._held_item_type == &"fuse", "client focused item is picked up by authoritative inventory")
+	reports.clear(); request_report.rpc(); await delay(0.3)
+	for report: Dictionary in reports.values():
+		check(report.focus.type == &"" and report.focus.outlines.is_empty(), "replicated pickup removal clears client outline")
+	check(focus_snapshot().type == &"fuel_can", "client pickup does not change host focus")
+	set_stage.rpc("look")
+	await delay(0.6)
+	check(focus_snapshot().outlines.is_empty(), "host turning away removes local material overlay")
+	print("ITEM FOCUS NETWORK FAILURES ", failures)
+	finish.rpc(1 if failures else 0)
+	await delay(0.15)
+	get_tree().quit(1 if failures else 0)

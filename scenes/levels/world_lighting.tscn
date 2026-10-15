@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bqxa31sswn4t"]
 
 [ext_resource type="Script" uid="uid://dig0dvw45fnxo" path="res://scripts/levels/world_lighting.gd" id="controller"]
+[ext_resource type="Environment" path="res://assets/environments/debug_visibility.tres" id="debug_visibility"]
 
 [node name="WorldLighting" type="Node3D" unique_id=43938933]
 script = ExtResource("controller")
+debug_visibility_profile = ExtResource("debug_visibility")
 
 [node name="OvercastSun" type="DirectionalLight3D" parent="." unique_id=1849345055]
 transform = Transform3D(0.8480481, 0.3545852, -0.39380676, 0, 0.7431448, 0.6691306, 0.52991927, -0.56745493, 0.63022256, 0, 0, 0)

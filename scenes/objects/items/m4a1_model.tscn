@@ -16,3 +16,6 @@ position = Vector3(-0.0083, 0.100, -0.008)
 [node name="FrontSight" type="Marker3D" parent="."]
 position = Vector3(-0.0083, 0.092, -0.403)
 
+[node name="FlashlightMount" type="Marker3D" parent="."]
+position = Vector3(0.048, 0.035, -0.32)
+

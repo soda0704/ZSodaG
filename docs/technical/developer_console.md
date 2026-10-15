@@ -18,12 +18,17 @@
 | Объект под прицелом | `/open [ID]`, `/close [ID]`, `/kill [ID]` |
 | Существа | `/spawn tail|slasher|smily [COUNT]`, `/despawn`, `/monsters reset|kill` |
 | Прогресс | `/day 1` … `/day 4`, `/wiring`, `/lightfault` |
+| Видимость для тестирования | `/fullbright [on|off]` |
 
 Типы `/item`: `tape`, `crowbar`, `fuel_can`, `flashlight`, `battery`, `fuse`, `pistol`, `m4a1`, `kitchen_knife`, `pistol_ammo`, `rifle_magazine`. Предмет и тестовый монстр появляются в запомненной точке прицела. `/despawn` удаляет отладочно созданных существ, а не заменяет зачистку сюжетной встречи.
 
 `/speed` — множитель 0,1–20 для отладочной ходьбы и полёта; `reset` возвращает обычное движение. `/across` позволяет проходить через стены и выбирать интерактивные объекты через препятствие в обычном радиусе. Смерть, сон и чужое удержание предмета по-прежнему ограничивают действия.
 
 ## Область действия
+
+`/fullbright` включает или выключает светлый режим для тестирования без фонарика. `/fullbright on` отключает светотеневое затемнение через штатный Unshaded debug draw для мира и рук, убирает туман и влияние VoxelGI. `/fullbright off` возвращает авторское освещение, туман, GI и прежний режим рендеринга. Регулятор `/darkness` удалён: настройку художественной темноты выполняйте в сценах освещения.
+
+Это локальные команды каждого участника; они не отправляются хосту, не включают генератор, не чинят щит и не меняют сохранение. Выход со сцены сбрасывает отладочный режим. Параметры читаемого фона редактируются в `assets/environments/debug_visibility.tres`, ссылка назначена у WorldLighting в Inspector. Команды доступны на базе после высадки.
 
 `/freecam` отделяет камеру от тела для осмотра уровня и собственного персонажа. Закройте консоль: мышь поворачивает камеру, WASD перемещает в направлении взгляда, Space поднимает, Ctrl опускает, Shift ускоряет в 3 раза. Камера проходит сквозь стены. `/freecam speed 5` задаёт скорость в м/с (0,1–100), `reset` возвращает 5 м/с. Повторный `/freecam` или `/freecam off` возвращает вид от первого лица в текущее положение тела, без телепортации.
 
@@ -37,4 +42,4 @@
 
 `scripts/ui/developer_console.gd`, `developer_target_commands.gd`; сцена `scenes/ui/developer_console.tscn`. Свободная камера — `scripts/characters/components/debug_free_camera.gd`. Параметры перетаскивания — компонент `ItemDrag` игрока, не настройки панели консоли.
 
-Проверки: `debug_free_camera_regression.gd`, `respawn_debug_controls_regression.gd`, `door_arrival_regression.gd`, `monster_inspector_ai_regression.gd`. Дополнительно проверить команду второго участника и недоступность действий при смерти.
+Проверки: `debug_visibility_regression.gd`, `debug_free_camera_regression.gd`, `respawn_debug_controls_regression.gd`, `door_arrival_regression.gd`, `monster_inspector_ai_regression.gd`. Сетевой тест терминалов дополнительно проверяет, что настройка мрака гостя не меняет видимость хоста.

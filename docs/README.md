@@ -49,6 +49,7 @@
 - [Иллюстрации журнала](technical/journal_illustration_style.md).
 - [Звук и акустика](technical/audio_mix.md).
 - [Графика и пользовательские настройки](technical/settings.md).
+- [Освещение мира и отладочная видимость](technical/world_lighting.md).
 - [Снежное окружение и следы](technical/snow_exterior.md).
 - [Скалистый обрыв](technical/east_cliff_revision.md).
 - [Следы пуль](technical/bullet_surface_marks.md).

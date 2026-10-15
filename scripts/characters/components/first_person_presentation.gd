@@ -195,8 +195,11 @@ func _process(delta: float) -> void:
 	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
 	# Only the spring integration needs a bounded step. Animation playback must
 	# keep real time even on a heavy level at less than 25 rendered frames/sec.
+	var offhand: bool = context.get("offhand_flashlight", false) and book_phase == 0 and not context.get("reloading", false) and not context.get("carrying", false) and not context.get("driving", false) and not context.get("sleeping", false)
+	tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, animation_delta * 8.0))
+	tree.set("parameters/OffhandAim/blend_position", 0.0)
 	tree.advance(animation_delta)
-	update_grips(model,kind,book_phase,context.get("reloading",false),delta)
+	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand)
 	_align_weapon_sights()
 	_sync_world_light_instances()
 
@@ -218,6 +221,12 @@ func _sync_world_light_instances() -> void:
 		if not _world_light_instances.has(instance):
 			RenderingServer.instance_set_scenario(instance,camera.get_world_3d().scenario)
 			_world_light_instances[instance]=true
+			# Leaving the tree rebinds a Light3D to its viewport scenario even
+			# when its RID survives. Re-register after any reparent/re-entry.
+			light.tree_exited.connect(_forget_world_light.bind(instance), CONNECT_ONE_SHOT)
+
+func _forget_world_light(instance: RID) -> void:
+	_world_light_instances.erase(instance)
 
 func _align_weapon_sights() -> void:
 	aim_pivot.transform=Transform3D.IDENTITY
@@ -278,7 +287,7 @@ func _update_lighting(delta: float) -> void:
 	_lighting_fill.light_color=target/magnitude if magnitude>0.0001 else Color.WHITE
 	_lighting_fill.light_energy=lerpf(_lighting_fill.light_energy,magnitude,1.0-exp(-8.0*delta))
 
-static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float) -> void:
+static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float, offhand_flashlight := false) -> void:
 	var sk: Skeleton3D=instance.get_node("Skeleton3D")
 	var book: Node3D=instance.get_node("Journal")
 	var sockets: Node3D=sk.get_node("RightHand/Equipment")
@@ -290,7 +299,7 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 		var ik:=left_ik if side=="Left" else right_ik
 		var marker: Node3D
 		if journal_phase>0: marker=book.get_node(side+"Grip")
-		elif side=="Left" and equipment_kind in ["Rifle","Pistol"] and not reloading:
+		elif side=="Left" and equipment_kind in ["Rifle","Pistol"] and not reloading and not offhand_flashlight:
 			marker=sockets.get_node(("m4a1" if equipment_kind=="Rifle" else "pistol")+"/LeftHandGrip")
 		var amount:=1.0 if marker!=null else 0.0
 		if marker!=null:

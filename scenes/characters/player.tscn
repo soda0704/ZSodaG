@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://c81hc2rhqqv84" path="res://scripts/characters/components/player_ragdoll.gd" id="9_ragdoll"]
 [ext_resource type="PackedScene" path="res://scenes/characters/footstep_audio.tscn" id="foot_audio"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player_audio.tscn" id="player_audio"]
+[ext_resource type="PackedScene" path="res://scenes/characters/item_focus.tscn" id="item_focus"]
 
 
 
@@ -66,6 +67,9 @@ unique_name_in_owner = true
 target_position = Vector3(0, 0, -3)
 collision_mask = 5
 collide_with_areas = true
+
+[node name="ItemFocus" parent="Head/Camera3D" instance=ExtResource("item_focus")]
+unique_name_in_owner = true
 
 [node name="Flashlight" parent="Head" unique_id=410442993 instance=ExtResource("2_flashlight")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.16, -0.02)

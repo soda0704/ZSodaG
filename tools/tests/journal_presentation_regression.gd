@@ -19,7 +19,7 @@ func page_click(control: Control):
 	var location:=page.to_global(Vector3((uv.x-.5)*.210,(.5-uv.y)*.303,0))
 	var screen:=player.body_animator.first_person.view_camera.unproject_position(location)
 	# Injected OS events use window pixels; the game stretches its logical canvas.
-	screen*=Vector2(root.size)/root.get_visible_rect().size
+	screen*=Vector2(root.size)/player.body_animator.first_person.viewport.get_visible_rect().size
 	var motion:=InputEventMouseMotion.new(); motion.position=screen; Input.parse_input_event(motion)
 	await process_frame
 	var down:=InputEventMouseButton.new(); down.position=screen; down.button_index=MOUSE_BUTTON_LEFT; down.pressed=true; down.button_mask=MOUSE_BUTTON_MASK_LEFT; Input.parse_input_event(down)
@@ -65,6 +65,28 @@ func run():
 	check(journal._cards[&"flashlight"].visible and journal._cards[&"battery"].visible and not journal._cards[&"pistol"].visible,"inventory visibility follows gameplay ownership")
 	await page_click(journal._cards[&"battery"])
 	check(journal._selected_item==&"battery" and journal.inventory_label.text.contains("75%"),"projected mouse selects real battery card")
+	player.apply_held_item_inventory(&"pistol", {})
+	await delay(0.15)
+	check(not journal.mount_button.visible, "pistol has no tape action")
+	player.apply_held_item_inventory(&"m4a1", {})
+	player.weapon.apply_state(&"m4a1", 12, 0)
+	player.tape_count = 3
+	for window_size in [Vector2i(960,540), Vector2i(1280,720), Vector2i(1920,1080)]:
+		root.size = window_size
+		root.scaling_3d_scale = 0.75
+		await delay(0.3)
+		await page_click(journal.mount_button)
+		await delay(0.1)
+		check(player.weapon_light_mounted, "real page click mounts flashlight at %s with scaled rendering" % window_size)
+		await page_click(journal.mount_button)
+		await delay(0.1)
+		check(not player.weapon_light_mounted, "real page click detaches flashlight at %s" % window_size)
+	var closing_charge := player._battery_charge
+	player.apply_held_item_inventory(&"flashlight", {"battery_charge": closing_charge})
+	player._flashlight_enabled = false
+	root.scaling_3d_scale = 1.0
+	root.size = Vector2i(1280,720)
+	await delay(0.2)
 	await page_click(journal.notebook_pivot.get_node("Reveal/Ink/Footer/HelpButton"))
 	check(journal.help_panel.visible and not journal.controls_label.text.is_empty(),"projected page button opens controls")
 	journal.close_journal(); check(not journal.help_panel.visible and journal._phase==journal.PresentationState.OPEN,"close first dismisses help")
@@ -73,7 +95,7 @@ func run():
 	check(journal.is_journal_open(),"closing keeps movement blocked until stowed")
 	await delay(.9)
 	check(not journal.is_journal_open() and player.crosshair.visible and player.flashlight._equipped,"stowing restores flashlight and HUD")
-	check(player._held_item_type==&"flashlight" and is_equal_approx(player._battery_charge,.62),"book does not change ownership or charge")
+	check(player._held_item_type==&"flashlight" and is_equal_approx(player._battery_charge,closing_charge),"closing book does not change ownership or charge after explicit inventory actions")
 	journal.open_journal(); await delay(.2); player.survival.dead=true; await delay(.10)
 	check(not journal.is_journal_open() and journal._ink_viewport.render_target_update_mode==SubViewport.UPDATE_DISABLED,"death interrupts book and releases input")
 	player.survival.dead=false; journal.open_journal(); journal.force_close()

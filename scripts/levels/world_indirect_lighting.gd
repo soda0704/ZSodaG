@@ -5,6 +5,11 @@ var _active_count := 0
 var _render_states:Dictionary={}
 var _data_paths:Dictionary={}
 var _failed_paths:Dictionary={}
+var _debug_disabled := false
+
+func set_debug_disabled(value: bool) -> void:
+	_debug_disabled = value
+	_render_states.clear()
 
 func _ready() -> void:
 	visibility_changed.connect(func()->void:_render_states.clear())
@@ -39,7 +44,7 @@ func update_floor(height:float) -> void:
 					probe.data=load(_data_paths[probe]) as VoxelGIData
 					if probe.data==null:_failed_paths[probe]=true
 			elif probe.data!=null:probe.data=null
-		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree()
+		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree() and not _debug_disabled
 		if active:_active_count+=1
 		# Backend-only visibility keeps the authored scene and editor undo intact.
 		if _render_states.get(probe,null)!=active:

@@ -200,8 +200,12 @@ func _input(event: InputEvent) -> void:
 	if player==null: return
 	if event is InputEventMouse:
 		var view_camera: Camera3D=player.body_animator.first_person.view_camera
-		var origin:=view_camera.project_ray_origin(event.position)
-		var direction:=view_camera.project_ray_normal(event.position)
+		# Input is in the stretched UI canvas; the FP render target uses window pixels.
+		var canvas_size := get_viewport().get_visible_rect().size
+		var render_size := view_camera.get_viewport().get_visible_rect().size
+		var render_point: Vector2 = event.position * render_size / canvas_size
+		var origin:=view_camera.project_ray_origin(render_point)
+		var direction:=view_camera.project_ray_normal(render_point)
 		for i in _page_surfaces.size():
 			var page:=_page_surfaces[i]
 			var inverse:=page.global_transform.affine_inverse()
@@ -266,7 +270,7 @@ func _refresh_content() -> void:
 		elif day == 2:
 			var stage := int(_controller.quest_stage)
 			objective_label.text = "Ключ шифрования"
-			tasks_label.text = "\n".join([_task_line(stage >= 2, "Получить задание в хабе"), _task_line(stage >= 3, "Найти ключ на уровне 1"), _task_line(stage >= 4, "Передать ключ в хабе")])
+			tasks_label.text = "\n".join([_task_line(stage >= 3, "Найти ключ на уровне 1"), _task_line(stage >= 4, "Передать ключ в хабе")])
 			_set_quest_photo("key", "Ключ шифрования", "У команды · ×1" if stage == 3 else "Передан на базу" if stage == 4 else "Хранилище данных · 1")
 		elif day == _controller.LEVEL_TWO_DAY_INDEX:
 			objective_label.text = "Обследовать уровень 2"
@@ -342,9 +346,9 @@ func _refresh_inventory() -> void:
 		_selected_item = &""
 	replace_button.visible = has_light and charge <= 0.0 and not batteries.is_empty()
 	drop_button.visible = _selected_item != &""
-	mount_button.visible = hand in [&"pistol", &"m4a1"] and has_light
+	mount_button.visible = hand == &"m4a1" and has_light
 	mount_button.text = "Снять фонарь" if data.get("weapon_light_mounted", false) else "Примотать"
-	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на оружии: нужен 1 скотч. Свет включается кнопкой F."
+	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на M4A1: нужен 1 скотч. Свет включается кнопкой F."
 	mount_button.disabled = not data.get("weapon_light_mounted", false) and int(data.get("tape_count", 0)) <= 0
 	inventory_label.text = ""
 	if _selected_item == &"battery":

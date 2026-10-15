@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/equipment/flashlight_model.tscn" id="1_iwcfx"]
+
+[node name="LeftHand" type="BoneAttachment3D" unique_id=222744375]
+bone_name = "LeftHand"
+
+[node name="Equipment" type="Node3D" parent="." unique_id=1005155238]
+transform = Transform3D(0.05941291, -0.8597208, 0.50729746, 0.23632132, -0.4816345, -0.8439076, 0.969857, 0.17002398, 0.17455512, 0.12811413, -0.11813021, 0.06883701)
+
+[node name="FlashlightGrip" type="Marker3D" parent="Equipment" unique_id=1378935529]
+
+[node name="ShadowItem" type="Node3D" parent="Equipment/FlashlightGrip" unique_id=1286504799 instance=ExtResource("1_iwcfx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.22)
+visible = false

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="Environment" id="environment"]
+background_mode = 1
+background_color = Color(0.003, 0.003, 0.003, 1)
+ambient_light_source = 2
+ambient_light_energy = 0.002
+tonemap_mode = 0
+[sub_resource type="BoxMesh" id="wall"]
+size = Vector3(6, 4, 0.15)
+[sub_resource type="StandardMaterial3D" id="matte"]
+albedo_color = Color(0.7, 0.7, 0.7, 1)
+roughness = 1.0
+[sub_resource type="BoxShape3D" id="floor"]
+size = Vector3(20, 0.1, 20)
+
+[node name="FlashlightLightRoom" type="Node3D"]
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("environment")
+[node name="Wall" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.6, -4)
+mesh = SubResource("wall")
+material_override = SubResource("matte")
+[node name="Floor" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.05, 0)
+[node name="Collision" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("floor")
+[node name="Players" type="Node3D" parent="."]

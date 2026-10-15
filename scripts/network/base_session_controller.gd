@@ -150,6 +150,7 @@ func _equipment_for_resume(key: String, revision: int = 0) -> Dictionary:
 	# Resume with the flashlight safely pocketed and switched off.
 	if StringName(data.get("held_item", &"")) == &"flashlight":
 		data["held_item"] = &""
+	data["handheld_flashlight_drawn"] = false
 	data["flashlight_enabled"] = false
 	data["malfunctioning"] = false
 	data["weapon_reload"] = 0.0

@@ -55,7 +55,7 @@ func run() -> void:
 	check(hub._housing_meshes.size() == 5 and vault._housing_meshes.size() == 5, "all imported emissive surfaces controlled")
 	check(hub.screen is Marker3D and hub._display_mesh == hub._housing_meshes[1] and hub._display_mesh.material_override == hub._screen_material, "UI replaces the native screen material without covering its frame with extra geometry")
 	check(hub._screen_material != vault._screen_material, "screen material independent per terminal")
-	check(not hub._screen_material.get_shader_parameter("powered") and not hub.screen_glow.visible, "first-day outage switches off screen and glow")
+	check(not hub._screen_material.get_shader_parameter("powered") and hub.screen_viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED, "first-day outage switches off screen and viewport")
 	check(hub._housing_meshes[0].material_override == hub.unpowered_housing_material, "outage disables original model emission too")
 	await visit(hub)
 	await screenshot("hub-off")
@@ -69,7 +69,7 @@ func run() -> void:
 	snapshot.elevator_backup_installed = true
 	state._broadcast_snapshot(snapshot)
 	await settle()
-	check(hub._screen_material.get_shader_parameter("powered") and vault.screen_glow.visible, "mains power switches on both screens and glow")
+	check(hub._screen_material.get_shader_parameter("powered") and vault._screen_material.get_shader_parameter("powered"), "mains power switches on both screens")
 	check(hub.ui.get_node("%System").text.contains("20.0") and hub.ui.get_node("%Heading").text.contains("PASS KEY"), "screen displays live expedition state")
 	check(vault.key_visual.visible and not hub.key_visual.visible, "key initially available in vault only")
 	await screenshot("hub-offered")
@@ -98,19 +98,21 @@ func run() -> void:
 	wall.queue_free()
 	await settle()
 	player.try_authoritative_interaction()
-	check(state.quest_stage == BaseGameplayController.QuestStage.ACCEPTED, "production player interaction accepts assignment")
-	check(not state.can_end_current_day(), "accepted assignment does not allow early sleep")
+	check(state.quest_stage == BaseGameplayController.QuestStage.OFFERED, "hub cannot advance quest before key is retrieved")
+	check(not state.can_end_current_day(), "missing key does not allow early sleep")
 	await visit(vault)
 	await screenshot("vault-accepted")
 	check(player.get_interaction_target() == vault, "vault screen reachable by actual interaction ray")
 	var equipped := player.get_inventory_snapshot()
 	player.try_authoritative_interaction()
-	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "production interaction collects shared pass key")
+	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "production interaction collects shared pass key without accepting a hub mission")
 	check(player.get_inventory_snapshot() == equipped, "story key does not displace equipment")
 	check(vault.animation_player.current_animation == &"extract", "collection plays authored native extraction clip")
 	vault.network_interact(1, player)
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "repeated extraction does not advance story twice")
-	await create_timer(0.45).timeout
+	var extraction_deadline := Time.get_ticks_msec() + 3000
+	while vault.animation_player.is_playing() and Time.get_ticks_msec() < extraction_deadline:
+		await process_frame
 	check(not vault.key_visual.visible, "extracted key disappears at end of native clip")
 	await screenshot("vault-collected")
 	await visit(hub)
@@ -119,7 +121,7 @@ func run() -> void:
 	state._broadcast_snapshot(snapshot)
 	hub.network_interact(1, player)
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "blackout prevents delivery despite elevator reserve")
-	check(not hub.screen_glow.visible and not vault.screen_glow.visible and not vault._screen_material.get_shader_parameter("powered"), "blackout extinguishes both screens and lights")
+	check(not hub._screen_material.get_shader_parameter("powered") and not vault._screen_material.get_shader_parameter("powered") and vault.screen_viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED, "blackout extinguishes both screens and viewport")
 	check(vault._display_mesh.material_override == vault._screen_material and not vault._screen_material.get_shader_parameter("powered"), "original screen mesh retains its material with emission switched off")
 	await screenshot("blackout")
 	snapshot.main_breaker_on = true
@@ -142,6 +144,16 @@ func run() -> void:
 	snapshot.containment = {"level2": true}
 	state._broadcast_snapshot(snapshot)
 	check(hub.ui.get_node("%Objective").text.contains("отдохните") and not hub.get_interaction_prompt().contains("уровень 3"), "day-three completed investigation does not incorrectly send player to locked level three")
+	snapshot.day_index = 2
+	snapshot.quest_stage = BaseGameplayController.QuestStage.ACCEPTED
+	state._broadcast_snapshot(snapshot)
+	await visit(vault)
+	player.try_authoritative_interaction()
+	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "legacy accepted-stage save still allows key extraction")
+	var journal = root.get_node("QuestJournal")
+	journal._bind_controller()
+	journal._refresh_content()
+	check(not journal.tasks_label.text.contains("Получить задание") and journal.tasks_label.text.contains("Передать ключ"), "journal lists retrieval and delivery without a hub acceptance task")
 	base.queue_free()
 	await settle()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))

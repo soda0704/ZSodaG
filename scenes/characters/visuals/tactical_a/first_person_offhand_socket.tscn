@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[node name="LeftHand" type="BoneAttachment3D" unique_id=1857042170]
+bone_name = "LeftHand"
+
+[node name="Equipment" type="Node3D" parent="." unique_id=855713852]
+transform = Transform3D(0.010597798, -0.7539576, 0.656837, 0.17267042, -0.64562654, -0.7438757, 0.9849228, 0.12130009, 0.123343766, 0.156448, -0.11450738, 0.04113847)
+
+[node name="FlashlightGrip" type="Marker3D" parent="Equipment" unique_id=62306750]

@@ -121,9 +121,10 @@ func _physics_process(delta: float) -> void:
 					_commit_reload()
 					_notify_inventory()
 	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
-	var presentation_active: bool = active and player._journal_phase == 0
+	var presentation_active: bool = active and player._journal_phase == 0 and not player._battery_flashlight_presentation
 	for model_id in _models: _models[model_id].visible = presentation_active and model_id == kind
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
+	align_mounted_light(_pose, kind)
 	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
 	var local: bool = player.is_local_player()
 	_hud.visible = active and local and not player.is_debug_free_camera_active() and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
@@ -146,6 +147,15 @@ func _physics_process(delta: float) -> void:
 				_cooldown = rifle_fire_interval if kind == &"m4a1" else pistol_fire_interval
 	if not multiplayer.is_server():
 		_cooldown = maxf(0.0, _cooldown - delta)
+
+static func align_mounted_light(sockets: Node3D, item: StringName) -> void:
+	if item != &"m4a1":
+		return
+	var weapon_model := sockets.get_node(String(item)) as Node3D
+	var socket := weapon_model.get_node("FlashlightMount") as Node3D
+	# Both poses use the weapon's editor-authored attachment, not the hand axes.
+	(sockets.get_node("MountedLamp") as Node3D).transform = weapon_model.transform * socket.transform
+
 
 func request_action(action: StringName) -> void:
 	if not get_parent().is_local_player() or get_parent().is_debug_free_camera_active():

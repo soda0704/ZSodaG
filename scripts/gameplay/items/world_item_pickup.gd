@@ -2,11 +2,14 @@ class_name WorldItemPickup
 extends RigidBody3D
 
 const PHYSICS_SYNC_RATE := 10.0
+enum HighlightCategory { COMMON, STORY, SPECIAL }
 
 @export_group("Item")
 @export var item_type: StringName = &""
 @export var display_name: String = "предмет"
 @export var item_state: Dictionary = {}
+## Local aim outline: ordinary loot, story items, or collectibles/easter eggs.
+@export var highlight_category: HighlightCategory = HighlightCategory.COMMON
 @export_group("Interaction")
 @export var pickup_enabled := true
 @export var draggable := true

@@ -7,6 +7,10 @@ const MAX_ACTIVE_LAMPS := 8
 const MAX_RESIDENT_LAMPS := 10
 @export var outdoor_ambient := 0.12
 @export var indoor_ambient := 0.025
+@export_group("Debug visibility")
+@export var debug_visibility_profile: Environment
+var debug_darkness := 1.0
+var _debug_viewports: Dictionary = {}
 var _lamps: Array[SpotLight3D] = []
 var _energies: Dictionary = {}
 var _levels: Dictionary = {}
@@ -97,21 +101,49 @@ func _process(delta: float) -> void:
 	var at := camera.get_global_transform_interpolated().origin
 	_indoor_mix = move_toward(_indoor_mix, 1.0 if is_covered(at, _exclude_body(camera)) else 0.0, delta * 4.0)
 	var ambient := lerpf(outdoor_ambient, indoor_ambient, _indoor_mix)
+	if debug_visibility_profile != null:
+		ambient = lerpf(debug_visibility_profile.ambient_light_energy, ambient, debug_darkness)
+		var color := debug_visibility_profile.ambient_light_color.lerp(source_environment().ambient_light_color, debug_darkness)
+		if not _camera_environment.ambient_light_color.is_equal_approx(color): _camera_environment.ambient_light_color = color
+	_update_debug_viewports()
 	# Indoors, only nearby outdoor shadows can be seen through openings.
 	var sun_distance:=lerpf(_sun_shadow_distance,minf(_sun_shadow_distance,24.0),_indoor_mix)
 	if not is_equal_approx(_sun.directional_shadow_max_distance,sun_distance):_sun.directional_shadow_max_distance=sun_distance
 	if not is_equal_approx(_camera_environment.ambient_light_energy, ambient): _camera_environment.ambient_light_energy = ambient
 	# Outdoor haze fades away under a roof, including on underground floors.
-	var fog_density := _outdoor_fog_density * (1.0 - _indoor_mix)
+	var fog_density := _outdoor_fog_density * (1.0 - _indoor_mix) * debug_darkness
 	if not is_equal_approx(_camera_environment.fog_density, fog_density):
 		_camera_environment.fog_density = fog_density
 		_camera_environment.fog_sky_affect = _outdoor_fog_sky_affect * (1.0 - _indoor_mix)
-	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix)
+	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix) * debug_darkness
 	if not is_equal_approx(_camera_environment.volumetric_fog_density, volume_density):
 		_camera_environment.volumetric_fog_density = volume_density
 		_camera_environment.volumetric_fog_length = lerpf(_outdoor_volume_length, 32.0, _indoor_mix)
 		get_node("OvercastSun").light_volumetric_fog_energy = 0.7 * (1.0 - _indoor_mix)
 	_update_lamps(at, delta)
+
+func source_environment() -> Environment:
+	return get_parent().get_node("SnowExterior/OvercastDayEnvironment").environment
+
+func set_debug_darkness(value: float) -> void:
+	debug_darkness = clampf(value, 0.0, 1.0)
+	var indirect := get_parent().get_node_or_null("WorldIndirectLighting")
+	if indirect != null:
+		indirect.set_debug_disabled(debug_darkness < 1.0)
+	_update_debug_viewports()
+
+func _update_debug_viewports() -> void:
+	var views: Array[Viewport] = [get_viewport()]
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if player != null and player.body_animator.first_person != null:
+		views.append(player.body_animator.first_person.viewport)
+	for view in views:
+		if is_zero_approx(debug_darkness):
+			if not _debug_viewports.has(view): _debug_viewports[view] = view.debug_draw
+			view.debug_draw = Viewport.DEBUG_DRAW_UNSHADED
+		elif _debug_viewports.has(view):
+			view.debug_draw = _debug_viewports[view]
+			_debug_viewports.erase(view)
 
 func _editor_preview(delta:float) -> void:
 	_editor_elapsed+=delta
@@ -138,7 +170,10 @@ func _editor_preview(delta:float) -> void:
 			_editor_authored[lamp]=lamp.light_energy
 
 func _exit_tree() -> void:
-	if not Engine.is_editor_hint():return
+	if not Engine.is_editor_hint():
+		for view in _debug_viewports:
+			if is_instance_valid(view): view.debug_draw = _debug_viewports[view]
+		return
 	for lamp in _editor_lights:
 		if is_instance_valid(lamp):RenderingServer.light_set_param(lamp.get_rid(),RenderingServer.LIGHT_PARAM_ENERGY,lamp.light_energy)
 

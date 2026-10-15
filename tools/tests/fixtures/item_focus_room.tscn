@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://tools/tests/fixtures/character_test_arena.tscn" id="arena"]
+[sub_resource type="BoxShape3D" id="wall_shape"]
+size = Vector3(2, 2, 0.1)
+[sub_resource type="BoxMesh" id="wall_mesh"]
+size = Vector3(2, 2, 0.1)
+[sub_resource type="StandardMaterial3D" id="wall_material"]
+albedo_color = Color(0.12, 0.12, 0.12, 1)
+roughness = 1.0
+
+[node name="ItemFocusRoom" type="Node3D"]
+[node name="Arena" parent="." instance=ExtResource("arena")]
+[node name="Occluder" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.4, -0.65)
+visible = false
+collision_layer = 0
+[node name="Collision" type="CollisionShape3D" parent="Occluder"]
+shape = SubResource("wall_shape")
+[node name="Mesh" type="MeshInstance3D" parent="Occluder"]
+mesh = SubResource("wall_mesh")
+material_override = SubResource("wall_material")

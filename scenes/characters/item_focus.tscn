@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/components/item_focus.gd" id="script"]
+[ext_resource type="Material" path="res://assets/effects/pickup_focus_common.tres" id="common"]
+[ext_resource type="Material" path="res://assets/effects/pickup_focus_story.tres" id="story"]
+[ext_resource type="Material" path="res://assets/effects/pickup_focus_special.tres" id="special"]
+
+[sub_resource type="SphereShape3D" id="tolerance"]
+radius = 0.09
+
+[node name="ItemFocus" type="ShapeCast3D"]
+enabled = false
+shape = SubResource("tolerance")
+target_position = Vector3(0, 0, -3)
+collision_mask = 4
+max_results = 16
+collide_with_areas = true
+script = ExtResource("script")
+common_material = ExtResource("common")
+story_material = ExtResource("story")
+special_material = ExtResource("special")

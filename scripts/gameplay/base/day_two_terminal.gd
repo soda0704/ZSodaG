@@ -48,7 +48,7 @@ func get_interaction_prompt() -> String:
 		return _objective_text()
 	match _controller.quest_stage:
 		BaseGameplayController.QuestStage.OFFERED:
-			return "Сначала получите задание в центральном хабе" if is_key_terminal else "Получить задание: ключ шифрования"
+			return "Извлечь pass key" if is_key_terminal else "Сначала принесите ключ с уровня 1"
 		BaseGameplayController.QuestStage.ACCEPTED:
 			return "Извлечь pass key" if is_key_terminal else "Найдите ключ в хранилище данных на уровне 1"
 		BaseGameplayController.QuestStage.COLLECTED:
@@ -76,9 +76,9 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 		return
 	var stage := _controller.quest_stage
 	if is_key_terminal:
-		if stage == BaseGameplayController.QuestStage.ACCEPTED:
+		if stage in [BaseGameplayController.QuestStage.OFFERED, BaseGameplayController.QuestStage.ACCEPTED]:
 			_controller.advance_quest_authoritative(peer_id, stage)
-	elif stage in [BaseGameplayController.QuestStage.OFFERED, BaseGameplayController.QuestStage.COLLECTED]:
+	elif stage == BaseGameplayController.QuestStage.COLLECTED:
 		_controller.advance_quest_authoritative(peer_id, stage)
 
 func _on_snapshot_changed(_snapshot: Dictionary) -> void:
@@ -87,7 +87,7 @@ func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 	_refresh_screen()
 	var stage := int(_controller.quest_stage)
 	if stage != _previous_stage:
-		var extracting := is_key_terminal and _previous_stage == 2 and stage == 3
+		var extracting := is_key_terminal and _previous_stage in [1, 2] and stage == 3
 		var delivering := not is_key_terminal and _previous_stage == 3 and stage == 4
 		if extracting:
 			animation_player.play(extract_animation)
@@ -124,7 +124,7 @@ func _refresh_screen() -> void:
 		5: heading = "АРХИВ ЗАДАНИЙ"
 	ui.get_node("%Heading").text = heading
 	ui.get_node("%Objective").text = _objective_text()
-	var stages := ["НЕДОСТУПЕН", "ЗАДАНИЕ НЕ ПРИНЯТО", "В ХРАНИЛИЩЕ", "У КОМАНДЫ · 1 ШТ.", "ПЕРЕДАН НА БАЗУ"]
+	var stages := ["НЕДОСТУПЕН", "В ХРАНИЛИЩЕ", "В ХРАНИЛИЩЕ", "У КОМАНДЫ · 1 ШТ.", "ПЕРЕДАН НА БАЗУ"]
 	ui.get_node("%Progress").text = "PASS KEY / " + stages[int(_controller.quest_stage)]
 	ui.get_node("%Action").text = get_interaction_prompt()
 
@@ -135,7 +135,7 @@ func _objective_text() -> String:
 		2:
 			match _controller.quest_stage:
 				BaseGameplayController.QuestStage.OFFERED:
-					return "Получите задание в центральном хабе. Ключ шифрования находится в защищённом хранилище данных на уровне 1."
+					return "Извлеките pass key из хранилища данных на уровне 1 и принесите в центральный хаб. Предварительно получать задание в хабе не нужно."
 				BaseGameplayController.QuestStage.ACCEPTED:
 					return "Извлеките pass key из терминала хранилища на уровне 1 и передайте в центральный хаб. Ключ общий для команды и не занимает руки."
 				BaseGameplayController.QuestStage.COLLECTED:

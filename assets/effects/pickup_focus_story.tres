@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/pickup_focus.gdshader" id="shader"]
+
+[resource]
+shader = ExtResource("shader")
+shader_parameter/outline_color = Color(1, 0.78, 0.20, 0.23)
+shader_parameter/outline_width_pixels = 1.25

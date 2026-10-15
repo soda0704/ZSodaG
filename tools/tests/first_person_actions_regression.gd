@@ -95,11 +95,11 @@ func run():
 		await RenderingServer.frame_post_draw
 		# Model/Grip is an asset marker, not the wrist joint. Preserve the authored
 		# attachment and verify that it follows the final animated hand rigidly.
-		var wrist_before:=sk.global_transform*final_poses[sk.find_bone("RightHand")]
+		var wrist_before:=sk.global_transform*final_poses[sk.find_bone("LeftHand")]
 		var lamp_before:=wrist_before.affine_inverse()*lamp.global_transform
 		actor._input_yaw+=.4; actor._input_pitch=.2; await ticks(12)
 		await RenderingServer.frame_post_draw
-		var wrist_after:=sk.global_transform*final_poses[sk.find_bone("RightHand")]
+		var wrist_after:=sk.global_transform*final_poses[sk.find_bone("LeftHand")]
 		var lamp_after:=wrist_after.affine_inverse()*lamp.global_transform
 		check(lamp_before.origin.distance_to(lamp_after.origin)<.001 and lamp_before.basis.get_rotation_quaternion().angle_to(lamp_after.basis.get_rotation_quaternion())<.002,"variant %d flashlight follows the final hand through a camera turn"%id)
 		check((-actor.flashlight.beam.global_basis.z).dot(-lamp.global_basis.z)>.999,"variant %d flashlight beam follows actual lamp axis"%id)

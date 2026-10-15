@@ -27,6 +27,9 @@
 [ext_resource type="Material" path="res://scenes/characters/visuals/tactical_b/materials/Object_123_0.tres" id="14_vyapd"]
 [ext_resource type="Material" path="res://scenes/characters/visuals/tactical_b/materials/Eyes_0.tres" id="15_xwx7i"]
 
+[ext_resource type="AnimationLibrary" path="res://scenes/characters/visuals/tactical_b/body_offhand.tres" id="offhand_clips"]
+[ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/body_offhand_socket.tscn" id="offhand_socket"]
+
 [sub_resource type="ArrayMesh" id="ArrayMesh_j75tl"]
 _surfaces = [{
 "aabb": AABB(-0.068888076, 1.6575642, -0.1268777, 0.1399084, 0.08943772, 0.06837405),
@@ -664,21 +667,6 @@ top_radius = 0.0195
 bottom_radius = 0.0195
 height = 0.001
 radial_segments = 24
-
-[sub_resource type="StandardMaterial3D" id="TapeMaterial"]
-albedo_color = Color(0.16, 0.17, 0.18, 1)
-roughness = 0.95
-
-[sub_resource type="TorusMesh" id="TapeMesh"]
-material = SubResource("TapeMaterial")
-inner_radius = 0.012
-outer_radius = 0.015
-rings = 24
-ring_segments = 8
-
-[sub_resource type="BoxMesh" id="BridgeMesh"]
-material = SubResource("TapeMaterial")
-size = Vector3(0.044, 0.006, 0.01)
 
 [sub_resource type="Animation" id="Animation_kjjix"]
 length = 3.0
@@ -78139,13 +78127,13 @@ input_6/break_loop_at_end = false
 input_6/reset = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e2rok"]
-animation = &"FlashlightAim-1"
+animation = &"offhand/SoloAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2d0hd"]
-animation = &"FlashlightAim0"
+animation = &"offhand/SoloAim0"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gfpmr"]
-animation = &"FlashlightAim1"
+animation = &"offhand/SoloAim1"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_1e1i8"]
 min_space = -0.62
@@ -78161,7 +78149,7 @@ blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_stmdg"]
-animation = &"FlashlightBattery"
+animation = &"offhand/Battery"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nsyg6"]
 animation = &"FuelAim-1"
@@ -79402,6 +79390,29 @@ animation = &"RifleReload"
 filter_enabled = true
 filters = ["Skeleton3D:Head", "Skeleton3D:HeadTop_End", "Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftShoulder", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Neck", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightShoulder", "Skeleton3D:Right_Elbow_Pads", "Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 
+[sub_resource type="AnimationNodeAnimation" id="OffhandPoseNegative"]
+animation = &"offhand/Hold-1"
+
+[sub_resource type="AnimationNodeAnimation" id="OffhandPose0"]
+animation = &"offhand/Hold0"
+
+[sub_resource type="AnimationNodeAnimation" id="OffhandPose1"]
+animation = &"offhand/Hold1"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="OffhandAim"]
+blend_point_0/node = SubResource("OffhandPoseNegative")
+blend_point_0/pos = -0.62
+blend_point_1/node = SubResource("OffhandPose0")
+blend_point_1/pos = 0.0
+blend_point_2/node = SubResource("OffhandPose1")
+blend_point_2/pos = 0.62
+min_space = -0.62
+max_space = 0.62
+
+[sub_resource type="AnimationNodeBlend2" id="OffhandBlend"]
+filter_enabled = true
+filters = ["Skeleton3D:Left_Elbow_Pads", true, "Skeleton3D:LeftUpLeg", true, "Skeleton3D:LeftLeg", true, "Skeleton3D:LeftFoot", true, "Skeleton3D:LeftToeBase", true, "Skeleton3D:LeftToe_End", true, "Skeleton3D:Left_Knee_Pads", true, "Skeleton3D:Left_Pouch.1", true, "Skeleton3D:Left_Pouch.2", true, "Skeleton3D:Left_Pouch.3", true, "Skeleton3D:LeftShoulder", true, "Skeleton3D:LeftArm", true, "Skeleton3D:LeftForeArm", true, "Skeleton3D:LeftHand", true, "Skeleton3D:LeftHandThumb1", true, "Skeleton3D:LeftHandThumb2", true, "Skeleton3D:LeftHandThumb3", true, "Skeleton3D:LeftHandThumb4", true, "Skeleton3D:LeftHandIndex1", true, "Skeleton3D:LeftHandIndex2", true, "Skeleton3D:LeftHandIndex3", true, "Skeleton3D:LeftHandIndex4", true, "Skeleton3D:LeftHandMiddle1", true, "Skeleton3D:LeftHandMiddle2", true, "Skeleton3D:LeftHandMiddle3", true, "Skeleton3D:LeftHandMiddle4", true, "Skeleton3D:LeftHandRing1", true, "Skeleton3D:LeftHandRing2", true, "Skeleton3D:LeftHandRing3", true, "Skeleton3D:LeftHandRing4", true, "Skeleton3D:LeftHandPinky1", true, "Skeleton3D:LeftHandPinky2", true, "Skeleton3D:LeftHandPinky3", true, "Skeleton3D:LeftHandPinky4", true]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_puc1j"]
 nodes/Movement/node = SubResource("AnimationNodeStateMachine_xxi18")
 nodes/Movement/position = Vector2(0, 0)
@@ -79451,7 +79462,9 @@ nodes/Recoil/node = SubResource("AnimationNodeTransition_0cahv")
 nodes/Recoil/position = Vector2(0, 0)
 nodes/Kick/node = SubResource("AnimationNodeOneShot_hwwj1")
 nodes/Kick/position = Vector2(0, 0)
-node_connections = [&"output", 0, &"Handling", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil"]
+nodes/OffhandAim/node = SubResource("OffhandAim")
+nodes/OffhandTorch/node = SubResource("OffhandBlend")
+node_connections = [&"output", 0, &"OffhandTorch", &"OffhandTorch", 0, &"Handling", &"OffhandTorch", 1, &"OffhandAim", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil"]
 
 [node name="@Node3D@179" type="Node3D" unique_id=1069509090]
 metadata/approved_grips_integrated = true
@@ -80190,26 +80203,12 @@ layers = 262145
 mesh = SubResource("CylinderMesh_0in1l")
 
 [node name="TapeBack" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="1"]
-transform = Transform3D(1, 0, 0, 0, 2.5165966e-07, -1, 0, 3.333333, 7.54979e-08, 0, 0, 0.03)
 layers = 262145
-mesh = SubResource("TapeMesh")
 
 [node name="TapeFront" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="2"]
-transform = Transform3D(1, 0, 0, 0, 2.5165966e-07, -1, 0, 3.333333, 7.54979e-08, 0, 0, -0.045)
 layers = 262145
-mesh = SubResource("TapeMesh")
 
-[node name="BridgeBack" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027, 0, 0.03)
-layers = 262145
-mesh = SubResource("BridgeMesh")
-
-[node name="BridgeFront" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027, 0, -0.045)
-layers = 262145
-mesh = SubResource("BridgeMesh")
-
-[node name="Beam" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="5"]
+[node name="Beam" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125)
 visible = false
 
@@ -80300,7 +80299,10 @@ primary_damp_threshold = 1.0
 secondary_limit_angle = 0.7853982
 secondary_damp_threshold = 1.0
 
+[node name="LeftHand" parent="Skeleton3D" instance=ExtResource("offhand_socket")]
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1362576307]
+libraries/offhand = ExtResource("offhand_clips")
 libraries/ = SubResource("AnimationLibrary_fggtc")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=331029363]
