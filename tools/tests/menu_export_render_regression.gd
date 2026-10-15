@@ -60,14 +60,6 @@ func run() -> void:
 	await screenshot("export-menu-home")
 	click(main.single_player_button)
 	await wait_ui()
-	check(main.current_view == "checkpoint", "real click in exported menu opens expedition slots")
-	if main.current_view != "checkpoint":
-		quit(1)
-		return
-	var expedition_page = main.shell.content.get_child(0)
-	check(expedition_page.get_node("Slots").item_count == 3, "exported menu offers three isolated expedition slots")
-	click(expedition_page.get_node("Scroll/Body/New"))
-	await wait_ui()
 	check(main.current_view == "character" and is_instance_valid(main.selector), "real click in exported menu opens character selection")
 	if main.current_view != "character" or not is_instance_valid(main.selector):
 		quit(1)
@@ -106,7 +98,7 @@ func run() -> void:
 	menu.confirm("Оформление окна", "Шрифт, подложка и действия используют тему меню.", [])
 	await wait_ui()
 	check(menu.dialog.actions.get_child(0).get_theme_font("font") == menu.shell.theme.default_font, "dialog actions retain the menu font outside Shell")
-	check(menu.dialog.panel.size.x == 930 and is_equal_approx(menu.dialog.get_node("Shade").color.a, 0.32), "notification size and backdrop match the approved concept")
+	check(menu.dialog.panel.size.x == 930 and is_equal_approx(menu.dialog.get_node("Shade").color.a, 0.384), "notification size is preserved and backdrop is 20 percent darker")
 	check(menu.dialog.panel.scale.is_equal_approx(Vector2.ONE) and menu.dialog.get_node("Center").scale.is_equal_approx(Vector2.ONE) and menu.dialog._line_progress > 0.99, "notification entrance settles on sharp text and a complete accent line")
 	check(menu.dialog.panel.get_global_rect().get_center().distance_to(menu.dialog.get_global_rect().get_center()) < 2.0, "exported notification is centered after its entrance")
 	await screenshot("export-menu-dialog")

@@ -18,8 +18,8 @@ func _process(delta: float) -> void:
 		_press = 0
 	if absf(_hover - target) < 0.001:
 		_hover = target
-	scale = Vector2.ONE
-	position = _base_position + Vector2(4.5 * _hover if theme_type_variation in [&"MenuNav", &"MenuEscapeNav"] else 0.0, _press)
+	var next_position := _base_position + Vector2(4.5 * _hover if theme_type_variation in [&"MenuNav", &"MenuEscapeNav"] else 0.0, _press)
+	if position != next_position: position = next_position
 	_last_position = position
 	if not is_equal_approx(previous, _hover):
 		var color := Color("a6a69f").lerp(Color("e0ddd3"), _hover)

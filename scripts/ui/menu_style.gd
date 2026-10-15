@@ -6,6 +6,8 @@ const TEXT := Color("d3d1c9")
 const MUTED := Color("a6a69f")
 const ACCENT := Color("65413c")
 const RULE := Color(0.72, 0.71, 0.65, 0.18)
+static var _ease_samples := PackedFloat32Array()
+static var _cursor: ImageTexture
 
 static func make_theme() -> Theme:
 	return preload("res://scenes/ui/menu_theme.tres")
@@ -35,7 +37,16 @@ static func button(text: String, callback: Callable = Callable(), font_size: int
 	return node
 
 static func ease(value: float) -> float:
+	if _ease_samples.is_empty():
+		_ease_samples.resize(257)
+		for index in 257: _ease_samples[index] = _bezier_ease(index / 256.0)
+	var sample := clampf(value, 0.0, 1.0) * 256.0
+	var index := mini(int(sample), 255)
+	return lerpf(_ease_samples[index], _ease_samples[index + 1], sample - index)
+
+static func _bezier_ease(value: float) -> float:
 	# CSS cubic-bezier(.22,.8,.25,1) used by the approved previews.
+	if value <= 0.0 or value >= 1.0: return value
 	var low := 0.0
 	var high := 1.0
 	var parameter := value
@@ -65,17 +76,25 @@ static func rule(parent: Node) -> void:
 static func install_cursor() -> void:
 	if DisplayServer.get_name() == "headless":
 		return
+	if _cursor == null: _cursor = ImageTexture.create_from_image(cursor_image())
+	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
+		Input.set_custom_mouse_cursor(_cursor, shape, Vector2(14, 14))
+
+static func cursor_image() -> Image:
 	var image := Image.create(28, 28, false, Image.FORMAT_RGBA8)
 	image.fill(Color.TRANSPARENT)
-	var color := Color(0.78, 0.77, 0.73, 0.8)
+	var points: Array[Vector2i] = []
 	for corner in [Vector2i(4, 4), Vector2i(23, 4), Vector2i(4, 23), Vector2i(23, 23)]:
 		var sx := 1 if corner.x < 14 else -1
 		var sy := 1 if corner.y < 14 else -1
 		for i in 5:
-			image.set_pixel(corner.x + i * sx, corner.y, color)
-			image.set_pixel(corner.x, corner.y + i * sy, color)
-	image.set_pixel(13, 13, color)
-	image.set_pixel(14, 14, color)
-	var texture := ImageTexture.create_from_image(image)
-	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
-		Input.set_custom_mouse_cursor(texture, shape, Vector2(14, 14))
+			points.append(Vector2i(corner.x + i * sx, corner.y))
+			points.append(Vector2i(corner.x, corner.y + i * sy))
+	for x in range(13, 15):
+		for y in range(13, 15): points.append(Vector2i(x, y))
+	# The dark outline stays visible on paper; the ivory core stays visible at night.
+	for point in points:
+		for x in range(-1, 2):
+			for y in range(-1, 2): image.set_pixelv(point + Vector2i(x, y), Color(0.025, 0.025, 0.022, 1.0))
+	for point in points: image.set_pixelv(point, Color(0.94, 0.92, 0.86, 1.0))
+	return image

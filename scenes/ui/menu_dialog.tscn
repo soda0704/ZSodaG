@@ -35,7 +35,7 @@ script = ExtResource("1_17kyf")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.005, 0.008, 0.008, 0.32)
+color = Color(0.005, 0.008, 0.008, 0.384)
 
 [node name="Center" type="CenterContainer" parent="." unique_id=1657919444]
 layout_mode = 0

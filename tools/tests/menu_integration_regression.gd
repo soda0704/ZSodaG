@@ -55,9 +55,6 @@ func run() -> void:
 	await screenshot("native-home")
 	main._on_single_player_pressed()
 	await wait_ui()
-	check(main.current_view == "checkpoint", "new game selects an expedition slot first")
-	check(main.shell.content.get_child(0).get_node("Slots").item_count == 3, "three authored expedition slots are available")
-	main._new_expedition()
 	if menu.dialog != null:
 		menu.dialog.dismiss(main.show_character.bind("solo"))
 		await wait_ui()

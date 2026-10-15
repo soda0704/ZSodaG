@@ -12,6 +12,7 @@ const MAX_RESIDENT_LAMPS := 10
 var debug_darkness := 1.0
 var _debug_viewports: Dictionary = {}
 var _lamps: Array[SpotLight3D] = []
+var _resident_lamps: Array[SpotLight3D] = []
 var _energies: Dictionary = {}
 var _levels: Dictionary = {}
 var _emitters: Dictionary = {}
@@ -26,6 +27,7 @@ var _time := 0.0
 var _state: BaseGameplayController
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
+var quality_shadow_distance := 96.0
 var _editor_lights:Array[SpotLight3D]=[]
 var _editor_elapsed:=0.0
 var _editor_levels:Dictionary={}
@@ -99,27 +101,43 @@ func _process(delta: float) -> void:
 		_camera.environment = _camera_environment
 		get_node("/root/GameMenu/GraphicsQuality").apply_environment(_camera_environment)
 	var at := camera.get_global_transform_interpolated().origin
+	var environment_changed := false
 	_indoor_mix = move_toward(_indoor_mix, 1.0 if is_covered(at, _exclude_body(camera)) else 0.0, delta * 4.0)
 	var ambient := lerpf(outdoor_ambient, indoor_ambient, _indoor_mix)
 	if debug_visibility_profile != null:
 		ambient = lerpf(debug_visibility_profile.ambient_light_energy, ambient, debug_darkness)
 		var color := debug_visibility_profile.ambient_light_color.lerp(source_environment().ambient_light_color, debug_darkness)
-		if not _camera_environment.ambient_light_color.is_equal_approx(color): _camera_environment.ambient_light_color = color
+		if not _camera_environment.ambient_light_color.is_equal_approx(color):
+			_camera_environment.ambient_light_color = color
+			environment_changed = true
 	_update_debug_viewports()
 	# Indoors, only nearby outdoor shadows can be seen through openings.
-	var sun_distance:=lerpf(_sun_shadow_distance,minf(_sun_shadow_distance,24.0),_indoor_mix)
+	var shadow_range := minf(_sun_shadow_distance, clampf(quality_shadow_distance, 24.0, 96.0))
+	var sun_distance:=lerpf(shadow_range,minf(shadow_range,24.0),_indoor_mix)
 	if not is_equal_approx(_sun.directional_shadow_max_distance,sun_distance):_sun.directional_shadow_max_distance=sun_distance
-	if not is_equal_approx(_camera_environment.ambient_light_energy, ambient): _camera_environment.ambient_light_energy = ambient
+	if not is_equal_approx(_camera_environment.ambient_light_energy, ambient):
+		_camera_environment.ambient_light_energy = ambient
+		environment_changed = true
 	# Outdoor haze fades away under a roof, including on underground floors.
 	var fog_density := _outdoor_fog_density * (1.0 - _indoor_mix) * debug_darkness
 	if not is_equal_approx(_camera_environment.fog_density, fog_density):
 		_camera_environment.fog_density = fog_density
-		_camera_environment.fog_sky_affect = _outdoor_fog_sky_affect * (1.0 - _indoor_mix)
+		environment_changed = true
+	var sky_affect := _outdoor_fog_sky_affect * (1.0 - _indoor_mix)
+	if not is_equal_approx(_camera_environment.fog_sky_affect, sky_affect):
+		_camera_environment.fog_sky_affect = sky_affect
+		environment_changed = true
 	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix) * debug_darkness
 	if not is_equal_approx(_camera_environment.volumetric_fog_density, volume_density):
 		_camera_environment.volumetric_fog_density = volume_density
-		_camera_environment.volumetric_fog_length = lerpf(_outdoor_volume_length, 32.0, _indoor_mix)
-		get_node("OvercastSun").light_volumetric_fog_energy = 0.7 * (1.0 - _indoor_mix)
+		environment_changed = true
+	var volume_length := lerpf(_outdoor_volume_length, 32.0, _indoor_mix)
+	if not is_equal_approx(_camera_environment.volumetric_fog_length, volume_length):
+		_camera_environment.volumetric_fog_length = volume_length
+		environment_changed = true
+	var sun_scattering := 0.7 * (1.0 - _indoor_mix)
+	if not is_equal_approx(_sun.light_volumetric_fog_energy, sun_scattering): _sun.light_volumetric_fog_energy = sun_scattering
+	if environment_changed: _camera_environment.emit_changed()
 	_update_lamps(at, delta)
 
 func source_environment() -> Environment:
@@ -133,6 +151,7 @@ func set_debug_darkness(value: float) -> void:
 	_update_debug_viewports()
 
 func _update_debug_viewports() -> void:
+	if not is_zero_approx(debug_darkness) and _debug_viewports.is_empty(): return
 	var views: Array[Viewport] = [get_viewport()]
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null and player.body_animator.first_person != null:
@@ -202,8 +221,10 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 		if float(_levels[lamp]) == 0.0 and residents < MAX_RESIDENT_LAMPS and float(targets[lamp]) > 0.0:
 			_levels[lamp] = minf(float(targets[lamp]), delta * 5.0)
 			residents += 1
+	_resident_lamps.clear()
 	for lamp in _lamps:
 		var level := float(_levels[lamp])
+		if level > 0.0: _resident_lamps.append(lamp)
 		lamp.visible = level > 0.0
 		var energy := float(_energies[lamp]) * level
 		if not is_equal_approx(lamp.light_energy,energy):lamp.light_energy=energy
@@ -214,7 +235,7 @@ func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
 	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, 0.12, _indoor_mix)
 	var exclude := _exclude_body(camera)
-	for lamp in _lamps:
+	for lamp in _resident_lamps:
 		if not lamp.is_visible_in_tree() or lamp.light_energy <= 0.0: continue
 		var offset := at - lamp.global_position
 		var distance := offset.length()

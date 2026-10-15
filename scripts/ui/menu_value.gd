@@ -43,6 +43,9 @@ func _number_input(event: InputEvent) -> void:
 		number.accept_event()
 
 func _input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		_dragging = false
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		_dragging = false
 	if _dragging and event is InputEventMouseMotion:

@@ -57,9 +57,11 @@ func present(title: String, message: String, choices: Array[Dictionary]) -> void
 func _process(_delta: float) -> void:
 	if panel != null:
 		var panel_transform := get_global_transform().affine_inverse() * panel.get_global_transform()
-		$AccentLine.position = panel_transform.origin - Vector2(0, 1)
-		$AccentLine.size = Vector2(panel.size.x * panel_transform.x.length(), 1)
-		$AccentLine.scale.x = _line_progress
+		var line_position := panel_transform.origin - Vector2(0, 1)
+		var line_size := Vector2(panel.size.x * panel_transform.x.length(), 1)
+		if $AccentLine.position != line_position: $AccentLine.position = line_position
+		if $AccentLine.size != line_size: $AccentLine.size = line_size
+		if not is_equal_approx($AccentLine.scale.x, _line_progress): $AccentLine.scale.x = _line_progress
 
 func dismiss(action: Callable = Callable()) -> void:
 	if _closing:

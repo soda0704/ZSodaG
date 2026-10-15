@@ -18,7 +18,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.008, 0.012, 0.012, 0.15)
+color = Color(0.008, 0.012, 0.012, 0.18)
 
 [node name="Content" type="Control" parent="." unique_id=960076605]
 layout_mode = 1

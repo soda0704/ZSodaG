@@ -71,7 +71,7 @@ position = Vector3(0.3, 1.22, 0.4)
 rotation = Vector3(0, -1.5707963, 0)
 
 [node name="CabinRearLamp" type="SpotLight3D" parent="."]
-position = Vector3(0, 2.8, -2.5)
+position = Vector3(-2.5, 2.8, 0)
 rotation_degrees = Vector3(-90, 0, 0)
 light_color = Color(0.66, 0.76, 0.9, 1)
 light_energy = 1.2
@@ -84,7 +84,7 @@ spot_angle = 70.0
 metadata/world_lighting = true
 
 [node name="CabinFrontLamp" type="SpotLight3D" parent="."]
-position = Vector3(0, 2.8, 2.5)
+position = Vector3(2.5, 2.8, 0)
 rotation_degrees = Vector3(-90, 0, 0)
 light_color = Color(0.66, 0.76, 0.9, 1)
 light_energy = 1.2

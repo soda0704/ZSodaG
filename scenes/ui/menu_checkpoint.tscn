@@ -1,94 +1,75 @@
-[gd_scene format=3 uid="uid://w2nlrxev54hw"]
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
 
-[ext_resource type="Script" uid="uid://b2qxkbqfeal5w" path="res://scripts/ui/menu_button.gd" id="button"]
-[ext_resource type="Theme" uid="uid://80qoqxslm4nr" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_myg13"]
 
-[node name="CheckpointPage" type="VBoxContainer" unique_id=265051962]
-anchors_preset = 15
+[node name="CheckpointPage" type="VBoxContainer" unique_id=366359794]
+theme = ExtResource("menu_theme")
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource("theme")
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="." unique_id=1351182674]
+[node name="@Label@101" type="Label" parent="." unique_id=506437471]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "СОХРАНЁННАЯ ЭКСПЕДИЦИЯ"
+vertical_alignment = 1
+
+[node name="@Label@102" type="Label" parent="." unique_id=424722333]
 theme_type_variation = &"MenuTitle"
+layout_mode = 2
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
 theme_override_font_sizes/font_size = 33
-text = "ЭКСПЕДИЦИИ"
+text = "ПРОДОЛЖИТЬ ИГРУ"
+vertical_alignment = 1
 
-[node name="Mode" type="Label" parent="." unique_id=427373996]
+[node name="@Control@103" type="Control" parent="." unique_id=1986650880]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Одиночная игра"
+mouse_filter = 2
 
-[node name="Slots" type="OptionButton" parent="." unique_id=334556875]
-custom_minimum_size = Vector2(0, 44)
+[node name="Day" type="Label" parent="." unique_id=467931878]
+theme_type_variation = &"MenuTitle"
 layout_mode = 2
-size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
+theme_override_font_sizes/font_size = 36
+text = "ДЕНЬ 1"
+vertical_alignment = 1
 
-[node name="Scroll" type="ScrollContainer" parent="." unique_id=1414609579]
+[node name="Power" type="Label" parent="." unique_id=1679055979]
 layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 20
+text = "Питание отключено"
+vertical_alignment = 1
 
-[node name="Body" type="VBoxContainer" parent="Scroll" unique_id=1846891946]
+[node name="@Control@106" type="Control" parent="." unique_id=488581092]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
+mouse_filter = 2
 
-[node name="Naming" type="HBoxContainer" parent="Scroll/Body" unique_id=1079605476]
+[node name="Continue" type="Button" parent="." unique_id=1496712878]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-
-[node name="Name" type="LineEdit" parent="Scroll/Body/Naming" unique_id=1479875782]
-custom_minimum_size = Vector2(320, 42)
-layout_mode = 2
-placeholder_text = "Название экспедиции"
-max_length = 48
-
-[node name="Rename" type="Button" parent="Scroll/Body/Naming" unique_id=956560487]
-layout_mode = 2
-text = "ПЕРЕИМЕНОВАТЬ"
-script = ExtResource("button")
-
-[node name="Day" type="Label" parent="Scroll/Body" unique_id=688828627]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "ПУСТОЙ СЛОТ"
-
-[node name="Power" type="Label" parent="Scroll/Body" unique_id=2059287254]
-layout_mode = 2
-
-[node name="Continue" type="Button" parent="Scroll/Body" unique_id=1797408765]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 17
 text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
 alignment = 0
-script = ExtResource("button")
+script = ExtResource("1_myg13")
 
-[node name="New" type="Button" parent="Scroll/Body" unique_id=852881823]
-custom_minimum_size = Vector2(0, 48)
+[node name="Delete" type="Button" parent="." unique_id=2130234072]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-text = "НОВАЯ ЭКСПЕДИЦИЯ В ЭТОМ СЛОТЕ"
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "УДАЛИТЬ СОХРАНЕНИЕ"
 alignment = 0
-script = ExtResource("button")
+script = ExtResource("1_myg13")
 
-[node name="History" type="OptionButton" parent="Scroll/Body" unique_id=921147793]
-custom_minimum_size = Vector2(0, 42)
+[node name="Status" type="Label" parent="." unique_id=2093517194]
 layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Rollback" type="Button" parent="Scroll/Body" unique_id=1868035960]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "ОТКАТИТЬСЯ К ТОЧКЕ"
-alignment = 0
-script = ExtResource("button")
-
-[node name="Delete" type="Button" parent="Scroll/Body" unique_id=1006732360]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "ОЧИСТИТЬ ЭТОТ СЛОТ"
-alignment = 0
-script = ExtResource("button")
-
-[node name="Status" type="Label" parent="." unique_id=352349274]
-layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1

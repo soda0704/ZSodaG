@@ -65,8 +65,8 @@ func refresh() -> void:
 	start_button.visible = SteamNetwork.is_host and not solo and not CoopLobby.game_has_started
 	start_button.disabled = not CoopLobby.can_host_start()
 	ready_button.disabled = not solo and not CoopLobby.session_active
-	ready_button.text = "ГОТОВ К ПОСАДКЕ" if solo else "ОТМЕНИТЬ ГОТОВНОСТЬ" if CoopLobby.is_local_ready() else "ГОТОВ К ВЫСАДКЕ"
-	ready_status_label.text = "Подтвердите готовность к высадке." if solo else "Все готовы. Можно начинать посадку." if CoopLobby.can_host_start() else "Посадка начнётся после подтверждения готовности."
+	ready_button.text = "ОТМЕНИТЬ ГОТОВНОСТЬ" if not solo and CoopLobby.is_local_ready() else "ГОТОВ К ВЫСАДКЕ"
+	ready_status_label.text = "Подтвердите готовность к высадке." if solo else "Все готовы. Можно начинать высадку." if CoopLobby.can_host_start() else "Высадка начнётся после подтверждения готовности."
 	if CoopLobby.game_has_started:
 		ready_button.text = "ПРОДОЛЖИТЬ ИГРУ"
 		ready_button.disabled = false

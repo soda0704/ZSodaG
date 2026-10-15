@@ -3,8 +3,8 @@ extends CanvasLayer
 ## Stable gameplay API; native views share one settings and network service.
 
 enum MenuView { MAIN, SESSION, JOIN, SETTINGS, FEEDBACK }
-@export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.72
-@export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.48
+@export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.864
+@export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.576
 const MECHANICS_TEST_ROOM_SCENE := "res://scenes/levels/base_session.tscn"
 const SETTINGS_DIRECTORY := "NorthernLab"
 const SETTINGS_FILE := "launcher_settings.json"
@@ -25,7 +25,6 @@ var _feedback_return_to_scene := false
 var _feedback_capture_busy := false
 var _feedback_epoch := 0
 var feedback_label: Label
-var steam_status_label: Label
 var session_status_label: Label
 var lobby_id_value: LineEdit
 var lobby_id_input: LineEdit
@@ -38,6 +37,7 @@ var _settings_return_to_main_scene := false
 var _transition_in_progress := false
 var _settings_data: Dictionary = {}
 var _mouse_sensitivity_multiplier := 1.0
+var _applied_display: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -68,7 +68,6 @@ func _ready() -> void:
 	lobby_id_input = $MenuRoot/Shell/Content/JoinPage/LobbyInput
 	lobby_id_input.text_submitted.connect(connect_to_lobby_from_text)
 	join_panel.get_node("Connect").pressed.connect(func(): connect_to_lobby_from_text(lobby_id_input.text))
-	steam_status_label = NorthernMenuStyle.label("", 18, NorthernMenuStyle.MUTED)
 	feedback_label = NorthernMenuStyle.label("", 20, NorthernMenuStyle.MUTED)
 	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	menu_root.add_child(feedback_label)
@@ -164,7 +163,7 @@ func show_view(view: MenuView) -> void:
 	shell.rails(view != MenuView.MAIN)
 	var lobby_context := view == MenuView.SESSION or (view == MenuView.SETTINGS and _settings_origin == MenuView.SESSION and not _settings_return_to_main_scene)
 	var escape_context := not _in_main_scene() and (view == MenuView.MAIN or view == MenuView.SETTINGS or view == MenuView.FEEDBACK)
-	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.15)
+	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.18)
 	shell.content.offset_right = -72 if view == MenuView.FEEDBACK else 0
 	shell.top_rail.color.a = 1.0 if _in_main_scene() else 0.0
 	shell.bottom_rail.color.a = 1.0 if _in_main_scene() else 0.0
@@ -172,7 +171,10 @@ func show_view(view: MenuView) -> void:
 		shell.clear(shell.header)
 		shell.clear(shell.footer)
 		if view != MenuView.MAIN and view != MenuView.FEEDBACK:
-			shell.header.add_child(NorthernMenuStyle.label("NORTHERNLAB  /  КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ", 18, NorthernMenuStyle.MUTED))
+			var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+			var solo: bool = world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival()
+			var expedition := "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ" if solo else "КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ"
+			shell.header.add_child(NorthernMenuStyle.label("NORTHERNLAB  /  " + expedition, 18, NorthernMenuStyle.MUTED))
 			shell.footer.add_child(NorthernMenuStyle.label("CH-47 · ПОДГОТОВКА К ВЫСАДКЕ", 18, NorthernMenuStyle.MUTED))
 			var spacer := Control.new()
 			spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -329,6 +331,7 @@ func confirm(title: String, message: String, choices: Array) -> void:
 	if is_instance_valid(dialog):
 		return
 	var was_open := menu_root.visible
+	var previous_mouse_mode := Input.mouse_mode
 	menu_root.show()
 	if not was_open:
 		shell.hide()
@@ -344,6 +347,7 @@ func confirm(title: String, message: String, choices: Array) -> void:
 		feedback_label.show()
 		if not was_open:
 			menu_root.hide()
+			Input.mouse_mode = previous_mouse_mode
 		_sync_main_overlay()
 	)
 	dialog.present(title, message, typed_choices)
@@ -353,10 +357,7 @@ func confirm(title: String, message: String, choices: Array) -> void:
 func start_host_flow() -> void:
 	if _transition_in_progress or not SteamNetwork.steam_available:
 		return
-	var main := get_tree().current_scene
-	if main != null and main.has_method("show_expeditions"):
-		main.show_expeditions("coop")
-		return
+	ExpeditionSaveStore.select_existing("coop")
 	var previous_scope := BaseGameplayController.save_scope
 	BaseGameplayController.save_scope = "coop"
 	var summary := BaseGameplayController.get_saved_progress_summary()
@@ -506,6 +507,7 @@ func set_character_variant_id(variant_id: int) -> void:
 
 func load_settings_data() -> Dictionary:
 	var defaults := default_settings_data()
+	defaults["GraphicsPresetRevision"] = preload("res://scripts/ui/graphics_quality.gd").PRESET_REVISION
 	var path := get_settings_path()
 	if not FileAccess.file_exists(path):
 		return defaults
@@ -516,18 +518,33 @@ func load_settings_data() -> Dictionary:
 	if parsed is Dictionary:
 		for key in (parsed as Dictionary):
 			defaults[key] = (parsed as Dictionary)[key]
+	var quality_script = preload("res://scripts/ui/graphics_quality.gd")
+	if defaults.get("Graphics", {}) is Dictionary:
+		defaults["Graphics"] = quality_script.migrate_saved(defaults.get("Graphics", {}), int((parsed as Dictionary).get("GraphicsPresetRevision", 0)) if parsed is Dictionary else quality_script.PRESET_REVISION)
+	defaults["GraphicsPresetRevision"] = quality_script.PRESET_REVISION
 	return defaults
 
-func save_settings_data() -> void:
+func save_settings_data() -> bool:
 	var path := get_settings_path()
 	var directory := path.get_base_dir()
 	if not DirAccess.dir_exists_absolute(directory):
-		DirAccess.make_dir_recursive_absolute(directory)
-	var file := FileAccess.open(path, FileAccess.WRITE)
+		if DirAccess.make_dir_recursive_absolute(directory) != OK:
+			push_warning("Could not create settings directory: %s" % directory)
+			return false
+	var temporary := path + ".tmp"
+	var file := FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
 		push_warning("Could not save settings to %s" % path)
-		return
+		return false
 	file.store_string(JSON.stringify(_settings_data, "  "))
+	file.flush()
+	var result := file.get_error()
+	file.close()
+	if result == OK: result = DirAccess.rename_absolute(temporary, path)
+	if result != OK:
+		DirAccess.remove_absolute(temporary)
+		push_warning("Could not publish settings: %s" % path)
+	return result == OK
 
 func apply_settings_data() -> void:
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
@@ -544,28 +561,32 @@ func apply_settings_data() -> void:
 	)
 	var vsync_enabled := bool(_settings_data.get("VSync", true))
 
-	if DisplayServer.get_name() != "headless":
-		DisplayServer.window_set_current_screen(screen)
-		match window_mode:
-			"windowed":
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-				DisplayServer.window_set_size(resolution)
-			"maximized":
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
-			_:
-				# Borderless fullscreen always uses the desktop resolution. Switch
-				# through a sized window so exclusive fullscreen applies the value
-				# selected in the menu, including after a freshly exported build.
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-				DisplayServer.window_set_size(resolution)
-				DisplayServer.window_set_mode(
-					DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
-				)
-		DisplayServer.window_set_vsync_mode(
-			DisplayServer.VSYNC_ENABLED
-			if vsync_enabled
-			else DisplayServer.VSYNC_DISABLED
-		)
+	var display := {"resolution": resolution, "mode": window_mode, "screen": screen, "vsync": vsync_enabled}
+	if DisplayServer.get_name() != "headless" and display != _applied_display:
+		if _applied_display.get("screen") != screen: DisplayServer.window_set_current_screen(screen)
+		if _applied_display.get("mode") != window_mode or _applied_display.get("resolution") != resolution or _applied_display.get("screen") != screen:
+			match window_mode:
+				"windowed":
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+					DisplayServer.window_set_size(resolution)
+				"maximized":
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+				_:
+					# Borderless fullscreen always uses the desktop resolution. Switch
+					# through a sized window so exclusive fullscreen applies the value
+					# selected in the menu, including after a freshly exported build.
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+					DisplayServer.window_set_size(resolution)
+					DisplayServer.window_set_mode(
+						DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+					)
+		if _applied_display.get("vsync") != vsync_enabled:
+			DisplayServer.window_set_vsync_mode(
+				DisplayServer.VSYNC_ENABLED
+				if vsync_enabled
+				else DisplayServer.VSYNC_DISABLED
+			)
+	_applied_display = display
 
 	var volume_percent := clampf(
 		float(_settings_data.get("MasterVolume", 80.0)),

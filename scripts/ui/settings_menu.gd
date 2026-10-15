@@ -8,6 +8,12 @@ const QUALITY := [
 	["MSAA", "Сглаживание MSAA", ["Выкл.", "×2", "×4", "×8"], [0, 1, 2, 3]],
 	["FXAA", "Сглаживание FXAA"], ["FPS", "Ограничение кадров", ["Без ограничения", "30", "60", "90", "120", "144", "165", "240"], [0, 30, 60, 90, 120, 144, 165, 240]],
 	["LOD", "Упрощение моделей", 1, 8, 1, ""],
+	["ShadowQuality", "Качество теней", ["Низкое", "Среднее", "Высокое"], [1, 2, 3]],
+	["ShadowDistance", "Дальность теней солнца", 24, 96, 8, " м"],
+	["AOQuality", "Затенение в углах · SSAO", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
+	["FogQuality", "Объёмный туман", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
+	["GIQuality", "Отражённый свет · VoxelGI", ["Низкое", "Среднее", "Высокое"], [1, 2, 3]],
+	["Bloom", "Свечение источников света"],
 	["DecalDistance", "Дальность следов и крови", 10, 70, 5, " м"],
 	["TrackCount", "Следы на снегу", 32, 512, 32, ""],
 	["VegetationDistance", "Дальность деревьев и камней", 150, 750, 50, " м"],
@@ -26,14 +32,14 @@ var apply_button: Button
 var controls: NorthernControlSettings
 var shell: NorthernMenuShell
 var _menu: Node
+var _persist_failed := false
 
 func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	_menu = menu
 	shell = owner_shell
 	controls = menu.get_node("ControlSettings")
 	draft = menu._settings_data.duplicate(true)
-	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS.duplicate(true)
-	graphics.merge(draft.get("Graphics", {}), true)
+	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").normalized(draft.get("Graphics", {}))
 	draft["Graphics"] = graphics
 	original_bindings = controls.current_bindings()
 	draft_bindings = original_bindings.duplicate(true)
@@ -151,6 +157,7 @@ func _row(text: String) -> HBoxContainer:
 	return row
 
 func _get_value(key: String, graphics: bool) -> Variant:
+	if key == "Preset": return preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics)
 	return draft.Graphics.get(key, 0) if graphics else draft.get(key, 0)
 
 func _set_value(key: String, value: Variant, graphics: bool) -> void:
@@ -176,6 +183,7 @@ func _numeric(key: String, text: String, low: float, high: float, increment: flo
 func _choice(key: String, text: String, labels: Array, values: Array, graphics: bool = false) -> void:
 	var row := _row(text)
 	var option := OptionButton.new()
+	option.name = key
 	option.theme_type_variation = &"MenuChoice"
 	option.custom_minimum_size.x = 330
 	for item in labels:
@@ -207,36 +215,44 @@ func _toggle(key: String, text: String, graphics: bool = false, disabled: bool =
 func _preset(index: int) -> void:
 	if index == 0:
 		return
-	var data: Dictionary = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS.duplicate()
-	for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
-		data[key] = draft.Graphics[key]
-	if index == 1:
-		data.merge({"Scale": 70, "LOD": 8, "TrackCount": 32, "VegetationDistance": 200}, true)
-	elif index == 3:
-		data.merge({"MSAA": 2, "FXAA": false, "LOD": 1, "TrackCount": 256, "VegetationDistance": 700}, true)
-	draft.Graphics = data
+	var data: Dictionary = draft.Graphics.duplicate()
+	data.merge(preload("res://scripts/ui/graphics_quality.gd").PRESETS[index], true)
+	draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(data)
 	select_category(category)
 
 func has_changes() -> bool:
+	if _persist_failed: return true
 	var applied: Dictionary = _menu._settings_data.duplicate(true)
-	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS.duplicate(true)
-	graphics.merge(applied.get("Graphics", {}), true)
+	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").normalized(applied.get("Graphics", {}))
 	applied.Graphics = graphics
 	return draft != applied or draft_bindings != original_bindings
 
 func _changed() -> void:
 	if apply_button != null:
 		apply_button.disabled = not has_changes()
+	if rows != null:
+		var preset := rows.find_child("Preset", true, false) as OptionButton
+		if preset != null: preset.select(preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics))
 
-func apply(show_notice: bool = true) -> void:
+func apply(show_notice: bool = true) -> bool:
+	var previous: Dictionary = _menu._settings_data
 	_menu._settings_data = draft.duplicate(true)
-	_menu.apply_settings_data()
-	_menu.save_settings_data()
-	controls.replace_bindings(draft_bindings)
-	original_bindings = draft_bindings.duplicate(true)
+	var settings_saved: bool = _menu.save_settings_data()
+	var controls_saved := false
+	if settings_saved:
+		_menu.apply_settings_data()
+		controls_saved = controls.replace_bindings(draft_bindings)
+	else:
+		_menu._settings_data = previous
+	if controls_saved: original_bindings = draft_bindings.duplicate(true)
+	_persist_failed = not settings_saved or not controls_saved
 	_changed()
+	if _persist_failed:
+		_menu.confirm("Не удалось сохранить настройки", "Запись на диск не удалась. Проверьте доступ к папке настроек и повторите «Применить».", [])
+		return false
 	if show_notice:
 		_menu.confirm("Настройки применены", "Изменения сохранены.", [])
+	return true
 
 func reset_category() -> void:
 	var defaults: Dictionary = _menu.default_settings_data()
@@ -264,7 +280,8 @@ func request_back() -> void:
 		return
 	if has_changes():
 		_menu.confirm("Сохранить изменения?", "Параметры изменены, но ещё не применены.", [
-			{"label": "Применить и выйти", "action": func(): apply(false); back_requested.emit()},
+			{"label": "Применить и выйти", "action": func():
+				if apply(false): back_requested.emit()},
 			{"label": "Не применять", "action": func(): back_requested.emit()},
 		])
 	else:
@@ -275,7 +292,7 @@ func _wait_for_key(action: String) -> void:
 	description.text = "Нажмите клавишу или кнопку мыши. Esc — отмена."
 
 func _input(event: InputEvent) -> void:
-	if waiting.is_empty() or not event.is_pressed() or event.is_echo():
+	if not is_visible_in_tree() or _menu.dialog != null or shell.busy or waiting.is_empty() or not event.is_pressed() or event.is_echo():
 		return
 	if event is InputEventKey and event.keycode == KEY_ESCAPE:
 		waiting = ""

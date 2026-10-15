@@ -47,7 +47,7 @@ func transition(callback: Callable, compact: bool = false) -> void:
 	var tween := create_tween().set_parallel(true)
 	_motion = tween
 	var origin := content.position.x
-	var duration := 0.09 if compact else 0.19
+	var duration := 0.12 if compact else 0.20
 	tween.tween_property(content, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
 	tween.tween_property(content, "position:x", origin - 12.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
 	tween.tween_property(header, "modulate:a", 0.65, duration)
@@ -57,12 +57,15 @@ func transition(callback: Callable, compact: bool = false) -> void:
 		return
 	content.position.x = origin
 	callback.call()
+	# Closing a menu or replacing its scene can cancel this transition in callback.
+	if epoch != _epoch or not is_inside_tree():
+		return
 	content.modulate.a = 0
 	content.position.x += 15
 	var enter := create_tween().set_parallel(true)
 	_motion = enter
-	enter.tween_property(content, "modulate:a", 1.0, 0.16 if compact else 0.30).set_custom_interpolator(NorthernMenuStyle.ease)
-	enter.tween_property(content, "position:x", content.position.x - 15, 0.19 if compact else 0.38).set_custom_interpolator(NorthernMenuStyle.ease)
+	enter.tween_property(content, "modulate:a", 1.0, 0.20 if compact else 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
+	enter.tween_property(content, "position:x", content.position.x - 15, 0.24 if compact else 0.40).set_custom_interpolator(NorthernMenuStyle.ease)
 	enter.tween_property(header, "modulate:a", 1.0, 0.25)
 	enter.tween_property(footer, "modulate:a", 1.0, 0.30)
 	if not compact:

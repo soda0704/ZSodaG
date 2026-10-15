@@ -69,11 +69,19 @@ func apply_binding(action: String, event: InputEvent) -> void:
 			InputMap.action_erase_event(action, old)
 	InputMap.action_add_event(action, event)
 
-func replace_bindings(next: Dictionary) -> void:
+func replace_bindings(next: Dictionary) -> bool:
+	if next == current_bindings(): return true
+	var config := ConfigFile.new()
+	config.set_value("input", "bindings", next)
+	var temporary := path() + ".tmp"
+	var result := config.save(temporary)
+	if result == OK: result = DirAccess.rename_absolute(temporary, path())
+	if result != OK:
+		DirAccess.remove_absolute(temporary)
+		push_warning("Could not save input bindings")
+		return false
 	bindings = next.duplicate(true)
 	for action in bindings:
 		if ACTIONS.has(action):
 			apply_binding(action, event_from_data(bindings[action]))
-	var config := ConfigFile.new()
-	config.set_value("input", "bindings", bindings)
-	config.save(path())
+	return true

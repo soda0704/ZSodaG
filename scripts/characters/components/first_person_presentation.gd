@@ -44,6 +44,9 @@ var _view_frame := Transform3D.IDENTITY
 var _lighting_fill: DirectionalLight3D
 var _view_world_root:Node3D
 var _world_light_instances:Dictionary={}
+var _model_lights: Array[Light3D] = []
+var _model_geometry: Array[GeometryInstance3D] = []
+var _environment_keys: Array[StringName] = []
 
 func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	camera=owner_camera
@@ -89,7 +92,9 @@ func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	overlay.add_child(surface); surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	viewport=SubViewport.new(); viewport.name="ViewmodelViewport"; viewport.transparent_bg=true
 	viewport.world_3d=World3D.new()
-	viewport.handle_input_locally=false; viewport.msaa_3d=Viewport.MSAA_4X
+	viewport.handle_input_locally=false
+	viewport.msaa_3d=camera.get_viewport().msaa_3d
+	viewport.screen_space_aa=camera.get_viewport().screen_space_aa
 	# The view rig never renders the world's shadow maps a second time.
 	viewport.positional_shadow_atlas_size=0
 	viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
@@ -117,7 +122,25 @@ func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	_lighting_fill.light_volumetric_fog_energy=0.0
 	_lighting_fill.rotation_degrees=Vector3(-25,-20,0)
 	_view_world_root.add_child(_lighting_fill)
+	# Keep the exact live membership, including dynamically attached equipment.
+	# Traversing the entire skeleton twice per frame is unnecessary.
+	get_tree().node_added.connect(_register_model_node)
+	get_tree().node_removed.connect(_unregister_model_node)
+	for node in model.find_children("*", "Light3D", true, false): _register_model_node(node)
+	for node in model.find_children("*", "GeometryInstance3D", true, false): _register_model_node(node)
 	_refresh_visibility()
+
+func _register_model_node(node: Node) -> void:
+	if not (node is Light3D or node is GeometryInstance3D) or not model.is_ancestor_of(node): return
+	if node is Light3D and not _model_lights.has(node): _model_lights.append(node)
+	if node is GeometryInstance3D and not _model_geometry.has(node): _model_geometry.append(node)
+
+func _unregister_model_node(node: Node) -> void:
+	if node is Light3D: _model_lights.erase(node)
+	if node is GeometryInstance3D:
+		_model_geometry.erase(node)
+		if _hidden_geometry.has(node.get_instance_id()): node.visible = _hidden_geometry[node.get_instance_id()]
+		_hidden_geometry.erase(node.get_instance_id())
 
 func update_context(values: Dictionary) -> void:
 	context=values.duplicate()
@@ -216,7 +239,7 @@ func _sync_world_light_instances() -> void:
 	# Logical equipment and its sockets stay together. Only the lights' render
 	# instances join the gameplay scenario, keeping their exact animated pose,
 	# battery state and visibility without duplicating lights or shadow maps.
-	for light:Light3D in model.find_children("*","Light3D",true,false):
+	for light in _model_lights:
 		var instance:=light.get_instance()
 		if not _world_light_instances.has(instance):
 			RenderingServer.instance_set_scenario(instance,camera.get_world_3d().scenario)
@@ -267,14 +290,18 @@ func _sync_environment() -> void:
 			_view_environment.ssao_enabled=false
 			_view_environment.ssr_enabled=false
 		view_camera.environment=_view_environment
+		_environment_keys.clear()
+		if source != null:
+			for property in source.get_property_list():
+				var key: StringName = property.name
+				if not (property.usage & PROPERTY_USAGE_STORAGE) or str(key).begins_with("volumetric_fog") or str(key).begins_with("fog_") or str(key).begins_with("ssao_") or str(key).begins_with("ssr_"): continue
+				_environment_keys.append(key)
 		_environment_dirty=true
 	if _environment_dirty:
 		# Keep one GPU environment. Roof transitions must not allocate a new
 		# environment and its render bindings every frame.
 		if source!=null and _view_environment!=null:
-			for property in source.get_property_list():
-				var key:StringName=property.name
-				if not (property.usage & PROPERTY_USAGE_STORAGE) or str(key).begins_with("volumetric_fog") or str(key).begins_with("fog_") or str(key).begins_with("ssao_") or str(key).begins_with("ssr_"):continue
+			for key in _environment_keys:
 				var value:Variant=source.get(key)
 				if _view_environment.get(key)!=value:_view_environment.set(key,value)
 		_environment_dirty=false
@@ -337,7 +364,7 @@ func _refresh_visibility() -> void:
 	var draw_view := model.visible and camera.current and not _external_view
 	# Hide renderable geometry, including held items, from every camera.
 	# Gameplay light render instances remain in the main world.
-	for geometry: GeometryInstance3D in model.find_children("*", "GeometryInstance3D", true, false):
+	for geometry in _model_geometry:
 		var id := geometry.get_instance_id()
 		if draw_view:
 			if _hidden_geometry.has(id):

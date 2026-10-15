@@ -9,11 +9,15 @@ func _process(delta: float) -> void:
 		return
 	var focus := get_viewport().gui_get_focus_owner()
 	var selected := get_global_rect().has_point(get_global_mouse_position()) or (focus != null and is_ancestor_of(focus))
-	_hover = lerpf(_hover, 1.0 if selected else 0.0, 1.0 - exp(-delta * 12))
+	var previous_hover := _hover
+	var previous_flash := _flash
+	var target := 1.0 if selected else 0.0
+	_hover = lerpf(_hover, target, 1.0 - exp(-delta * 14))
+	if absf(_hover - target) < 0.001: _hover = target
 	_flash = maxf(0, _flash - delta * 3)
-	pivot_offset = size * 0.5
-	scale = Vector2.ONE * (1 + _hover * 0.012)
-	queue_redraw()
+	if pivot_offset != size * 0.5: pivot_offset = size * 0.5
+	if not is_equal_approx(previous_hover, _hover): scale = Vector2.ONE * (1 + _hover * 0.012)
+	if not is_equal_approx(previous_hover, _hover) or not is_equal_approx(previous_flash, _flash): queue_redraw()
 
 func pulse() -> void:
 	_flash = 1

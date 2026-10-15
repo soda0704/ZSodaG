@@ -232,6 +232,20 @@ static func has_any_save(scope: String) -> bool:
 	select(scope, selected)
 	return found
 
+static func select_existing(scope: String) -> void:
+	# The simplified menu has no slot picker. Keep the active save, or find the
+	# newest valid one left by the previous UI without moving/deleting any files.
+	if not read(scope).is_empty(): return
+	var chosen := slot(scope)
+	var newest := -1
+	for number in range(1, SLOT_COUNT + 1):
+		select(scope, number)
+		var data := summary(scope)
+		if not data.is_empty() and int(data.get("saved_at", 0)) > newest:
+			chosen = number
+			newest = int(data.get("saved_at", 0))
+	select(scope, chosen)
+
 static func rename_slot(scope: String, label: String) -> bool:
 	if label.strip_edges().is_empty() or label.length() > 48:
 		return false

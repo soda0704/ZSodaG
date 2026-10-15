@@ -32,7 +32,7 @@ func refresh() -> void:
 		return
 
 	if world.is_solo_arrival():
-		lobby_id_label.text = "CH-47 · ПОДГОТОВКА К ПОСАДКЕ"
+		lobby_id_label.text = "CH-47 · ПОДГОТОВКА К ВЫСАДКЕ"
 	elif SteamNetwork.lobby_id > 0:
 		lobby_id_label.text = "CH-47 · LOBBY ID: %s" % SteamNetwork.lobby_id
 	else:

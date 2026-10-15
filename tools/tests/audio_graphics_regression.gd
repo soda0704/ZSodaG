@@ -20,20 +20,21 @@ func run():
 	zone.environment.ambient_light_energy = 0.025
 	root.add_child(zone)
 	zone.set_process(false)
-	quality.apply({"Scale":70,"LocalShadows":false,"SSAO":false,"SSR":false,"FPS":60})
+	quality.apply({"Scale":70,"LocalShadows":false,"AOQuality":0,"SSR":false,"FPS":60})
 	check(is_equal_approx(root.scaling_3d_scale,0.7) and Engine.max_fps==60,"render scale and FPS limit apply")
 	check(light.shadow_enabled and not untouched.shadow_enabled,"legacy quality flags preserve authored shadow states")
 	check(not zone.environment.ssao_enabled and not zone.environment.ssr_enabled,"environment effects disabled")
 	quality.apply({"LocalShadows":true,"SSR":true})
 	check(not light.is_queued_for_deletion(),"quality changes keep authored world lights")
 	check(not zone.environment.ssr_enabled and not zone.environment.fog_enabled and is_equal_approx(zone.environment.ambient_light_energy,0.025),"screen effects stay disabled while authored ambient is preserved")
+	zone.environment=Environment.new()
 	zone.environment.ssao_enabled=true
 	zone.environment.glow_enabled=true
 	zone.environment.fog_enabled=true
 	zone.environment.volumetric_fog_enabled=true
 	zone.environment.fog_density=0.004
 	quality.apply({"SSAO":false,"Glow":false,"Fog":false})
-	check(zone.environment.ssao_enabled and zone.environment.glow_enabled and zone.environment.fog_enabled and zone.environment.volumetric_fog_enabled and is_equal_approx(zone.environment.fog_density,0.004),"quality settings preserve authored sky and volumetric post-processing")
+	check(zone.environment.ssao_enabled and zone.environment.glow_enabled and zone.environment.fog_enabled and zone.environment.volumetric_fog_enabled and is_equal_approx(zone.environment.fog_density,0.004),"legacy flags do not replace the new render budgets or authored haze")
 	quality.apply({"Gamma":130,"Brightness":115})
 	check(is_equal_approx(zone.environment.adjustment_brightness,1.15) and zone.environment.adjustment_color_correction != null,"brightness and gamma affect the environment")
 	check(NorthernSettingsMenu.CATEGORIES.size() == 4, "settings are separated into four categories")
