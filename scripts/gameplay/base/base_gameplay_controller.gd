@@ -18,6 +18,7 @@ enum BasePhase {
 }
 
 const FIRST_DAY := 1
+const MAX_DAY_INDEX := 7
 const MAX_PLAYERS := 2
 const SAVE_VERSION := 1
 const DEFAULT_SAVE_PATH := "user://base_gameplay_state.cfg"
@@ -28,9 +29,12 @@ static var save_scope: String = "solo"
 enum QuestStage { UNAVAILABLE, OFFERED, ACCEPTED, COLLECTED, DELIVERED }
 var quest_stage: QuestStage = QuestStage.UNAVAILABLE
 
-@export_range(1, 5, 1) var starting_day_index: int = FIRST_DAY
+@export_range(1, 7, 1) var starting_day_index: int = FIRST_DAY
 const LEVEL_TWO_DAY_INDEX := 3
-const CONTAINMENT_DAY_INDEX := 4
+const TRIALS_DAY_INDEX := 4
+const CONTAINMENT_DAY_INDEX := 5
+const EXPEDITION_DAY_INDEX := 6
+const CAVE_DAY_INDEX := 7
 var _last_checkpoint_msec := -5000
 
 var day_index: int = FIRST_DAY
@@ -110,7 +114,7 @@ func _ready() -> void:
 	):
 		steam_network.connect("peer_joined", _on_peer_joined)
 	var initial_snapshot := _make_snapshot(
-		clampi(starting_day_index, 1, 5),
+		clampi(starting_day_index, FIRST_DAY, MAX_DAY_INDEX),
 		BasePhase.ARRIVAL,
 		false,
 		false,
@@ -229,6 +233,7 @@ func can_end_current_day() -> bool:
 		(day_index == 1 and elevator_backup_installed)
 		or (day_index == 2 and quest_stage == QuestStage.DELIVERED)
 		or (day_index == LEVEL_TWO_DAY_INDEX and bool(containment.get("level2", false)))
+		or (day_index == TRIALS_DAY_INDEX and bool(containment.get("trials", false)))
 		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
 	)
 
@@ -379,7 +384,7 @@ func advance_day_authoritative() -> bool:
 	if (
 		not multiplayer.is_server()
 		or not are_all_connected_players_sleeping()
-		or day_index >= 5
+		or day_index >= MAX_DAY_INDEX
 		or not can_end_current_day()
 	):
 		return false
@@ -545,7 +550,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	var previous_ready := end_day_ready_peer_ids.duplicate()
 	var previous_sleeping := sleeping_peer_ids.duplicate()
 
-	day_index = clampi(int(snapshot.get("day_index", FIRST_DAY)), 1, 5)
+	day_index = clampi(int(snapshot.get("day_index", FIRST_DAY)), FIRST_DAY, MAX_DAY_INDEX)
 	phase = clampi(
 		int(snapshot.get("phase", BasePhase.ARRIVAL)),
 		BasePhase.ARRIVAL,
@@ -610,7 +615,7 @@ func _make_snapshot(
 	next_sleeping_peer_ids: Array = []
 ) -> Dictionary:
 	return {
-		"day_index": clampi(next_day_index, 1, 5),
+		"day_index": clampi(next_day_index, FIRST_DAY, MAX_DAY_INDEX),
 		"phase": int(next_phase),
 		"fuel_delivered": next_fuel_delivered,
 		"fuel_liters": fuel_liters if next_fuel_delivered else 0.0,

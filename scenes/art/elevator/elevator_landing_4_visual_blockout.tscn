@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_landing_portal_visual_blockout.tscn" id="portal"]
+
+[node name="Landing4Visual" instance=ExtResource("portal")]
+editor_description = "Call station fitted to the north wall of level 4. Geometry inherits the shared elevator portal."
+
+[node name="CallPanelVisual" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.75, 0, -6.1800)
+
+[node name="CallLabel" parent="CallPanelVisual"]
+rotation = Vector3(0, -1.5707963, 0)

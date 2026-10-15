@@ -11,13 +11,13 @@
 | Группа | Команды |
 | --- | --- |
 | Справка | `/help`, `/clear`, `/target` |
-| Перемещение | `/fly`, `/across`, `/speed 3`, `/speed reset`, `/where`, `/outside`, `/level 0` … `/level 4`, `/testroom` |
+| Перемещение | `/fly`, `/across`, `/speed 3`, `/speed reset`, `/where`, `/outside`, `/level 0` … `/level 5`, `/testroom` |
 | Свободная камера | `/freecam`, `/freecam on`, `/freecam off`, `/freecam speed 5`, `/freecam speed reset` |
 | Игрок | `/god`, `/heal`, `/flashlight` |
 | Предметы | `/item TYPE [COUNT]`, `/weapon pistol|m4a1|kitchen_knife`, `/ammo`, `/fuel full|empty`, `/tape`, `/crowbar` |
 | Объект под прицелом | `/open [ID]`, `/close [ID]`, `/kill [ID]` |
 | Существа | `/spawn tail|slasher|smily [COUNT]`, `/despawn`, `/monsters reset|kill` |
-| Прогресс | `/day 1` … `/day 4`, `/wiring`, `/lightfault` |
+| Прогресс | `/day 1` … `/day 7`, `/wiring`, `/lightfault` |
 | Видимость для тестирования | `/fullbright [on|off]` |
 
 Типы `/item`: `tape`, `crowbar`, `fuel_can`, `flashlight`, `battery`, `fuse`, `pistol`, `m4a1`, `kitchen_knife`, `pistol_ammo`, `rifle_magazine`. Предмет и тестовый монстр появляются в запомненной точке прицела. `/despawn` удаляет отладочно созданных существ, а не заменяет зачистку сюжетной встречи.

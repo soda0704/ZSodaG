@@ -7,10 +7,11 @@ const ZONES := [
 	["Living",0,Vector3(23,3,2),Vector3(30,12,32),2],
 	["Control",1,Vector3(-30,-14,0),Vector3(88,12,60),3],
 	["LifeSupport",2,Vector3(-30,-32,0),Vector3(98,16,62),3],
-	["Containment",3,Vector3(-18,-50,-14),Vector3(68,14,64),3],
-	["Expedition",4,Vector3(-20,-68,-17),Vector3(76,16,68),3]
+	["Trials",3,Vector3(-24,-50,-3),Vector3(48,14,42),3],
+	["Containment",4,Vector3(-18,-68,-14),Vector3(68,14,64),3],
+	["Expedition",5,Vector3(-20,-86,-17),Vector3(76,16,68),3]
 ]
-const FLOORS := ["Floor_0_Base_Blockout","Floor_Minus1_Control_Security_Blockout","Floor_Minus2_Life_Support_Blockout","Floor_Minus3_Biocontainment_Blockout","Floor_Minus4_Expedition_Shaft_Blockout"]
+const FLOORS := ["Floor_0_Base_Blockout","Floor_Minus1_Control_Security_Blockout","Floor_Minus2_Life_Support_Blockout","Floor_Minus3_Trials_Observation_Blockout","Floor_Minus4_Biocontainment_Blockout","Floor_Minus5_Expedition_Shaft_Blockout"]
 
 func _initialize() -> void: run.call_deferred()
 

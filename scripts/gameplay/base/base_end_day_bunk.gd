@@ -43,6 +43,8 @@ func get_interaction_prompt() -> String:
 			return "Сначала доставьте ключ на базу"
 		if controller.day_index == controller.LEVEL_TWO_DAY_INDEX:
 			return "Сначала обследуйте уровень 2"
+		if controller.day_index == controller.TRIALS_DAY_INDEX:
+			return "Сначала обследуйте испытательную камеру на уровне 3"
 		if controller.day_index == controller.CONTAINMENT_DAY_INDEX:
 			return "Сначала зачистите уровень и восстановите питание"
 		return "Конец доступного прототипа"

@@ -64,7 +64,7 @@ func run() -> void:
 	await settle()
 	check(elevator._passenger_peer_ids.has(1), "real passenger overlap is detected")
 	check(elevator.cabin_door.is_open and elevator._get_landing_door(0).is_open and not elevator._get_landing_door(1).is_open, "only the occupied landing starts open")
-	check(not elevator.request_floor(-1) and not elevator.request_floor(5) and not elevator.request_floor(0) and not elevator.request_floor(2), "invalid, current and locked destinations are rejected")
+	check(not elevator.request_floor(-1) and not elevator.request_floor(6) and not elevator.request_floor(0) and not elevator.request_floor(2), "invalid, current and locked destinations are rejected")
 	elevator.set_powered(false)
 	check(not elevator.request_call(1), "unpowered elevator rejects calls")
 	elevator.set_powered(true)

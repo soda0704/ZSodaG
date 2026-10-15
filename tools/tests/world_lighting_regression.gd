@@ -57,7 +57,7 @@ func run() -> void:
 	var lighting=level.get_node("WorldLighting")
 	var indirect: Node3D=level.get_node("WorldIndirectLighting")
 	var probes:=indirect.find_children("*","VoxelGI",true,false)
-	check(probes.size()==7,"all seven interior zones have baked voxel geometry")
+	check(probes.size()==8,"all eight lighting zones have baked voxel geometry")
 	var interior_probes:=true
 	var overlap_safe:=true
 	for probe:VoxelGI in probes:
@@ -131,8 +131,9 @@ func run() -> void:
 			"living":[Vector3(23,1.75,-1),Vector3(28,1.7,2)],
 			"level-1":[Vector3(-8,-16.25,3),Vector3(-14,-16.0,0)],
 			"level-2":[Vector3(-17,-31.75,0),Vector3(-29,-33.5,0)],
-			"level-3":[Vector3(-5.5,-52.25,2),Vector3(-11,-52.25,0)],
-			"level-4":[Vector3(-6.25,-70.25,2),Vector3(-13,-70.25,0)],
+			"level-3":[Vector3(-25,-52.25,1),Vector3(-30,-52,-10)],
+			"level-4":[Vector3(-5.5,-70.25,2),Vector3(-11,-70.25,0)],
+			"level-5":[Vector3(-6.25,-88.25,2),Vector3(-13,-88.25,0)],
 			"exterior":[Vector3(-65,2.5,8),Vector3(-38,2,0)],
 			"exterior-near":[Vector3(-58,8,18),Vector3(-15,3,0)],
 			"exterior-far":[Vector3(-95,22,32),Vector3(-15,3,0)]}
@@ -255,8 +256,9 @@ func run() -> void:
 		["living",Vector3(23,1.75,-1),Vector3(28,1.7,2)],
 		["level-1",Vector3(-8,-16.25,3),Vector3(-14,-16.0,0)],
 		["level-2",Vector3(-17,-31.75,0),Vector3(-29,-33.5,0)],
-		["level-3",Vector3(-5.5,-52.25,2),Vector3(-11,-52.25,0)],
-		["level-4",Vector3(-6.25,-70.25,2),Vector3(-13,-70.25,0)]
+		["level-3",Vector3(-25,-52.25,1),Vector3(-30,-52,-10)],
+		["level-4",Vector3(-5.5,-70.25,2),Vector3(-11,-70.25,0)],
+		["level-5",Vector3(-6.25,-88.25,2),Vector3(-13,-88.25,0)]
 	]
 	for location in locations:
 		camera.global_position=location[1]

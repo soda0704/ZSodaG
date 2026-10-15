@@ -6,7 +6,7 @@
 flowchart TD
     Menu[Главное меню] --> Session[base_session: вертолёт и сетевая сессия]
     Session --> Base[Base_Blockout_v03: сборка базы]
-    Base --> Floors[Уровни 0–4]
+    Base --> Floors[Уровни 0–5]
     Base --> Exterior[SnowExterior и Terrain3D]
     Base --> State[BaseGameplayController]
     State --> Systems[Питание, дни, койки, задания и встреча с монстрами]

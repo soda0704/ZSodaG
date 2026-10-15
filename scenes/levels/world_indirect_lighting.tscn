@@ -1,55 +1,62 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/levels/world_indirect_lighting.gd" id="1_2uit7"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/entrance.res" id="2_bwqdp"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/hub.res" id="3_ahtjr"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/living.res" id="4_dwpmu"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/control.res" id="5_krp38"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/life_support.res" id="6_2jng1"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/containment.res" id="7_qy1g4"]
-[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/expedition.res" id="8_vm0kw"]
+[ext_resource type="Script" path="res://scripts/levels/world_indirect_lighting.gd" id="1_bwqdp"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/entrance.res" id="2_ahtjr"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/hub.res" id="3_dwpmu"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/living.res" id="4_krp38"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/control.res" id="5_2jng1"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/life_support.res" id="6_qy1g4"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/trials.res" id="7_vm0kw"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/containment.res" id="8_n76gg"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/expedition.res" id="9_u3v24"]
 
-[node name="WorldIndirectLighting" type="Node3D" unique_id=1201893391]
-script = ExtResource("1_2uit7")
+[node name="WorldIndirectLighting" type="Node3D" unique_id=326570274]
+script = ExtResource("1_bwqdp")
 
-[node name="Entrance" type="VoxelGI" parent="." unique_id=432294655]
+[node name="Entrance" type="VoxelGI" parent="." unique_id=1945398117]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3, 0)
 subdiv = 2
 size = Vector3(38, 12, 26)
-data = ExtResource("2_bwqdp")
+data = ExtResource("2_ahtjr")
 
-[node name="Hub" type="VoxelGI" parent="." unique_id=628809071]
+[node name="Hub" type="VoxelGI" parent="." unique_id=72519530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 subdiv = 3
 size = Vector3(24, 12, 62)
-data = ExtResource("3_ahtjr")
+data = ExtResource("3_dwpmu")
 
-[node name="Living" type="VoxelGI" parent="." unique_id=1100591082]
+[node name="Living" type="VoxelGI" parent="." unique_id=57034233]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 3, 2)
 subdiv = 2
 size = Vector3(30, 12, 32)
-data = ExtResource("4_dwpmu")
+data = ExtResource("4_krp38")
 
-[node name="Control" type="VoxelGI" parent="." unique_id=2035416379]
+[node name="Control" type="VoxelGI" parent="." unique_id=1562022948]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -14, 0)
 subdiv = 3
 size = Vector3(88, 12, 60)
-data = ExtResource("5_krp38")
+data = ExtResource("5_2jng1")
 
-[node name="LifeSupport" type="VoxelGI" parent="." unique_id=248016035]
+[node name="LifeSupport" type="VoxelGI" parent="." unique_id=924641666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -32, 0)
 subdiv = 3
 size = Vector3(98, 16, 62)
-data = ExtResource("6_2jng1")
+data = ExtResource("6_qy1g4")
 
-[node name="Containment" type="VoxelGI" parent="." unique_id=283943721]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -50, -14)
+[node name="Trials" type="VoxelGI" parent="." unique_id=2121220927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -50, -3)
+subdiv = 3
+size = Vector3(48, 14, 42)
+data = ExtResource("7_vm0kw")
+
+[node name="Containment" type="VoxelGI" parent="." unique_id=522537631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -68, -14)
 subdiv = 3
 size = Vector3(68, 14, 64)
-data = ExtResource("7_qy1g4")
+data = ExtResource("8_n76gg")
 
-[node name="Expedition" type="VoxelGI" parent="." unique_id=2102227468]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -68, -17)
+[node name="Expedition" type="VoxelGI" parent="." unique_id=864219586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -86, -17)
 subdiv = 3
 size = Vector3(76, 16, 68)
-data = ExtResource("8_vm0kw")
+data = ExtResource("9_u3v24")

@@ -69,7 +69,7 @@ func request_report(label: String) -> void:
 	await get_tree().process_frame
 	var local: GamePlayer = get_tree().get_first_node_in_group("local_player")
 	var doors := {}
-	for floor_index in 5: doors[str(floor_index)] = elevator._get_landing_door(floor_index).is_open
+	for floor_index in elevator.MAX_FLOOR_INDEX + 1: doors[str(floor_index)] = elevator._get_landing_door(floor_index).is_open
 	receive_report.rpc_id(1, label, {
 		"state": int(elevator.state), "floor": elevator.current_floor_index,
 		"pending": elevator.pending_floor_index, "destination": elevator._active_destination_floor_index,
@@ -174,6 +174,20 @@ func run() -> void:
 	for observed_state in elevator.ElevatorState.values():
 		if observed_state != elevator.ElevatorState.FAULT:
 			check(data.get("states", {}).has(str(observed_state)), "client observes authoritative phase %d" % observed_state)
+	# The inserted trials floor and both shifted floors use the same real trip protocol.
+	elevator.set_powered(true)
+	elevator.set_day(6)
+	elevator.travel_speed = 22.0
+	for destination in [3, 4, 5, 0]:
+		check(elevator.request_floor(destination), "six-stop cabin accepts destination %d" % destination)
+		check(await until(func(): return elevator.current_floor_index == destination and elevator.state == elevator.ElevatorState.IDLE_OPEN), "host parks at destination %d" % destination)
+		await delay(0.3)
+		data = await report("floor_%d" % destination)
+		check(data.get("floor", -1) == destination and absf(float(data.get("y", 999)) + 18.0 * destination) < 0.01, "client aligns with floor %d" % destination)
+		var correct_doors := true
+		for index in elevator.MAX_FLOOR_INDEX + 1:
+			correct_doors = correct_doors and bool(data.get("doors", {}).get(str(index), false)) == (index == destination)
+		check(correct_doors and data.get("cabin_open", false), "only destination %d opens on client" % destination)
 	# Waiting for a missing player must stop waiting once that peer disconnects.
 	set_phase.rpc("disconnect")
 	elevator.set_powered(true)

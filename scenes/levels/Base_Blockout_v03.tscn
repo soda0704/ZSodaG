@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bq6r0gmf1m8u3" path="res://scenes/levels/Floor_0_Base_Blockout.tscn" id="3_floor_0"]
 [ext_resource type="PackedScene" uid="uid://bbuu44pf3d8rd" path="res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn" id="4_floor_minus1"]
 [ext_resource type="PackedScene" uid="uid://byj0se8cnrgbt" path="res://scenes/levels/Floor_Minus2_Life_Support_Blockout.tscn" id="5_floor_minus2"]
-[ext_resource type="PackedScene" uid="uid://ba3rasslhfoo" path="res://scenes/levels/Floor_Minus3_Biocontainment_Blockout.tscn" id="6_floor_minus3"]
-[ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus4_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
+[ext_resource type="PackedScene" uid="uid://ba3rasslhfoo" path="res://scenes/levels/Floor_Minus4_Biocontainment_Blockout.tscn" id="6_floor_minus3"]
+[ext_resource type="PackedScene" uid="uid://c23ke48vjsxok" path="res://scenes/levels/Floor_Minus5_Expedition_Shaft_Blockout.tscn" id="7_floor_minus4"]
 [ext_resource type="Script" uid="uid://cm677683w1h6w" path="res://scripts/gameplay/base/base_gameplay_controller.gd" id="9_base_gameplay"]
 [ext_resource type="Script" uid="uid://cpgrr88he7oiq" path="res://scripts/gameplay/base/base_power_lighting_controller.gd" id="10_power_lighting"]
 [ext_resource type="Shader" uid="uid://dtgioe1b1v8sn" path="res://assets/shaders/terminal_screen.gdshader" id="11_ac0f5"]
@@ -26,6 +26,8 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/medical/medical_corpse.tscn" id="medical_corpse"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
 [ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/Floor_Minus3_Trials_Observation_Blockout.tscn" id="trials_floor"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ac0f5"]
 viewport_path = NodePath("ErrorViewport")
@@ -61,6 +63,9 @@ size = Vector3(55, 4, 80)
 
 [sub_resource type="BoxShape3D" id="level3_visit_shape"]
 size = Vector3(46.5, 6, 80)
+
+[sub_resource type="BoxShape3D" id="trials_visit_shape"]
+size = Vector3(14, 4, 10)
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
@@ -546,23 +551,23 @@ light_color = Color(0.8656014, 0.7575941, 0.7541479, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="49" unique_id=2090241799]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -50.17349, 0.037667155)
+[node name="L4Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="49" unique_id=2090241799]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -68.17349, 0.037667155)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50" unique_id=1387741967]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -50.163277, 0)
+[node name="L4Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50" unique_id=1387741967]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -68.163277, 0)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Corridor" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51" unique_id=876517963]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -50.191265, -2.5892024)
+[node name="L4Corridor" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51" unique_id=876517963]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.191265, -2.5892024)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Corridor2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52" unique_id=1516780077]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -50.191265, -7.3054028)
+[node name="L4Corridor2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52" unique_id=1516780077]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.191265, -7.3054028)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -576,13 +581,13 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L3Lab" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53" unique_id=1065376193]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -50.118813, -16)
+[node name="L4Lab" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53" unique_id=1065376193]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -68.118813, -16)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Lab2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54" unique_id=419328990]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -50.144573, -14.046828)
+[node name="L4Lab2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54" unique_id=419328990]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -68.144573, -14.046828)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -596,13 +601,13 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L3Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="55" unique_id=1685791742]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -50.141884, -19.37401)
+[node name="L4Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="55" unique_id=1685791742]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -68.141884, -19.37401)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="56" unique_id=713514229]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -50.141884, -14.601833)
+[node name="L4Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="56" unique_id=713514229]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -68.141884, -14.601833)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -616,13 +621,13 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L3Damaged" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="57" unique_id=2088297449]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.62126, -50.12058, -27.067616)
+[node name="L4Damaged" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="57" unique_id=2088297449]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.62126, -68.12058, -27.067616)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Damaged2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="58" unique_id=1410520326]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.553005, -50.12058, -27.067616)
+[node name="L4Damaged2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="58" unique_id=1410520326]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.553005, -68.12058, -27.067616)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -636,8 +641,8 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L3Damaged3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="59" unique_id=208633472]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -16.327955, -50.12058, -27.067616)
+[node name="L4Damaged3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="59" unique_id=208633472]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -16.327955, -68.12058, -27.067616)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -651,13 +656,13 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L3Gallery" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="60" unique_id=225076279]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -50.03543, -16.778728)
+[node name="L4Gallery" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="60" unique_id=225076279]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -68.03543, -16.778728)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L3Gallery2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="61" unique_id=1496636072]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -50.060646, -24.326042)
+[node name="L4Gallery2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="61" unique_id=1496636072]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -68.060646, -24.326042)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -671,26 +676,26 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L4Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="62" unique_id=361351585]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -67.82141, 0)
+[node name="L5Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="62" unique_id=361351585]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -85.82141, 0)
 light_color = Color(0.8569854, 0.6912626, 0.6312529, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L4Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="63" unique_id=2073308522]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13, -67.57585, -0.53912157)
+[node name="L5Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="63" unique_id=2073308522]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13, -85.57585, -0.53912157)
 light_color = Color(0.89015, 0.75139964, 0.71522003, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L4Dispatch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="64" unique_id=1524064318]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.831512, -66.33406, -3)
+[node name="L5Dispatch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="64" unique_id=1524064318]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.831512, -84.33406, -3)
 light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L4Dispatch2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="65" unique_id=1402982798]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.394592, -66.43987, -3)
+[node name="L5Dispatch2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="65" unique_id=1402982798]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.394592, -84.43987, -3)
 light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -704,20 +709,20 @@ spot_attenuation = 1.2
 spot_angle = 80.0
 metadata/world_lighting = true
 
-[node name="L4Control" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="66" unique_id=163772674]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.75, -66.71353, 1.8)
+[node name="L5Control" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="66" unique_id=163772674]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.75, -84.71353, 1.8)
 light_color = Color(0.91310155, 0.7459119, 0.6703188, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L4Connector" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="67" unique_id=927196085]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -67.30132, -9.5)
+[node name="L5Connector" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="67" unique_id=927196085]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -85.30132, -9.5)
 light_color = Color(0.9040641, 0.7527789, 0.65081495, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
-[node name="L4Winch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="68" unique_id=1884585502]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -63.378067, -18.195316)
+[node name="L5Winch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="68" unique_id=1884585502]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -81.378067, -18.195316)
 light_color = Color(0.88580453, 0.7619946, 0.6471212, 1)
 light_energy = 5.0
 spot_angle = 80.0
@@ -736,7 +741,7 @@ require_all_connected_players = false
 use_built_in_surface_platform = false
 
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034671783, -0.014181614, 0.018938065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0346718, -0.0141816, 0.018938065)
 
 [node name="Hub_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="0" unique_id=1620052050]
 layers = 262145
@@ -937,37 +942,48 @@ collision_mask = 2
 shape = SubResource("level2_visit_shape")
 
 [node name="CorpseByBridge" parent="Floor_Minus2_Life_Support_Blockout" unique_id=1243651708 instance=ExtResource("medical_corpse")]
-transform = Transform3D(0.99280864, -0.119712204, 9.03802e-09, 0, 7.54979e-08, 1, -0.119712204, -0.99280864, 7.495497e-08, -42, 2.5, 0.7)
+transform = Transform3D(0.99280864, -0.1197122, 9.03802e-09, 0, 7.54979e-08, 1, -0.1197122, -0.99280864, 7.495497e-08, -42, 2.5, 0.7)
 
 [node name="CorpseInReservoir" parent="Floor_Minus2_Life_Support_Blockout" unique_id=1160724170 instance=ExtResource("medical_corpse")]
 transform = Transform3D(0.7648422, -0.64421767, 4.8637084e-08, 0, 7.54979e-08, 1, -0.64421767, -0.7648422, 5.7743982e-08, -36.5, -0.15, 5.5)
 corpse_id = 1
 recoverable = false
 
-[node name="Floor_Minus3_Biocontainment_Blockout" parent="." unique_id=268431243 instance=ExtResource("6_floor_minus3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, -54, 0)
+[node name="Floor_Minus3_Trials_Observation_Blockout" parent="." instance=ExtResource("trials_floor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
-[node name="InvestigationZone" type="Area3D" parent="Floor_Minus3_Biocontainment_Blockout" unique_id=231724154]
+[node name="InvestigationZone" type="Area3D" parent="Floor_Minus3_Trials_Observation_Blockout"]
+position = Vector3(-30, 1.3, -10)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus3_Trials_Observation_Blockout/InvestigationZone"]
+shape = SubResource("trials_visit_shape")
+
+[node name="Floor_Minus4_Biocontainment_Blockout" parent="." unique_id=268431243 instance=ExtResource("6_floor_minus3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, -72, 0)
+
+[node name="InvestigationZone" type="Area3D" parent="Floor_Minus4_Biocontainment_Blockout" unique_id=231724154]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.75, 0, 0)
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus3_Biocontainment_Blockout/InvestigationZone" unique_id=3004181]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus4_Biocontainment_Blockout/InvestigationZone" unique_id=3004181]
 shape = SubResource("level3_visit_shape")
 
-[node name="MonsterSpawns" type="Node3D" parent="Floor_Minus3_Biocontainment_Blockout" unique_id=2044201280]
+[node name="MonsterSpawns" type="Node3D" parent="Floor_Minus4_Biocontainment_Blockout" unique_id=2044201280]
 
-[node name="Tail" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns" unique_id=1890005876]
+[node name="Tail" type="Marker3D" parent="Floor_Minus4_Biocontainment_Blockout/MonsterSpawns" unique_id=1890005876]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.1, -7.5)
 
-[node name="Slasher" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns" unique_id=143969003]
+[node name="Slasher" type="Marker3D" parent="Floor_Minus4_Biocontainment_Blockout/MonsterSpawns" unique_id=143969003]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0.1, -18)
 
-[node name="Smily" type="Marker3D" parent="Floor_Minus3_Biocontainment_Blockout/MonsterSpawns" unique_id=1325784291]
+[node name="Smily" type="Marker3D" parent="Floor_Minus4_Biocontainment_Blockout/MonsterSpawns" unique_id=1325784291]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.1, -24)
 
-[node name="Floor_Minus4_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)
+[node name="Floor_Minus5_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -90, 0)
 
 [node name="ArrivalSite" parent="." unique_id=320115555 instance=ExtResource("15_arrival")]
 
@@ -975,7 +991,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -72, 0)
 
 [node name="ContainmentEncounter" type="Node3D" parent="." unique_id=121495875]
 script = ExtResource("containment_logic")
-monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Tail"), NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Slasher"), NodePath("../Floor_Minus3_Biocontainment_Blockout/MonsterSpawns/Smily")])
+monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Tail"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Slasher"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Smily")])
 
 [node name="Monster0" parent="ContainmentEncounter" unique_id=1287020314 instance=ExtResource("creature_0")]
 

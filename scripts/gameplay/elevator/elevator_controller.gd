@@ -1,7 +1,7 @@
 class_name FunctionalElevatorController
 extends Node3D
 
-const MAX_FLOOR_INDEX: int = 4
+const MAX_FLOOR_INDEX: int = 5
 
 signal state_changed(next_state: int)
 signal floor_changed(floor_index: int)
@@ -19,7 +19,10 @@ enum ElevatorState {
 	FAULT,
 }
 
-@export_range(0, 4, 1) var unlocked_floor_index: int = 1
+@export_range(0, 5, 1) var unlocked_floor_index: int = 1
+## One new floor per day, starting with the surface on day one.
+## Day seven uses the separate expedition winch, not another base elevator stop.
+@export var floor_unlock_days := PackedInt32Array([1, 2, 3, 4, 5, 6])
 @export var floor_spacing: float = 12.0
 @export var travel_speed: float = 3.5
 @export var travel_start_stop_time: float = 1.5
@@ -212,7 +215,10 @@ func request_call(destination_floor_index: int) -> bool:
 func set_day(day_index: int) -> void:
 	if not multiplayer.is_server():
 		return
-	var next_floor := clampi(day_index - 1, 0, MAX_FLOOR_INDEX)
+	var next_floor := 0
+	for index in mini(floor_unlock_days.size(), MAX_FLOOR_INDEX + 1):
+		if day_index >= floor_unlock_days[index]:
+			next_floor = index
 	if next_floor != unlocked_floor_index:
 		_apply_unlocked_floor(next_floor)
 		_broadcast_network_snapshot.call_deferred()
@@ -552,6 +558,9 @@ func _get_landing_door(floor_index: int) -> ElevatorRollupDoor:
 
 
 func _get_floor_y(floor_index: int) -> float:
+	var stop := get_node_or_null("Shaft/FloorStops/Surface" if floor_index == 0 else "Shaft/FloorStops/FloorMinus%d" % floor_index) as Marker3D
+	if stop != null:
+		return stop.position.y
 	return -floor_spacing * float(floor_index)
 
 

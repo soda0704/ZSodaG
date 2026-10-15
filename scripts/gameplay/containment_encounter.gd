@@ -2,9 +2,10 @@ extends Node3D
 
 const CREATURE_SCENES := [preload("res://scenes/characters/monsters/the_monster.tscn"), preload("res://scenes/characters/monsters/slasher.tscn"), preload("res://scenes/characters/monsters/smily.tscn")]
 @export var state_path := NodePath("../BaseGameplayController")
-@export var navigation_level_path := NodePath("../Floor_Minus3_Biocontainment_Blockout")
+@export var navigation_level_path := NodePath("../Floor_Minus4_Biocontainment_Blockout")
 @export var level_two_zone_path := NodePath("../Floor_Minus2_Life_Support_Blockout/InvestigationZone")
-@export var level_three_zone_path := NodePath("../Floor_Minus3_Biocontainment_Blockout/InvestigationZone")
+@export var level_three_zone_path := NodePath("../Floor_Minus4_Biocontainment_Blockout/InvestigationZone")
+@export var trials_zone_path := NodePath("../Floor_Minus3_Trials_Observation_Blockout/InvestigationZone")
 @export var monster_spawn_paths: Array[NodePath] = []
 var state: BaseGameplayController
 var _zones: Array[Area3D] = []
@@ -33,7 +34,7 @@ func _ready() -> void:
 		monster.global_transform = marker.global_transform
 		monster._home = monster.global_position
 		monster._target_position = monster.position
-	_zones = [get_node_or_null(level_two_zone_path) as Area3D, get_node_or_null(level_three_zone_path) as Area3D]
+	_zones = [get_node_or_null(level_two_zone_path) as Area3D, get_node_or_null(level_three_zone_path) as Area3D, get_node_or_null(trials_zone_path) as Area3D]
 	for index in _zones.size():
 		if _zones[index] == null:
 			push_error("ContainmentEncounter: assign investigation zones in Inspector")
@@ -66,8 +67,8 @@ func _bake(level: Node3D) -> void:
 func _on_zone_entered(body: Node3D, index: int) -> void:
 	if not multiplayer.is_server() or state == null or not body is GamePlayer:
 		return
-	var required_day := state.LEVEL_TWO_DAY_INDEX if index == 0 else state.CONTAINMENT_DAY_INDEX
-	var key := "level2" if index == 0 else "level3"
+	var required_day: int = [state.LEVEL_TWO_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.TRIALS_DAY_INDEX][index]
+	var key: String = ["level2", "level3", "trials"][index]
 	if state.day_index != required_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
 		return
 	var data := state.containment.duplicate(true)

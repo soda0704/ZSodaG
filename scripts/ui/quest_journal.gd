@@ -277,19 +277,27 @@ func _refresh_content() -> void:
 			tasks_label.text = _task_line(_controller.containment.get("level2", false), "Обследовать уровень 2")
 			if _controller.containment.get("level2", false):
 				tasks_label.text += "\n\nВернуться на базу и отдохнуть."
+		elif day == _controller.TRIALS_DAY_INDEX:
+			objective_label.text = "Обследовать испытательную камеру"
+			tasks_label.text = _task_line(_controller.containment.get("trials", false), "Войти в испытательную камеру на уровне 3")
+			if _controller.containment.get("trials", false):
+				tasks_label.text += "\n\nВернуться на базу и отдохнуть."
 		elif day == _controller.CONTAINMENT_DAY_INDEX:
 			var investigation: Dictionary = _controller.containment
 			var defeated := 0
 			for hp: Variant in investigation.get("health", [120, 90, 75]):
 				if float(hp) <= 0.0:
 					defeated += 1
-			objective_label.text = "Зачистить уровень 3"
-			tasks_label.text = "\n".join([_task_line(investigation.get("level3", false), "Обследовать уровень 3"), _task_line(defeated == 3, "Зачистить уровень"), _task_line(investigation.get("resolved", false), "Восстановить питание")])
+			objective_label.text = "Зачистить уровень 4"
+			tasks_label.text = "\n".join([_task_line(investigation.get("level3", false), "Обследовать уровень 4"), _task_line(defeated == 3, "Зачистить уровень"), _task_line(investigation.get("resolved", false), "Восстановить питание")])
 			if investigation.get("fault", false):
 				tasks_label.text += "\n\nСбой питания: выключите\nи включите главный щит."
+		elif day == _controller.EXPEDITION_DAY_INDEX:
+			objective_label.text = "Экспедиционная шахта · уровень 5"
+			tasks_label.text = "Биосдерживание пройдено. Доступна экспедиционная шахта.\nЗадание шестого дня пока не добавлено."
 		else:
-			objective_label.text = "Задание выполнено"
-			tasks_label.text = "Уровень 3 обследован. Освещение восстановлено.\nПродолжение — в следующем этапе прототипа."
+			objective_label.text = "Пещера · глубинная экспедиция"
+			tasks_label.text = "Отдельный спуск на лебёдке из шахты.\nМаршрут и задание седьмого дня пока не добавлены."
 		coop_status_label.text = ""
 		if not _controller.sleeping_peer_ids.is_empty():
 			coop_status_label.text = "Отдыхают: %d/%d" % [_controller.sleeping_peer_ids.size(), _controller.get_connected_player_peer_ids().size()]

@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[node name="TrialsCeilingLamp" type="SpotLight3D"]
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.83, 0.9, 0.88, 1)
+light_energy = 8.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.35
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 80.0
+metadata/world_lighting = true

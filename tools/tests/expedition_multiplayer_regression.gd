@@ -4,6 +4,7 @@ var port := 28767
 var failures := 0
 var checks := 0
 var client_is_ready := false
+var phase_reported_day := 0
 var world: Node
 var finish_wait := 0.0
 func _ready() -> void: run.call_deferred()
@@ -79,6 +80,22 @@ func run() -> void:
 		for actor in actors:
 			check(actor.survival.health == (67.0 if actor.owner_peer_id == 1 else 42.0), "host restored health for peer %d" % actor.owner_peer_id)
 		check(world._base_gameplay_controller.save_progress_authoritative(false, "manual"), "host saves joined team")
+		var state: BaseGameplayController = world._base_gameplay_controller
+		var snapshot := state.get_snapshot()
+		snapshot.day_index = 4
+		snapshot.maintenance = {}
+		state._broadcast_snapshot(snapshot)
+		var trials: Area3D = state.get_parent().get_node("Floor_Minus3_Trials_Observation_Blockout/InvestigationZone")
+		for actor in actors:
+			if actor.owner_peer_id != 1:
+				actor.teleport_authoritative(trials.global_position, 0)
+		check(await wait_until(func(): return state.containment.get("trials", false)), "guest entering chamber completes shared trials objective on host")
+		for day in [4, 5, 6, 7]:
+			snapshot = state.get_snapshot()
+			snapshot.day_index = day
+			state._broadcast_snapshot(snapshot)
+			check_campaign_phase.rpc(day)
+			check(await wait_until(func(): return phase_reported_day == day), "guest validates campaign day %d" % day)
 		finish.rpc(failures)
 		await get_tree().create_timer(0.5).timeout
 		print("COOP SAVE CHECKS ", checks, " FAILURES ", failures)
@@ -108,6 +125,24 @@ func client_ready(client_failures: int) -> void:
 	if multiplayer.is_server():
 		failures += client_failures
 		client_is_ready = true
+@rpc("authority", "call_remote", "reliable")
+func check_campaign_phase(day: int) -> void:
+	var state: BaseGameplayController = world._base_gameplay_controller
+	check(await wait_until(func(): return state.day_index == day), "guest receives day %d without clamping" % day)
+	check(state.containment.get("trials", false), "guest retains shared trials completion on day %d" % day)
+	# Elevator snapshots deliberately apply on the next physics tick.
+	check(await wait_until(func(): return world._v3_elevator_controller.unlocked_floor_index == mini(day - 1, 5)), "guest sees one new floor per day, capped at shaft")
+	var encounter = state.get_parent().get_node("ContainmentEncounter")
+	check(encounter.get_node("Monster0").visible == (day >= 5), "guest story creatures activate from containment day")
+	campaign_phase_checked.rpc_id(1, day, failures)
+	failures = 0
+
+@rpc("any_peer", "call_remote", "reliable")
+func campaign_phase_checked(day: int, client_failures: int) -> void:
+	if multiplayer.is_server():
+		failures += client_failures
+		phase_reported_day = day
+
 @rpc("authority", "call_remote", "reliable")
 func finish(host_failures: int) -> void:
 	finish_wait = 1.0

@@ -52,7 +52,7 @@ static func _read_file(path: String) -> Dictionary:
 
 static func _valid(config: ConfigFile) -> bool:
 	return int(config.get_value("save", "version", 0)) == 1 \
-		and int(config.get_value("base", "day_index", 0)) in range(1, 6) \
+		and int(config.get_value("base", "day_index", 0)) in range(1, 8) \
 		and config.get_value("inventory", "checkpoint", {}) is Dictionary \
 		and config.get_value("base", "maintenance", {}) is Dictionary \
 		and config.get_value("base", "containment", {}) is Dictionary

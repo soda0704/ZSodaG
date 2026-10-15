@@ -1,0 +1,1871 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="door"]
+[ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="door_manager"]
+[sub_resource type="StandardMaterial3D" id="Floor"]
+albedo_color = Color(0.19, 0.225, 0.24, 1)
+metallic = 0.25
+roughness = 0.8
+
+
+[sub_resource type="StandardMaterial3D" id="Wall"]
+albedo_color = Color(0.62, 0.66, 0.64, 1)
+metallic = 0.08
+roughness = 0.76
+
+
+[sub_resource type="StandardMaterial3D" id="Ceiling"]
+albedo_color = Color(0.23, 0.28, 0.29, 1)
+metallic = 0.25
+roughness = 0.74
+
+
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_color = Color(0.055, 0.085, 0.095, 1)
+metallic = 0.6
+roughness = 0.43
+
+
+[sub_resource type="StandardMaterial3D" id="Edge"]
+albedo_color = Color(0.29, 0.34, 0.35, 1)
+metallic = 0.65
+roughness = 0.45
+
+
+[sub_resource type="StandardMaterial3D" id="Amber"]
+albedo_color = Color(0.84, 0.46, 0.12, 1)
+metallic = 0.2
+roughness = 0.64
+
+
+[sub_resource type="StandardMaterial3D" id="Paint"]
+albedo_color = Color(0.7, 0.76, 0.72, 1)
+metallic = 0.05
+roughness = 0.78
+
+
+[sub_resource type="StandardMaterial3D" id="Screen"]
+albedo_color = Color(0.06, 0.18, 0.19, 1)
+metallic = 0.15
+roughness = 0.36
+
+
+[sub_resource type="StandardMaterial3D" id="Cushion"]
+albedo_color = Color(0.19, 0.26, 0.25, 1)
+metallic = 0
+roughness = 0.95
+
+
+[sub_resource type="StandardMaterial3D" id="Rock"]
+albedo_color = Color(0.13, 0.16, 0.155, 1)
+metallic = 0.1
+roughness = 0.91
+
+
+[sub_resource type="StandardMaterial3D" id="Lens"]
+albedo_color = Color(0.025, 0.055, 0.065, 1)
+metallic = 0.3
+roughness = 0.16
+
+
+[sub_resource type="StandardMaterial3D" id="Glass"]
+albedo_color = Color(0.39, 0.62, 0.63, 0.16)
+metallic = 0.05
+roughness = 0.14
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="LightLens"]
+albedo_color = Color(0.7, 0.78, 0.75, 1)
+metallic = 0.15
+roughness = 0.42
+
+
+[node name="Floor_Minus3_Trials_Observation_Blockout" type="Node3D"]
+editor_description = "Уровень 3: испытания и наблюдение. Исследуемый blockout: пультовая с обзорным стеклом, экспозиционная камера, две комнаты наблюдения, кольцевой технический обход. Вся геометрия, реквизит и маркировка редактируются здесь. Сюжетное испытание пока не реализовано. Свет: WorldLighting/Standard/Trials*."
+
+[node name="Structure" type="Node3D" parent="."]
+
+
+[node name="Arrival" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Arrival"]
+position = Vector3(-7.075, -0.18, 0)
+size = Vector3(7.85, 0.36, 6.4)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Arrival"]
+position = Vector3(-7.075, 4.52, 0)
+size = Vector3(7.85, 0.24, 6.4)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="Approach" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Approach"]
+position = Vector3(-16.5, -0.18, 0)
+size = Vector3(11, 0.36, 6.4)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Approach"]
+position = Vector3(-16.5, 4.52, 0)
+size = Vector3(11, 0.24, 6.4)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="Control" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Control"]
+position = Vector3(-30, -0.18, 0)
+size = Vector3(16, 0.36, 8)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Control"]
+position = Vector3(-30, 4.52, 0)
+size = Vector3(16, 0.24, 8)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="Exposure" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Exposure"]
+position = Vector3(-30, -0.18, -10)
+size = Vector3(16, 0.36, 12)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Exposure"]
+position = Vector3(-30, 5.72, -10)
+size = Vector3(16, 0.24, 12)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="EastAccess" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/EastAccess"]
+position = Vector3(-20, -0.18, -9.6)
+size = Vector3(4, 0.36, 12.8)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/EastAccess"]
+position = Vector3(-20, 4.52, -9.6)
+size = Vector3(4, 0.24, 12.8)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="NorthService" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/NorthService"]
+position = Vector3(-31, -0.18, -18)
+size = Vector3(26, 0.36, 4)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/NorthService"]
+position = Vector3(-31, 4.52, -18)
+size = Vector3(26, 0.24, 4)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="WestService" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/WestService"]
+position = Vector3(-41, -0.18, -1)
+size = Vector3(6, 0.36, 30)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/WestService"]
+position = Vector3(-41, 4.52, -1)
+size = Vector3(6, 0.24, 30)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="Observation" type="Node3D" parent="Structure"]
+
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Observation"]
+position = Vector3(-30, -0.18, 9)
+size = Vector3(16, 0.36, 10)
+material = SubResource("Floor")
+use_collision = true
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Observation"]
+position = Vector3(-30, 4.52, 9)
+size = Vector3(16, 0.24, 10)
+material = SubResource("Ceiling")
+use_collision = true
+
+[node name="Walls" type="Node3D" parent="Structure"]
+
+
+[node name="ArrivalNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-7.075, 2.2, -3.2)
+size = Vector3(7.85, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ArrivalSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-7.075, 2.2, 3.2)
+size = Vector3(7.85, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="LiftNorthJamb" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-3.15, 2.2, -2.95)
+size = Vector3(0.26, 4.4, 0.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="LiftSouthJamb" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-3.15, 2.2, 2.95)
+size = Vector3(0.26, 4.4, 0.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="LiftHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-3.15, 4.2, 0)
+size = Vector3(0.26, 0.4, 5.4)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ArrivalPortalNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-11, 2.2, -2.35)
+size = Vector3(0.26, 4.4, 1.7)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ArrivalPortalSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-11, 2.2, 2.35)
+size = Vector3(0.26, 4.4, 1.7)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ArrivalPortalHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-11, 3.7, 0)
+size = Vector3(0.26, 1.4, 3)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ApproachSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-16.5, 2.2, 3.2)
+size = Vector3(11, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ApproachNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-14.75, 2.2, -3.2)
+size = Vector3(7.5, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ApproachNorthStub" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-21.75, 2.2, -3.2)
+size = Vector3(0.5, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="EastAccessEntryHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-20, 3.7, -3.2)
+size = Vector3(3, 1.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlEntryNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 2.2, -2.35)
+size = Vector3(0.26, 4.4, 1.7)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlEntrySouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 2.2, 2.35)
+size = Vector3(0.26, 4.4, 1.7)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlEntryHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 3.7, 0)
+size = Vector3(0.26, 1.4, 3)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlServiceNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 2.2, -2.75)
+size = Vector3(0.26, 4.4, 2.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlServiceSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 2.2, 2.75)
+size = Vector3(0.26, 4.4, 2.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ControlServiceHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 3.7, 0)
+size = Vector3(0.26, 1.4, 3)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureEastNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 2.8, -13.75)
+size = Vector3(0.26, 5.6, 4.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureEastSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 2.8, -6.25)
+size = Vector3(0.26, 5.6, 4.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureEastHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 4.3, -10)
+size = Vector3(0.26, 2.6, 3)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureWest" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 2.8, -10)
+size = Vector3(0.26, 5.6, 12)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureNorthWest" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-34.75, 2.8, -16)
+size = Vector3(6.5, 5.6, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureNorthEast" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-25.25, 2.8, -16)
+size = Vector3(6.5, 5.6, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureNorthHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-30, 4.3, -16)
+size = Vector3(3, 2.6, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="AccessNorthBoundary" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-20, 3.7, -16)
+size = Vector3(4, 1.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="NorthOuter" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-31, 2.2, -20)
+size = Vector3(26, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="WestOuter" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-44, 2.2, -3)
+size = Vector3(0.26, 4.4, 34)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="EastOuter" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-18, 2.2, -11.6)
+size = Vector3(0.26, 4.4, 16.8)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="SouthOuter" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-33, 2.2, 14)
+size = Vector3(22, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ObservationEast" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-22, 2.2, 8.6)
+size = Vector3(0.26, 4.4, 10.8)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ObservationServiceNorth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 2.2, 5.75)
+size = Vector3(0.26, 4.4, 3.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ObservationServiceSouth" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 2.2, 12.25)
+size = Vector3(0.26, 4.4, 3.5)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ObservationServiceHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-38, 3.7, 9)
+size = Vector3(0.26, 1.4, 3)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ObservationPartition" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-30, 2.2, 9)
+size = Vector3(0.26, 4.4, 10)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="Glazing" type="Node3D" parent="."]
+
+
+[node name="ExposureSill" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-30, 0.525, -4)
+size = Vector3(16, 1.05, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-30, 4.6, -4)
+size = Vector3(16, 2, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureWestPier" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-37, 2.2, -4)
+size = Vector3(2, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposureEastPier" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-23, 2.2, -4)
+size = Vector3(2, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="ExposurePane1" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-34, 2.325, -4)
+size = Vector3(3.92, 2.55, 0.08)
+material = SubResource("Glass")
+use_collision = true
+
+[node name="ExposureMullion1" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-36, 2.325, -4)
+size = Vector3(0.08, 2.7, 0.17)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="ExposurePane2" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-30, 2.325, -4)
+size = Vector3(3.92, 2.55, 0.08)
+material = SubResource("Glass")
+use_collision = true
+
+[node name="ExposureMullion2" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-32, 2.325, -4)
+size = Vector3(0.08, 2.7, 0.17)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="ExposurePane3" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-26, 2.325, -4)
+size = Vector3(3.92, 2.55, 0.08)
+material = SubResource("Glass")
+use_collision = true
+
+[node name="ExposureMullion3" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-28, 2.325, -4)
+size = Vector3(0.08, 2.7, 0.17)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="WindowRail1_04" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-30, 1.04, -4)
+size = Vector3(12.15, 0.09, 0.18)
+material = SubResource("Steel")
+
+[node name="WindowRail3_62" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-30, 3.62, -4)
+size = Vector3(12.15, 0.09, 0.18)
+material = SubResource("Steel")
+
+[node name="CellALeftSill" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-36.75, 0.45, 4)
+size = Vector3(2.5, 0.9, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellALeftHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-36.75, 3.65, 4)
+size = Vector3(2.5, 1.5, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellARight" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-31.25, 2.2, 4)
+size = Vector3(2.5, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellADoorHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-34, 3.7, 4)
+size = Vector3(3, 1.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellAPane" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-36.75, 1.9, 4)
+size = Vector3(2.3, 2, 0.08)
+material = SubResource("Glass")
+use_collision = true
+
+[node name="CellAFrame-37_96" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-37.96, 1.9, 4)
+size = Vector3(0.08, 2.12, 0.17)
+material = SubResource("Steel")
+
+[node name="CellAFrame-35_54" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-35.54, 1.9, 4)
+size = Vector3(0.08, 2.12, 0.17)
+material = SubResource("Steel")
+
+[node name="CellBLeftSill" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-28.75, 0.45, 4)
+size = Vector3(2.5, 0.9, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellBLeftHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-28.75, 3.65, 4)
+size = Vector3(2.5, 1.5, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellBRight" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-23.25, 2.2, 4)
+size = Vector3(2.5, 4.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellBDoorHeader" type="CSGBox3D" parent="Structure/Walls"]
+position = Vector3(-26, 3.7, 4)
+size = Vector3(3, 1.4, 0.26)
+material = SubResource("Wall")
+use_collision = true
+
+[node name="CellBPane" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-28.75, 1.9, 4)
+size = Vector3(2.3, 2, 0.08)
+material = SubResource("Glass")
+use_collision = true
+
+[node name="CellBFrame-29_96" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-29.96, 1.9, 4)
+size = Vector3(0.08, 2.12, 0.17)
+material = SubResource("Steel")
+
+[node name="CellBFrame-27_54" type="CSGBox3D" parent="Glazing"]
+position = Vector3(-27.54, 1.9, 4)
+size = Vector3(0.08, 2.12, 0.17)
+material = SubResource("Steel")
+
+[node name="Doors" type="Node3D" parent="."]
+
+
+[node name="AutomaticDoors" type="Node" parent="Doors"]
+script = ExtResource("door_manager")
+
+[node name="ArrivalAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-11, 0, 0)
+rotation = Vector3(0, 1.5708, 0)
+
+[node name="ControlAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-22, 0, 0)
+rotation = Vector3(0, 1.5708, 0)
+
+[node name="EastServiceAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-20, 0, -3.2)
+rotation = Vector3(0, 0, 0)
+metadata/unpowered_open = true
+
+[node name="ExposureAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-22, 0, -10)
+rotation = Vector3(0, 1.5708, 0)
+metadata/unpowered_open = true
+
+[node name="ExposureRearAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-30, 0, -16)
+rotation = Vector3(0, 0, 0)
+metadata/unpowered_open = true
+
+[node name="ControlServiceAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-38, 0, 0)
+rotation = Vector3(0, 1.5708, 0)
+metadata/unpowered_open = true
+
+[node name="ObservationAAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-34, 0, 4)
+rotation = Vector3(0, 0, 0)
+
+[node name="ObservationBAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-26, 0, 4)
+rotation = Vector3(0, 0, 0)
+
+[node name="ObservationServiceAccess" parent="Doors" instance=ExtResource("door")]
+position = Vector3(-38, 0, 9)
+rotation = Vector3(0, 1.5708, 0)
+metadata/unpowered_open = true
+
+[node name="ArchitecturalDetails" type="Node3D" parent="."]
+
+
+[node name="CeilingBeam8" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-8, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand8-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-8, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand82_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-8, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="CeilingBeam14" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-14, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand14-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-14, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand142_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-14, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="CeilingBeam19" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-19, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand19-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-19, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand192_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-19, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="CeilingBeam25" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-25, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand25-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-25, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand252_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-25, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="CeilingBeam30" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-30, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand30-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-30, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand302_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-30, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="CeilingBeam35" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-35, 4.24, 0)
+size = Vector3(0.18, 0.22, 6.15)
+material = SubResource("Steel")
+
+[node name="WallBand35-2_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-35, 1.05, -2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="WallBand352_96" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-35, 1.05, 2.96)
+size = Vector3(3.8, 0.12, 0.05)
+material = SubResource("Amber")
+
+[node name="ServiceCeilingRib-17_75" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-41, 4.18, -17.75)
+size = Vector3(5.7, 0.26, 0.16)
+material = SubResource("Edge")
+
+[node name="ServiceCeilingRib-11" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-41, 4.18, -11)
+size = Vector3(5.7, 0.26, 0.16)
+material = SubResource("Edge")
+
+[node name="ServiceCeilingRib-4" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-41, 4.18, -4)
+size = Vector3(5.7, 0.26, 0.16)
+material = SubResource("Edge")
+
+[node name="ServiceCeilingRib3" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-41, 4.18, 3)
+size = Vector3(5.7, 0.26, 0.16)
+material = SubResource("Edge")
+
+[node name="ServiceCeilingRib9_5" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-41, 4.18, 9.5)
+size = Vector3(5.7, 0.26, 0.16)
+material = SubResource("Edge")
+
+[node name="ExposureBeam35" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-35, 5.35, -10)
+size = Vector3(0.24, 0.35, 11.8)
+material = SubResource("Steel")
+
+[node name="ExposureBeam30" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-30, 5.35, -10)
+size = Vector3(0.24, 0.35, 11.8)
+material = SubResource("Steel")
+
+[node name="ExposureBeam25" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-25, 5.35, -10)
+size = Vector3(0.24, 0.35, 11.8)
+material = SubResource("Steel")
+
+[node name="CableTray-19_6" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-31, 3.95, -19.6)
+size = Vector3(23, 0.18, 0.28)
+material = SubResource("Steel")
+
+[node name="CableTray-16_4" type="CSGBox3D" parent="ArchitecturalDetails"]
+position = Vector3(-31, 3.95, -16.4)
+size = Vector3(23, 0.18, 0.28)
+material = SubResource("Steel")
+
+[node name="ServicePipe-43_65" type="CSGCylinder3D" parent="ArchitecturalDetails"]
+position = Vector3(-43.65, 3.5, -1)
+radius = 0.08
+height = 29
+sides = 20
+material = SubResource("Edge")
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="ServicePipe-38_35" type="CSGCylinder3D" parent="ArchitecturalDetails"]
+position = Vector3(-38.35, 3.5, -1)
+radius = 0.08
+height = 29
+sides = 20
+material = SubResource("Edge")
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="Wayfinding" type="Node3D" parent="."]
+
+
+[node name="LevelNumber" type="Label3D" parent="Wayfinding"]
+position = Vector3(-10.84, 2.9, -2.35)
+rotation = Vector3(0, 1.5708, 0)
+text = "03"
+font_size = 110
+pixel_size = 0.004
+modulate = Color(0.9, 0.51, 0.16, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ArrivalTitle" type="Label3D" parent="Wayfinding"]
+position = Vector3(-10.82, 3.72, 0)
+rotation = Vector3(0, 1.5708, 0)
+text = "ИСПЫТАНИЯ / НАБЛЮДЕНИЕ"
+font_size = 34
+pixel_size = 0.003
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ArrivalDirection" type="Label3D" parent="Wayfinding"]
+position = Vector3(-7, 2.15, -3.05)
+rotation = Vector3(0, 0, 0)
+text = "03  /  ПУЛЬТОВАЯ  →"
+font_size = 36
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ChamberTitle" type="Label3D" parent="Wayfinding"]
+position = Vector3(-30, 3.94, -3.79)
+rotation = Vector3(0, 0, 0)
+text = "КАМЕРА ЭКСПОЗИЦИИ  /  E–01"
+font_size = 42
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="WindowWarning" type="Label3D" parent="Wayfinding"]
+position = Vector3(-30, 0.66, -3.82)
+rotation = Vector3(0, 0, 0)
+text = "ЗАЩИТНОЕ СТЕКЛО  /  НЕ ПРИБЛИЖАТЬСЯ ПРИ ИСПЫТАНИИ"
+font_size = 27
+pixel_size = 0.003
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ServiceLabel" type="Label3D" parent="Wayfinding"]
+position = Vector3(-43.8, 2.3, 1.8)
+rotation = Vector3(0, 1.5708, 0)
+text = "СЛУЖЕБНЫЙ ОБХОД\n←  КАМЕРА  /  НАБЛЮДЕНИЕ  →"
+font_size = 35
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ObservationA" type="Label3D" parent="Wayfinding"]
+position = Vector3(-34, 3.5, 3.8)
+rotation = Vector3(0, 3.14159, 0)
+text = "НАБЛЮДЕНИЕ  A"
+font_size = 32
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="CellNumberA" type="Label3D" parent="Wayfinding"]
+position = Vector3(-31.3, 2, 3.8)
+rotation = Vector3(0, 3.14159, 0)
+text = "A"
+font_size = 85
+pixel_size = 0.004
+modulate = Color(0.9, 0.51, 0.16, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ObservationB" type="Label3D" parent="Wayfinding"]
+position = Vector3(-26, 3.5, 3.8)
+rotation = Vector3(0, 3.14159, 0)
+text = "НАБЛЮДЕНИЕ  B"
+font_size = 32
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="CellNumberB" type="Label3D" parent="Wayfinding"]
+position = Vector3(-23.3, 2, 3.8)
+rotation = Vector3(0, 3.14159, 0)
+text = "B"
+font_size = 85
+pixel_size = 0.004
+modulate = Color(0.9, 0.51, 0.16, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="RouteDash10" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-10, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash12" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-12, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash14" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-14, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash16" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-16, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash18" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-18, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash20" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-20, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash22" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-22, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash24" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-24, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash26" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-26, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash28" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-28, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash30" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-30, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash32" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-32, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="RouteDash34" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-34, 0.012, 1.5)
+size = Vector3(1.1, 0.018, 0.1)
+material = SubResource("Amber")
+
+[node name="ChamberSafetyX-36_8" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-36.8, 0.015, -10)
+size = Vector3(0.12, 0.02, 9.5)
+material = SubResource("Amber")
+
+[node name="ChamberSafetyX-23_2" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-23.2, 0.015, -10)
+size = Vector3(0.12, 0.02, 9.5)
+material = SubResource("Amber")
+
+[node name="ChamberSafetyZ-14_7" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-30, 0.015, -14.7)
+size = Vector3(13.6, 0.02, 0.12)
+material = SubResource("Amber")
+
+[node name="ChamberSafetyZ-5_3" type="CSGBox3D" parent="Wayfinding"]
+position = Vector3(-30, 0.015, -5.3)
+size = Vector3(13.6, 0.02, 0.12)
+material = SubResource("Amber")
+
+[node name="Props" type="Node3D" parent="."]
+
+
+[node name="ObservationConsole1" type="Node3D" parent="Props"]
+position = Vector3(-25, 0, -2.25)
+
+[node name="Base" type="CSGBox3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 0.4, 0)
+size = Vector3(1.9, 0.8, 0.8)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Worktop" type="CSGBox3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 0.86, 0)
+size = Vector3(2.15, 0.1, 1.05)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="ScreenHousing" type="CSGBox3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 1.32, -0.24)
+size = Vector3(1.5, 0.75, 0.16)
+material = SubResource("Steel")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Screen" type="CSGBox3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 1.34, -0.137)
+size = Vector3(1.34, 0.57, 0.025)
+material = SubResource("Screen")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Status" type="Label3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 1.34, -0.09)
+rotation = Vector3(0, 0, 0)
+text = "E–01   /   СТЕНДБАЙ\nМОНИТОРИНГ ЭКСПОЗИЦИИ"
+font_size = 22
+pixel_size = 0.0015
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="Keyboard" type="CSGBox3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 0.93, 0.24)
+size = Vector3(1.05, 0.04, 0.25)
+material = SubResource("Steel")
+
+[node name="Selector0" type="CSGCylinder3D" parent="Props/ObservationConsole1"]
+position = Vector3(0.62, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector1" type="CSGCylinder3D" parent="Props/ObservationConsole1"]
+position = Vector3(0.76, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector2" type="CSGCylinder3D" parent="Props/ObservationConsole1"]
+position = Vector3(0.9, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Chair" type="Node3D" parent="Props/ObservationConsole1"]
+position = Vector3(0, 0, 1.15)
+
+[node name="Seat" type="CSGBox3D" parent="Props/ObservationConsole1/Chair"]
+position = Vector3(0, 0.5, 0)
+size = Vector3(0.6, 0.12, 0.65)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Back" type="CSGBox3D" parent="Props/ObservationConsole1/Chair"]
+position = Vector3(0, 0.94, 0.27)
+size = Vector3(0.6, 0.75, 0.1)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Pedestal" type="CSGCylinder3D" parent="Props/ObservationConsole1/Chair"]
+position = Vector3(0, 0.25, 0)
+radius = 0.08
+height = 0.5
+sides = 20
+material = SubResource("Steel")
+
+[node name="FootX" type="CSGBox3D" parent="Props/ObservationConsole1/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.7, 0.09, 0.12)
+material = SubResource("Edge")
+
+[node name="FootZ" type="CSGBox3D" parent="Props/ObservationConsole1/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.12, 0.09, 0.7)
+material = SubResource("Edge")
+
+[node name="ObservationConsole2" type="Node3D" parent="Props"]
+position = Vector3(-30, 0, -2.25)
+
+[node name="Base" type="CSGBox3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 0.4, 0)
+size = Vector3(1.9, 0.8, 0.8)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Worktop" type="CSGBox3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 0.86, 0)
+size = Vector3(2.15, 0.1, 1.05)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="ScreenHousing" type="CSGBox3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 1.32, -0.24)
+size = Vector3(1.5, 0.75, 0.16)
+material = SubResource("Steel")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Screen" type="CSGBox3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 1.34, -0.137)
+size = Vector3(1.34, 0.57, 0.025)
+material = SubResource("Screen")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Status" type="Label3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 1.34, -0.09)
+rotation = Vector3(0, 0, 0)
+text = "E–01   /   СТЕНДБАЙ\nМОНИТОРИНГ ЭКСПОЗИЦИИ"
+font_size = 22
+pixel_size = 0.0015
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="Keyboard" type="CSGBox3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 0.93, 0.24)
+size = Vector3(1.05, 0.04, 0.25)
+material = SubResource("Steel")
+
+[node name="Selector0" type="CSGCylinder3D" parent="Props/ObservationConsole2"]
+position = Vector3(0.62, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector1" type="CSGCylinder3D" parent="Props/ObservationConsole2"]
+position = Vector3(0.76, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector2" type="CSGCylinder3D" parent="Props/ObservationConsole2"]
+position = Vector3(0.9, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Chair" type="Node3D" parent="Props/ObservationConsole2"]
+position = Vector3(0, 0, 1.15)
+
+[node name="Seat" type="CSGBox3D" parent="Props/ObservationConsole2/Chair"]
+position = Vector3(0, 0.5, 0)
+size = Vector3(0.6, 0.12, 0.65)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Back" type="CSGBox3D" parent="Props/ObservationConsole2/Chair"]
+position = Vector3(0, 0.94, 0.27)
+size = Vector3(0.6, 0.75, 0.1)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Pedestal" type="CSGCylinder3D" parent="Props/ObservationConsole2/Chair"]
+position = Vector3(0, 0.25, 0)
+radius = 0.08
+height = 0.5
+sides = 20
+material = SubResource("Steel")
+
+[node name="FootX" type="CSGBox3D" parent="Props/ObservationConsole2/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.7, 0.09, 0.12)
+material = SubResource("Edge")
+
+[node name="FootZ" type="CSGBox3D" parent="Props/ObservationConsole2/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.12, 0.09, 0.7)
+material = SubResource("Edge")
+
+[node name="ObservationConsole3" type="Node3D" parent="Props"]
+position = Vector3(-35, 0, -2.25)
+
+[node name="Base" type="CSGBox3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 0.4, 0)
+size = Vector3(1.9, 0.8, 0.8)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Worktop" type="CSGBox3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 0.86, 0)
+size = Vector3(2.15, 0.1, 1.05)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="ScreenHousing" type="CSGBox3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 1.32, -0.24)
+size = Vector3(1.5, 0.75, 0.16)
+material = SubResource("Steel")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Screen" type="CSGBox3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 1.34, -0.137)
+size = Vector3(1.34, 0.57, 0.025)
+material = SubResource("Screen")
+rotation = Vector3(-0.15, 0, 0)
+
+[node name="Status" type="Label3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 1.34, -0.09)
+rotation = Vector3(0, 0, 0)
+text = "E–01   /   СТЕНДБАЙ\nМОНИТОРИНГ ЭКСПОЗИЦИИ"
+font_size = 22
+pixel_size = 0.0015
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="Keyboard" type="CSGBox3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 0.93, 0.24)
+size = Vector3(1.05, 0.04, 0.25)
+material = SubResource("Steel")
+
+[node name="Selector0" type="CSGCylinder3D" parent="Props/ObservationConsole3"]
+position = Vector3(0.62, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector1" type="CSGCylinder3D" parent="Props/ObservationConsole3"]
+position = Vector3(0.76, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Selector2" type="CSGCylinder3D" parent="Props/ObservationConsole3"]
+position = Vector3(0.9, 0.95, 0.25)
+radius = 0.04
+height = 0.055
+sides = 20
+material = SubResource("Amber")
+
+[node name="Chair" type="Node3D" parent="Props/ObservationConsole3"]
+position = Vector3(0, 0, 1.15)
+
+[node name="Seat" type="CSGBox3D" parent="Props/ObservationConsole3/Chair"]
+position = Vector3(0, 0.5, 0)
+size = Vector3(0.6, 0.12, 0.65)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Back" type="CSGBox3D" parent="Props/ObservationConsole3/Chair"]
+position = Vector3(0, 0.94, 0.27)
+size = Vector3(0.6, 0.75, 0.1)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="Pedestal" type="CSGCylinder3D" parent="Props/ObservationConsole3/Chair"]
+position = Vector3(0, 0.25, 0)
+radius = 0.08
+height = 0.5
+sides = 20
+material = SubResource("Steel")
+
+[node name="FootX" type="CSGBox3D" parent="Props/ObservationConsole3/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.7, 0.09, 0.12)
+material = SubResource("Edge")
+
+[node name="FootZ" type="CSGBox3D" parent="Props/ObservationConsole3/Chair"]
+position = Vector3(0, 0.045, 0)
+size = Vector3(0.12, 0.09, 0.7)
+material = SubResource("Edge")
+
+[node name="ExposureRig" type="Node3D" parent="Props"]
+position = Vector3(-30, 0, -10)
+
+[node name="Platform" type="CSGCylinder3D" parent="Props/ExposureRig"]
+position = Vector3(0, 0.22, 0)
+radius = 2.25
+height = 0.44
+sides = 20
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Stage" type="CSGCylinder3D" parent="Props/ExposureRig"]
+position = Vector3(0, 0.46, 0)
+radius = 1.85
+height = 0.05
+sides = 20
+material = SubResource("Edge")
+
+[node name="Support-2_7" type="CSGBox3D" parent="Props/ExposureRig"]
+position = Vector3(-2.7, 2.35, 0)
+size = Vector3(0.32, 4.7, 0.45)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Foot-2_7" type="CSGBox3D" parent="Props/ExposureRig"]
+position = Vector3(-2.7, 0.2, 0)
+size = Vector3(0.75, 0.4, 1.25)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Support2_7" type="CSGBox3D" parent="Props/ExposureRig"]
+position = Vector3(2.7, 2.35, 0)
+size = Vector3(0.32, 4.7, 0.45)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Foot2_7" type="CSGBox3D" parent="Props/ExposureRig"]
+position = Vector3(2.7, 0.2, 0)
+size = Vector3(0.75, 0.4, 1.25)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Gantry" type="CSGBox3D" parent="Props/ExposureRig"]
+position = Vector3(0, 4.65, 0)
+size = Vector3(5.75, 0.35, 0.48)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Emitter" type="CSGCylinder3D" parent="Props/ExposureRig"]
+position = Vector3(0, 3.95, 0)
+radius = 0.46
+height = 1.1
+sides = 20
+material = SubResource("Steel")
+
+[node name="EmitterLens" type="CSGCylinder3D" parent="Props/ExposureRig"]
+position = Vector3(0, 3.35, 0)
+radius = 0.3
+height = 0.06
+sides = 20
+material = SubResource("Lens")
+
+[node name="SpecimenPedestal" type="CSGCylinder3D" parent="Props/ExposureRig"]
+position = Vector3(0, 1.03, 0)
+radius = 0.55
+height = 1.12
+sides = 20
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Specimen" type="CSGSphere3D" parent="Props/ExposureRig"]
+position = Vector3(0, 1.95, 0)
+scale = Vector3(0.48, 0.7, 0.4)
+radius = 1
+radial_segments = 9
+rings = 5
+material = SubResource("Rock")
+
+[node name="SensorRack-33_8" type="Node3D" parent="Props"]
+position = Vector3(-33.8, 0, -14.5)
+
+[node name="Housing" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.12, 0)
+size = Vector3(1.2, 2.24, 0.7)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Drawer0" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 0.35, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle0" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 0.35, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer1" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 0.73, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle1" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 0.73, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer2" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.11, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle2" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.11, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer3" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.49, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle3" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.49, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer4" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.87, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle4" type="CSGBox3D" parent="Props/SensorRack-33_8"]
+position = Vector3(0, 1.87, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="SensorRack-26_2" type="Node3D" parent="Props"]
+position = Vector3(-26.2, 0, -14.5)
+
+[node name="Housing" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.12, 0)
+size = Vector3(1.2, 2.24, 0.7)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="Drawer0" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 0.35, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle0" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 0.35, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer1" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 0.73, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle1" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 0.73, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer2" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.11, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle2" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.11, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer3" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.49, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle3" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.49, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="Drawer4" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.87, 0.37)
+size = Vector3(1.06, 0.26, 0.04)
+material = SubResource("Edge")
+
+[node name="Handle4" type="CSGBox3D" parent="Props/SensorRack-26_2"]
+position = Vector3(0, 1.87, 0.41)
+size = Vector3(0.4, 0.04, 0.05)
+material = SubResource("Steel")
+
+[node name="SealedSampleCase0" type="Node3D" parent="Props"]
+position = Vector3(-42.8, 0, 5.4)
+
+[node name="Body" type="CSGBox3D" parent="Props/SealedSampleCase0"]
+position = Vector3(0, 0.48, 0)
+size = Vector3(1.4, 0.96, 0.9)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Band-0_55" type="CSGBox3D" parent="Props/SealedSampleCase0"]
+position = Vector3(-0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="Band0_55" type="CSGBox3D" parent="Props/SealedSampleCase0"]
+position = Vector3(0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="ID" type="Label3D" parent="Props/SealedSampleCase0"]
+position = Vector3(0, 0.55, 0.47)
+rotation = Vector3(0, 0, 0)
+text = "ОБРАЗЦЫ  /  01"
+font_size = 25
+pixel_size = 0.002
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="SealedSampleCase1" type="Node3D" parent="Props"]
+position = Vector3(-42.8, 0, 11.5)
+
+[node name="Body" type="CSGBox3D" parent="Props/SealedSampleCase1"]
+position = Vector3(0, 0.48, 0)
+size = Vector3(1.4, 0.96, 0.9)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Band-0_55" type="CSGBox3D" parent="Props/SealedSampleCase1"]
+position = Vector3(-0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="Band0_55" type="CSGBox3D" parent="Props/SealedSampleCase1"]
+position = Vector3(0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="ID" type="Label3D" parent="Props/SealedSampleCase1"]
+position = Vector3(0, 0.55, 0.47)
+rotation = Vector3(0, 0, 0)
+text = "ОБРАЗЦЫ  /  02"
+font_size = 25
+pixel_size = 0.002
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="SealedSampleCase2" type="Node3D" parent="Props"]
+position = Vector3(-42.8, 0, -13.2)
+
+[node name="Body" type="CSGBox3D" parent="Props/SealedSampleCase2"]
+position = Vector3(0, 0.48, 0)
+size = Vector3(1.4, 0.96, 0.9)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="Band-0_55" type="CSGBox3D" parent="Props/SealedSampleCase2"]
+position = Vector3(-0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="Band0_55" type="CSGBox3D" parent="Props/SealedSampleCase2"]
+position = Vector3(0.55, 0.49, 0)
+size = Vector3(0.09, 1, 0.96)
+material = SubResource("Steel")
+
+[node name="ID" type="Label3D" parent="Props/SealedSampleCase2"]
+position = Vector3(0, 0.55, 0.47)
+rotation = Vector3(0, 0, 0)
+text = "ОБРАЗЦЫ  /  03"
+font_size = 25
+pixel_size = 0.002
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="ObservationRoomA" type="Node3D" parent="Props"]
+
+
+[node name="BenchBase" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 0.35, 12.9)
+size = Vector3(2.3, 0.7, 0.95)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="BenchPad" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 0.76, 12.9)
+size = Vector3(2.25, 0.12, 0.9)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="BenchBack" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 1.15, 13.3)
+size = Vector3(2.25, 0.7, 0.12)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="TableTop" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 0.82, 9.25)
+size = Vector3(1.4, 0.1, 0.9)
+material = SubResource("Paint")
+use_collision = true
+
+[node name="TableFoot" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 0.4, 9.25)
+size = Vector3(0.55, 0.8, 0.55)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="WallInstrument" type="CSGBox3D" parent="Props/ObservationRoomA"]
+position = Vector3(-30.4, 1.5, 10)
+size = Vector3(0.35, 0.7, 0.5)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="WallID" type="Label3D" parent="Props/ObservationRoomA"]
+position = Vector3(-34, 2.7, 13.82)
+rotation = Vector3(0, 3.14159, 0)
+text = "OBS–A\nНАБЛЮДЕНИЕ / 24 ЧАСА"
+font_size = 38
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="CameraA" type="Node3D" parent="Props/ObservationRoomA"]
+position = Vector3(-37.5, 3.55, 13.4)
+rotation = Vector3(0.18, -0.5, 0)
+
+[node name="Bracket" type="CSGBox3D" parent="Props/ObservationRoomA/CameraA"]
+position = Vector3(0, 0.12, 0.15)
+size = Vector3(0.1, 0.25, 0.5)
+material = SubResource("Steel")
+
+[node name="Body" type="CSGBox3D" parent="Props/ObservationRoomA/CameraA"]
+position = Vector3(0, 0, 0)
+size = Vector3(0.3, 0.25, 0.55)
+material = SubResource("Paint")
+
+[node name="Lens" type="CSGCylinder3D" parent="Props/ObservationRoomA/CameraA"]
+position = Vector3(0, 0, -0.3)
+radius = 0.075
+height = 0.08
+sides = 20
+material = SubResource("Lens")
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="ObservationRoomB" type="Node3D" parent="Props"]
+
+
+[node name="BenchBase" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 0.35, 12.9)
+size = Vector3(2.3, 0.7, 0.95)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="BenchPad" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 0.76, 12.9)
+size = Vector3(2.25, 0.12, 0.9)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="BenchBack" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 1.15, 13.3)
+size = Vector3(2.25, 0.7, 0.12)
+material = SubResource("Cushion")
+use_collision = true
+
+[node name="TableTop" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 0.82, 9.25)
+size = Vector3(1.4, 0.1, 0.9)
+material = SubResource("Paint")
+use_collision = true
+
+[node name="TableFoot" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 0.4, 9.25)
+size = Vector3(0.55, 0.8, 0.55)
+material = SubResource("Steel")
+use_collision = true
+
+[node name="WallInstrument" type="CSGBox3D" parent="Props/ObservationRoomB"]
+position = Vector3(-22.4, 1.5, 10)
+size = Vector3(0.35, 0.7, 0.5)
+material = SubResource("Edge")
+use_collision = true
+
+[node name="WallID" type="Label3D" parent="Props/ObservationRoomB"]
+position = Vector3(-26, 2.7, 13.82)
+rotation = Vector3(0, 3.14159, 0)
+text = "OBS–B\nНАБЛЮДЕНИЕ / 24 ЧАСА"
+font_size = 38
+pixel_size = 0.004
+modulate = Color(0.83, 0.88, 0.87, 1)
+outline_size = 0
+no_depth_test = false
+
+[node name="CameraB" type="Node3D" parent="Props/ObservationRoomB"]
+position = Vector3(-29.5, 3.55, 13.4)
+rotation = Vector3(0.18, -0.5, 0)
+
+[node name="Bracket" type="CSGBox3D" parent="Props/ObservationRoomB/CameraB"]
+position = Vector3(0, 0.12, 0.15)
+size = Vector3(0.1, 0.25, 0.5)
+material = SubResource("Steel")
+
+[node name="Body" type="CSGBox3D" parent="Props/ObservationRoomB/CameraB"]
+position = Vector3(0, 0, 0)
+size = Vector3(0.3, 0.25, 0.55)
+material = SubResource("Paint")
+
+[node name="Lens" type="CSGCylinder3D" parent="Props/ObservationRoomB/CameraB"]
+position = Vector3(0, 0, -0.3)
+radius = 0.075
+height = 0.08
+sides = 20
+material = SubResource("Lens")
+rotation = Vector3(1.5708, 0, 0)
+
+[node name="LightFixtures" type="Node3D" parent="."]
+
+
+[node name="Arrival" type="Node3D" parent="LightFixtures"]
+position = Vector3(-7, 4.1, 0)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/Arrival"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/Arrival"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="Approach" type="Node3D" parent="LightFixtures"]
+position = Vector3(-16, 4.1, 0)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/Approach"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/Approach"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ControlEast" type="Node3D" parent="LightFixtures"]
+position = Vector3(-25, 4.1, 0)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ControlEast"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ControlEast"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ControlWest" type="Node3D" parent="LightFixtures"]
+position = Vector3(-34, 4.1, 0)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ControlWest"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ControlWest"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ExposureEast" type="Node3D" parent="LightFixtures"]
+position = Vector3(-26, 5.25, -9)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ExposureEast"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ExposureEast"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ExposureWest" type="Node3D" parent="LightFixtures"]
+position = Vector3(-34, 5.25, -12)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ExposureWest"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ExposureWest"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="EastService" type="Node3D" parent="LightFixtures"]
+position = Vector3(-20, 4.1, -11)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/EastService"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/EastService"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="NorthService" type="Node3D" parent="LightFixtures"]
+position = Vector3(-30, 4.1, -18)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/NorthService"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/NorthService"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="WestServiceNorth" type="Node3D" parent="LightFixtures"]
+position = Vector3(-41, 4.1, -10)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/WestServiceNorth"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/WestServiceNorth"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="WestServiceSouth" type="Node3D" parent="LightFixtures"]
+position = Vector3(-41, 4.1, 7)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/WestServiceSouth"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/WestServiceSouth"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ObservationA" type="Node3D" parent="LightFixtures"]
+position = Vector3(-34, 4.1, 9)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ObservationA"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ObservationA"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ObservationB" type="Node3D" parent="LightFixtures"]
+position = Vector3(-26, 4.1, 9)
+
+[node name="Housing" type="CSGBox3D" parent="LightFixtures/ObservationB"]
+position = Vector3(0, 0.05, 0)
+size = Vector3(1.45, 0.18, 0.45)
+material = SubResource("Steel")
+
+[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ObservationB"]
+position = Vector3(0, -0.05, 0)
+size = Vector3(1.27, 0.025, 0.31)
+material = SubResource("LightLens")
+
+[node name="ReviewPoints" type="Node3D" parent="."]
+editor_description = "Маркеры для проверки проходимости и камер. Не являются дополнительными игровыми спавнами."
+
+[node name="Arrival" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-6, 0.1, 0)
+
+[node name="Approach" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-16, 0.1, 0)
+
+[node name="Control" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-28, 0.1, 1.7)
+
+[node name="Exposure" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-28, 0.1, -8)
+
+[node name="EastService" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-20, 0.1, -8)
+
+[node name="NorthService" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-30, 0.1, -18)
+
+[node name="WestService" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-41, 0.1, 0)
+
+[node name="ObservationA" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-34, 0.1, 7)
+
+[node name="ObservationB" type="Marker3D" parent="ReviewPoints"]
+position = Vector3(-26, 0.1, 7)
