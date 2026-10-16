@@ -7,6 +7,8 @@ const MAX_ACTIVE_LAMPS := 8
 const MAX_RESIDENT_LAMPS := 10
 @export var outdoor_ambient := 0.12
 @export var indoor_ambient := 0.025
+@export_group("Exterior below the base")
+@export var lower_exterior_bounds: CollisionShape3D
 @export_group("Debug visibility")
 @export var debug_visibility_profile: Environment
 var debug_darkness := 1.0
@@ -79,7 +81,11 @@ func _exclude_body(camera: Camera3D) -> Array[RID]:
 
 func is_covered(at: Vector3, exclude: Array[RID] = []) -> bool:
 	# Roof detection uses world-up, independently of the camera's viewing angle.
-	if to_local(at).y < -8.0: return true
+	var lower_exterior := false
+	if is_instance_valid(lower_exterior_bounds) and lower_exterior_bounds.shape is BoxShape3D:
+		var half_size: Vector3 = lower_exterior_bounds.shape.size * 0.5
+		lower_exterior = AABB(-half_size, half_size * 2.0).has_point(lower_exterior_bounds.to_local(at))
+	if to_local(at).y < -8.0 and not lower_exterior: return true
 	var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.15, at + Vector3.UP * 10.0, 1, exclude)
 	return not get_world_3d().direct_space_state.intersect_ray(query).is_empty()
 

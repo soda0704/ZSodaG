@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://assets/environments/cave/material_studies/cave_stone_v2.gdshader" id="1_4m2ie"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/material_studies/damp_rock_albedo_v2.png" id="2_qvvtd"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/material_studies/limestone_albedo_v2.png" id="3_r2wv3"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/material_studies/scree_floor_albedo_v2.png" id="4_uhjvb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_4m2ie")
+shader_parameter/limestone_albedo = ExtResource("3_r2wv3")
+shader_parameter/damp_albedo = ExtResource("2_qvvtd")
+shader_parameter/scree_albedo = ExtResource("4_uhjvb")
+shader_parameter/wall_scale = 0.25
+shader_parameter/floor_scale = 0.5
+shader_parameter/damp_coverage = 0.25

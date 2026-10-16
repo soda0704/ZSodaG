@@ -1,6 +1,8 @@
 class_name BaseBlockoutRuntime
 extends Node3D
 
+@export var fall_out_depth: float = -160.0
+
 const WEAPON_LOOT := [
 	{"type": &"pistol", "position": Vector3(-29.7, 1.06, 7.05), "rotation": Vector3(0, 17, 90), "state": {"rounds": 12}},
 	{"type": &"m4a1", "position": Vector3(-7.22, 0.11, 18.85), "rotation": Vector3(0, -23, 90), "state": {"rounds": 30}},

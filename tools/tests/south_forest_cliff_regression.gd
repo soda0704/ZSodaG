@@ -16,29 +16,30 @@ func run():
  for i in 8: await physics_frame
  await RenderingServer.frame_post_draw
  check(not world.get_node("CliffValley").has_node("RockyEastCliff"),"reference scan removed")
- check(terrain.data.get_control_hole(Vector3(290,0,0)),"Terrain section under wall excluded")
+ check(not terrain.data.get_control_hole(Vector3(290,0,0)),"Old broad cliff hole restored to native terrain")
  check(terrain.material.is_shader_override_enabled(),"LOD-safe replacement cutout enabled")
  var cutout:Shader=terrain.material.get_shader_override()
  check(cutout != null and cutout.resource_path=="res://assets/environments/snow/terrain_cliff_cutout.gdshader","replacement uses saved Terrain material")
  var rect:Vector4=terrain.material.get_shader_param("cliff_replacement_bounds")
- check(rect==Vector4(258,342,-364,364),"cutout stays inside mesh with two metre overlap")
+ check(rect==Vector4.ZERO,"Old rectangular visual cutout disabled")
  check(terrain.data.get_control_hole(Vector3(0,0,0)),"original shaft hole retained")
- var cliff=world.get_node("EastCliffWall")
- var mesh:Mesh=cliff.get_node("LayeredRockFace").mesh
- check(mesh.get_faces().size()/3==5368,"single lightweight cliff: 5368 triangles")
- check(cliff.get_node("CliffCollision").shape.get_faces().size()==mesh.get_faces().size(),"cliff collision uses the same surface")
+ var cliff=world.get_node("CaveMouthRock")
+ var mesh:Mesh=cliff.get_node("RockArch").mesh
+ check(mesh.get_faces().size()/3<6000,"lightweight native rock arch")
+ check(cliff.get_node("ArchCollision").shape.get_faces().size()==mesh.get_faces().size(),"arch collision uses the same surface")
+ check(terrain.data.get_control_hole(Vector3(335,0,2)),"Only the cave mouth has a terrain opening")
  var state=world.get_world_3d().direct_space_state
  var missing=0
  var total=0
  for z in [-330.0,-240.0,-100.0,0.0,100.0,240.0,330.0]:
   for x in [254.0,256.0,264.0,266.0,334.0,336.0,344.0,346.0]:
-   var q=PhysicsRayQueryParameters3D.create(Vector3(x,240,z),Vector3(x,-140,z),1)
+   var q=PhysicsRayQueryParameters3D.create(Vector3(x,240,z),Vector3(x,-210,z),1)
    var hit:Dictionary=state.intersect_ray(q)
    if hit.is_empty(): missing+=1
    total+=1
  for z in [-368.0,-366.0,-360.0,-356.0,356.0,360.0,366.0,368.0]:
   for x in [260.0,275.0,290.0,310.0,340.0]:
-   var q=PhysicsRayQueryParameters3D.create(Vector3(x,240,z),Vector3(x,-140,z),1)
+   var q=PhysicsRayQueryParameters3D.create(Vector3(x,240,z),Vector3(x,-210,z),1)
    var hit:Dictionary=state.intersect_ray(q)
    if hit.is_empty(): missing+=1
    total+=1
@@ -47,12 +48,12 @@ func run():
  await physics_frame
  await physics_frame
  var wall_hits=0
- for z in [-180.0,0.0,180.0]:
-  for y in [-30.0,-70.0]:
-   var hit:Dictionary=state.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(370,y,z+0.17),Vector3(255,y,z+0.17),1<<20))
+ for z in [-6.0,2.0,10.0]:
+  for y in [-151.0,-150.5]:
+   var hit:Dictionary=state.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(355,y,z),Vector3(325,y,z),1<<20))
    if not hit.is_empty() and hit.collider==cliff: wall_hits+=1
  cliff.collision_layer=1
- check(wall_hits==6,"all six cliff-face rays hit its collider: %d/6"%wall_hits)
+ check(wall_hits==6,"rock above and beside the mouth is solid: %d/6"%wall_hits)
  for name in ["SouthPassForest","WestPassForest"]:
   var forest=world.get_node(name)
   var count=0
@@ -84,8 +85,9 @@ func run():
  for f in world.get_node("CliffValley").find_children("Forest*","MultiMeshInstance3D",false,false):
   for i in f.multimesh.instance_count:
    var p=f.global_transform*f.multimesh.get_instance_transform(i).origin
-   if not p.is_finite() or p.y>90.01: forest_errors+=1
- check(forest_errors==0,"background high foothills clear")
+   var h:float=terrain.data.get_height(p)
+   if not p.is_finite() or (p.x>220 and is_finite(h) and absf(p.y-h)>0.15): forest_errors+=1
+ check(forest_errors==0,"background forest follows the lowered valley")
  var haze=world.get_node("CliffValley").find_children("StormHaze_*","FogVolume",false,false)
  check(haze.size()==28 and is_equal_approx(haze[0].material.density,0.028),"storm coverage and previous density retained")
  print("RESULT FAILURES ",failures.size())

@@ -25,6 +25,8 @@ def prose(text):
 def check(path):
     errors = []
     text = path.read_text(encoding="utf-8")
+    if re.search(r"^(?:<{7}(?: |$)|={7}$|>{7}(?: |$)|\|{7}(?: |$))", text, re.M):
+        errors.append("unresolved Git conflict marker")
     body = prose(text)
     title_count = len(re.findall(r"^# [^\n]+$", body, re.M))
     if title_count != 1:

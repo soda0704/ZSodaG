@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://1ud48u76ij5o"]
 
+[ext_resource type="PackedScene" path="res://scenes/levels/Cave_Day7.tscn" id="cave_day7"]
+
 [ext_resource type="Script" uid="uid://cqf56frchbgyk" path="res://scripts/levels/base_blockout_runtime.gd" id="1_runtime"]
 [ext_resource type="PackedScene" uid="uid://g28tvglroke0" path="res://scenes/objects/elevator/elevator_functional_blockout.tscn" id="2_elevator"]
 [ext_resource type="PackedScene" uid="uid://bq6r0gmf1m8u3" path="res://scenes/levels/Floor_0_Base_Blockout.tscn" id="3_floor_0"]
@@ -70,6 +72,7 @@ size = Vector3(14, 4, 10)
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
 script = ExtResource("1_runtime")
+fall_out_depth = -235.0
 
 [node name="BaseGameplayController" type="Node" parent="." unique_id=1208282672]
 script = ExtResource("9_base_gameplay")
@@ -80,9 +83,12 @@ script = ExtResource("10_power_lighting")
 [node name="BaseDayProgressionController" type="Node" parent="." unique_id=1687325544]
 script = ExtResource("11_day_progression")
 
+[node name="Cave_Day7" parent="." instance=ExtResource("cave_day7")]
+
 [node name="SnowExterior" parent="." unique_id=1408054320 instance=ExtResource("12_exterior")]
 
-[node name="WorldLighting" parent="." unique_id=294664761 instance=ExtResource("world_lighting")]
+[node name="WorldLighting" parent="." node_paths=PackedStringArray("lower_exterior_bounds") unique_id=294664761 instance=ExtResource("world_lighting")]
+lower_exterior_bounds = NodePath("../SnowExterior/LowerValleyOutdoorRegion/LowerValleyOutdoorBounds")
 
 [node name="Garage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0" unique_id=1132081566]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32, 5.2446346, -2.5)

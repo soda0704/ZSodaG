@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://assets/environments/cave/pbr/cave_rock.gdshader" id="1_fjh8x"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/material_studies/scree_floor_albedo_v2.png" id="2_3b2nb"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_diff_2k.jpg" id="3_irqdo"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_nor_gl_2k.jpg" id="4_q03q6"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_rough_2k.jpg" id="5_p08ne"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_fjh8x")
+shader_parameter/rock_albedo = ExtResource("3_irqdo")
+shader_parameter/rock_normal = ExtResource("4_q03q6")
+shader_parameter/rock_roughness = ExtResource("5_p08ne")
+shader_parameter/floor_albedo = ExtResource("2_3b2nb")
+shader_parameter/texture_scale = null
+shader_parameter/normal_strength = null
+shader_parameter/tint = null

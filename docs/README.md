@@ -11,6 +11,7 @@
 - [Правила разработки и обновления документации](guides/contributing.md).
 - [Результат проверки перед Git — 13 октября 2026](reviews/2026-10-13_pre_git.md).
 - [Состояние, документация и производительность — 15 октября 2026](reviews/2026-10-15_project_review.md).
+- [Проверка объединения обновлений — 15 октября 2026](reviews/2026-10-15_merge_check.md).
 
 ## Устройство игры
 
@@ -24,6 +25,7 @@
 - [Steam и репликация](technical/steam_networking.md).
 - [Вертолёт и начало экспедиции](technical/helicopter_lobby.md).
 - [Лифт](technical/elevator.md).
+- [Пещера дня 7 и нижняя долина](technical/cave_environment.md).
 
 ## Игровые механики
 
@@ -45,6 +47,7 @@
 ## Интерфейс, звук и окружение
 
 - [Главное меню, Esc и лобби](technical/menus.md).
+- [Проверка обновления меню и освещения](technical/menu_lighting_qa.md).
 - [Обратная связь тестеров и GitHub](technical/tester_feedback.md).
 - [Журнал и анимация](technical/journal_presentation.md).
 - [Иллюстрации журнала](technical/journal_illustration_style.md).

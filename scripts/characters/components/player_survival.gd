@@ -97,7 +97,8 @@ func _physics_process(delta: float) -> void:
 		elif not player.is_sleeping_in_bunk():
 			var level := get_tree().get_first_node_in_group("expedition_level") as Node3D
 			var local_pos: Vector3 = level.to_local(player.global_position) if level != null else player.global_position
-			var bottom := -160.0 if level != null else -40.0
+			var depth_setting: Variant = level.get("fall_out_depth") if level != null else null
+			var bottom := float(depth_setting) if depth_setting != null else (-160.0 if level != null else -40.0)
 			# Horizontal limits are physical colliders in SnowExterior.
 			# This fallback only catches a player that falls through the level.
 			if local_pos.y < bottom:

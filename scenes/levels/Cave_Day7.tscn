@@ -1,0 +1,2475 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-9_-2.res" id="1_v5ut0"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-9_-2_collision.res" id="2_a6dnr"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-9_-1.res" id="3_ce7gf"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-9_-1_collision.res" id="4_o1us1"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-8_-2.res" id="5_6prff"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-8_-2_collision.res" id="6_cuyxs"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-8_-1.res" id="7_rpj4d"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-8_-1_collision.res" id="8_d1qg0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-7_-2.res" id="9_034b3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-7_-2_collision.res" id="10_1jy3y"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-7_-1.res" id="11_lx6p0"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-7_-1_collision.res" id="12_oqdsi"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-6_-2.res" id="13_hloke"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-6_-2_collision.res" id="14_idml8"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-6_-1.res" id="15_nry0u"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-6_-1_collision.res" id="16_g3hm6"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-5_-2.res" id="17_7iest"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-5_-2_collision.res" id="18_gf07j"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-3_-5_-1.res" id="19_x8fyl"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-3_-5_-1_collision.res" id="20_elt4a"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-9_-5.res" id="21_8jky3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-9_-5_collision.res" id="22_8srt8"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-9_-4.res" id="23_1q66o"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-9_-4_collision.res" id="24_ri2wm"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-9_-2.res" id="25_6g4nd"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-9_-2_collision.res" id="26_mf6xd"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-9_-1.res" id="27_oobjv"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-9_-1_collision.res" id="28_tkmjh"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-8_-2.res" id="29_rv7n7"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-8_-2_collision.res" id="30_kggg6"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-8_-1.res" id="31_rj84m"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-8_-1_collision.res" id="32_e32f0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-7_-2.res" id="33_ksv54"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-7_-2_collision.res" id="34_gyhxk"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-7_-1.res" id="35_u4cji"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-7_-1_collision.res" id="36_x41a0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-6_-2.res" id="37_l2wjm"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-6_-2_collision.res" id="38_vnvl5"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-6_-1.res" id="39_yag0o"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-6_-1_collision.res" id="40_4c5p8"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-5_-2.res" id="41_1clyo"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-5_-2_collision.res" id="42_xvryv"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-2_-5_-1.res" id="43_5ijmd"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-2_-5_-1_collision.res" id="44_3mlsv"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-1_-9_-6.res" id="45_lw683"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-1_-9_-6_collision.res" id="46_d4w0o"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-1_-9_-5.res" id="47_g3q5c"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-1_-9_-5_collision.res" id="48_edfje"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-1_-9_-4.res" id="49_b6hxm"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-1_-9_-4_collision.res" id="50_k36dd"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-1_-9_-2.res" id="51_43580"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-1_-9_-2_collision.res" id="52_vcaxm"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_-1_-9_-1.res" id="53_p5p1d"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_-1_-9_-1_collision.res" id="54_3pxul"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-6.res" id="55_sfx0p"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-6_collision.res" id="56_010tt"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-5.res" id="57_7e6bs"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-5_collision.res" id="58_8vy2v"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-4.res" id="59_8iriv"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-4_collision.res" id="60_wbgeg"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-3.res" id="61_vctqc"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-3_collision.res" id="62_ia873"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-2.res" id="63_yi50o"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-2_collision.res" id="64_oldfc"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_0_-9_-1.res" id="65_qc5hn"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_0_-9_-1_collision.res" id="66_orhym"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-6.res" id="67_app2c"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-6_collision.res" id="68_5dq8w"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-5.res" id="69_juwon"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-5_collision.res" id="70_qnx7i"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-4.res" id="71_ujc2r"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-4_collision.res" id="72_y38bs"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-3.res" id="73_f3xqt"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-3_collision.res" id="74_y4j3w"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-2.res" id="75_yjuec"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-2_collision.res" id="76_gebjj"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_1_-9_-1.res" id="77_1gmwk"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_1_-9_-1_collision.res" id="78_grphx"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_2_-9_-5.res" id="79_5wad5"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_2_-9_-5_collision.res" id="80_uatd6"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_2_-9_-4.res" id="81_5nbwv"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_2_-9_-4_collision.res" id="82_0ds7p"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_2_-9_-3.res" id="83_yawhm"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_2_-9_-3_collision.res" id="84_hm805"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_2_-9_-2.res" id="85_wvojl"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_2_-9_-2_collision.res" id="86_jsyee"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_3_-9_-5.res" id="87_w8rfb"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_3_-9_-5_collision.res" id="88_lvfd4"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_3_-9_-3.res" id="89_1hglt"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_3_-9_-3_collision.res" id="90_307aa"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_3_-9_-2.res" id="91_2i2oh"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_3_-9_-2_collision.res" id="92_gd8ux"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_4_-9_-5.res" id="93_lwtc3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_4_-9_-5_collision.res" id="94_nd6q2"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_4_-9_-4.res" id="95_oumtr"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_4_-9_-4_collision.res" id="96_svfsq"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_4_-9_-3.res" id="97_p70ws"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_4_-9_-3_collision.res" id="98_0benh"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_4_-9_-2.res" id="99_e7le2"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_4_-9_-2_collision.res" id="100_a4j2w"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_5_-9_-5.res" id="101_8txlt"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_5_-9_-5_collision.res" id="102_stxdb"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_5_-9_-4.res" id="103_iiut3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_5_-9_-4_collision.res" id="104_ik5wa"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_5_-9_-3.res" id="105_7466u"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_5_-9_-3_collision.res" id="106_jlhmq"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_5_-9_-2.res" id="107_b4vlt"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_5_-9_-2_collision.res" id="108_pcbgq"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_6_-9_-2.res" id="109_7gaur"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_6_-9_-2_collision.res" id="110_d04ug"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_7_-9_-2.res" id="111_87wl5"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_7_-9_-2_collision.res" id="112_w1cah"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_8_-9_-3.res" id="115_ma14d"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_8_-9_-3_collision.res" id="116_4k0l1"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_8_-9_-2.res" id="117_6abip"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_8_-9_-2_collision.res" id="118_2u822"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_8_-8_-3.res" id="119_p0wsj"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_8_-8_-3_collision.res" id="120_k1v7p"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_9_-9_-4.res" id="121_qjmxb"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_9_-9_-4_collision.res" id="122_bec75"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_9_-9_-3.res" id="123_olupl"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_9_-9_-3_collision.res" id="124_lxpv5"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_9_-9_-2.res" id="125_x4sc2"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_9_-9_-2_collision.res" id="126_flk30"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_9_-8_-4.res" id="127_fjsv2"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_9_-8_-4_collision.res" id="128_4in2g"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_9_-8_-3.res" id="129_03hp6"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_9_-8_-3_collision.res" id="130_wuw8b"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_10_-9_-4.res" id="131_43dwj"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_10_-9_-4_collision.res" id="132_nic35"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_10_-9_-3.res" id="133_14dr3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_10_-9_-3_collision.res" id="134_qsjm6"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_10_-9_-2.res" id="135_lrpf1"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_10_-9_-2_collision.res" id="136_vsok6"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_10_-8_-4.res" id="137_axulb"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_10_-8_-4_collision.res" id="138_l7irx"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_11_-9_-4.res" id="139_0p3n2"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_11_-9_-4_collision.res" id="140_1xr24"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_11_-9_-3.res" id="141_jmd10"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_11_-9_-3_collision.res" id="142_qkiuq"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_11_-8_-4.res" id="143_6yxnl"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_11_-8_-4_collision.res" id="144_jnp11"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_11_-8_-3.res" id="145_6krj8"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_11_-8_-3_collision.res" id="146_6yxwx"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-9_-4.res" id="147_x045m"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-9_-4_collision.res" id="148_df74c"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-9_-3.res" id="149_ia3u8"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-9_-3_collision.res" id="150_6bfyh"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-9_-2.res" id="151_yex5o"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-9_-2_collision.res" id="152_tn8w2"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-9_-1.res" id="153_fmcx7"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-9_-1_collision.res" id="154_g8h8b"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-8_-4.res" id="155_4mjv8"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-8_-4_collision.res" id="156_jjgxr"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-8_-3.res" id="157_kfaws"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-8_-3_collision.res" id="158_qr2ua"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-8_-2.res" id="159_0v5dj"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-8_-2_collision.res" id="160_tku22"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_12_-8_-1.res" id="161_0b1on"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_12_-8_-1_collision.res" id="162_famfo"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-9_-3.res" id="163_i672k"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-9_-3_collision.res" id="164_n20h7"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-9_-2.res" id="165_etvy7"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-9_-2_collision.res" id="166_qiphb"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-9_-1.res" id="167_ddkxp"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-9_-1_collision.res" id="168_5c82i"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-8_-3.res" id="169_2qmqk"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-8_-3_collision.res" id="170_mmi6b"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-8_-2.res" id="171_asq3j"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-8_-2_collision.res" id="172_iml8w"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_13_-8_-1.res" id="173_g51pi"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_13_-8_-1_collision.res" id="174_ldgh0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_14_-9_-1.res" id="175_m5xl1"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_14_-9_-1_collision.res" id="176_m6itd"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_14_-9_0.res" id="177_ljcv5"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_14_-9_0_collision.res" id="178_ppme0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_14_-8_-1.res" id="179_ydbpf"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_14_-8_-1_collision.res" id="180_aylk0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-9_-3.res" id="181_ce7gf"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_14_-8_0.res" id="181_vgu4f"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-9_-3_collision.res" id="182_o1us1"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_14_-8_0_collision.res" id="182_ur1c5"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-9_-2.res" id="183_imjpe"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-9_-2_collision.res" id="184_27t6w"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-9_-1.res" id="185_cbj7u"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-9_-1_collision.res" id="186_7n2ff"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-9_0.res" id="187_yeecx"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-9_0_collision.res" id="188_htwaj"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-8_-3.res" id="189_6prff"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-8_-2.res" id="189_a7o1a"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-8_-2_collision.res" id="190_30uch"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-8_-3_collision.res" id="190_cuyxs"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-8_-1.res" id="191_aj67e"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-8_-1_collision.res" id="192_xh0lp"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-8_0.res" id="193_wpw6p"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-8_0_collision.res" id="194_2f2b1"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-9_-2.res" id="195_uw2ub"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-9_-2_collision.res" id="196_vydk2"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-9_-1.res" id="197_orrte"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_15_-8_1.res" id="197_rpj4d"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-9_-1_collision.res" id="198_20ts4"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_15_-8_1_collision.res" id="198_d1qg0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-9_0.res" id="199_4dy3m"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-9_-3.res" id="199_034b3"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-9_-3_collision.res" id="200_1jy3y"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-9_0_collision.res" id="200_l2l8o"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-9_1.res" id="201_g4thw"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-9_1_collision.res" id="202_2evud"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-8_-2.res" id="203_ciqgb"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-8_-2_collision.res" id="204_qamp4"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-8_-1.res" id="205_dujvi"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-8_-1_collision.res" id="206_npkrl"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-8_0.res" id="207_h12b4"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-8_0_collision.res" id="208_3y6xa"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-8_-3.res" id="209_lx6p0"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_16_-8_1.res" id="209_s43sh"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-8_1_collision.res" id="210_0brkn"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_16_-8_-3_collision.res" id="210_oqdsi"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_-2.res" id="211_4pp31"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_-2_collision.res" id="212_j7o4n"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_-1.res" id="213_0mi5t"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_-1_collision.res" id="214_jywwc"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_0.res" id="215_svx20"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_0_collision.res" id="216_60g0q"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_1.res" id="217_7wotl"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_1_collision.res" id="218_lb0fr"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_-3.res" id="219_hloke"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_-3_collision.res" id="220_idml8"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-8_-1.res" id="221_jvoxw"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-8_-1_collision.res" id="222_sdj1t"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-8_0.res" id="223_uv7xv"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-8_0_collision.res" id="224_qoxsd"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_18_-9_-2.res" id="227_2dlbg"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_18_-9_-2_collision.res" id="228_bc44a"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_18_-9_-1.res" id="229_s54fh"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_18_-9_-1_collision.res" id="230_nneww"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_18_-9_0.res" id="231_x1xr4"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_18_-9_0_collision.res" id="232_ywger"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_18_-9_1.res" id="233_w53yx"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_18_-9_1_collision.res" id="234_c04xa"]
+
+[sub_resource type="Curve3D" id="Curve3D_t87yq"]
+bake_interval = 0.7
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -33.5, -162, -21, -4.003733, 0.10136034, -0.44804403, 4.003733, -0.10136034, 0.44804403, -18, -162, -21, -6.3203554, 0.23850398, 0.5676793, 6.3203554, -0.23850398, -0.5676793, 6, -163, -16.57969, -6.532501, -0.25125006, 3.075516, 6.532501, 0.25125006, -3.075516, 35, -164, -25.760334, -0.6432989, 0, 6.5621085, 0.6432989, 0, -6.5621085, 58, -161, -41.061405, 6.175632, 0.3166991, 2.2883108, -6.175632, -0.3166991, -2.2883108, 38, -164, -56.362476, 3.8230548, -0.05792507, 1.5756719, -3.8230548, 0.05792507, -1.5756719, -20, -165, -69.963425, -2.8938644, -0.115754575, 2.9519484, 2.8938644, 0.115754575, -2.9519484, -28, -163, -83.56438, -9.10478, 0.21939227, 0.5594895, 9.10478, -0.21939227, -0.5594895, 5, -164, -95.46521, -11.960444, -0.12589942, -2.568528, 11.960444, 0.12589942, 2.568528, 55, -165, -88.664734, -4.4819674, -0.24447094, -2.4937778, 4.4819674, 0.24447094, 2.4937778, 100, -163, -75.06378, 2.1550126, -0.43100253, -4.640785, -2.1550126, 0.43100253, 4.640785, 110, -162, -58.062595, -0.49788782, -0.24894391, -7.618217, 0.49788782, 0.24894391, 7.618217, 85, -160, -42.761524, -7.789375, -0.10385833, -2.1188583, 7.789375, 0.10385833, 2.1188583, 112, -161, -27.460453, -8.357482, -0.32144165, 0.728652, 8.357482, 0.32144165, -0.728652, 160, -159, -22.360096, -2.7004538, 0.18003024, 4.897166, 2.7004538, -0.18003024, -4.897166, 190, -158, -34.26093, -1.9306178, 0, 5.251648, 1.9306178, 0, -5.251648, 175, -160, -49.562, -7.177309, -0.30759898, 0.69727314, 7.177309, 0.30759898, -0.69727314, 200, -158, -61.462833, -6.463518, -0.19887748, -2.19775, 6.463518, 0.19887748, 2.19775, 245, -157, -56.362476, 0, -0.41810906, -6.042099, 0, 0.41810906, 6.042099, 265, -156, -39.361286, 1.2918724, -0.1845532, -4.3926735, -1.2918724, 0.1845532, 4.3926735, 245, -155, -27.460453, -4.1638885, 0, -1.9132719, 4.1638885, 0, 1.9132719, 258, -155, -15.559619, -5.080201, 0.120957166, -1.8820474, 5.080201, -0.120957166, 1.8820474, 282, -155, -10.459262, -4.310868, 0.23949267, 1.8059515, 4.310868, -0.23949267, -1.8059515, 300, -156, 0, -3.3974583, 0, 3.2186449, 3.3974583, 0, -3.2186449, 300, -156, -18, -3.402422, 0, -3.581497, 3.402422, 0, 3.581497, 319, -156, -18, -3.9239485, 0, -3.4121292, 3.9239485, 0, 3.4121292, 319, -156, 2, 0, 0, 0, 0, 0, 0, 342, -156, 2),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 28
+
+[node name="Cave_Day7" type="Node3D" unique_id=1716915777]
+metadata/editor_description = "Continuous volumetric limestone sculpt: irregular floor, galleries, natural shaft and terrain-overlapping external mouth. Static native resources, no runtime sculpting."
+metadata/route_length_m = 796.4297
+metadata/sculpt_grid_m = 0.3
+metadata/triangle_count = 314326.0
+
+[node name="AuthoredRoute" type="Path3D" parent="." unique_id=440294608]
+curve = SubResource("Curve3D_t87yq")
+
+[node name="ReviewPoints" type="Node3D" parent="." unique_id=162881635]
+
+[node name="Route_0000" type="Marker3D" parent="ReviewPoints" unique_id=604363669]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -161.92, -21)
+metadata/distance = 0.0
+metadata/clearance = 5.269638
+
+[node name="Route_0004" type="Marker3D" parent="ReviewPoints" unique_id=651993765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.504366, -161.89246, -21.121733)
+metadata/distance = 4.0
+metadata/clearance = 4.7626495
+
+[node name="Route_0008" type="Marker3D" parent="ReviewPoints" unique_id=1279466857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.502872, -161.87683, -21.190863)
+metadata/distance = 8.0
+metadata/clearance = 4.41626
+
+[node name="Route_0012" type="Marker3D" parent="ReviewPoints" unique_id=1806138823]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.502768, -161.8794, -21.179434)
+metadata/distance = 12.0
+metadata/clearance = 4.492157
+
+[node name="Route_0016" type="Marker3D" parent="ReviewPoints" unique_id=500746242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.517584, -161.93347, -20.934082)
+metadata/distance = 16.0
+metadata/clearance = 4.4811707
+
+[node name="Route_0020" type="Marker3D" parent="ReviewPoints" unique_id=812457503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.610381, -162.07886, -20.080063)
+metadata/distance = 20.0
+metadata/clearance = 4.9596252
+
+[node name="Route_0024" type="Marker3D" parent="ReviewPoints" unique_id=1582199404]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.732838, -162.2432, -19.109516)
+metadata/distance = 24.0
+metadata/clearance = 5.5268707
+
+[node name="Route_0028" type="Marker3D" parent="ReviewPoints" unique_id=1562793230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.848174, -162.41359, -18.169521)
+metadata/distance = 28.0
+metadata/clearance = 6.012207
+
+[node name="Route_0032" type="Marker3D" parent="ReviewPoints" unique_id=1455585721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9400282, -162.58612, -17.334902)
+metadata/distance = 32.0
+metadata/clearance = 6.5227203
+
+[node name="Route_0036" type="Marker3D" parent="ReviewPoints" unique_id=1821049791]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0071685, -162.75748, -16.71183)
+metadata/distance = 36.0
+metadata/clearance = 6.1818085
+
+[node name="Route_0040" type="Marker3D" parent="ReviewPoints" unique_id=821932715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9944377, -162.91978, -16.579214)
+metadata/distance = 40.0
+metadata/clearance = 5.990631
+
+[node name="Route_0044" type="Marker3D" parent="ReviewPoints" unique_id=830024851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.929879, -163.09631, -17.25238)
+metadata/distance = 44.0
+metadata/clearance = 5.9671936
+
+[node name="Route_0048" type="Marker3D" parent="ReviewPoints" unique_id=828536791]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.804331, -163.28804, -18.228397)
+metadata/distance = 48.0
+metadata/clearance = 5.5863953
+
+[node name="Route_0052" type="Marker3D" parent="ReviewPoints" unique_id=1805431098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.639734, -163.47525, -19.348568)
+metadata/distance = 52.0
+metadata/clearance = 5.687317
+
+[node name="Route_0056" type="Marker3D" parent="ReviewPoints" unique_id=1605369029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.445889, -163.64867, -20.567194)
+metadata/distance = 56.0
+metadata/clearance = 5.737747
+
+[node name="Route_0060" type="Marker3D" parent="ReviewPoints" unique_id=1345499154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.225634, -163.79903, -21.868086)
+metadata/distance = 60.0
+metadata/clearance = 5.1260376
+
+[node name="Route_0064" type="Marker3D" parent="ReviewPoints" unique_id=53845340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.977364, -163.91238, -23.251335)
+metadata/distance = 64.0
+metadata/clearance = 4.707199
+
+[node name="Route_0068" type="Marker3D" parent="ReviewPoints" unique_id=1451224341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.691273, -163.95964, -24.737478)
+metadata/distance = 68.0
+metadata/clearance = 4.345688
+
+[node name="Route_0072" type="Marker3D" parent="ReviewPoints" unique_id=1696290888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.33776, -163.84418, -26.371378)
+metadata/distance = 72.0
+metadata/clearance = 4.4891663
+
+[node name="Route_0076" type="Marker3D" parent="ReviewPoints" unique_id=856348993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.988087, -163.49466, -27.967861)
+metadata/distance = 76.0
+metadata/clearance = 4.00943
+
+[node name="Route_0080" type="Marker3D" parent="ReviewPoints" unique_id=1695151428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.61796, -163.04457, -29.587408)
+metadata/distance = 80.0
+metadata/clearance = 4.047104
+
+[node name="Route_0084" type="Marker3D" parent="ReviewPoints" unique_id=637009162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.193554, -162.54742, -31.31017)
+metadata/distance = 84.0
+metadata/clearance = 2.9790497
+
+[node name="Route_0088" type="Marker3D" parent="ReviewPoints" unique_id=89003100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.672234, -162.03107, -33.21548)
+metadata/distance = 88.0
+metadata/clearance = 4.1748657
+
+[node name="Route_0092" type="Marker3D" parent="ReviewPoints" unique_id=653777389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.962944, -161.52362, -35.42822)
+metadata/distance = 92.0
+metadata/clearance = 3.4264984
+
+[node name="Route_0096" type="Marker3D" parent="ReviewPoints" unique_id=950407173]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.791107, -161.08438, -38.205517)
+metadata/distance = 96.0
+metadata/clearance = 2.834549
+
+[node name="Route_0100" type="Marker3D" parent="ReviewPoints" unique_id=405074197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.000225, -160.93477, -41.915806)
+metadata/distance = 100.0
+metadata/clearance = 3.3382416
+
+[node name="Route_0104" type="Marker3D" parent="ReviewPoints" unique_id=496993322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.358963, -161.27896, -45.486797)
+metadata/distance = 104.0
+metadata/clearance = 3.4402618
+
+[node name="Route_0108" type="Marker3D" parent="ReviewPoints" unique_id=1466226752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.51336, -161.79796, -48.238495)
+metadata/distance = 108.0
+metadata/clearance = 2.7640686
+
+[node name="Route_0112" type="Marker3D" parent="ReviewPoints" unique_id=567612195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.262157, -162.34972, -50.499096)
+metadata/distance = 112.0
+metadata/clearance = 3.0298004
+
+[node name="Route_0116" type="Marker3D" parent="ReviewPoints" unique_id=928078804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.815666, -162.89136, -52.454506)
+metadata/distance = 116.0
+metadata/clearance = 3.87854
+
+[node name="Route_0120" type="Marker3D" parent="ReviewPoints" unique_id=2070669615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.247917, -163.39311, -54.192516)
+metadata/distance = 120.0
+metadata/clearance = 3.8268127
+
+[node name="Route_0124" type="Marker3D" parent="ReviewPoints" unique_id=833798023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.588745, -163.80478, -55.75161)
+metadata/distance = 124.0
+metadata/clearance = 4.1115417
+
+[node name="Route_0128" type="Marker3D" parent="ReviewPoints" unique_id=884820306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.809273, -164.00197, -57.03283)
+metadata/distance = 128.0
+metadata/clearance = 4.71875
+
+[node name="Route_0132" type="Marker3D" parent="ReviewPoints" unique_id=287196603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.93601, -164.1054, -58.027866)
+metadata/distance = 132.0
+metadata/clearance = 4.8277435
+
+[node name="Route_0136" type="Marker3D" parent="ReviewPoints" unique_id=424336691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.047083, -164.19316, -58.957104)
+metadata/distance = 136.0
+metadata/clearance = 4.212555
+
+[node name="Route_0140" type="Marker3D" parent="ReviewPoints" unique_id=1446598188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.149937, -164.27324, -59.856956)
+metadata/distance = 140.0
+metadata/clearance = 4.81308
+
+[node name="Route_0144" type="Marker3D" parent="ReviewPoints" unique_id=975875029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.249023, -164.3483, -60.739708)
+metadata/distance = 144.0
+metadata/clearance = 5.029785
+
+[node name="Route_0148" type="Marker3D" parent="ReviewPoints" unique_id=1864140044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.34603, -164.41965, -61.61168)
+metadata/distance = 148.0
+metadata/clearance = 4.9608
+
+[node name="Route_0152" type="Marker3D" parent="ReviewPoints" unique_id=932359074]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.441028, -164.48795, -62.47696)
+metadata/distance = 152.0
+metadata/clearance = 5.2021027
+
+[node name="Route_0156" type="Marker3D" parent="ReviewPoints" unique_id=1455939054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.535365, -164.5536, -63.338245)
+metadata/distance = 156.0
+metadata/clearance = 5.0313263
+
+[node name="Route_0160" type="Marker3D" parent="ReviewPoints" unique_id=149551741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6291614, -164.61682, -64.19799)
+metadata/distance = 160.0
+metadata/clearance = 4.7104797
+
+[node name="Route_0164" type="Marker3D" parent="ReviewPoints" unique_id=1831135255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72336566, -164.67761, -65.058395)
+metadata/distance = 164.0
+metadata/clearance = 5.2347107
+
+[node name="Route_0168" type="Marker3D" parent="ReviewPoints" unique_id=1630197552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1821795, -164.73587, -65.92226)
+metadata/distance = 168.0
+metadata/clearance = 4.972122
+
+[node name="Route_0172" type="Marker3D" parent="ReviewPoints" unique_id=1851910611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0858264, -164.79123, -66.793)
+metadata/distance = 172.0
+metadata/clearance = 5.073395
+
+[node name="Route_0176" type="Marker3D" parent="ReviewPoints" unique_id=1733956178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.987193, -164.84288, -67.676796)
+metadata/distance = 176.0
+metadata/clearance = 5.2073517
+
+[node name="Route_0180" type="Marker3D" parent="ReviewPoints" unique_id=731004988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.881844, -164.88884, -68.5861)
+metadata/distance = 180.0
+metadata/clearance = 4.946945
+
+[node name="Route_0184" type="Marker3D" parent="ReviewPoints" unique_id=1003767017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.759983, -164.9217, -69.56871)
+metadata/distance = 184.0
+metadata/clearance = 5.4619904
+
+[node name="Route_0188" type="Marker3D" parent="ReviewPoints" unique_id=937971493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.24862, -164.744, -71.4181)
+metadata/distance = 188.0
+metadata/clearance = 1.9867401
+
+[node name="Route_0192" type="Marker3D" parent="ReviewPoints" unique_id=731052367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.031342, -164.28061, -74.24963)
+metadata/distance = 192.0
+metadata/clearance = 1.3733215
+
+[node name="Route_0196" type="Marker3D" parent="ReviewPoints" unique_id=1392391474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.289022, -163.73195, -77.50183)
+metadata/distance = 196.0
+metadata/clearance = 4.046753
+
+[node name="Route_0200" type="Marker3D" parent="ReviewPoints" unique_id=228283834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.64944, -163.16312, -81.19546)
+metadata/distance = 200.0
+metadata/clearance = 4.1951599999999996
+
+[node name="Route_0204" type="Marker3D" parent="ReviewPoints" unique_id=1752379149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.843777, -162.91188, -84.45464)
+metadata/distance = 204.0
+metadata/clearance = 4.1248016
+
+[node name="Route_0208" type="Marker3D" parent="ReviewPoints" unique_id=807866601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.355986, -162.98398, -86.370865)
+metadata/distance = 208.0
+metadata/clearance = 4.4068146
+
+[node name="Route_0212" type="Marker3D" parent="ReviewPoints" unique_id=574220629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.722427, -163.09381, -88.03755)
+metadata/distance = 212.0
+metadata/clearance = 3.874176
+
+[node name="Route_0216" type="Marker3D" parent="ReviewPoints" unique_id=482216685]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.027689, -163.21774, -89.56469)
+metadata/distance = 216.0
+metadata/clearance = 4.2304688
+
+[node name="Route_0220" type="Marker3D" parent="ReviewPoints" unique_id=1147946142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.288531, -163.34863, -90.9806)
+metadata/distance = 220.0
+metadata/clearance = 3.3579254
+
+[node name="Route_0224" type="Marker3D" parent="ReviewPoints" unique_id=287738724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.510284, -163.48265, -92.288025)
+metadata/distance = 224.0
+metadata/clearance = 3.6593018
+
+[node name="Route_0228" type="Marker3D" parent="ReviewPoints" unique_id=1012124643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6919055, -163.61688, -93.47264)
+metadata/distance = 228.0
+metadata/clearance = 4.5562744
+
+[node name="Route_0232" type="Marker3D" parent="ReviewPoints" unique_id=985965667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8269474, -163.74791, -94.49621)
+metadata/distance = 232.0
+metadata/clearance = 3.7724152
+
+[node name="Route_0236" type="Marker3D" parent="ReviewPoints" unique_id=669751867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0953598, -163.86948, -95.26245)
+metadata/distance = 236.0
+metadata/clearance = 3.9256592
+
+[node name="Route_0240" type="Marker3D" parent="ReviewPoints" unique_id=1552648437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.078443, -163.97264, -95.507965)
+metadata/distance = 240.0
+metadata/clearance = 4.021164
+
+[node name="Route_0244" type="Marker3D" parent="ReviewPoints" unique_id=1670027126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.098746, -164.08075, -95.32948)
+metadata/distance = 244.0
+metadata/clearance = 4.2203827
+
+[node name="Route_0248" type="Marker3D" parent="ReviewPoints" unique_id=51984085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.058631, -164.18887, -94.991295)
+metadata/distance = 248.0
+metadata/clearance = 4.4640503
+
+[node name="Route_0252" type="Marker3D" parent="ReviewPoints" unique_id=855355458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.033945, -164.29623, -94.559105)
+metadata/distance = 252.0
+metadata/clearance = 4.8184814
+
+[node name="Route_0256" type="Marker3D" parent="ReviewPoints" unique_id=1484728705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.001911, -164.4008, -94.06428)
+metadata/distance = 256.0
+metadata/clearance = 5.275711
+
+[node name="Route_0260" type="Marker3D" parent="ReviewPoints" unique_id=804744222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.963577, -164.50136, -93.52204)
+metadata/distance = 260.0
+metadata/clearance = 5.0698853
+
+[node name="Route_0264" type="Marker3D" parent="ReviewPoints" unique_id=1332490294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.920067, -164.59685, -92.94109)
+metadata/distance = 264.0
+metadata/clearance = 5.9613495
+
+[node name="Route_0268" type="Marker3D" parent="ReviewPoints" unique_id=373781256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.871647, -164.68591, -92.326614)
+metadata/distance = 268.0
+metadata/clearance = 5.7541046
+
+[node name="Route_0272" type="Marker3D" parent="ReviewPoints" unique_id=1653908700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.818565, -164.76689, -91.681335)
+metadata/distance = 272.0
+metadata/clearance = 5.9182434
+
+[node name="Route_0276" type="Marker3D" parent="ReviewPoints" unique_id=104697644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.760593, -164.83719, -91.006)
+metadata/distance = 276.0
+metadata/clearance = 5.5662994
+
+[node name="Route_0280" type="Marker3D" parent="ReviewPoints" unique_id=731980044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.69701, -164.89296, -90.29915)
+metadata/distance = 280.0
+metadata/clearance = 5.3476715
+
+[node name="Route_0284" type="Marker3D" parent="ReviewPoints" unique_id=512248268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.627563, -164.92708, -89.55537)
+metadata/distance = 284.0
+metadata/clearance = 5.8407745
+
+[node name="Route_0288" type="Marker3D" parent="ReviewPoints" unique_id=1130309014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.548923, -164.9242, -88.76096)
+metadata/distance = 288.0
+metadata/clearance = 6.0818634
+
+[node name="Route_0292" type="Marker3D" parent="ReviewPoints" unique_id=121790383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.44651, -164.85551, -87.87281)
+metadata/distance = 292.0
+metadata/clearance = 6.0233917
+
+[node name="Route_0296" type="Marker3D" parent="ReviewPoints" unique_id=886263438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.324394, -164.7401, -86.89998)
+metadata/distance = 296.0
+metadata/clearance = 6.3397064
+
+[node name="Route_0300" type="Marker3D" parent="ReviewPoints" unique_id=541327494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.188774, -164.59889, -85.876526)
+metadata/distance = 300.0
+metadata/clearance = 6.333191
+
+[node name="Route_0304" type="Marker3D" parent="ReviewPoints" unique_id=433213238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.04256, -164.44066, -84.81611)
+metadata/distance = 304.0
+metadata/clearance = 6.1451416
+
+[node name="Route_0308" type="Marker3D" parent="ReviewPoints" unique_id=2036975524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.887215, -164.27016, -83.72506)
+metadata/distance = 308.0
+metadata/clearance = 5.7639465
+
+[node name="Route_0312" type="Marker3D" parent="ReviewPoints" unique_id=5528246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77.72338, -164.09016, -82.606064)
+metadata/distance = 312.0
+metadata/clearance = 5.731827
+
+[node name="Route_0316" type="Marker3D" parent="ReviewPoints" unique_id=1407702263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.55094, -163.90259, -81.45935)
+metadata/distance = 316.0
+metadata/clearance = 5.3283234
+
+[node name="Route_0320" type="Marker3D" parent="ReviewPoints" unique_id=577699859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85.36906, -163.7088, -80.282684)
+metadata/distance = 320.0
+metadata/clearance = 5.2685394
+
+[node name="Route_0324" type="Marker3D" parent="ReviewPoints" unique_id=607251903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.1759, -163.50984, -79.07021)
+metadata/distance = 324.0
+metadata/clearance = 5.0234985
+
+[node name="Route_0328" type="Marker3D" parent="ReviewPoints" unique_id=356980410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92.943504, -163.30798, -77.816986)
+metadata/distance = 328.0
+metadata/clearance = 4.5899963
+
+[node name="Route_0332" type="Marker3D" parent="ReviewPoints" unique_id=30025870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96.72944, -163.10086, -76.465454)
+metadata/distance = 332.0
+metadata/clearance = 4.617386
+
+[node name="Route_0336" type="Marker3D" parent="ReviewPoints" unique_id=2043401671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.37168, -162.89992, -74.84478)
+metadata/distance = 336.0
+metadata/clearance = 4.31691
+
+[node name="Route_0340" type="Marker3D" parent="ReviewPoints" unique_id=1383435701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.464645, -162.73697, -72.30161)
+metadata/distance = 340.0
+metadata/clearance = 3.947235
+
+[node name="Route_0344" type="Marker3D" parent="ReviewPoints" unique_id=348072801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.09532, -162.58536, -69.3148)
+metadata/distance = 344.0
+metadata/clearance = 4.1355896
+
+[node name="Route_0348" type="Marker3D" parent="ReviewPoints" unique_id=52951498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108.330055, -162.42198, -66.00455)
+metadata/distance = 348.0
+metadata/clearance = 4.253647
+
+[node name="Route_0352" type="Marker3D" parent="ReviewPoints" unique_id=615443038]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.96447, -162.22612, -62.367386)
+metadata/distance = 352.0
+metadata/clearance = 4.390045
+
+[node name="Route_0356" type="Marker3D" parent="ReviewPoints" unique_id=992083907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.15101, -161.95403, -58.44207)
+metadata/distance = 356.0
+metadata/clearance = 4.8309326
+
+[node name="Route_0360" type="Marker3D" parent="ReviewPoints" unique_id=496241090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.29082, -161.6332, -55.807076)
+metadata/distance = 360.0
+metadata/clearance = 3.8910675
+
+[node name="Route_0364" type="Marker3D" parent="ReviewPoints" unique_id=1491477050]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.646, -161.35158, -54.186325)
+metadata/distance = 364.0
+metadata/clearance = 4.2311707
+
+[node name="Route_0368" type="Marker3D" parent="ReviewPoints" unique_id=1026088554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.90839, -161.0864, -52.78645)
+metadata/distance = 368.0
+metadata/clearance = 4.898102
+
+[node name="Route_0372" type="Marker3D" parent="ReviewPoints" unique_id=701941225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96.16536, -160.82838, -51.39912)
+metadata/distance = 372.0
+metadata/clearance = 4.706833
+
+[node name="Route_0376" type="Marker3D" parent="ReviewPoints" unique_id=1799308320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92.471756, -160.57303, -49.884777)
+metadata/distance = 376.0
+metadata/clearance = 4.4217377
+
+[node name="Route_0380" type="Marker3D" parent="ReviewPoints" unique_id=639245025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.92682, -160.3175, -48.054523)
+metadata/distance = 380.0
+metadata/clearance = 4.527832
+
+[node name="Route_0384" type="Marker3D" parent="ReviewPoints" unique_id=850211057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85.897285, -160.06526, -45.489815)
+metadata/distance = 384.0
+metadata/clearance = 4.733551
+
+[node name="Route_0388" type="Marker3D" parent="ReviewPoints" unique_id=196818341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85.18295, -159.89545, -41.718277)
+metadata/distance = 388.0
+metadata/clearance = 5.331497
+
+[node name="Route_0392" type="Marker3D" parent="ReviewPoints" unique_id=973838941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.31507, -159.94098, -38.38384)
+metadata/distance = 392.0
+metadata/clearance = 4.961487
+
+[node name="Route_0396" type="Marker3D" parent="ReviewPoints" unique_id=2039695081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.44433, -160.08936, -35.90941)
+metadata/distance = 396.0
+metadata/clearance = 4.6762085
+
+[node name="Route_0400" type="Marker3D" parent="ReviewPoints" unique_id=200971202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.91625, -160.2696, -33.935)
+metadata/distance = 400.0
+metadata/clearance = 5.3916626
+
+[node name="Route_0404" type="Marker3D" parent="ReviewPoints" unique_id=716435899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 97.54752, -160.4562, -32.2686)
+metadata/distance = 404.0
+metadata/clearance = 5.005066
+
+[node name="Route_0408" type="Marker3D" parent="ReviewPoints" unique_id=665407205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 101.269035, -160.63452, -30.813751)
+metadata/distance = 408.0
+metadata/clearance = 4.905426
+
+[node name="Route_0412" type="Marker3D" parent="ReviewPoints" unique_id=2056658403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.04947, -160.79057, -29.515862)
+metadata/distance = 412.0
+metadata/clearance = 4.887146
+
+[node name="Route_0416" type="Marker3D" parent="ReviewPoints" unique_id=233681796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108.87245, -160.90169, -28.340958)
+metadata/distance = 416.0
+metadata/clearance = 5.4809875
+
+[node name="Route_0420" type="Marker3D" parent="ReviewPoints" unique_id=710833229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.72342, -160.9076, -27.275583)
+metadata/distance = 420.0
+metadata/clearance = 5.181732
+
+[node name="Route_0424" type="Marker3D" parent="ReviewPoints" unique_id=1239840019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116.64219, -160.79443, -26.478033)
+metadata/distance = 424.0
+metadata/clearance = 5.2607727
+
+[node name="Route_0428" type="Marker3D" parent="ReviewPoints" unique_id=922081034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120.586075, -160.64919, -25.823742)
+metadata/distance = 428.0
+metadata/clearance = 5.069748
+
+[node name="Route_0432" type="Marker3D" parent="ReviewPoints" unique_id=765294757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 124.5406, -160.48984, -25.242096)
+metadata/distance = 432.0
+metadata/clearance = 4.848633
+
+[node name="Route_0436" type="Marker3D" parent="ReviewPoints" unique_id=1927486047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.5017, -160.32224, -24.71122)
+metadata/distance = 436.0
+metadata/clearance = 5.0807495
+
+[node name="Route_0440" type="Marker3D" parent="ReviewPoints" unique_id=490132624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.46805, -160.1492, -24.22201)
+metadata/distance = 440.0
+metadata/clearance = 4.5538177
+
+[node name="Route_0444" type="Marker3D" parent="ReviewPoints" unique_id=877525262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 136.43866, -159.97238, -23.771072)
+metadata/distance = 444.0
+metadata/clearance = 4.2615814
+
+[node name="Route_0448" type="Marker3D" parent="ReviewPoints" unique_id=723788032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.41331, -159.79303, -23.35862)
+metadata/distance = 448.0
+metadata/clearance = 4.058029
+
+[node name="Route_0452" type="Marker3D" parent="ReviewPoints" unique_id=1449481999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144.39224, -159.6121, -22.988285)
+metadata/distance = 452.0
+metadata/clearance = 3.8742828
+
+[node name="Route_0456" type="Marker3D" parent="ReviewPoints" unique_id=98306540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.3752, -159.43054, -22.668528)
+metadata/distance = 456.0
+metadata/clearance = 3.3390198
+
+[node name="Route_0460" type="Marker3D" parent="ReviewPoints" unique_id=338436413]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 152.3631, -159.24974, -22.416752)
+metadata/distance = 460.0
+metadata/clearance = 1.4331512
+
+[node name="Route_0464" type="Marker3D" parent="ReviewPoints" unique_id=1589334883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 156.35828, -159.07207, -22.274073)
+metadata/distance = 464.0
+metadata/clearance = 1.447876
+
+[node name="Route_0468" type="Marker3D" parent="ReviewPoints" unique_id=1777496496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 160.3481, -158.90651, -22.39301)
+metadata/distance = 468.0
+metadata/clearance = 2.96286
+
+[node name="Route_0472" type="Marker3D" parent="ReviewPoints" unique_id=1679739367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 164.29324, -158.74815, -23.020336)
+metadata/distance = 472.0
+metadata/clearance = 2.707672
+
+[node name="Route_0476" type="Marker3D" parent="ReviewPoints" unique_id=1450392410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168.18538, -158.58838, -23.929333)
+metadata/distance = 476.0
+metadata/clearance = 2.1853333
+
+[node name="Route_0480" type="Marker3D" parent="ReviewPoints" unique_id=1173047088]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 172.02992, -158.43187, -25.023403)
+metadata/distance = 480.0
+metadata/clearance = 2.8952942
+
+[node name="Route_0484" type="Marker3D" parent="ReviewPoints" unique_id=1673639657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 175.82533, -158.28168, -26.27743)
+metadata/distance = 484.0
+metadata/clearance = 3.5980988
+
+[node name="Route_0488" type="Marker3D" parent="ReviewPoints" unique_id=813379811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 179.56212, -158.14142, -27.697903)
+metadata/distance = 488.0
+metadata/clearance = 2.290329
+
+[node name="Route_0492" type="Marker3D" parent="ReviewPoints" unique_id=2136071249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 183.21481, -158.0172, -29.323)
+metadata/distance = 492.0
+metadata/clearance = 3.8316803
+
+[node name="Route_0496" type="Marker3D" parent="ReviewPoints" unique_id=1645720549]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 186.71344, -157.92258, -31.256195)
+metadata/distance = 496.0
+metadata/clearance = 3.6208801
+
+[node name="Route_0500" type="Marker3D" parent="ReviewPoints" unique_id=36468377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 189.7354, -157.90727, -33.846195)
+metadata/distance = 500.0
+metadata/clearance = 4.2900543
+
+[node name="Route_0504" type="Marker3D" parent="ReviewPoints" unique_id=1439063671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 189.14848, -158.21907, -37.383408)
+metadata/distance = 504.0
+metadata/clearance = 4.389328
+
+[node name="Route_0508" type="Marker3D" parent="ReviewPoints" unique_id=113144639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 186.00749, -158.623, -39.820705)
+metadata/distance = 508.0
+metadata/clearance = 4.9145966
+
+[node name="Route_0512" type="Marker3D" parent="ReviewPoints" unique_id=118744700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 182.6041, -159.00786, -41.887566)
+metadata/distance = 512.0
+metadata/clearance = 4.338684
+
+[node name="Route_0516" type="Marker3D" parent="ReviewPoints" unique_id=1042890195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 179.20616, -159.37863, -43.96494)
+metadata/distance = 516.0
+metadata/clearance = 5.2770386
+
+[node name="Route_0520" type="Marker3D" parent="ReviewPoints" unique_id=380122256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 176.08891, -159.72803, -46.414845)
+metadata/distance = 520.0
+metadata/clearance = 4.881546
+
+[node name="Route_0524" type="Marker3D" parent="ReviewPoints" unique_id=2107382772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 175.19566, -159.91602, -50.007008)
+metadata/distance = 524.0
+metadata/clearance = 5.390503
+
+[node name="Route_0528" type="Marker3D" parent="ReviewPoints" unique_id=1959445931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 177.87868, -159.72244, -52.927666)
+metadata/distance = 528.0
+metadata/clearance = 5.2329254
+
+[node name="Route_0532" type="Marker3D" parent="ReviewPoints" unique_id=736050672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.22171, -159.42671, -55.09843)
+metadata/distance = 532.0
+metadata/clearance = 5.51355
+
+[node name="Route_0536" type="Marker3D" parent="ReviewPoints" unique_id=1383458345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 184.78398, -159.10307, -56.88726)
+metadata/distance = 536.0
+metadata/clearance = 5.703415
+
+[node name="Route_0540" type="Marker3D" parent="ReviewPoints" unique_id=91504751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 188.46623, -158.77351, -58.41367)
+metadata/distance = 540.0
+metadata/clearance = 5.5647125
+
+[node name="Route_0544" type="Marker3D" parent="ReviewPoints" unique_id=1690821126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192.23486, -158.45168, -59.714775)
+metadata/distance = 544.0
+metadata/clearance = 5.352951
+
+[node name="Route_0548" type="Marker3D" parent="ReviewPoints" unique_id=1623838039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 196.07947, -158.15417, -60.77281)
+metadata/distance = 548.0
+metadata/clearance = 6.1916046
+
+[node name="Route_0552" type="Marker3D" parent="ReviewPoints" unique_id=1765391669]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200.0091, -157.9196, -61.46369)
+metadata/distance = 552.0
+metadata/clearance = 5.275345
+
+[node name="Route_0556" type="Marker3D" parent="ReviewPoints" unique_id=1955371492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 204.00124, -157.78935, -61.52723)
+metadata/distance = 556.0
+metadata/clearance = 5.4774017
+
+[node name="Route_0560" type="Marker3D" parent="ReviewPoints" unique_id=217504582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 207.99854, -157.68869, -61.34332)
+metadata/distance = 560.0
+metadata/clearance = 5.558258
+
+[node name="Route_0564" type="Marker3D" parent="ReviewPoints" unique_id=1547292532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 211.9872, -157.5989, -61.058178)
+metadata/distance = 564.0
+metadata/clearance = 5.30571
+
+[node name="Route_0568" type="Marker3D" parent="ReviewPoints" unique_id=749771983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 215.97101, -157.51505, -60.70834)
+metadata/distance = 568.0
+metadata/clearance = 5.506012
+
+[node name="Route_0572" type="Marker3D" parent="ReviewPoints" unique_id=1826993430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 219.95029, -157.43472, -60.308453)
+metadata/distance = 572.0
+metadata/clearance = 5.3276367
+
+[node name="Route_0576" type="Marker3D" parent="ReviewPoints" unique_id=1061818997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 223.92487, -157.35664, -59.864616)
+metadata/distance = 576.0
+metadata/clearance = 5.3452606
+
+[node name="Route_0580" type="Marker3D" parent="ReviewPoints" unique_id=1538705577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 227.89456, -157.27975, -59.377815)
+metadata/distance = 580.0
+metadata/clearance = 5.0703125
+
+[node name="Route_0584" type="Marker3D" parent="ReviewPoints" unique_id=401740412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 231.85814, -157.20313, -58.844467)
+metadata/distance = 584.0
+metadata/clearance = 4.929291
+
+[node name="Route_0588" type="Marker3D" parent="ReviewPoints" unique_id=233000861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 235.81367, -157.1256, -58.254353)
+metadata/distance = 588.0
+metadata/clearance = 4.61644
+
+[node name="Route_0592" type="Marker3D" parent="ReviewPoints" unique_id=412971276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 239.7565, -157.04524, -57.582413)
+metadata/distance = 592.0
+metadata/clearance = 4.341568
+
+[node name="Route_0596" type="Marker3D" parent="ReviewPoints" unique_id=1376777516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 243.66986, -156.95656, -56.748676)
+metadata/distance = 596.0
+metadata/clearance = 4.699478
+
+[node name="Route_0600" type="Marker3D" parent="ReviewPoints" unique_id=1493581226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 247.4179, -156.84619, -55.385998)
+metadata/distance = 600.0
+metadata/clearance = 4.3814087
+
+[node name="Route_0604" type="Marker3D" parent="ReviewPoints" unique_id=1168087048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250.97375, -156.7347, -53.559746)
+metadata/distance = 604.0
+metadata/clearance = 4.6866913
+
+[node name="Route_0608" type="Marker3D" parent="ReviewPoints" unique_id=2065122658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 254.38194, -156.6188, -51.46993)
+metadata/distance = 608.0
+metadata/clearance = 4.0206757
+
+[node name="Route_0612" type="Marker3D" parent="ReviewPoints" unique_id=611998628]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 257.6321, -156.49356, -49.142593)
+metadata/distance = 612.0
+metadata/clearance = 4.0491486
+
+[node name="Route_0616" type="Marker3D" parent="ReviewPoints" unique_id=1147114854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 260.6661, -156.35268, -46.542053)
+metadata/distance = 616.0
+metadata/clearance = 4.110199
+
+[node name="Route_0620" type="Marker3D" parent="ReviewPoints" unique_id=860007757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 263.31693, -156.1842, -43.55821)
+metadata/distance = 620.0
+metadata/clearance = 4.3147736
+
+[node name="Route_0624" type="Marker3D" parent="ReviewPoints" unique_id=1213037161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 264.95792, -155.9606, -39.95794)
+metadata/distance = 624.0
+metadata/clearance = 4.597229
+
+[node name="Route_0628" type="Marker3D" parent="ReviewPoints" unique_id=279114015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 263.3738, -155.6962, -36.486923)
+metadata/distance = 628.0
+metadata/clearance = 4.969742
+
+[node name="Route_0632" type="Marker3D" parent="ReviewPoints" unique_id=1057126204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 259.94797, -155.50902, -34.49762)
+metadata/distance = 632.0
+metadata/clearance = 4.8955994
+
+[node name="Route_0636" type="Marker3D" parent="ReviewPoints" unique_id=1722564051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256.22278, -155.35936, -33.049656)
+metadata/distance = 636.0
+metadata/clearance = 4.863678
+
+[node name="Route_0640" type="Marker3D" parent="ReviewPoints" unique_id=1854334859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 252.44052, -155.2259, -31.75272)
+metadata/distance = 640.0
+metadata/clearance = 4.5477448
+
+[node name="Route_0644" type="Marker3D" parent="ReviewPoints" unique_id=1359802919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 248.70245, -155.09648, -30.337648)
+metadata/distance = 644.0
+metadata/clearance = 5.1910553
+
+[node name="Route_0648" type="Marker3D" parent="ReviewPoints" unique_id=1823556306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 245.3786, -154.95323, -28.177326)
+metadata/distance = 648.0
+metadata/clearance = 5.7878723
+
+[node name="Route_0652" type="Marker3D" parent="ReviewPoints" unique_id=728733376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 245.62167, -154.84587, -24.436674)
+metadata/distance = 652.0
+metadata/clearance = 5.6844635
+
+[node name="Route_0656" type="Marker3D" parent="ReviewPoints" unique_id=181668367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 248.30923, -154.84277, -21.495562)
+metadata/distance = 656.0
+metadata/clearance = 5.8229218
+
+[node name="Route_0660" type="Marker3D" parent="ReviewPoints" unique_id=1897056254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 251.5313, -154.86954, -19.127459)
+metadata/distance = 660.0
+metadata/clearance = 5.488327
+
+[node name="Route_0664" type="Marker3D" parent="ReviewPoints" unique_id=934797367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 254.97151, -154.90271, -17.085022)
+metadata/distance = 664.0
+metadata/clearance = 5.5058746
+
+[node name="Route_0668" type="Marker3D" parent="ReviewPoints" unique_id=1330360314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 258.55524, -154.91943, -15.330581)
+metadata/distance = 668.0
+metadata/clearance = 5.368347
+
+[node name="Route_0672" type="Marker3D" parent="ReviewPoints" unique_id=343433138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 262.4217, -154.9047, -14.2973385)
+metadata/distance = 672.0
+metadata/clearance = 5.48703
+
+[node name="Route_0676" type="Marker3D" parent="ReviewPoints" unique_id=1608962282]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 266.35138, -154.88696, -13.554582)
+metadata/distance = 676.0
+metadata/clearance = 5.4213867
+
+[node name="Route_0680" type="Marker3D" parent="ReviewPoints" unique_id=2121064769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 270.29654, -154.87274, -12.892007)
+metadata/distance = 680.0
+metadata/clearance = 6.1360016
+
+[node name="Route_0684" type="Marker3D" parent="ReviewPoints" unique_id=513367550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 274.2415, -154.86627, -12.228533)
+metadata/distance = 684.0
+metadata/clearance = 5.832123
+
+[node name="Route_0688" type="Marker3D" parent="ReviewPoints" unique_id=1629944777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 278.17148, -154.87463, -11.482753)
+metadata/distance = 688.0
+metadata/clearance = 6.4335175
+
+[node name="Route_0692" type="Marker3D" parent="ReviewPoints" unique_id=757662080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 282.03088, -154.92073, -10.44749)
+metadata/distance = 692.0
+metadata/clearance = 7.115326
+
+[node name="Route_0696" type="Marker3D" parent="ReviewPoints" unique_id=983358541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 285.4704, -155.05035, -8.43101)
+metadata/distance = 696.0
+metadata/clearance = 6.9956055
+
+[node name="Route_0700" type="Marker3D" parent="ReviewPoints" unique_id=268196190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 288.62616, -155.21698, -5.979765)
+metadata/distance = 700.0
+metadata/clearance = 7.293442
+
+[node name="Route_0704" type="Marker3D" parent="ReviewPoints" unique_id=693353477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 291.75003, -155.40411, -3.4877927)
+metadata/distance = 704.0
+metadata/clearance = 7.4805756
+
+[node name="Route_0708" type="Marker3D" parent="ReviewPoints" unique_id=1542237855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 295.02112, -155.61163, -1.1964073)
+metadata/distance = 708.0
+metadata/clearance = 6.665985
+
+[node name="Route_0712" type="Marker3D" parent="ReviewPoints" unique_id=2129755522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 298.71988, -155.84523, 0.20564778)
+metadata/distance = 712.0
+metadata/clearance = 6.901428
+
+[node name="Route_0716" type="Marker3D" parent="ReviewPoints" unique_id=1696712537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 301.32248, -156.01082, -2.1771026)
+metadata/distance = 716.0
+metadata/clearance = 5.7612762
+
+[node name="Route_0720" type="Marker3D" parent="ReviewPoints" unique_id=890883407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300.89383, -156.02362, -6.142933)
+metadata/distance = 720.0
+metadata/clearance = 4.471756
+
+[node name="Route_0724" type="Marker3D" parent="ReviewPoints" unique_id=1756652263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.95554, -155.99635, -10.031841)
+metadata/distance = 724.0
+metadata/clearance = 3.7056885
+
+[node name="Route_0728" type="Marker3D" parent="ReviewPoints" unique_id=1671896394]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.1867, -155.9551, -13.956722)
+metadata/distance = 728.0
+metadata/clearance = 3.337265
+
+[node name="Route_0732" type="Marker3D" parent="ReviewPoints" unique_id=1411472371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.81668, -155.9203, -17.802835)
+metadata/distance = 732.0
+metadata/clearance = 2.8181763
+
+[node name="Route_0736" type="Marker3D" parent="ReviewPoints" unique_id=1926446228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 303.29385, -155.92, -19.686308)
+metadata/distance = 736.0
+metadata/clearance = 2.803894
+
+[node name="Route_0740" type="Marker3D" parent="ReviewPoints" unique_id=1836637691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 307.21872, -155.92, -20.426167)
+metadata/distance = 740.0
+metadata/clearance = 2.944336
+
+[node name="Route_0744" type="Marker3D" parent="ReviewPoints" unique_id=2033735635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 311.21426, -155.92, -20.514349)
+metadata/distance = 744.0
+metadata/clearance = 3.1370544
+
+[node name="Route_0748" type="Marker3D" parent="ReviewPoints" unique_id=976668788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 315.16757, -155.92, -19.939722)
+metadata/distance = 748.0
+metadata/clearance = 2.7343597
+
+[node name="Route_0752" type="Marker3D" parent="ReviewPoints" unique_id=154642496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 318.75095, -155.92, -18.241821)
+metadata/distance = 752.0
+metadata/clearance = 2.781479
+
+[node name="Route_0756" type="Marker3D" parent="ReviewPoints" unique_id=1901774567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 319.92487, -155.92, -14.563261)
+metadata/distance = 756.0
+metadata/clearance = 3.0942993
+
+[node name="Route_0760" type="Marker3D" parent="ReviewPoints" unique_id=193731941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 319.3822, -155.92, -10.603372)
+metadata/distance = 760.0
+metadata/clearance = 2.5765839
+
+[node name="Route_0764" type="Marker3D" parent="ReviewPoints" unique_id=1161687570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 318.5328, -155.92, -6.6943665)
+metadata/distance = 764.0
+metadata/clearance = 2.687317
+
+[node name="Route_0768" type="Marker3D" parent="ReviewPoints" unique_id=241455286]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 317.8722, -155.92, -2.7598867)
+metadata/distance = 768.0
+metadata/clearance = 2.7967682
+
+[node name="Route_0772" type="Marker3D" parent="ReviewPoints" unique_id=1955496835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 318.34436, -155.92, 1.1688694)
+metadata/distance = 772.0
+metadata/clearance = 2.7883759
+
+[node name="Route_0776" type="Marker3D" parent="ReviewPoints" unique_id=1751241362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 321.6843, -155.92, 3.1116962)
+metadata/distance = 776.0
+metadata/clearance = 2.506775
+
+[node name="Route_0780" type="Marker3D" parent="ReviewPoints" unique_id=217587874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 325.66116, -155.92, 3.5038378)
+metadata/distance = 780.0
+metadata/clearance = 2.648819
+
+[node name="Route_0784" type="Marker3D" parent="ReviewPoints" unique_id=221112917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 329.6598, -155.92, 3.434588)
+metadata/distance = 784.0
+metadata/clearance = 2.5478668
+
+[node name="Route_0788" type="Marker3D" parent="ReviewPoints" unique_id=1619417025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 333.64862, -155.92, 3.1284778)
+metadata/distance = 788.0
+metadata/clearance = 2.6176605
+
+[node name="Route_0792" type="Marker3D" parent="ReviewPoints" unique_id=1601247162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 337.62238, -155.92, 2.665162)
+metadata/distance = 792.0
+metadata/clearance = 2.6054382
+
+[node name="Route_0796" type="Marker3D" parent="ReviewPoints" unique_id=539252326]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 341.59927, -155.92, 2.068754)
+metadata/distance = 796.0
+metadata/clearance = 2.6125336
+
+[node name="CaveArrival" type="Marker3D" parent="." unique_id=1004308857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -161.9, -21)
+
+[node name="Lair" type="Marker3D" parent="." unique_id=223697905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 292.89096, -155.45567, -2.6294317)
+
+[node name="ExitBeforeScreen" type="Marker3D" parent="." unique_id=719842216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300.92783, -155.9, -18.688913)
+
+[node name="ExitThreshold" type="Marker3D" parent="." unique_id=985593322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 342.00003, -155.9, 1.9999998)
+
+[node name="ContinuousGeology" type="Node3D" parent="." unique_id=2042177430]
+
+[node name="rock_-3_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=920441938]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-9_-2" unique_id=1922572288]
+mesh = ExtResource("1_v5ut0")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-9_-2" unique_id=1538618301]
+shape = ExtResource("2_a6dnr")
+
+[node name="rock_-3_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1457009644]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-9_-1" unique_id=100165489]
+mesh = ExtResource("3_ce7gf")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-9_-1" unique_id=493293809]
+shape = ExtResource("4_o1us1")
+
+[node name="rock_-3_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1134168816]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-8_-2" unique_id=1223137911]
+mesh = ExtResource("5_6prff")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-8_-2" unique_id=1506453379]
+shape = ExtResource("6_cuyxs")
+
+[node name="rock_-3_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=742028354]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-8_-1" unique_id=1557998446]
+mesh = ExtResource("7_rpj4d")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-8_-1" unique_id=425124537]
+shape = ExtResource("8_d1qg0")
+
+[node name="rock_-3_-7_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=33398548]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-7_-2" unique_id=1929560325]
+mesh = ExtResource("9_034b3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-7_-2" unique_id=1217453780]
+shape = ExtResource("10_1jy3y")
+
+[node name="rock_-3_-7_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1897127744]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-7_-1" unique_id=982618747]
+mesh = ExtResource("11_lx6p0")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-7_-1" unique_id=998434063]
+shape = ExtResource("12_oqdsi")
+
+[node name="rock_-3_-6_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1077242059]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-6_-2" unique_id=2002961077]
+mesh = ExtResource("13_hloke")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-6_-2" unique_id=1724475904]
+shape = ExtResource("14_idml8")
+
+[node name="rock_-3_-6_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1014901293]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-6_-1" unique_id=866036584]
+mesh = ExtResource("15_nry0u")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-6_-1" unique_id=633499195]
+shape = ExtResource("16_g3hm6")
+
+[node name="rock_-3_-5_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1674135971]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-5_-2" unique_id=885219356]
+mesh = ExtResource("17_7iest")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-5_-2" unique_id=360250457]
+shape = ExtResource("18_gf07j")
+
+[node name="rock_-3_-5_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=149771849]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-3_-5_-1" unique_id=993808136]
+mesh = ExtResource("19_x8fyl")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-3_-5_-1" unique_id=92025003]
+shape = ExtResource("20_elt4a")
+
+[node name="rock_-2_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=325255145]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-9_-5" unique_id=706437369]
+mesh = ExtResource("21_8jky3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-9_-5" unique_id=319076657]
+shape = ExtResource("22_8srt8")
+
+[node name="rock_-2_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=1703795908]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-9_-4" unique_id=2057670428]
+mesh = ExtResource("23_1q66o")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-9_-4" unique_id=1533279806]
+shape = ExtResource("24_ri2wm")
+
+[node name="rock_-2_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1545735569]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-9_-2" unique_id=345944569]
+mesh = ExtResource("25_6g4nd")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-9_-2" unique_id=611003541]
+shape = ExtResource("26_mf6xd")
+
+[node name="rock_-2_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=18613260]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-9_-1" unique_id=1923642387]
+mesh = ExtResource("27_oobjv")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-9_-1" unique_id=194786597]
+shape = ExtResource("28_tkmjh")
+
+[node name="rock_-2_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=906229611]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-8_-2" unique_id=1272390417]
+mesh = ExtResource("29_rv7n7")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-8_-2" unique_id=803924568]
+shape = ExtResource("30_kggg6")
+
+[node name="rock_-2_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1535383365]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-8_-1" unique_id=45316045]
+mesh = ExtResource("31_rj84m")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-8_-1" unique_id=914611064]
+shape = ExtResource("32_e32f0")
+
+[node name="rock_-2_-7_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1204547718]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-7_-2" unique_id=310016424]
+mesh = ExtResource("33_ksv54")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-7_-2" unique_id=1916764097]
+shape = ExtResource("34_gyhxk")
+
+[node name="rock_-2_-7_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1569925159]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-7_-1" unique_id=738239550]
+mesh = ExtResource("35_u4cji")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-7_-1" unique_id=950622746]
+shape = ExtResource("36_x41a0")
+
+[node name="rock_-2_-6_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=142087579]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-6_-2" unique_id=2059014438]
+mesh = ExtResource("37_l2wjm")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-6_-2" unique_id=1420817024]
+shape = ExtResource("38_vnvl5")
+
+[node name="rock_-2_-6_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=845760156]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-6_-1" unique_id=1431226790]
+mesh = ExtResource("39_yag0o")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-6_-1" unique_id=122884400]
+shape = ExtResource("40_4c5p8")
+
+[node name="rock_-2_-5_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1288218673]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-5_-2" unique_id=862988510]
+mesh = ExtResource("41_1clyo")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-5_-2" unique_id=1302598388]
+shape = ExtResource("42_xvryv")
+
+[node name="rock_-2_-5_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=112936817]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-2_-5_-1" unique_id=742230075]
+mesh = ExtResource("43_5ijmd")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-2_-5_-1" unique_id=1898718685]
+shape = ExtResource("44_3mlsv")
+
+[node name="rock_-1_-9_-6" type="StaticBody3D" parent="ContinuousGeology" unique_id=1692313640]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-1_-9_-6" unique_id=1877210132]
+mesh = ExtResource("45_lw683")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-1_-9_-6" unique_id=2111580859]
+shape = ExtResource("46_d4w0o")
+
+[node name="rock_-1_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=1271616045]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-1_-9_-5" unique_id=1808759446]
+mesh = ExtResource("47_g3q5c")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-1_-9_-5" unique_id=73759059]
+shape = ExtResource("48_edfje")
+
+[node name="rock_-1_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=2059873950]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-1_-9_-4" unique_id=187995981]
+mesh = ExtResource("49_b6hxm")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-1_-9_-4" unique_id=471137625]
+shape = ExtResource("50_k36dd")
+
+[node name="rock_-1_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1674959731]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-1_-9_-2" unique_id=86904636]
+mesh = ExtResource("51_43580")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-1_-9_-2" unique_id=2104648130]
+shape = ExtResource("52_vcaxm")
+
+[node name="rock_-1_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1001455945]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_-1_-9_-1" unique_id=1342755601]
+mesh = ExtResource("53_p5p1d")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_-1_-9_-1" unique_id=347352510]
+shape = ExtResource("54_3pxul")
+
+[node name="rock_0_-9_-6" type="StaticBody3D" parent="ContinuousGeology" unique_id=1524197239]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-6" unique_id=1318126907]
+mesh = ExtResource("55_sfx0p")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-6" unique_id=235294628]
+shape = ExtResource("56_010tt")
+
+[node name="rock_0_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=1877117889]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-5" unique_id=1235085040]
+mesh = ExtResource("57_7e6bs")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-5" unique_id=744948935]
+shape = ExtResource("58_8vy2v")
+
+[node name="rock_0_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=226994128]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-4" unique_id=953389574]
+mesh = ExtResource("59_8iriv")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-4" unique_id=601201601]
+shape = ExtResource("60_wbgeg")
+
+[node name="rock_0_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=2007587563]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-3" unique_id=1518703779]
+mesh = ExtResource("61_vctqc")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-3" unique_id=748432691]
+shape = ExtResource("62_ia873")
+
+[node name="rock_0_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=275682085]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-2" unique_id=1093644329]
+mesh = ExtResource("63_yi50o")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-2" unique_id=1598818520]
+shape = ExtResource("64_oldfc")
+
+[node name="rock_0_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1116803166]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_0_-9_-1" unique_id=1971902682]
+mesh = ExtResource("65_qc5hn")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_0_-9_-1" unique_id=589104124]
+shape = ExtResource("66_orhym")
+
+[node name="rock_1_-9_-6" type="StaticBody3D" parent="ContinuousGeology" unique_id=1798388787]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-6" unique_id=471766499]
+mesh = ExtResource("67_app2c")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-6" unique_id=849905100]
+shape = ExtResource("68_5dq8w")
+
+[node name="rock_1_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=1638508815]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-5" unique_id=715134000]
+mesh = ExtResource("69_juwon")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-5" unique_id=1690128595]
+shape = ExtResource("70_qnx7i")
+
+[node name="rock_1_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=951194281]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-4" unique_id=973761503]
+mesh = ExtResource("71_ujc2r")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-4" unique_id=1411840673]
+shape = ExtResource("72_y38bs")
+
+[node name="rock_1_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=21902391]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-3" unique_id=354174118]
+mesh = ExtResource("73_f3xqt")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-3" unique_id=418023214]
+shape = ExtResource("74_y4j3w")
+
+[node name="rock_1_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1811017312]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-2" unique_id=1599097663]
+mesh = ExtResource("75_yjuec")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-2" unique_id=947917260]
+shape = ExtResource("76_gebjj")
+
+[node name="rock_1_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1532501618]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_1_-9_-1" unique_id=2024392665]
+mesh = ExtResource("77_1gmwk")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_1_-9_-1" unique_id=1361380874]
+shape = ExtResource("78_grphx")
+
+[node name="rock_2_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=1151763615]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_2_-9_-5" unique_id=269352416]
+mesh = ExtResource("79_5wad5")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_2_-9_-5" unique_id=2070404691]
+shape = ExtResource("80_uatd6")
+
+[node name="rock_2_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=1830497450]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_2_-9_-4" unique_id=1626176345]
+mesh = ExtResource("81_5nbwv")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_2_-9_-4" unique_id=1490217973]
+shape = ExtResource("82_0ds7p")
+
+[node name="rock_2_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1854479432]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_2_-9_-3" unique_id=1632153720]
+mesh = ExtResource("83_yawhm")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_2_-9_-3" unique_id=229178518]
+shape = ExtResource("84_hm805")
+
+[node name="rock_2_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=891481180]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_2_-9_-2" unique_id=1710255177]
+mesh = ExtResource("85_wvojl")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_2_-9_-2" unique_id=742314694]
+shape = ExtResource("86_jsyee")
+
+[node name="rock_3_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=314153888]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_3_-9_-5" unique_id=758600621]
+mesh = ExtResource("87_w8rfb")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_3_-9_-5" unique_id=1979605317]
+shape = ExtResource("88_lvfd4")
+
+[node name="rock_3_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=180037497]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_3_-9_-3" unique_id=260475087]
+mesh = ExtResource("89_1hglt")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_3_-9_-3" unique_id=495506329]
+shape = ExtResource("90_307aa")
+
+[node name="rock_3_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=354633036]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_3_-9_-2" unique_id=1817828110]
+mesh = ExtResource("91_2i2oh")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_3_-9_-2" unique_id=135547145]
+shape = ExtResource("92_gd8ux")
+
+[node name="rock_4_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=1277999279]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_4_-9_-5" unique_id=2059475168]
+mesh = ExtResource("93_lwtc3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_4_-9_-5" unique_id=572947361]
+shape = ExtResource("94_nd6q2")
+
+[node name="rock_4_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=737619019]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_4_-9_-4" unique_id=252034098]
+mesh = ExtResource("95_oumtr")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_4_-9_-4" unique_id=534098327]
+shape = ExtResource("96_svfsq")
+
+[node name="rock_4_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1714885151]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_4_-9_-3" unique_id=494712728]
+mesh = ExtResource("97_p70ws")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_4_-9_-3" unique_id=1392944081]
+shape = ExtResource("98_0benh")
+
+[node name="rock_4_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1967025440]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_4_-9_-2" unique_id=600865305]
+mesh = ExtResource("99_e7le2")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_4_-9_-2" unique_id=1941984743]
+shape = ExtResource("100_a4j2w")
+
+[node name="rock_5_-9_-5" type="StaticBody3D" parent="ContinuousGeology" unique_id=435602245]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_5_-9_-5" unique_id=1420090907]
+mesh = ExtResource("101_8txlt")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_5_-9_-5" unique_id=505353152]
+shape = ExtResource("102_stxdb")
+
+[node name="rock_5_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=480203076]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_5_-9_-4" unique_id=459783029]
+mesh = ExtResource("103_iiut3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_5_-9_-4" unique_id=1516810710]
+shape = ExtResource("104_ik5wa")
+
+[node name="rock_5_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1538132499]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_5_-9_-3" unique_id=123026749]
+mesh = ExtResource("105_7466u")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_5_-9_-3" unique_id=1476041047]
+shape = ExtResource("106_jlhmq")
+
+[node name="rock_5_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1605731514]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_5_-9_-2" unique_id=348426285]
+mesh = ExtResource("107_b4vlt")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_5_-9_-2" unique_id=91252089]
+shape = ExtResource("108_pcbgq")
+
+[node name="rock_6_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=24204063]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_6_-9_-2" unique_id=2144143772]
+mesh = ExtResource("109_7gaur")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_6_-9_-2" unique_id=1386917659]
+shape = ExtResource("110_d04ug")
+
+[node name="rock_7_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=98087874]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_7_-9_-2" unique_id=1444592828]
+mesh = ExtResource("111_87wl5")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_7_-9_-2" unique_id=244826672]
+shape = ExtResource("112_w1cah")
+
+[node name="rock_8_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1929254354]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_8_-9_-3" unique_id=1252100528]
+mesh = ExtResource("115_ma14d")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_8_-9_-3" unique_id=772684520]
+shape = ExtResource("116_4k0l1")
+
+[node name="rock_8_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=111087960]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_8_-9_-2" unique_id=1851070835]
+mesh = ExtResource("117_6abip")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_8_-9_-2" unique_id=1919464559]
+shape = ExtResource("118_2u822")
+
+[node name="rock_8_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1451387313]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_8_-8_-3" unique_id=910656568]
+mesh = ExtResource("119_p0wsj")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_8_-8_-3" unique_id=510927877]
+shape = ExtResource("120_k1v7p")
+
+[node name="rock_9_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=1852139018]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_9_-9_-4" unique_id=1574323466]
+mesh = ExtResource("121_qjmxb")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_9_-9_-4" unique_id=62844899]
+shape = ExtResource("122_bec75")
+
+[node name="rock_9_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=684858764]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_9_-9_-3" unique_id=1098219604]
+mesh = ExtResource("123_olupl")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_9_-9_-3" unique_id=1467915863]
+shape = ExtResource("124_lxpv5")
+
+[node name="rock_9_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=564682449]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_9_-9_-2" unique_id=2094773579]
+mesh = ExtResource("125_x4sc2")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_9_-9_-2" unique_id=431150565]
+shape = ExtResource("126_flk30")
+
+[node name="rock_9_-8_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=2085394634]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_9_-8_-4" unique_id=293555071]
+mesh = ExtResource("127_fjsv2")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_9_-8_-4" unique_id=1998239451]
+shape = ExtResource("128_4in2g")
+
+[node name="rock_9_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=2135878317]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_9_-8_-3" unique_id=907188617]
+mesh = ExtResource("129_03hp6")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_9_-8_-3" unique_id=874032932]
+shape = ExtResource("130_wuw8b")
+
+[node name="rock_10_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=980694755]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_10_-9_-4" unique_id=1733671827]
+mesh = ExtResource("131_43dwj")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_10_-9_-4" unique_id=939753847]
+shape = ExtResource("132_nic35")
+
+[node name="rock_10_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1163793635]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_10_-9_-3" unique_id=1255004050]
+mesh = ExtResource("133_14dr3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_10_-9_-3" unique_id=2126897474]
+shape = ExtResource("134_qsjm6")
+
+[node name="rock_10_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=254452968]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_10_-9_-2" unique_id=5230765]
+mesh = ExtResource("135_lrpf1")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_10_-9_-2" unique_id=463295165]
+shape = ExtResource("136_vsok6")
+
+[node name="rock_10_-8_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=1552392387]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_10_-8_-4" unique_id=2120184901]
+mesh = ExtResource("137_axulb")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_10_-8_-4" unique_id=530976112]
+shape = ExtResource("138_l7irx")
+
+[node name="rock_11_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=1207881124]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_11_-9_-4" unique_id=11843793]
+mesh = ExtResource("139_0p3n2")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_11_-9_-4" unique_id=571107298]
+shape = ExtResource("140_1xr24")
+
+[node name="rock_11_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=915548969]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_11_-9_-3" unique_id=1875339955]
+mesh = ExtResource("141_jmd10")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_11_-9_-3" unique_id=2082612987]
+shape = ExtResource("142_qkiuq")
+
+[node name="rock_11_-8_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=724142307]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_11_-8_-4" unique_id=1734886005]
+mesh = ExtResource("143_6yxnl")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_11_-8_-4" unique_id=1901519444]
+shape = ExtResource("144_jnp11")
+
+[node name="rock_11_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=372915250]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_11_-8_-3" unique_id=72473873]
+mesh = ExtResource("145_6krj8")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_11_-8_-3" unique_id=1109241468]
+shape = ExtResource("146_6yxwx")
+
+[node name="rock_12_-9_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=154559709]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-9_-4" unique_id=130830631]
+mesh = ExtResource("147_x045m")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-9_-4" unique_id=955419561]
+shape = ExtResource("148_df74c")
+
+[node name="rock_12_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1617869206]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-9_-3" unique_id=724772001]
+mesh = ExtResource("149_ia3u8")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-9_-3" unique_id=1396081730]
+shape = ExtResource("150_6bfyh")
+
+[node name="rock_12_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=626763708]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-9_-2" unique_id=303017253]
+mesh = ExtResource("151_yex5o")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-9_-2" unique_id=233797462]
+shape = ExtResource("152_tn8w2")
+
+[node name="rock_12_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=724876277]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-9_-1" unique_id=1252115758]
+mesh = ExtResource("153_fmcx7")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-9_-1" unique_id=600155471]
+shape = ExtResource("154_g8h8b")
+
+[node name="rock_12_-8_-4" type="StaticBody3D" parent="ContinuousGeology" unique_id=78734978]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-8_-4" unique_id=1755441750]
+mesh = ExtResource("155_4mjv8")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-8_-4" unique_id=500142877]
+shape = ExtResource("156_jjgxr")
+
+[node name="rock_12_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1235808865]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-8_-3" unique_id=1377556380]
+mesh = ExtResource("157_kfaws")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-8_-3" unique_id=396249205]
+shape = ExtResource("158_qr2ua")
+
+[node name="rock_12_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1187237519]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-8_-2" unique_id=45861648]
+mesh = ExtResource("159_0v5dj")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-8_-2" unique_id=337373605]
+shape = ExtResource("160_tku22")
+
+[node name="rock_12_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1540433550]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_12_-8_-1" unique_id=767476730]
+mesh = ExtResource("161_0b1on")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_12_-8_-1" unique_id=531770524]
+shape = ExtResource("162_famfo")
+
+[node name="rock_13_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=544002767]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-9_-3" unique_id=1595109527]
+mesh = ExtResource("163_i672k")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-9_-3" unique_id=1270560641]
+shape = ExtResource("164_n20h7")
+
+[node name="rock_13_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=725300979]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-9_-2" unique_id=1590358494]
+mesh = ExtResource("165_etvy7")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-9_-2" unique_id=1183025638]
+shape = ExtResource("166_qiphb")
+
+[node name="rock_13_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1530059797]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-9_-1" unique_id=453442439]
+mesh = ExtResource("167_ddkxp")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-9_-1" unique_id=192417663]
+shape = ExtResource("168_5c82i")
+
+[node name="rock_13_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1969794346]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-8_-3" unique_id=1899460334]
+mesh = ExtResource("169_2qmqk")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-8_-3" unique_id=1694595660]
+shape = ExtResource("170_mmi6b")
+
+[node name="rock_13_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=273975435]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-8_-2" unique_id=1806487558]
+mesh = ExtResource("171_asq3j")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-8_-2" unique_id=226079069]
+shape = ExtResource("172_iml8w")
+
+[node name="rock_13_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1177193505]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_13_-8_-1" unique_id=727289599]
+mesh = ExtResource("173_g51pi")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_13_-8_-1" unique_id=1716138865]
+shape = ExtResource("174_ldgh0")
+
+[node name="rock_14_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1458112896]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_14_-9_-1" unique_id=1876679662]
+mesh = ExtResource("175_m5xl1")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_14_-9_-1" unique_id=490761253]
+shape = ExtResource("176_m6itd")
+
+[node name="rock_14_-9_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=1490229743]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_14_-9_0" unique_id=938825670]
+mesh = ExtResource("177_ljcv5")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_14_-9_0" unique_id=604903174]
+shape = ExtResource("178_ppme0")
+
+[node name="rock_14_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=857577230]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_14_-8_-1" unique_id=95493032]
+mesh = ExtResource("179_ydbpf")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_14_-8_-1" unique_id=2106259050]
+shape = ExtResource("180_aylk0")
+
+[node name="rock_14_-8_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=2017725908]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_14_-8_0" unique_id=16972379]
+mesh = ExtResource("181_vgu4f")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_14_-8_0" unique_id=853418972]
+shape = ExtResource("182_ur1c5")
+
+[node name="rock_15_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1732037886]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-9_-3" unique_id=1496524037]
+mesh = ExtResource("181_ce7gf")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-9_-3" unique_id=1539267738]
+shape = ExtResource("182_o1us1")
+
+[node name="rock_15_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1691233556]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-9_-2" unique_id=1986544249]
+mesh = ExtResource("183_imjpe")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-9_-2" unique_id=1963880633]
+shape = ExtResource("184_27t6w")
+
+[node name="rock_15_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=210367811]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-9_-1" unique_id=306152553]
+mesh = ExtResource("185_cbj7u")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-9_-1" unique_id=547775369]
+shape = ExtResource("186_7n2ff")
+
+[node name="rock_15_-9_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=1555170554]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-9_0" unique_id=809079263]
+mesh = ExtResource("187_yeecx")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-9_0" unique_id=1018570128]
+shape = ExtResource("188_htwaj")
+
+[node name="rock_15_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1637284188]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-8_-3" unique_id=444758629]
+mesh = ExtResource("189_6prff")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-8_-3" unique_id=1104913620]
+shape = ExtResource("190_cuyxs")
+
+[node name="rock_15_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1068852877]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-8_-2" unique_id=794170256]
+mesh = ExtResource("189_a7o1a")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-8_-2" unique_id=961387580]
+shape = ExtResource("190_30uch")
+
+[node name="rock_15_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=193324886]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-8_-1" unique_id=1751728990]
+mesh = ExtResource("191_aj67e")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-8_-1" unique_id=1778862752]
+shape = ExtResource("192_xh0lp")
+
+[node name="rock_15_-8_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=389657196]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-8_0" unique_id=842509048]
+mesh = ExtResource("193_wpw6p")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-8_0" unique_id=1553546675]
+shape = ExtResource("194_2f2b1")
+
+[node name="rock_15_-8_1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1218745072]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_15_-8_1" unique_id=1525042616]
+mesh = ExtResource("197_rpj4d")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_15_-8_1" unique_id=1145436406]
+shape = ExtResource("198_d1qg0")
+
+[node name="rock_16_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=539193572]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-9_-3" unique_id=1433381855]
+mesh = ExtResource("199_034b3")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-9_-3" unique_id=1545906360]
+shape = ExtResource("200_1jy3y")
+
+[node name="rock_16_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1429431127]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-9_-2" unique_id=1126669790]
+mesh = ExtResource("195_uw2ub")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-9_-2" unique_id=986674689]
+shape = ExtResource("196_vydk2")
+
+[node name="rock_16_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=45750266]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-9_-1" unique_id=2139059985]
+mesh = ExtResource("197_orrte")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-9_-1" unique_id=343543411]
+shape = ExtResource("198_20ts4")
+
+[node name="rock_16_-9_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=858336911]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-9_0" unique_id=930510450]
+mesh = ExtResource("199_4dy3m")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-9_0" unique_id=367505213]
+shape = ExtResource("200_l2l8o")
+
+[node name="rock_16_-9_1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1836524872]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-9_1" unique_id=350092311]
+mesh = ExtResource("201_g4thw")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-9_1" unique_id=1101686950]
+shape = ExtResource("202_2evud")
+
+[node name="rock_16_-8_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=887891529]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-8_-3" unique_id=170038051]
+mesh = ExtResource("209_lx6p0")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-8_-3" unique_id=1474035261]
+shape = ExtResource("210_oqdsi")
+
+[node name="rock_16_-8_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1455274898]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-8_-2" unique_id=2116472679]
+mesh = ExtResource("203_ciqgb")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-8_-2" unique_id=898635935]
+shape = ExtResource("204_qamp4")
+
+[node name="rock_16_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1698117840]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-8_-1" unique_id=1832565336]
+mesh = ExtResource("205_dujvi")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-8_-1" unique_id=267088285]
+shape = ExtResource("206_npkrl")
+
+[node name="rock_16_-8_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=965678416]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-8_0" unique_id=1545930696]
+mesh = ExtResource("207_h12b4")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-8_0" unique_id=169663308]
+shape = ExtResource("208_3y6xa")
+
+[node name="rock_16_-8_1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1588740839]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_16_-8_1" unique_id=134927082]
+mesh = ExtResource("209_s43sh")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_16_-8_1" unique_id=474968877]
+shape = ExtResource("210_0brkn")
+
+[node name="rock_17_-9_-3" type="StaticBody3D" parent="ContinuousGeology" unique_id=1332383323]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-9_-3" unique_id=576525340]
+mesh = ExtResource("219_hloke")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-9_-3" unique_id=1168556967]
+shape = ExtResource("220_idml8")
+
+[node name="rock_17_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=799228591]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-9_-2" unique_id=680272034]
+mesh = ExtResource("211_4pp31")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-9_-2" unique_id=615623829]
+shape = ExtResource("212_j7o4n")
+
+[node name="rock_17_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=536247085]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-9_-1" unique_id=1870205427]
+mesh = ExtResource("213_0mi5t")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-9_-1" unique_id=1341400835]
+shape = ExtResource("214_jywwc")
+
+[node name="rock_17_-9_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=1066029432]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-9_0" unique_id=1344690833]
+mesh = ExtResource("215_svx20")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-9_0" unique_id=874963145]
+shape = ExtResource("216_60g0q")
+
+[node name="rock_17_-9_1" type="StaticBody3D" parent="ContinuousGeology" unique_id=973520474]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-9_1" unique_id=1090363660]
+mesh = ExtResource("217_7wotl")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-9_1" unique_id=1183991095]
+shape = ExtResource("218_lb0fr")
+
+[node name="rock_17_-8_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1981846661]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-8_-1" unique_id=648571595]
+mesh = ExtResource("221_jvoxw")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-8_-1" unique_id=1153792704]
+shape = ExtResource("222_sdj1t")
+
+[node name="rock_17_-8_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=1467945026]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_17_-8_0" unique_id=1979852754]
+mesh = ExtResource("223_uv7xv")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_17_-8_0" unique_id=425460480]
+shape = ExtResource("224_qoxsd")
+
+[node name="rock_18_-9_-2" type="StaticBody3D" parent="ContinuousGeology" unique_id=1086727649]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_18_-9_-2" unique_id=2023973125]
+mesh = ExtResource("227_2dlbg")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_18_-9_-2" unique_id=1753944013]
+shape = ExtResource("228_bc44a")
+
+[node name="rock_18_-9_-1" type="StaticBody3D" parent="ContinuousGeology" unique_id=973103140]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_18_-9_-1" unique_id=162322250]
+mesh = ExtResource("229_s54fh")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_18_-9_-1" unique_id=1811732693]
+shape = ExtResource("230_nneww")
+
+[node name="rock_18_-9_0" type="StaticBody3D" parent="ContinuousGeology" unique_id=1486815064]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_18_-9_0" unique_id=926168567]
+mesh = ExtResource("231_x1xr4")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_18_-9_0" unique_id=911787590]
+shape = ExtResource("232_ywger")
+
+[node name="rock_18_-9_1" type="StaticBody3D" parent="ContinuousGeology" unique_id=1767291110]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="ContinuousGeology/rock_18_-9_1" unique_id=23297760]
+mesh = ExtResource("233_w53yx")
+
+[node name="SolidRock" type="CollisionShape3D" parent="ContinuousGeology/rock_18_-9_1" unique_id=246469253]
+shape = ExtResource("234_c04xa")
