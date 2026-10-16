@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_cables_straight.res" id="1_gjf36"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_cables_straight.res" id="2_35dgb"]
+
+[node name="TopCablesStraight" type="Node3D" unique_id=1491074405]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+metadata/quaternius_source_models = ["TopCables_Straight"]
+metadata/recommended_zone = "technical"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1260189812]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, -5, 2)
+
+[node name="TopCables_Straight" type="MeshInstance3D" parent="Visual" unique_id=486967383]
+mesh = ExtResource("1_gjf36")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1318871174]
+collision_mask = 0
+
+[node name="TopCables_Straight" type="CollisionShape3D" parent="StaticCollision" unique_id=693920466]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, -5, 2)
+shape = ExtResource("2_35dgb")

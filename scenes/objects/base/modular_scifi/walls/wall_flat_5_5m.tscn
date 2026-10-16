@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight_flat.res" id="1_hth5f"]
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_simple_straight.res" id="2_to75t"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight_flat.res" id="3_bsch6"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_simple_straight.res" id="4_aw4fq"]
+
+[node name="WallFlat55m" type="Node3D" unique_id=1296271967]
+editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+metadata/quaternius_source_models = ["WallAstra_Straight_Flat", "TopSimple_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=309123745]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1.1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+
+[node name="WallAstra_Straight_Flat" type="MeshInstance3D" parent="Visual" unique_id=1915250275]
+mesh = ExtResource("1_hth5f")
+
+[node name="TopSimple_Straight" type="MeshInstance3D" parent="Visual" unique_id=544538217]
+mesh = ExtResource("2_to75t")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1358938797]
+collision_mask = 0
+
+[node name="WallAstra_Straight_Flat" type="CollisionShape3D" parent="StaticCollision" unique_id=2114294851]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1.1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+shape = ExtResource("3_bsch6")
+
+[node name="TopSimple_Straight" type="CollisionShape3D" parent="StaticCollision" unique_id=1840253040]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1.1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+shape = ExtResource("4_aw4fq")

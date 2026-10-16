@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/bottom_simple_straight.res" id="1_0q6o8"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/bottom_simple_straight.res" id="2_x8j08"]
+
+[node name="BottomSimpleStraight" type="Node3D" unique_id=1779460590]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+metadata/quaternius_source_models = ["BottomSimple_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=879131874]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+
+[node name="BottomSimple_Straight" type="MeshInstance3D" parent="Visual" unique_id=920730453]
+mesh = ExtResource("1_0q6o8")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1552298131]
+collision_mask = 0
+
+[node name="BottomSimple_Straight" type="CollisionShape3D" parent="StaticCollision" unique_id=2076125854]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+shape = ExtResource("2_x8j08")

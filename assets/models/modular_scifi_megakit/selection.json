@@ -1,0 +1,632 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source_archive": "Modular SciFi MegaKit[Standard].zip",
+  "models": [
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Flat.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Straight_Flat"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Divided.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Divided.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Straight_Divided"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Flat_Window.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat_Window.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Straight_Flat_Window"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Inner.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Corner_Square_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Outer.gltf",
+      "category": "Walls",
+      "name": "WallAstra_Corner_Square_Outer"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Straight.gltf",
+      "category": "Walls",
+      "name": "WallBand_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Inner.gltf",
+      "category": "Walls",
+      "name": "WallBand_Corner_Square_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Outer.gltf",
+      "category": "Walls",
+      "name": "WallBand_Corner_Square_Outer"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_WhitePlate2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Straight.gltf",
+      "category": "Walls",
+      "name": "ShortWall_WhitePlate2_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Straight.gltf",
+      "category": "Walls",
+      "name": "BottomSimple_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Inner.gltf",
+      "category": "Walls",
+      "name": "BottomSimple_Corner_Square_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Outer_1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_1.gltf",
+      "category": "Walls",
+      "name": "BottomSimple_Corner_Square_Outer_1"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Outer_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_2.gltf",
+      "category": "Walls",
+      "name": "BottomSimple_Corner_Square_Outer_2"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Straight.gltf",
+      "category": "Walls",
+      "name": "TopSimple_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Inner.gltf",
+      "category": "Walls",
+      "name": "TopSimple_Corner_Round_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Outer.gltf",
+      "category": "Walls",
+      "name": "TopSimple_Corner_Round_Outer"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Straight.gltf",
+      "category": "Walls",
+      "name": "TopAstra_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Corner_Round_Inner.gltf",
+      "category": "Walls",
+      "name": "TopAstra_Corner_Round_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Curve_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Curve_Round_Outer.gltf",
+      "category": "Walls",
+      "name": "TopAstra_Curve_Round_Outer"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Straight.gltf",
+      "category": "Walls",
+      "name": "TopCables_Straight"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Inner.gltf",
+      "category": "Walls",
+      "name": "TopCables_Corner_Square_Inner"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Outer.gltf",
+      "category": "Walls",
+      "name": "TopCables_Corner_Square_Outer"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf",
+      "category": "Platforms",
+      "name": "Platform_Simple"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf",
+      "category": "Platforms",
+      "name": "Platform_Simple2"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_3Plates.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_3Plates.gltf",
+      "category": "Platforms",
+      "name": "Platform_3Plates"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_CenterPlate.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate.gltf",
+      "category": "Platforms",
+      "name": "Platform_CenterPlate"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf",
+      "category": "Platforms",
+      "name": "Platform_Metal"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2.gltf",
+      "category": "Platforms",
+      "name": "Platform_Metal2"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_DarkPlates.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates.gltf",
+      "category": "Platforms",
+      "name": "Platform_DarkPlates"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Squares.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf",
+      "category": "Platforms",
+      "name": "Platform_Squares"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple_Curve.gltf",
+      "category": "Platforms",
+      "name": "Platform_Simple_Curve"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal_Curve.gltf",
+      "category": "Platforms",
+      "name": "Platform_Metal_Curve"
+    },
+    {
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Squares_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Squares_Curve.gltf",
+      "category": "Platforms",
+      "name": "Platform_Squares_Curve"
+    }
+  ],
+  "ceiling_sources": [
+    "Platform_Simple",
+    "Platform_Simple2",
+    "Platform_3Plates",
+    "Platform_Metal2"
+  ],
+  "objects": [
+    {
+      "name": "wall_astra_straight_flat",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Straight_Flat"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_astra_straight",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_astra_straight_divided",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Straight_Divided"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_astra_straight_flat_window",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Straight_Flat_Window"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_astra_corner_square_inner",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Corner_Square_Inner"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_astra_corner_square_outer",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallAstra_Corner_Square_Outer"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_band_straight",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallBand_Straight"
+      ],
+      "zone": "technical",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_band_corner_square_inner",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallBand_Corner_Square_Inner"
+      ],
+      "zone": "technical",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "wall_band_corner_square_outer",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "WallBand_Corner_Square_Outer"
+      ],
+      "zone": "technical",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "short_wall_white_plate2_straight",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "ShortWall_WhitePlate2_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "bottom_simple_straight",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "BottomSimple_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "bottom_simple_corner_square_inner",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "BottomSimple_Corner_Square_Inner"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "bottom_simple_corner_square_outer_1",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "BottomSimple_Corner_Square_Outer_1"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "bottom_simple_corner_square_outer_2",
+      "category": "walls",
+      "mount": "wall",
+      "sources": [
+        "BottomSimple_Corner_Square_Outer_2"
+      ],
+      "zone": "living_science",
+      "description": "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+    },
+    {
+      "name": "top_simple_straight",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopSimple_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_simple_corner_round_inner",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopSimple_Corner_Round_Inner"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_simple_corner_round_outer",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopSimple_Corner_Round_Outer"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_astra_straight",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopAstra_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_astra_corner_round_inner",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopAstra_Corner_Round_Inner"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_astra_curve_round_outer",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopAstra_Curve_Round_Outer"
+      ],
+      "zone": "living_science",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_cables_straight",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopCables_Straight"
+      ],
+      "zone": "technical",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_cables_corner_square_inner",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopCables_Corner_Square_Inner"
+      ],
+      "zone": "technical",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "top_cables_corner_square_outer",
+      "category": "ceilings",
+      "mount": "wall_top",
+      "sources": [
+        "TopCables_Corner_Square_Outer"
+      ],
+      "zone": "technical",
+      "description": "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+    },
+    {
+      "name": "floor_simple",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Simple"
+      ],
+      "zone": "living_science",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_simple2",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Simple2"
+      ],
+      "zone": "living_science",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_3_plates",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_3Plates"
+      ],
+      "zone": "living_science",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_center_plate",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_CenterPlate"
+      ],
+      "zone": "living_science",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_metal",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Metal"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_metal2",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Metal2"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_dark_plates",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_DarkPlates"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_squares",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Squares"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_simple_curve",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Simple_Curve"
+      ],
+      "zone": "living_science",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_metal_curve",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Metal_Curve"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "floor_squares_curve",
+      "category": "floors",
+      "mount": "floor",
+      "sources": [
+        "Platform_Squares_Curve"
+      ],
+      "zone": "technical",
+      "description": "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+    },
+    {
+      "name": "ceiling_plain",
+      "category": "ceilings",
+      "mount": "ceiling",
+      "sources": [
+        "Platform_Simple"
+      ],
+      "zone": "living_science",
+      "description": "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+    },
+    {
+      "name": "ceiling_plain_seamed",
+      "category": "ceilings",
+      "mount": "ceiling",
+      "sources": [
+        "Platform_Simple2"
+      ],
+      "zone": "living_science",
+      "description": "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+    },
+    {
+      "name": "ceiling_panelled",
+      "category": "ceilings",
+      "mount": "ceiling",
+      "sources": [
+        "Platform_3Plates"
+      ],
+      "zone": "science",
+      "description": "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+    },
+    {
+      "name": "ceiling_metal",
+      "category": "ceilings",
+      "mount": "ceiling",
+      "sources": [
+        "Platform_Metal2"
+      ],
+      "zone": "technical",
+      "description": "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+    },
+    {
+      "name": "wall_flat_5_5m",
+      "category": "walls",
+      "mount": "wall_full",
+      "sources": [
+        "WallAstra_Straight_Flat",
+        "TopSimple_Straight"
+      ],
+      "zone": "living_science",
+      "description": "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+    },
+    {
+      "name": "wall_astra_5_5m",
+      "category": "walls",
+      "mount": "wall_full",
+      "sources": [
+        "WallAstra_Straight",
+        "TopAstra_Straight"
+      ],
+      "zone": "science",
+      "description": "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+    },
+    {
+      "name": "wall_service_5_5m",
+      "category": "walls",
+      "mount": "wall_full",
+      "sources": [
+        "WallBand_Straight",
+        "TopCables_Straight"
+      ],
+      "zone": "technical",
+      "description": "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_astra_curve_round_outer.res" id="1_5efvi"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_astra_curve_round_outer.res" id="2_f7yep"]
+
+[node name="TopAstraCurveRoundOuter" type="Node3D" unique_id=1660816806]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+metadata/quaternius_source_models = ["TopAstra_Curve_Round_Outer"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1672291310]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, -5, 2)
+
+[node name="TopAstra_Curve_Round_Outer" type="MeshInstance3D" parent="Visual" unique_id=818962108]
+mesh = ExtResource("1_5efvi")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=756029859]
+collision_mask = 0
+
+[node name="TopAstra_Curve_Round_Outer" type="CollisionShape3D" parent="StaticCollision" unique_id=578544733]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, -5, 2)
+shape = ExtResource("2_f7yep")

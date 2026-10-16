@@ -1,0 +1,191 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_simple.tscn" id="1_s5byk"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_simple2.tscn" id="2_pvlcf"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_3_plates.tscn" id="3_5m37g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_center_plate.tscn" id="4_ri7g4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_metal.tscn" id="5_6d0d2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_metal2.tscn" id="6_6hk64"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_dark_plates.tscn" id="7_wdb3q"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_squares.tscn" id="8_80eox"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_simple_curve.tscn" id="9_jycwp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_metal_curve.tscn" id="10_dw6ph"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/floor_squares_curve.tscn" id="11_j7ocv"]
+
+[node name="FloorsCatalog" type="Node3D" unique_id=1038567120]
+editor_description = "Каталог объектов; игровые уровни не заменяет. Выбирайте отдельные сцены из соседних папок."
+
+[node name="FloorSimple" type="Node3D" parent="." unique_id=1627413627 instance=ExtResource("1_s5byk")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+metadata/quaternius_source_models = ["Platform_Simple"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label0" type="Label3D" parent="." unique_id=2005411533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor simple"
+font_size = 56
+outline_size = 8
+
+[node name="FloorSimple2" type="Node3D" parent="." unique_id=297974516 instance=ExtResource("2_pvlcf")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+metadata/quaternius_source_models = ["Platform_Simple2"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label1" type="Label3D" parent="." unique_id=2092481658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor simple2"
+font_size = 56
+outline_size = 8
+
+[node name="Floor3Plates" type="Node3D" parent="." unique_id=325740435 instance=ExtResource("3_5m37g")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+metadata/quaternius_source_models = ["Platform_3Plates"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label2" type="Label3D" parent="." unique_id=305143358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor 3 plates"
+font_size = 56
+outline_size = 8
+
+[node name="FloorCenterPlate" type="Node3D" parent="." unique_id=1944861987 instance=ExtResource("4_ri7g4")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
+metadata/quaternius_source_models = ["Platform_CenterPlate"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label3" type="Label3D" parent="." unique_id=1097601728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor center plate"
+font_size = 56
+outline_size = 8
+
+[node name="FloorMetal" type="Node3D" parent="." unique_id=1702677699 instance=ExtResource("5_6d0d2")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+metadata/quaternius_source_models = ["Platform_Metal"]
+metadata/recommended_zone = "technical"
+
+[node name="Label4" type="Label3D" parent="." unique_id=240853514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor metal"
+font_size = 56
+outline_size = 8
+
+[node name="FloorMetal2" type="Node3D" parent="." unique_id=231603614 instance=ExtResource("6_6hk64")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+metadata/quaternius_source_models = ["Platform_Metal2"]
+metadata/recommended_zone = "technical"
+
+[node name="Label5" type="Label3D" parent="." unique_id=1769891186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor metal2"
+font_size = 56
+outline_size = 8
+
+[node name="FloorDarkPlates" type="Node3D" parent="." unique_id=686757295 instance=ExtResource("7_wdb3q")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+metadata/quaternius_source_models = ["Platform_DarkPlates"]
+metadata/recommended_zone = "technical"
+
+[node name="Label6" type="Label3D" parent="." unique_id=34358506]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor dark plates"
+font_size = 56
+outline_size = 8
+
+[node name="FloorSquares" type="Node3D" parent="." unique_id=267137271 instance=ExtResource("8_80eox")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -10)
+metadata/quaternius_source_models = ["Platform_Squares"]
+metadata/recommended_zone = "technical"
+
+[node name="Label7" type="Label3D" parent="." unique_id=1551000769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor squares"
+font_size = 56
+outline_size = 8
+
+[node name="FloorSimpleCurve" type="Node3D" parent="." unique_id=885280220 instance=ExtResource("9_jycwp")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -10)
+metadata/quaternius_source_models = ["Platform_Simple_Curve"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label8" type="Label3D" parent="." unique_id=433518792]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor simple curve"
+font_size = 56
+outline_size = 8
+
+[node name="FloorMetalCurve" type="Node3D" parent="." unique_id=2039263745 instance=ExtResource("10_dw6ph")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -10)
+metadata/quaternius_source_models = ["Platform_Metal_Curve"]
+metadata/recommended_zone = "technical"
+
+[node name="Label9" type="Label3D" parent="." unique_id=535036125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor metal curve"
+font_size = 56
+outline_size = 8
+
+[node name="FloorSquaresCurve" type="Node3D" parent="." unique_id=231016139 instance=ExtResource("11_j7ocv")]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+metadata/quaternius_source_models = ["Platform_Squares_Curve"]
+metadata/recommended_zone = "technical"
+
+[node name="Label10" type="Label3D" parent="." unique_id=1318195599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "floor squares curve"
+font_size = 56
+outline_size = 8

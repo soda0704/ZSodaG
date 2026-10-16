@@ -1,0 +1,293 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="1_atyge"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn" id="2_xpkak"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_divided.tscn" id="3_dufry"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat_window.tscn" id="4_5x0qp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn" id="5_0ugsc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_outer.tscn" id="6_2sk6d"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_straight.tscn" id="7_rhaj5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_inner.tscn" id="8_7mlst"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_outer.tscn" id="9_3lnoj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate2_straight.tscn" id="10_aa8q8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_straight.tscn" id="11_hjx8t"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_inner.tscn" id="12_umcin"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_1.tscn" id="13_rqul5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_2.tscn" id="14_sais2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_flat_5_5m.tscn" id="15_tpi85"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_5_5m.tscn" id="16_33jiq"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_service_5_5m.tscn" id="17_uko5c"]
+
+[node name="WallsCatalog" type="Node3D" unique_id=1417491010]
+editor_description = "Каталог объектов; игровые уровни не заменяет. Выбирайте отдельные сцены из соседних папок."
+
+[node name="WallAstraStraightFlat" type="Node3D" parent="." unique_id=1064795366 instance=ExtResource("1_atyge")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+metadata/quaternius_source_models = ["WallAstra_Straight_Flat"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label0" type="Label3D" parent="." unique_id=1259633736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra straight flat"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstraStraight" type="Node3D" parent="." unique_id=1130118450 instance=ExtResource("2_xpkak")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+metadata/quaternius_source_models = ["WallAstra_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label1" type="Label3D" parent="." unique_id=2005068429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra straight"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstraStraightDivided" type="Node3D" parent="." unique_id=2091892615 instance=ExtResource("3_dufry")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+metadata/quaternius_source_models = ["WallAstra_Straight_Divided"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label2" type="Label3D" parent="." unique_id=486703017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra straight divided"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstraStraightFlatWindow" type="Node3D" parent="." unique_id=364740344 instance=ExtResource("4_5x0qp")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
+metadata/quaternius_source_models = ["WallAstra_Straight_Flat_Window"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label3" type="Label3D" parent="." unique_id=890494266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra straight flat window"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstraCornerSquareInner" type="Node3D" parent="." unique_id=1711925449 instance=ExtResource("5_0ugsc")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+metadata/quaternius_source_models = ["WallAstra_Corner_Square_Inner"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label4" type="Label3D" parent="." unique_id=1997550333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra corner square inner"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstraCornerSquareOuter" type="Node3D" parent="." unique_id=740020271 instance=ExtResource("6_2sk6d")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+metadata/quaternius_source_models = ["WallAstra_Corner_Square_Outer"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label5" type="Label3D" parent="." unique_id=1576418150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra corner square outer"
+font_size = 56
+outline_size = 8
+
+[node name="WallBandStraight" type="Node3D" parent="." unique_id=161829260 instance=ExtResource("7_rhaj5")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+metadata/quaternius_source_models = ["WallBand_Straight"]
+metadata/recommended_zone = "technical"
+
+[node name="Label6" type="Label3D" parent="." unique_id=114764984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall band straight"
+font_size = 56
+outline_size = 8
+
+[node name="WallBandCornerSquareInner" type="Node3D" parent="." unique_id=635653564 instance=ExtResource("8_7mlst")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -10)
+metadata/quaternius_source_models = ["WallBand_Corner_Square_Inner"]
+metadata/recommended_zone = "technical"
+
+[node name="Label7" type="Label3D" parent="." unique_id=1642683817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall band corner square inner"
+font_size = 56
+outline_size = 8
+
+[node name="WallBandCornerSquareOuter" type="Node3D" parent="." unique_id=598583251 instance=ExtResource("9_3lnoj")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -10)
+metadata/quaternius_source_models = ["WallBand_Corner_Square_Outer"]
+metadata/recommended_zone = "technical"
+
+[node name="Label8" type="Label3D" parent="." unique_id=1694348540]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall band corner square outer"
+font_size = 56
+outline_size = 8
+
+[node name="ShortWallWhitePlate2Straight" type="Node3D" parent="." unique_id=1731005069 instance=ExtResource("10_aa8q8")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -10)
+metadata/quaternius_source_models = ["ShortWall_WhitePlate2_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label9" type="Label3D" parent="." unique_id=1010591278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "short wall white plate2 straight"
+font_size = 56
+outline_size = 8
+
+[node name="BottomSimpleStraight" type="Node3D" parent="." unique_id=1779460590 instance=ExtResource("11_hjx8t")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+metadata/quaternius_source_models = ["BottomSimple_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label10" type="Label3D" parent="." unique_id=1019241876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "bottom simple straight"
+font_size = 56
+outline_size = 8
+
+[node name="BottomSimpleCornerSquareInner" type="Node3D" parent="." unique_id=211434130 instance=ExtResource("12_umcin")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -20)
+metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Inner"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label11" type="Label3D" parent="." unique_id=998166615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "bottom simple corner square inner"
+font_size = 56
+outline_size = 8
+
+[node name="BottomSimpleCornerSquareOuter1" type="Node3D" parent="." unique_id=2071954302 instance=ExtResource("13_rqul5")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -20)
+metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Outer_1"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label12" type="Label3D" parent="." unique_id=1058319660]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "bottom simple corner square outer 1"
+font_size = 56
+outline_size = 8
+
+[node name="BottomSimpleCornerSquareOuter2" type="Node3D" parent="." unique_id=715483006 instance=ExtResource("14_sais2")]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -20)
+metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Outer_2"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label13" type="Label3D" parent="." unique_id=404076085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "bottom simple corner square outer 2"
+font_size = 56
+outline_size = 8
+
+[node name="WallFlat55m" type="Node3D" parent="." unique_id=1296271967 instance=ExtResource("15_tpi85")]
+editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -20)
+metadata/quaternius_source_models = ["WallAstra_Straight_Flat", "TopSimple_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label14" type="Label3D" parent="." unique_id=2141623418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall flat 5 5m"
+font_size = 56
+outline_size = 8
+
+[node name="WallAstra55m" type="Node3D" parent="." unique_id=608180405 instance=ExtResource("16_33jiq")]
+editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+metadata/quaternius_source_models = ["WallAstra_Straight", "TopAstra_Straight"]
+metadata/recommended_zone = "science"
+
+[node name="Label15" type="Label3D" parent="." unique_id=1779458080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -27.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall astra 5 5m"
+font_size = 56
+outline_size = 8
+
+[node name="WallService55m" type="Node3D" parent="." unique_id=1507744049 instance=ExtResource("17_uko5c")]
+editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -30)
+metadata/quaternius_source_models = ["WallBand_Straight", "TopCables_Straight"]
+metadata/recommended_zone = "technical"
+
+[node name="Label16" type="Label3D" parent="." unique_id=1819132750]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -27.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "wall service 5 5m"
+font_size = 56
+outline_size = 8

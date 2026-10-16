@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_corner_square_inner.res" id="1_6dtjs"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_corner_square_inner.res" id="2_2xe66"]
+
+[node name="WallAstraCornerSquareInner" type="Node3D" unique_id=1711925449]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+metadata/quaternius_source_models = ["WallAstra_Corner_Square_Inner"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=53923241]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+
+[node name="WallAstra_Corner_Square_Inner" type="MeshInstance3D" parent="Visual" unique_id=126818454]
+mesh = ExtResource("1_6dtjs")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=234032053]
+collision_mask = 0
+
+[node name="WallAstra_Corner_Square_Inner" type="CollisionShape3D" parent="StaticCollision" unique_id=311854380]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+shape = ExtResource("2_2xe66")

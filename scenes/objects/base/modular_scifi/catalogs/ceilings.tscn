@@ -1,0 +1,225 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_straight.tscn" id="1_j47sh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_corner_round_inner.tscn" id="2_xe6k7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_corner_round_outer.tscn" id="3_42m08"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_straight.tscn" id="4_u2hom"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_corner_round_inner.tscn" id="5_mgbfh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_curve_round_outer.tscn" id="6_qgkje"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_straight.tscn" id="7_ew6r4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_corner_square_inner.tscn" id="8_g88eu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_corner_square_outer.tscn" id="9_4c61p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_plain.tscn" id="10_ma2kl"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_plain_seamed.tscn" id="11_7kvn5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_panelled.tscn" id="12_i3pcj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal.tscn" id="13_oj6e4"]
+
+[node name="CeilingsCatalog" type="Node3D" unique_id=1718679160]
+editor_description = "Каталог объектов; игровые уровни не заменяет. Выбирайте отдельные сцены из соседних папок."
+
+[node name="TopSimpleStraight" type="Node3D" parent="." unique_id=1710495662 instance=ExtResource("1_j47sh")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+metadata/quaternius_source_models = ["TopSimple_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label0" type="Label3D" parent="." unique_id=569985820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top simple straight"
+font_size = 56
+outline_size = 8
+
+[node name="TopSimpleCornerRoundInner" type="Node3D" parent="." unique_id=366382550 instance=ExtResource("2_xe6k7")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+metadata/quaternius_source_models = ["TopSimple_Corner_Round_Inner"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label1" type="Label3D" parent="." unique_id=992939731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top simple corner round inner"
+font_size = 56
+outline_size = 8
+
+[node name="TopSimpleCornerRoundOuter" type="Node3D" parent="." unique_id=770583250 instance=ExtResource("3_42m08")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+metadata/quaternius_source_models = ["TopSimple_Corner_Round_Outer"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label2" type="Label3D" parent="." unique_id=1098139178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top simple corner round outer"
+font_size = 56
+outline_size = 8
+
+[node name="TopAstraStraight" type="Node3D" parent="." unique_id=998882144 instance=ExtResource("4_u2hom")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
+metadata/quaternius_source_models = ["TopAstra_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label3" type="Label3D" parent="." unique_id=1809711862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top astra straight"
+font_size = 56
+outline_size = 8
+
+[node name="TopAstraCornerRoundInner" type="Node3D" parent="." unique_id=485975049 instance=ExtResource("5_mgbfh")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+metadata/quaternius_source_models = ["TopAstra_Corner_Round_Inner"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label4" type="Label3D" parent="." unique_id=2105249767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, 2.7)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top astra corner round inner"
+font_size = 56
+outline_size = 8
+
+[node name="TopAstraCurveRoundOuter" type="Node3D" parent="." unique_id=1660816806 instance=ExtResource("6_qgkje")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+metadata/quaternius_source_models = ["TopAstra_Curve_Round_Outer"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label5" type="Label3D" parent="." unique_id=1595220467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top astra curve round outer"
+font_size = 56
+outline_size = 8
+
+[node name="TopCablesStraight" type="Node3D" parent="." unique_id=1491074405 instance=ExtResource("7_ew6r4")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+metadata/quaternius_source_models = ["TopCables_Straight"]
+metadata/recommended_zone = "technical"
+
+[node name="Label6" type="Label3D" parent="." unique_id=46962847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top cables straight"
+font_size = 56
+outline_size = 8
+
+[node name="TopCablesCornerSquareInner" type="Node3D" parent="." unique_id=1525529901 instance=ExtResource("8_g88eu")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -10)
+metadata/quaternius_source_models = ["TopCables_Corner_Square_Inner"]
+metadata/recommended_zone = "technical"
+
+[node name="Label7" type="Label3D" parent="." unique_id=884810719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top cables corner square inner"
+font_size = 56
+outline_size = 8
+
+[node name="TopCablesCornerSquareOuter" type="Node3D" parent="." unique_id=1096427099 instance=ExtResource("9_4c61p")]
+editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -10)
+metadata/quaternius_source_models = ["TopCables_Corner_Square_Outer"]
+metadata/recommended_zone = "technical"
+
+[node name="Label8" type="Label3D" parent="." unique_id=1960766848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "top cables corner square outer"
+font_size = 56
+outline_size = 8
+
+[node name="CeilingPlain" type="Node3D" parent="." unique_id=209345884 instance=ExtResource("10_ma2kl")]
+editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -10)
+metadata/quaternius_source_models = ["Platform_Simple"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label9" type="Label3D" parent="." unique_id=28931208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -7.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "ceiling plain"
+font_size = 56
+outline_size = 8
+
+[node name="CeilingPlainSeamed" type="Node3D" parent="." unique_id=464926003 instance=ExtResource("11_7kvn5")]
+editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+metadata/quaternius_source_models = ["Platform_Simple2"]
+metadata/recommended_zone = "living_science"
+
+[node name="Label10" type="Label3D" parent="." unique_id=608814648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "ceiling plain seamed"
+font_size = 56
+outline_size = 8
+
+[node name="CeilingPanelled" type="Node3D" parent="." unique_id=1981773502 instance=ExtResource("12_i3pcj")]
+editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -20)
+metadata/quaternius_source_models = ["Platform_3Plates"]
+metadata/recommended_zone = "science"
+
+[node name="Label11" type="Label3D" parent="." unique_id=1776943406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "ceiling panelled"
+font_size = 56
+outline_size = 8
+
+[node name="CeilingMetal" type="Node3D" parent="." unique_id=1681982686 instance=ExtResource("13_oj6e4")]
+editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -20)
+metadata/quaternius_source_models = ["Platform_Metal2"]
+metadata/recommended_zone = "technical"
+
+[node name="Label12" type="Label3D" parent="." unique_id=1651416765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -17.3)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+modulate = Color(0.9, 0.96, 1, 1)
+text = "ceiling metal"
+font_size = 56
+outline_size = 8

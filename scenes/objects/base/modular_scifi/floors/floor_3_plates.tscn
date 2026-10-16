@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_3_plates.res" id="1_yr6hy"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_3_plates.res" id="2_xqojv"]
+
+[node name="Floor3Plates" type="Node3D" unique_id=325740435]
+editor_description = "Панель пола 4×4 м. Верхняя поверхность Y=0, центр в начале координат. Точная статическая коллизия."
+metadata/quaternius_source_models = ["Platform_3Plates"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1671969833]
+
+[node name="Platform_3Plates" type="MeshInstance3D" parent="Visual" unique_id=1496089952]
+mesh = ExtResource("1_yr6hy")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=292453825]
+collision_mask = 0
+
+[node name="Platform_3Plates" type="CollisionShape3D" parent="StaticCollision" unique_id=1446443042]
+shape = ExtResource("2_xqojv")

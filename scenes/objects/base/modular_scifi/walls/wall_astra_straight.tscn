@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight.res" id="1_8elyd"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight.res" id="2_gv30q"]
+
+[node name="WallAstraStraight" type="Node3D" unique_id=1130118450]
+editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
+metadata/quaternius_source_models = ["WallAstra_Straight"]
+metadata/recommended_zone = "living_science"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1701926679]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+
+[node name="WallAstra_Straight" type="MeshInstance3D" parent="Visual" unique_id=2024178653]
+mesh = ExtResource("1_8elyd")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=608248210]
+collision_mask = 0
+
+[node name="WallAstra_Straight" type="CollisionShape3D" parent="StaticCollision" unique_id=2131078074]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+shape = ExtResource("2_gv30q")
