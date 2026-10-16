@@ -59,7 +59,9 @@ func run():
 			var region=snow.get_node("Terrain3D").data.get_region(Vector2i(floori(x/256.0),floori(z/256.0)))
 			var native_height:float=region.get_height_map().get_pixel(posmod(x,256),posmod(z,256)).r
 			var top:=space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(x,-125,z),Vector3(x,native_height-.15,z),1))
-			if top.is_empty():open_cap+=1
+			if top.is_empty():
+				open_cap+=1
+				if open_cap<16:print("PORTAL_CAP_GAP ",x," ",z," native ",native_height)
 	check(open_cap==0,"Top and both sides of the terrain mouth are covered by rock: %d gaps"%open_cap)
 	var shaft_gaps:=0
 	for y in range(-155,-92,4):

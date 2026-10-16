@@ -7,6 +7,7 @@ func check(ok:bool,message:String):
 func run():
  var world=load("res://scenes/levels/snow_exterior.tscn").instantiate()
  root.add_child(world)
+ var cave=load("res://scenes/levels/Cave_Day7.tscn").instantiate();root.add_child(cave)
  var camera=Camera3D.new()
  camera.position=Vector3(300,100,0)
  root.add_child(camera)
@@ -23,10 +24,13 @@ func run():
  var rect:Vector4=terrain.material.get_shader_param("cliff_replacement_bounds")
  check(rect==Vector4.ZERO,"Old rectangular visual cutout disabled")
  check(terrain.data.get_control_hole(Vector3(0,0,0)),"original shaft hole retained")
- var cliff=world.get_node("CaveMouthRock")
- var mesh:Mesh=cliff.get_node("RockArch").mesh
- check(mesh.get_faces().size()/3<6000,"lightweight native rock arch")
- check(cliff.get_node("ArchCollision").shape.get_faces().size()==mesh.get_faces().size(),"arch collision uses the same surface")
+ check(cave.has_node("ContinuousGeology") and cave.has_node("AuthoredOutcrops"),"Mouth belongs to the continuous cave and local rock dressing")
+ var collision_errors:=0
+ for body in cave.get_node("ContinuousGeology").get_children():
+  if body.get_node("SolidRock").shape.get_faces().size()!=body.get_node("Bedrock").mesh.get_faces().size():
+   collision_errors+=1
+   print("COLLISION_MISMATCH ",body.name," visual ",body.get_node("Bedrock").mesh.get_faces().size()," collision ",body.get_node("SolidRock").shape.get_faces().size())
+ check(collision_errors==0,"Native cave collision uses the same surface")
  check(terrain.data.get_control_hole(Vector3(335,0,2)),"Only the cave mouth has a terrain opening")
  var state=world.get_world_3d().direct_space_state
  var missing=0
@@ -44,16 +48,13 @@ func run():
    if hit.is_empty(): missing+=1
    total+=1
  check(missing==0,"terrain/cliff seams supported: %d rays, %d gaps"%[total,missing])
- cliff.collision_layer=1<<20
- await physics_frame
- await physics_frame
- var wall_hits=0
- for z in [-6.0,2.0,10.0]:
-  for y in [-151.0,-150.5]:
-   var hit:Dictionary=state.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(355,y,z),Vector3(325,y,z),1<<20))
-   if not hit.is_empty() and hit.collider==cliff: wall_hits+=1
- cliff.collision_layer=1
- check(wall_hits==6,"rock above and beside the mouth is solid: %d/6"%wall_hits)
+ var background:MeshInstance3D=world.get_node("CliffValley/DistantValleyFloor")
+ var overlap:=0
+ var background_faces:=background.mesh.get_faces()
+ for i in range(0,background_faces.size(),3):
+  var p:Vector3=background.to_global((background_faces[i]+background_faces[i+1]+background_faces[i+2])/3)
+  if p.x> -509.99 and p.x<1533.99 and p.z> -765.99 and p.z<765.99:overlap+=1
+ check(overlap==0,"Distant backdrop does not intersect playable terrain or cave lip: %d overlapping triangles"%overlap)
  for name in ["SouthPassForest","WestPassForest"]:
   var forest=world.get_node(name)
   var count=0
