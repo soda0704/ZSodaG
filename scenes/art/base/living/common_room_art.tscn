@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dr2lkq3bgosy5"]
 
 [ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
-[ext_resource type="PackedScene" uid="uid://c0gk6wrlo7wx8" path="res://assets/models/Base/Living/CommonRoom/CommonRoomArt.glb" id="1_xre6t"]
 [ext_resource type="Material" path="res://scenes/art/base/living/day1_story_blockout_material.tres" id="2_day1_story_blockout_material"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/plant_growing_container.tscn" id="plant_container"]
 
@@ -13,17 +12,13 @@ editor_description = "Импортированная архитектура и �
 
 [node name="PlantGrowingContainer" parent="Visual" instance=ExtResource("plant_container")]
 position = Vector3(15.85, 0.835, -7.83)
-editor_description = "Настенный контейнер справа от плиты. Дно камеры выращивания чуть выше кухонной столешницы; полив запускается правой кнопкой на нижней панели, один раз за игровой день."
-
-[node name="CommonRoomArt" parent="." unique_id=1325718975 instance=ExtResource("1_xre6t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+editor_description = "Самостоятельный игровой контейнер растений с ежедневным поливом; не зависит от модели общей комнаты."
 
 [node name="ArtCollision" type="Node3D" parent="." unique_id=1495128430]
 editor_description = "Будущие упрощённые коллизии."
 
 [node name="Blockout" type="Node3D" parent="." unique_id=1664671569]
 editor_description = "Исходная CSG-геометрия общей комнаты. Отключите после готовности Visual и ArtCollision."
-visible = false
 
 [node name="Common_Room" type="Node3D" parent="Blockout" unique_id=1956063123]
 

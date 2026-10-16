@@ -27,11 +27,18 @@ Windows-редактор является GUI-приложением: обычн
 
 Перед новым тестом, загружающим базу, назначьте отдельный `northern_lab/testing/base_save_path` либо `northern_lab/testing/save_slots_root` для тестирования слотов. Тест не должен читать, удалять или записывать файлы обычной экспедиции. Не запускайте одинаковую проверку одновременно: несколько тестов имеют фиксированный тестовый путь.
 
+### Завершение импорта NorthernLab.cmd
+
+При диагностике сборки запускайте этап `--headless --editor --import` с `--verbose` и сохраняйте также stdout/stderr: сообщения об утечках при завершении могут отсутствовать в файле `--log-file`. После выхода не должно быть `CanvasItem was leaked`, `ObjectDB instances were leaked`, `DummyTextureE` или `resources still in use`.
+
+В Terrain3D внесены локальные исправления совместимости: `src/asset_dock.gd` освобождает контейнер EditorDock вместе с панелью, а `src/double_slider.gd` получает действующий масштаб через EditorInterface. Сохраняйте эти исправления при обновлении плагина, пока они не включены в его версию. Предупреждение `instance_reset_physics_interpolation() is deprecated` исходит из нативной библиотеки Terrain3D, собранной со старым API, и требует совместимой новой сборки библиотеки; оно не означает утечку и не относится к корректным вызовам `Node3D.reset_physics_interpolation()` в игре. [Обсуждение разработчиков Terrain3D](https://github.com/TokisanGames/Terrain3D/issues/771).
+
 ## Автоматические проверки
 
 | Область | Файлы в `tools/tests/` |
 | --- | --- |
 | Ресурсы | `project_resource_audit.gd` |
+| Сбой освещения и свет кабины | `lighting_fault_cabin_regression.gd`: сбой без переключения рубильника, сброс, editor preview, движение и репликация лампы лифта; `world_lighting_regression.gd` проверяет яркость при сбое графически |
 | Меню Menu, ESC_MENU, LOBBY_MENU и применение настроек | `menu_integration_regression.gd` (для визуальной проверки без `--headless`, с `-- --capture`) |
 | Модели предметов и батарейки | `item_models_regression.gd` |
 | Персонажи и физический скелет | `character_integration_regression.gd`, `character_visual_review.gd`, `run_character_multiplayer.gd`, `character_skin_selection_regression.gd`, `character_accessory_fit_regression.gd`, `character_model_integrity_regression.gd`, `character_idle_stability_regression.gd`, `character_view_isolation_regression.gd` |

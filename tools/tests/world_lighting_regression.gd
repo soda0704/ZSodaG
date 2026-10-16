@@ -189,6 +189,18 @@ func run() -> void:
 	power.apply_power_state(true)
 	await frames(40)
 	var powered:=await capture("garage-powered")
+	var saved_breaker: bool = state.main_breaker_on
+	state.main_breaker_on = true
+	state.containment["fault"] = true
+	state.snapshot_changed.emit(state.get_snapshot())
+	await frames(40)
+	var fault_picture := await capture("garage-fault")
+	check(not power.is_standard_powered and not level.get_node("WorldLighting/Standard").visible, "electrical fault extinguishes standard sources without changing the breaker")
+	check(mean(fault_picture) < mean(powered) * 0.85, "fault visibly darkens the room to emergency lighting")
+	state.containment["fault"] = false
+	state.snapshot_changed.emit(state.get_snapshot())
+	state.main_breaker_on = saved_breaker
+	await frames(40)
 	# VoxelGI also occludes the fallback ambient; isolate the actual bounce
 	# contribution with ambient zero in both comparison frames.
 	var saved_ambient:float=lighting.indoor_ambient

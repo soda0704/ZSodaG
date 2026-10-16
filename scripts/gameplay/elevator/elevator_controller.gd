@@ -33,6 +33,7 @@ enum ElevatorState {
 @export var use_built_in_surface_platform: bool = true
 
 @onready var cabin: AnimatableBody3D = %CabinMoving
+@onready var cabin_light: SpotLight3D = $CabinMoving/CabinLight
 @onready var cabin_door: ElevatorRollupDoor = %CabinDoor
 @onready var cabin_door_travel_barrier: CollisionShape3D = %CabinDoorTravelBarrier
 @onready var passenger_area: Area3D = %PassengerArea
@@ -42,6 +43,7 @@ enum ElevatorState {
 @onready var cabin_state_display: Label3D = %CabinStateDisplay
 
 var _audio_fade: Tween
+var _cabin_light_materials: Array[StandardMaterial3D] = []
 
 var state: ElevatorState = ElevatorState.IDLE_OPEN
 var current_floor_index: int = 0
@@ -76,6 +78,12 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	cabin.add_to_group("elevator_cabins")
 	is_powered = starts_powered
+	for panel_name in ["NorthPanel", "SouthPanel"]:
+		var panel := cabin.get_node("CabinVisualArt/LightingModules/" + panel_name) as MeshInstance3D
+		var material := panel.get_active_material(0).duplicate() as StandardMaterial3D
+		panel.material_override = material
+		_cabin_light_materials.append(material)
+	_refresh_cabin_light()
 	unlocked_floor_index = clampi(unlocked_floor_index, 0, MAX_FLOOR_INDEX)
 	passenger_area.body_entered.connect(_on_passenger_body_entered)
 	passenger_area.body_exited.connect(_on_passenger_body_exited)
@@ -407,6 +415,7 @@ func _apply_unlocked_floor(next_unlocked_floor_index: int) -> void:
 
 func _apply_powered(value: bool) -> void:
 	is_powered = value
+	_refresh_cabin_light()
 	if value:
 		_power_off_after_trip = false
 	if not value and state in [
@@ -447,6 +456,7 @@ func _apply_network_snapshot(snapshot: Dictionary) -> void:
 	_cabin_motion_trip_serial = _trip_serial
 	current_floor_index = clampi(int(snapshot.get("current_floor_index", 0)), 0, MAX_FLOOR_INDEX)
 	is_powered = bool(snapshot.get("is_powered", true))
+	_refresh_cabin_light()
 	unlocked_floor_index = clampi(int(snapshot.get("unlocked_floor_index", 0)), 0, MAX_FLOOR_INDEX)
 	pending_floor_index = clampi(int(snapshot.get("pending_floor_index", -1)), -1, MAX_FLOOR_INDEX)
 	_active_destination_floor_index = clampi(int(snapshot.get("active_destination_floor_index", -1)), -1, MAX_FLOOR_INDEX)
@@ -654,6 +664,16 @@ func _set_state(next_state: ElevatorState) -> void:
 		_broadcast_network_snapshot.call_deferred()
 	state_changed.emit(int(state))
 	_refresh_displays()
+
+
+func _refresh_cabin_light() -> void:
+	if not is_instance_valid(cabin_light):
+		return
+	cabin_light.visible = is_powered
+	for material in _cabin_light_materials:
+		material.emission_enabled = is_powered
+		material.emission = cabin_light.light_color
+		material.emission_energy_multiplier = 0.65 if is_powered else 0.0
 
 
 func _get_state_remaining_seconds() -> float:

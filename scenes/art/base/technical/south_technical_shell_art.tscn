@@ -1,4 +1,4 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=4 format=3]
 
 [node name="SouthTechnicalShellArt" type="Node3D"]
 editor_description = "Оболочка технической секции и разделитель помещений."

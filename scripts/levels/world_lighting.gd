@@ -25,20 +25,16 @@ var _outdoor_fog_density := 0.0
 var _outdoor_fog_sky_affect := 0.0
 var _outdoor_volume_density := 0.0
 var _outdoor_volume_length := 160.0
-var _time := 0.0
-var _state: BaseGameplayController
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
 var quality_shadow_distance := 96.0
 var _editor_lights:Array[SpotLight3D]=[]
 var _editor_elapsed:=0.0
-var _editor_levels:Dictionary={}
-var _editor_authored:Dictionary={}
+var _editor_visibility:Dictionary={}
 
 func _ready() -> void:
 	if Engine.is_editor_hint():return
 	add_to_group("world_lighting")
-	_state = get_parent().get_node_or_null("BaseGameplayController") as BaseGameplayController
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
 	_tag_exterior(get_parent().get_node("SnowExterior"))
@@ -93,7 +89,6 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		_editor_preview(delta)
 		return
-	_time += delta
 	var camera := get_viewport().get_camera_3d()
 	if camera == null: return
 	if camera != _camera:
@@ -174,25 +169,37 @@ func _editor_preview(delta:float) -> void:
 	_editor_elapsed+=delta
 	if _editor_elapsed<0.1:return
 	_editor_elapsed=0.0
-	if _editor_lights.is_empty():
-		for lamp:SpotLight3D in find_children("*","SpotLight3D",true,false):_editor_lights.append(lamp)
 	var editor:=Engine.get_singleton("EditorInterface")
 	if editor==null:return
 	var viewport:SubViewport=editor.get_editor_viewport_3d(0)
+	if viewport == null:return
 	var camera:=viewport.get_camera_3d()
 	if camera==null:return
+	_update_editor_lamp_visibility(camera.global_position)
+
+func _update_editor_lamp_visibility(at: Vector3) -> void:
+	var current: Array[SpotLight3D] = []
+	for lamp: SpotLight3D in find_children("*", "SpotLight3D", true, false):
+		current.append(lamp)
+	for lamp in _editor_lights:
+		if not is_instance_valid(lamp):
+			_editor_visibility.erase(lamp)
+			continue
+		if lamp not in current:
+			RenderingServer.instance_set_visible(lamp.get_instance(), lamp.is_visible_in_tree())
+			_editor_visibility.erase(lamp)
+	_editor_lights = current
 	var nearby:Array[SpotLight3D]=[]
 	for lamp in _editor_lights:
-		if is_instance_valid(lamp) and lamp.is_visible_in_tree() and absf(lamp.global_position.y-camera.global_position.y)<lamp.spot_range:nearby.append(lamp)
-	nearby.sort_custom(func(a:SpotLight3D,b:SpotLight3D)->bool:return a.global_position.distance_squared_to(camera.global_position)<b.global_position.distance_squared_to(camera.global_position))
+		if lamp.is_visible_in_tree() and absf(lamp.global_position.y-at.y)<lamp.spot_range:nearby.append(lamp)
+	nearby.sort_custom(func(a:SpotLight3D,b:SpotLight3D)->bool:return a.global_position.distance_squared_to(at)<b.global_position.distance_squared_to(at))
 	if nearby.size()>MAX_ACTIVE_LAMPS:nearby.resize(MAX_ACTIVE_LAMPS)
 	for lamp in _editor_lights:
 		if not is_instance_valid(lamp):continue
-		var energy:=lamp.light_energy if lamp in nearby else 0.0
-		if _editor_levels.get(lamp,-1.0)!=energy or _editor_authored.get(lamp,-1.0)!=lamp.light_energy:
-			RenderingServer.light_set_param(lamp.get_rid(),RenderingServer.LIGHT_PARAM_ENERGY,energy)
-			_editor_levels[lamp]=energy
-			_editor_authored[lamp]=lamp.light_energy
+		var active := lamp in nearby
+		if _editor_visibility.get(lamp, null) != active:
+			RenderingServer.instance_set_visible(lamp.get_instance(), active)
+			_editor_visibility[lamp] = active
 
 func _exit_tree() -> void:
 	if not Engine.is_editor_hint():
@@ -200,7 +207,7 @@ func _exit_tree() -> void:
 			if is_instance_valid(view): view.debug_draw = _debug_viewports[view]
 		return
 	for lamp in _editor_lights:
-		if is_instance_valid(lamp):RenderingServer.light_set_param(lamp.get_rid(),RenderingServer.LIGHT_PARAM_ENERGY,lamp.light_energy)
+		if is_instance_valid(lamp):RenderingServer.instance_set_visible(lamp.get_instance(),lamp.is_visible_in_tree())
 
 func _update_lamps(at: Vector3, delta: float) -> void:
 	var nearby: Array[SpotLight3D] = []
@@ -208,13 +215,11 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 		if lamp.get_parent().visible and lamp.global_position.distance_to(at) < 24.0 and absf(lamp.global_position.y-at.y) < lamp.spot_range: nearby.append(lamp)
 	nearby.sort_custom(func(a: SpotLight3D, b: SpotLight3D) -> bool: return a.global_position.distance_squared_to(at) < b.global_position.distance_squared_to(at))
 	if nearby.size() > MAX_ACTIVE_LAMPS: nearby.resize(MAX_ACTIVE_LAMPS)
-	var faulty := _state != null and bool(_state.containment.get("fault", false))
 	var targets: Dictionary = {}
 	for lamp in _lamps:
 		var wanted := 1.0 if lamp in nearby else 0.0
 		if wanted > 0.0:
 			wanted *= 1.0 - smoothstep(16.0, 24.0, lamp.global_position.distance_to(at))
-			if faulty and lamp.get_parent().name == &"Standard": wanted *= 0.9 + 0.1 * sin(_time * 2.0)
 		targets[lamp] = wanted
 	# Finish fading existing residents before admitting new lamps to the atlas.
 	# Capacity limits must never force a visible source to disappear in one frame.
@@ -241,7 +246,11 @@ func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
 	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, 0.12, _indoor_mix)
 	var exclude := _exclude_body(camera)
-	for lamp in _resident_lamps:
+	var sources: Array[SpotLight3D] = _resident_lamps.duplicate()
+	for mobile in get_tree().get_nodes_in_group("mobile_interior_lights"):
+		if mobile is SpotLight3D and mobile not in sources:
+			sources.append(mobile)
+	for lamp in sources:
 		if not lamp.is_visible_in_tree() or lamp.light_energy <= 0.0: continue
 		var offset := at - lamp.global_position
 		var distance := offset.length()

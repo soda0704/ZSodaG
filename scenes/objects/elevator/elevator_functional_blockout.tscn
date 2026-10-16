@@ -184,6 +184,21 @@ unique_name_in_owner = true
 
 [node name="CabinVisualArt" parent="CabinMoving" unique_id=1929044872 instance=ExtResource("4_cabin_art")]
 
+[node name="CabinLight" type="SpotLight3D" parent="CabinMoving" groups=["mobile_interior_lights"]]
+position = Vector3(0, 3.72, 0)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.92, 0.8, 1)
+light_energy = 4.0
+light_indirect_energy = 0.25
+light_volumetric_fog_energy = 0.25
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.5
+spot_range = 6.5
+spot_attenuation = 0.8
+spot_angle = 75.0
+
 [node name="FloorCollision" type="CollisionShape3D" parent="CabinMoving" unique_id=711339735]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 shape = SubResource("Shape_cabin_floor")

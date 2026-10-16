@@ -141,7 +141,13 @@ func _gui_input(p_event: InputEvent) -> void:
 
 
 func remove_dock(p_force: bool = false) -> void:
+	_initialized = false
 	plugin.remove_dock(_dock)
+	# The plugin frees this panel separately. It also owns the EditorDock wrapper
+	# created in initialize(), which remove_dock() only detaches from the editor.
+	_dock.remove_child(self)
+	_dock.queue_free()
+	_dock = null
 
 
 func update_dock() -> void:

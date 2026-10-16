@@ -1,4 +1,4 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=2 format=3]
 
 [node name="DecontaminationArt" type="Node3D"]
 editor_description = "Помещение дезактивации."
