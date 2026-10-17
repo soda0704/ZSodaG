@@ -5,6 +5,7 @@ const PLAYER_SCENE := preload(
 )
 const BATTERY_PICKUP_SCRIPT := preload("res://scripts/gameplay/items/battery_pickup.gd")
 const ITEM_SCENES := {
+	&"seed_packet": preload("res://scenes/objects/items/seed_packet_pickup.tscn"),
 	&"tape": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"crowbar": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"pistol_ammo": preload("res://scenes/objects/items/weapon_pickup.tscn"),
@@ -664,6 +665,9 @@ func spawn_v3_world_items() -> void:
 		if migrate_props or migrate_backup:
 			save_inventory_checkpoint()
 		return
+	if not _base_gameplay_controller.plant_seed_planted:
+		var level := get_node("V3Level") as BaseBlockoutRuntime
+		spawn_world_item(GamePlayer.SEED_ITEM, world_items.global_transform.affine_inverse() * level.get_seed_packet_spawn_transform(), {})
 	var local_transform := (
 		world_items.global_transform.affine_inverse()
 		* _v3_flashlight_transform

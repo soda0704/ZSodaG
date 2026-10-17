@@ -7,6 +7,7 @@
 [ext_resource type="Resource" path="res://assets/config/characters/tactical_b.tres" id="4_variant_b"]
 [ext_resource type="Script" path="res://scripts/characters/character_visual_variant.gd" id="4_variant_script"]
 [ext_resource type="Script" path="res://scripts/characters/components/character_presentation.gd" id="5_character_animator"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/seed_packet_held.tscn" id="seed_model"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuse_model.tscn" id="6_fuse_model"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/fuel_can_model.tscn" id="7_fuel_can_model"]
 [ext_resource type="Script" uid="uid://c0i4vftqbx20d" path="res://scripts/characters/components/item_drag.gd" id="8_drag"]
@@ -75,6 +76,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.16, -0.02)
 drain_battery_locally = false
 malfunction_enabled = false
+
+[node name="HeldSeedPacket" parent="Head" instance=ExtResource("seed_model")]
+unique_name_in_owner = true
+visible = false
 
 [node name="HeldFuse" parent="Head" unique_id=644896157 instance=ExtResource("6_fuse_model")]
 unique_name_in_owner = true

@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://1ud48u76ij5o"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/Cave_Day7.tscn" id="cave_day7"]
-
 [ext_resource type="Script" uid="uid://cqf56frchbgyk" path="res://scripts/levels/base_blockout_runtime.gd" id="1_runtime"]
 [ext_resource type="PackedScene" uid="uid://g28tvglroke0" path="res://scenes/objects/elevator/elevator_functional_blockout.tscn" id="2_elevator"]
 [ext_resource type="PackedScene" uid="uid://bq6r0gmf1m8u3" path="res://scenes/levels/Floor_0_Base_Blockout.tscn" id="3_floor_0"]
@@ -20,29 +18,29 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/arrival_site.tscn" id="15_arrival"]
 [ext_resource type="Texture2D" uid="uid://dxc7ha7khcig4" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="15_p80ce"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_ambience.tscn" id="ambience_audio"]
+[ext_resource type="PackedScene" path="res://scenes/levels/Cave_Day7.tscn" id="cave_day7"]
 [ext_resource type="Script" uid="uid://gv836ybd7oii" path="res://scripts/gameplay/containment_encounter.gd" id="containment_logic"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/the_monster.tscn" id="creature_0"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/slasher.tscn" id="creature_1"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/smily.tscn" id="creature_2"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_indirect_lighting.tscn" id="indirect_lighting"]
 [ext_resource type="PackedScene" path="res://scenes/objects/medical/medical_corpse.tscn" id="medical_corpse"]
+[ext_resource type="PackedScene" uid="uid://deey53vvvoivh" path="res://scenes/levels/Floor_Minus3_Trials_Observation_Blockout.tscn" id="trials_floor"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
 [ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/Floor_Minus3_Trials_Observation_Blockout.tscn" id="trials_floor"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_ac0f5"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_uokct"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_a28d3"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_vq7lh"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uokct"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p80ce"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("11_ac0f5")
-shader_parameter/screen_texture = SubResource("ViewportTexture_a28d3")
-shader_parameter/error_texture = SubResource("ViewportTexture_ac0f5")
+shader_parameter/screen_texture = SubResource("ViewportTexture_vq7lh")
+shader_parameter/error_texture = SubResource("ViewportTexture_uokct")
 shader_parameter/albedo_texture = ExtResource("12_a28d3")
 shader_parameter/emissive_texture = ExtResource("13_uokct")
 shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
@@ -63,11 +61,11 @@ shader_parameter/sweep_strength = 0.012
 [sub_resource type="BoxShape3D" id="level2_visit_shape"]
 size = Vector3(55, 4, 80)
 
-[sub_resource type="BoxShape3D" id="level3_visit_shape"]
-size = Vector3(46.5, 6, 80)
-
 [sub_resource type="BoxShape3D" id="trials_visit_shape"]
 size = Vector3(14, 4, 10)
+
+[sub_resource type="BoxShape3D" id="level3_visit_shape"]
+size = Vector3(46.5, 6, 80)
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
@@ -83,11 +81,11 @@ script = ExtResource("10_power_lighting")
 [node name="BaseDayProgressionController" type="Node" parent="." unique_id=1687325544]
 script = ExtResource("11_day_progression")
 
-[node name="Cave_Day7" parent="." instance=ExtResource("cave_day7")]
+[node name="Cave_Day7" parent="." unique_id=820003418 instance=ExtResource("cave_day7")]
 
 [node name="SnowExterior" parent="." unique_id=1408054320 instance=ExtResource("12_exterior")]
 
-[node name="WorldLighting" parent="." node_paths=PackedStringArray("lower_exterior_bounds") unique_id=294664761 instance=ExtResource("world_lighting")]
+[node name="WorldLighting" parent="." unique_id=294664761 node_paths=PackedStringArray("lower_exterior_bounds") instance=ExtResource("world_lighting")]
 lower_exterior_bounds = NodePath("../SnowExterior/LowerValleyOutdoorRegion/LowerValleyOutdoorBounds")
 
 [node name="Garage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0" unique_id=1132081566]
@@ -563,17 +561,17 @@ light_energy = 5.0
 spot_angle = 80.0
 
 [node name="L4Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50" unique_id=1387741967]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -68.163277, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -68.16328, 0)
 light_energy = 5.0
 spot_angle = 80.0
 
 [node name="L4Corridor" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51" unique_id=876517963]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.191265, -2.5892024)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.19126, -2.5892024)
 light_energy = 5.0
 spot_angle = 80.0
 
 [node name="L4Corridor2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52" unique_id=1516780077]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.191265, -7.3054028)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.19126, -7.3054028)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -588,12 +586,12 @@ spot_angle = 80.0
 metadata/world_lighting = true
 
 [node name="L4Lab" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53" unique_id=1065376193]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -68.118813, -16)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -68.11881, -16)
 light_energy = 5.0
 spot_angle = 80.0
 
 [node name="L4Lab2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54" unique_id=419328990]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -68.144573, -14.046828)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -68.14457, -14.046828)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 5.0
 light_indirect_energy = 0.65
@@ -728,13 +726,52 @@ light_energy = 5.0
 spot_angle = 80.0
 
 [node name="L5Winch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="68" unique_id=1884585502]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -81.378067, -18.195316)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -81.37807, -18.195316)
 light_color = Color(0.88580453, 0.7619946, 0.6471212, 1)
 light_energy = 5.0
 spot_angle = 80.0
 
+[node name="TrialsArrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="70"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
+
+[node name="TrialsApproach" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="71"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -50.1, 0)
+
+[node name="TrialsControlEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="72"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -25, -50.1, 0)
+
+[node name="TrialsControlWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="73"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 0)
+
+[node name="TrialsExposureEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="74"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -48.95, -9)
+
+[node name="TrialsExposureWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="75"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -48.95, -12)
+
+[node name="TrialsEastService" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="76"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -20, -50.1, -11)
+
+[node name="TrialsNorthService" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="77"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -50.1, -18)
+
+[node name="TrialsWestServiceNorth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="78"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, -10)
+
+[node name="TrialsWestServiceSouth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="79"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, 7)
+
+[node name="TrialsObservationA" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="80"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 9)
+
+[node name="TrialsObservationB" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="81"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -50.1, 9)
+
 [node name="Emergency" parent="WorldLighting" index="2" unique_id=718455498]
 visible = false
+
+[node name="TrialsEmergency" parent="WorldLighting/Emergency" index="13"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
 
 [node name="WorldIndirectLighting" parent="." unique_id=2024796229 instance=ExtResource("indirect_lighting")]
 
@@ -930,7 +967,7 @@ layers = 262145
 layers = 262145
 
 [node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="9" unique_id=55254735]
-display_material = SubResource("ShaderMaterial_uokct")
+display_material = SubResource("ShaderMaterial_p80ce")
 
 [node name="Floor_Minus1_Control_Security_Blockout" parent="." unique_id=154470757 instance=ExtResource("4_floor_minus1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -18, 0)
@@ -955,15 +992,15 @@ transform = Transform3D(0.7648422, -0.64421767, 4.8637084e-08, 0, 7.54979e-08, 1
 corpse_id = 1
 recoverable = false
 
-[node name="Floor_Minus3_Trials_Observation_Blockout" parent="." instance=ExtResource("trials_floor")]
+[node name="Floor_Minus3_Trials_Observation_Blockout" parent="." unique_id=1315188260 instance=ExtResource("trials_floor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
-[node name="InvestigationZone" type="Area3D" parent="Floor_Minus3_Trials_Observation_Blockout"]
-position = Vector3(-30, 1.3, -10)
+[node name="InvestigationZone" type="Area3D" parent="Floor_Minus3_Trials_Observation_Blockout" unique_id=742193972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1.3, -10)
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus3_Trials_Observation_Blockout/InvestigationZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor_Minus3_Trials_Observation_Blockout/InvestigationZone" unique_id=1160455915]
 shape = SubResource("trials_visit_shape")
 
 [node name="Floor_Minus4_Biocontainment_Blockout" parent="." unique_id=268431243 instance=ExtResource("6_floor_minus3")]

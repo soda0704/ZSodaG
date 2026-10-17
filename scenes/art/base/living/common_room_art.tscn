@@ -10,6 +10,10 @@ editor_description = "Art-обёртка общей комнаты East Living: 
 [node name="Visual" type="Node3D" parent="." unique_id=1981421515]
 editor_description = "Импортированная архитектура и крупная мебель общей комнаты."
 
+[node name="SeedPacketSpawn" type="Marker3D" parent="Visual"]
+position = Vector3(14.1, 1.03, -7.1)
+rotation = Vector3(-1.5707963, 0.3, 0.15)
+
 [node name="PlantGrowingContainer" parent="Visual" instance=ExtResource("plant_container")]
 position = Vector3(15.85, 0.835, -7.83)
 editor_description = "Самостоятельный игровой контейнер растений с ежедневным поливом; не зависит от модели общей комнаты."

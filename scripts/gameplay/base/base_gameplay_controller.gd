@@ -83,6 +83,7 @@ var _end_day_consensus_announced: bool = false
 var inventory_checkpoint: Dictionary = {}
 var containment: Dictionary = {}
 var maintenance: Dictionary = {}
+var plant_seed_planted := false
 var plant_last_watered_day: int = 0
 var has_authoritative_snapshot := false
 var applying_initial_snapshot := false
@@ -373,6 +374,7 @@ func reset_day_one_authoritative() -> bool:
 		return false
 	maintenance = {}
 	elevator_backup_installed = false
+	plant_seed_planted = false
 	plant_last_watered_day = 0
 	_broadcast_snapshot(
 		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [], [])
@@ -470,6 +472,7 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	snapshot["plant_seed_planted"] = bool(config.get_value("base", "plant_seed_planted", false))
 	snapshot["plant_last_watered_day"] = int(config.get_value("base", "plant_last_watered_day", 0))
 	# Existing campaigns beyond day one already used an always-powered elevator.
 	# Keep that access; new campaigns must install the fuse before their first night.
@@ -565,6 +568,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
+	plant_seed_planted = bool(snapshot.get("plant_seed_planted", false))
 	plant_last_watered_day = clampi(int(snapshot.get("plant_last_watered_day", 0)), 0, day_index)
 	if bool(maintenance.get("wires_required", false)):
 		main_breaker_on = false
@@ -626,12 +630,28 @@ func _make_snapshot(
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
 		"containment": containment.duplicate(true),
 		"maintenance": maintenance.duplicate(true),
+		"plant_seed_planted": plant_seed_planted,
 		"plant_last_watered_day": plant_last_watered_day,
 	}
 
 
+func plant_seed_authoritative(peer_id: int) -> bool:
+	if not _can_mutate_for_peer(peer_id) or plant_seed_planted:
+		return false
+	var socket := get_tree().get_first_node_in_group("plant_seed_socket")
+	var player := get_player_node(peer_id) as GamePlayer
+	if socket == null or not bool(socket.call("can_use", peer_id, player)):
+		return false
+	if not player.consume_held_item_authoritative(GamePlayer.SEED_ITEM):
+		return false
+	var snapshot := get_snapshot()
+	snapshot.plant_seed_planted = true
+	_broadcast_snapshot(snapshot)
+	return true
+
+
 func water_plant_authoritative(peer_id: int) -> bool:
-	if not _can_mutate_for_peer(peer_id) or not main_breaker_on or plant_last_watered_day >= day_index:
+	if not _can_mutate_for_peer(peer_id) or not plant_seed_planted or not main_breaker_on or plant_last_watered_day >= day_index:
 		return false
 	var button := get_tree().get_first_node_in_group("plant_watering_button")
 	if button == null or not bool(button.call("can_use", peer_id, get_player_node(peer_id))):

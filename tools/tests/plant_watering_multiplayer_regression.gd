@@ -10,6 +10,8 @@ var button: PlantWateringButton
 var client_id := 0
 var reports := {}
 var cycles := 0
+var planting_cycles := 0
+var seed_socket: PlantSeedSocket
 var input_active := false
 var sequence := 100000
 var serial := 90000
@@ -40,6 +42,9 @@ func until(predicate: Callable) -> bool:
 func bind() -> void:
 	state = world.get_node("V3Level/BaseGameplayController")
 	state.set_process(false)
+	seed_socket = get_tree().get_first_node_in_group("plant_seed_socket")
+	seed_socket.animation.animation_started.connect(func(clip: StringName):
+		if clip == &"plant": planting_cycles += 1)
 	button = get_tree().get_first_node_in_group("plant_watering_button")
 	button.animation.animation_started.connect(func(name: StringName):
 		if name == &"water": cycles += 1)
@@ -55,6 +60,14 @@ func aim(player: GamePlayer) -> void:
 func visit(player: GamePlayer) -> void:
 	player.teleport_authoritative(Vector3(button.global_position.x, 0.04, button.global_position.z + 1.05), 0)
 	aim(player)
+	for frame in 6: await get_tree().physics_frame
+
+func visit_plant(player: GamePlayer) -> void:
+	player.teleport_authoritative(Vector3(seed_socket.global_position.x, 0.04, seed_socket.global_position.z + 1.0), 0)
+	player.rotation.y = 0
+	player.camera.rotation = Vector3.ZERO
+	var offset := seed_socket.interaction_point.global_position - player.camera.global_position
+	player.head.rotation.x = atan2(offset.y, -offset.z)
 	for frame in 6: await get_tree().physics_frame
 
 func run() -> void:
@@ -81,6 +94,7 @@ func run() -> void:
 		check(cycles == 0 and not button.get_parent().get_node("SprayLeft").emitting, "late join does not replay historical water")
 		check(not state.water_plant_authoritative(multiplayer.get_unique_id()), "client cannot mutate plant state locally")
 		check(ExpeditionSaveStore.read("coop").is_empty(), "client does not write a separate expedition save")
+		check(state.plant_seed_planted and seed_socket.seed.visible and planting_cycles == 0, "late join restores seed without historical planting animation")
 		report.rpc_id(1, "initial", failures)
 		return
 	world._on_session_ready(true)
@@ -88,6 +102,7 @@ func run() -> void:
 	check(await until(func(): return world._v3_items_spawned), "host loads production base")
 	bind()
 	var snapshot := state.get_snapshot()
+	snapshot.plant_seed_planted = false
 	snapshot.day_index = 1
 	snapshot.phase = BaseGameplayController.BasePhase.ACTIVE_DAY
 	snapshot.main_breaker_on = true
@@ -96,6 +111,11 @@ func run() -> void:
 	snapshot.maintenance = {}
 	state._broadcast_snapshot(snapshot)
 	var local := world.players.get_node("1") as GamePlayer
+	local.pickup_world_item_authoritative(GamePlayer.SEED_ITEM, {})
+	await visit_plant(local)
+	local.try_authoritative_interaction()
+	check(state.plant_seed_planted and not local.has_held_item(GamePlayer.SEED_ITEM), "host plants through production interaction")
+	check(planting_cycles == 1, "host presents planting once")
 	await visit(local)
 	check(local.get_interaction_target() == button, "host physical E ray reaches watering control")
 	local.try_authoritative_interaction()
@@ -130,6 +150,21 @@ func run() -> void:
 	check(state.plant_last_watered_day == 2 and cycles == cycles_before + 1, "repeated guest input cannot restart shared cycle")
 	var saved: ConfigFile = ExpeditionSaveStore.read("coop").config
 	check(int(saved.get_value("base", "plant_last_watered_day", 0)) == 2, "host save includes guest daily watering")
+	# Separate empty-container fixture verifies an actual guest E request too.
+	snapshot = state.get_snapshot()
+	snapshot.plant_seed_planted = false
+	state._broadcast_snapshot(snapshot)
+	guest.pickup_world_item_authoritative(GamePlayer.SEED_ITEM, {})
+	await visit_plant(guest)
+	serial += 1
+	command.rpc_id(client_id, "plant")
+	check(await until(func(): return guest._server_interact_serial == serial), "guest sends production planting input")
+	guest.simulate_authoritative_movement(0.0)
+	check(state.plant_seed_planted and not guest.has_held_item(GamePlayer.SEED_ITEM), "host consumes guest packet and confirms planting")
+	check(not state.plant_seed_authoritative(1) and not state.plant_seed_authoritative(client_id), "both peers share single planting guard")
+	command.rpc_id(client_id, "plant_confirmed")
+	check(await until(func(): return reports.has("plant_confirmed")), "guest sees planting animation")
+	check(bool((ExpeditionSaveStore.read("coop").config as ConfigFile).get_value("base", "plant_seed_planted", false)), "guest planting stored in host save")
 	finish.rpc_id(client_id, failures)
 	await get_tree().create_timer(0.5).timeout
 	print("PLANT COOP CHECKS ", checks, " FAILURES ", failures)
@@ -138,7 +173,16 @@ func run() -> void:
 @rpc("authority", "call_remote", "reliable")
 func command(action: String) -> void:
 	var local := get_tree().get_first_node_in_group("local_player") as GamePlayer
-	if action == "water":
+	if action == "plant":
+		check(await until(func(): return not state.plant_seed_planted and local.has_held_item(GamePlayer.SEED_ITEM)), "guest receives packet and empty container")
+		await visit_plant(local)
+		check(local.get_interaction_target() == seed_socket, "guest aim ray reaches planting area")
+		serial += 1
+	elif action == "plant_confirmed":
+		check(await until(func(): return state.plant_seed_planted), "guest receives planted state")
+		check(planting_cycles == 1, "guest plays new planting once without replaying old host planting")
+		check(not local.has_held_item(GamePlayer.SEED_ITEM), "guest sees consumed held packet")
+	elif action == "water":
 		check(await until(func(): return state.day_index == 2 and state.main_breaker_on), "client receives new available day")
 		aim(local)
 		for frame in 6: await get_tree().physics_frame

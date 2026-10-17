@@ -61,6 +61,11 @@ func _make_shadow_items() -> void:
 		var visual: Node3D=load(pair[1]).instantiate()
 		sockets.get_node(pair[0]).add_child(visual); visual.name="ShadowItem"
 
+	var packet: Node3D = preload("res://scenes/objects/items/seed_packet_held.tscn").instantiate()
+	sockets.get_node("FuseGrip").add_child(packet)
+	packet.name = "ShadowSeedPacket"
+	packet.visible = false
+
 func set_local_visibility(dead: bool) -> void:
 	_update_world_visibility(dead)
 	if first_person != null: first_person.set_dead(dead)
@@ -209,12 +214,13 @@ func _update_floor_offset(grounded: bool) -> void:
 		model.position.y = clampf(hit.position.y - player.global_position.y, -0.15, 0.10)
 
 func _kind_name(kind: StringName) -> String:
-	return {&"m4a1":"Rifle",&"pistol":"Pistol",&"kitchen_knife":"Knife",&"flashlight":"Flashlight",&"fuse":"Fuse",&"fuel_can":"Fuel"}.get(kind,"")
+	return {&"m4a1":"Rifle",&"pistol":"Pistol",&"kitchen_knife":"Knife",&"flashlight":"Flashlight",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}.get(kind,"")
 
 func _sync_world_items(kind: StringName, journal: int) -> void:
 	var sockets: Node3D=model.get_node("Skeleton3D/RightHand/Equipment")
 	for label in ["pistol","m4a1","kitchen_knife"]: sockets.get_node(label).visible=String(kind)==label and journal==0
 	for pair in [["FuseGrip",&"fuse"],["FuelGrip",&"fuel_can"]]: sockets.get_node(pair[0]+"/ShadowItem").visible=kind==pair[1] and journal==0
+	sockets.get_node("FuseGrip/ShadowSeedPacket").visible = kind == &"seed_packet" and journal == 0
 	var offhand: bool = get_parent().is_handheld_flashlight_drawn() or get_parent()._battery_flashlight_presentation
 	model.get_node("Skeleton3D/LeftHand/Equipment/FlashlightGrip/ShadowItem").visible = offhand and journal == 0 and not _sleeping and not get_parent().is_driving() and get_parent().weapon.reload_left <= 0.0
 	sockets.get_node("MountedLamp").visible=get_parent().weapon_light_mounted and journal==0

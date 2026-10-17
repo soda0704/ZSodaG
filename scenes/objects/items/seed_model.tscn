@@ -1,0 +1,7 @@
+[gd_scene format=3]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/seed/seed_mesh.res" id="seed"]
+[node name="Seed" type="Node3D"]
+[node name="Kernel" type="MeshInstance3D" parent="."]
+position = Vector3(0.00043, 0.07914, 0.01458)
+scale = Vector3(0.17, 0.17, 0.17)
+mesh = ExtResource("seed")

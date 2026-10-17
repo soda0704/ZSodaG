@@ -5,6 +5,14 @@
 [ext_resource type="Material" path="res://assets/models/props/enclosed_plant_wall_module/glass_labels_material.tres" id="labels"]
 [ext_resource type="Script" path="res://scripts/gameplay/base/plant_watering_button.gd" id="watering_logic"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/fuel.ogg" id="water_audio"]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/enclosed_plant_wall_module/cover_mesh.res" id="cover_mesh"]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/plant_seed_socket.gd" id="plant_logic"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/seed_packet_model.tscn" id="packet"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/seed_model.tscn" id="seed"]
+
+[sub_resource type="BoxShape3D" id="PlantShape"]
+size = Vector3(0.8, 0.5, 0.024)
 
 [sub_resource type="BoxShape3D" id="ButtonShape"]
 size = Vector3(0.055, 0.055, 0.065)
@@ -151,6 +159,82 @@ size = Vector3(0.09, 0.95, 0.045)
 [sub_resource type="BoxShape3D" id="HousingShape"]
 size = Vector3(1.381832, 1.548529, 0.532935)
 
+[sub_resource type="Animation" id="PlantReset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrontGlassHinge:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 0, "values": [Vector3(0, 0, 0)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlantingPacket:visible")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlantingPacket:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 0, "values": [Vector3(0.1, 0.62, 0.84)]}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlantingPacket:rotation")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 0, "values": [Vector3(0, 0, 0)]}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlantedSeed:position")
+tracks/4/interp = 1
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 0, "values": [Vector3(0.1, 0.379, 0.38)]}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlantedSeed:visible")
+tracks/5/interp = 1
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+[sub_resource type="Animation" id="PlantClip"]
+resource_name = "plant"
+length = 3.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrontGlassHinge:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.55, 2.6, 3.2), "transitions": PackedFloat32Array(1, 1, 1, 1), "update": 0, "values": [Vector3(0,0,0), Vector3(0,-1.45,0), Vector3(0,-1.45,0), Vector3(0,0,0)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlantingPacket:visible")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0, 0.45, 2.6), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [false, true, false]}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlantingPacket:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0, 0.55, 1.25, 2, 2.6), "transitions": PackedFloat32Array(1, 1, 1, 1, 1), "update": 0, "values": [Vector3(0.1,0.62,0.84), Vector3(0.1,0.62,0.84), Vector3(0.1,0.59,0.38), Vector3(0.1,0.59,0.38), Vector3(0.1,0.62,0.84)]}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlantingPacket:rotation")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0, 1.2, 1.55, 2, 2.5), "transitions": PackedFloat32Array(1, 1, 1, 1, 1), "update": 0, "values": [Vector3(0,0,0), Vector3(0,0,0), Vector3(0,0,3.0), Vector3(0,0,3.0), Vector3(0,0,0)]}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlantedSeed:position")
+tracks/4/interp = 1
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0, 1.55, 1.88, 2), "transitions": PackedFloat32Array(1, 1, 1, 1), "update": 0, "values": [Vector3(0.1,0.379,0.38), Vector3(0.1,0.615,0.38), Vector3(0.1,0.384,0.38), Vector3(0.1,0.379,0.38)]}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlantedSeed:visible")
+tracks/5/interp = 1
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0, 1.55), "transitions": PackedFloat32Array(1, 1), "update": 1, "values": [false, true]}
+tracks/6/type = "value"
+tracks/6/path = NodePath("PlantingPacket/Seed:visible")
+tracks/6/interp = 1
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0, 1.55, 3.2), "transitions": PackedFloat32Array(1, 1, 1), "update": 1, "values": [true, false, true]}
+
+[sub_resource type="AnimationLibrary" id="PlantLibrary"]
+_data = {&"RESET": SubResource("PlantReset"), &"plant": SubResource("PlantClip")}
+
 [node name="PlantGrowingContainer" type="Node3D"]
 editor_description = "Настенный контейнер: одна рабочая кнопка полива, общий лимит один раз за игровой день и сохранение у хоста. Визуал, короткий клип нажатия и полива, форсунки, звук и частицы редактируются в этой сцене. Рост растений пока не подключён."
 
@@ -168,17 +252,24 @@ material_override = ExtResource("housing")
 material_override = ExtResource("labels")
 
 [node name="UpperCover" parent="Model/Sketchfab_model" index="3"]
-editor_description = "Исходная тонкая верхняя крышка отделена от корпуса и перенесена под нижний белый блок. Вертикальное отражение разворачивает её наружную поверхность вниз."
-position = Vector3(-0.127114, 4.896844, 1.81952)
-scale = Vector3(1, -1, 1)
+editor_description = "Исходная тонкая крышка сохранена сверху на штатном месте. Нижняя крышка — отдельная копия LowerCover."
 material_override = ExtResource("housing")
 
 [node name="WaterButton" parent="Model/Sketchfab_model" index="4"]
 material_override = ExtResource("housing")
 
-[node name="GlassPane" type="MeshInstance3D" parent="."]
+[node name="LowerCover" type="MeshInstance3D" parent="Model/Sketchfab_model"]
+editor_description = "Копия тонкой верхней крышки под нижним блоком; наружная поверхность развёрнута вниз. Верхний оригинал сохранён."
+transform = Transform3D(0, 0, 1, 0, -1, 0, -1, 0, 0, -0.127114, 4.896844, 1.81952)
+mesh = ExtResource("cover_mesh")
+material_override = ExtResource("housing")
+
+[node name="FrontGlassHinge" type="Node3D" parent="."]
+position = Vector3(-0.45215, 0.707, 0.502)
+
+[node name="GlassPane" type="MeshInstance3D" parent="FrontGlassHinge"]
 editor_description = "В архиве отсутствует отдельная стеклянная геометрия. Штатные прозрачные BoxMesh сохраняют стеклянную камеру; исходные надписи лежат отдельным материалом на импортированной геометрии."
-position = Vector3(0.09585, 0.707, 0.502)
+position = Vector3(0.548, 0, 0)
 mesh = SubResource("GlassPaneMesh")
 material_override = SubResource("GlassMaterial")
 cast_shadow = 0
@@ -313,5 +404,21 @@ collision_mask = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 position = Vector3(0, 0.756081, 0.266467)
 shape = SubResource("HousingShape")
+
+[node name="PlantSeedSocket" type="StaticBody3D" parent="."]
+position = Vector3(0.09585, 0.73, 0.557)
+script = ExtResource("plant_logic")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlantSeedSocket"]
+shape = SubResource("PlantShape")
+[node name="InteractionPoint" type="Marker3D" parent="PlantSeedSocket"]
+position = Vector3(0, 0, 0.025)
+[node name="PlantedSeed" parent="." instance=ExtResource("seed")]
+position = Vector3(0.1, 0.379, 0.38)
+visible = false
+[node name="PlantingPacket" parent="." instance=ExtResource("packet")]
+position = Vector3(0.1, 0.62, 0.84)
+visible = false
+[node name="PlantingAnimation" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("PlantLibrary")}
 
 [editable path="Model"]

@@ -4,7 +4,7 @@ extends Node3D
 
 const VIEW_LAYER := 1 << 19
 const LOCAL_BODY_LAYER := 1 << 17
-const KINDS := {&"m4a1":"Rifle",&"pistol":"Pistol",&"flashlight":"Flashlight",&"kitchen_knife":"Knife",&"fuse":"Fuse",&"fuel_can":"Fuel"}
+const KINDS := {&"m4a1":"Rifle",&"pistol":"Pistol",&"flashlight":"Flashlight",&"kitchen_knife":"Knife",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}
 @export var angular_mass := 0.014
 @export var max_lag_degrees := 1.5
 @export var settling_frequency := 13.0

@@ -48,6 +48,7 @@ const FUEL_PICKUP_SCENE := preload(
 ])
 @export var player_spawn_yaws := PackedFloat32Array([PI * 0.5, PI * 0.5])
 @export var arrival_spawns_path := NodePath("ArrivalSite/Spawns")
+@export var seed_packet_spawn_path := NodePath("Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Visual/SeedPacketSpawn")
 @export var elevator_backup_fuse_spawn_path := NodePath("Floor_0_Base_Blockout/Gameplay/MedicalFuseTray/Spawn")
 @export var standalone_flashlight_transform := Transform3D(
 	Basis(Vector3.UP, -0.43),
@@ -158,6 +159,10 @@ func get_fuel_can_spawn_transform() -> Transform3D:
 	return get_fuel_can_spawn_transforms()[0]
 
 
+func get_seed_packet_spawn_transform() -> Transform3D:
+	return (get_node(seed_packet_spawn_path) as Marker3D).global_transform
+
+
 func get_elevator_backup_fuse_spawn_transform() -> Transform3D:
 	return (get_node(elevator_backup_fuse_spawn_path) as Marker3D).global_transform
 
@@ -186,6 +191,10 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 
 func spawn_standalone_gameplay() -> void:
 	var state := get_node("BaseGameplayController") as BaseGameplayController
+	if not state.plant_seed_planted and not has_node("KitchenSeedPacket"):
+		var packet := preload("res://scenes/objects/items/seed_packet_pickup.tscn").instantiate() as WorldItemPickup
+		packet.setup_spawn({"pickup_name": "KitchenSeedPacket", "transform": get_seed_packet_spawn_transform()})
+		add_child(packet)
 	if not state.elevator_backup_installed and not has_node("ElevatorBackupFuse"):
 		var fuse := preload("res://scenes/objects/items/fuse_pickup.tscn").instantiate() as WorldItemPickup
 		fuse.setup_spawn({"pickup_name": "ElevatorBackupFuse", "transform": get_elevator_backup_fuse_spawn_transform()})

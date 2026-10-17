@@ -86,7 +86,10 @@ func run() -> void:
 	check(player.get_interaction_target() == button, "production E ray reaches the original rightmost button")
 	check(button.can_use(1, player), "nearby live owner can use button")
 	check(not state.water_plant_authoritative(1), "unpowered container cannot water")
-	check(button.get_interaction_hint_for(player) == "Нет питания", "unpowered button has honest prompt")
+	check(button.get_interaction_hint_for(player).is_empty(), "empty container does not advertise watering")
+	var planted_fixture := state.get_snapshot()
+	planted_fixture.plant_seed_planted = true
+	state._broadcast_snapshot(planted_fixture)
 	powered()
 	check(button.get_interaction_hint_for(player).ends_with("Полить"), "powered button offers watering")
 	check(not state.water_plant_authoritative(9999), "unknown peer rejected")

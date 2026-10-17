@@ -1,0 +1,11 @@
+Model Information:
+* title:	Seed
+* source:	https://sketchfab.com/3d-models/seed-b211428acd6a40e19031334e5949f0e6
+* author:	maddykrob (https://sketchfab.com/maddykrob)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Seed" (https://sketchfab.com/3d-models/seed-b211428acd6a40e19031334e5949f0e6) by maddykrob (https://sketchfab.com/maddykrob) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

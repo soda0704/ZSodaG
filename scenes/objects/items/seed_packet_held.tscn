@@ -1,0 +1,6 @@
+[gd_scene format=3]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/seed_packet_model.tscn" id="packet"]
+[node name="HeldSeedPacket" type="Node3D"]
+[node name="Packet" parent="." instance=ExtResource("packet")]
+position = Vector3(0, 0.045, 0)
+rotation = Vector3(0, 0, 3.1415927)

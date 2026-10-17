@@ -21,6 +21,8 @@ func is_driving() -> bool:
 const NO_ITEM := &""
 const FLASHLIGHT_ITEM := &"flashlight"
 const FUSE_ITEM := &"fuse"
+const SEED_ITEM := &"seed_packet"
+const SEED_PICKUP_SCENE := preload("res://scenes/objects/items/seed_packet_pickup.tscn")
 const BATTERY_ITEM := &"battery"
 const FUEL_ITEM := &"fuel_can"
 const MAX_SPARE_BATTERIES := 20
@@ -84,6 +86,7 @@ var _sprint_active := false
 @onready var body_animator: GameCharacterPresentation = %BodyVisual
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
+@onready var held_seed_packet: Node3D = %HeldSeedPacket
 @onready var held_fuse: Node3D = %HeldFuse
 @onready var held_fuel_can: Node3D = %HeldFuelCan
 @export_range(0.5, 10.0) var interaction_reach := 3.0
@@ -203,6 +206,8 @@ func _ready() -> void:
 	flashlight.rig_animator = body_animator
 	held_fuse.reparent(body_animator.equipment_socket("FuseGrip"), false)
 	held_fuse.transform = Transform3D.IDENTITY
+	held_seed_packet.reparent(body_animator.equipment_socket("FuseGrip"), false)
+	held_seed_packet.transform = Transform3D.IDENTITY
 	held_fuel_can.reparent(body_animator.equipment_socket("FuelGrip"), false)
 	held_fuel_can.transform = Transform3D.IDENTITY
 
@@ -1088,7 +1093,7 @@ func pickup_world_item_authoritative(
 		_publish_inventory()
 		return true
 
-	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM] and not WeaponController.TYPES.has(item_type):
+	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM, SEED_ITEM] and not WeaponController.TYPES.has(item_type):
 		return false
 	if item_type == FLASHLIGHT_ITEM:
 		if _has_flashlight:
@@ -1548,6 +1553,7 @@ func spawn_dropped_item_authoritative(
 		if item_type == FLASHLIGHT_ITEM
 		else FUSE_PICKUP_SCENE
 		if item_type == FUSE_ITEM
+		else SEED_PICKUP_SCENE if item_type == SEED_ITEM
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
 		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
 		else preload("res://scenes/objects/items/tool_pickup.tscn") if item_type in [&"tape", &"crowbar"]
@@ -1784,6 +1790,7 @@ func _refresh_equipment_visuals() -> void:
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
 		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted, false)
+	held_seed_packet.visible = _held_item_type == SEED_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
 	held_fuse.visible = _held_item_type == FUSE_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
 	held_fuel_can.visible = _held_item_type == FUEL_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
 	update_battery_ui()

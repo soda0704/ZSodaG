@@ -39,3 +39,14 @@ License: Sketchfab Standard (https://sketchfab.com/licenses). See assets/models/
 Enclosed Plant Wall Module by Joel T.Doorman.
 Source recorded in the supplied archive: https://sketchfab.com/3d-models/enclosed-plant-wall-module-89571785c0d640c3b2c3e3ad2545d1a7
 Prepared for the game from the owner-supplied archive: restored object transforms and separate PBR maps, separated the thin cover and original watering button, added scene-authored glass, collisions, mounts and watering effects. See `assets/models/props/enclosed_plant_wall_module/README.md` for preparation details.
+
+## Seed
+
+This work is based on "Seed" (https://sketchfab.com/3d-models/seed-b211428acd6a40e19031334e5949f0e6) by maddykrob (https://sketchfab.com/maddykrob) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/).
+The supplied mesh is scaled and centred in `seed_model.tscn`. Original notice: `assets/models/props/seed/license.txt`.
+
+## Zip-lock seed packet
+
+Pouch geometry from the owner-supplied "Metallic package with zip lock" archive, by designdaco.
+Source recorded in that archive: https://sketchfab.com/3d-models/metallic-package-with-zip-lock-ecc6bd0da9084b898113cf1f1ceff405
+The geometry is reused with a scene-authored transparent plastic material, zero metallic and a separate translucent zip seal. The archive contains source metadata but no explicit licence notice; no licence has been inferred.
