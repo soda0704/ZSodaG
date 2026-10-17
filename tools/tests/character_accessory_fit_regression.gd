@@ -37,6 +37,60 @@ func skin_point(body: MeshInstance3D, arrays: Array, vertex: int) -> Vector3:
 	return result
 
 
+func rear_surface_at(arrays: Array, point: Vector2) -> float:
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+	var rear := -INF
+	for face in range(0, indices.size(), 3):
+		var hit: Variant = Geometry3D.segment_intersects_triangle(Vector3(point.x, point.y, 0.4), Vector3(point.x, point.y, -0.2), vertices[indices[face]], vertices[indices[face+1]], vertices[indices[face+2]])
+		if hit != null: rear = maxf(rear, hit.z)
+	return rear
+
+func rear_hardware_contacts(body: MeshInstance3D) -> Array:
+	var plate: Array
+	var hardware: Array = []
+	for surface in body.mesh.get_surface_count():
+		var arrays := body.mesh.surface_get_arrays(surface)
+		var label := body.mesh.surface_get_material(surface).resource_name
+		var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+		if label == "plate":
+			if vertices.size() > 1000: plate = arrays
+			else: hardware.append({"arrays": arrays, "vertices": range(vertices.size())})
+		elif label == "ShoulderPads":
+			var ring := []
+			for i in vertices.size():
+				if vertices[i].y > 1.24 and vertices[i].y < 1.36 and vertices[i].z > 0.15 and vertices[i].x > 0.04 and vertices[i].x < 0.105: ring.append(i)
+			hardware.append({"arrays": arrays, "vertices": ring})
+	var points: PackedVector3Array = plate[Mesh.ARRAY_VERTEX]
+	var indices: PackedInt32Array = plate[Mesh.ARRAY_INDEX]
+	var contacts := []
+	for part in hardware:
+		check(not part.vertices.is_empty(), "rear ring/buckle retains its original geometry")
+		var selected := PackedVector3Array()
+		for i in part.vertices: selected.append(part.arrays[Mesh.ARRAY_VERTEX][i])
+		var center := bounds(selected).get_center()
+		var back := -INF
+		var sample := {}
+		for face in range(0, indices.size(), 3):
+			var ids := Vector3i(indices[face], indices[face+1], indices[face+2])
+			var hit: Variant = Geometry3D.segment_intersects_triangle(Vector3(center.x, center.y, 0.5), Vector3(center.x, center.y, 0), points[ids.x], points[ids.y], points[ids.z])
+			if hit != null and hit.z > back:
+				back = hit.z
+				sample = {"hardware": part.arrays, "vertex": part.vertices[0], "plate": plate, "triangle": ids, "point": hit, "bary": Geometry3D.get_triangle_barycentric_coords(hit, points[ids.x], points[ids.y], points[ids.z])}
+		check(not sample.is_empty() and absf(center.z - back) < 0.025, "rear hardware sits against the plate in rest space")
+		contacts.append(sample)
+	return contacts
+
+func hardware_contact_error(body: MeshInstance3D, contact: Dictionary) -> float:
+	var carried := Vector3.ZERO
+	for slot in 4:
+		var at: int = contact.vertex * 4 + slot
+		var bone: int = contact.hardware[Mesh.ARRAY_BONES][at]
+		carried += final_poses[bone] * body.skin.get_bind_pose(bone) * contact.point * contact.hardware[Mesh.ARRAY_WEIGHTS][at]
+	var plate_point := Vector3.ZERO
+	for corner in 3: plate_point += skin_point(body, contact.plate, contact.triangle[corner]) * contact.bary[corner]
+	return carried.distance_to(plate_point)
+
 func run() -> void:
 	Engine.max_fps = 60
 	root.get_node("GameMenu").force_close_menu()
@@ -81,9 +135,25 @@ func run() -> void:
 				for vertex in arrays[Mesh.ARRAY_VERTEX]:
 					if vertex.y > 1.60: head_vertices.append(vertex)
 		var head_bounds := bounds(head_vertices)
+		var rear_contacts := rear_hardware_contacts(body) if variant == 0 else []
+		if variant == 0:
+			check(head_bounds.size.x > 0.19 and head_bounds.size.z > 0.22, "Tactical skull retains human width and depth under the cap")
+			var profile := Vector3(-INF, -INF, -INF)
+			for point in head_vertices:
+				if absf(point.x) > 0.025: continue
+				for band in 3:
+					if absf(point.y - [1.66, 1.735, 1.805][band]) < 0.012: profile[band] = maxf(profile[band], point.z)
+			print("TACTICAL REAR PROFILE ", profile)
+			check(profile.is_finite() and profile.y > 0.11 and profile.y > profile.x + 0.006 and profile.y > profile.z + 0.006, "Tactical occiput has a rounded contour rather than a flat rear plane")
 		var cap: Array = surfaces["material" if variant == 0 else "GreenCap"]
 		var headphones: Array = surfaces["Headphones" if variant == 0 else "HeadphonesT"]
 		var cap_bounds := bounds(cap[Mesh.ARRAY_VERTEX])
+		if variant == 0:
+			for point in [Vector2(0.007, 1.805), Vector2(-0.05, 1.79), Vector2(0.05, 1.79)]:
+				var crown_z := rear_surface_at(cap, point)
+				var scalp_z := rear_surface_at(surfaces["Head"], point)
+				print("CROWN CLEARANCE ", point, " cap=", crown_z, " scalp=", scalp_z)
+				check(is_finite(crown_z) and is_finite(scalp_z) and crown_z > scalp_z + 0.002, "rear cap crown covers the scalp at %s" % point)
 		var headphone_bounds := bounds(headphones[Mesh.ARRAY_VERTEX])
 		check(cap_bounds.size.y > 0.07 and cap_bounds.size.y < 0.20, "variant %d cap has a full crown rather than flattened brim" % variant)
 		check(cap_bounds.end.y - head_bounds.end.y > -0.02 and cap_bounds.end.y - head_bounds.end.y < 0.035, "variant %d crown sits on the scalp without hovering" % variant)
@@ -111,6 +181,8 @@ func run() -> void:
 			for i in 60:
 				player.body_animator.update_context(1.0 / 60, context)
 				await process_frame
+			for contact in rear_contacts:
+				check(hardware_contact_error(body, contact) < 0.006, "rear hardware follows plate during %s" % state)
 			var max_drift := 0.0
 			var reference := final_poses[head].affine_inverse()
 			for arrays: Array in accessories:

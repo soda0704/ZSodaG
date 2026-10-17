@@ -167,29 +167,207 @@ func fit_shoulder_straps(arrays: Array, source: Dictionary) -> void:
 	arrays[Mesh.ARRAY_BONES] = bones
 	arrays[Mesh.ARRAY_WEIGHTS] = weights
 
+func subdivide_rigid_head(arrays: Array) -> void:
+	# Two offline subdivision passes supply the missing contour vertices.
+	# UV/normal seams remain split; all these surfaces are rigid on Head.
+	for level in 2:
+		var vertices: Array = Array(arrays[Mesh.ARRAY_VERTEX])
+		var normals: Array = Array(arrays[Mesh.ARRAY_NORMAL])
+		var uvs: Array = Array(arrays[Mesh.ARRAY_TEX_UV])
+		var tangents: Array = Array(arrays[Mesh.ARRAY_TANGENT])
+		var colors: Array = Array(arrays[Mesh.ARRAY_COLOR]) if arrays[Mesh.ARRAY_COLOR] != null else []
+		var uv2: Array = Array(arrays[Mesh.ARRAY_TEX_UV2]) if arrays[Mesh.ARRAY_TEX_UV2] != null else []
+		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+		var next := PackedInt32Array()
+		var edges := {}
+		for tri in range(0, indices.size(), 3):
+			var corners := [indices[tri], indices[tri+1], indices[tri+2]]
+			var middle := []
+			for edge in 3:
+				var a: int = corners[edge]
+				var b: int = corners[(edge+1)%3]
+				var key := Vector2i(mini(a,b), maxi(a,b))
+				if not edges.has(key):
+					edges[key] = vertices.size()
+					vertices.append((vertices[a] + vertices[b]) * 0.5)
+					normals.append((normals[a] + normals[b]).normalized())
+					uvs.append((uvs[a] + uvs[b]) * 0.5)
+					if not colors.is_empty(): colors.append(colors[a].lerp(colors[b], 0.5))
+					if not uv2.is_empty(): uv2.append((uv2[a] + uv2[b]) * 0.5)
+					if not tangents.is_empty():
+						var tangent := (Vector3(tangents[a*4], tangents[a*4+1], tangents[a*4+2]) + Vector3(tangents[b*4], tangents[b*4+1], tangents[b*4+2])).normalized()
+						tangents.append_array([tangent.x,tangent.y,tangent.z,tangents[a*4+3]])
+				middle.append(edges[key])
+			next.append_array([corners[0],middle[0],middle[2], middle[0],corners[1],middle[1], middle[2],middle[1],corners[2], middle[0],middle[1],middle[2]])
+		arrays[Mesh.ARRAY_VERTEX] = PackedVector3Array(vertices)
+		arrays[Mesh.ARRAY_NORMAL] = PackedVector3Array(normals)
+		arrays[Mesh.ARRAY_TEX_UV] = PackedVector2Array(uvs)
+		arrays[Mesh.ARRAY_TANGENT] = PackedFloat32Array(tangents)
+		if not colors.is_empty(): arrays[Mesh.ARRAY_COLOR] = PackedColorArray(colors)
+		if not uv2.is_empty(): arrays[Mesh.ARRAY_TEX_UV2] = PackedVector2Array(uv2)
+		arrays[Mesh.ARRAY_INDEX] = next
+		var bone: int = arrays[Mesh.ARRAY_BONES][0]
+		var bones := PackedInt32Array(); bones.resize(vertices.size()*4); bones.fill(bone)
+		var weights := PackedFloat32Array(); weights.resize(vertices.size()*4)
+		for i in vertices.size(): weights[i*4] = 1.0
+		arrays[Mesh.ARRAY_BONES] = bones
+		arrays[Mesh.ARRAY_WEIGHTS] = weights
+
+func seat_tactical_cap_crown(arrays: Array) -> void:
+	# The enlarged skull must not occlude the rear crown. Keep the brim and
+	# forehead fit intact; seat only posterior cloth outside the scalp.
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var tangents: PackedFloat32Array = arrays[Mesh.ARRAY_TANGENT]
+	for i in vertices.size():
+		var point := vertices[i]
+		if point.z <= 0.005: continue
+		var height := (point.y - 1.735) / 0.11
+		var side := point.x / 0.135
+		var oval := 1.0 - height * height - side * side
+		if oval <= 0.0: continue
+		var scalp := 0.015 + 0.12 * sqrt(oval)
+		var target := scalp + 0.006 + point.z * 0.12
+		if point.z >= target: continue
+		# Keep inner and outer cloth layers distinct (no coplanar faces).
+		vertices[i].z = lerpf(point.z, target, smoothstep(0.005, 0.04, point.z))
+		var normal := Vector3(point.x / (0.135 * 0.135), (point.y - 1.735) / (0.11 * 0.11), (scalp - 0.015) / (0.12 * 0.12)).normalized()
+		normals[i] = normal
+		if tangents.size() >= (i + 1) * 4:
+			var tangent := Vector3(tangents[i*4], tangents[i*4+1], tangents[i*4+2])
+			tangent = (tangent - normal * tangent.dot(normal)).normalized()
+			tangents[i*4] = tangent.x; tangents[i*4+1] = tangent.y; tangents[i*4+2] = tangent.z
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+
+func place_tactical_head(arrays: Array, blend_neck: bool) -> void:
+	# Translate the complete head assembly 25 mm rearward. Leave the neck
+	# base at the collar and blend its short transition into the new position.
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var tangents: PackedFloat32Array = arrays[Mesh.ARRAY_TANGENT]
+	for i in vertices.size():
+		var height := vertices[i].y
+		var blend := smoothstep(1.54, 1.62, height) if blend_neck else 1.0
+		vertices[i].z += 0.025 * blend
+		if blend_neck and height > 1.54 and height < 1.62:
+			var t := (height - 1.54) / 0.08
+			var derivative := 0.025 * 6.0 * t * (1.0 - t) / 0.08
+			var jacobian := Basis(Vector3.RIGHT, Vector3(0, 1, derivative), Vector3.BACK)
+			normals[i] = (jacobian.inverse().transposed() * normals[i]).normalized()
+			if tangents.size() >= (i + 1) * 4:
+				var tangent := (jacobian * Vector3(tangents[i*4], tangents[i*4+1], tangents[i*4+2])).normalized()
+				tangents[i*4] = tangent.x; tangents[i*4+1] = tangent.y; tangents[i*4+2] = tangent.z
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+
+func tactical_occiput_offset(point: Vector3) -> float:
+	# Round the posterior shell toward an oval skull profile. The front of
+	# the mask and the neck stay untouched; no global head-axis scaling.
+	var height := (point.y - 1.735) / 0.11
+	var side := point.x / 0.135
+	var oval := 1.0 - height * height - side * side
+	if oval <= 0.0: return 0.0
+	var rear_surface := 0.015 + 0.12 * sqrt(oval)
+	return 0.9 * maxf(0.0, rear_surface - point.z) * smoothstep(0.005, 0.065, point.z)
+
+func round_tactical_occiput(arrays: Array) -> void:
+	# Bake the continuous deformation into the skull and its rear straps.
+	# Transform normals/tangents with its Jacobian so the added volume shades
+	# as a curved surface while keeping authored UV seams and facial detail.
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var tangents: PackedFloat32Array = arrays[Mesh.ARRAY_TANGENT]
+	var epsilon := 0.0001
+	for i in vertices.size():
+		var point := vertices[i]
+		var offset := tactical_occiput_offset(point)
+		var gradient := Vector3(
+			(tactical_occiput_offset(point + Vector3(epsilon, 0, 0)) - tactical_occiput_offset(point - Vector3(epsilon, 0, 0))) / (2.0 * epsilon),
+			(tactical_occiput_offset(point + Vector3(0, epsilon, 0)) - tactical_occiput_offset(point - Vector3(0, epsilon, 0))) / (2.0 * epsilon),
+			(tactical_occiput_offset(point + Vector3(0, 0, epsilon)) - tactical_occiput_offset(point - Vector3(0, 0, epsilon))) / (2.0 * epsilon))
+		var jacobian := Basis(Vector3(1, 0, gradient.x), Vector3(0, 1, gradient.y), Vector3(0, 0, 1 + gradient.z))
+		vertices[i].z += offset
+		normals[i] = (jacobian.inverse().transposed() * normals[i]).normalized()
+		if tangents.size() >= (i + 1) * 4:
+			var tangent := (jacobian * Vector3(tangents[i*4], tangents[i*4+1], tangents[i*4+2])).normalized()
+			tangents[i*4] = tangent.x; tangents[i*4+1] = tangent.y; tangents[i*4+2] = tangent.z
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TANGENT] = tangents
+
+func seat_back_hardware(arrays: Array, source: Dictionary, rear_ring_only: bool) -> void:
+	# Offline fitting and weights: keep the supplied hardware, seat it against
+	# the plate and follow that exact supporting triangle during animation.
+	var plate: MeshInstance3D = source.meshes.filter(func(part): return part.name == &"Object_98")[0]
+	var support := arrays_for(plate, 0, source, source)
+	var points: PackedVector3Array = support[Mesh.ARRAY_VERTEX]
+	var indices: PackedInt32Array = support[Mesh.ARRAY_INDEX]
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var chosen: Array[int] = []
+	for i in vertices.size():
+		if not rear_ring_only or (vertices[i].z > 0.17 and vertices[i].x > 0.04 and vertices[i].x < 0.105): chosen.append(i)
+	assert(not chosen.is_empty())
+	var box := AABB(vertices[chosen[0]], Vector3.ZERO)
+	for i in chosen: box = box.expand(vertices[i])
+	var center := box.get_center()
+	var back := -INF
+	var hit_point := Vector3.ZERO
+	var triangle := Vector3i.ZERO
+	for face in range(0, indices.size(), 3):
+		var ids := Vector3i(indices[face], indices[face+1], indices[face+2])
+		var hit: Variant = Geometry3D.segment_intersects_triangle(Vector3(center.x, center.y, 0.5), Vector3(center.x, center.y, 0), points[ids.x], points[ids.y], points[ids.z])
+		if hit != null and hit.z > back:
+			back = hit.z; hit_point = hit; triangle = ids
+	assert(back > 0.0, "Rear hardware must have a supporting plate")
+	var bary := Geometry3D.get_triangle_barycentric_coords(hit_point, points[triangle.x], points[triangle.y], points[triangle.z])
+	var blended := {}
+	for corner in 3:
+		for slot in 4:
+			var at := triangle[corner] * 4 + slot
+			var bone: int = support[Mesh.ARRAY_BONES][at]
+			blended[bone] = blended.get(bone, 0.0) + maxf(0.0, bary[corner]) * support[Mesh.ARRAY_WEIGHTS][at]
+	var strongest := blended.keys()
+	strongest.sort_custom(func(a, b): return blended[a] > blended[b])
+	var total := 0.0
+	for slot in mini(4, strongest.size()): total += blended[strongest[slot]]
+	var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+	var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+	for i in chosen:
+		vertices[i].z += back + 0.001 - box.position.z - box.size.z * (0.35 if rear_ring_only else 0.8)
+		for slot in 4:
+			bones[i*4+slot] = strongest[slot] if slot < strongest.size() else 0
+			weights[i*4+slot] = blended[strongest[slot]] / total if slot < strongest.size() else 0.0
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_BONES] = bones
+	arrays[Mesh.ARRAY_WEIGHTS] = weights
+
 func repair_accessory(arrays: Array, label: String, part_name: String, source: Dictionary) -> void:
 	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
 	var bounds := AABB(vertices[0], Vector3.ZERO)
 	for vertex in vertices: bounds = bounds.expand(vertex)
 	if source == sources.a:
 		if label == "Head":
-			fit_geometry(arrays, bounds.size * (0.235 / bounds.size.y), Vector3(0, 1.67, -0.015))
+			fit_geometry(arrays, bounds.size * (0.28 / bounds.size.y), Vector3(0, 1.68, -0.005))
 			attach_to_head(arrays, source)
 		elif label == "Material.001":
 			# These are red goggle lenses, not the cap. Use the exact same
 			# transform as their frame, which is part of the Head surface.
 			var head_mesh: MeshInstance3D = source.meshes.filter(func(mesh): return mesh.get_active_material(0).resource_name == "Head")[0]
 			var head_bounds: AABB = source.normalization * head_mesh.mesh.get_aabb()
-			var scale := 0.235 / head_bounds.size.y
-			fit_geometry(arrays, bounds.size * scale, (bounds.get_center() - head_bounds.get_center()) * scale + Vector3(0, 1.67, -0.015))
+			var scale := 0.28 / head_bounds.size.y
+			fit_geometry(arrays, bounds.size * scale, (bounds.get_center() - head_bounds.get_center()) * scale + Vector3(0, 1.68, -0.005))
 			attach_to_head(arrays, source)
 		elif label == "material":
 			# A's exported cap is flattened on Y and Z. Restore its crown and
 			# brim proportions around the fitted head, retaining authored UVs.
-			fit_geometry(arrays, Vector3(0.19, 0.115, 0.27), Vector3(0, 1.76, -0.025))
+			# Keep the cap rigid: lower it and move it rearward over the forehead.
+			fit_geometry(arrays, Vector3(0.21, 0.125, 0.285), Vector3(0, 1.768, -0.015))
 			attach_to_head(arrays, source)
 		elif label == "Headphones":
-			fit_geometry(arrays, Vector3(0.21, 0.195, bounds.size.z), Vector3(0, 1.718, -0.0305))
+			fit_geometry(arrays, Vector3(0.23, 0.21, 0.20), Vector3(0, 1.736, -0.019))
 			attach_to_head(arrays, source)
 		elif part_name == "Object_98":
 			# Align shoulder straps with the suit rather than the base of the
@@ -197,7 +375,12 @@ func repair_accessory(arrays: Array, label: String, part_name: String, source: D
 			fit_geometry(arrays, bounds.size * Vector3(1, 1, 0.9), Vector3(bounds.get_center().x, bounds.get_center().y - 0.09, 0.016))
 			fit_shoulder_straps(arrays, source)
 		elif part_name == "Object_96":
-			fit_geometry(arrays, bounds.size, Vector3(bounds.get_center().x, 1.135, 0.180))
+			# This detached buckle belongs to the rear plate, above its lower edge.
+			fit_geometry(arrays, bounds.size, Vector3(bounds.get_center().x, 1.20, 0.180))
+			seat_back_hardware(arrays, source, false)
+		elif part_name == "Object_86":
+			# The rear D-ring shares the shoulder-pad surface but not its motion.
+			seat_back_hardware(arrays, source, true)
 	else:
 		if label == "GreenCap":
 			# Its authored location already fits B. Recentring it raised the
@@ -241,6 +424,15 @@ func arrays_for(mesh: MeshInstance3D, surface: int, source: Dictionary, target: 
 		for slot in bone_ids.size(): bone_ids[slot] = source.rig.find_bone(mesh.skin.get_bind_name(bone_ids[slot]))
 		arrays[Mesh.ARRAY_BONES] = bone_ids
 		repair_accessory(arrays, mesh.get_active_material(surface).resource_name, String(mesh.name), source)
+		if source == sources.a and mesh.get_active_material(surface).resource_name in ["Head", "Material.001"]:
+			if mesh.get_active_material(surface).resource_name == "Head":
+				subdivide_rigid_head(arrays)
+			round_tactical_occiput(arrays)
+		if source == sources.a and mesh.get_active_material(surface).resource_name == "material":
+			subdivide_rigid_head(arrays)
+			seat_tactical_cap_crown(arrays)
+		if source == sources.a and mesh.get_active_material(surface).resource_name in ["Head", "Material.001", "material", "Headphones"]:
+			place_tactical_head(arrays, mesh.get_active_material(surface).resource_name == "Head")
 	else:
 		# Transfer the second supplied model's intact articulated gloves to A.
 		# Bone names, proportions and all finger weights are retained.

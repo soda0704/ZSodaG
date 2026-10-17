@@ -154,6 +154,9 @@ var _handheld_flashlight_drawn := false
 var _battery_flashlight_presentation := false
 var _flashlight_enabled: bool = false
 var _flashlight_malfunctioning: bool = false
+const FLASHLIGHT_SHAKE_PRESSES := 6
+var _flashlight_shake_presses := 0
+var _last_flashlight_shake_msec := -1000
 var _battery_charge: float = 0.0
 var _displayed_battery_percent: int = -1
 var _is_crouching: bool = false
@@ -288,7 +291,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("jump"):
 		_jump_serial += 1
 	elif event.is_action_pressed("interact"):
-		if not $ItemDrag.begin_interaction():
+		if needs_flashlight_shake():
+			request_inventory_action(&"shake_flashlight")
+		elif not $ItemDrag.begin_interaction():
 			_interact_serial += 1
 	elif event.is_action_pressed("drop_item"):
 		_drop_item_serial += 1
@@ -821,6 +826,9 @@ func try_authoritative_interaction() -> void:
 		return
 	if not multiplayer.is_server():
 		return
+	if needs_flashlight_shake():
+		shake_flashlight_authoritative()
+		return
 	var target := get_interaction_target()
 	if target == null or not target.has_method("network_interact"):
 		return
@@ -848,6 +856,9 @@ func refresh_interaction_prompt() -> void:
 			interaction_prompt_label.text = "Двигатель заводится…"
 		return
 
+	if needs_flashlight_shake():
+		interaction_prompt_label.hide()
+		return
 	if $ItemDrag.dragging:
 		interaction_prompt_label.visible = false
 		return
@@ -1103,7 +1114,9 @@ func pickup_world_item_authoritative(
 		if _held_item_type == NO_ITEM:
 			_held_item_type = FLASHLIGHT_ITEM
 		_handheld_flashlight_drawn = _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1"]
-		_flashlight_enabled = _held_item_type != &"m4a1" and _battery_charge > 0.0
+		_flashlight_malfunctioning = bool(item_state.get("malfunctioning", false))
+		_flashlight_shake_presses = 0
+		_flashlight_enabled = _held_item_type != &"m4a1" and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	else:
 		var keep_handheld := is_handheld_flashlight_drawn()
 		# Equipment is pocketed, only another bulky hand item is dropped.
@@ -1119,16 +1132,16 @@ func pickup_world_item_authoritative(
 		if WeaponController.TYPES.has(item_type):
 			if item_state.has("mounted_charge") and item_type != &"kitchen_knife":
 				if _has_flashlight:
-					spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge})
+					spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
 				_has_flashlight = true
 				weapon_light_mounted = item_type == &"m4a1"
 				keep_handheld = not weapon_light_mounted
 				_battery_charge = clampf(float(item_state.mounted_charge), 0.0, 1.0)
+				_flashlight_malfunctioning = bool(item_state.get("mounted_malfunctioning", false))
 			weapon.reload_left = 0.0
 			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
 		_handheld_flashlight_drawn = keep_handheld and _has_flashlight and item_type != &"m4a1"
-		_flashlight_enabled = (weapon_light_mounted or _handheld_flashlight_drawn) and _battery_charge > 0.0
-		_flashlight_malfunctioning = false
+		_flashlight_enabled = (weapon_light_mounted or _handheld_flashlight_drawn) and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	_publish_inventory()
 	return true
 
@@ -1213,7 +1226,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	if _held_item_type == NO_ITEM and _handheld_flashlight_drawn:
 		_held_item_type = FLASHLIGHT_ITEM
 		_handheld_flashlight_drawn = false
-	_flashlight_malfunctioning = bool(data.get("malfunctioning", false)) and is_handheld_flashlight_drawn() and _battery_charge > 0.0
+	_flashlight_malfunctioning = bool(data.get("malfunctioning", false)) and _has_flashlight
 	_flashlight_enabled = bool(data.get("flashlight_enabled", false)) and (is_handheld_flashlight_drawn() or weapon_light_mounted) and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	_refresh_equipment_visuals()
 	inventory_changed.emit()
@@ -1225,7 +1238,7 @@ func toggle_flashlight_authoritative() -> bool:
 	if not multiplayer.is_server() or not _has_flashlight or _is_sleeping_in_bunk:
 		return false
 	if weapon_light_mounted:
-		_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0
+		_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	elif _held_item_type == &"m4a1":
 		_show_pocket_light_notice.rpc_id(owner_peer_id)
 		return false
@@ -1235,8 +1248,7 @@ func toggle_flashlight_authoritative() -> bool:
 			_handheld_flashlight_drawn = false
 		else:
 			_handheld_flashlight_drawn = not _handheld_flashlight_drawn
-		_flashlight_enabled = is_handheld_flashlight_drawn() and _battery_charge > 0.0
-		_flashlight_malfunctioning = false
+		_flashlight_enabled = is_handheld_flashlight_drawn() and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	player_audio.play_cue.rpc(&"flashlight_on" if _flashlight_enabled else &"flashlight_off")
 	_publish_inventory()
 	return true
@@ -1273,7 +1285,9 @@ func _begin_inventory_action(action: StringName) -> void:
 	if action == &"reload_or_battery":
 		if _battery_action_busy:
 			return
-		if WeaponController.TYPES.has(_held_item_type) and not (weapon_light_mounted and _battery_charge <= 0.0 and not _spare_batteries.is_empty()):
+		var better_cell := _has_flashlight and not _spare_batteries.is_empty() and float(_spare_batteries.max()) > _battery_charge
+		var battery_priority := better_cell and (is_handheld_flashlight_drawn() or weapon_light_mounted or _battery_charge <= 0.0)
+		if WeaponController.TYPES.has(_held_item_type) and not battery_priority:
 			weapon.perform_action(&"reload")
 			return
 		action = &"replace_battery"
@@ -1329,7 +1343,7 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 			tape_count -= 1
 			weapon_light_mounted = true
 			_handheld_flashlight_drawn = false
-			_flashlight_enabled = _battery_charge > 0.0
+			_flashlight_enabled = _battery_charge > 0.0 and not _flashlight_malfunctioning
 		&"detach_light":
 			if not weapon_light_mounted:
 				return false
@@ -1358,8 +1372,9 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 			if _battery_charge > 0.0:
 				_spare_batteries.append(_battery_charge)
 			_battery_charge = best_charge
-			_flashlight_malfunctioning = false
-			_flashlight_enabled = is_handheld_flashlight_drawn() or weapon_light_mounted
+			_flashlight_enabled = (is_handheld_flashlight_drawn() or weapon_light_mounted) and not _flashlight_malfunctioning
+		&"shake_flashlight":
+			return shake_flashlight_authoritative()
 		&"drop_battery":
 			if _spare_batteries.is_empty():
 				return false
@@ -1367,7 +1382,7 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 		&"drop_flashlight":
 			if not _has_flashlight:
 				return false
-			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge})
+			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
 			_has_flashlight = false
 			_handheld_flashlight_drawn = false
 			weapon_light_mounted = false
@@ -1389,9 +1404,10 @@ func get_held_item_state() -> Dictionary:
 		var state := {"rounds": weapon.rounds}
 		if weapon_light_mounted:
 			state["mounted_charge"] = _battery_charge
+			state["mounted_malfunctioning"] = _flashlight_malfunctioning
 		return state
 	if _held_item_type == FLASHLIGHT_ITEM:
-		return {"battery_charge": _battery_charge}
+		return {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning}
 	return {}
 
 
@@ -1465,7 +1481,8 @@ func drop_current_item_at_authoritative(
 		_held_item_type = FLASHLIGHT_ITEM
 	else:
 		_flashlight_enabled = false
-		_flashlight_malfunctioning = false
+		if not _has_flashlight:
+			_flashlight_malfunctioning = false
 	_publish_inventory()
 	spawn_dropped_item_authoritative(
 		dropped_item_type,
@@ -1491,7 +1508,7 @@ func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
 	crowbar_uses = 0
 	tape_count = 0
 	if _has_flashlight:
-		spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge}, drop_transform, Vector3.ZERO)
+		spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning}, drop_transform, Vector3.ZERO)
 	for charge in _spare_batteries:
 		spawn_dropped_item_authoritative(BATTERY_ITEM, {"charge_amount": charge}, drop_transform, Vector3.ZERO)
 	_has_flashlight = false
@@ -1746,8 +1763,8 @@ func apply_flashlight_inventory(
 	if _held_item_type in [NO_ITEM, FLASHLIGHT_ITEM]:
 		_held_item_type = FLASHLIGHT_ITEM if has_flashlight and enabled else NO_ITEM
 	_handheld_flashlight_drawn = enabled and has_flashlight and _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1"]
-	_flashlight_enabled = enabled and is_handheld_flashlight_drawn()
-	_flashlight_malfunctioning = malfunctioning and is_handheld_flashlight_drawn()
+	_flashlight_enabled = enabled and is_handheld_flashlight_drawn() and not malfunctioning
+	_flashlight_malfunctioning = malfunctioning and _has_flashlight
 	_refresh_equipment_visuals()
 	inventory_changed.emit()
 
@@ -1765,7 +1782,7 @@ func apply_held_item_inventory(
 		_has_flashlight = true
 		_battery_charge = clampf(float(item_state.get("battery_charge", 1.0)), 0.0, 1.0)
 	_flashlight_malfunctioning = (
-		malfunctioning and item_type == FLASHLIGHT_ITEM and _battery_charge > 0.0
+		malfunctioning and _has_flashlight
 	)
 	_flashlight_enabled = (
 		flashlight_enabled
@@ -1784,8 +1801,9 @@ func _refresh_equipment_visuals() -> void:
 	var hands_busy := survival.dead or _is_sleeping_in_bunk or is_driving() or is_carrying_corpse() or (weapon.reload_left > 0.0 and is_handheld_flashlight_drawn())
 	flashlight.set_equipped((is_handheld_flashlight_drawn() or _battery_flashlight_presentation) and not journal_equipment_hidden and not hands_busy)
 	if _flashlight_malfunctioning:
-		flashlight.set_enabled(true, false)
-		flashlight.begin_malfunction(true)
+		# The inventory owns the fault, even while the lamp is hidden or empty.
+		flashlight.is_malfunctioning = true
+		flashlight.set_enabled(false, false)
 	else:
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
@@ -1801,9 +1819,42 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 		return
 	_flashlight_malfunctioning = true
 	_flashlight_enabled = false
+	_flashlight_shake_presses = 0
+	_last_flashlight_shake_msec = -1000
+	_publish_inventory()
+
+
+func needs_flashlight_shake() -> bool:
+	return (
+		_has_flashlight and _flashlight_malfunctioning and _battery_charge > 0.0
+		and (is_handheld_flashlight_drawn() or weapon_light_mounted)
+		and not _battery_action_busy and not survival.dead and not _is_sleeping_in_bunk
+		and not is_driving() and not is_carrying_corpse() and weapon.reload_left <= 0.0
+	)
+
+
+func shake_flashlight_authoritative() -> bool:
+	if not multiplayer.is_server() or not needs_flashlight_shake():
+		return false
+	var now := Time.get_ticks_msec()
+	if now - _last_flashlight_shake_msec < 120:
+		return false
+	_last_flashlight_shake_msec = now
+	_flashlight_shake_presses += 1
+	if _flashlight_shake_presses >= FLASHLIGHT_SHAKE_PRESSES:
+		_flashlight_malfunctioning = false
+		_flashlight_shake_presses = 0
+		_flashlight_enabled = true
+		player_audio.play_cue.rpc(&"flashlight_on")
+	_publish_inventory()
+	return true
 
 
 func update_battery_ui() -> void:
+	var shake_hint := $PlayerUI/FlashlightShakeHint
+	shake_hint.visible = is_local_player() and needs_flashlight_shake() and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and not is_debug_free_camera_active()
+	if shake_hint.visible:
+		shake_hint.get_node("Label").text = str(get_node("/root/SteamInput").get_action_hint(&"interact")).trim_prefix("[").trim_suffix("]")
 	if is_debug_free_camera_active():
 		battery_label.hide()
 		return

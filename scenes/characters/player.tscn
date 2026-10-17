@@ -18,6 +18,8 @@
 
 
 
+[ext_resource type="PackedScene" path="res://scenes/ui/flashlight_shake_hint.tscn" id="shake_hint"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
 radius = 0.35
@@ -160,3 +162,5 @@ horizontal_alignment = 2
 [node name="CorpseShoulder" type="Marker3D" parent="."]
 position = Vector3(0.28, 1.42, 0.08)
 rotation = Vector3(-1.5707963, 0, 0)
+
+[node name="FlashlightShakeHint" parent="PlayerUI" instance=ExtResource("shake_hint")]

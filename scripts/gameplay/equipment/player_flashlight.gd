@@ -21,7 +21,8 @@ const FLICKER_VISIBILITY = [false, true, false, true, false]
 @export var drain_battery_locally: bool = true
 
 @export_group("Malfunction")
-@export var malfunction_interval_seconds: float = 60.0
+@export_range(1.0, 600.0, 1.0) var malfunction_interval_seconds: float = 60.0
+@export_range(1.0, 600.0, 1.0) var malfunction_interval_max_seconds: float = 120.0
 @export var malfunction_enabled: bool = true
 
 @export_group("Walk Sway")
@@ -118,7 +119,7 @@ func toggle() -> bool:
 		return false
 
 	if is_malfunctioning:
-		return hit_to_repair()
+		return false
 	if battery_charge <= 0.0:
 		return false
 
@@ -134,7 +135,7 @@ func set_available(value: bool, should_emit_signal: bool = true) -> void:
 	visible = value
 
 	if not is_available:
-		cancel_malfunction()
+		flicker_timer.stop()
 		set_enabled(false, should_emit_signal)
 		reset_motion()
 
@@ -216,9 +217,12 @@ func set_enabled(value: bool, should_emit_signal: bool = true) -> void:
 	apply_light_output(is_enabled)
 
 	if is_enabled and malfunction_enabled:
-		malfunction_timer.start(maxf(malfunction_interval_seconds, 0.1))
+		malfunction_timer.paused = false
+		if malfunction_timer.is_stopped():
+			malfunction_timer.start(randf_range(maxf(malfunction_interval_seconds, 0.1), maxf(malfunction_interval_max_seconds, malfunction_interval_seconds)))
 	else:
-		malfunction_timer.stop()
+		# Pocketing pauses the current interval instead of rerolling it.
+		malfunction_timer.paused = true
 
 	if should_emit_signal:
 		state_changed.emit(is_enabled)
@@ -273,7 +277,7 @@ func play_next_flicker_step() -> void:
 		flicker_timer.stop()
 		return
 
-	apply_light_output(bool(FLICKER_VISIBILITY[_flicker_step]))
+	apply_light_output(is_available and bool(FLICKER_VISIBILITY[_flicker_step]))
 	flicker_timer.start(float(FLICKER_DURATIONS[_flicker_step]))
 	_flicker_step += 1
 
