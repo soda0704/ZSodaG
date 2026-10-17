@@ -1,6 +1,7 @@
 class_name ExpeditionSaveStore
 extends RefCounted
 ## Immutable commits: publishing one verified file commits both progress and history.
+const MAX_DAY_INDEX := 999
 const SLOT_COUNT := 3
 const HISTORY_LIMIT := 2
 const ROOT_SETTING := "northern_lab/testing/save_slots_root"
@@ -52,7 +53,7 @@ static func _read_file(path: String) -> Dictionary:
 
 static func _valid(config: ConfigFile) -> bool:
 	return int(config.get_value("save", "version", 0)) == 1 \
-		and int(config.get_value("base", "day_index", 0)) in range(1, 8) \
+		and int(config.get_value("base", "day_index", 0)) in range(1, MAX_DAY_INDEX + 1) \
 		and config.get_value("inventory", "checkpoint", {}) is Dictionary \
 		and config.get_value("base", "maintenance", {}) is Dictionary \
 		and config.get_value("base", "containment", {}) is Dictionary

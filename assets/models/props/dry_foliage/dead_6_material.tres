@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3]
+[ext_resource type="Shader" path="res://assets/models/props/dry_foliage/warm_dry_foliage.gdshader" id="shader"]
+[ext_resource type="Texture2D" path="res://assets/models/props/dry_foliage/textures/DeadSunflower2_baseColor.png" id="texture"]
+[resource]
+shader = ExtResource("shader")
+shader_parameter/albedo_atlas = ExtResource("texture")
+shader_parameter/shadow_tint = Color(0.16, 0.095, 0.035, 1)
+shader_parameter/highlight_tint = Color(0.8, 0.67, 0.42, 1)
+shader_parameter/tone_gain = 1.3
+shader_parameter/alpha_cutoff = 0.2
+shader_parameter/surface_roughness = 0.95

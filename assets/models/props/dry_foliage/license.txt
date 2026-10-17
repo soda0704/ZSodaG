@@ -1,0 +1,11 @@
+Model Information:
+* title:	Lowpoly Fall Foliage Pack
+* source:	https://sketchfab.com/3d-models/lowpoly-fall-foliage-pack-a309cea592804e37af83aed7b99240ad
+* author:	EvanLegrand (https://sketchfab.com/evan4129)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Lowpoly Fall Foliage Pack" (https://sketchfab.com/3d-models/lowpoly-fall-foliage-pack-a309cea592804e37af83aed7b99240ad) by EvanLegrand (https://sketchfab.com/evan4129) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

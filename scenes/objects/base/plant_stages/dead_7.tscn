@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/models/props/dry_foliage/dead_6_material.tres" id="1_os8v0"]
+[ext_resource type="ArrayMesh" path="res://scenes/objects/base/plant_stages/dead_6.res" id="2_cats6"]
+[ext_resource type="ArrayMesh" path="res://scenes/objects/base/plant_stages/dead_7_head_volume.res" id="3_cats6"]
+
+[node name="PlantStage" type="Node3D" unique_id=1972979311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.58136356, 0, 0, 8.662992e-09)
+
+[node name="Foliage" type="MeshInstance3D" parent="." unique_id=1825719552]
+transform = Transform3D(0.4952722, 0, 0, 0, -8.069008e-08, 0.4952722, 0, -0.4952722, -8.069008e-08, -0.0005237826, 0.005001864, -0.018884042)
+material_override = ExtResource("1_os8v0")
+mesh = ExtResource("2_cats6")
+
+[node name="HeadVolume" type="MeshInstance3D" parent="." unique_id=468863841]
+material_override = ExtResource("1_os8v0")
+mesh = ExtResource("3_cats6")

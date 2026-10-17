@@ -65,10 +65,14 @@ func _changed(_snapshot: Dictionary) -> void:
 	_initialized = true
 	if newly_planted:
 		animation.play(&"plant")
-	elif not animation.is_playing() or controller.applying_initial_snapshot or not planted:
+	elif not animation.is_playing() or controller.applying_initial_snapshot or not planted or controller.plant_growth_stage > 0 or controller.plant_withered:
 		animation.play(&"RESET")
 		animation.advance(0.0)
-		seed.visible = planted
+		_refresh_seed_visibility()
 
 func _finished(_name: StringName) -> void:
-	seed.visible = _planted
+	_refresh_seed_visibility()
+
+func _refresh_seed_visibility() -> void:
+	var controller := get_controller()
+	seed.visible = _planted and controller.plant_growth_stage == 0 and not controller.plant_withered

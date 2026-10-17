@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/models/props/clover_growth/textures/AM226_007_Trifolium_Albedo_alpha.png" id="1_cw0mw"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.1
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(1.8, 1.65, 1.4, 1)
+albedo_texture = ExtResource("1_cw0mw")
+roughness = 0.9
+texture_filter = 1

@@ -1,0 +1,117 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Housing"]
+albedo_color = Color(0.09, 0.105, 0.12, 1)
+metallic = 0.7
+roughness = 0.32
+[sub_resource type="StandardMaterial3D" id="Ceramic"]
+albedo_color = Color(0.33, 0.3, 0.39, 1)
+roughness = 0.65
+[sub_resource type="StandardMaterial3D" id="Steel"]
+albedo_color = Color(0.46, 0.49, 0.52, 1)
+metallic = 0.85
+roughness = 0.26
+[sub_resource type="StandardMaterial3D" id="TubeOff"]
+albedo_color = Color(0.16, 0.08, 0.23, 1)
+roughness = 0.24
+[sub_resource type="StandardMaterial3D" id="TubeOn"]
+albedo_color = Color(0.45, 0.22, 0.7, 1)
+roughness = 0.24
+emission_enabled = true
+emission = Color(0.45, 0.13, 1, 1)
+emission_energy_multiplier = 2.5
+[sub_resource type="BoxMesh" id="HousingMesh"]
+size = Vector3(0.29, 0.018, 0.048)
+material = SubResource("Housing")
+[sub_resource type="CylinderMesh" id="TubeMesh"]
+top_radius = 0.006
+bottom_radius = 0.006
+height = 0.22
+radial_segments = 12
+rings = 1
+[sub_resource type="CylinderMesh" id="CapMesh"]
+top_radius = 0.009
+bottom_radius = 0.009
+height = 0.022
+radial_segments = 12
+rings = 1
+material = SubResource("Ceramic")
+[sub_resource type="CylinderMesh" id="RailMesh"]
+top_radius = 0.0011
+bottom_radius = 0.0011
+height = 0.244
+radial_segments = 6
+rings = 1
+material = SubResource("Steel")
+[sub_resource type="TorusMesh" id="GuardMesh"]
+inner_radius = 0.009
+outer_radius = 0.011
+rings = 16
+ring_segments = 6
+material = SubResource("Steel")
+[sub_resource type="Animation" id="Off"]
+resource_name = "off"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Emitter:material_override")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [SubResource("TubeOff")]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Active:visible")
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+[sub_resource type="Animation" id="On"]
+resource_name = "on"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Emitter:material_override")
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [SubResource("TubeOn")]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Active:visible")
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+[sub_resource type="AnimationLibrary" id="Library"]
+_data = {&"RESET": SubResource("Off"), &"off": SubResource("Off"), &"on": SubResource("On")}
+
+[node name="UVLamp" type="Node3D"]
+editor_description = "Small protected UV grow tube. Native materials, light and power clips; no runtime visual construction."
+[node name="Housing" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.009, 0)
+mesh = SubResource("HousingMesh")
+[node name="Emitter" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.013, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("TubeMesh")
+material_override = SubResource("TubeOff")
+[node name="LeftCap" type="MeshInstance3D" parent="."]
+position = Vector3(-0.12, -0.013, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("CapMesh")
+[node name="RightCap" type="MeshInstance3D" parent="."]
+position = Vector3(0.12, -0.013, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("CapMesh")
+[node name="GuardLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.07, -0.013, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("GuardMesh")
+[node name="GuardRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.07, -0.013, 0)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("GuardMesh")
+[node name="FrontRail" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.021, 0.009)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("RailMesh")
+[node name="BackRail" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.021, -0.009)
+rotation = Vector3(0, 0, 1.5707963)
+mesh = SubResource("RailMesh")
+[node name="Active" type="Node3D" parent="."]
+visible = false
+[node name="UVFill" type="OmniLight3D" parent="Active"]
+position = Vector3(0, -0.034, 0)
+light_color = Color(0.5, 0.22, 1, 1)
+light_energy = 0.18
+omni_range = 0.7
+omni_attenuation = 1.7
+shadow_enabled = false
+[node name="PowerAnimation" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("Library")}

@@ -326,6 +326,9 @@ points = PackedVector3Array(-1.258057, 1.7956, 1.8995239, 1.8870856, -1.506569, 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lx6p0"]
 points = PackedVector3Array(-0.90369964, -1.2575176, -0.95559376, 1.0757046, 1.238508, 0.9375047, -1.0328381, 1.1952624, 0.7222458, 1.204843, -0.31026906, 0.55037576, 0.6454227, -1.0850241, -0.95559376, -1.2908454, -0.31026906, 0.24897122, -0.6022867, 0.8940096, 0.20600371, -1.3771175, -1.0850241, -1.0417395, 1.2908454, 0.7220047, 1.0668285, 0.30114335, 1.238508, 0.55037576, -1.1188406, -0.8267724, -0.18112524, 1.3771175, 1.1092601, 0.98068285, -1.3339814, 0.54975545, 0.20600371, 0.3871458, -1.2575176, -0.95559376, 1.3771175, -0.26726782, 0.5071976, -0.34427938, -0.95626473, -0.9987719, -1.0757046, 0.7650059, 0.67948896, -0.51601464, 0.42075178, -0.1379471, 1.204843, -0.43951705, 0.42126256, -1.3771175, 0.20550133, 0.29193875, 1.3771175, 0.2915038, 0.89453715, -0.8174276, 0.42075178, -0.1379471, -0.90369964, 1.1522613, 0.5071976, 0.68855876, -1.1282697, -0.95559376, -1.3771175, -0.8697736, -0.48231915, -1.0328381, -0.91277486, -0.9987719, 1.2908454, 1.1522613, 0.9375047, -1.247979, -0.5255195, 0.11985804, 0.12886886, -1.2575176, -0.9126262, 0.9897021, 1.238508, 1.0236504, -0.68855876, -1.2575176, -1.0849175, 1.3771175, -0.052261695, 0.5071976)
 
+[sub_resource type="BoxShape3D" id="CaveExitZoneShape"]
+size = Vector3(6, 5, 7)
+
 [node name="Cave_Day7" type="Node3D" unique_id=1716915777]
 metadata/editor_description = "Continuous volumetric limestone sculpt: irregular floor, galleries, natural shaft and terrain-overlapping external mouth. Static native resources, no runtime sculpting."
 metadata/route_length_m = 796.4297
@@ -2856,3 +2859,10 @@ mesh = ExtResource("242_rpj4d")
 [node name="SolidRock" type="CollisionShape3D" parent="AuthoredOutcrops/Collar_Rock_3" unique_id=958663789]
 transform = Transform3D(1.1, 0, 0, 0, 0.7, 0, 0, 0, 0.48, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_lx6p0")
+
+[node name="ExitZone" type="Area3D" parent="."]
+position = Vector3(342, -153.9, 2)
+collision_layer = 0
+collision_mask = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitZone"]
+shape = SubResource("CaveExitZoneShape")

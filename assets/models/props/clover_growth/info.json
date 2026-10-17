@@ -1,0 +1,27 @@
+{
+  "uid": "28c269e9c27d471bb910f27242eb7981",
+  "name": "plant set 7 AM226 Archmodel",
+  "author": "Evermotion",
+  "source_url": "https://sketchfab.com/3d-models/plant-set-7-am226-archmodel-28c269e9c27d471bb910f27242eb7981",
+  "project": "https://github.com/seryi882/sketchfab-downloader-extension",
+  "format": "glb+gltf+osgjs",
+  "geometry_count": 32,
+  "textures_downloaded": 4,
+  "textures_skipped": false,
+  "textures_embedded_in_glb": 3,
+  "files": [
+    "plant_set_7_AM226_Archmodel.glb",
+    "model.gltf",
+    "model.bin",
+    "textures/AM226_007_Trifolium_Normal.jpg",
+    "textures/AM226_007_Trifolium_Translucency.jpg",
+    "textures/AM226_007_Trifolium_Albedo_alpha.png",
+    "file.osgjs",
+    "model_file.bin",
+    "model_file_wireframe.bin",
+    "textures/AM226_007_Trifolium_Opacity.jpg",
+    "textures/AM226_007_Trifolium_Albedo.jpg",
+    "README.txt"
+  ],
+  "note": "Open .glb (textures packed inside when enabled) or model.gltf. See README.txt."
+}

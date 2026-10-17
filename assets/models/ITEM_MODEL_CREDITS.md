@@ -50,3 +50,14 @@ The supplied mesh is scaled and centred in `seed_model.tscn`. Original notice: `
 Pouch geometry from the owner-supplied "Metallic package with zip lock" archive, by designdaco.
 Source recorded in that archive: https://sketchfab.com/3d-models/metallic-package-with-zip-lock-ecc6bd0da9084b898113cf1f1ceff405
 The geometry is reused with a scene-authored transparent plastic material, zero metallic and a separate translucent zip seal. The archive contains source metadata but no explicit licence notice; no licence has been inferred.
+
+## Plant growth / clover
+
+Plant set 7 AM226 Archmodel by Evermotion, from the owner-supplied archive.
+Source: https://sketchfab.com/3d-models/plant-set-7-am226-archmodel-28c269e9c27d471bb910f27242eb7981
+The supplied archive has no explicit licence notice. Selected geometry is separated into native growth/withered scenes, reoriented, scaled and assigned non-emissive alpha-scissor materials.
+
+## Withered flowering stages
+
+This work is based on "Lowpoly Fall Foliage Pack" (https://sketchfab.com/3d-models/lowpoly-fall-foliage-pack-a309cea592804e37af83aed7b99240ad) by EvanLegrand (https://sketchfab.com/evan4129) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/).
+Original licence: assets/models/props/dry_foliage/license.txt. The bent and straight dried flowers are used for stages 6 and 7.

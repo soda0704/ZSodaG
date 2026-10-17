@@ -95,6 +95,7 @@ func run() -> void:
 		check(not state.water_plant_authoritative(multiplayer.get_unique_id()), "client cannot mutate plant state locally")
 		check(ExpeditionSaveStore.read("coop").is_empty(), "client does not write a separate expedition save")
 		check(state.plant_seed_planted and seed_socket.seed.visible and planting_cycles == 0, "late join restores seed without historical planting animation")
+		check(seed_socket.get_parent().get_node("UVLamp/Active").visible, "late join restores UV fixture from ordinary shared power state")
 		report.rpc_id(1, "initial", failures)
 		return
 	world._on_session_ready(true)
@@ -165,6 +166,24 @@ func run() -> void:
 	command.rpc_id(client_id, "plant_confirmed")
 	check(await until(func(): return reports.has("plant_confirmed")), "guest sees planting animation")
 	check(bool((ExpeditionSaveStore.read("coop").config as ConfigFile).get_value("base", "plant_seed_planted", false)), "guest planting stored in host save")
+	snapshot = state.get_snapshot()
+	snapshot.day_index = 8
+	snapshot.phase = BaseGameplayController.BasePhase.ACTIVE_DAY
+	snapshot.plant_growth_stage = 7
+	snapshot.plant_withered = false
+	snapshot.plant_last_watered_day = 7
+	snapshot.containment["cave_exited"] = true
+	state._broadcast_snapshot(snapshot)
+	command.rpc_id(client_id, "grown")
+	check(await until(func(): return reports.has("grown")), "guest receives mature stage on eighth day")
+	check(state.set_end_day_ready_authoritative(1,true) and state.set_peer_sleeping_authoritative(1,true), "host enters post-cave sleep")
+	check(not state.advance_day_authoritative(), "host alone cannot skip guest sleep vote")
+	check(state.set_end_day_ready_authoritative(client_id,true) and state.set_peer_sleeping_authoritative(client_id,true) and state.advance_day_authoritative(), "both peers advance ordinary sleep beyond day eight")
+	check(state.day_index == 9 and state.plant_withered and state.plant_growth_stage == 7, "missed shared watering dries mature plant for both peers")
+	command.rpc_id(client_id, "withered")
+	check(await until(func(): return reports.has("withered")), "guest receives same permanent withered state")
+	var grown_save:ConfigFile = ExpeditionSaveStore.read("coop").config
+	check(int(grown_save.get_value("base","day_index",0)) == 9 and bool(grown_save.get_value("base","plant_withered",false)), "post-cave day and withering stored in host expedition")
 	finish.rpc_id(client_id, failures)
 	await get_tree().create_timer(0.5).timeout
 	print("PLANT COOP CHECKS ", checks, " FAILURES ", failures)
@@ -173,7 +192,13 @@ func run() -> void:
 @rpc("authority", "call_remote", "reliable")
 func command(action: String) -> void:
 	var local := get_tree().get_first_node_in_group("local_player") as GamePlayer
-	if action == "plant":
+	if action == "grown":
+		check(await until(func(): return state.day_index == 8 and state.plant_growth_stage == 7), "guest receives calendar beyond story day seven")
+		check(seed_socket.get_parent().get_node("PlantGrowth/Live/Stage7").visible and not seed_socket.seed.visible, "guest renders mature native plant instead of seed")
+	elif action == "withered":
+		check(await until(func(): return state.day_index == 9 and state.plant_withered), "guest receives withering on shared sleep")
+		check(seed_socket.get_parent().get_node("PlantGrowth/Dead/Stage7").visible and not seed_socket.get_parent().get_node("PlantGrowth/Live/Stage7").visible, "guest replaces mature plant with correct dry model")
+	elif action == "plant":
 		check(await until(func(): return not state.plant_seed_planted and local.has_held_item(GamePlayer.SEED_ITEM)), "guest receives packet and empty container")
 		await visit_plant(local)
 		check(local.get_interaction_target() == seed_socket, "guest aim ray reaches planting area")

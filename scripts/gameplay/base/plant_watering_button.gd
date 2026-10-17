@@ -46,7 +46,7 @@ func get_interaction_hint_for(interactor: Node) -> String:
 	var controller := get_controller()
 	if player == null or controller == null or not can_use(player.owner_peer_id, player):
 		return ""
-	if not controller.plant_seed_planted:
+	if not controller.plant_seed_planted or controller.plant_withered:
 		return ""
 	if not controller.main_breaker_on:
 		return "Нет питания"
@@ -88,7 +88,7 @@ func _refresh_status() -> void:
 	var controller := get_controller()
 	if controller == null:
 		return
-	var next: StringName = &"off" if not controller.main_breaker_on or not controller.plant_seed_planted else &"watered" if controller.plant_last_watered_day >= controller.day_index else &"ready"
+	var next: StringName = &"off" if not controller.main_breaker_on or not controller.plant_seed_planted or controller.plant_withered else &"watered" if controller.plant_last_watered_day >= controller.day_index else &"ready"
 	if next != _status:
 		_status = next
 		status_animation.play(next)

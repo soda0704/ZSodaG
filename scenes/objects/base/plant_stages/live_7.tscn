@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/models/props/clover_growth/clover_material.tres" id="1_g2mql"]
+[ext_resource type="ArrayMesh" path="res://scenes/objects/base/plant_stages/live_7.res" id="2_kdo51"]
+
+[node name="PlantStage" type="Node3D" unique_id=1674112831]
+
+[node name="Foliage" type="MeshInstance3D" parent="." unique_id=849000021]
+transform = Transform3D(0.016927863, 0, 0, 0, 0.016927863, 0, 0, 0, 0.016927863, 0.008584565, 0.24587552, -0.022668445)
+material_override = ExtResource("1_g2mql")
+mesh = ExtResource("2_kdo51")

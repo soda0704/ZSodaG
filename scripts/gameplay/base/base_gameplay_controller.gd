@@ -18,7 +18,7 @@ enum BasePhase {
 }
 
 const FIRST_DAY := 1
-const MAX_DAY_INDEX := 7
+const MAX_DAY_INDEX := ExpeditionSaveStore.MAX_DAY_INDEX
 const MAX_PLAYERS := 2
 const SAVE_VERSION := 1
 const DEFAULT_SAVE_PATH := "user://base_gameplay_state.cfg"
@@ -83,6 +83,9 @@ var _end_day_consensus_announced: bool = false
 var inventory_checkpoint: Dictionary = {}
 var containment: Dictionary = {}
 var maintenance: Dictionary = {}
+const PLANT_FINAL_STAGE := 7
+var plant_growth_stage := 0
+var plant_withered := false
 var plant_seed_planted := false
 var plant_last_watered_day: int = 0
 var has_authoritative_snapshot := false
@@ -236,6 +239,8 @@ func can_end_current_day() -> bool:
 		or (day_index == LEVEL_TWO_DAY_INDEX and bool(containment.get("level2", false)))
 		or (day_index == TRIALS_DAY_INDEX and bool(containment.get("trials", false)))
 		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
+		or (day_index == EXPEDITION_DAY_INDEX and bool(containment.get("shaft", false)))
+		or (day_index >= CAVE_DAY_INDEX and bool(containment.get("cave_exited", false)))
 	)
 
 
@@ -374,6 +379,8 @@ func reset_day_one_authoritative() -> bool:
 		return false
 	maintenance = {}
 	elevator_backup_installed = false
+	plant_growth_stage = 0
+	plant_withered = false
 	plant_seed_planted = false
 	plant_last_watered_day = 0
 	_broadcast_snapshot(
@@ -398,6 +405,11 @@ func advance_day_authoritative() -> bool:
 			[],
 			[]
 	)
+	if plant_seed_planted and not plant_withered:
+		if plant_last_watered_day == day_index:
+			next.plant_growth_stage = mini(plant_growth_stage + 1, PLANT_FINAL_STAGE)
+		else:
+			next.plant_withered = true
 	if day_index == 1:
 		var order := [0, 1, 2, 3]
 		order.shuffle()
@@ -472,6 +484,8 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	snapshot["plant_growth_stage"] = int(config.get_value("base", "plant_growth_stage", 0))
+	snapshot["plant_withered"] = bool(config.get_value("base", "plant_withered", false))
 	snapshot["plant_seed_planted"] = bool(config.get_value("base", "plant_seed_planted", false))
 	snapshot["plant_last_watered_day"] = int(config.get_value("base", "plant_last_watered_day", 0))
 	# Existing campaigns beyond day one already used an always-powered elevator.
@@ -568,6 +582,8 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
+	plant_growth_stage = clampi(int(snapshot.get("plant_growth_stage", 0)), 0, PLANT_FINAL_STAGE)
+	plant_withered = bool(snapshot.get("plant_withered", false))
 	plant_seed_planted = bool(snapshot.get("plant_seed_planted", false))
 	plant_last_watered_day = clampi(int(snapshot.get("plant_last_watered_day", 0)), 0, day_index)
 	if bool(maintenance.get("wires_required", false)):
@@ -630,6 +646,8 @@ func _make_snapshot(
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
 		"containment": containment.duplicate(true),
 		"maintenance": maintenance.duplicate(true),
+		"plant_growth_stage": plant_growth_stage,
+		"plant_withered": plant_withered,
 		"plant_seed_planted": plant_seed_planted,
 		"plant_last_watered_day": plant_last_watered_day,
 	}
@@ -645,13 +663,15 @@ func plant_seed_authoritative(peer_id: int) -> bool:
 	if not player.consume_held_item_authoritative(GamePlayer.SEED_ITEM):
 		return false
 	var snapshot := get_snapshot()
+	snapshot.plant_growth_stage = 0
+	snapshot.plant_withered = false
 	snapshot.plant_seed_planted = true
 	_broadcast_snapshot(snapshot)
 	return true
 
 
 func water_plant_authoritative(peer_id: int) -> bool:
-	if not _can_mutate_for_peer(peer_id) or not plant_seed_planted or not main_breaker_on or plant_last_watered_day >= day_index:
+	if not _can_mutate_for_peer(peer_id) or not plant_seed_planted or plant_withered or not main_breaker_on or plant_last_watered_day >= day_index:
 		return false
 	var button := get_tree().get_first_node_in_group("plant_watering_button")
 	if button == null or not bool(button.call("can_use", peer_id, get_player_node(peer_id))):

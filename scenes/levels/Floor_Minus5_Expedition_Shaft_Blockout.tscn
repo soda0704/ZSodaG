@@ -40,6 +40,9 @@ roughness = 0.22
 albedo_color = Color(0.27, 0.3, 0.31, 1)
 roughness = 0.98
 
+[sub_resource type="BoxShape3D" id="ShaftInvestigationShape"]
+size = Vector3(12, 5, 12)
+
 [node name="Floor_Minus5_Expedition_Shaft_Blockout" type="Node3D" unique_id=924861012]
 editor_description = "Level 5 underground expedition and shaft-support level. The route begins with the elevator arrival, expedition checkpoint, frozen-cargo approach and dispatch control, then reaches the primary winch hall above the sealed expedition shaft."
 
@@ -1493,3 +1496,10 @@ script = ExtResource("authored_door_manager")
 [node name="l5_machine_room_fire" parent="Doors" instance=ExtResource("l5_machine_room_fire")]
 transform = Transform3D(-3.4914813388431334e-15, 0, -1.0, 0, 1, 0, 1.0, 0, -3.4914813388431334e-15, -38.96, 0, -21)
 metadata/unpowered_open = true
+
+[node name="InvestigationZone" type="Area3D" parent="."]
+position = Vector3(-47.5, 2.1, -17)
+collision_layer = 0
+collision_mask = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InvestigationZone"]
+shape = SubResource("ShaftInvestigationShape")
