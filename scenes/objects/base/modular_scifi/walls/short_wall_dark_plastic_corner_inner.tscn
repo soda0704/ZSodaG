@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/short_wall_dark_plastic_corner_inner.res" id="1_dil2y"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/short_wall_dark_plastic_corner_inner.res" id="2_keaqu"]
+
+[node name="ShortWallDarkPlasticCornerInner" type="Node3D" unique_id=1861162844]
+editor_description = "ShortWall_DarkPlastic_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "ShortWall_DarkPlastic_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=859209966]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=839609737]
+mesh = ExtResource("1_dil2y")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1337343712]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1064473312]
+shape = ExtResource("2_keaqu")

@@ -1,0 +1,1344 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source_archive": "Modular SciFi MegaKit[Standard].zip",
+  "models": [
+    {
+      "name": "BottomMetal_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomMetal_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomMetal_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomMetal_Corner_Square_Outer_1",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Corner_Square_Outer_1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Outer_1.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomMetal_Corner_Square_Outer_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Corner_Square_Outer_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Outer_2.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomMetal_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomMetal_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomMetal_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Corner_Square_Outer_1",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Outer_1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_1.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Corner_Square_Outer_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Corner_Square_Outer_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_2.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "BottomSimple_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/BottomSimple_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/BottomSimple_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_AccentStrip_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_AccentStrip_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_AccentStrip_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_AccentStrip_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_AccentStrip_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_AccentStrip_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Band2_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Band2_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Band2_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Band2_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Band2_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Band2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkMetal2_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkMetal2_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkMetal2_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkMetal2_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkMetal2_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkMetal2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkPlastic_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkPlastic_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkPlastic_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkPlastic_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_DarkPlastic_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_DarkPlastic_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Metal2_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Metal2_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Metal2_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Metal2_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Metal2_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Metal2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_MetalPlates_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_MetalPlates_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_MetalPlates_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_MetalPlates_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_MetalPlates_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_MetalPlates_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple1_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple1_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple1_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple1_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple1_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple1_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple2_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple2_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple2_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple2_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Simple2_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Simple2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Triangles_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Triangles_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Triangles_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Triangles_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_Triangles_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_Triangles_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_WhitePlate2_Corner_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_WhitePlate2_Corner_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Corner_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_WhitePlate2_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_WhitePlate2_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "ShortWall_WhitePlate2_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/ShortWall_WhitePlate2_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopAstra_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopAstra_Curve_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Curve_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Curve_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopAstra_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopAstra_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopAstra_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Corner_Square_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopCables_Straight_Hanging",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopCables_Straight_Hanging.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopCables_Straight_Hanging.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopPlastic_Corner_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopPlastic_Corner_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopPlastic_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopPlastic_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopPlastic_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopPlastic_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopPlastic_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopPlastic_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopPlastic_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopSimple_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopSimple_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopSimple_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopSimple_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopSimple_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopWindow_Corner_Curve_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopWindow_Corner_Curve_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopWindow_Corner_Curve_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopWindow_Corner_Curve_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopWindow_Corner_Curve_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopWindow_Corner_Curve_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "TopWindow_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/TopWindow_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/TopWindow_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Corner_Square_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight_Broken",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Broken.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Broken.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight_Divided",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Divided.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Divided.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight_Flat",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Flat.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight_Flat_Window",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Flat_Window.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat_Window.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallAstra_Straight_Window",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallAstra_Straight_Window.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Window.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Corner_Square_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallBand_Straight_Broken",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallBand_Straight_Broken.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallBand_Straight_Broken.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Cap_A",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Cap_A.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Cap_A.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Cap_B",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Cap_B.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Cap_B.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Corner_Round_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Corner_Round_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Round_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Corner_Round_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Corner_Round_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Round_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Corner_Square_Inner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Corner_Square_Inner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Square_Inner.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Corner_Square_Outer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Corner_Square_Outer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Square_Outer.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "WallWindow_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Walls/WallWindow_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/walls/WallWindow_Straight.gltf",
+      "category": "walls",
+      "animated": false
+    },
+    {
+      "name": "Door_DarkMetal",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_DarkMetal.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_DarkMetal.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Frame_A",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Frame_A.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Frame_A.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Frame_Square",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Frame_Square.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Frame_Square.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Frame_SquareTall",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Frame_SquareTall.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Frame_SquareTall.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Frame_Square_Blocked",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Frame_Square_Blocked.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Frame_Square_Blocked.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Metal",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Metal.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Metal.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Door_Simple",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Door_Simple.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Door_Simple.gltf",
+      "category": "doors",
+      "animated": false
+    },
+    {
+      "name": "Platform_3Plates",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_3Plates.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_3Plates.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_CenterPlate",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_CenterPlate.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_CenterPlate_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_CenterPlate_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_DarkPlates",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_DarkPlates.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_DarkPlates_Curves",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_DarkPlates_Curves.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates_Curves.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Metal",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Metal2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Metal2_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal2_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Metal_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Metal_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Metal_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Rails_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Rails_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_2.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Rails_4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Rails_4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Rails_4Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Rails_4Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4Wide.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Rails_4WideTall",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Rails_4WideTall.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4WideTall.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Ramp_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Ramp_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_2.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Ramp_2Short",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Ramp_2Short.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_2Short.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Ramp_4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Ramp_4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_4.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Ramp_4Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Ramp_4Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_4Wide.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Round1",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Round1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Round1.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Simple",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Simple2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Simple2_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple2_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Simple_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Simple_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Simple_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Squares",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Squares.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Squares_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Squares_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Squares_Curve.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Stairs_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Stairs_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_2.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Stairs_4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Stairs_4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Stairs_4Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Stairs_4Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4Wide.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Stairs_4WideTall",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Stairs_4WideTall.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4WideTall.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Window_Thin",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Window_Thin.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Window_Thin.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_Window_Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_Window_Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_Window_Wide.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Platform_X",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Platforms/Platform_X.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_X.gltf",
+      "category": "floors",
+      "animated": false
+    },
+    {
+      "name": "Column_Astra",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Astra.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Astra.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_Hollow",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Hollow.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Hollow.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_Large_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Large_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Large_Straight.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_MetalSupport",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_MetalSupport.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_MetalSupport_Curve",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_MetalSupport_Curve.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport_Curve.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_Pipes",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Pipes.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Pipes.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_Round",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Round.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Round.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Column_Simple",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Columns/Column_Simple.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/columns/Column_Simple.gltf",
+      "category": "columns",
+      "animated": false
+    },
+    {
+      "name": "Prop_AccessPoint",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_AccessPoint.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_AccessPoint.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Barrel_Large",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Barrel_Large.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Barrel_Large.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Cable_1",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Cable_1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Cable_1.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Cable_3",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Cable_3.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Cable_3.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Chest",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Chest.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Chest.gltf",
+      "category": "props",
+      "animated": true
+    },
+    {
+      "name": "Prop_Clamp",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Clamp.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Clamp.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Computer",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Computer.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Computer.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Crate3",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Crate3.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Crate3.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Crate4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Crate4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Crate4.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Fan_Small",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Fan_Small.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small.gltf",
+      "category": "props",
+      "animated": true
+    },
+    {
+      "name": "Prop_Fan_Small_Propeller",
+      "source": "Modular SciFi MegaKit[Standard]/OBJ/Props/Prop_Fan_Small_Propeller.obj",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small_Propeller.obj",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_ItemHolder",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_ItemHolder.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_ItemHolder.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Light_Corner",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Light_Corner.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Light_Corner.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Light_Floor",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Light_Floor.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Light_Floor.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Light_Small",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Light_Small.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Light_Small.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Light_Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Light_Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Light_Wide.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_PipeHolder",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_PipeHolder.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_PipeHolder.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_2.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_3",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_3.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_3.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_4.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Incline_Long_L",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Incline_Long_L.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_L.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Incline_Long_R",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Incline_Long_R.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_R.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Incline_Short_L",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Incline_Short_L.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_L.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Incline_Short_R",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Incline_Short_R.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_R.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Round_Big",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Round_Big.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Big.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Rail_Round_Small",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Rail_Round_Small.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Small.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Vent_Big",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Vent_Big.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Vent_Big.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Vent_Small",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Vent_Small.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Vent_Small.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Prop_Vent_Wide",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Props/Prop_Vent_Wide.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/props/Prop_Vent_Wide.gltf",
+      "category": "props",
+      "animated": false
+    },
+    {
+      "name": "Decal_0",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_0.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_0.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_1",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_1.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_1.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_2",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_2.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_2.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_3",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_3.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_3.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_4",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_4.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_4.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_5",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_5.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_5.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_6",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_6.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_6.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_7",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_7.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_7.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_8",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_8.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_8.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_9",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_9.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_9.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_A",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_A.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_A.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Dashes",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Dashes.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Dashes.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_K",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_K.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_K.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_90",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_90.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_90.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_90_Round",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_90_Round.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_90_Round_Large",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_90_Round_Large.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round_Large.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_Bend1_L",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_Bend1_L.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_L.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_Bend1_R",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_Bend1_R.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_R.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_Bend2_L",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_Bend2_L.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_L.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_Bend2_R",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_Bend2_R.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_R.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Line_Straight",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Line_Straight.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Line_Straight.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Logo",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Logo.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Logo.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Logo_Letters",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Logo_Letters.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Letters.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Logo_Small",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Logo_Small.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Small.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Sign",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Sign.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Sign.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_V",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_V.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_V.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_X",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_X.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_X.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_XSign",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_XSign.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_XSign.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Decal_Z",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Decals/Decal_Z.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/decals/Decal_Z.gltf",
+      "category": "decals",
+      "animated": false
+    },
+    {
+      "name": "Alien_Cyclop",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Aliens/Alien_Cyclop.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/aliens/Alien_Cyclop.gltf",
+      "category": "aliens",
+      "animated": true
+    },
+    {
+      "name": "Alien_Oculichrysalis",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Aliens/Alien_Oculichrysalis.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/aliens/Alien_Oculichrysalis.gltf",
+      "category": "aliens",
+      "animated": true
+    },
+    {
+      "name": "Alien_Scolitex",
+      "source": "Modular SciFi MegaKit[Standard]/glTF/Aliens/Alien_Scolitex.gltf",
+      "path": "assets/models/modular_scifi_megakit/models/aliens/Alien_Scolitex.gltf",
+      "category": "aliens",
+      "animated": true
+    }
+  ]
+}

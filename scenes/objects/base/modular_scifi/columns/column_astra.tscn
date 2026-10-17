@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/column_astra.res" id="1_o60d7"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/column_astra.res" id="2_wvhvw"]
+
+[node name="ColumnAstra" type="Node3D" unique_id=500959704]
+editor_description = "Column_Astra — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Column_Astra"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Astra.gltf"
+metadata/library_category = "columns"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1636028473]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1575815153]
+mesh = ExtResource("1_o60d7")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1925524112]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=696007883]
+shape = ExtResource("2_wvhvw")

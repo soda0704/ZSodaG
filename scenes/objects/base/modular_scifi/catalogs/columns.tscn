@@ -1,0 +1,133 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_astra.tscn" id="1_n26x2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_hollow.tscn" id="2_02o88"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_large_straight.tscn" id="3_mf4a8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_metal_support.tscn" id="4_sra04"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_metal_support_curve.tscn" id="5_lm4ll"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_pipes.tscn" id="6_vsact"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_round.tscn" id="7_cdv20"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_simple.tscn" id="8_6jb2a"]
+
+[node name="ColumnsCatalog" type="Node3D" unique_id=1542048353]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
+
+[node name="ColumnAstra" type="Node3D" parent="." unique_id=500959704 instance=ExtResource("1_n26x2")]
+editor_description = "Column_Astra — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4901161e-08, 0.006465137, 0.23522747)
+metadata/quaternius_source_model = "Column_Astra"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Astra.gltf"
+metadata/library_category = "columns"
+
+[node name="Label0" type="Label3D" parent="." unique_id=2113281187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Astra"
+font_size = 40
+
+[node name="ColumnHollow" type="Node3D" parent="." unique_id=490896223 instance=ExtResource("2_02o88")]
+editor_description = "Column_Hollow — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.591754e-08, 0)
+metadata/quaternius_source_model = "Column_Hollow"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Hollow.gltf"
+metadata/library_category = "columns"
+
+[node name="Label1" type="Label3D" parent="." unique_id=404958053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Hollow"
+font_size = 40
+
+[node name="ColumnLargeStraight" type="Node3D" parent="." unique_id=673647288 instance=ExtResource("3_mf4a8")]
+editor_description = "Column_Large_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.0032291831, -0.14294267)
+metadata/quaternius_source_model = "Column_Large_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Large_Straight.gltf"
+metadata/library_category = "columns"
+
+[node name="Label2" type="Label3D" parent="." unique_id=1280182263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Large_Straight"
+font_size = 40
+
+[node name="ColumnMetalSupport" type="Node3D" parent="." unique_id=1556911759 instance=ExtResource("4_sra04")]
+editor_description = "Column_MetalSupport — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.992624, 0.022009747, 0)
+metadata/quaternius_source_model = "Column_MetalSupport"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport.gltf"
+metadata/library_category = "columns"
+
+[node name="Label3" type="Label3D" parent="." unique_id=1727730898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_MetalSupport"
+font_size = 40
+
+[node name="ColumnMetalSupportCurve" type="Node3D" parent="." unique_id=1208743495 instance=ExtResource("5_lm4ll")]
+editor_description = "Column_MetalSupport_Curve — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.23547, 0.021999128, 2.2354615)
+metadata/quaternius_source_model = "Column_MetalSupport_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport_Curve.gltf"
+metadata/library_category = "columns"
+
+[node name="Label4" type="Label3D" parent="." unique_id=312894822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_MetalSupport_Curve"
+font_size = 40
+
+[node name="ColumnPipes" type="Node3D" parent="." unique_id=461906274 instance=ExtResource("6_vsact")]
+editor_description = "Column_Pipes — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3841858e-07, -12)
+metadata/quaternius_source_model = "Column_Pipes"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Pipes.gltf"
+metadata/library_category = "columns"
+
+[node name="Label5" type="Label3D" parent="." unique_id=2079591662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Pipes"
+font_size = 40
+
+[node name="ColumnRound" type="Node3D" parent="." unique_id=47813399 instance=ExtResource("7_cdv20")]
+editor_description = "Column_Round — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
+metadata/quaternius_source_model = "Column_Round"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Round.gltf"
+metadata/library_category = "columns"
+
+[node name="Label6" type="Label3D" parent="." unique_id=349303447]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Round"
+font_size = 40
+
+[node name="ColumnSimple" type="Node3D" parent="." unique_id=246862376 instance=ExtResource("8_6jb2a")]
+editor_description = "Column_Simple — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -11.98122)
+metadata/quaternius_source_model = "Column_Simple"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Simple.gltf"
+metadata/library_category = "columns"
+
+[node name="Label7" type="Label3D" parent="." unique_id=934038617]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Column_Simple"
+font_size = 40

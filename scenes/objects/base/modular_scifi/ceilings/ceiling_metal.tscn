@@ -1,22 +1,23 @@
 [gd_scene format=3]
 
-[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_metal_2.res" id="1_ucexs"]
-[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_metal_2.res" id="2_3uc84"]
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_metal.res" id="1_ucexs"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_metal.res" id="2_3uc84"]
 
-[node name="CeilingMetal" type="Node3D" unique_id=1681982686]
-editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
-metadata/quaternius_source_models = ["Platform_Metal2"]
-metadata/recommended_zone = "technical"
+[node name="CeilingMetal" type="Node3D" unique_id=916138339]
+editor_description = "Ceiling variant of Platform_Metal. Visible underside at Y=0; thickness above it."
+metadata/quaternius_source_model = "Platform_Metal"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Visual" type="Node3D" parent="." unique_id=1850451158]
-transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
+[node name="Visual" type="Node3D" parent="." unique_id=1678879725]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 1.0174846e-05, 0)
 
-[node name="Platform_Metal2" type="MeshInstance3D" parent="Visual" unique_id=1734436906]
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=829424732]
 mesh = ExtResource("1_ucexs")
 
-[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=929727486]
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=555395733]
 collision_mask = 0
 
-[node name="Platform_Metal2" type="CollisionShape3D" parent="StaticCollision" unique_id=697663090]
-transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1883524137]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 1.0174846e-05, 0)
 shape = ExtResource("2_3uc84")

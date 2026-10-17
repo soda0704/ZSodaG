@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/prop_access_point.res" id="1_ppibi"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/prop_access_point.res" id="2_w2xr8"]
+
+[node name="PropAccessPoint" type="Node3D" unique_id=1062856469]
+editor_description = "Prop_AccessPoint — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Prop_AccessPoint"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_AccessPoint.gltf"
+metadata/library_category = "props"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1564945939]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=22717945]
+mesh = ExtResource("1_ppibi")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=857078851]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1112269580]
+shape = ExtResource("2_w2xr8")

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "MI_Trim_02_Variation"
+cull_mode = 2
+metallic = 1.0
+texture_filter = 5

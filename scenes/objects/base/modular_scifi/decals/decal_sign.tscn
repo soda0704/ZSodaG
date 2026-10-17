@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/decal_sign.res" id="1_bi2hr"]
+
+[node name="DecalSign" type="Node3D" unique_id=942640517]
+editor_description = "Decal_Sign — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Decal_Sign"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Sign.gltf"
+metadata/library_category = "decals"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1173902016]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1128386799]
+mesh = ExtResource("1_bi2hr")

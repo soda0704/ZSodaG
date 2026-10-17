@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/prop_barrel_large.res" id="1_xgdr2"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/prop_barrel_large.res" id="2_kt1ew"]
+
+[node name="PropBarrelLarge" type="Node3D" unique_id=230025355]
+editor_description = "Prop_Barrel_Large — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Prop_Barrel_Large"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Barrel_Large.gltf"
+metadata/library_category = "props"
+
+[node name="Visual" type="Node3D" parent="." unique_id=596012645]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=894538726]
+mesh = ExtResource("1_xgdr2")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=747854297]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=85873157]
+shape = ExtResource("2_kt1ew")

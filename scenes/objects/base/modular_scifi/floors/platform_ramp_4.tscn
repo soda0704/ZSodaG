@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_ramp_4.res" id="1_4b6nt"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_ramp_4.res" id="2_nir1x"]
+
+[node name="PlatformRamp4" type="Node3D" unique_id=628408693]
+editor_description = "Platform_Ramp_4 — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Platform_Ramp_4"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_4.gltf"
+metadata/library_category = "floors"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1255210438]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1098284866]
+mesh = ExtResource("1_4b6nt")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=836601554]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1974086416]
+shape = ExtResource("2_nir1x")

@@ -1,0 +1,471 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_access_point.tscn" id="1_pgdos"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_barrel_large.tscn" id="2_ece72"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_cable_1.tscn" id="3_rho8q"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_cable_3.tscn" id="4_cjvoe"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_chest.tscn" id="5_vapeq"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_clamp.tscn" id="6_5k7io"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_computer.tscn" id="7_jgcw5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_crate_3.tscn" id="8_004m7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_crate_4.tscn" id="9_jyoym"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_fan_small.tscn" id="10_rjr61"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_fan_small_propeller.tscn" id="11_ufeyc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_item_holder.tscn" id="12_6rmb6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_light_corner.tscn" id="13_ow0j4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_light_floor.tscn" id="14_an1ly"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_light_small.tscn" id="15_5b1gq"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_light_wide.tscn" id="16_joal3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_pipe_holder.tscn" id="17_s7wv2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_2.tscn" id="18_cieab"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_3.tscn" id="19_7exdd"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_4.tscn" id="20_twyvv"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_incline_long_l.tscn" id="21_kfo27"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_incline_long_r.tscn" id="22_kj53b"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_incline_short_l.tscn" id="23_h1eg3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_incline_short_r.tscn" id="24_o4mp2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_round_big.tscn" id="25_yfhyk"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_rail_round_small.tscn" id="26_xocy4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_vent_big.tscn" id="27_s6l5v"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_vent_small.tscn" id="28_u01u3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_vent_wide.tscn" id="29_gqtgc"]
+
+[node name="PropsCatalog" type="Node3D" unique_id=71966153]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
+
+[node name="PropAccessPoint" type="Node3D" parent="." unique_id=1062856469 instance=ExtResource("1_pgdos")]
+editor_description = "Prop_AccessPoint — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9604645e-08, -1.1117718, 0.009164929)
+metadata/quaternius_source_model = "Prop_AccessPoint"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_AccessPoint.gltf"
+metadata/library_category = "props"
+
+[node name="Label0" type="Label3D" parent="." unique_id=1406495479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_AccessPoint"
+font_size = 40
+
+[node name="PropBarrelLarge" type="Node3D" parent="." unique_id=230025355 instance=ExtResource("2_ece72")]
+editor_description = "Prop_Barrel_Large — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.008179725, 0)
+metadata/quaternius_source_model = "Prop_Barrel_Large"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Barrel_Large.gltf"
+metadata/library_category = "props"
+
+[node name="Label1" type="Label3D" parent="." unique_id=2047057840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Barrel_Large"
+font_size = 40
+
+[node name="PropCable1" type="Node3D" parent="." unique_id=220979181 instance=ExtResource("3_rho8q")]
+editor_description = "Prop_Cable_1 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.979382, 0.01830253, -0.24840993)
+metadata/quaternius_source_model = "Prop_Cable_1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Cable_1.gltf"
+metadata/library_category = "props"
+
+[node name="Label2" type="Label3D" parent="." unique_id=258434284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Cable_1"
+font_size = 40
+
+[node name="PropCable3" type="Node3D" parent="." unique_id=1967876982 instance=ExtResource("4_cjvoe")]
+editor_description = "Prop_Cable_3 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.372395, 0.013042437, -0.03996706)
+metadata/quaternius_source_model = "Prop_Cable_3"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Cable_3.gltf"
+metadata/library_category = "props"
+
+[node name="Label3" type="Label3D" parent="." unique_id=2079864333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Cable_3"
+font_size = 40
+
+[node name="PropChest" type="Node3D" parent="." unique_id=715921623 instance=ExtResource("5_vapeq")]
+editor_description = "Prop_Chest — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -0.0032356798, -0.012021184)
+metadata/quaternius_source_model = "Prop_Chest"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Chest.gltf"
+metadata/library_category = "props"
+metadata/available_animations = Array[String](["Chest_Close", "Chest_Idle_Closed", "Chest_Idle_Open", "Chest_Open"])
+
+[node name="Label4" type="Label3D" parent="." unique_id=1597099151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Chest"
+font_size = 40
+
+[node name="PropClamp" type="Node3D" parent="." unique_id=1776453435 instance=ExtResource("6_5k7io")]
+editor_description = "Prop_Clamp — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.081038415, 0.00440094, -11.989918)
+metadata/quaternius_source_model = "Prop_Clamp"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Clamp.gltf"
+metadata/library_category = "props"
+
+[node name="Label5" type="Label3D" parent="." unique_id=476321890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Clamp"
+font_size = 40
+
+[node name="PropComputer" type="Node3D" parent="." unique_id=893410333 instance=ExtResource("7_jgcw5")]
+editor_description = "Prop_Computer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.0011917204, -12.065)
+metadata/quaternius_source_model = "Prop_Computer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Computer.gltf"
+metadata/library_category = "props"
+
+[node name="Label6" type="Label3D" parent="." unique_id=2027587613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Computer"
+font_size = 40
+
+[node name="PropCrate3" type="Node3D" parent="." unique_id=1850658564 instance=ExtResource("8_004m7")]
+editor_description = "Prop_Crate3 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.5, -12)
+metadata/quaternius_source_model = "Prop_Crate3"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Crate3.gltf"
+metadata/library_category = "props"
+
+[node name="Label7" type="Label3D" parent="." unique_id=1790577049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Crate3"
+font_size = 40
+
+[node name="PropCrate4" type="Node3D" parent="." unique_id=879259044 instance=ExtResource("9_jyoym")]
+editor_description = "Prop_Crate4 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.56043476, -12)
+metadata/quaternius_source_model = "Prop_Crate4"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Crate4.gltf"
+metadata/library_category = "props"
+
+[node name="Label8" type="Label3D" parent="." unique_id=1542322301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Crate4"
+font_size = 40
+
+[node name="PropFanSmall" type="Node3D" parent="." unique_id=143956633 instance=ExtResource("10_rjr61")]
+editor_description = "Prop_Fan_Small — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.054996673, -12)
+metadata/quaternius_source_model = "Prop_Fan_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small.gltf"
+metadata/library_category = "props"
+metadata/available_animations = Array[String](["Fan_Idle"])
+
+[node name="Label9" type="Label3D" parent="." unique_id=2140699468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Fan_Small"
+font_size = 40
+
+[node name="PropFanSmallPropeller" type="Node3D" parent="." unique_id=1137814382 instance=ExtResource("11_ufeyc")]
+editor_description = "Prop_Fan_Small_Propeller — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.364418e-07, 0.054997, -24)
+metadata/quaternius_source_model = "Prop_Fan_Small_Propeller"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small_Propeller.obj"
+metadata/library_category = "props"
+
+[node name="Label10" type="Label3D" parent="." unique_id=1180688691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Fan_Small_Propeller"
+font_size = 40
+
+[node name="PropItemHolder" type="Node3D" parent="." unique_id=1075255633 instance=ExtResource("12_6rmb6")]
+editor_description = "Prop_ItemHolder — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0468855, 0.0040887445, -24.02707)
+metadata/quaternius_source_model = "Prop_ItemHolder"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_ItemHolder.gltf"
+metadata/library_category = "props"
+
+[node name="Label11" type="Label3D" parent="." unique_id=1340600558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_ItemHolder"
+font_size = 40
+
+[node name="PropLightCorner" type="Node3D" parent="." unique_id=33741264 instance=ExtResource("13_ow0j4")]
+editor_description = "Prop_Light_Corner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.158445, 0.14768468, -21.89085)
+metadata/quaternius_source_model = "Prop_Light_Corner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Corner.gltf"
+metadata/library_category = "props"
+
+[node name="Label12" type="Label3D" parent="." unique_id=977596523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Light_Corner"
+font_size = 40
+
+[node name="PropLightFloor" type="Node3D" parent="." unique_id=1927104993 instance=ExtResource("14_an1ly")]
+editor_description = "Prop_Light_Floor — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.0012871493, -24)
+metadata/quaternius_source_model = "Prop_Light_Floor"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Floor.gltf"
+metadata/library_category = "props"
+
+[node name="Label13" type="Label3D" parent="." unique_id=1392532605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Light_Floor"
+font_size = 40
+
+[node name="PropLightSmall" type="Node3D" parent="." unique_id=274697344 instance=ExtResource("15_5b1gq")]
+editor_description = "Prop_Light_Small — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.430428, 0.14768012, -24)
+metadata/quaternius_source_model = "Prop_Light_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Small.gltf"
+metadata/library_category = "props"
+
+[node name="Label14" type="Label3D" parent="." unique_id=1630770932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Light_Small"
+font_size = 40
+
+[node name="PropLightWide" type="Node3D" parent="." unique_id=1107105938 instance=ExtResource("16_joal3")]
+editor_description = "Prop_Light_Wide — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66012216, 0.14768012, -36)
+metadata/quaternius_source_model = "Prop_Light_Wide"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Wide.gltf"
+metadata/library_category = "props"
+
+[node name="Label15" type="Label3D" parent="." unique_id=268876614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Light_Wide"
+font_size = 40
+
+[node name="PropPipeHolder" type="Node3D" parent="." unique_id=940098963 instance=ExtResource("17_s7wv2")]
+editor_description = "Prop_PipeHolder — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.005346, -0.0077525526, -36)
+metadata/quaternius_source_model = "Prop_PipeHolder"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_PipeHolder.gltf"
+metadata/library_category = "props"
+
+[node name="Label16" type="Label3D" parent="." unique_id=623891639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_PipeHolder"
+font_size = 40
+
+[node name="PropRail2" type="Node3D" parent="." unique_id=327963245 instance=ExtResource("18_cieab")]
+editor_description = "Prop_Rail_2 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.00238, -5.9604645e-08, -35)
+metadata/quaternius_source_model = "Prop_Rail_2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_2.gltf"
+metadata/library_category = "props"
+
+[node name="Label17" type="Label3D" parent="." unique_id=1366891836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_2"
+font_size = 40
+
+[node name="PropRail3" type="Node3D" parent="." unique_id=484039882 instance=ExtResource("19_7exdd")]
+editor_description = "Prop_Rail_3 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.00238, -5.9604645e-08, -34.506424)
+metadata/quaternius_source_model = "Prop_Rail_3"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_3.gltf"
+metadata/library_category = "props"
+
+[node name="Label18" type="Label3D" parent="." unique_id=1277229257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_3"
+font_size = 40
+
+[node name="PropRail4" type="Node3D" parent="." unique_id=843722218 instance=ExtResource("20_twyvv")]
+editor_description = "Prop_Rail_4 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.99899, -5.9604645e-08, -34)
+metadata/quaternius_source_model = "Prop_Rail_4"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_4.gltf"
+metadata/library_category = "props"
+
+[node name="Label19" type="Label3D" parent="." unique_id=1449866005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_4"
+font_size = 40
+
+[node name="PropRailInclineLongL" type="Node3D" parent="." unique_id=380410164 instance=ExtResource("21_kfo27")]
+editor_description = "Prop_Rail_Incline_Long_L — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09607799, -0.0029671192, -50.000267)
+metadata/quaternius_source_model = "Prop_Rail_Incline_Long_L"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_L.gltf"
+metadata/library_category = "props"
+
+[node name="Label20" type="Label3D" parent="." unique_id=72712622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Incline_Long_L"
+font_size = 40
+
+[node name="PropRailInclineLongR" type="Node3D" parent="." unique_id=1544781911 instance=ExtResource("22_kj53b")]
+editor_description = "Prop_Rail_Incline_Long_R — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.903922, -0.0029672384, -50.000267)
+metadata/quaternius_source_model = "Prop_Rail_Incline_Long_R"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_R.gltf"
+metadata/library_category = "props"
+
+[node name="Label21" type="Label3D" parent="." unique_id=275634654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Incline_Long_R"
+font_size = 40
+
+[node name="PropRailInclineShortL" type="Node3D" parent="." unique_id=1258614996 instance=ExtResource("23_h1eg3")]
+editor_description = "Prop_Rail_Incline_Short_L — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.098974, -0.0029671192, -48.9893)
+metadata/quaternius_source_model = "Prop_Rail_Incline_Short_L"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_L.gltf"
+metadata/library_category = "props"
+
+[node name="Label22" type="Label3D" parent="." unique_id=1746029754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Incline_Short_L"
+font_size = 40
+
+[node name="PropRailInclineShortR" type="Node3D" parent="." unique_id=1834376810 instance=ExtResource("24_o4mp2")]
+editor_description = "Prop_Rail_Incline_Short_R — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.901026, 0.3209411, -49.006138)
+metadata/quaternius_source_model = "Prop_Rail_Incline_Short_R"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_R.gltf"
+metadata/library_category = "props"
+
+[node name="Label23" type="Label3D" parent="." unique_id=396582217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Incline_Short_R"
+font_size = 40
+
+[node name="PropRailRoundBig" type="Node3D" parent="." unique_id=670092117 instance=ExtResource("25_yfhyk")]
+editor_description = "Prop_Rail_Round_Big — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.964752, -5.820766e-08, -45.994797)
+metadata/quaternius_source_model = "Prop_Rail_Round_Big"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Big.gltf"
+metadata/library_category = "props"
+
+[node name="Label24" type="Label3D" parent="." unique_id=1025264822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Round_Big"
+font_size = 40
+
+[node name="PropRailRoundSmall" type="Node3D" parent="." unique_id=757167320 instance=ExtResource("26_xocy4")]
+editor_description = "Prop_Rail_Round_Small — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0309727, -5.6810677e-08, -58.953266)
+metadata/quaternius_source_model = "Prop_Rail_Round_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Small.gltf"
+metadata/library_category = "props"
+
+[node name="Label25" type="Label3D" parent="." unique_id=1097445932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Rail_Round_Small"
+font_size = 40
+
+[node name="PropVentBig" type="Node3D" parent="." unique_id=32648651 instance=ExtResource("27_s6l5v")]
+editor_description = "Prop_Vent_Big — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.06878673, -59.993034)
+metadata/quaternius_source_model = "Prop_Vent_Big"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Big.gltf"
+metadata/library_category = "props"
+
+[node name="Label26" type="Label3D" parent="." unique_id=1096677704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Vent_Big"
+font_size = 40
+
+[node name="PropVentSmall" type="Node3D" parent="." unique_id=1127789127 instance=ExtResource("28_u01u3")]
+editor_description = "Prop_Vent_Small — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.5100138e-08, -60)
+metadata/quaternius_source_model = "Prop_Vent_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Small.gltf"
+metadata/library_category = "props"
+
+[node name="Label27" type="Label3D" parent="." unique_id=354889849]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Vent_Small"
+font_size = 40
+
+[node name="PropVentWide" type="Node3D" parent="." unique_id=377984095 instance=ExtResource("29_gqtgc")]
+editor_description = "Prop_Vent_Wide — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.000004, 0, -60.01338)
+metadata/quaternius_source_model = "Prop_Vent_Wide"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Wide.gltf"
+metadata/library_category = "props"
+
+[node name="Label28" type="Label3D" parent="." unique_id=314097270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Prop_Vent_Wide"
+font_size = 40

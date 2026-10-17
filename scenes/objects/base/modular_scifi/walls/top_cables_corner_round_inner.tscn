@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_cables_corner_round_inner.res" id="1_ggdfj"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_cables_corner_round_inner.res" id="2_jaqpx"]
+
+[node name="TopCablesCornerRoundInner" type="Node3D" unique_id=613309490]
+editor_description = "TopCables_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "TopCables_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1746174365]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1703851863]
+mesh = ExtResource("1_ggdfj")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=360899283]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=858059140]
+shape = ExtResource("2_jaqpx")

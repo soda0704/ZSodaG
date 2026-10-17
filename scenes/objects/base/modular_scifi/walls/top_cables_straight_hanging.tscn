@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_cables_straight_hanging.res" id="1_ey7ry"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_cables_straight_hanging.res" id="2_e34gc"]
+
+[node name="TopCablesStraightHanging" type="Node3D" unique_id=572855026]
+editor_description = "TopCables_Straight_Hanging — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "TopCables_Straight_Hanging"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Straight_Hanging.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=355499412]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1965940967]
+mesh = ExtResource("1_ey7ry")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=144934190]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=917497745]
+shape = ExtResource("2_e34gc")

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_window_cap_b.res" id="1_57ovo"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_window_cap_b.res" id="2_1i6lh"]
+
+[node name="WallWindowCapB" type="Node3D" unique_id=1953069781]
+editor_description = "WallWindow_Cap_B — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "WallWindow_Cap_B"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Cap_B.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1522951437]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1849970132]
+mesh = ExtResource("1_57ovo")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=953488685]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1263233710]
+shape = ExtResource("2_1i6lh")

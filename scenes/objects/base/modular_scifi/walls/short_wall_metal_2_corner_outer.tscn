@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/short_wall_metal_2_corner_outer.res" id="1_gxurn"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/short_wall_metal_2_corner_outer.res" id="2_pkk0r"]
+
+[node name="ShortWallMetal2CornerOuter" type="Node3D" unique_id=2080978094]
+editor_description = "ShortWall_Metal2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "ShortWall_Metal2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1354552295]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=371781193]
+mesh = ExtResource("1_gxurn")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=395904396]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=9914783]
+shape = ExtResource("2_pkk0r")

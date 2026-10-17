@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/short_wall_accent_strip_straight.res" id="1_62lxf"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/short_wall_accent_strip_straight.res" id="2_c1f83"]
+
+[node name="ShortWallAccentStripStraight" type="Node3D" unique_id=1905622394]
+editor_description = "ShortWall_AccentStrip_Straight — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "ShortWall_AccentStrip_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=734792262]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=2044931292]
+mesh = ExtResource("1_62lxf")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=258186286]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1072318331]
+shape = ExtResource("2_c1f83")

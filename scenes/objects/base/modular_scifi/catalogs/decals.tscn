@@ -1,0 +1,469 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_0.tscn" id="1_mrnbn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_1.tscn" id="2_roxw2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_2.tscn" id="3_b7nep"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_3.tscn" id="4_fei8m"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_4.tscn" id="5_mum8h"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_5.tscn" id="6_rk78g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_6.tscn" id="7_7p3he"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_7.tscn" id="8_ux011"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_8.tscn" id="9_18wy3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_9.tscn" id="10_gmdu7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_a.tscn" id="11_qndyg"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_dashes.tscn" id="12_ttv1p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_k.tscn" id="13_813uo"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_90.tscn" id="14_r3tnx"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_90_round.tscn" id="15_lcgye"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_90_round_large.tscn" id="16_nyea4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_bend_1_l.tscn" id="17_4u661"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_bend_1_r.tscn" id="18_0ff0p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_bend_2_l.tscn" id="19_4ov08"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_bend_2_r.tscn" id="20_067hj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_line_straight.tscn" id="21_aj0il"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_logo.tscn" id="22_roye8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_logo_letters.tscn" id="23_eo4n8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_logo_small.tscn" id="24_2kubw"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_sign.tscn" id="25_o0mte"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_v.tscn" id="26_8yi64"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_x.tscn" id="27_4ictn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_x_sign.tscn" id="28_6q52o"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/decals/decal_z.tscn" id="29_m4gwi"]
+
+[node name="DecalsCatalog" type="Node3D" unique_id=207567264]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
+
+[node name="Decal0" type="Node3D" parent="." unique_id=12749754 instance=ExtResource("1_mrnbn")]
+editor_description = "Decal_0 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0, 0)
+metadata/quaternius_source_model = "Decal_0"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_0.gltf"
+metadata/library_category = "decals"
+
+[node name="Label0" type="Label3D" parent="." unique_id=1733960901]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_0"
+font_size = 40
+
+[node name="Decal1" type="Node3D" parent="." unique_id=971150538 instance=ExtResource("2_roxw2")]
+editor_description = "Decal_1 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+metadata/quaternius_source_model = "Decal_1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_1.gltf"
+metadata/library_category = "decals"
+
+[node name="Label1" type="Label3D" parent="." unique_id=585897502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_1"
+font_size = 40
+
+[node name="Decal2" type="Node3D" parent="." unique_id=2120558485 instance=ExtResource("3_b7nep")]
+editor_description = "Decal_2 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+metadata/quaternius_source_model = "Decal_2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_2.gltf"
+metadata/library_category = "decals"
+
+[node name="Label2" type="Label3D" parent="." unique_id=1211688582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_2"
+font_size = 40
+
+[node name="Decal3" type="Node3D" parent="." unique_id=1241062679 instance=ExtResource("4_fei8m")]
+editor_description = "Decal_3 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+metadata/quaternius_source_model = "Decal_3"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_3.gltf"
+metadata/library_category = "decals"
+
+[node name="Label3" type="Label3D" parent="." unique_id=1341193238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_3"
+font_size = 40
+
+[node name="Decal4" type="Node3D" parent="." unique_id=188995720 instance=ExtResource("5_mum8h")]
+editor_description = "Decal_4 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+metadata/quaternius_source_model = "Decal_4"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_4.gltf"
+metadata/library_category = "decals"
+
+[node name="Label4" type="Label3D" parent="." unique_id=635673710]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_4"
+font_size = 40
+
+[node name="Decal5" type="Node3D" parent="." unique_id=521637194 instance=ExtResource("6_rk78g")]
+editor_description = "Decal_5 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3841858e-07, 0, -12)
+metadata/quaternius_source_model = "Decal_5"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_5.gltf"
+metadata/library_category = "decals"
+
+[node name="Label5" type="Label3D" parent="." unique_id=422891006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_5"
+font_size = 40
+
+[node name="Decal6" type="Node3D" parent="." unique_id=1013321977 instance=ExtResource("7_7p3he")]
+editor_description = "Decal_6 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
+metadata/quaternius_source_model = "Decal_6"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_6.gltf"
+metadata/library_category = "decals"
+
+[node name="Label6" type="Label3D" parent="." unique_id=677077063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_6"
+font_size = 40
+
+[node name="Decal7" type="Node3D" parent="." unique_id=396465061 instance=ExtResource("8_ux011")]
+editor_description = "Decal_7 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -12.000001)
+metadata/quaternius_source_model = "Decal_7"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_7.gltf"
+metadata/library_category = "decals"
+
+[node name="Label7" type="Label3D" parent="." unique_id=1110748787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_7"
+font_size = 40
+
+[node name="Decal8" type="Node3D" parent="." unique_id=1869141893 instance=ExtResource("9_18wy3")]
+editor_description = "Decal_8 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -12)
+metadata/quaternius_source_model = "Decal_8"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_8.gltf"
+metadata/library_category = "decals"
+
+[node name="Label8" type="Label3D" parent="." unique_id=886903588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_8"
+font_size = 40
+
+[node name="Decal9" type="Node3D" parent="." unique_id=719559925 instance=ExtResource("10_gmdu7")]
+editor_description = "Decal_9 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -12)
+metadata/quaternius_source_model = "Decal_9"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_9.gltf"
+metadata/library_category = "decals"
+
+[node name="Label9" type="Label3D" parent="." unique_id=1530336079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -7.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_9"
+font_size = 40
+
+[node name="DecalA" type="Node3D" parent="." unique_id=1567052811 instance=ExtResource("11_qndyg")]
+editor_description = "Decal_A — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -24)
+metadata/quaternius_source_model = "Decal_A"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_A.gltf"
+metadata/library_category = "decals"
+
+[node name="Label10" type="Label3D" parent="." unique_id=306332193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_A"
+font_size = 40
+
+[node name="DecalDashes" type="Node3D" parent="." unique_id=1979850581 instance=ExtResource("12_ttv1p")]
+editor_description = "Decal_Dashes — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -24)
+metadata/quaternius_source_model = "Decal_Dashes"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Dashes.gltf"
+metadata/library_category = "decals"
+
+[node name="Label11" type="Label3D" parent="." unique_id=1857740656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Dashes"
+font_size = 40
+
+[node name="DecalK" type="Node3D" parent="." unique_id=1928509652 instance=ExtResource("13_813uo")]
+editor_description = "Decal_K — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -24)
+metadata/quaternius_source_model = "Decal_K"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_K.gltf"
+metadata/library_category = "decals"
+
+[node name="Label12" type="Label3D" parent="." unique_id=1073855731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_K"
+font_size = 40
+
+[node name="DecalLine90" type="Node3D" parent="." unique_id=1999146581 instance=ExtResource("14_r3tnx")]
+editor_description = "Decal_Line_90 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.036034, 0, -24.963993)
+metadata/quaternius_source_model = "Decal_Line_90"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90.gltf"
+metadata/library_category = "decals"
+
+[node name="Label13" type="Label3D" parent="." unique_id=1077124886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_90"
+font_size = 40
+
+[node name="DecalLine90Round" type="Node3D" parent="." unique_id=251061479 instance=ExtResource("15_lcgye")]
+editor_description = "Decal_Line_90_Round — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.036, 0, -24.964)
+metadata/quaternius_source_model = "Decal_Line_90_Round"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round.gltf"
+metadata/library_category = "decals"
+
+[node name="Label14" type="Label3D" parent="." unique_id=1991146379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_90_Round"
+font_size = 40
+
+[node name="DecalLine90RoundLarge" type="Node3D" parent="." unique_id=1476740897 instance=ExtResource("16_nyea4")]
+editor_description = "Decal_Line_90_Round_Large — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4640005, 0, -37.464)
+metadata/quaternius_source_model = "Decal_Line_90_Round_Large"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round_Large.gltf"
+metadata/library_category = "decals"
+
+[node name="Label15" type="Label3D" parent="." unique_id=1841733338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_90_Round_Large"
+font_size = 40
+
+[node name="DecalLineBend1L" type="Node3D" parent="." unique_id=965381326 instance=ExtResource("17_4u661")]
+editor_description = "Decal_Line_Bend1_L — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -36)
+metadata/quaternius_source_model = "Decal_Line_Bend1_L"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_L.gltf"
+metadata/library_category = "decals"
+
+[node name="Label16" type="Label3D" parent="." unique_id=1989377160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_Bend1_L"
+font_size = 40
+
+[node name="DecalLineBend1R" type="Node3D" parent="." unique_id=3167475 instance=ExtResource("18_0ff0p")]
+editor_description = "Decal_Line_Bend1_R — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -36)
+metadata/quaternius_source_model = "Decal_Line_Bend1_R"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_R.gltf"
+metadata/library_category = "decals"
+
+[node name="Label17" type="Label3D" parent="." unique_id=12347424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_Bend1_R"
+font_size = 40
+
+[node name="DecalLineBend2L" type="Node3D" parent="." unique_id=406281191 instance=ExtResource("19_4ov08")]
+editor_description = "Decal_Line_Bend2_L — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, -36)
+metadata/quaternius_source_model = "Decal_Line_Bend2_L"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_L.gltf"
+metadata/library_category = "decals"
+
+[node name="Label18" type="Label3D" parent="." unique_id=1131983639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_Bend2_L"
+font_size = 40
+
+[node name="DecalLineBend2R" type="Node3D" parent="." unique_id=112818026 instance=ExtResource("20_067hj")]
+editor_description = "Decal_Line_Bend2_R — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5, 0, -36)
+metadata/quaternius_source_model = "Decal_Line_Bend2_R"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_R.gltf"
+metadata/library_category = "decals"
+
+[node name="Label19" type="Label3D" parent="." unique_id=1857588583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_Bend2_R"
+font_size = 40
+
+[node name="DecalLineStraight" type="Node3D" parent="." unique_id=630460816 instance=ExtResource("21_aj0il")]
+editor_description = "Decal_Line_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
+metadata/quaternius_source_model = "Decal_Line_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Straight.gltf"
+metadata/library_category = "decals"
+
+[node name="Label20" type="Label3D" parent="." unique_id=1567822334]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Line_Straight"
+font_size = 40
+
+[node name="DecalLogo" type="Node3D" parent="." unique_id=1094948674 instance=ExtResource("22_roye8")]
+editor_description = "Decal_Logo — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0198345, 0, -47.922375)
+metadata/quaternius_source_model = "Decal_Logo"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo.gltf"
+metadata/library_category = "decals"
+
+[node name="Label21" type="Label3D" parent="." unique_id=409453310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Logo"
+font_size = 40
+
+[node name="DecalLogoLetters" type="Node3D" parent="." unique_id=159696038 instance=ExtResource("23_eo4n8")]
+editor_description = "Decal_Logo_Letters — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.00131, 0, -48.004436)
+metadata/quaternius_source_model = "Decal_Logo_Letters"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Letters.gltf"
+metadata/library_category = "decals"
+
+[node name="Label22" type="Label3D" parent="." unique_id=1683300233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Logo_Letters"
+font_size = 40
+
+[node name="DecalLogoSmall" type="Node3D" parent="." unique_id=701293102 instance=ExtResource("24_2kubw")]
+editor_description = "Decal_Logo_Small — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -48)
+metadata/quaternius_source_model = "Decal_Logo_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Small.gltf"
+metadata/library_category = "decals"
+
+[node name="Label23" type="Label3D" parent="." unique_id=2009212896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Logo_Small"
+font_size = 40
+
+[node name="DecalSign" type="Node3D" parent="." unique_id=942640517 instance=ExtResource("25_o0mte")]
+editor_description = "Decal_Sign — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -48)
+metadata/quaternius_source_model = "Decal_Sign"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Sign.gltf"
+metadata/library_category = "decals"
+
+[node name="Label24" type="Label3D" parent="." unique_id=587819363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Sign"
+font_size = 40
+
+[node name="DecalV" type="Node3D" parent="." unique_id=463936133 instance=ExtResource("26_8yi64")]
+editor_description = "Decal_V — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+metadata/quaternius_source_model = "Decal_V"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_V.gltf"
+metadata/library_category = "decals"
+
+[node name="Label25" type="Label3D" parent="." unique_id=937521779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_V"
+font_size = 40
+
+[node name="DecalX" type="Node3D" parent="." unique_id=1956019501 instance=ExtResource("27_4ictn")]
+editor_description = "Decal_X — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -60)
+metadata/quaternius_source_model = "Decal_X"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_X.gltf"
+metadata/library_category = "decals"
+
+[node name="Label26" type="Label3D" parent="." unique_id=1468463076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_X"
+font_size = 40
+
+[node name="DecalXSign" type="Node3D" parent="." unique_id=1135046123 instance=ExtResource("28_6q52o")]
+editor_description = "Decal_XSign — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -60)
+metadata/quaternius_source_model = "Decal_XSign"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_XSign.gltf"
+metadata/library_category = "decals"
+
+[node name="Label27" type="Label3D" parent="." unique_id=1850214522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_XSign"
+font_size = 40
+
+[node name="DecalZ" type="Node3D" parent="." unique_id=1814067902 instance=ExtResource("29_m4gwi")]
+editor_description = "Decal_Z — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -60)
+metadata/quaternius_source_model = "Decal_Z"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Z.gltf"
+metadata/library_category = "decals"
+
+[node name="Label28" type="Label3D" parent="." unique_id=2138365432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Decal_Z"
+font_size = 40

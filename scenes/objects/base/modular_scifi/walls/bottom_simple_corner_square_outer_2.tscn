@@ -3,20 +3,19 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/bottom_simple_corner_square_outer_2.res" id="1_c7ohb"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/bottom_simple_corner_square_outer_2.res" id="2_8yux3"]
 
-[node name="BottomSimpleCornerSquareOuter2" type="Node3D" unique_id=715483006]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Outer_2"]
-metadata/recommended_zone = "living_science"
+[node name="BottomSimpleCornerSquareOuter2" type="Node3D" unique_id=932936675]
+editor_description = "BottomSimple_Corner_Square_Outer_2 — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "BottomSimple_Corner_Square_Outer_2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_2.gltf"
+metadata/library_category = "walls"
 
-[node name="Visual" type="Node3D" parent="." unique_id=1710089852]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Visual" type="Node3D" parent="." unique_id=967428875]
 
-[node name="BottomSimple_Corner_Square_Outer_2" type="MeshInstance3D" parent="Visual" unique_id=519847470]
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1555328408]
 mesh = ExtResource("1_c7ohb")
 
-[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1044668071]
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=689250528]
 collision_mask = 0
 
-[node name="BottomSimple_Corner_Square_Outer_2" type="CollisionShape3D" parent="StaticCollision" unique_id=2110070506]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1194091362]
 shape = ExtResource("2_8yux3")

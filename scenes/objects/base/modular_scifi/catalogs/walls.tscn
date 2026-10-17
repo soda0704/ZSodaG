@@ -1,293 +1,1349 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="1_atyge"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn" id="2_xpkak"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_divided.tscn" id="3_dufry"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat_window.tscn" id="4_5x0qp"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn" id="5_0ugsc"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_outer.tscn" id="6_2sk6d"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_straight.tscn" id="7_rhaj5"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_inner.tscn" id="8_7mlst"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_outer.tscn" id="9_3lnoj"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate2_straight.tscn" id="10_aa8q8"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_straight.tscn" id="11_hjx8t"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_inner.tscn" id="12_umcin"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_1.tscn" id="13_rqul5"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_2.tscn" id="14_sais2"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_flat_5_5m.tscn" id="15_tpi85"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_5_5m.tscn" id="16_33jiq"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_service_5_5m.tscn" id="17_uko5c"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_round_inner.tscn" id="1_ywwum"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_round_outer.tscn" id="2_p8kyn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_inner.tscn" id="3_b0n1l"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_outer_1.tscn" id="4_nm573"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_outer_2.tscn" id="5_sip4c"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_straight.tscn" id="6_f45lh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_round_inner.tscn" id="7_qjppj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_round_outer.tscn" id="8_3lvcs"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_inner.tscn" id="9_dm2xn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_1.tscn" id="10_1yd74"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_2.tscn" id="11_1b1bt"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_straight.tscn" id="12_07wu0"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_corner_inner.tscn" id="13_jdhhv"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_corner_outer.tscn" id="14_m7mdc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_straight.tscn" id="15_glnxp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_corner_inner.tscn" id="16_ixrrh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_corner_outer.tscn" id="17_0uao7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_straight.tscn" id="18_6e8ld"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_corner_inner.tscn" id="19_bbp04"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_corner_outer.tscn" id="20_h3sf1"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_straight.tscn" id="21_lb5n2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_corner_inner.tscn" id="22_6vfwy"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_corner_outer.tscn" id="23_0mnwm"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_straight.tscn" id="24_t7lav"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_corner_inner.tscn" id="25_r77g5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_corner_outer.tscn" id="26_q3tqn"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_straight.tscn" id="27_u2rdj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_corner_inner.tscn" id="28_j0sk5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_corner_outer.tscn" id="29_lv8tw"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_straight.tscn" id="30_o6cdp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_corner_inner.tscn" id="31_kk4k3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_corner_outer.tscn" id="32_v6guk"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_straight.tscn" id="33_0581q"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_corner_inner.tscn" id="34_3w732"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_corner_outer.tscn" id="35_4l3ju"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_straight.tscn" id="36_puo2g"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_corner_inner.tscn" id="37_njsun"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_corner_outer.tscn" id="38_aug5k"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_straight.tscn" id="39_qc4iq"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_corner_inner.tscn" id="40_ws3f3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_corner_outer.tscn" id="41_tf5xw"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_straight.tscn" id="42_cid2t"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_astra_corner_round_inner.tscn" id="43_lpni0"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_astra_curve_round_outer.tscn" id="44_sb7jc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_astra_straight.tscn" id="45_ke51e"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_inner.tscn" id="46_makyr"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_outer.tscn" id="47_7odfe"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn" id="48_qeytg"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_outer.tscn" id="49_goys8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight.tscn" id="50_a8gf7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight_hanging.tscn" id="51_qqnvc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_outer.tscn" id="52_s1rp1"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_round_inner.tscn" id="53_1qomh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_round_outer.tscn" id="54_x1xua"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_straight.tscn" id="55_gwugw"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_corner_round_inner.tscn" id="56_ht42j"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_corner_round_outer.tscn" id="57_08644"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_straight.tscn" id="58_deyn3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_window_corner_curve_inner.tscn" id="59_tll22"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_window_corner_curve_outer.tscn" id="60_ngv0b"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_window_straight.tscn" id="61_yiuqa"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_round_inner.tscn" id="62_p8vvd"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_round_outer.tscn" id="63_qkhn0"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn" id="64_tt6e6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_outer.tscn" id="65_7gd0j"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn" id="66_inbf4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_broken.tscn" id="67_1juh7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_divided.tscn" id="68_bhagb"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="69_2c80x"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat_window.tscn" id="70_4iu2p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_window.tscn" id="71_2lfwm"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_round_inner.tscn" id="72_1u474"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_round_outer.tscn" id="73_05qp8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_inner.tscn" id="74_onf7r"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_outer.tscn" id="75_o0o4p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_straight.tscn" id="76_m0alu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_band_straight_broken.tscn" id="77_sfedi"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_cap_a.tscn" id="78_bo3h6"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_cap_b.tscn" id="79_dhky8"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_corner_round_inner.tscn" id="80_4kf6k"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_corner_round_outer.tscn" id="81_g5g5b"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_corner_square_inner.tscn" id="82_sf4ym"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_corner_square_outer.tscn" id="83_2hmag"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_straight.tscn" id="84_mdu3b"]
 
-[node name="WallsCatalog" type="Node3D" unique_id=1417491010]
-editor_description = "Каталог объектов; игровые уровни не заменяет. Выбирайте отдельные сцены из соседних папок."
+[node name="WallsCatalog" type="Node3D" unique_id=2077314303]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
 
-[node name="WallAstraStraightFlat" type="Node3D" parent="." unique_id=1064795366 instance=ExtResource("1_atyge")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-metadata/quaternius_source_models = ["WallAstra_Straight_Flat"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalCornerRoundInner" type="Node3D" parent="." unique_id=289180032 instance=ExtResource("1_ywwum")]
+editor_description = "BottomMetal_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9999979, 8.9405205e-08, 2.0000095)
+metadata/quaternius_source_model = "BottomMetal_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label0" type="Label3D" parent="." unique_id=1259633736]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 2.7)
+[node name="Label0" type="Label3D" parent="." unique_id=1027019335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra straight flat"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Corner_Round_Inner"
+font_size = 40
 
-[node name="WallAstraStraight" type="Node3D" parent="." unique_id=1130118450 instance=ExtResource("2_xpkak")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
-metadata/quaternius_source_models = ["WallAstra_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalCornerRoundOuter" type="Node3D" parent="." unique_id=509502179 instance=ExtResource("2_p8kyn")]
+editor_description = "BottomMetal_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.300003, 8.34465e-07, 2.3000083)
+metadata/quaternius_source_model = "BottomMetal_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
 
-[node name="Label1" type="Label3D" parent="." unique_id=2005068429]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 2.7)
+[node name="Label1" type="Label3D" parent="." unique_id=1908122604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra straight"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Corner_Round_Outer"
+font_size = 40
 
-[node name="WallAstraStraightDivided" type="Node3D" parent="." unique_id=2091892615 instance=ExtResource("3_dufry")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
-metadata/quaternius_source_models = ["WallAstra_Straight_Divided"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalCornerSquareInner" type="Node3D" parent="." unique_id=1805785281 instance=ExtResource("3_b0n1l")]
+editor_description = "BottomMetal_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 3.2584126e-07, 1.9999998)
+metadata/quaternius_source_model = "BottomMetal_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label2" type="Label3D" parent="." unique_id=486703017]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, 2.7)
+[node name="Label2" type="Label3D" parent="." unique_id=426085054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra straight divided"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Corner_Square_Inner"
+font_size = 40
 
-[node name="WallAstraStraightFlatWindow" type="Node3D" parent="." unique_id=364740344 instance=ExtResource("4_5x0qp")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
-metadata/quaternius_source_models = ["WallAstra_Straight_Flat_Window"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalCornerSquareOuter1" type="Node3D" parent="." unique_id=1364089056 instance=ExtResource("4_nm573")]
+editor_description = "BottomMetal_Corner_Square_Outer_1 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 0, 4.3)
+metadata/quaternius_source_model = "BottomMetal_Corner_Square_Outer_1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Outer_1.gltf"
+metadata/library_category = "walls"
 
-[node name="Label3" type="Label3D" parent="." unique_id=890494266]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, 2.7)
+[node name="Label3" type="Label3D" parent="." unique_id=1048885093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra straight flat window"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Corner_Square_Outer_1"
+font_size = 40
 
-[node name="WallAstraCornerSquareInner" type="Node3D" parent="." unique_id=1711925449 instance=ExtResource("5_0ugsc")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
-metadata/quaternius_source_models = ["WallAstra_Corner_Square_Inner"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalCornerSquareOuter2" type="Node3D" parent="." unique_id=1711659570 instance=ExtResource("5_sip4c")]
+editor_description = "BottomMetal_Corner_Square_Outer_2 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.3, -2.5145712e-07, 4.299999)
+metadata/quaternius_source_model = "BottomMetal_Corner_Square_Outer_2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Outer_2.gltf"
+metadata/library_category = "walls"
 
-[node name="Label4" type="Label3D" parent="." unique_id=1997550333]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, 2.7)
+[node name="Label4" type="Label3D" parent="." unique_id=1499044113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra corner square inner"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Corner_Square_Outer_2"
+font_size = 40
 
-[node name="WallAstraCornerSquareOuter" type="Node3D" parent="." unique_id=740020271 instance=ExtResource("6_2sk6d")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
-metadata/quaternius_source_models = ["WallAstra_Corner_Square_Outer"]
-metadata/recommended_zone = "living_science"
+[node name="BottomMetalStraight" type="Node3D" parent="." unique_id=799695392 instance=ExtResource("6_f45lh")]
+editor_description = "BottomMetal_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7000002, 3.2584126e-07, -12)
+metadata/quaternius_source_model = "BottomMetal_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Straight.gltf"
+metadata/library_category = "walls"
 
-[node name="Label5" type="Label3D" parent="." unique_id=1576418150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.3)
+[node name="Label5" type="Label3D" parent="." unique_id=723497191]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra corner square outer"
-font_size = 56
-outline_size = 8
+text = "BottomMetal_Straight"
+font_size = 40
 
-[node name="WallBandStraight" type="Node3D" parent="." unique_id=161829260 instance=ExtResource("7_rhaj5")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
-metadata/quaternius_source_models = ["WallBand_Straight"]
-metadata/recommended_zone = "technical"
+[node name="BottomSimpleCornerRoundInner" type="Node3D" parent="." unique_id=1178440119 instance=ExtResource("7_qjppj")]
+editor_description = "BottomSimple_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.999998, 8.9405205e-08, -9.99999)
+metadata/quaternius_source_model = "BottomSimple_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label6" type="Label3D" parent="." unique_id=114764984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -7.3)
+[node name="Label6" type="Label3D" parent="." unique_id=1472400330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall band straight"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Corner_Round_Inner"
+font_size = 40
 
-[node name="WallBandCornerSquareInner" type="Node3D" parent="." unique_id=635653564 instance=ExtResource("8_7mlst")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -10)
-metadata/quaternius_source_models = ["WallBand_Corner_Square_Inner"]
-metadata/recommended_zone = "technical"
+[node name="BottomSimpleCornerRoundOuter" type="Node3D" parent="." unique_id=1013491794 instance=ExtResource("8_3lvcs")]
+editor_description = "BottomSimple_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.300001, 8.34465e-07, -9.69999)
+metadata/quaternius_source_model = "BottomSimple_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
 
-[node name="Label7" type="Label3D" parent="." unique_id=1642683817]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -7.3)
+[node name="Label7" type="Label3D" parent="." unique_id=298964153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall band corner square inner"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Corner_Round_Outer"
+font_size = 40
 
-[node name="WallBandCornerSquareOuter" type="Node3D" parent="." unique_id=598583251 instance=ExtResource("9_3lnoj")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -10)
-metadata/quaternius_source_models = ["WallBand_Corner_Square_Outer"]
-metadata/recommended_zone = "technical"
+[node name="BottomSimpleCornerSquareInner" type="Node3D" parent="." unique_id=153947118 instance=ExtResource("9_dm2xn")]
+editor_description = "BottomSimple_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3.2584126e-07, -10)
+metadata/quaternius_source_model = "BottomSimple_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label8" type="Label3D" parent="." unique_id=1694348540]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -7.3)
+[node name="Label8" type="Label3D" parent="." unique_id=77450935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall band corner square outer"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Corner_Square_Inner"
+font_size = 40
 
-[node name="ShortWallWhitePlate2Straight" type="Node3D" parent="." unique_id=1731005069 instance=ExtResource("10_aa8q8")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -10)
-metadata/quaternius_source_models = ["ShortWall_WhitePlate2_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="BottomSimpleCornerSquareOuter1" type="Node3D" parent="." unique_id=723887413 instance=ExtResource("10_1yd74")]
+editor_description = "BottomSimple_Corner_Square_Outer_1 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.3, 0, -7.7)
+metadata/quaternius_source_model = "BottomSimple_Corner_Square_Outer_1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_1.gltf"
+metadata/library_category = "walls"
 
-[node name="Label9" type="Label3D" parent="." unique_id=1010591278]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -7.3)
+[node name="Label9" type="Label3D" parent="." unique_id=1844243441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "short wall white plate2 straight"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Corner_Square_Outer_1"
+font_size = 40
 
-[node name="BottomSimpleStraight" type="Node3D" parent="." unique_id=1779460590 instance=ExtResource("11_hjx8t")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
-metadata/quaternius_source_models = ["BottomSimple_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="BottomSimpleCornerSquareOuter2" type="Node3D" parent="." unique_id=932936675 instance=ExtResource("11_1b1bt")]
+editor_description = "BottomSimple_Corner_Square_Outer_2 — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.300001, -2.5145698e-07, -19.7)
+metadata/quaternius_source_model = "BottomSimple_Corner_Square_Outer_2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_2.gltf"
+metadata/library_category = "walls"
 
-[node name="Label10" type="Label3D" parent="." unique_id=1019241876]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -17.3)
+[node name="Label10" type="Label3D" parent="." unique_id=317964387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "bottom simple straight"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Corner_Square_Outer_2"
+font_size = 40
 
-[node name="BottomSimpleCornerSquareInner" type="Node3D" parent="." unique_id=211434130 instance=ExtResource("12_umcin")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -20)
-metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Inner"]
-metadata/recommended_zone = "living_science"
+[node name="BottomSimpleStraight" type="Node3D" parent="." unique_id=1996300224 instance=ExtResource("12_07wu0")]
+editor_description = "BottomSimple_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7, -7.7686616e-14, -24)
+metadata/quaternius_source_model = "BottomSimple_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Straight.gltf"
+metadata/library_category = "walls"
 
-[node name="Label11" type="Label3D" parent="." unique_id=998166615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -17.3)
+[node name="Label11" type="Label3D" parent="." unique_id=725497274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "bottom simple corner square inner"
-font_size = 56
-outline_size = 8
+text = "BottomSimple_Straight"
+font_size = 40
 
-[node name="BottomSimpleCornerSquareOuter1" type="Node3D" parent="." unique_id=2071954302 instance=ExtResource("13_rqul5")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -20)
-metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Outer_1"]
-metadata/recommended_zone = "living_science"
+[node name="ShortWallAccentStripCornerInner" type="Node3D" parent="." unique_id=663257156 instance=ExtResource("13_jdhhv")]
+editor_description = "ShortWall_AccentStrip_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.000002, -0.0018516463, -21.999992)
+metadata/quaternius_source_model = "ShortWall_AccentStrip_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Corner_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label12" type="Label3D" parent="." unique_id=1058319660]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -17.3)
+[node name="Label12" type="Label3D" parent="." unique_id=1689619920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "bottom simple corner square outer 1"
-font_size = 56
-outline_size = 8
+text = "ShortWall_AccentStrip_Corner_Inner"
+font_size = 40
 
-[node name="BottomSimpleCornerSquareOuter2" type="Node3D" parent="." unique_id=715483006 instance=ExtResource("14_sais2")]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -20)
-metadata/quaternius_source_models = ["BottomSimple_Corner_Square_Outer_2"]
-metadata/recommended_zone = "living_science"
+[node name="ShortWallAccentStripCornerOuter" type="Node3D" parent="." unique_id=1392103992 instance=ExtResource("14_m7mdc")]
+editor_description = "ShortWall_AccentStrip_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.000008, -0.0018516463, -21.999998)
+metadata/quaternius_source_model = "ShortWall_AccentStrip_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Corner_Outer.gltf"
+metadata/library_category = "walls"
 
-[node name="Label13" type="Label3D" parent="." unique_id=404076085]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -17.3)
+[node name="Label13" type="Label3D" parent="." unique_id=1644997522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "bottom simple corner square outer 2"
-font_size = 56
-outline_size = 8
+text = "ShortWall_AccentStrip_Corner_Outer"
+font_size = 40
 
-[node name="WallFlat55m" type="Node3D" parent="." unique_id=1296271967 instance=ExtResource("15_tpi85")]
-editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -20)
-metadata/quaternius_source_models = ["WallAstra_Straight_Flat", "TopSimple_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="ShortWallAccentStripStraight" type="Node3D" parent="." unique_id=1905622394 instance=ExtResource("15_glnxp")]
+editor_description = "ShortWall_AccentStrip_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.999996, -0.001851054, -24)
+metadata/quaternius_source_model = "ShortWall_AccentStrip_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_AccentStrip_Straight.gltf"
+metadata/library_category = "walls"
 
-[node name="Label14" type="Label3D" parent="." unique_id=2141623418]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -17.3)
+[node name="Label14" type="Label3D" parent="." unique_id=1941217863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall flat 5 5m"
-font_size = 56
-outline_size = 8
+text = "ShortWall_AccentStrip_Straight"
+font_size = 40
 
-[node name="WallAstra55m" type="Node3D" parent="." unique_id=608180405 instance=ExtResource("16_33jiq")]
-editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
-metadata/quaternius_source_models = ["WallAstra_Straight", "TopAstra_Straight"]
-metadata/recommended_zone = "science"
+[node name="ShortWallBand2CornerInner" type="Node3D" parent="." unique_id=1633420123 instance=ExtResource("16_ixrrh")]
+editor_description = "ShortWall_Band2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.002167, -0.0018516463, -33.999992)
+metadata/quaternius_source_model = "ShortWall_Band2_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Corner_Inner.gltf"
+metadata/library_category = "walls"
 
-[node name="Label15" type="Label3D" parent="." unique_id=1779458080]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -27.3)
+[node name="Label15" type="Label3D" parent="." unique_id=1662729392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -31.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall astra 5 5m"
-font_size = 56
-outline_size = 8
+text = "ShortWall_Band2_Corner_Inner"
+font_size = 40
 
-[node name="WallService55m" type="Node3D" parent="." unique_id=1507744049 instance=ExtResource("17_uko5c")]
-editor_description = "Сборная стена шириной 4 м, номинальной высотой 5,5 м для нулевого этажа NorthernLab. Две исходные секции 3+2 м масштабированы по высоте на 1,1. Низ Y=0, лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -30)
-metadata/quaternius_source_models = ["WallBand_Straight", "TopCables_Straight"]
-metadata/recommended_zone = "technical"
+[node name="ShortWallBand2CornerOuter" type="Node3D" parent="." unique_id=1284972140 instance=ExtResource("17_0uao7")]
+editor_description = "ShortWall_Band2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000009, -0.0018516463, -33.997833)
+metadata/quaternius_source_model = "ShortWall_Band2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Corner_Outer.gltf"
+metadata/library_category = "walls"
 
-[node name="Label16" type="Label3D" parent="." unique_id=1819132750]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -27.3)
+[node name="Label16" type="Label3D" parent="." unique_id=1117127209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -31.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "wall service 5 5m"
-font_size = 56
-outline_size = 8
+text = "ShortWall_Band2_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallBand2Straight" type="Node3D" parent="." unique_id=535559137 instance=ExtResource("18_6e8ld")]
+editor_description = "ShortWall_Band2_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.996244, -0.001851054, -36)
+metadata/quaternius_source_model = "ShortWall_Band2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label17" type="Label3D" parent="." unique_id=123716635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Band2_Straight"
+font_size = 40
+
+[node name="ShortWallDarkMetal2CornerInner" type="Node3D" parent="." unique_id=1721195842 instance=ExtResource("19_bbp04")]
+editor_description = "ShortWall_DarkMetal2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -5.8159736e-07, -33.999992)
+metadata/quaternius_source_model = "ShortWall_DarkMetal2_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label18" type="Label3D" parent="." unique_id=577114591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkMetal2_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallDarkMetal2CornerOuter" type="Node3D" parent="." unique_id=1316856655 instance=ExtResource("20_h3sf1")]
+editor_description = "ShortWall_DarkMetal2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.000008, -5.8159736e-07, -34)
+metadata/quaternius_source_model = "ShortWall_DarkMetal2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label19" type="Label3D" parent="." unique_id=1643775083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkMetal2_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallDarkMetal2Straight" type="Node3D" parent="." unique_id=98827280 instance=ExtResource("21_lb5n2")]
+editor_description = "ShortWall_DarkMetal2_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9999945, -5.292486e-16, -48)
+metadata/quaternius_source_model = "ShortWall_DarkMetal2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkMetal2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label20" type="Label3D" parent="." unique_id=41847370]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkMetal2_Straight"
+font_size = 40
+
+[node name="ShortWallDarkPlasticCornerInner" type="Node3D" parent="." unique_id=1861162844 instance=ExtResource("22_6vfwy")]
+editor_description = "ShortWall_DarkPlastic_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000002, -0.0018516463, -45.999992)
+metadata/quaternius_source_model = "ShortWall_DarkPlastic_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label21" type="Label3D" parent="." unique_id=269101220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkPlastic_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallDarkPlasticCornerOuter" type="Node3D" parent="." unique_id=1295602859 instance=ExtResource("23_0mnwm")]
+editor_description = "ShortWall_DarkPlastic_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.000008, -0.0018516463, -46)
+metadata/quaternius_source_model = "ShortWall_DarkPlastic_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label22" type="Label3D" parent="." unique_id=216062156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkPlastic_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallDarkPlasticStraight" type="Node3D" parent="." unique_id=1942048384 instance=ExtResource("24_t7lav")]
+editor_description = "ShortWall_DarkPlastic_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.999994, -0.001851054, -48)
+metadata/quaternius_source_model = "ShortWall_DarkPlastic_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_DarkPlastic_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label23" type="Label3D" parent="." unique_id=1268874448]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_DarkPlastic_Straight"
+font_size = 40
+
+[node name="ShortWallMetal2CornerInner" type="Node3D" parent="." unique_id=301684766 instance=ExtResource("25_r77g5")]
+editor_description = "ShortWall_Metal2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, -0.0018516463, -45.999992)
+metadata/quaternius_source_model = "ShortWall_Metal2_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label24" type="Label3D" parent="." unique_id=415647452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -43.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Metal2_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallMetal2CornerOuter" type="Node3D" parent="." unique_id=2080978094 instance=ExtResource("26_q3tqn")]
+editor_description = "ShortWall_Metal2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0000086, -0.0018516463, -58)
+metadata/quaternius_source_model = "ShortWall_Metal2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label25" type="Label3D" parent="." unique_id=1275535991]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Metal2_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallMetal2Straight" type="Node3D" parent="." unique_id=293900493 instance=ExtResource("27_u2rdj")]
+editor_description = "ShortWall_Metal2_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.999994, -0.001851054, -60)
+metadata/quaternius_source_model = "ShortWall_Metal2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label26" type="Label3D" parent="." unique_id=1411228441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Metal2_Straight"
+font_size = 40
+
+[node name="ShortWallMetalPlatesCornerInner" type="Node3D" parent="." unique_id=95983109 instance=ExtResource("28_j0sk5")]
+editor_description = "ShortWall_MetalPlates_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.000002, -0.0018516463, -57.999992)
+metadata/quaternius_source_model = "ShortWall_MetalPlates_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label27" type="Label3D" parent="." unique_id=1413234124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_MetalPlates_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallMetalPlatesCornerOuter" type="Node3D" parent="." unique_id=652704941 instance=ExtResource("29_lv8tw")]
+editor_description = "ShortWall_MetalPlates_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.000008, -0.0018516463, -58)
+metadata/quaternius_source_model = "ShortWall_MetalPlates_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label28" type="Label3D" parent="." unique_id=227299948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_MetalPlates_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallMetalPlatesStraight" type="Node3D" parent="." unique_id=1222581604 instance=ExtResource("30_o6cdp")]
+editor_description = "ShortWall_MetalPlates_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.999996, -0.001851054, -60)
+metadata/quaternius_source_model = "ShortWall_MetalPlates_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_MetalPlates_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label29" type="Label3D" parent="." unique_id=269711467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -55.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_MetalPlates_Straight"
+font_size = 40
+
+[node name="ShortWallSimple1CornerInner" type="Node3D" parent="." unique_id=348207105 instance=ExtResource("31_kk4k3")]
+editor_description = "ShortWall_Simple1_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0000014, -0.0018516463, -69.99999)
+metadata/quaternius_source_model = "ShortWall_Simple1_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label30" type="Label3D" parent="." unique_id=456881606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple1_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallSimple1CornerOuter" type="Node3D" parent="." unique_id=169328441 instance=ExtResource("32_v6guk")]
+editor_description = "ShortWall_Simple1_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000009, -0.0018516463, -70)
+metadata/quaternius_source_model = "ShortWall_Simple1_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label31" type="Label3D" parent="." unique_id=1494680694]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple1_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallSimple1Straight" type="Node3D" parent="." unique_id=1790101185 instance=ExtResource("33_0581q")]
+editor_description = "ShortWall_Simple1_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.999994, -0.001851054, -72)
+metadata/quaternius_source_model = "ShortWall_Simple1_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple1_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label32" type="Label3D" parent="." unique_id=1328269446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple1_Straight"
+font_size = 40
+
+[node name="ShortWallSimple2CornerInner" type="Node3D" parent="." unique_id=1660516465 instance=ExtResource("34_3w732")]
+editor_description = "ShortWall_Simple2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -3.2584137e-07, -69.99999)
+metadata/quaternius_source_model = "ShortWall_Simple2_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label33" type="Label3D" parent="." unique_id=314028511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple2_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallSimple2CornerOuter" type="Node3D" parent="." unique_id=163337745 instance=ExtResource("35_4l3ju")]
+editor_description = "ShortWall_Simple2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.000008, -3.2584137e-07, -70)
+metadata/quaternius_source_model = "ShortWall_Simple2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label34" type="Label3D" parent="." unique_id=1815572194]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple2_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallSimple2Straight" type="Node3D" parent="." unique_id=313924410 instance=ExtResource("36_puo2g")]
+editor_description = "ShortWall_Simple2_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9999945, 3.2584128e-07, -84)
+metadata/quaternius_source_model = "ShortWall_Simple2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Simple2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label35" type="Label3D" parent="." unique_id=302180492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -79.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Simple2_Straight"
+font_size = 40
+
+[node name="ShortWallTrianglesCornerInner" type="Node3D" parent="." unique_id=1779656828 instance=ExtResource("37_njsun")]
+editor_description = "ShortWall_Triangles_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.000002, -0.0018516463, -81.99999)
+metadata/quaternius_source_model = "ShortWall_Triangles_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label36" type="Label3D" parent="." unique_id=719668719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -79.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Triangles_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallTrianglesCornerOuter" type="Node3D" parent="." unique_id=1351027116 instance=ExtResource("38_aug5k")]
+editor_description = "ShortWall_Triangles_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.000008, -0.0018516463, -82)
+metadata/quaternius_source_model = "ShortWall_Triangles_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label37" type="Label3D" parent="." unique_id=1320820531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -79.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Triangles_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallTrianglesStraight" type="Node3D" parent="." unique_id=920567135 instance=ExtResource("39_qc4iq")]
+editor_description = "ShortWall_Triangles_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.999994, -0.001851054, -84)
+metadata/quaternius_source_model = "ShortWall_Triangles_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label38" type="Label3D" parent="." unique_id=954884766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -79.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_Triangles_Straight"
+font_size = 40
+
+[node name="ShortWallWhitePlate2CornerInner" type="Node3D" parent="." unique_id=1754613511 instance=ExtResource("40_ws3f3")]
+editor_description = "ShortWall_WhitePlate2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, -3.323063e-07, -81.99999)
+metadata/quaternius_source_model = "ShortWall_WhitePlate2_Corner_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Corner_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label39" type="Label3D" parent="." unique_id=288486012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -79.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_WhitePlate2_Corner_Inner"
+font_size = 40
+
+[node name="ShortWallWhitePlate2CornerOuter" type="Node3D" parent="." unique_id=1264737262 instance=ExtResource("41_tf5xw")]
+editor_description = "ShortWall_WhitePlate2_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0000086, -3.323063e-07, -94)
+metadata/quaternius_source_model = "ShortWall_WhitePlate2_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label40" type="Label3D" parent="." unique_id=1138311696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -91.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_WhitePlate2_Corner_Outer"
+font_size = 40
+
+[node name="ShortWallWhitePlate2Straight" type="Node3D" parent="." unique_id=1926485244 instance=ExtResource("42_cid2t")]
+editor_description = "ShortWall_WhitePlate2_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.999994, 3.1760473e-07, -96)
+metadata/quaternius_source_model = "ShortWall_WhitePlate2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_WhitePlate2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label41" type="Label3D" parent="." unique_id=2140108124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -91.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "ShortWall_WhitePlate2_Straight"
+font_size = 40
+
+[node name="TopAstraCornerRoundInner" type="Node3D" parent="." unique_id=569306321 instance=ExtResource("43_lpni0")]
+editor_description = "TopAstra_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -2.9999998, -93.99999)
+metadata/quaternius_source_model = "TopAstra_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopAstra_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label42" type="Label3D" parent="." unique_id=969978581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -91.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopAstra_Corner_Round_Inner"
+font_size = 40
+
+[node name="TopAstraCurveRoundOuter" type="Node3D" parent="." unique_id=1073314662 instance=ExtResource("44_sb7jc")]
+editor_description = "TopAstra_Curve_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -2.9999998, -93.99999)
+metadata/quaternius_source_model = "TopAstra_Curve_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopAstra_Curve_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label43" type="Label3D" parent="." unique_id=1949090722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -91.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopAstra_Curve_Round_Outer"
+font_size = 40
+
+[node name="TopAstraStraight" type="Node3D" parent="." unique_id=590690759 instance=ExtResource("45_ke51e")]
+editor_description = "TopAstra_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.956947, -3, -96)
+metadata/quaternius_source_model = "TopAstra_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopAstra_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label44" type="Label3D" parent="." unique_id=288524889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -91.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopAstra_Straight"
+font_size = 40
+
+[node name="TopCablesCornerRoundInner" type="Node3D" parent="." unique_id=613309490 instance=ExtResource("46_makyr")]
+editor_description = "TopCables_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0803337, -2.9999998, -105.919655)
+metadata/quaternius_source_model = "TopCables_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label45" type="Label3D" parent="." unique_id=1998234668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -103.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Corner_Round_Inner"
+font_size = 40
+
+[node name="TopCablesCornerRoundOuter" type="Node3D" parent="." unique_id=1208061978 instance=ExtResource("47_7odfe")]
+editor_description = "TopCables_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.10765, -2.9999998, -105.89234)
+metadata/quaternius_source_model = "TopCables_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label46" type="Label3D" parent="." unique_id=1058469474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -103.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Corner_Round_Outer"
+font_size = 40
+
+[node name="TopCablesCornerSquareInner" type="Node3D" parent="." unique_id=396478449 instance=ExtResource("48_qeytg")]
+editor_description = "TopCables_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.084288, -3, -105.91571)
+metadata/quaternius_source_model = "TopCables_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label47" type="Label3D" parent="." unique_id=1773861630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -103.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Corner_Square_Inner"
+font_size = 40
+
+[node name="TopCablesCornerSquareOuter" type="Node3D" parent="." unique_id=2121577634 instance=ExtResource("49_goys8")]
+editor_description = "TopCables_Corner_Square_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.10765, -3, -105.89235)
+metadata/quaternius_source_model = "TopCables_Corner_Square_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Corner_Square_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label48" type="Label3D" parent="." unique_id=489953593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -103.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Corner_Square_Outer"
+font_size = 40
+
+[node name="TopCablesStraight" type="Node3D" parent="." unique_id=668733811 instance=ExtResource("50_a8gf7")]
+editor_description = "TopCables_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.97664, -3, -108)
+metadata/quaternius_source_model = "TopCables_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label49" type="Label3D" parent="." unique_id=1880058677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -103.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Straight"
+font_size = 40
+
+[node name="TopCablesStraightHanging" type="Node3D" parent="." unique_id=572855026 instance=ExtResource("51_qqnvc")]
+editor_description = "TopCables_Straight_Hanging — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9475498, -0.056803524, -120)
+metadata/quaternius_source_model = "TopCables_Straight_Hanging"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopCables_Straight_Hanging.gltf"
+metadata/library_category = "walls"
+
+[node name="Label50" type="Label3D" parent="." unique_id=669551780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -115.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopCables_Straight_Hanging"
+font_size = 40
+
+[node name="TopPlasticCornerOuter" type="Node3D" parent="." unique_id=644471279 instance=ExtResource("52_s1rp1")]
+editor_description = "TopPlastic_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.28524, -3.5, -115.71476)
+metadata/quaternius_source_model = "TopPlastic_Corner_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label51" type="Label3D" parent="." unique_id=2055245133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -115.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopPlastic_Corner_Outer"
+font_size = 40
+
+[node name="TopPlasticCornerRoundInner" type="Node3D" parent="." unique_id=1780818860 instance=ExtResource("53_1qomh")]
+editor_description = "TopPlastic_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -3, -117.99999)
+metadata/quaternius_source_model = "TopPlastic_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label52" type="Label3D" parent="." unique_id=315697596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -115.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopPlastic_Corner_Round_Inner"
+font_size = 40
+
+[node name="TopPlasticCornerRoundOuter" type="Node3D" parent="." unique_id=1589665286 instance=ExtResource("54_x1xua")]
+editor_description = "TopPlastic_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.28393, -3, -117.71606)
+metadata/quaternius_source_model = "TopPlastic_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopPlastic_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label53" type="Label3D" parent="." unique_id=1501355560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -115.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopPlastic_Corner_Round_Outer"
+font_size = 40
+
+[node name="TopPlasticStraight" type="Node3D" parent="." unique_id=654798426 instance=ExtResource("55_gwugw")]
+editor_description = "TopPlastic_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.71607, -3, -120)
+metadata/quaternius_source_model = "TopPlastic_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopPlastic_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label54" type="Label3D" parent="." unique_id=1938885076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -115.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopPlastic_Straight"
+font_size = 40
+
+[node name="TopSimpleCornerRoundInner" type="Node3D" parent="." unique_id=1456143730 instance=ExtResource("56_ht42j")]
+editor_description = "TopSimple_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9999988, -3, -129.99998)
+metadata/quaternius_source_model = "TopSimple_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label55" type="Label3D" parent="." unique_id=1719890350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -127.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopSimple_Corner_Round_Inner"
+font_size = 40
+
+[node name="TopSimpleCornerRoundOuter" type="Node3D" parent="." unique_id=707166598 instance=ExtResource("57_08644")]
+editor_description = "TopSimple_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.999999, -3, -129.99998)
+metadata/quaternius_source_model = "TopSimple_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopSimple_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label56" type="Label3D" parent="." unique_id=89723535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -127.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopSimple_Corner_Round_Outer"
+font_size = 40
+
+[node name="TopSimpleStraight" type="Node3D" parent="." unique_id=1083227256 instance=ExtResource("58_deyn3")]
+editor_description = "TopSimple_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.999994, -3, -132)
+metadata/quaternius_source_model = "TopSimple_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopSimple_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label57" type="Label3D" parent="." unique_id=654068501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -127.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopSimple_Straight"
+font_size = 40
+
+[node name="TopWindowCornerCurveInner" type="Node3D" parent="." unique_id=1568775389 instance=ExtResource("59_tll22")]
+editor_description = "TopWindow_Corner_Curve_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.04938, -2.9974062, -129.9506)
+metadata/quaternius_source_model = "TopWindow_Corner_Curve_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopWindow_Corner_Curve_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label58" type="Label3D" parent="." unique_id=1040105281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -127.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopWindow_Corner_Curve_Inner"
+font_size = 40
+
+[node name="TopWindowCornerCurveOuter" type="Node3D" parent="." unique_id=1189709838 instance=ExtResource("60_ngv0b")]
+editor_description = "TopWindow_Corner_Curve_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.28526, -2.9974062, -129.71474)
+metadata/quaternius_source_model = "TopWindow_Corner_Curve_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopWindow_Corner_Curve_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label59" type="Label3D" parent="." unique_id=974149236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -127.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopWindow_Corner_Curve_Outer"
+font_size = 40
+
+[node name="TopWindowStraight" type="Node3D" parent="." unique_id=750408610 instance=ExtResource("61_yiuqa")]
+editor_description = "TopWindow_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.764123, -2.9974062, -144)
+metadata/quaternius_source_model = "TopWindow_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopWindow_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label60" type="Label3D" parent="." unique_id=1218941216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -139.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "TopWindow_Straight"
+font_size = 40
+
+[node name="WallAstraCornerRoundInner" type="Node3D" parent="." unique_id=274468353 instance=ExtResource("62_p8vvd")]
+editor_description = "WallAstra_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.232546, 0.0064650774, -141.76576)
+metadata/quaternius_source_model = "WallAstra_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label61" type="Label3D" parent="." unique_id=1850871878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -139.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Corner_Round_Inner"
+font_size = 40
+
+[node name="WallAstraCornerRoundOuter" type="Node3D" parent="." unique_id=1350425453 instance=ExtResource("63_qkhn0")]
+editor_description = "WallAstra_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.049152, 0.0064650774, -141.94913)
+metadata/quaternius_source_model = "WallAstra_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label62" type="Label3D" parent="." unique_id=1122008883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -139.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Corner_Round_Outer"
+font_size = 40
+
+[node name="WallAstraCornerSquareInner" type="Node3D" parent="." unique_id=2139476944 instance=ExtResource("64_tt6e6")]
+editor_description = "WallAstra_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.386997, 0.006465165, -141.613)
+metadata/quaternius_source_model = "WallAstra_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label63" type="Label3D" parent="." unique_id=751407581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -139.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Corner_Square_Inner"
+font_size = 40
+
+[node name="WallAstraCornerSquareOuter" type="Node3D" parent="." unique_id=830603581 instance=ExtResource("65_7gd0j")]
+editor_description = "WallAstra_Corner_Square_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.217632, 0.0064650774, -141.78236)
+metadata/quaternius_source_model = "WallAstra_Corner_Square_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label64" type="Label3D" parent="." unique_id=1674426098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -139.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Corner_Square_Outer"
+font_size = 40
+
+[node name="WallAstraStraight" type="Node3D" parent="." unique_id=1124737061 instance=ExtResource("66_inbf4")]
+editor_description = "WallAstra_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.169363, 0.006465137, -156)
+metadata/quaternius_source_model = "WallAstra_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label65" type="Label3D" parent="." unique_id=809930168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -151.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight"
+font_size = 40
+
+[node name="WallAstraStraightBroken" type="Node3D" parent="." unique_id=2076716468 instance=ExtResource("67_1juh7")]
+editor_description = "WallAstra_Straight_Broken — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.048234, 0.006465137, -156)
+metadata/quaternius_source_model = "WallAstra_Straight_Broken"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Broken.gltf"
+metadata/library_category = "walls"
+
+[node name="Label66" type="Label3D" parent="." unique_id=336142577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -151.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight_Broken"
+font_size = 40
+
+[node name="WallAstraStraightDivided" type="Node3D" parent="." unique_id=165634356 instance=ExtResource("68_bhagb")]
+editor_description = "WallAstra_Straight_Divided — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.169363, 0.006465137, -156)
+metadata/quaternius_source_model = "WallAstra_Straight_Divided"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Divided.gltf"
+metadata/library_category = "walls"
+
+[node name="Label67" type="Label3D" parent="." unique_id=120145067]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -151.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight_Divided"
+font_size = 40
+
+[node name="WallAstraStraightFlat" type="Node3D" parent="." unique_id=1456797421 instance=ExtResource("69_2c80x")]
+editor_description = "WallAstra_Straight_Flat — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.05, 2.5648703e-07, -156)
+metadata/quaternius_source_model = "WallAstra_Straight_Flat"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat.gltf"
+metadata/library_category = "walls"
+
+[node name="Label68" type="Label3D" parent="." unique_id=926181511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -151.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight_Flat"
+font_size = 40
+
+[node name="WallAstraStraightFlatWindow" type="Node3D" parent="." unique_id=1280703026 instance=ExtResource("70_4iu2p")]
+editor_description = "WallAstra_Straight_Flat_Window — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.250725, 2.5648703e-07, -156)
+metadata/quaternius_source_model = "WallAstra_Straight_Flat_Window"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Flat_Window.gltf"
+metadata/library_category = "walls"
+
+[node name="Label69" type="Label3D" parent="." unique_id=2040256912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -151.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight_Flat_Window"
+font_size = 40
+
+[node name="WallAstraStraightWindow" type="Node3D" parent="." unique_id=303840016 instance=ExtResource("71_2lfwm")]
+editor_description = "WallAstra_Straight_Window — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2487483, 2.5648703e-07, -168)
+metadata/quaternius_source_model = "WallAstra_Straight_Window"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Window.gltf"
+metadata/library_category = "walls"
+
+[node name="Label70" type="Label3D" parent="." unique_id=1561284324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -163.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallAstra_Straight_Window"
+font_size = 40
+
+[node name="WallBandCornerRoundInner" type="Node3D" parent="." unique_id=682569971 instance=ExtResource("72_1u474")]
+editor_description = "WallBand_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.099999, 2.842171e-14, -165.9)
+metadata/quaternius_source_model = "WallBand_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label71" type="Label3D" parent="." unique_id=1165060183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -163.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Corner_Round_Inner"
+font_size = 40
+
+[node name="WallBandCornerRoundOuter" type="Node3D" parent="." unique_id=2114976922 instance=ExtResource("73_05qp8")]
+editor_description = "WallBand_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.003658, 2.842171e-14, -165.99998)
+metadata/quaternius_source_model = "WallBand_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label72" type="Label3D" parent="." unique_id=2096195968]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -163.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Corner_Round_Outer"
+font_size = 40
+
+[node name="WallBandCornerSquareInner" type="Node3D" parent="." unique_id=1832421641 instance=ExtResource("74_onf7r")]
+editor_description = "WallBand_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.1, 3.2584128e-07, -165.9)
+metadata/quaternius_source_model = "WallBand_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label73" type="Label3D" parent="." unique_id=689268897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -163.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Corner_Square_Inner"
+font_size = 40
+
+[node name="WallBandCornerSquareOuter" type="Node3D" parent="." unique_id=624967026 instance=ExtResource("75_o0o4p")]
+editor_description = "WallBand_Corner_Square_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.00375, 0, -165.99625)
+metadata/quaternius_source_model = "WallBand_Corner_Square_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Square_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label74" type="Label3D" parent="." unique_id=1367731647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -163.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Corner_Square_Outer"
+font_size = 40
+
+[node name="WallBandStraight" type="Node3D" parent="." unique_id=1369457563 instance=ExtResource("76_m0alu")]
+editor_description = "WallBand_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0962448, 0, -180)
+metadata/quaternius_source_model = "WallBand_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label75" type="Label3D" parent="." unique_id=1122907541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -175.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Straight"
+font_size = 40
+
+[node name="WallBandStraightBroken" type="Node3D" parent="." unique_id=128634851 instance=ExtResource("77_sfedi")]
+editor_description = "WallBand_Straight_Broken — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.860519, 0.011731148, -179.58835)
+metadata/quaternius_source_model = "WallBand_Straight_Broken"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Straight_Broken.gltf"
+metadata/library_category = "walls"
+
+[node name="Label76" type="Label3D" parent="." unique_id=1324518040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -175.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallBand_Straight_Broken"
+font_size = 40
+
+[node name="WallWindowCapA" type="Node3D" parent="." unique_id=1992542063 instance=ExtResource("78_bo3h6")]
+editor_description = "WallWindow_Cap_A — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.027725, -0.8731298, -178.00003)
+metadata/quaternius_source_model = "WallWindow_Cap_A"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Cap_A.gltf"
+metadata/library_category = "walls"
+
+[node name="Label77" type="Label3D" parent="." unique_id=1970399613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -175.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Cap_A"
+font_size = 40
+
+[node name="WallWindowCapB" type="Node3D" parent="." unique_id=1953069781 instance=ExtResource("79_dhky8")]
+editor_description = "WallWindow_Cap_B — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.027725, -0.8731298, -181.99997)
+metadata/quaternius_source_model = "WallWindow_Cap_B"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Cap_B.gltf"
+metadata/library_category = "walls"
+
+[node name="Label78" type="Label3D" parent="." unique_id=462274556]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -175.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Cap_B"
+font_size = 40
+
+[node name="WallWindowCornerRoundInner" type="Node3D" parent="." unique_id=1414053832 instance=ExtResource("80_4kf6k")]
+editor_description = "WallWindow_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.1, 3.2584126e-07, -177.9)
+metadata/quaternius_source_model = "WallWindow_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label79" type="Label3D" parent="." unique_id=1698142238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -175.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Corner_Round_Inner"
+font_size = 40
+
+[node name="WallWindowCornerRoundOuter" type="Node3D" parent="." unique_id=1559062963 instance=ExtResource("81_g5g5b")]
+editor_description = "WallWindow_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0041375, 3.2584128e-07, -189.99585)
+metadata/quaternius_source_model = "WallWindow_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label80" type="Label3D" parent="." unique_id=983302339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -187.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Corner_Round_Outer"
+font_size = 40
+
+[node name="WallWindowCornerSquareInner" type="Node3D" parent="." unique_id=363148878 instance=ExtResource("82_sf4ym")]
+editor_description = "WallWindow_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1, 3.2584126e-07, -189.9)
+metadata/quaternius_source_model = "WallWindow_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Label81" type="Label3D" parent="." unique_id=1095011539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -187.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Corner_Square_Inner"
+font_size = 40
+
+[node name="WallWindowCornerSquareOuter" type="Node3D" parent="." unique_id=919955178 instance=ExtResource("83_2hmag")]
+editor_description = "WallWindow_Corner_Square_Outer — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.060038, 3.2584126e-07, -189.93996)
+metadata/quaternius_source_model = "WallWindow_Corner_Square_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Corner_Square_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Label82" type="Label3D" parent="." unique_id=1199768886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -187.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Corner_Square_Outer"
+font_size = 40
+
+[node name="WallWindowStraight" type="Node3D" parent="." unique_id=1749569838 instance=ExtResource("84_mdu3b")]
+editor_description = "WallWindow_Straight — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.039963, 3.2584126e-07, -192)
+metadata/quaternius_source_model = "WallWindow_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallWindow_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Label83" type="Label3D" parent="." unique_id=817495768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -187.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "WallWindow_Straight"
+font_size = 40

@@ -1,225 +1,277 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_straight.tscn" id="1_j47sh"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_corner_round_inner.tscn" id="2_xe6k7"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_simple_corner_round_outer.tscn" id="3_42m08"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_straight.tscn" id="4_u2hom"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_corner_round_inner.tscn" id="5_mgbfh"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_astra_curve_round_outer.tscn" id="6_qgkje"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_straight.tscn" id="7_ew6r4"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_corner_square_inner.tscn" id="8_g88eu"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/top_cables_corner_square_outer.tscn" id="9_4c61p"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_plain.tscn" id="10_ma2kl"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_plain_seamed.tscn" id="11_7kvn5"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_panelled.tscn" id="12_i3pcj"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal.tscn" id="13_oj6e4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_3_plates.tscn" id="1_mgbfh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate.tscn" id="2_qgkje"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate_curve.tscn" id="3_ew6r4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates.tscn" id="4_g88eu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates_curves.tscn" id="5_4c61p"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal.tscn" id="6_ma2kl"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_2.tscn" id="7_7kvn5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_2_curve.tscn" id="8_i3pcj"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_curve.tscn" id="9_oj6e4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_round_1.tscn" id="10_tfpnc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple.tscn" id="11_vcn86"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_2.tscn" id="12_ftkvh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_2_curve.tscn" id="13_wqf3b"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_curve.tscn" id="14_rbyuy"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="15_n874q"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares_curve.tscn" id="16_r5hpl"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_x.tscn" id="17_7rjec"]
 
-[node name="CeilingsCatalog" type="Node3D" unique_id=1718679160]
-editor_description = "Каталог объектов; игровые уровни не заменяет. Выбирайте отдельные сцены из соседних папок."
+[node name="CeilingsCatalog" type="Node3D" unique_id=1087840024]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
 
-[node name="TopSimpleStraight" type="Node3D" parent="." unique_id=1710495662 instance=ExtResource("1_j47sh")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-metadata/quaternius_source_models = ["TopSimple_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="Ceiling3Plates" type="Node3D" parent="." unique_id=431860701 instance=ExtResource("1_mgbfh")]
+editor_description = "Ceiling variant of Platform_3Plates. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1316282e-13, 0)
+metadata/quaternius_source_model = "Platform_3Plates"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_3Plates.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label0" type="Label3D" parent="." unique_id=569985820]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 2.7)
+[node name="Label0" type="Label3D" parent="." unique_id=1329021560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top simple straight"
-font_size = 56
-outline_size = 8
+text = "Platform_3Plates (ceiling)"
+font_size = 40
 
-[node name="TopSimpleCornerRoundInner" type="Node3D" parent="." unique_id=366382550 instance=ExtResource("2_xe6k7")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
-metadata/quaternius_source_models = ["TopSimple_Corner_Round_Inner"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingCenterPlate" type="Node3D" parent="." unique_id=19396588 instance=ExtResource("2_qgkje")]
+editor_description = "Ceiling variant of Platform_CenterPlate. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, 2.3841858e-07)
+metadata/quaternius_source_model = "Platform_CenterPlate"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label1" type="Label3D" parent="." unique_id=992939731]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, 2.7)
+[node name="Label1" type="Label3D" parent="." unique_id=1879643118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top simple corner round inner"
-font_size = 56
-outline_size = 8
+text = "Platform_CenterPlate (ceiling)"
+font_size = 40
 
-[node name="TopSimpleCornerRoundOuter" type="Node3D" parent="." unique_id=770583250 instance=ExtResource("3_42m08")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
-metadata/quaternius_source_models = ["TopSimple_Corner_Round_Outer"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingCenterPlateCurve" type="Node3D" parent="." unique_id=421956466 instance=ExtResource("3_ew6r4")]
+editor_description = "Ceiling variant of Platform_CenterPlate_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -4.2632564e-14, -9.536743e-07)
+metadata/quaternius_source_model = "Platform_CenterPlate_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate_Curve.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label2" type="Label3D" parent="." unique_id=1098139178]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, 2.7)
+[node name="Label2" type="Label3D" parent="." unique_id=2114130338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top simple corner round outer"
-font_size = 56
-outline_size = 8
+text = "Platform_CenterPlate_Curve (ceiling)"
+font_size = 40
 
-[node name="TopAstraStraight" type="Node3D" parent="." unique_id=998882144 instance=ExtResource("4_u2hom")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
-metadata/quaternius_source_models = ["TopAstra_Straight"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingDarkPlates" type="Node3D" parent="." unique_id=1306752457 instance=ExtResource("4_g88eu")]
+editor_description = "Ceiling variant of Platform_DarkPlates. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, -2.1316282e-13, 0)
+metadata/quaternius_source_model = "Platform_DarkPlates"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label3" type="Label3D" parent="." unique_id=1809711862]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, 2.7)
+[node name="Label3" type="Label3D" parent="." unique_id=1363744119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top astra straight"
-font_size = 56
-outline_size = 8
+text = "Platform_DarkPlates (ceiling)"
+font_size = 40
 
-[node name="TopAstraCornerRoundInner" type="Node3D" parent="." unique_id=485975049 instance=ExtResource("5_mgbfh")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
-metadata/quaternius_source_models = ["TopAstra_Corner_Round_Inner"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingDarkPlatesCurves" type="Node3D" parent="." unique_id=1807042625 instance=ExtResource("5_4c61p")]
+editor_description = "Ceiling variant of Platform_DarkPlates_Curves. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1.9895197e-13, -2.3841858e-06)
+metadata/quaternius_source_model = "Platform_DarkPlates_Curves"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates_Curves.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label4" type="Label3D" parent="." unique_id=2105249767]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, 2.7)
+[node name="Label4" type="Label3D" parent="." unique_id=20988148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top astra corner round inner"
-font_size = 56
-outline_size = 8
+text = "Platform_DarkPlates_Curves (ceiling)"
+font_size = 40
 
-[node name="TopAstraCurveRoundOuter" type="Node3D" parent="." unique_id=1660816806 instance=ExtResource("6_qgkje")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
-metadata/quaternius_source_models = ["TopAstra_Curve_Round_Outer"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingMetal" type="Node3D" parent="." unique_id=916138339 instance=ExtResource("6_ma2kl")]
+editor_description = "Ceiling variant of Platform_Metal. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5579538e-13, -12)
+metadata/quaternius_source_model = "Platform_Metal"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label5" type="Label3D" parent="." unique_id=1595220467]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.3)
+[node name="Label5" type="Label3D" parent="." unique_id=961395080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top astra curve round outer"
-font_size = 56
-outline_size = 8
+text = "Platform_Metal (ceiling)"
+font_size = 40
 
-[node name="TopCablesStraight" type="Node3D" parent="." unique_id=1491074405 instance=ExtResource("7_ew6r4")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
-metadata/quaternius_source_models = ["TopCables_Straight"]
-metadata/recommended_zone = "technical"
+[node name="CeilingMetal2" type="Node3D" parent="." unique_id=2119240072 instance=ExtResource("7_7kvn5")]
+editor_description = "Ceiling variant of Platform_Metal2. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -12)
+metadata/quaternius_source_model = "Platform_Metal2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label6" type="Label3D" parent="." unique_id=46962847]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -7.3)
+[node name="Label6" type="Label3D" parent="." unique_id=882840950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top cables straight"
-font_size = 56
-outline_size = 8
+text = "Platform_Metal2 (ceiling)"
+font_size = 40
 
-[node name="TopCablesCornerSquareInner" type="Node3D" parent="." unique_id=1525529901 instance=ExtResource("8_g88eu")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -10)
-metadata/quaternius_source_models = ["TopCables_Corner_Square_Inner"]
-metadata/recommended_zone = "technical"
+[node name="CeilingMetal2Curve" type="Node3D" parent="." unique_id=547104861 instance=ExtResource("8_i3pcj")]
+editor_description = "Ceiling variant of Platform_Metal2_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999998, 1.9895197e-13, -12.000003)
+metadata/quaternius_source_model = "Platform_Metal2_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2_Curve.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label7" type="Label3D" parent="." unique_id=884810719]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -7.3)
+[node name="Label7" type="Label3D" parent="." unique_id=930835662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top cables corner square inner"
-font_size = 56
-outline_size = 8
+text = "Platform_Metal2_Curve (ceiling)"
+font_size = 40
 
-[node name="TopCablesCornerSquareOuter" type="Node3D" parent="." unique_id=1096427099 instance=ExtResource("9_4c61p")]
-editor_description = "Верхняя секция стены для стыка с потолком. Верхний край Y=0, секция опускается на 2 м; лицевая сторона +Z."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -10)
-metadata/quaternius_source_models = ["TopCables_Corner_Square_Outer"]
-metadata/recommended_zone = "technical"
+[node name="CeilingMetalCurve" type="Node3D" parent="." unique_id=399940942 instance=ExtResource("9_oj6e4")]
+editor_description = "Ceiling variant of Platform_Metal_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 1.9895197e-13, -12.000003)
+metadata/quaternius_source_model = "Platform_Metal_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal_Curve.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label8" type="Label3D" parent="." unique_id=1960766848]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.15, -7.3)
+[node name="Label8" type="Label3D" parent="." unique_id=2038158640]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "top cables corner square outer"
-font_size = 56
-outline_size = 8
+text = "Platform_Metal_Curve (ceiling)"
+font_size = 40
 
-[node name="CeilingPlain" type="Node3D" parent="." unique_id=209345884 instance=ExtResource("10_ma2kl")]
-editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -10)
-metadata/quaternius_source_models = ["Platform_Simple"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingRound1" type="Node3D" parent="." unique_id=133536767 instance=ExtResource("10_tfpnc")]
+editor_description = "Ceiling variant of Platform_Round1. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -6.354668e-09, -12)
+metadata/quaternius_source_model = "Platform_Round1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Round1.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label9" type="Label3D" parent="." unique_id=28931208]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.15, -7.3)
+[node name="Label9" type="Label3D" parent="." unique_id=1355242066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -7.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "ceiling plain"
-font_size = 56
-outline_size = 8
+text = "Platform_Round1 (ceiling)"
+font_size = 40
 
-[node name="CeilingPlainSeamed" type="Node3D" parent="." unique_id=464926003 instance=ExtResource("11_7kvn5")]
-editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
-metadata/quaternius_source_models = ["Platform_Simple2"]
-metadata/recommended_zone = "living_science"
+[node name="CeilingSimple" type="Node3D" parent="." unique_id=671826676 instance=ExtResource("11_vcn86")]
+editor_description = "Ceiling variant of Platform_Simple. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5579538e-13, -24)
+metadata/quaternius_source_model = "Platform_Simple"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label10" type="Label3D" parent="." unique_id=608814648]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -17.3)
+[node name="Label10" type="Label3D" parent="." unique_id=1414686161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "ceiling plain seamed"
-font_size = 56
-outline_size = 8
+text = "Platform_Simple (ceiling)"
+font_size = 40
 
-[node name="CeilingPanelled" type="Node3D" parent="." unique_id=1981773502 instance=ExtResource("12_i3pcj")]
-editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -20)
-metadata/quaternius_source_models = ["Platform_3Plates"]
-metadata/recommended_zone = "science"
+[node name="CeilingSimple2" type="Node3D" parent="." unique_id=29628165 instance=ExtResource("12_ftkvh")]
+editor_description = "Ceiling variant of Platform_Simple2. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -24)
+metadata/quaternius_source_model = "Platform_Simple2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label11" type="Label3D" parent="." unique_id=1776943406]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.15, -17.3)
+[node name="Label11" type="Label3D" parent="." unique_id=323008964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "ceiling panelled"
-font_size = 56
-outline_size = 8
+text = "Platform_Simple2 (ceiling)"
+font_size = 40
 
-[node name="CeilingMetal" type="Node3D" parent="." unique_id=1681982686 instance=ExtResource("13_oj6e4")]
-editor_description = "Потолочная панель 4×4 м из исходной панели пола. Развёрнута вниз; видимая нижняя поверхность Y=0. Точная статическая коллизия."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -20)
-metadata/quaternius_source_models = ["Platform_Metal2"]
-metadata/recommended_zone = "technical"
+[node name="CeilingSimple2Curve" type="Node3D" parent="." unique_id=917069752 instance=ExtResource("13_wqf3b")]
+editor_description = "Ceiling variant of Platform_Simple2_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999998, 1.9895197e-13, -24.000002)
+metadata/quaternius_source_model = "Platform_Simple2_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2_Curve.gltf"
+metadata/library_category = "ceilings"
 
-[node name="Label12" type="Label3D" parent="." unique_id=1651416765]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.15, -17.3)
+[node name="Label12" type="Label3D" parent="." unique_id=285753169]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -19.8)
 pixel_size = 0.008
 billboard = 1
 no_depth_test = true
-modulate = Color(0.9, 0.96, 1, 1)
-text = "ceiling metal"
-font_size = 56
-outline_size = 8
+text = "Platform_Simple2_Curve (ceiling)"
+font_size = 40
+
+[node name="CeilingSimpleCurve" type="Node3D" parent="." unique_id=657637276 instance=ExtResource("14_rbyuy")]
+editor_description = "Ceiling variant of Platform_Simple_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 1.9895197e-13, -24.000002)
+metadata/quaternius_source_model = "Platform_Simple_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple_Curve.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Label13" type="Label3D" parent="." unique_id=1604116498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Platform_Simple_Curve (ceiling)"
+font_size = 40
+
+[node name="CeilingSquares" type="Node3D" parent="." unique_id=1089584292 instance=ExtResource("15_n874q")]
+editor_description = "Ceiling variant of Platform_Squares. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -2.5579538e-13, -24)
+metadata/quaternius_source_model = "Platform_Squares"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Label14" type="Label3D" parent="." unique_id=423819690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -19.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Platform_Squares (ceiling)"
+font_size = 40
+
+[node name="CeilingSquaresCurve" type="Node3D" parent="." unique_id=125615468 instance=ExtResource("16_r5hpl")]
+editor_description = "Ceiling variant of Platform_Squares_Curve. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1920929e-06, 1.9895197e-13, -36.000004)
+metadata/quaternius_source_model = "Platform_Squares_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares_Curve.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Label15" type="Label3D" parent="." unique_id=1886250815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Platform_Squares_Curve (ceiling)"
+font_size = 40
+
+[node name="CeilingX" type="Node3D" parent="." unique_id=854865327 instance=ExtResource("17_7rjec")]
+editor_description = "Ceiling variant of Platform_X. Visible underside at Y=0; thickness above it."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -36)
+metadata/quaternius_source_model = "Platform_X"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_X.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Label16" type="Label3D" parent="." unique_id=439690454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -31.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Platform_X (ceiling)"
+font_size = 40

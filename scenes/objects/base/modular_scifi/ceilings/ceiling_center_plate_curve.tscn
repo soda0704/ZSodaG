@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_center_plate_curve.res" id="1_xaby5"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_center_plate_curve.res" id="2_a54ci"]
+
+[node name="CeilingCenterPlateCurve" type="Node3D" unique_id=421956466]
+editor_description = "Ceiling variant of Platform_CenterPlate_Curve. Visible underside at Y=0; thickness above it."
+metadata/quaternius_source_model = "Platform_CenterPlate_Curve"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate_Curve.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Visual" type="Node3D" parent="." unique_id=689289969]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 9.74039e-06, 0)
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1498476434]
+mesh = ExtResource("1_xaby5")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=2039361425]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=435798252]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 9.74039e-06, 0)
+shape = ExtResource("2_a54ci")

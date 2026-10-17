@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/short_wall_metal_2_straight.res" id="1_imihj"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/short_wall_metal_2_straight.res" id="2_uwt3i"]
+
+[node name="ShortWallMetal2Straight" type="Node3D" unique_id=293900493]
+editor_description = "ShortWall_Metal2_Straight — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "ShortWall_Metal2_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Metal2_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1441653939]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=481879965]
+mesh = ExtResource("1_imihj")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=2037311149]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=513618091]
+shape = ExtResource("2_uwt3i")

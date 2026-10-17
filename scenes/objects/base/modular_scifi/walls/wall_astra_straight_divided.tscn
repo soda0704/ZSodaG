@@ -3,20 +3,19 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight_divided.res" id="1_4lyj5"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight_divided.res" id="2_miqua"]
 
-[node name="WallAstraStraightDivided" type="Node3D" unique_id=2091892615]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-metadata/quaternius_source_models = ["WallAstra_Straight_Divided"]
-metadata/recommended_zone = "living_science"
+[node name="WallAstraStraightDivided" type="Node3D" unique_id=165634356]
+editor_description = "WallAstra_Straight_Divided — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "WallAstra_Straight_Divided"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Divided.gltf"
+metadata/library_category = "walls"
 
-[node name="Visual" type="Node3D" parent="." unique_id=648476823]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Visual" type="Node3D" parent="." unique_id=1219867603]
 
-[node name="WallAstra_Straight_Divided" type="MeshInstance3D" parent="Visual" unique_id=1352332868]
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=766972347]
 mesh = ExtResource("1_4lyj5")
 
-[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1241796435]
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1339626558]
 collision_mask = 0
 
-[node name="WallAstra_Straight_Divided" type="CollisionShape3D" parent="StaticCollision" unique_id=1715188936]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=870829616]
 shape = ExtResource("2_miqua")

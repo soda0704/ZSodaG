@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/bottom_simple_corner_round_outer.res" id="1_k8iw2"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/bottom_simple_corner_round_outer.res" id="2_6uy3t"]
+
+[node name="BottomSimpleCornerRoundOuter" type="Node3D" unique_id=1013491794]
+editor_description = "BottomSimple_Corner_Round_Outer — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "BottomSimple_Corner_Round_Outer"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Round_Outer.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=2023904870]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1477819451]
+mesh = ExtResource("1_k8iw2")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1994824958]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=3873829]
+shape = ExtResource("2_6uy3t")

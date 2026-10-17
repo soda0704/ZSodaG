@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/aliens/alien_cyclop.tscn" id="1_iyu41"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/aliens/alien_oculichrysalis.tscn" id="2_0uy1n"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/aliens/alien_scolitex.tscn" id="3_j1sx1"]
+
+[node name="AliensCatalog" type="Node3D" unique_id=1924854761]
+editor_description = "Library preview. Drag individual scenes from the category folder into your level."
+
+[node name="AlienCyclop" type="Node3D" parent="." unique_id=314222483 instance=ExtResource("1_iyu41")]
+editor_description = "Alien_Cyclop — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0906438, -0.032642424)
+metadata/quaternius_source_model = "Alien_Cyclop"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Cyclop.gltf"
+metadata/library_category = "aliens"
+metadata/available_animations = Array[String](["Alien_Idle"])
+
+[node name="Label0" type="Label3D" parent="." unique_id=849852338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Alien_Cyclop"
+font_size = 40
+
+[node name="AlienOculichrysalis" type="Node3D" parent="." unique_id=798433856 instance=ExtResource("2_0uy1n")]
+editor_description = "Alien_Oculichrysalis — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8716927, 0.008370012)
+metadata/quaternius_source_model = "Alien_Oculichrysalis"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Oculichrysalis.gltf"
+metadata/library_category = "aliens"
+metadata/available_animations = Array[String](["Alien_Idle"])
+
+[node name="Label1" type="Label3D" parent="." unique_id=1989339268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Alien_Oculichrysalis"
+font_size = 40
+
+[node name="AlienScolitex" type="Node3D" parent="." unique_id=1053728353 instance=ExtResource("3_j1sx1")]
+editor_description = "Alien_Scolitex — Quaternius, CC0. Original scale and modular pivot."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.081656, -0.8470614)
+metadata/quaternius_source_model = "Alien_Scolitex"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Scolitex.gltf"
+metadata/library_category = "aliens"
+metadata/available_animations = Array[String](["Alien_Idle"])
+
+[node name="Label2" type="Label3D" parent="." unique_id=1120290733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Alien_Scolitex"
+font_size = 40

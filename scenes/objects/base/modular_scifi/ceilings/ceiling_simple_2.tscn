@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_simple_2.res" id="1_k7fpg"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_simple_2.res" id="2_6qkjm"]
+
+[node name="CeilingSimple2" type="Node3D" unique_id=29628165]
+editor_description = "Ceiling variant of Platform_Simple2. Visible underside at Y=0; thickness above it."
+metadata/quaternius_source_model = "Platform_Simple2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf"
+metadata/library_category = "ceilings"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1962311297]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 1.0174846e-05, 0)
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1302216952]
+mesh = ExtResource("1_k7fpg")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1616028482]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=802466034]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 1.0174846e-05, 0)
+shape = ExtResource("2_6qkjm")

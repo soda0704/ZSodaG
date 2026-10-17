@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_simple.res" id="1_piqae"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_simple.res" id="2_pswdh"]
+
+[node name="PlatformSimple" type="Node3D" unique_id=997711218]
+editor_description = "Platform_Simple — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Platform_Simple"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf"
+metadata/library_category = "floors"
+
+[node name="Visual" type="Node3D" parent="." unique_id=5842059]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1100762969]
+mesh = ExtResource("1_piqae")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=224360129]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1257970088]
+shape = ExtResource("2_pswdh")

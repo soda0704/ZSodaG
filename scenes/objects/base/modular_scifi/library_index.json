@@ -1,0 +1,4178 @@
+{
+	"objects": [
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-3.99999690055847,
+				-0.0000000894052050171013,
+				-4.0
+			],
+			"bounds_size": [
+				3.99999809265137,
+				0.0200001150369644,
+				3.99998092651367
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Corner_Round_Inner",
+			"name": "bottom_metal_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.60000324249268,
+				-0.000000834465026855469,
+				-4.60000038146973
+			],
+			"bounds_size": [
+				4.60000038146973,
+				0.0200012922286987,
+				4.59998416900635
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Corner_Round_Outer",
+			"name": "bottom_metal_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				-0.000000325841256199055,
+				-4.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0200006514787674,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Corner_Square_Inner",
+			"name": "bottom_metal_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.59999895095825,
+				0.0,
+				-4.59999990463257
+			],
+			"bounds_size": [
+				0.59999942779541,
+				0.0200100000947714,
+				0.599998950958252
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Corner_Square_Outer_1",
+			"name": "bottom_metal_corner_square_outer_1",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_outer_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.59999990463257,
+				0.000000251457123567889,
+				-4.59999942779541
+			],
+			"bounds_size": [
+				0.599999904632568,
+				0.0200100466609001,
+				0.599999904632568
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Corner_Square_Outer_2",
+			"name": "bottom_metal_corner_square_outer_2",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_outer_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.00000023841858,
+				-0.000000325841256199055,
+				-1.99999952316284
+			],
+			"bounds_size": [
+				0.600000143051147,
+				0.0200006514787674,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomMetal_Straight",
+			"name": "bottom_metal_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_metal_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-3.99999690055847,
+				-0.0000000894052050171013,
+				-4.0
+			],
+			"bounds_size": [
+				3.99999809265137,
+				0.0200001150369644,
+				3.99998092651367
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Corner_Round_Inner",
+			"name": "bottom_simple_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.60000324249268,
+				-0.000000834465026855469,
+				-4.60000038146973
+			],
+			"bounds_size": [
+				4.60000371932983,
+				0.0200012922286987,
+				4.5999813079834
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Corner_Round_Outer",
+			"name": "bottom_simple_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				-0.000000325841256199055,
+				-4.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0200006514787674,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Corner_Square_Inner",
+			"name": "bottom_simple_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.59999895095825,
+				0.0,
+				-4.59999990463257
+			],
+			"bounds_size": [
+				0.59999942779541,
+				0.0199999995529652,
+				0.599998950958252
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Corner_Square_Outer_1",
+			"name": "bottom_simple_corner_square_outer_1",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.60000085830688,
+				0.000000251456981459341,
+				-4.59999847412109
+			],
+			"bounds_size": [
+				0.599999904632568,
+				0.0200000740587711,
+				0.600000143051147
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Corner_Square_Outer_2",
+			"name": "bottom_simple_corner_square_outer_2",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_outer_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.00000023841858,
+				0.0000000000000776866160919105,
+				-2.00000023841858
+			],
+			"bounds_size": [
+				0.600000143051147,
+				0.0200003255158663,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "BottomSimple_Straight",
+			"name": "bottom_simple_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/bottom_simple_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.998149931430817,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_AccentStrip_Corner_Inner",
+			"name": "short_wall_accent_strip_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				0.998149931430817,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_AccentStrip_Corner_Outer",
+			"name": "short_wall_accent_strip_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				0.998149037361145,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_AccentStrip_Straight",
+			"name": "short_wall_accent_strip_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_accent_strip_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00433254241943,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.00433111190796,
+				1.9981495141983,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Band2_Corner_Inner",
+			"name": "short_wall_band_2_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00433254241943
+			],
+			"bounds_size": [
+				3.9999840259552,
+				1.9981495141983,
+				4.00433158874512
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Band2_Corner_Outer",
+			"name": "short_wall_band_2_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.00751042366027832,
+				1.99814879894257,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Band2_Straight",
+			"name": "short_wall_band_2_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_band_2_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.000000581597362270259,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				2.00185203552246,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkMetal2_Corner_Inner",
+			"name": "short_wall_dark_metal_2_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.000000581597362270259,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				2.00185203552246,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkMetal2_Corner_Outer",
+			"name": "short_wall_dark_metal_2_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00000000000000052924857887803,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				2.0018515586853,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkMetal2_Straight",
+			"name": "short_wall_dark_metal_2_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_metal_2_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.998149931430817,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkPlastic_Corner_Inner",
+			"name": "short_wall_dark_plastic_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				0.998149931430817,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkPlastic_Corner_Outer",
+			"name": "short_wall_dark_plastic_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				0.998149037361145,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_DarkPlastic_Straight",
+			"name": "short_wall_dark_plastic_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_dark_plastic_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				2.00000095367432,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Metal2_Corner_Inner",
+			"name": "short_wall_metal_2_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				2.00000095367432,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Metal2_Corner_Outer",
+			"name": "short_wall_metal_2_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				2.00000047683716,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Metal2_Straight",
+			"name": "short_wall_metal_2_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.998149931430817,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_MetalPlates_Corner_Inner",
+			"name": "short_wall_metal_plates_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				0.998149931430817,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_MetalPlates_Corner_Outer",
+			"name": "short_wall_metal_plates_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				0.998149037361145,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_MetalPlates_Straight",
+			"name": "short_wall_metal_plates_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_metal_plates_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.998149931430817,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple1_Corner_Inner",
+			"name": "short_wall_simple_1_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				0.998149931430817,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple1_Corner_Outer",
+			"name": "short_wall_simple_1_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				0.998149037361145,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple1_Straight",
+			"name": "short_wall_simple_1_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_1_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.000000325841369885893,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				1.0000011920929,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple2_Corner_Inner",
+			"name": "short_wall_simple_2_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.000000325841369885893,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				1.0000011920929,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple2_Corner_Outer",
+			"name": "short_wall_simple_2_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				-0.000000325841284620765,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				1.00000047683716,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Simple2_Straight",
+			"name": "short_wall_simple_2_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_simple_2_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00185164634604007,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.998149931430817,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Triangles_Corner_Inner",
+			"name": "short_wall_triangles_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00185164634604007,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				0.998149931430817,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Triangles_Corner_Outer",
+			"name": "short_wall_triangles_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				0.00185105402488261,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				0.998149037361145,
+				3.99999976158142
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_Triangles_Straight",
+			"name": "short_wall_triangles_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000143051147,
+				0.00000033230631402148,
+				-4.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				2.00185227394104,
+				3.99998426437378
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_WhitePlate2_Corner_Inner",
+			"name": "short_wall_white_plate_2_corner_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_corner_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				0.00000033230631402148,
+				-4.00000143051147
+			],
+			"bounds_size": [
+				3.9999840259552,
+				2.00185227394104,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_WhitePlate2_Corner_Outer",
+			"name": "short_wall_white_plate_2_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999952316284,
+				-0.000000317604730071253,
+				-1.99999988079071
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				2.00185179710388,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "ShortWall_WhitePlate2_Straight",
+			"name": "short_wall_white_plate_2_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/short_wall_white_plate_2_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				2.99999976158142,
+				-3.99999976158142
+			],
+			"bounds_size": [
+				4.00000238418579,
+				2.0000011920929,
+				3.99997758865356
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopAstra_Corner_Round_Inner",
+			"name": "top_astra_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_astra_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				2.99999976158142,
+				-3.99999976158142
+			],
+			"bounds_size": [
+				4.00000238418579,
+				2.0000011920929,
+				3.99997758865356
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopAstra_Curve_Round_Outer",
+			"name": "top_astra_curve_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_astra_curve_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				3.0,
+				-1.99999976158142
+			],
+			"bounds_size": [
+				0.0861036777496338,
+				2.0,
+				3.99999952316284
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopAstra_Straight",
+			"name": "top_astra_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_astra_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.16066932678223,
+				2.99999976158142,
+				-4.16066884994507
+			],
+			"bounds_size": [
+				4.16067123413086,
+				2.0000011920929,
+				4.16064834594727
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Corner_Round_Inner",
+			"name": "top_cables_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.21530055999756,
+				2.99999976158142,
+				-4.21530055999756
+			],
+			"bounds_size": [
+				4.21530199050903,
+				2.0000011920929,
+				4.21528053283691
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Corner_Round_Outer",
+			"name": "top_cables_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.16857481002808,
+				3.0,
+				-4.16857481002808
+			],
+			"bounds_size": [
+				4.16857576370239,
+				2.0,
+				4.16857576370239
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Corner_Square_Inner",
+			"name": "top_cables_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.21530055999756,
+				3.0,
+				-4.21530055999756
+			],
+			"bounds_size": [
+				4.21530151367188,
+				2.0,
+				4.21530151367188
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Corner_Square_Outer",
+			"name": "top_cables_corner_square_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.16857481002808,
+				3.0,
+				-1.99999964237213
+			],
+			"bounds_size": [
+				0.383875370025635,
+				2.0,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Straight",
+			"name": "top_cables_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.16857481002808,
+				0.0568035244941711,
+				-1.99999964237213
+			],
+			"bounds_size": [
+				0.442050099372864,
+				4.94319629669189,
+				4.00000047683716
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopCables_Straight_Hanging",
+			"name": "top_cables_straight_hanging",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_cables_straight_hanging.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.57048082351685,
+				3.5,
+				-4.57048034667969
+			],
+			"bounds_size": [
+				0.570481300354004,
+				1.5,
+				0.570481300354004
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopPlastic_Corner_Outer",
+			"name": "top_plastic_corner_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00000047683716,
+				3.0,
+				-4.0
+			],
+			"bounds_size": [
+				4.00000190734863,
+				2.01774787902832,
+				3.99998068809509
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopPlastic_Corner_Round_Inner",
+			"name": "top_plastic_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.56786346435547,
+				3.0,
+				-4.56786346435547
+			],
+			"bounds_size": [
+				4.5678653717041,
+				2.01774740219116,
+				4.56784105300903
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopPlastic_Corner_Round_Outer",
+			"name": "top_plastic_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				3.0,
+				-1.99999964237213
+			],
+			"bounds_size": [
+				0.56786322593689,
+				2.017746925354,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopPlastic_Straight",
+			"name": "top_plastic_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_plastic_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-3.99999928474426,
+				3.0,
+				-3.99999976158142
+			],
+			"bounds_size": [
+				4.00000095367432,
+				2.00000095367432,
+				3.99997758865356
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopSimple_Corner_Round_Inner",
+			"name": "top_simple_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_simple_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-3.99999928474426,
+				3.0,
+				-3.99999976158142
+			],
+			"bounds_size": [
+				4.00000095367432,
+				2.00000095367432,
+				3.99997758865356
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopSimple_Corner_Round_Outer",
+			"name": "top_simple_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_simple_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				3.0,
+				-1.99999952316284
+			],
+			"bounds_size": [
+				0.0000100135803222656,
+				2.0,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopSimple_Straight",
+			"name": "top_simple_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_simple_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.09876585006714,
+				2.99740624427795,
+				-4.09876537322998
+			],
+			"bounds_size": [
+				4.09876728057861,
+				2.02034163475037,
+				4.09874773025513
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopWindow_Corner_Curve_Inner",
+			"name": "top_window_corner_curve_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_window_corner_curve_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.57051992416382,
+				2.99740624427795,
+				-4.5705189704895
+			],
+			"bounds_size": [
+				4.57052183151245,
+				2.02034163475037,
+				4.5704984664917
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopWindow_Corner_Curve_Outer",
+			"name": "top_window_corner_curve_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_window_corner_curve_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.09876561164856,
+				2.99740624427795,
+				-2.00000023841858
+			],
+			"bounds_size": [
+				0.669285178184509,
+				2.02034068107605,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "TopWindow_Straight",
+			"name": "top_window_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/top_window_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.4650936126709,
+				-0.00646507740020752,
+				-4.4684534072876
+			],
+			"bounds_size": [
+				4.46509552001953,
+				3.04378700256348,
+				4.46843338012695
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Corner_Round_Inner",
+			"name": "wall_astra_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.09830713272095,
+				-0.00646507740020752,
+				-4.10172653198242
+			],
+			"bounds_size": [
+				4.09830856323242,
+				3.04378700256348,
+				4.10170745849609
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Corner_Round_Outer",
+			"name": "wall_astra_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.77399682998657,
+				-0.00646516494452953,
+				-4.77399730682373
+			],
+			"bounds_size": [
+				4.77399730682373,
+				3.02796149253845,
+				4.77399826049805
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Corner_Square_Inner",
+			"name": "wall_astra_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.43526983261108,
+				-0.00646507740020752,
+				-4.43527173995972
+			],
+			"bounds_size": [
+				4.43527173995972,
+				3.02796077728271,
+				4.43527030944824
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Corner_Square_Outer",
+			"name": "wall_astra_corner_square_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.77399730682373,
+				-0.00646513700485229,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				1.20926856994629,
+				3.02796125411987,
+				4.00000143051147
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight",
+			"name": "wall_astra_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.77399730682373,
+				-0.00646513700485229,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				1.45152616500854,
+				3.02796125411987,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight_Broken",
+			"name": "wall_astra_straight_broken",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_broken.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.77399730682373,
+				-0.00646513700485229,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				1.20926856994629,
+				3.02796125411987,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight_Divided",
+			"name": "wall_astra_straight_divided",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_divided.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.10000014305115,
+				-0.000000256487027172625,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				0.100000143051147,
+				3.00000023841858,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight_Flat",
+			"name": "wall_astra_straight_flat",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.50145173072815,
+				-0.000000256487027172625,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				0.501451730728149,
+				3.00000023841858,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight_Flat_Window",
+			"name": "wall_astra_straight_flat_window",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat_window.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.49749684333801,
+				-0.000000256487027172625,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				0.497496843338013,
+				3.00000023841858,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallAstra_Straight_Window",
+			"name": "wall_astra_straight_window",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_window.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.20000028610229,
+				-0.000000000000028421709430404,
+				-4.20000028610229
+			],
+			"bounds_size": [
+				4.20000171661377,
+				3.00000047683716,
+				4.19997787475586
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Corner_Round_Inner",
+			"name": "wall_band_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00731658935547,
+				-0.000000000000028421709430404,
+				-3.99999976158142
+			],
+			"bounds_size": [
+				4.00731801986694,
+				3.00000095367432,
+				3.99997854232788
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Corner_Round_Outer",
+			"name": "wall_band_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.20000028610229,
+				-0.000000325841284620765,
+				-4.19999980926514
+			],
+			"bounds_size": [
+				4.20000076293945,
+				3.00000047683716,
+				4.20000028610229
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Corner_Square_Inner",
+			"name": "wall_band_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00750112533569,
+				0.0,
+				-4.00750064849854
+			],
+			"bounds_size": [
+				4.00750160217285,
+				3.0,
+				4.00750112533569
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Corner_Square_Outer",
+			"name": "wall_band_corner_square_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_corner_square_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.20000028610229,
+				0.0,
+				-1.99999952316284
+			],
+			"bounds_size": [
+				0.207511186599731,
+				3.0,
+				4.0
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Straight",
+			"name": "wall_band_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.20000028610229,
+				-0.0117311477661133,
+				-2.82331705093384
+			],
+			"bounds_size": [
+				0.678962230682373,
+				3.01173114776611,
+				4.823317527771
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallBand_Straight_Broken",
+			"name": "wall_band_straight_broken",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_band_straight_broken.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.12810826301575,
+				0.873129785060883,
+				-2.19764089584351
+			],
+			"bounds_size": [
+				0.200767755508423,
+				0.395817339420319,
+				0.395352125167847
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Cap_A",
+			"name": "wall_window_cap_a",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_cap_a.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.12810826301575,
+				0.873129785060883,
+				1.80228877067566
+			],
+			"bounds_size": [
+				0.200767755508423,
+				0.395817339420319,
+				0.395352125167847
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Cap_B",
+			"name": "wall_window_cap_b",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_cap_b.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.20000028610229,
+				-0.000000325841256199055,
+				-4.20000028610229
+			],
+			"bounds_size": [
+				4.20000219345093,
+				3.16911339759827,
+				4.19997978210449
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Corner_Round_Inner",
+			"name": "wall_window_corner_round_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_corner_round_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.00827693939209,
+				-0.000000325841284620765,
+				-4.00827550888062
+			],
+			"bounds_size": [
+				4.00827884674072,
+				3.16118192672729,
+				4.00825548171997
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Corner_Round_Outer",
+			"name": "wall_window_corner_round_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_corner_round_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.20000028610229,
+				-0.000000325841256199055,
+				-4.20000028610229
+			],
+			"bounds_size": [
+				4.20000076293945,
+				3.18655228614807,
+				4.20000076293945
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Corner_Square_Inner",
+			"name": "wall_window_corner_square_inner",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_corner_square_inner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.12007570266724,
+				-0.000000325841256199055,
+				-4.12007570266724
+			],
+			"bounds_size": [
+				4.12007665634155,
+				3.18655228614807,
+				4.12007617950439
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Corner_Square_Outer",
+			"name": "wall_window_corner_square_outer",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_corner_square_outer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.20000028610229,
+				-0.000000325841256199055,
+				-2.00000023841858
+			],
+			"bounds_size": [
+				0.320076107978821,
+				3.18655228614807,
+				4.00000095367432
+			],
+			"category": "walls",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "WallWindow_Straight",
+			"name": "wall_window_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/walls/wall_window_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.10572099685669,
+				0.0,
+				-0.101602360606194
+			],
+			"bounds_size": [
+				2.10572099685669,
+				4.04890203475952,
+				0.203204721212387
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_DarkMetal",
+			"name": "door_dark_metal",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_dark_metal.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.43532133102417,
+				-0.118961215019226,
+				-0.463688313961029
+			],
+			"bounds_size": [
+				4.87064456939697,
+				5.15872049331665,
+				0.927376627922058
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Frame_A",
+			"name": "door_frame_a",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_frame_a.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.42672491073608,
+				-0.0134252123534679,
+				-0.253424644470215
+			],
+			"bounds_size": [
+				4.85344982147217,
+				5.01342535018921,
+				0.50684928894043
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Frame_Square",
+			"name": "door_frame_square",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.42187356948853,
+				-0.0134252123534679,
+				-0.253424644470215
+			],
+			"bounds_size": [
+				4.84374713897705,
+				5.01342535018921,
+				0.50684928894043
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Frame_SquareTall",
+			"name": "door_frame_square_tall",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_frame_square_tall.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.42672491073608,
+				0.0,
+				-0.253424644470215
+			],
+			"bounds_size": [
+				4.85344982147217,
+				4.99999952316284,
+				0.50684928894043
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Frame_Square_Blocked",
+			"name": "door_frame_square_blocked",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_frame_square_blocked.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.10572099685669,
+				0.0,
+				0.0
+			],
+			"bounds_size": [
+				2.10572099685669,
+				4.04890203475952,
+				0.101602360606194
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Metal",
+			"name": "door_metal",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_metal.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.10572099685669,
+				0.0,
+				0.0
+			],
+			"bounds_size": [
+				2.10572099685669,
+				4.04890203475952,
+				0.136328890919685
+			],
+			"category": "doors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Door_Simple",
+			"name": "door_simple",
+			"scene": "res://scenes/objects/base/modular_scifi/doors/door_simple.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0000011920929,
+				0.0,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000095367432
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_3Plates",
+			"name": "platform_3_plates",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_3_plates.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0000011920929,
+				0.00000000000021316282072803,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000095367432
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_3Plates",
+			"name": "ceiling_3_plates",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_3_plates.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000434455245112986,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.00000047683716
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_CenterPlate",
+			"name": "platform_center_plate",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_center_plate.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.00000047683716
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_CenterPlate",
+			"name": "ceiling_center_plate",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000434455245112986,
+				-2.00000238418579
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.00000286102295
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_CenterPlate_Curve",
+			"name": "platform_center_plate_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_center_plate_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000042632564145606,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.00000286102295
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_CenterPlate_Curve",
+			"name": "ceiling_center_plate_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0000011920929,
+				0.0,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000095367432
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_DarkPlates",
+			"name": "platform_dark_plates",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_dark_plates.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0000011920929,
+				0.00000000000021316282072803,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000095367432
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_DarkPlates",
+			"name": "ceiling_dark_plates",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.0000057220459
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_DarkPlates_Curves",
+			"name": "platform_dark_plates_curves",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_dark_plates_curves.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.00000047683716
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.0000057220459
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_DarkPlates_Curves",
+			"name": "ceiling_dark_plates_curves",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates_curves.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Metal",
+			"name": "platform_metal",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_metal.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Metal",
+			"name": "ceiling_metal",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Metal2",
+			"name": "platform_metal_2",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_metal_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Metal2",
+			"name": "ceiling_metal_2",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000524520874
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Metal2_Curve",
+			"name": "platform_metal_2_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_metal_2_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.0
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000524520874
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Metal2_Curve",
+			"name": "ceiling_metal_2_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_2_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000524520874
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Metal_Curve",
+			"name": "platform_metal_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_metal_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.0
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000524520874
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Metal_Curve",
+			"name": "ceiling_metal_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_metal_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.17921102046967,
+				0.00296717882156372,
+				0.043796718120575
+			],
+			"bounds_size": [
+				2.35842204093933,
+				1.69839644432068,
+				1.89100289344788
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Rails_2",
+			"name": "platform_rails_2",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_rails_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.17921102046967,
+				0.0029672384262085,
+				0.0989700555801392
+			],
+			"bounds_size": [
+				2.35842204093933,
+				2.71682405471802,
+				3.80259132385254
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Rails_4",
+			"name": "platform_rails_4",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_rails_4.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.12334775924683,
+				0.0029672384262085,
+				0.0989700555801392
+			],
+			"bounds_size": [
+				4.24669551849365,
+				2.71682405471802,
+				3.80259132385254
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Rails_4Wide",
+			"name": "platform_rails_4_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_rails_4_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.12334775924683,
+				0.0,
+				0.0989700555801392
+			],
+			"bounds_size": [
+				4.24669551849365,
+				3.71979141235352,
+				5.73079061508179
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Rails_4WideTall",
+			"name": "platform_rails_4_wide_tall",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_rails_4_wide_tall.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00014781951904,
+				0.0,
+				0.0
+			],
+			"bounds_size": [
+				2.00014781951904,
+				1.0,
+				2.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Ramp_2",
+			"name": "platform_ramp_2",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_ramp_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00014781951904,
+				0.0,
+				0.0
+			],
+			"bounds_size": [
+				2.00014781951904,
+				1.0,
+				1.5
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Ramp_2Short",
+			"name": "platform_ramp_2_short",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_ramp_2_short.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00007390975952,
+				0.0,
+				0.0
+			],
+			"bounds_size": [
+				2.00014781951904,
+				2.0,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Ramp_4",
+			"name": "platform_ramp_4",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_ramp_4.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.00002551078796,
+				-0.000000238418579101563,
+				-0.0000000000000000471971853642669
+			],
+			"bounds_size": [
+				4.00005102157593,
+				2.0,
+				4.00000047683716
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Ramp_4Wide",
+			"name": "platform_ramp_4_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_ramp_4_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.99540042877197,
+				-0.0286225434392691,
+				-2.99540042877197
+			],
+			"bounds_size": [
+				5.99080085754395,
+				0.170248582959175,
+				5.99080085754395
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Round1",
+			"name": "platform_round_1",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_round_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.99540042877197,
+				0.00000000635466790299688,
+				-2.99540042877197
+			],
+			"bounds_size": [
+				5.99080085754395,
+				0.170249119400978,
+				5.99080085754395
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Round1",
+			"name": "ceiling_round_1",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_round_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Simple",
+			"name": "platform_simple",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_simple.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Simple",
+			"name": "ceiling_simple",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Simple2",
+			"name": "platform_simple_2",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_simple_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Simple2",
+			"name": "ceiling_simple_2",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000524520874
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Simple2_Curve",
+			"name": "platform_simple_2_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_simple_2_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.0
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000524520874
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Simple2_Curve",
+			"name": "ceiling_simple_2_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_2_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000524520874
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Simple_Curve",
+			"name": "platform_simple_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_simple_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.0
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000524520874
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Simple_Curve",
+			"name": "ceiling_simple_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_simple_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Squares",
+			"name": "platform_squares",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_squares.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Squares",
+			"name": "ceiling_squares",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.00000524520874
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.00000999999974737875,
+				4.00000524520874
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Squares_Curve",
+			"name": "platform_squares_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_squares_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				-0.000000000000198951966012828,
+				-2.0
+			],
+			"bounds_size": [
+				4.00000238418579,
+				0.0000103496913652634,
+				4.00000524520874
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_Squares_Curve",
+			"name": "ceiling_squares_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00014781951904,
+				-0.00855785608291626,
+				0.0
+			],
+			"bounds_size": [
+				2.00014781951904,
+				1.00855779647827,
+				2.0727117061615
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Stairs_2",
+			"name": "platform_stairs_2",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_stairs_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00007390975952,
+				-0.00815784931182861,
+				0.0
+			],
+			"bounds_size": [
+				2.00014781951904,
+				2.00815773010254,
+				4.08271169662476
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Stairs_4",
+			"name": "platform_stairs_4",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_stairs_4.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.00002551078796,
+				-0.00815784931182861,
+				-0.0000000000000000471971853642669
+			],
+			"bounds_size": [
+				4.00005102157593,
+				2.00815773010254,
+				4.08271169662476
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Stairs_4Wide",
+			"name": "platform_stairs_4_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_stairs_4_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.00002551078796,
+				-0.00815784931182861,
+				0.0
+			],
+			"bounds_size": [
+				4.00005102157593,
+				3.00815773010254,
+				6.08271169662476
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Stairs_4WideTall",
+			"name": "platform_stairs_4_wide_tall",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_stairs_4_wide_tall.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.44228065013886,
+				-0.41330623626709,
+				-2.0
+			],
+			"bounds_size": [
+				2.88456130027771,
+				0.413306713104248,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Window_Thin",
+			"name": "platform_window_thin",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_window_thin.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.99999976158142,
+				-0.41330698132515,
+				-2.0
+			],
+			"bounds_size": [
+				3.99999952316284,
+				0.413308471441269,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_Window_Wide",
+			"name": "platform_window_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_window_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_X",
+			"name": "platform_x",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_x.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.000000000000255795384873636,
+				-2.0
+			],
+			"bounds_size": [
+				4.0,
+				0.0000103496913652634,
+				4.0
+			],
+			"category": "ceilings",
+			"ceiling_variant": true,
+			"collidable": true,
+			"model": "Platform_X",
+			"name": "ceiling_x",
+			"scene": "res://scenes/objects/base/modular_scifi/ceilings/ceiling_x.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.163885459303856,
+				-0.00646513700485229,
+				-0.839861750602722
+			],
+			"bounds_size": [
+				0.327770948410034,
+				3.02796125411987,
+				1.20926856994629
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Astra",
+			"name": "column_astra",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_astra.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.604666292667389,
+				-0.000000025917540114051,
+				-0.604666292667389
+			],
+			"bounds_size": [
+				1.20933258533478,
+				5.0,
+				1.20933258533478
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Hollow",
+			"name": "column_hollow",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_hollow.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.698236048221588,
+				-0.00322918314486742,
+				-0.838144063949585
+			],
+			"bounds_size": [
+				1.39647209644318,
+				10.0032300949097,
+				1.96217346191406
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Large_Straight",
+			"name": "column_large_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_large_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.470938950777054,
+				-0.0220097471028566,
+				-2.0
+			],
+			"bounds_size": [
+				0.956629037857056,
+				0.0440087914466858,
+				4.0
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_MetalSupport",
+			"name": "column_metal_support",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_metal_support.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.47093963623047,
+				-0.0219991281628609,
+				-4.47093868255615
+			],
+			"bounds_size": [
+				4.47094106674194,
+				0.044008880853653,
+				4.47095441818237
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_MetalSupport_Curve",
+			"name": "column_metal_support_curve",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_metal_support_curve.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.437314093112946,
+				-0.000000238418579101563,
+				-0.437314093112946
+			],
+			"bounds_size": [
+				0.874628186225891,
+				5.0,
+				0.874628186225891
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Pipes",
+			"name": "column_pipes",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_pipes.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.5,
+				0.0,
+				-0.5
+			],
+			"bounds_size": [
+				1.0,
+				5.0,
+				1.0
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Round",
+			"name": "column_round",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_round.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.253424644470215,
+				0.0,
+				-0.506219267845154
+			],
+			"bounds_size": [
+				0.50684928894043,
+				4.99999952316284,
+				0.974879443645477
+			],
+			"category": "columns",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Column_Simple",
+			"name": "column_simple",
+			"scene": "res://scenes/objects/base/modular_scifi/columns/column_simple.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.220584586262703,
+				1.11177182197571,
+				-0.657296061515808
+			],
+			"bounds_size": [
+				0.441169291734695,
+				0.467894077301025,
+				1.29626226425171
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_AccessPoint",
+			"name": "prop_access_point",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_access_point.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.253922075033188,
+				0.00817972514778376,
+				-0.265994548797607
+			],
+			"bounds_size": [
+				0.507844150066376,
+				1.10260474681854,
+				0.531989097595215
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Barrel_Large",
+			"name": "prop_barrel_large",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_barrel_large.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.488611429929733,
+				-0.0183025300502777,
+				-0.575044453144073
+			],
+			"bounds_size": [
+				1.01845920085907,
+				0.14824415743351,
+				1.6469087600708
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Cable_1",
+			"name": "prop_cable_1",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_cable_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.152341783046722,
+				-0.0130424369126558,
+				-2.8273069858551
+			],
+			"bounds_size": [
+				1.55989575386047,
+				0.116982638835907,
+				5.73454809188843
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Cable_3",
+			"name": "prop_cable_3",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_cable_3.tscn"
+		},
+		{
+			"animated": true,
+			"animations": [
+				"Chest_Close",
+				"Chest_Idle_Closed",
+				"Chest_Idle_Open",
+				"Chest_Open"
+			],
+			"bounds_position": [
+				-0.751409351825714,
+				0.00323567981831729,
+				-0.364495277404785
+			],
+			"bounds_size": [
+				1.50281870365143,
+				0.728990495204926,
+				0.753032922744751
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Prop_Chest",
+			"name": "prop_chest",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_chest.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.19920539855957,
+				-0.00440094014629722,
+				-0.240178138017654
+			],
+			"bounds_size": [
+				0.560487627983093,
+				0.161674737930298,
+				0.460191994905472
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Clamp",
+			"name": "prop_clamp",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_clamp.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.371676236391068,
+				-0.00119172036647797,
+				-0.216230481863022
+			],
+			"bounds_size": [
+				0.743352591991425,
+				1.59275591373444,
+				0.562459230422974
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Computer",
+			"name": "prop_computer",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_computer.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.5,
+				-0.5,
+				-0.5
+			],
+			"bounds_size": [
+				1.0,
+				1.0,
+				1.0
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Crate3",
+			"name": "prop_crate_3",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_crate_3.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.560434699058533,
+				-0.560434758663177,
+				-0.560434639453888
+			],
+			"bounds_size": [
+				1.12086939811707,
+				1.12086939811707,
+				1.12086939811707
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Crate4",
+			"name": "prop_crate_4",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_crate_4.tscn"
+		},
+		{
+			"animated": true,
+			"animations": [
+				"Fan_Idle"
+			],
+			"bounds_position": [
+				-0.838417589664459,
+				-0.0549966730177403,
+				-0.838417410850525
+			],
+			"bounds_size": [
+				1.67683458328247,
+				0.442409127950668,
+				1.67683470249176
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Prop_Fan_Small",
+			"name": "prop_fan_small",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_fan_small.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.531289994716644,
+				-0.0549970008432865,
+				-0.574437022209167
+			],
+			"bounds_size": [
+				1.06257891654968,
+				0.320268005132675,
+				1.14887404441834
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Fan_Small_Propeller",
+			"name": "prop_fan_small_propeller",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_fan_small_propeller.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.566196322441101,
+				-0.00408874452114105,
+				-0.509069740772247
+			],
+			"bounds_size": [
+				1.03862166404724,
+				0.435818016529083,
+				1.0722781419754
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_ItemHolder",
+			"name": "prop_item_holder",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_item_holder.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-4.21993350982666,
+				-0.147684678435326,
+				-4.21331310272217
+			],
+			"bounds_size": [
+				4.12297773361206,
+				0.181909829378128,
+				4.20832443237305
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Light_Corner",
+			"name": "prop_light_corner",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_light_corner.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.666551768779755,
+				-0.00128714926540852,
+				-0.262288272380829
+			],
+			"bounds_size": [
+				1.33310353755951,
+				0.208988413214684,
+				0.524576425552368
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Light_Floor",
+			"name": "prop_light_floor",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_light_floor.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.860852837562561,
+				-0.14768011868,
+				-0.222659707069397
+			],
+			"bounds_size": [
+				0.860852837562561,
+				0.181905344128609,
+				0.445319414138794
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Light_Small",
+			"name": "prop_light_small",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_light_small.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.32024431228638,
+				-0.14768011868,
+				-0.222659707069397
+			],
+			"bounds_size": [
+				1.32024431228638,
+				0.181905344128609,
+				0.445319414138794
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Light_Wide",
+			"name": "prop_light_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_light_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.06378078460693,
+				0.00775255262851715,
+				-0.580691516399384
+			],
+			"bounds_size": [
+				4.11686897277832,
+				0.927424371242523,
+				1.16138303279877
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_PipeHolder",
+			"name": "prop_pipe_holder",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_pipe_holder.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0356817319989204,
+				0.0000000596046447753906,
+				-1.97318649291992
+			],
+			"bounds_size": [
+				0.066600926220417,
+				0.8620645403862,
+				1.94637298583984
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_2",
+			"name": "prop_rail_2",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0356817319989204,
+				0.0000000596046447753906,
+				-2.97635412216187
+			],
+			"bounds_size": [
+				0.0666018724441528,
+				0.8620645403862,
+				2.96555948257446
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_3",
+			"name": "prop_rail_3",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_3.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0322893895208836,
+				0.0000000596046447753906,
+				-3.96284890174866
+			],
+			"bounds_size": [
+				0.0666009187698364,
+				0.862367749214172,
+				3.92569780349731
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_4",
+			"name": "prop_rail_4",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_4.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.223347738385201,
+				0.00296711921691895,
+				0.0989700555801392
+			],
+			"bounds_size": [
+				0.254539489746094,
+				2.7168242931366,
+				3.80259084701538
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Incline_Long_L",
+			"name": "prop_rail_incline_long_l",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_incline_long_l.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.031191760674119,
+				0.0029672384262085,
+				0.0989700555801392
+			],
+			"bounds_size": [
+				0.254539489746094,
+				2.71682405471802,
+				3.80259132385254
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Incline_Long_R",
+			"name": "prop_rail_incline_long_r",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_incline_long_r.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.226244688034058,
+				0.00296711921691895,
+				0.0437966585159302
+			],
+			"bounds_size": [
+				0.254539519548416,
+				1.69839644432068,
+				1.89100277423859
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Incline_Short_L",
+			"name": "prop_rail_incline_short_l",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_incline_short_l.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0282948184758425,
+				-0.320941090583801,
+				-0.294569313526154
+			],
+			"bounds_size": [
+				0.254539519548416,
+				2.29853105545044,
+				2.60141396522522
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Incline_Short_R",
+			"name": "prop_rail_incline_short_r",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_incline_short_r.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				0.0370513163506985,
+				0.0000000582076609134674,
+				-4.02965021133423
+			],
+			"bounds_size": [
+				3.99639272689819,
+				0.862367808818817,
+				4.04889345169067
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Round_Big",
+			"name": "prop_rail_round_big",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_round_big.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				0.0341222733259201,
+				0.0000000568106770515442,
+				-2.02983260154724
+			],
+			"bounds_size": [
+				1.99370098114014,
+				0.862318933010101,
+				1.96620082855225
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Rail_Round_Small",
+			"name": "prop_rail_round_small",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_rail_round_small.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.00018739700317,
+				-0.068786732852459,
+				-0.495169162750244
+			],
+			"bounds_size": [
+				2.00037479400635,
+				0.068786732852459,
+				0.976409554481506
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Vent_Big",
+			"name": "prop_vent_big",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_vent_big.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.5,
+				-0.0000000151001380288562,
+				-0.309150248765945
+			],
+			"bounds_size": [
+				1.0,
+				0.0438206978142262,
+				0.618300497531891
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Vent_Small",
+			"name": "prop_vent_small",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_vent_small.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.969149649143219,
+				0.0,
+				-0.132108598947525
+			],
+			"bounds_size": [
+				1.9382905960083,
+				0.0595264621078968,
+				0.290976047515869
+			],
+			"category": "props",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Prop_Vent_Wide",
+			"name": "prop_vent_wide",
+			"scene": "res://scenes/objects/base/modular_scifi/props/prop_vent_wide.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.384034842252731,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.768069624900818,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_0",
+			"name": "decal_0",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_0.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.288026124238968,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.576052308082581,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_1",
+			"name": "decal_1",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_1.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.401896923780441,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.803793847560883,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_2",
+			"name": "decal_2",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_2.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.388908684253693,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.777817606925964,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_3",
+			"name": "decal_3",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_3.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.407115310430527,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.814230859279633,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_4",
+			"name": "decal_4",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_4.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.384123891592026,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.76824826002121,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_5",
+			"name": "decal_5",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_5.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.39072397351265,
+				0.0,
+				-0.636266887187958
+			],
+			"bounds_size": [
+				0.781448423862457,
+				0.00000999999974737875,
+				1.27253377437592
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_6",
+			"name": "decal_6",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_6.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.394568413496017,
+				0.0,
+				-0.636265993118286
+			],
+			"bounds_size": [
+				0.789136826992035,
+				0.00000999999974737875,
+				1.27253389358521
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_7",
+			"name": "decal_7",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_7.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.416916012763977,
+				0.0,
+				-0.636265993118286
+			],
+			"bounds_size": [
+				0.833831071853638,
+				0.00000999999974737875,
+				1.27253293991089
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_8",
+			"name": "decal_8",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_8.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.384035170078278,
+				0.0,
+				-0.636265993118286
+			],
+			"bounds_size": [
+				0.768069863319397,
+				0.00000999999974737875,
+				1.27253198623657
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_9",
+			"name": "decal_9",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_9.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.443683981895447,
+				0.0,
+				-0.606824040412903
+			],
+			"bounds_size": [
+				0.887367963790894,
+				0.00000999999974737875,
+				1.21364808082581
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_A",
+			"name": "decal_a",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_a.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.536728143692017,
+				0.0,
+				-0.165790244936943
+			],
+			"bounds_size": [
+				1.07345628738403,
+				0.00000999999974737875,
+				0.33158016204834
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Dashes",
+			"name": "decal_dashes",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_dashes.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.452313303947449,
+				0.0,
+				-0.606823146343231
+			],
+			"bounds_size": [
+				0.904626369476318,
+				0.00000999999974737875,
+				1.21364712715149
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_K",
+			"name": "decal_k",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_k.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720686465501785,
+				0.0,
+				-0.0720127522945404
+			],
+			"bounds_size": [
+				2.07206869125366,
+				0.00000999999974737875,
+				2.07201266288757
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_90",
+			"name": "decal_line_90",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_90.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720000043511391,
+				0.0,
+				-0.0719998255372047
+			],
+			"bounds_size": [
+				2.07200050354004,
+				0.00000999999974737875,
+				2.0719997882843
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_90_Round",
+			"name": "decal_line_90_round",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_90_round.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720000043511391,
+				0.0,
+				-0.0720019936561584
+			],
+			"bounds_size": [
+				3.0720009803772,
+				0.00000999999974737875,
+				3.07200193405151
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_90_Round_Large",
+			"name": "decal_line_90_round_large",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_90_round_large.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.07200002670288,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				2.14400005340576,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_Bend1_L",
+			"name": "decal_line_bend_1_l",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_bend_1_l.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720000043511391,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				2.14400005340576,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_Bend1_R",
+			"name": "decal_line_bend_1_r",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_bend_1_r.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.07200002670288,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				1.14400005340576,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_Bend2_L",
+			"name": "decal_line_bend_2_l",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_bend_2_l.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720000043511391,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				1.14400005340576,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_Bend2_R",
+			"name": "decal_line_bend_2_r",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_bend_2_r.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.0720000043511391,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				0.144000008702278,
+				0.00000999999974737875,
+				4.0
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Line_Straight",
+			"name": "decal_line_straight",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_line_straight.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.16592931747437,
+				0.0,
+				-0.78630405664444
+			],
+			"bounds_size": [
+				2.29218912124634,
+				0.00000999999974737875,
+				1.41736042499542
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Logo",
+			"name": "decal_logo",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_logo.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-1.45243287086487,
+				0.0,
+				-0.288962543010712
+			],
+			"bounds_size": [
+				2.90224575996399,
+				0.00000999999974737875,
+				0.58679860830307
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Logo_Letters",
+			"name": "decal_logo_letters",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_logo_letters.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.381958484649658,
+				0.0,
+				-0.238460645079613
+			],
+			"bounds_size": [
+				0.763916969299316,
+				0.00000999999974737875,
+				0.476921617984772
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Logo_Small",
+			"name": "decal_logo_small",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_logo_small.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.344710022211075,
+				0.0,
+				-0.307786494493485
+			],
+			"bounds_size": [
+				0.689421057701111,
+				0.00000999999974737875,
+				0.615572333335876
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Sign",
+			"name": "decal_sign",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_sign.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.432983577251434,
+				0.0,
+				-0.606823146343231
+			],
+			"bounds_size": [
+				0.865967154502869,
+				0.00000999999974737875,
+				1.21364712715149
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_V",
+			"name": "decal_v",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_v.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.43238627910614,
+				0.0,
+				-0.606823146343231
+			],
+			"bounds_size": [
+				0.86477255821228,
+				0.00000999999974737875,
+				1.21364712715149
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_X",
+			"name": "decal_x",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_x.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.180746629834175,
+				0.0,
+				-0.17119026184082
+			],
+			"bounds_size": [
+				0.36149388551712,
+				0.00000999999974737875,
+				0.342380523681641
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_XSign",
+			"name": "decal_x_sign",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_x_sign.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-0.359035044908524,
+				0.0,
+				-0.606823146343231
+			],
+			"bounds_size": [
+				0.718070089817047,
+				0.00000999999974737875,
+				1.21364712715149
+			],
+			"category": "decals",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Decal_Z",
+			"name": "decal_z",
+			"scene": "res://scenes/objects/base/modular_scifi/decals/decal_z.tscn"
+		},
+		{
+			"animated": true,
+			"animations": [
+				"Alien_Idle"
+			],
+			"bounds_position": [
+				-0.535746157169342,
+				-1.09064376354218,
+				-0.578188836574554
+			],
+			"bounds_size": [
+				1.07149231433868,
+				2.00591135025024,
+				1.2216625213623
+			],
+			"category": "aliens",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Alien_Cyclop",
+			"name": "alien_cyclop",
+			"scene": "res://scenes/objects/base/modular_scifi/aliens/alien_cyclop.tscn"
+		},
+		{
+			"animated": true,
+			"animations": [
+				"Alien_Idle"
+			],
+			"bounds_position": [
+				-0.404607743024826,
+				-0.871692717075348,
+				-0.419041723012924
+			],
+			"bounds_size": [
+				0.809215486049652,
+				1.52729475498199,
+				0.821343421936035
+			],
+			"category": "aliens",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Alien_Oculichrysalis",
+			"name": "alien_oculichrysalis",
+			"scene": "res://scenes/objects/base/modular_scifi/aliens/alien_oculichrysalis.tscn"
+		},
+		{
+			"animated": true,
+			"animations": [
+				"Alien_Idle"
+			],
+			"bounds_position": [
+				-1.71615445613861,
+				-1.08165597915649,
+				-0.766225099563599
+			],
+			"bounds_size": [
+				3.43230891227722,
+				3.36220932006836,
+				3.22657299041748
+			],
+			"category": "aliens",
+			"ceiling_variant": false,
+			"collidable": false,
+			"model": "Alien_Scolitex",
+			"name": "alien_scolitex",
+			"scene": "res://scenes/objects/base/modular_scifi/aliens/alien_scolitex.tscn"
+		}
+	],
+	"source_models": 191
+}

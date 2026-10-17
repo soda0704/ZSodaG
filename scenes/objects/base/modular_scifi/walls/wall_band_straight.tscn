@@ -3,20 +3,19 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_band_straight.res" id="1_dvlmm"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_band_straight.res" id="2_yeuhr"]
 
-[node name="WallBandStraight" type="Node3D" unique_id=161829260]
-editor_description = "Стеновой модуль шириной 4 м. Низ Y=0, лицевая сторона +Z. Углы и плинтусы сохраняют форму исходного модуля."
-metadata/quaternius_source_models = ["WallBand_Straight"]
-metadata/recommended_zone = "technical"
+[node name="WallBandStraight" type="Node3D" unique_id=1369457563]
+editor_description = "WallBand_Straight — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "WallBand_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Straight.gltf"
+metadata/library_category = "walls"
 
-[node name="Visual" type="Node3D" parent="." unique_id=1382297625]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Visual" type="Node3D" parent="." unique_id=1768600094]
 
-[node name="WallBand_Straight" type="MeshInstance3D" parent="Visual" unique_id=1341573081]
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1509419919]
 mesh = ExtResource("1_dvlmm")
 
-[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=731381394]
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1389657611]
 collision_mask = 0
 
-[node name="WallBand_Straight" type="CollisionShape3D" parent="StaticCollision" unique_id=860819778]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.742278e-08, 0, 2)
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=263083732]
 shape = ExtResource("2_yeuhr")

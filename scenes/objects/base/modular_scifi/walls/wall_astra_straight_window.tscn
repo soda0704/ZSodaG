@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight_window.res" id="1_w2wjj"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight_window.res" id="2_vpb7a"]
+
+[node name="WallAstraStraightWindow" type="Node3D" unique_id=303840016]
+editor_description = "WallAstra_Straight_Window — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "WallAstra_Straight_Window"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Window.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1195054653]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1277520377]
+mesh = ExtResource("1_w2wjj")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=989416077]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=925301030]
+shape = ExtResource("2_vpb7a")

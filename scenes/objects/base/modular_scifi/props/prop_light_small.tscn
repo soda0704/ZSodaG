@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/prop_light_small.res" id="1_cppfe"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/prop_light_small.res" id="2_uau57"]
+
+[node name="PropLightSmall" type="Node3D" unique_id=274697344]
+editor_description = "Prop_Light_Small — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Prop_Light_Small"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Small.gltf"
+metadata/library_category = "props"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1087517912]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=739079396]
+mesh = ExtResource("1_cppfe")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1644977575]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1697058721]
+shape = ExtResource("2_uau57")

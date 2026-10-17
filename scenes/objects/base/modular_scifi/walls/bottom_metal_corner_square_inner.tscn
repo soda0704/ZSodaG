@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/bottom_metal_corner_square_inner.res" id="1_7g7h5"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/bottom_metal_corner_square_inner.res" id="2_0rqn6"]
+
+[node name="BottomMetalCornerSquareInner" type="Node3D" unique_id=1805785281]
+editor_description = "BottomMetal_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "BottomMetal_Corner_Square_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomMetal_Corner_Square_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1931256462]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1113788843]
+mesh = ExtResource("1_7g7h5")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=511383456]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1269148624]
+shape = ExtResource("2_0rqn6")

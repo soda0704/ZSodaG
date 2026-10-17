@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/door_simple.res" id="1_p21gk"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/door_simple.res" id="2_bmusa"]
+
+[node name="DoorSimple" type="Node3D" unique_id=729029393]
+editor_description = "Door_Simple — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Door_Simple"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Simple.gltf"
+metadata/library_category = "doors"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1505728753]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=2093929569]
+mesh = ExtResource("1_p21gk")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1394908305]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=405652872]
+shape = ExtResource("2_bmusa")

@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/decal_line_bend_1_r.res" id="1_vsrbn"]
+
+[node name="DecalLineBend1R" type="Node3D" unique_id=3167475]
+editor_description = "Decal_Line_Bend1_R — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Decal_Line_Bend1_R"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_R.gltf"
+metadata/library_category = "decals"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1535555224]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1745840716]
+mesh = ExtResource("1_vsrbn")

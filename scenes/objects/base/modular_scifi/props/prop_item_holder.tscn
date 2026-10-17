@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/prop_item_holder.res" id="1_q016e"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/prop_item_holder.res" id="2_k032n"]
+
+[node name="PropItemHolder" type="Node3D" unique_id=1075255633]
+editor_description = "Prop_ItemHolder — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Prop_ItemHolder"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_ItemHolder.gltf"
+metadata/library_category = "props"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1883290644]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=61815539]
+transform = Transform3D(-0.5, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.5, 0, 0, 0)
+mesh = ExtResource("1_q016e")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=402000129]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=684669867]
+transform = Transform3D(-0.5, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.5, 0, 0, 0)
+shape = ExtResource("2_k032n")

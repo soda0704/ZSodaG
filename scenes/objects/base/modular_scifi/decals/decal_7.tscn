@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/decal_7.res" id="1_4rtrf"]
+
+[node name="Decal7" type="Node3D" unique_id=396465061]
+editor_description = "Decal_7 — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Decal_7"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_7.gltf"
+metadata/library_category = "decals"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1749901845]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1910537933]
+mesh = ExtResource("1_4rtrf")

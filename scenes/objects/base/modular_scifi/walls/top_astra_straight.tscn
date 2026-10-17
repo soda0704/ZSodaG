@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_astra_straight.res" id="1_54cns"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_astra_straight.res" id="2_86ej1"]
+
+[node name="TopAstraStraight" type="Node3D" unique_id=590690759]
+editor_description = "TopAstra_Straight — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "TopAstra_Straight"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/TopAstra_Straight.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=2060788999]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1067910832]
+mesh = ExtResource("1_54cns")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=549660793]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=310826512]
+shape = ExtResource("2_86ej1")

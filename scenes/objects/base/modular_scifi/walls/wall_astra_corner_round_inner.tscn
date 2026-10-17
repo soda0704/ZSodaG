@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_corner_round_inner.res" id="1_x2sau"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_corner_round_inner.res" id="2_xv0od"]
+
+[node name="WallAstraCornerRoundInner" type="Node3D" unique_id=274468353]
+editor_description = "WallAstra_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "WallAstra_Corner_Round_Inner"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Round_Inner.gltf"
+metadata/library_category = "walls"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1599491564]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=1734907573]
+mesh = ExtResource("1_x2sau")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=784541620]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=2134018936]
+shape = ExtResource("2_xv0od")

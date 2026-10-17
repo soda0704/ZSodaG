@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/column_metal_support.res" id="1_b1bp3"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/column_metal_support.res" id="2_4r0d2"]
+
+[node name="ColumnMetalSupport" type="Node3D" unique_id=1556911759]
+editor_description = "Column_MetalSupport — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Column_MetalSupport"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport.gltf"
+metadata/library_category = "columns"
+
+[node name="Visual" type="Node3D" parent="." unique_id=159616925]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=2043420973]
+mesh = ExtResource("1_b1bp3")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1374719668]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=324816947]
+shape = ExtResource("2_4r0d2")

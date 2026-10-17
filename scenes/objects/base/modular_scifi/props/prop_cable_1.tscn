@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/prop_cable_1.res" id="1_bfxyu"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/prop_cable_1.res" id="2_hdh7h"]
+
+[node name="PropCable1" type="Node3D" unique_id=220979181]
+editor_description = "Prop_Cable_1 — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Prop_Cable_1"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Cable_1.gltf"
+metadata/library_category = "props"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1951872283]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=299924778]
+mesh = ExtResource("1_bfxyu")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1284665444]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=723905023]
+shape = ExtResource("2_hdh7h")

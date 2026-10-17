@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_stairs_4_wide_tall.res" id="1_rvnf5"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_stairs_4_wide_tall.res" id="2_k2smj"]
+
+[node name="PlatformStairs4WideTall" type="Node3D" unique_id=1057544155]
+editor_description = "Platform_Stairs_4WideTall — Quaternius, CC0. Original scale and modular pivot."
+metadata/quaternius_source_model = "Platform_Stairs_4WideTall"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4WideTall.gltf"
+metadata/library_category = "floors"
+
+[node name="Visual" type="Node3D" parent="." unique_id=1337811127]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=2108755966]
+mesh = ExtResource("1_rvnf5")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1137454964]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=76620245]
+shape = ExtResource("2_k2smj")
