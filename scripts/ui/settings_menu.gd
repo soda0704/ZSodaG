@@ -91,6 +91,7 @@ func _build_navigation() -> void:
 func select_category(index: int) -> void:
 	waiting = ""
 	category = index
+	description.text = "Изменения вступят в силу после применения."
 	shell.clear(rows)
 	scroll.scroll_vertical = 0
 	title.text = "НАСТРОЙКИ / " + CATEGORIES[index].to_upper()
@@ -129,11 +130,14 @@ func select_category(index: int) -> void:
 			for spec in AUDIO:
 				_numeric(spec[0], spec[1], 0, 100, 1, "%")
 		3:
+			description.text = "Кнопки не могут повторяться. Esc — меню, ` / Ё — консоль. Изменения сохраняются после «Применить»."
+			if controls.repaired_on_load: description.text += " Конфликтующие старые назначения восстановлены по умолчанию."
 			_numeric("MouseSensitivity", "Чувствительность мыши", 0.25, 2.5, 0.05, "×")
 			for action in controls.ACTIONS:
 				var row := _row(controls.ACTIONS[action])
 				var text := controls.event_from_data(draft_bindings.get(action, {"key": 0})).as_text().replace(" (Physical)", "")
 				var key_button := NorthernMenuStyle.button(text, func(): _wait_for_key(action), 22)
+				key_button.disabled = controls.FIXED_BINDINGS.has(action)
 				key_button.name = action
 				key_button.custom_minimum_size.x = 280
 				row.add_child(key_button)
@@ -235,6 +239,10 @@ func _changed() -> void:
 		if preset != null: preset.select(preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics))
 
 func apply(show_notice: bool = true) -> bool:
+	var binding_error := controls.validation_error(draft_bindings)
+	if not binding_error.is_empty():
+		description.text = binding_error
+		return false
 	var previous: Dictionary = _menu._settings_data
 	_menu._settings_data = draft.duplicate(true)
 	var settings_saved: bool = _menu.save_settings_data()
@@ -289,23 +297,33 @@ func request_back() -> void:
 
 func _wait_for_key(action: String) -> void:
 	waiting = action
-	description.text = "Нажмите клавишу или кнопку мыши. Esc — отмена."
+	description.text = "Нажмите свободную клавишу или кнопку мыши. Esc — отмена. Клавиша консоли недоступна."
 
 func _input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or _menu.dialog != null or shell.busy or waiting.is_empty() or not event.is_pressed() or event.is_echo():
 		return
-	if event is InputEventKey and event.keycode == KEY_ESCAPE:
+	if event is InputEventKey and (event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE):
 		waiting = ""
 		select_category(category)
 		get_viewport().set_input_as_handled()
 		return
 	if not event is InputEventKey and not event is InputEventMouseButton:
 		return
+	get_viewport().set_input_as_handled()
+	if event is InputEventKey:
+		var code: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+		if code not in [KEY_SHIFT, KEY_CTRL, KEY_ALT, KEY_META] and (event.shift_pressed or event.ctrl_pressed or event.alt_pressed or event.meta_pressed):
+			description.text = "Сочетания клавиш не поддерживаются. Отпустите модификаторы и выберите одну клавишу."
+			return
 	var data := controls.data_from_event(event)
-	var previous: Dictionary = draft_bindings.get(waiting, {})
-	for action in draft_bindings:
-		if action != waiting and draft_bindings[action] == data:
-			draft_bindings[action] = previous
+	var error := controls.binding_error(waiting, data)
+	var conflict := controls.conflicting_action(waiting, data, draft_bindings)
+	if not error.is_empty():
+		description.text = error + " Выберите другую клавишу. Esc — отмена."
+		return
+	if not conflict.is_empty():
+		description.text = "Кнопка уже назначена: %s. Сначала измените её или выберите другую. Esc — отмена." % controls.ACTIONS[conflict]
+		return
 	draft_bindings[waiting] = data
 	waiting = ""
 	select_category(category)

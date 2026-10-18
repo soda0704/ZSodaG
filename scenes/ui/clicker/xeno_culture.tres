@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ClickerUpgrade" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/gameplay/clicker/clicker_upgrade.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/ui/clicker/xeno_culture.svg" id="icon"]
+[resource]
+script = ExtResource("script")
+id = &"xeno_culture"
+title = "Xeno Culture"
+description = "Not native to this freezer."
+icon = ExtResource("icon")
+base_cost = 330000000000000.0
+cost_multiplier = 1.15
+effect_type = 1
+effect_value = 9600000000000.0

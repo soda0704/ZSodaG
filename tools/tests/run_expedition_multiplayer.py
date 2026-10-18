@@ -12,6 +12,7 @@ def main():
     parser.add_argument("--terminal", action="store_true", help="test terminals and shared quest key")
     parser.add_argument("--wiring", action="store_true", help="test physical breaker wiring and concurrent repair")
     parser.add_argument("--plants", action="store_true", help="test shared daily watering, late join and production E input")
+    parser.add_argument("--clicker", action="store_true", help="test shared terminal app, spectator and operator handoff")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
@@ -27,6 +28,11 @@ def main():
         driver = "run_plant_multiplayer.gd"
         ready_marker = "HOST_READY_FOR_PLANT_CLIENT"
         result_marker = "PLANT COOP CHECKS"
+    if options.clicker:
+        label = "clicker"
+        driver = "run_clicker_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_CLICKER_CLIENT"
+        result_marker = "COOP CHECKS"
     project = Path(__file__).resolve().parents[2]
     output = project / "tools/.local"
     output.mkdir(exist_ok=True)

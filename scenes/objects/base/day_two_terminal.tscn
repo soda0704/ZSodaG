@@ -225,3 +225,8 @@ render_target_update_mode = 1
 handle_input_locally = false
 
 [node name="Error" parent="ErrorViewport" instance=ExtResource("error_ui")]
+
+[node name="AppCamera" type="Camera3D" parent="Screen"]
+position = Vector3(0, 0, 1.5)
+fov = 34.0
+near = 0.03

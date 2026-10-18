@@ -73,7 +73,7 @@ func _process(delta: float) -> void:
 		_refresh_inventory()
 	if is_journal_open():
 		var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
-		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or get_node("/root/GameMenu").is_menu_open():
+		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or (get_node("/root/GameMenu").is_menu_open() and not get_node("/root/GameMenu").is_capturing_feedback_screenshot()):
 			force_close()
 
 func _mount_light() -> void:
@@ -99,6 +99,7 @@ func _layout_book() -> void:
 	notebook_pivot.scale = _fit_scale
 
 func _unhandled_input(event: InputEvent) -> void:
+	if get_node("/root/GameMenu").is_menu_open(): return
 	if event is InputEventKey and event.echo:
 		return
 	if event.is_action_pressed("journal"):
@@ -111,7 +112,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func open_journal() -> void:
 	if _phase in [PresentationState.OPEN, PresentationState.OPENING]: return
-	if get_tree().get_first_node_in_group("wiring_ui") != null: return
+	if get_tree().get_first_node_in_group("wiring_ui") != null or get_tree().get_first_node_in_group("terminal_ui") != null: return
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player == null or player.survival.dead or player.is_debug_free_camera_active() or get_node("/root/GameMenu").is_menu_open() or player.is_sleeping_in_bunk(): return
 	_bind_controller()
@@ -195,6 +196,7 @@ func _bind_character_arms(player: GamePlayer) -> void:
 		_page_surfaces.append(surface)
 
 func _input(event: InputEvent) -> void:
+	if get_node("/root/GameMenu").is_menu_open(): return
 	if _phase!=PresentationState.OPEN or _page_surfaces.is_empty(): return
 	var player:=get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player==null: return
@@ -231,7 +233,7 @@ func _input(event: InputEvent) -> void:
 		outside.position=Vector2(-100,-100); outside.global_position=outside.position
 		_ink_viewport.push_input(outside,true)
 	elif event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey:
-		if not event.is_action_pressed("journal") and not event.is_action_pressed("ui_cancel"): _ink_viewport.push_input(event)
+		if not event.is_action_pressed("journal") and not event.is_action_pressed("ui_cancel") and not event.is_action_pressed("tester_feedback"): _ink_viewport.push_input(event)
 
 func _bind_controller() -> void:
 	var next := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController

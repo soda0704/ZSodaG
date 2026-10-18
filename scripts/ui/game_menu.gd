@@ -102,15 +102,41 @@ func connect_network_signals() -> void:
 	CoopLobby.ready_state_changed.connect(_on_ready_state_changed)
 	CoopLobby.gameplay_started.connect(_on_gameplay_started)
 
+func is_rebinding_controls() -> bool:
+	return is_instance_valid(settings_panel) and settings_panel.is_visible_in_tree() and not settings_panel.waiting.is_empty()
+
+func is_capturing_feedback_screenshot() -> bool:
+	return _feedback_capture_busy
+
+func _input(event: InputEvent) -> void:
+	_handle_feedback_shortcut(event)
+
+func _handle_feedback_shortcut(event: InputEvent) -> bool:
+	if not event.is_action_pressed("tester_feedback") or event.is_echo(): return false
+	if _transition_in_progress or dialog != null or shell.busy or _feedback_capture_busy: return false
+	if menu_root.visible and _current_view in [MenuView.SETTINGS, MenuView.FEEDBACK]: return false
+	# A rebound letter must remain usable in console/text fields. Function
+	# keys still open feedback, and journal focus cannot swallow the shortcut.
+	var focused := get_viewport().gui_get_focus_owner()
+	if event is InputEventKey and (focused is TextEdit or focused is LineEdit):
+		var code: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
+		if code < KEY_F1 or code > KEY_F35: return false
+	open_feedback()
+	get_viewport().set_input_as_handled()
+	return true
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy or _feedback_capture_busy:
 		return
 	if event.is_action_pressed("tester_feedback"):
-		if not menu_root.visible or (_current_view != MenuView.SETTINGS and _current_view != MenuView.FEEDBACK):
-			open_feedback()
-		get_viewport().set_input_as_handled()
+		_handle_feedback_shortcut(event)
 		return
 	if not event.is_action_pressed("pause") and not (menu_root.visible and event.is_action_pressed("ui_cancel")):
+		return
+	var terminal := get_tree().get_first_node_in_group("terminal_ui")
+	if terminal != null and not menu_root.visible:
+		terminal.close_terminal()
+		get_viewport().set_input_as_handled()
 		return
 	var journal := get_node_or_null("/root/QuestJournal")
 	if journal != null and journal.is_journal_open():
@@ -203,7 +229,6 @@ func open_feedback() -> void:
 	_feedback_origin = _current_view if menu_root.visible else MenuView.MAIN
 	_feedback_return_to_scene = not menu_root.visible
 	var journal := get_node_or_null("/root/QuestJournal")
-	if journal != null: journal.force_close()
 	var console := get_node_or_null("/root/DeveloperConsole")
 	if console != null and console.opened: console.set_open(false)
 	if not tester_feedback.has_draft():
@@ -219,6 +244,8 @@ func open_feedback() -> void:
 		_feedback_capture_busy = false
 		if epoch != _feedback_epoch: return
 		tester_feedback.begin(context, image)
+	# Capture the actual journal before handing its input/view to the form.
+	if journal != null: journal.force_close()
 	menu_root.show()
 	shell.show()
 	show_view(MenuView.FEEDBACK)

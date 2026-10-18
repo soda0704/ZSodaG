@@ -332,10 +332,6 @@ func _ensure_godot_joypad_fallback() -> void:
 	_add_joy_button(&"interact", JOY_BUTTON_X)
 	_add_joy_button(&"flashlight", JOY_BUTTON_Y)
 	_add_joy_button(&"replace_battery", JOY_BUTTON_DPAD_UP)
-	var battery_key := InputEventKey.new()
-	battery_key.physical_keycode = KEY_R
-	if not InputMap.action_has_event(&"replace_battery", battery_key):
-		InputMap.action_add_event(&"replace_battery", battery_key)
 	_add_joy_button(&"drop_item", JOY_BUTTON_DPAD_DOWN)
 	_add_joy_button(&"journal", JOY_BUTTON_BACK)
 	_add_joy_button(&"journal", JOY_BUTTON_TOUCHPAD)

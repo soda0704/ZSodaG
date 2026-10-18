@@ -3,11 +3,19 @@
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
 [ext_resource type="Script" path="res://scripts/ui/terminal_screen.gd" id="logic"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/clicker/lab_clicker.tscn" id="clicker"]
+[ext_resource type="Theme" path="res://scenes/ui/clicker/pixel_theme.tres" id="pixel_theme"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/clicker/terminal_shell.svg" id="app_shell"]
+
 [sub_resource type="StyleBoxFlat" id="background"]
 bg_color = Color(0.035, 0.36, 0.09, 1)
 
 [sub_resource type="StyleBoxFlat" id="missing_background"]
 bg_color = Color(0.42, 0.025, 0.035, 1)
+
+[sub_resource type="StyleBoxFlat" id="app_background"]
+bg_color = Color(0.015, 0.035, 0.06, 1)
 
 [node name="TerminalScreen" type="PanelContainer"]
 offset_right = 1024.0
@@ -18,13 +26,22 @@ mouse_filter = 2
 script = ExtResource("logic")
 ready_background = SubResource("background")
 missing_background = SubResource("missing_background")
+app_background = SubResource("app_background")
+
+[node name="ShellArtwork" type="TextureRect" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+texture_filter = 1
+texture = ExtResource("app_shell")
+expand_mode = 1
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 104
-theme_override_constants/margin_top = 28
+theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 104
-theme_override_constants/margin_bottom = 28
+theme_override_constants/margin_bottom = 94
 mouse_filter = 2
 
 [node name="Content" type="VBoxContainer" parent="Margin"]
@@ -40,14 +57,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.62, 0.92, 0.64, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "NORTHERN LAB / УПРАВЛЕНИЕ"
 
 [node name="Day" type="Label" parent="Margin/Content/Header"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.62, 0.92, 0.64, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "ДЕНЬ 1"
 
 [node name="Divider" type="HSeparator" parent="Margin/Content"]
@@ -65,17 +82,17 @@ text = "ОСНОВНОЕ ПИТАНИЕ / СВЯЗЬ С БАЗОЙ"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.77, 0.94, 0.87, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 24
 text = "ВОССТАНОВИТЬ ПИТАНИЕ"
 
 [node name="Objective" type="Label" parent="Margin/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 size_flags_vertical = 3
 autowrap_mode = 2
 theme_override_colors/font_color = Color(0.65, 0.8, 0.76, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "Восстановите основное питание базы и установите предохранитель резерва лифта."
 
 [node name="Progress" type="Label" parent="Margin/Content"]
@@ -90,9 +107,56 @@ layout_mode = 2
 
 [node name="Action" type="Label" parent="Margin/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 62)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 autowrap_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.94, 0.86, 1)
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "ЗАДАНИЕ БУДЕТ ДОСТУПНО НА ВТОРОЙ ДЕНЬ"
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tabs" type="HBoxContainer" parent="Overlay"]
+offset_left = 104.0
+offset_top = 12.0
+offset_right = 928.0
+offset_bottom = 44.0
+theme = ExtResource("pixel_theme")
+texture_filter = 1
+theme_override_constants/separation = 8
+
+[node name="Expedition" type="Button" parent="Overlay/Tabs"]
+layout_mode = 2
+text = "EXPEDITION"
+toggle_mode = true
+button_pressed = true
+
+[node name="Clicker" type="Button" parent="Overlay/Tabs"]
+layout_mode = 2
+text = "LAB CLICKER"
+toggle_mode = true
+
+[node name="Space" type="Control" parent="Overlay/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Close" type="Button" parent="Overlay/Tabs"]
+layout_mode = 2
+text = "X / ESC"
+
+[node name="QuestAction" type="Button" parent="Overlay"]
+offset_left = 104.0
+offset_top = 412.0
+offset_right = 928.0
+offset_bottom = 452.0
+text = "PASS KEY / ВЗАИМОДЕЙСТВОВАТЬ"
+
+[node name="LabClicker" parent="Overlay" instance=ExtResource("clicker")]
+visible = false
+offset_left = 40.0
+offset_top = 52.0
+offset_right = 984.0
+offset_bottom = 472.0

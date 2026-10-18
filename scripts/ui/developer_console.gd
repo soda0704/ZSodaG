@@ -55,6 +55,7 @@ func _ready() -> void:
 	)
 
 func _input(event: InputEvent) -> void:
+	if get_node("/root/GameMenu").is_rebinding_controls(): return
 	if _resizing and opened:
 		if event is InputEventMouseMotion:
 			panel.offset_bottom = clampf(event.position.y, 220.0, get_viewport().get_visible_rect().size.y - 20.0)

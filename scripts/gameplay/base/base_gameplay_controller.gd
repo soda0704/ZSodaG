@@ -2,6 +2,7 @@ class_name BaseGameplayController
 extends Node
 
 signal snapshot_changed(snapshot: Dictionary)
+signal clicker_changed()
 signal phase_changed(phase: int)
 signal day_changed(day_index: int)
 signal fuel_state_changed(is_fueled: bool)
@@ -46,7 +47,11 @@ var fuel_liters := 0.0
 var _fuel_tick := 0.0
 
 
+var clicker := LabClicker.new()
+var _clicker_sync_elapsed := 0.0
+
 func _process(delta: float) -> void:
+	_process_clicker(delta)
 	if not multiplayer.is_server() or not main_breaker_on:
 		return
 	fuel_liters = maxf(0.0, fuel_liters - delta * FUEL_PER_SECOND)
@@ -383,6 +388,7 @@ func reset_day_one_authoritative() -> bool:
 	plant_withered = false
 	plant_seed_planted = false
 	plant_last_watered_day = 0
+	clicker.restore({})
 	_broadcast_snapshot(
 		_make_snapshot(FIRST_DAY, BasePhase.ARRIVAL, false, false, [], [])
 	)
@@ -484,6 +490,7 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	snapshot["lab_clicker"] = config.get_value("base", "lab_clicker", {})
 	snapshot["plant_growth_stage"] = int(config.get_value("base", "plant_growth_stage", 0))
 	snapshot["plant_withered"] = bool(config.get_value("base", "plant_withered", false))
 	snapshot["plant_seed_planted"] = bool(config.get_value("base", "plant_seed_planted", false))
@@ -542,6 +549,8 @@ func sync_network_state_to_peer(peer_id: int) -> void:
 	if not multiplayer.is_server() or peer_id <= 0:
 		return
 	_receive_snapshot.rpc_id(peer_id, get_snapshot(), false, true)
+	for terminal in get_tree().get_nodes_in_group("quest_terminals"):
+		terminal.sync_app_to_peer(peer_id)
 
 
 func _broadcast_snapshot(snapshot: Dictionary, persist: bool = true) -> void:
@@ -582,6 +591,9 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
+	var clicker_data: Variant = snapshot.get("lab_clicker", {})
+	clicker.restore(clicker_data if clicker_data is Dictionary else {})
+	clicker_changed.emit()
 	plant_growth_stage = clampi(int(snapshot.get("plant_growth_stage", 0)), 0, PLANT_FINAL_STAGE)
 	plant_withered = bool(snapshot.get("plant_withered", false))
 	plant_seed_planted = bool(snapshot.get("plant_seed_planted", false))
@@ -646,6 +658,7 @@ func _make_snapshot(
 		"quest_stage": int(quest_stage) if next_day_index > 1 else 0,
 		"containment": containment.duplicate(true),
 		"maintenance": maintenance.duplicate(true),
+		"lab_clicker": clicker.capture_runtime(),
 		"plant_growth_stage": plant_growth_stage,
 		"plant_withered": plant_withered,
 		"plant_seed_planted": plant_seed_planted,
@@ -748,6 +761,7 @@ func _make_persistent_snapshot() -> Dictionary:
 		[],
 		[]
 	)
+	persistent["lab_clicker"] = clicker.capture()
 	persistent["campaign_layout_version"] = 2
 	if is_inside_tree():
 		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -867,3 +881,34 @@ func _update_end_day_consensus_signal() -> void:
 		end_day_consensus_reached.emit(day_index)
 	elif not has_consensus:
 		_end_day_consensus_announced = false
+
+
+func _process_clicker(delta: float) -> void:
+	if not multiplayer.is_server(): return
+	var playing := false
+	for terminal in get_tree().get_nodes_in_group("quest_terminals"):
+		if terminal.operator_peer > 0 and terminal.ui.app_open:
+			playing = true
+			break
+	clicker.advance(delta, playing, main_breaker_on)
+	if not main_breaker_on: return
+	_clicker_sync_elapsed += delta
+	if _clicker_sync_elapsed >= 0.2:
+		_clicker_sync_elapsed = 0.0
+		var data := clicker.capture_runtime()
+		_receive_clicker_state(data)
+		for peer in clicker_ready_peers(): _receive_clicker_state.rpc_id(peer, data)
+
+
+@rpc("authority", "call_local", "reliable")
+func _receive_clicker_state(data: Dictionary) -> void:
+	# The host's clock is never rounded back to an older client projection.
+	if not multiplayer.is_server(): clicker.restore(data)
+	clicker_changed.emit()
+
+
+func clicker_ready_peers() -> PackedInt32Array:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and world.has_method("get_ready_v3_peers"):
+		return PackedInt32Array(world.get_ready_v3_peers())
+	return multiplayer.get_peers()

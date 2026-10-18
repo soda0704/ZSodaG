@@ -293,6 +293,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact"):
 		if needs_flashlight_shake():
 			request_inventory_action(&"shake_flashlight")
+		elif get_interaction_target() != null and get_interaction_target().has_method("begin_terminal_interaction"):
+			get_interaction_target().begin_terminal_interaction()
 		elif not $ItemDrag.begin_interaction():
 			_interact_serial += 1
 	elif event.is_action_pressed("drop_item"):
@@ -884,7 +886,7 @@ func refresh_interaction_prompt() -> void:
 
 
 func _is_journal_open() -> bool:
-	if get_tree().get_first_node_in_group("wiring_ui") != null:
+	if get_tree().get_first_node_in_group("wiring_ui") != null or get_tree().get_first_node_in_group("terminal_ui") != null:
 		return true
 	var journal := get_node_or_null("/root/QuestJournal")
 	return journal != null and bool(journal.call("is_journal_open"))

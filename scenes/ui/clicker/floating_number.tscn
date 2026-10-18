@@ -1,0 +1,73 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/clicker_floating_number.gd" id="logic"]
+
+[sub_resource type="Animation" id="rise"]
+length = 0.65
+tracks/0/type = "value"
+tracks/0/path = NodePath("Number:position")
+tracks/0/interp = 1
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.65), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector2(0, 0), Vector2(0, -40)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Number:modulate")
+tracks/1/interp = 1
+tracks/1/keys = {"times": PackedFloat32Array(0, 0.4, 0.65), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [Color(0.7, 1, 0.35, 1), Color(0.7, 1, 0.35, 1), Color(0.7, 1, 0.35, 0)]}
+tracks/2/type = "value"
+tracks/2/path = NodePath("P0:position")
+tracks/2/interp = 1
+tracks/2/keys = {"times": PackedFloat32Array(0, 0.65), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector2(-7, 5), Vector2(-29, -27)]}
+tracks/3/type = "value"
+tracks/3/path = NodePath("P1:position")
+tracks/3/interp = 1
+tracks/3/keys = {"times": PackedFloat32Array(0, 0.65), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector2(20, 10), Vector2(44, -22)]}
+tracks/4/type = "value"
+tracks/4/path = NodePath("P2:position")
+tracks/4/interp = 1
+tracks/4/keys = {"times": PackedFloat32Array(0, 0.65), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector2(8, -5), Vector2(10, -42)]}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:modulate")
+tracks/5/interp = 1
+tracks/5/keys = {"times": PackedFloat32Array(0, 0.45, 0.65), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [Color(1,1,1,1), Color(1,1,1,1), Color(1,1,1,0)]}
+[sub_resource type="AnimationLibrary" id="library"]
+_data = {&"rise": SubResource("rise")}
+
+[node name="FloatingNumber" type="Control"]
+mouse_filter = 2
+script = ExtResource("logic")
+
+[node name="Number" type="Label" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 100.0
+offset_bottom = 26.0
+text = "+1"
+theme_override_font_sizes/font_size = 24
+mouse_filter = 2
+
+
+[node name="P0" type="ColorRect" parent="."]
+offset_left = -7.0
+offset_top = 5.0
+offset_right = -3.0
+offset_bottom = 9.0
+color = Color(0.7,1,0.2,1)
+mouse_filter = 2
+
+[node name="P1" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 23.0
+offset_bottom = 16.0
+color = Color(0.2,0.9,0.8,1)
+mouse_filter = 2
+
+[node name="P2" type="ColorRect" parent="."]
+offset_left = 8.0
+offset_top = -5.0
+offset_right = 11.0
+offset_bottom = -2.0
+color = Color(0.9,1,0.6,1)
+mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("library")}
+autoplay = "rise"

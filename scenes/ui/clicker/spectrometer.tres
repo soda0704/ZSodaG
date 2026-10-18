@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ClickerUpgrade" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/gameplay/clicker/clicker_upgrade.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/ui/clicker/spectrometer.svg" id="icon"]
+[resource]
+script = ExtResource("script")
+id = &"spectrometer"
+title = "Prism Spectrometer"
+description = "Research in full spectrum."
+icon = ExtResource("icon")
+base_cost = 30000000.0
+cost_multiplier = 1.15
+effect_type = 0
+effect_value = 132000.0
