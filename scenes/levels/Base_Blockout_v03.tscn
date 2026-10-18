@@ -153,11 +153,11 @@ light_energy = 10.0
 spot_angle = 90.0
 
 [node name="LivingRoute" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="9" unique_id=851503846]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.599893, 0)
 spot_angle = 90.0
 
 [node name="LivingRoute3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="10" unique_id=827006818]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, 4.7825603)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.733364, 4.7825603)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -172,7 +172,7 @@ spot_angle = 90.0
 metadata/world_lighting = true
 
 [node name="LivingRoute2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="11" unique_id=13852950]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.927957, -4.2792864)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.5381255, -4.2792864)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -187,11 +187,11 @@ spot_angle = 90.0
 metadata/world_lighting = true
 
 [node name="CommonRoom" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="12" unique_id=1752297696]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 23.919449, 5.0535674, 5.5071864)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 23.919449, 4.878539, 5.5071864)
 spot_angle = 90.0
 
 [node name="CommonRoom2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="13" unique_id=1463819810]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 27.999365, 5.0535674, 5.5071864)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 27.999365, 4.878539, 5.5071864)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -206,11 +206,11 @@ spot_angle = 90.0
 metadata/world_lighting = true
 
 [node name="Bunks" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="14" unique_id=1581464155]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 22.410854, 5.153524, -4.865959)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 22.410854, 4.0918403, -4.865959)
 spot_angle = 90.0
 
 [node name="Bunks2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="15" unique_id=1113628022]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.037237, 5.153524, -4.865959)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.037237, 4.0918403, -4.865959)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -912,6 +912,240 @@ layers = 262145
 [node name="South_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="9" unique_id=717494211]
 layers = 262145
 
+[node name="Living_Entry_Wayfinding_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1922948352) index="0" unique_id=1497867543]
+layers = 262145
+
+[node name="Living_Entry_Emergency_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1922948352) index="1" unique_id=497668423]
+layers = 262145
+
+[node name="Living_Common_Route_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="0" unique_id=860429950]
+layers = 262145
+
+[node name="Living_Common_Dining_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="1" unique_id=644360143]
+layers = 262145
+
+[node name="Living_Common_Lounge_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="2" unique_id=1892644356]
+layers = 262145
+
+[node name="Living_Common_Table_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="0" unique_id=1789619648]
+layers = 262145
+
+[node name="Living_Common_Table_West_Pedestal_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="1" unique_id=1958018426]
+layers = 262145
+
+[node name="Living_Common_Table_East_Pedestal_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="2" unique_id=1881340943]
+layers = 262145
+
+[node name="Living_Common_North_Seating_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="3" unique_id=399737974]
+layers = 262145
+
+[node name="Living_Common_South_Seating_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="4" unique_id=1679032612]
+layers = 262145
+
+[node name="Living_Common_North_Seating_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="5" unique_id=767573962]
+layers = 262145
+
+[node name="Living_Common_South_Seating_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="6" unique_id=2002664297]
+layers = 262145
+
+[node name="Living_Day1_Abandoned_Plate_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining/Living_Abandoned_Meal_Blockout" parent_id_path=PackedInt32Array(2036079911, 1966171001, 798610965) index="0" unique_id=95400485]
+layers = 262145
+
+[node name="Living_Day1_Abandoned_Cup_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining/Living_Abandoned_Meal_Blockout" parent_id_path=PackedInt32Array(2036079911, 1966171001, 798610965) index="1" unique_id=1523613084]
+layers = 262145
+
+[node name="Living_Galley_Counter_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(2036079911, 1966171001, 28311841) index="0" unique_id=2104828362]
+layers = 262145
+
+[node name="Living_Galley_Upper_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(2036079911, 1966171001, 28311841) index="1" unique_id=286897461]
+layers = 262145
+
+[node name="Living_Galley_Sink_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(2036079911, 1966171001, 28311841) index="2" unique_id=1160695798]
+layers = 262145
+
+[node name="Living_Galley_Refrigeration_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(2036079911, 1966171001, 28311841) index="3" unique_id=1217162390]
+layers = 262145
+
+[node name="Living_Lounge_Sofa_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="0" unique_id=502603957]
+layers = 262145
+
+[node name="Living_Lounge_Coffee_Table_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="1" unique_id=1631506978]
+layers = 262145
+
+[node name="Living_Lounge_East_Seating_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="2" unique_id=263566231]
+layers = 262145
+
+[node name="Living_Lounge_Sofa_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="3" unique_id=447019114]
+layers = 262145
+
+[node name="Living_Lounge_East_Seating_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="4" unique_id=859761098]
+layers = 262145
+
+[node name="Living_Lounge_Media_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1188165483) index="5" unique_id=951980125]
+layers = 262145
+
+[node name="Protected_Corridor_Sleeping_Sign_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Wall_Protection" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1183479358) index="0" unique_id=1196955055]
+layers = 262145
+
+[node name="Protected_Corridor_Medical_Sign_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Wall_Protection" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1183479358) index="1" unique_id=1291888608]
+layers = 262145
+
+[node name="Protected_Corridor_East_Emergency_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Wall_Protection" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1183479358) index="2" unique_id=345063936]
+layers = 262145
+
+[node name="Protected_Corridor_West_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="0" unique_id=1731667600]
+layers = 262145
+
+[node name="Protected_Corridor_Center_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="1" unique_id=600415743]
+layers = 262145
+
+[node name="Protected_Corridor_East_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="2" unique_id=2137573571]
+layers = 262145
+
+[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="0" unique_id=2015799014]
+layers = 262145
+
+[node name="Sleeping_West_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="1" unique_id=2077793610]
+layers = 262145
+
+[node name="Sleeping_East_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="2" unique_id=1743020272]
+layers = 262145
+
+[node name="Living_Bunk_Bank_North_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="0" unique_id=614667827]
+layers = 262145
+
+[node name="Living_Bunk_Bank_North_West_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="1" unique_id=872313591]
+layers = 262145
+
+[node name="Living_Bunk_East_Mid_Seam_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="2" unique_id=923775546]
+layers = 262145
+
+[node name="Living_Bunk_East_Divider_01_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="3" unique_id=1325295780]
+layers = 262145
+
+[node name="Living_Bunk_East_Divider_02_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="4" unique_id=1882939142]
+layers = 262145
+
+[node name="Living_Bunk_East_Divider_03_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="5" unique_id=1532369357]
+layers = 262145
+
+[node name="Living_Bunk_West_Mid_Seam_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="6" unique_id=2135759449]
+layers = 262145
+
+[node name="Living_Bunk_West_Divider_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="7" unique_id=1444062933]
+layers = 262145
+
+[node name="Living_Bunk_Access_Shelf_East_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="8" unique_id=1771528535]
+layers = 262145
+
+[node name="Living_Bunk_Access_Shelf_West_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds" parent_id_path=PackedInt32Array(2036079911, 444106472, 540570192) index="9" unique_id=1885855888]
+layers = 262145
+
+[node name="End_Day_Bunk_Player_01_Visual_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds/End_Day_Bunks_Blockout" parent_id_path=PackedInt32Array(2036079911, 444106472, 195393144) index="0" unique_id=1607935349]
+layers = 262145
+
+[node name="End_Day_Bunk_Player_02_Visual_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Beds/End_Day_Bunks_Blockout" parent_id_path=PackedInt32Array(2036079911, 444106472, 195393144) index="1" unique_id=897778256]
+layers = 262145
+
+[node name="Living_Sleeping_Locker_Bank_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(2036079911, 444106472, 1255146447) index="0" unique_id=1865695137]
+layers = 262145
+
+[node name="Living_Sleeping_Locker_Seam_01_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(2036079911, 444106472, 1255146447) index="1" unique_id=1633571071]
+layers = 262145
+
+[node name="Living_Sleeping_Locker_Seam_02_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(2036079911, 444106472, 1255146447) index="2" unique_id=1008952684]
+layers = 262145
+
+[node name="Living_Sleeping_Personal_Drop_Station_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(2036079911, 444106472, 1255146447) index="3" unique_id=1480372271]
+layers = 262145
+
+[node name="Living_Day1_Personal_Pack_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" parent_id_path=PackedInt32Array(2036079911, 444106472, 118839934) index="0" unique_id=1911935258]
+layers = 262145
+
+[node name="Living_Day1_Pulled_Contents_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" parent_id_path=PackedInt32Array(2036079911, 444106472, 118839934) index="1" unique_id=987904518]
+layers = 262145
+
+[node name="Living_Day1_Empty_Locker_Tag_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage/Living_Opened_Personal_Locker_Blockout" parent_id_path=PackedInt32Array(2036079911, 444106472, 118839934) index="2" unique_id=271845831]
+layers = 262145
+
+[node name="Living_Sleeping_Dressing_Bench_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(2036079911, 444106472, 685862148) index="0" unique_id=1244859654]
+layers = 262145
+
+[node name="Living_Sleeping_Dressing_Backboard_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(2036079911, 444106472, 685862148) index="1" unique_id=1400226046]
+layers = 262145
+
+[node name="Living_Sleeping_Dressing_Hook_Rail_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(2036079911, 444106472, 685862148) index="2" unique_id=1776461422]
+layers = 262145
+
+[node name="Living_Sleeping_Occupancy_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(2036079911, 444106472, 685862148) index="3" unique_id=500202012]
+layers = 262145
+
+[node name="Medical_Entry_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="0" unique_id=1748871228]
+layers = 262145
+
+[node name="Medical_Primary_Exam_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="1" unique_id=317373001]
+layers = 262145
+
+[node name="Medical_Secondary_Exam_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="2" unique_id=746192460]
+layers = 262145
+
+[node name="Medical_Supply_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="0" unique_id=742560410]
+layers = 262145
+
+[node name="Medical_Supply_Cabinet_Seam_01_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="1" unique_id=530765756]
+layers = 262145
+
+[node name="Medical_Supply_Cabinet_Seam_02_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="2" unique_id=1922900596]
+layers = 262145
+
+[node name="Medical_Refrigerated_Supply_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="3" unique_id=1414602674]
+layers = 262145
+
+[node name="Medical_Refrigerated_Status_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="4" unique_id=450827186]
+layers = 262145
+
+[node name="Medical_Exam_Bed_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="0" unique_id=394816500]
+layers = 262145
+
+[node name="Medical_Exam_Bed_Secondary_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="1" unique_id=710917016]
+layers = 262145
+
+[node name="Medical_Primary_Bed_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="2" unique_id=95181043]
+layers = 262145
+
+[node name="Medical_Secondary_Bed_Backrest_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="3" unique_id=91865916]
+layers = 262145
+
+[node name="Medical_Primary_Bed_Console_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="4" unique_id=1364164239]
+layers = 262145
+
+[node name="Medical_Secondary_Bed_Console_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="5" unique_id=1403162213]
+layers = 262145
+
+[node name="Medical_Privacy_Curtain_Track_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="6" unique_id=1970421577]
+layers = 262145
+
+[node name="Medical_Primary_Diagnostic_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="7" unique_id=717133785]
+layers = 262145
+
+[node name="Medical_Secondary_Diagnostic_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="8" unique_id=1154866431]
+layers = 262145
+
+[node name="Medical_Instrument_Cart_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(2036079911, 486055313, 1879935073) index="9" unique_id=1500264508]
+layers = 262145
+
+[node name="Medical_Wash_Station_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="0" unique_id=252088809]
+layers = 262145
+
+[node name="Medical_Wash_Basin_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="1" unique_id=928591688]
+layers = 262145
+
+[node name="Medical_Wash_Dispenser_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="2" unique_id=1059785305]
+layers = 262145
+
+[node name="Medical_Clinical_Waste_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="3" unique_id=1205701124]
+layers = 262145
+
 [node name="East_Connector_Floor" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="0" unique_id=1841078308]
 layers = 262145
 
@@ -1046,3 +1280,7 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_
 [editable path="WorldIndirectLighting"]
 [editable path="Floor_0_Base_Blockout"]
 [editable path="Floor_0_Base_Blockout/Doors/PedestrianWindPassage"]
+[editable path="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt"]
+[editable path="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt"]
+[editable path="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt"]
+[editable path="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt"]

@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://b3tkdcgwou2lb" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="23_auto_doors"]
 [ext_resource type="PackedScene" uid="uid://x70ffy4hwig4" path="res://scenes/art/base/living/east_living_shell_art.tscn" id="24_living_shell_art"]
 [ext_resource type="PackedScene" uid="uid://dr2lkq3bgosy5" path="res://scenes/art/base/living/common_room_art.tscn" id="25_common_room_art"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/living/protected_corridor_art.tscn" id="26_protected_corridor_art"]
+[ext_resource type="PackedScene" uid="uid://dlfvjac6oluld" path="res://scenes/art/base/living/protected_corridor_art.tscn" id="26_protected_corridor_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/sleeping_quarters_art.tscn" id="27_sleeping_quarters_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/medical_room_art.tscn" id="28_medical_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/center/center_hub_shell_art.tscn" id="29_center_hub_shell_art"]
@@ -78,18 +78,18 @@ albedo_color = Color(0.82, 0.16, 0.04, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_living"]
 albedo_color = Color(0.08, 0.52, 0.24, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_irdg5"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_pyx6f"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_2gshf"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_xl840"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2vipv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0j0ey"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("47_pyx6f")
-shader_parameter/screen_texture = SubResource("ViewportTexture_2gshf")
-shader_parameter/error_texture = SubResource("ViewportTexture_irdg5")
+shader_parameter/screen_texture = SubResource("ViewportTexture_xl840")
+shader_parameter/error_texture = SubResource("ViewportTexture_pyx6f")
 shader_parameter/albedo_texture = ExtResource("48_xl840")
 shader_parameter/emissive_texture = ExtResource("49_0j0ey")
 shader_parameter/metallic_roughness_texture = ExtResource("50_j45sq")
@@ -185,10 +185,10 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 10, 
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 20.003431, 0, 0)
 
 [node name="Standard_Door_Frosted_Visual_Prototype" parent="Doors" unique_id=876588600 instance=ExtResource("4_standard_door_frosted_visual")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -1.4980037)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.4, 0, -1.4)
 
 [node name="Medical_Hermetic_Door_Visual_Prototype" parent="Doors" unique_id=56035408 instance=ExtResource("6_medical_hermetic_door_visual")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 1.515)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 1.4)
 
 [node name="Science_Entrance_Door_Visual_Prototype" parent="Doors" unique_id=1721816136 instance=ExtResource("10_science_entrance_door_visual")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.003)
@@ -533,11 +533,96 @@ editor_description = "Новая визуальная архитектура ж�
 
 [node name="CommonRoomArt" parent="East_Living/Art" unique_id=1966171001 instance=ExtResource("25_common_room_art")]
 
+[node name="PlantGrowingContainer" parent="East_Living/Art/CommonRoomArt/Visual" parent_id_path=PackedInt32Array(1966171001, 1981421515) index="1" unique_id=2133399949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.85, 0.835, -8.091787)
+
+[node name="Living_Entry_Wayfinding_Panel_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(1966171001, 1922948352) index="0" unique_id=1497867543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.133062, 2, -3.4)
+
+[node name="Living_Entry_Emergency_Cabinet_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(1966171001, 1922948352) index="1" unique_id=497668423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.16473, 1.5732363, 3.4)
+
+[node name="Living_Common_Route_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="0" unique_id=860429950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.967832, 0)
+
+[node name="Living_Common_Dining_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="1" unique_id=644360143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.967832, -4.3)
+
+[node name="Living_Common_Lounge_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="2" unique_id=1892644356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 4.967832, 4.8)
+
+[node name="Living_Galley_Counter_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(1966171001, 28311841) index="0" unique_id=2104828362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 0.5, -7.60212)
+
+[node name="Living_Galley_Upper_Cabinet_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(1966171001, 28311841) index="1" unique_id=286897461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 1.9, -8.05212)
+
+[node name="Living_Galley_Sink_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(1966171001, 28311841) index="2" unique_id=1160695798]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 1.03, -7.50212)
+
+[node name="Living_Galley_Refrigeration_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(1966171001, 28311841) index="3" unique_id=1217162390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 1.2, -7.5161858)
+
+[node name="Living_Lounge_Media_Panel_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Lounge" parent_id_path=PackedInt32Array(1966171001, 1188165483) index="5" unique_id=951980125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4, 2, 8.07348)
+
 [node name="ProtectedCorridorArt" parent="East_Living/Art" unique_id=1745588499 instance=ExtResource("26_protected_corridor_art")]
+
+[node name="Protected_Corridor_West_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="0" unique_id=1731667600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.264219, 0)
+
+[node name="Protected_Corridor_Center_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="1" unique_id=600415743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5.264219, 0)
+
+[node name="Protected_Corridor_East_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="2" unique_id=2137573571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5.264219, 0)
 
 [node name="SleepingQuartersArt" parent="East_Living/Art" unique_id=444106472 instance=ExtResource("27_sleeping_quarters_art")]
 
+[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="0" unique_id=2015799014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 5.264219, -3.1)
+
+[node name="Sleeping_West_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="1" unique_id=2077793610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 5.264219, -6.3)
+
+[node name="Sleeping_East_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="2" unique_id=1743020272]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 5.264219, -6.3)
+
+[node name="Living_Sleeping_Personal_Drop_Station_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(444106472, 1255146447) index="3" unique_id=1480372271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.61701, 0.65, -2.1102347)
+size = Vector3(1.5022705, 1.3, 0.65)
+
+[node name="Living_Sleeping_Dressing_Backboard_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(444106472, 685862148) index="1" unique_id=1400226046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.892265, 1.65, -1.521517)
+
+[node name="Living_Sleeping_Dressing_Hook_Rail_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(444106472, 685862148) index="2" unique_id=1776461422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.892265, 1.75, -1.6015172)
+
 [node name="MedicalRoomArt" parent="East_Living/Art" unique_id=486055313 instance=ExtResource("28_medical_room_art")]
+
+[node name="Medical_Entry_Ceiling_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="0" unique_id=1748871228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 5.264219, 2.8)
+
+[node name="Medical_Primary_Exam_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="1" unique_id=317373001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5.264219, 5.5)
+
+[node name="Medical_Secondary_Exam_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="2" unique_id=746192460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5.264219, 5.5)
+
+[node name="RestPose" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout" parent_id_path=PackedInt32Array(486055313, 394816500) index="0"]
+transform = Transform3D(7.54979e-08, -1, 7.54979e-08, 0, 7.54979e-08, 1, -1, -7.54979e-08, 5.6999333e-15, 0, 0.68, 0)
+
+[node name="CollisionShape3D" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout/InteractionArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="RestPose" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination/Medical_Exam_Bed_Secondary_Blockout" parent_id_path=PackedInt32Array(486055313, 710917016) index="0"]
+transform = Transform3D(7.54979e-08, -1, 7.54979e-08, 0, 7.54979e-08, 1, -1, -7.54979e-08, 5.6999333e-15, 0, 0.68, 0)
+
+[node name="CollisionShape3D" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination/Medical_Exam_Bed_Secondary_Blockout/InteractionArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="Medical_Privacy_Curtain_Track_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination" parent_id_path=PackedInt32Array(486055313, 1879935073) index="6" unique_id=1970421577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 5.264219, 5.5)
 
 [node name="East_Connector" type="Node3D" parent="East_Living" unique_id=1759508017]
 
@@ -549,19 +634,19 @@ use_collision = true
 size = Vector3(2, 0.2, 4)
 
 [node name="East_Connector_North_Wall" type="CSGBox3D" parent="East_Living/East_Connector/Structure" unique_id=393652554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.75, -2.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.994385, 2.75, -2.15)
 use_collision = true
-size = Vector3(2, 5.5, 0.3)
+size = Vector3(1.9887695, 5.5, 0.3)
 
 [node name="East_Connector_South_Wall" type="CSGBox3D" parent="East_Living/East_Connector/Structure" unique_id=518718718]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.75, 2.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.992615, 2.75, 2.15)
 use_collision = true
-size = Vector3(2, 5.5, 0.3)
+size = Vector3(1.9852295, 5.5, 0.3)
 
 [node name="East_Connector_Ceiling" type="CSGBox3D" parent="East_Living/East_Connector/Structure" unique_id=1877587502]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 5.65, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.985901, 4.8, 0)
 use_collision = true
-size = Vector3(2, 0.3, 4)
+size = Vector3(1.9718018, 0.3, 4)
 
 [node name="Fixtures" type="Node3D" parent="East_Living/East_Connector" unique_id=972492483]
 
@@ -611,7 +696,7 @@ size = Vector3(1.4, 0.38, 0.12)
 material = SubResource("StandardMaterial3D_hub_living")
 
 [node name="East_Connector_Ceiling_Light_Fixture_Blockout" type="CSGBox3D" parent="East_Living/East_Connector/Fixtures" unique_id=1370064485]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 5.42, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.625595, 0)
 size = Vector3(1.2, 0.12, 1.6)
 material = SubResource("StandardMaterial3D_hub_living")
 
@@ -656,6 +741,10 @@ size = Vector3(4, 0.4, 2)
 
 [node name="DayTwoTaskTerminal" parent="." unique_id=55254735 instance=ExtResource("quest_terminal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 0.015, -6.95)
-display_material = SubResource("ShaderMaterial_2vipv")
+display_material = SubResource("ShaderMaterial_0j0ey")
 
 [editable path="Doors/PedestrianWindPassage"]
+[editable path="East_Living/Art/CommonRoomArt"]
+[editable path="East_Living/Art/ProtectedCorridorArt"]
+[editable path="East_Living/Art/SleepingQuartersArt"]
+[editable path="East_Living/Art/MedicalRoomArt"]

@@ -1,7 +1,7 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cnjfr0fcvqr50"]
 
-[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight_flat.res" id="1_goj1y"]
-[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight_flat.res" id="2_tyfne"]
+[ext_resource type="ArrayMesh" uid="uid://bm1k5jgbgjf3y" path="res://assets/models/modular_scifi_megakit/meshes/wall_astra_straight_flat.res" id="1_goj1y"]
+[ext_resource type="Shape3D" uid="uid://cb8iyuaixmi2j" path="res://assets/models/modular_scifi_megakit/collisions/wall_astra_straight_flat.res" id="2_tyfne"]
 
 [node name="WallAstraStraightFlat" type="Node3D" unique_id=1456797421]
 editor_description = "WallAstra_Straight_Flat — Quaternius, CC0. Original scale and modular pivot."

@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bfe5qe7iyhwtp"]
 
 [resource]
 resource_name = "MI_Trim_02_Variation"

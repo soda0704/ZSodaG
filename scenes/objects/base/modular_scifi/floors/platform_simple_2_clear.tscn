@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://tmby0m4dkhlu"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_simple_2.res" id="1_mesh"]
+[ext_resource type="Material" path="res://assets/models/modular_scifi_megakit/materials/mi_trim_03_clear.tres" id="2_material"]
+[ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_simple_2.res" id="3_collision"]
+
+[node name="PlatformSimple2" type="Node3D" unique_id=1026797230]
+editor_description = "Platform_Simple2 with an independent clear material and edited normal/ORM maps."
+metadata/quaternius_source_model = "Platform_Simple2"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf"
+metadata/library_category = "floors"
+
+[node name="Visual" type="Node3D" parent="." unique_id=2101670731]
+
+[node name="Mesh0" type="MeshInstance3D" parent="Visual" unique_id=822979732]
+mesh = ExtResource("1_mesh")
+surface_material_override/0 = ExtResource("2_material")
+
+[node name="StaticCollision" type="StaticBody3D" parent="." unique_id=1622377478]
+collision_mask = 0
+
+[node name="Shape0" type="CollisionShape3D" parent="StaticCollision" unique_id=1801335909]
+shape = ExtResource("3_collision")
