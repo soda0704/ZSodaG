@@ -1,28 +1,16 @@
 [gd_scene format=3 uid="uid://g28tvglroke0"]
 
 [ext_resource type="Script" uid="uid://uumwsapd0o2e" path="res://scripts/gameplay/elevator/elevator_controller.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_pipes.tscn" id="2_bhlwg"]
 [ext_resource type="Script" uid="uid://df4kufhndvh1c" path="res://scripts/gameplay/elevator/elevator_floor_button.gd" id="2_button"]
 [ext_resource type="PackedScene" uid="uid://rlpw8s16q2lq" path="res://scenes/objects/elevator/elevator_rollup_door_blockout.tscn" id="3_door"]
 [ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_cabin_visual_blockout.tscn" id="4_cabin_art"]
-[ext_resource type="PackedScene" uid="uid://th2m0w1xvwis" path="res://scenes/art/elevator/elevator_shaft_module_visual_blockout.tscn" id="5_shaft_art"]
 [ext_resource type="PackedScene" uid="uid://b4hb3jy1ee7lp" path="res://scenes/art/elevator/elevator_landing_portal_visual_blockout.tscn" id="6_portal_art"]
-
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/elevator_move.ogg" id="sound_TravelAudio"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_simple.tscn" id="11_bhlwg"]
 [ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_landing_3_visual_blockout.tscn" id="portal_3"]
 [ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_landing_4_visual_blockout.tscn" id="portal_4"]
 [ext_resource type="PackedScene" path="res://scenes/art/elevator/elevator_landing_5_visual_blockout.tscn" id="portal_5"]
-
-[sub_resource type="BoxShape3D" id="Shape_support"]
-size = Vector3(0.4, 96, 0.4)
-
-[sub_resource type="BoxShape3D" id="Shape_guide_rail"]
-size = Vector3(0.18, 96, 0.28)
-
-[sub_resource type="BoxShape3D" id="Shape_top_beam_x"]
-size = Vector3(6.8, 0.4, 0.4)
-
-[sub_resource type="BoxShape3D" id="Shape_top_beam_z"]
-size = Vector3(0.4, 0.4, 6.8)
+[ext_resource type="AudioStream" uid="uid://dauw3xmcr5ui7" path="res://assets/audio/gameplay/elevator_move.ogg" id="sound_TravelAudio"]
 
 [sub_resource type="BoxShape3D" id="Shape_cabin_floor"]
 size = Vector3(6, 0.35, 6)
@@ -65,99 +53,225 @@ size = Vector3(0.36, 1, 0.6)
 
 [node name="ElevatorFunctionalBlockout" type="Node3D" unique_id=499149087]
 script = ExtResource("1_controller")
-floor_spacing = 18.0
 floor_unlock_days = PackedInt32Array(1, 2, 3, 4, 5, 6)
+floor_spacing = 18.0
 
 [node name="Shaft" type="StaticBody3D" parent="." unique_id=1499420216]
 
-[node name="NorthWestSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=607562478]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -42, -3.2)
-shape = SubResource("Shape_support")
+[node name="ColumnSimple" parent="Shaft" unique_id=246862376 instance=ExtResource("11_bhlwg")]
+transform = Transform3D(1.8, 0, 0, 0, -6.119594e-08, -1, 0, 1.4, -4.371139e-08, -3, 6, -3.5)
 
-[node name="NorthEastSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=393382150]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -42, -3.2)
-shape = SubResource("Shape_support")
+[node name="ColumnSimple3" parent="Shaft" unique_id=383406277 instance=ExtResource("11_bhlwg")]
+transform = Transform3D(1.8, 0, 0, 0, -6.119594e-08, -1, 0, 1.4, -4.371139e-08, 3, 6, -3.5)
 
-[node name="SouthWestSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=1757138940]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -42, 3.2)
-shape = SubResource("Shape_support")
+[node name="ColumnSimple2" parent="Shaft" unique_id=97671265 instance=ExtResource("11_bhlwg")]
+transform = Transform3D(-7.86805e-08, 1.4, -4.371139e-08, 0, -6.119594e-08, -1, -1.8, -6.119594e-08, 1.9106855e-15, -3.5, 6, -3)
 
-[node name="SouthEastSupportCollision" type="CollisionShape3D" parent="Shaft" unique_id=228286956]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -42, 3.2)
-shape = SubResource("Shape_support")
+[node name="ColumnSimple4" parent="Shaft" unique_id=325881707 instance=ExtResource("11_bhlwg")]
+transform = Transform3D(-7.86805e-08, 1.4, -4.371139e-08, 0, -6.119594e-08, -1, -1.8, -6.119594e-08, 1.9106855e-15, -3.5, 6, 3)
 
-[node name="EastNorthGuideRailCollision" type="CollisionShape3D" parent="Shaft" unique_id=1836467420]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -42, -1.8)
-shape = SubResource("Shape_guide_rail")
+[node name="Column_1" type="Node3D" parent="Shaft" unique_id=1927965977]
 
-[node name="EastSouthGuideRailCollision" type="CollisionShape3D" parent="Shaft" unique_id=39374196]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12, -42, 1.8)
-shape = SubResource("Shape_guide_rail")
+[node name="ColumnPipes" parent="Shaft/Column_1" unique_id=461906274 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, 0, 3)
 
-[node name="TopNorthBeamCollision" type="CollisionShape3D" parent="Shaft" unique_id=1080060384]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -3.2)
-shape = SubResource("Shape_top_beam_x")
+[node name="ColumnPipes2" parent="Shaft/Column_1" unique_id=1521909861 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -6, 3)
 
-[node name="TopSouthBeamCollision" type="CollisionShape3D" parent="Shaft" unique_id=1623125001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 3.2)
-shape = SubResource("Shape_top_beam_x")
+[node name="ColumnPipes3" parent="Shaft/Column_1" unique_id=880773794 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -12, 3)
 
-[node name="TopWestBeamCollision" type="CollisionShape3D" parent="Shaft" unique_id=2003884711]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 6, 0)
-shape = SubResource("Shape_top_beam_z")
+[node name="ColumnPipes4" parent="Shaft/Column_1" unique_id=1855145943 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -18, 3)
 
-[node name="TopEastBeamCollision" type="CollisionShape3D" parent="Shaft" unique_id=9906221]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 6, 0)
-shape = SubResource("Shape_top_beam_z")
+[node name="ColumnPipes5" parent="Shaft/Column_1" unique_id=2105558153 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -24, 3)
 
-[node name="ShaftVisualArt" type="Node3D" parent="Shaft" unique_id=1085645589]
+[node name="ColumnPipes6" parent="Shaft/Column_1" unique_id=1162738414 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -30, 3)
 
-[node name="ModuleMinus90" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
-position = Vector3(0, -90, 0)
+[node name="ColumnPipes7" parent="Shaft/Column_1" unique_id=691466105 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -36, 3)
 
-[node name="ModuleMinus84" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
-position = Vector3(0, -84, 0)
+[node name="ColumnPipes8" parent="Shaft/Column_1" unique_id=619791968 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -42, 3)
 
-[node name="ModuleMinus78" parent="Shaft/ShaftVisualArt" instance=ExtResource("5_shaft_art")]
-position = Vector3(0, -78, 0)
+[node name="ColumnPipes9" parent="Shaft/Column_1" unique_id=1608257608 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -48, 3)
 
-[node name="ModuleMinus72" parent="Shaft/ShaftVisualArt" unique_id=765438962 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
+[node name="ColumnPipes10" parent="Shaft/Column_1" unique_id=1674241508 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -54, 3)
 
-[node name="ModuleMinus66" parent="Shaft/ShaftVisualArt" unique_id=385485680 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -66, 0)
+[node name="ColumnPipes11" parent="Shaft/Column_1" unique_id=324611258 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -60, 3)
 
-[node name="ModuleMinus60" parent="Shaft/ShaftVisualArt" unique_id=1612398922 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -60, 0)
+[node name="ColumnPipes12" parent="Shaft/Column_1" unique_id=346524987 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -66, 3)
 
-[node name="ModuleMinus54" parent="Shaft/ShaftVisualArt" unique_id=1344505778 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
+[node name="ColumnPipes13" parent="Shaft/Column_1" unique_id=2018891066 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -72, 3)
 
-[node name="ModuleMinus48" parent="Shaft/ShaftVisualArt" unique_id=371875802 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48, 0)
+[node name="ColumnPipes14" parent="Shaft/Column_1" unique_id=1413019339 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -78, 3)
 
-[node name="ModuleMinus42" parent="Shaft/ShaftVisualArt" unique_id=118675300 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42, 0)
+[node name="ColumnPipes15" parent="Shaft/Column_1" unique_id=2053325758 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -84, 3)
 
-[node name="ModuleMinus36" parent="Shaft/ShaftVisualArt" unique_id=1894160016 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -36, 0)
+[node name="ColumnPipes16" parent="Shaft/Column_1" unique_id=723533267 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -90, 3)
 
-[node name="ModuleMinus30" parent="Shaft/ShaftVisualArt" unique_id=206072837 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, 0)
+[node name="Column_2" type="Node3D" parent="Shaft" unique_id=843948242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
 
-[node name="ModuleMinus24" parent="Shaft/ShaftVisualArt" unique_id=329653709 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -24, 0)
+[node name="ColumnPipes" parent="Shaft/Column_2" unique_id=2071131141 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, 0, 3)
 
-[node name="ModuleMinus18" parent="Shaft/ShaftVisualArt" unique_id=1817323528 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -18, 0)
+[node name="ColumnPipes2" parent="Shaft/Column_2" unique_id=1605441469 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -6, 3)
 
-[node name="ModuleMinus12" parent="Shaft/ShaftVisualArt" unique_id=1831393055 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+[node name="ColumnPipes3" parent="Shaft/Column_2" unique_id=2145069437 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -12, 3)
 
-[node name="ModuleMinus6" parent="Shaft/ShaftVisualArt" unique_id=435761303 instance=ExtResource("5_shaft_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 0)
+[node name="ColumnPipes4" parent="Shaft/Column_2" unique_id=323150377 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -18, 3)
 
-[node name="ModuleSurface" parent="Shaft/ShaftVisualArt" unique_id=627292492 instance=ExtResource("5_shaft_art")]
+[node name="ColumnPipes5" parent="Shaft/Column_2" unique_id=1463451737 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -24, 3)
+
+[node name="ColumnPipes6" parent="Shaft/Column_2" unique_id=2073422508 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -30, 3)
+
+[node name="ColumnPipes7" parent="Shaft/Column_2" unique_id=1340616357 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -36, 3)
+
+[node name="ColumnPipes8" parent="Shaft/Column_2" unique_id=255246067 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -42, 3)
+
+[node name="ColumnPipes9" parent="Shaft/Column_2" unique_id=1702014661 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -48, 3)
+
+[node name="ColumnPipes10" parent="Shaft/Column_2" unique_id=684543424 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -54, 3)
+
+[node name="ColumnPipes11" parent="Shaft/Column_2" unique_id=246294277 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -60, 3)
+
+[node name="ColumnPipes12" parent="Shaft/Column_2" unique_id=618365456 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -66, 3)
+
+[node name="ColumnPipes13" parent="Shaft/Column_2" unique_id=1710779599 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -72, 3)
+
+[node name="ColumnPipes14" parent="Shaft/Column_2" unique_id=881332730 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -78, 3)
+
+[node name="ColumnPipes15" parent="Shaft/Column_2" unique_id=1077088151 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -84, 3)
+
+[node name="ColumnPipes16" parent="Shaft/Column_2" unique_id=251763581 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -90, 3)
+
+[node name="Column_3" type="Node3D" parent="Shaft" unique_id=323898338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
+
+[node name="ColumnPipes" parent="Shaft/Column_3" unique_id=1230100344 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="ColumnPipes2" parent="Shaft/Column_3" unique_id=168070925 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -6, 3)
+
+[node name="ColumnPipes3" parent="Shaft/Column_3" unique_id=279609390 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -12, 3)
+
+[node name="ColumnPipes4" parent="Shaft/Column_3" unique_id=7498720 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -18, 3)
+
+[node name="ColumnPipes5" parent="Shaft/Column_3" unique_id=1657710323 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -24, 3)
+
+[node name="ColumnPipes6" parent="Shaft/Column_3" unique_id=821461737 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -30, 3)
+
+[node name="ColumnPipes7" parent="Shaft/Column_3" unique_id=291065518 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -36, 3)
+
+[node name="ColumnPipes8" parent="Shaft/Column_3" unique_id=1935092301 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -42, 3)
+
+[node name="ColumnPipes9" parent="Shaft/Column_3" unique_id=990342047 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -48, 3)
+
+[node name="ColumnPipes10" parent="Shaft/Column_3" unique_id=596849142 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -54, 3)
+
+[node name="ColumnPipes11" parent="Shaft/Column_3" unique_id=353794337 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -60, 3)
+
+[node name="ColumnPipes12" parent="Shaft/Column_3" unique_id=814247210 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -66, 3)
+
+[node name="ColumnPipes13" parent="Shaft/Column_3" unique_id=126043158 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -72, 3)
+
+[node name="ColumnPipes14" parent="Shaft/Column_3" unique_id=209263870 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -78, 3)
+
+[node name="ColumnPipes15" parent="Shaft/Column_3" unique_id=1938465875 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -84, 3)
+
+[node name="ColumnPipes16" parent="Shaft/Column_3" unique_id=200830755 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -90, 3)
+
+[node name="Column_4" type="Node3D" parent="Shaft" unique_id=1934618566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="ColumnPipes" parent="Shaft/Column_4" unique_id=1515431879 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="ColumnPipes2" parent="Shaft/Column_4" unique_id=1419291624 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -6, 3)
+
+[node name="ColumnPipes3" parent="Shaft/Column_4" unique_id=2125263267 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -12, 3)
+
+[node name="ColumnPipes4" parent="Shaft/Column_4" unique_id=813800364 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -18, 3)
+
+[node name="ColumnPipes5" parent="Shaft/Column_4" unique_id=503833795 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -24, 3)
+
+[node name="ColumnPipes6" parent="Shaft/Column_4" unique_id=1079013793 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -30, 3)
+
+[node name="ColumnPipes7" parent="Shaft/Column_4" unique_id=2072815586 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -36, 3)
+
+[node name="ColumnPipes8" parent="Shaft/Column_4" unique_id=887767726 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -42, 3)
+
+[node name="ColumnPipes9" parent="Shaft/Column_4" unique_id=1084322957 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -48, 3)
+
+[node name="ColumnPipes10" parent="Shaft/Column_4" unique_id=1419813981 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -54, 3)
+
+[node name="ColumnPipes11" parent="Shaft/Column_4" unique_id=1819290825 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -60, 3)
+
+[node name="ColumnPipes12" parent="Shaft/Column_4" unique_id=2013520193 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -66, 3)
+
+[node name="ColumnPipes13" parent="Shaft/Column_4" unique_id=1606400220 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -72, 3)
+
+[node name="ColumnPipes14" parent="Shaft/Column_4" unique_id=1397209769 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -78, 3)
+
+[node name="ColumnPipes15" parent="Shaft/Column_4" unique_id=1721166396 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -84, 3)
+
+[node name="ColumnPipes16" parent="Shaft/Column_4" unique_id=89250905 instance=ExtResource("2_bhlwg")]
+transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 3, -90, 3)
 
 [node name="FloorStops" type="Node3D" parent="Shaft" unique_id=1502601509]
 
@@ -175,18 +289,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 [node name="FloorMinus4" type="Marker3D" parent="Shaft/FloorStops" unique_id=1120978693]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
 
-[node name="FloorMinus5" type="Marker3D" parent="Shaft/FloorStops"]
-position = Vector3(0, -90, 0)
+[node name="FloorMinus5" type="Marker3D" parent="Shaft/FloorStops" unique_id=1099779195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
 
 [node name="CabinMoving" type="AnimatableBody3D" parent="." unique_id=67625921]
-metadata/footstep_surface = "metal"
 unique_name_in_owner = true
+metadata/footstep_surface = "metal"
 
 [node name="CabinVisualArt" parent="CabinMoving" unique_id=1929044872 instance=ExtResource("4_cabin_art")]
 
-[node name="CabinLight" type="SpotLight3D" parent="CabinMoving" groups=["mobile_interior_lights"]]
-position = Vector3(0, 3.72, 0)
-rotation_degrees = Vector3(-90, 0, 0)
+[node name="CabinLight" type="SpotLight3D" parent="CabinMoving" unique_id=668502897 groups=["mobile_interior_lights"]]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.72, 0)
 light_color = Color(1, 0.92, 0.8, 1)
 light_energy = 4.0
 light_indirect_energy = 0.25
@@ -351,23 +464,29 @@ text = "4"
 font_size = 64
 outline_size = 8
 
-[node name="FloorButton5" type="StaticBody3D" parent="CabinMoving/InteriorPanel"]
+[node name="FloorButton5" type="StaticBody3D" parent="CabinMoving/InteriorPanel" unique_id=1718985618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.25, 2.57)
 script = ExtResource("2_button")
 floor_index = 5
 controller_path = NodePath("../../..")
 
-[node name="Mesh" type="MeshInstance3D" parent="CabinMoving/InteriorPanel/FloorButton5"]
+[node name="Mesh" type="MeshInstance3D" parent="CabinMoving/InteriorPanel/FloorButton5" unique_id=395253949]
 mesh = SubResource("Mesh_floor_button")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/InteriorPanel/FloorButton5"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/InteriorPanel/FloorButton5" unique_id=469621637]
 shape = SubResource("Shape_floor_button")
 
-[node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton5"]
+[node name="Label" type="Label3D" parent="CabinMoving/InteriorPanel/FloorButton5" unique_id=1796970548]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.075)
 text = "5"
 font_size = 64
 outline_size = 8
+
+[node name="TravelAudio" type="AudioStreamPlayer3D" parent="CabinMoving" unique_id=1526414266]
+stream = ExtResource("sound_TravelAudio")
+volume_db = -60.0
+unit_size = 3.0
+max_distance = 24.0
 
 [node name="Landings" type="Node3D" parent="." unique_id=1931981816]
 unique_name_in_owner = true
@@ -432,6 +551,9 @@ transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3
 text = "РЈР РћР’Р•РќР¬ 1"
 font_size = 48
 
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_1" unique_id=204943535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.2, 0)
+
 [node name="Floor_2" type="Node3D" parent="Landings" unique_id=687360534]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -36, 0)
 
@@ -461,6 +583,9 @@ transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3
 text = "РЈР РћР’Р•РќР¬ 2"
 font_size = 48
 
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_2" unique_id=1037098360]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.2, 0)
+
 [node name="Floor_3" type="Node3D" parent="Landings" unique_id=1066087227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -54, 0)
 
@@ -489,6 +614,9 @@ shape = SubResource("Shape_call_panel")
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -3.63, 3.65, 0)
 text = "РЈР РћР’Р•РќР¬ 3"
 font_size = 48
+
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_3" unique_id=2039255117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.2, 0)
 
 [node name="Floor_4" type="Node3D" parent="Landings" unique_id=1928124505]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -72, 0)
@@ -522,55 +650,40 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -3.63, 3.65, 0)
 text = "РЈР РћР’Р•РќР¬ 4"
 font_size = 48
 
-[node name="Floor_5" type="Node3D" parent="Landings"]
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_4" unique_id=2076648224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.2, 0)
+
+[node name="Floor_5" type="Node3D" parent="Landings" unique_id=1996160321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -90, 0)
 
-[node name="LandingPortalArt" parent="Landings/Floor_5" instance=ExtResource("portal_5")]
+[node name="LandingPortalArt" parent="Landings/Floor_5" unique_id=572905735 instance=ExtResource("portal_5")]
 
-[node name="Platform" type="StaticBody3D" parent="Landings/Floor_5"]
+[node name="Platform" type="StaticBody3D" parent="Landings/Floor_5" unique_id=1006732468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -0.1, 0)
 
-[node name="Threshold" type="StaticBody3D" parent="Landings/Floor_5"]
+[node name="Threshold" type="StaticBody3D" parent="Landings/Floor_5" unique_id=373434020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_5/Threshold"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_5/Threshold" unique_id=510157219]
 shape = SubResource("Shape_threshold")
 
-[node name="LandingDoor" parent="Landings/Floor_5" instance=ExtResource("3_door")]
+[node name="LandingDoor" parent="Landings/Floor_5" unique_id=1732516900 instance=ExtResource("3_door")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.15, 0, 0)
 
-[node name="CallButton" type="StaticBody3D" parent="Landings/Floor_5"]
+[node name="CallButton" type="StaticBody3D" parent="Landings/Floor_5" unique_id=2750137]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.5, 1.35, -3.32)
 script = ExtResource("2_button")
 floor_index = 5
 is_call_button = true
 controller_path = NodePath("../../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_5/CallButton"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_5/CallButton" unique_id=1371730282]
 shape = SubResource("Shape_call_panel")
 
-[node name="FloorLabel" type="Label3D" parent="Landings/Floor_5"]
+[node name="FloorLabel" type="Label3D" parent="Landings/Floor_5" unique_id=112040002]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -3.63, 3.65, 0)
 text = "РЈР РћР’Р•РќР¬ 5"
 font_size = 48
 
-[node name="TravelAudio" type="AudioStreamPlayer3D" parent="CabinMoving"]
-stream = ExtResource("sound_TravelAudio")
-volume_db = -60.0
-max_distance = 24.0
-unit_size = 3.0
-
-[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_1"]
-position = Vector3(-5.5, 0.2, 0)
-
-[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_2"]
-position = Vector3(-5.5, 0.2, 0)
-
-[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_3"]
-position = Vector3(-5.5, 0.2, 0)
-
-[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_4"]
-position = Vector3(-5.5, 0.2, 0)
-
-[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_5"]
-position = Vector3(-5.5, 0.2, 0)
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_5" unique_id=41366931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.2, 0)
