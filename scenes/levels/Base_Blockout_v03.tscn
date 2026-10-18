@@ -249,13 +249,14 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.71
 spot_angle = 83.48
 
 [node name="Storage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="19" unique_id=1019436195]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.137316, 5.1180263, 14.130008)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.137316, 4.389255, 14.130008)
+light_color = Color(0.889224, 0.7544507, 0.6954628, 1)
 light_energy = 3.0
 spot_angle = 90.0
 
 [node name="Storage2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="20" unique_id=1136490357]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.035851, 5.1180263, 14.130008)
-light_color = Color(0.68, 0.8, 0.94, 1)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.035851, 4.389255, 14.130008)
+light_color = Color(0.86559176, 0.7614305, 0.7265575, 1)
 light_energy = 3.0
 light_indirect_energy = 0.65
 light_volumetric_fog_energy = 1.5
@@ -269,8 +270,8 @@ spot_angle = 90.0
 metadata/world_lighting = true
 
 [node name="Storage3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="21" unique_id=456689141]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.190652, 5.1180263, 14.130008)
-light_color = Color(0.68, 0.8, 0.94, 1)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.190652, 4.389255, 14.130008)
+light_color = Color(0.81642056, 0.7757882, 0.77773166, 1)
 light_energy = 3.0
 light_indirect_energy = 0.65
 light_volumetric_fog_energy = 1.5
@@ -284,12 +285,13 @@ spot_angle = 90.0
 metadata/world_lighting = true
 
 [node name="Generator" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="22" unique_id=1090106842]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.1435966, 5.180353, 22)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.1435966, 4.2838006, 22)
 light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
+light_energy = 5.757
 spot_angle = 80.0
 
 [node name="Generator2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="23" unique_id=702240495]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.8342423, 5.180353, 22)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.8342423, 4.2838006, 22)
 light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -786,69 +788,6 @@ use_built_in_surface_platform = false
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0346718, -0.0141816, 0.018938065)
 
-[node name="Hub_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="0" unique_id=1620052050]
-layers = 262145
-
-[node name="Hub_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="1" unique_id=1635290767]
-layers = 262145
-
-[node name="Hub_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="2" unique_id=79236908]
-layers = 262145
-
-[node name="Hub_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/Center_Hub" parent_id_path=PackedInt32Array(2036079911, 1784541816) index="3" unique_id=1451106545]
-layers = 262145
-
-[node name="West_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="0" unique_id=1256267171]
-layers = 262145
-
-[node name="West_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="1" unique_id=65948366]
-layers = 262145
-
-[node name="West_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="2" unique_id=1806335882]
-layers = 262145
-
-[node name="West_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="3" unique_id=673328411]
-layers = 262145
-
-[node name="West_Emergency_Guide_05_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="4" unique_id=1253388810]
-layers = 262145
-
-[node name="West_Emergency_Guide_05B_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="5" unique_id=251299842]
-layers = 262145
-
-[node name="West_Emergency_Guide_06_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="6" unique_id=1755859330]
-layers = 262145
-
-[node name="West_Emergency_Guide_07_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="7" unique_id=1850748681]
-layers = 262145
-
-[node name="West_Emergency_Guide_08_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/West_Entrance" parent_id_path=PackedInt32Array(2036079911, 1639007829) index="8" unique_id=2116085877]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_01_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="0" unique_id=296266619]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_02_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="1" unique_id=715261333]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_03_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="2" unique_id=267217720]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_04_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="3" unique_id=497864882]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_05_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="4" unique_id=1851198240]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_06_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="5" unique_id=19198713]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_07_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="6" unique_id=1148645542]
-layers = 262145
-
-[node name="Technical_Emergency_Guide_Breaker_Blockout" parent="Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Day1_Emergency_Lighting_Blockout/South_Technical" parent_id_path=PackedInt32Array(2036079911, 944350526) index="7" unique_id=1487947278]
-layers = 262145
-
 [node name="West_Connector_Floor" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="0" unique_id=889035786]
 layers = 262145
 
@@ -868,6 +807,66 @@ layers = 262145
 layers = 262145
 
 [node name="West_Connector_To_Hub_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="2" unique_id=1923530864]
+layers = 262145
+
+[node name="Generator_Main_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="0" unique_id=1000517381]
+layers = 262145
+
+[node name="Generator_Service_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="1" unique_id=1048715911]
+layers = 262145
+
+[node name="Generator_Distribution_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="2" unique_id=1019144051]
+layers = 262145
+
+[node name="Technical_Generator_Exhaust_A_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="1" unique_id=533548068]
+layers = 262145
+
+[node name="Technical_Generator_Exhaust_B_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="2" unique_id=1841677911]
+layers = 262145
+
+[node name="Technical_Generator_Exhaust_Ceiling_Collar_A_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="3" unique_id=1906140826]
+layers = 262145
+
+[node name="Technical_Generator_Exhaust_Ceiling_Collar_B_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="4" unique_id=1266574398]
+layers = 262145
+
+[node name="Technical_Breaker_Bank_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Distribution" parent_id_path=PackedInt32Array(2036079911, 164939900, 419918723) index="0" unique_id=539431240]
+layers = 262145
+
+[node name="Technical_Distribution_Floor_Duct_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Distribution" parent_id_path=PackedInt32Array(2036079911, 164939900, 419918723) index="1" unique_id=730883609]
+layers = 262145
+
+[node name="Technical_Cooling_Unit_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Fuel_And_Cooling" parent_id_path=PackedInt32Array(2036079911, 164939900, 246708542) index="0" unique_id=1046720548]
+layers = 262145
+
+[node name="Technical_Cooling_Grille_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Fuel_And_Cooling" parent_id_path=PackedInt32Array(2036079911, 164939900, 246708542) index="1" unique_id=797194492]
+layers = 262145
+
+[node name="Technical_West_Maintenance_Bench_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="0" unique_id=311030960]
+layers = 262145
+
+[node name="Technical_West_Tool_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="1" unique_id=213408786]
+layers = 262145
+
+[node name="Technical_West_Bench_Task_Light_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="2" unique_id=704206087]
+layers = 262145
+
+[node name="Technical_West_Bench_Vice_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="3" unique_id=1742299650]
+layers = 262145
+
+[node name="Technical_Day1_Open_Tool_Case_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance/Technical_Missing_Tools_Blockout" parent_id_path=PackedInt32Array(2036079911, 164939900, 41785786) index="0" unique_id=1120092255]
+layers = 262145
+
+[node name="Technical_Day1_Tool_A_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance/Technical_Missing_Tools_Blockout" parent_id_path=PackedInt32Array(2036079911, 164939900, 41785786) index="1" unique_id=1422849617]
+layers = 262145
+
+[node name="Technical_Day1_Tool_B_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance/Technical_Missing_Tools_Blockout" parent_id_path=PackedInt32Array(2036079911, 164939900, 41785786) index="2" unique_id=939920637]
+layers = 262145
+
+[node name="Technical_Generator_Room_Emergency_Stop_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 164939900, 1534958846) index="0" unique_id=1444579821]
+layers = 262145
+
+[node name="Technical_Generator_Room_Warning_Header_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 164939900, 1534958846) index="1" unique_id=1847773864]
 layers = 262145
 
 [node name="South_Connector_Floor" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="0" unique_id=1552936644]
@@ -1200,7 +1199,7 @@ layers = 262145
 [node name="North_Connector_Ceiling" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="3" unique_id=1511961533]
 layers = 262145
 
-[node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="9" unique_id=55254735]
+[node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="8" unique_id=55254735]
 display_material = SubResource("ShaderMaterial_p80ce")
 
 [node name="Floor_Minus1_Control_Security_Blockout" parent="." unique_id=154470757 instance=ExtResource("4_floor_minus1")]
@@ -1280,6 +1279,7 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_
 [editable path="WorldIndirectLighting"]
 [editable path="Floor_0_Base_Blockout"]
 [editable path="Floor_0_Base_Blockout/Doors/PedestrianWindPassage"]
+[editable path="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt"]
 [editable path="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt"]
 [editable path="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt"]
 [editable path="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt"]

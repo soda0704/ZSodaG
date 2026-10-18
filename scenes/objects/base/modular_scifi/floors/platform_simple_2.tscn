@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fq7u4kw4myg8"]
 
-[ext_resource type="ArrayMesh" uid="uid://b1a4dje75t5je" path="res://assets/models/modular_scifi_megakit/meshes/platform_simple_2.res" id="1_g730f"]
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_simple_2.res" id="1_g730f"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_simple_2.res" id="2_k2hau"]
 
 [node name="PlatformSimple2" type="Node3D" unique_id=1026797230]

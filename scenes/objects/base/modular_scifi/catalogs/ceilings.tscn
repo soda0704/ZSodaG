@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c1sefnhdcy1gc"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_3_plates.tscn" id="1_mgbfh"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate.tscn" id="2_qgkje"]
@@ -21,12 +21,8 @@
 [node name="CeilingsCatalog" type="Node3D" unique_id=1087840024]
 editor_description = "Library preview. Drag individual scenes from the category folder into your level."
 
-[node name="Ceiling3Plates" type="Node3D" parent="." unique_id=431860701 instance=ExtResource("1_mgbfh")]
-editor_description = "Ceiling variant of Platform_3Plates. Visible underside at Y=0; thickness above it."
+[node name="Ceiling3Plates" parent="." unique_id=431860701 instance=ExtResource("1_mgbfh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1316282e-13, 0)
-metadata/quaternius_source_model = "Platform_3Plates"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_3Plates.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label0" type="Label3D" parent="." unique_id=1329021560]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 4.2)
@@ -36,12 +32,8 @@ no_depth_test = true
 text = "Platform_3Plates (ceiling)"
 font_size = 40
 
-[node name="CeilingCenterPlate" type="Node3D" parent="." unique_id=19396588 instance=ExtResource("2_qgkje")]
-editor_description = "Ceiling variant of Platform_CenterPlate. Visible underside at Y=0; thickness above it."
+[node name="CeilingCenterPlate" parent="." unique_id=19396588 instance=ExtResource("2_qgkje")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, 2.3841858e-07)
-metadata/quaternius_source_model = "Platform_CenterPlate"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label1" type="Label3D" parent="." unique_id=1879643118]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, 4.2)
@@ -51,12 +43,8 @@ no_depth_test = true
 text = "Platform_CenterPlate (ceiling)"
 font_size = 40
 
-[node name="CeilingCenterPlateCurve" type="Node3D" parent="." unique_id=421956466 instance=ExtResource("3_ew6r4")]
-editor_description = "Ceiling variant of Platform_CenterPlate_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingCenterPlateCurve" parent="." unique_id=421956466 instance=ExtResource("3_ew6r4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -4.2632564e-14, -9.536743e-07)
-metadata/quaternius_source_model = "Platform_CenterPlate_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label2" type="Label3D" parent="." unique_id=2114130338]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, 4.2)
@@ -66,12 +54,8 @@ no_depth_test = true
 text = "Platform_CenterPlate_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingDarkPlates" type="Node3D" parent="." unique_id=1306752457 instance=ExtResource("4_g88eu")]
-editor_description = "Ceiling variant of Platform_DarkPlates. Visible underside at Y=0; thickness above it."
+[node name="CeilingDarkPlates" parent="." unique_id=1306752457 instance=ExtResource("4_g88eu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, -2.1316282e-13, 0)
-metadata/quaternius_source_model = "Platform_DarkPlates"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label3" type="Label3D" parent="." unique_id=1363744119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, 4.2)
@@ -81,12 +65,8 @@ no_depth_test = true
 text = "Platform_DarkPlates (ceiling)"
 font_size = 40
 
-[node name="CeilingDarkPlatesCurves" type="Node3D" parent="." unique_id=1807042625 instance=ExtResource("5_4c61p")]
-editor_description = "Ceiling variant of Platform_DarkPlates_Curves. Visible underside at Y=0; thickness above it."
+[node name="CeilingDarkPlatesCurves" parent="." unique_id=1807042625 instance=ExtResource("5_4c61p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1.9895197e-13, -2.3841858e-06)
-metadata/quaternius_source_model = "Platform_DarkPlates_Curves"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates_Curves.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label4" type="Label3D" parent="." unique_id=20988148]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, 4.2)
@@ -96,12 +76,8 @@ no_depth_test = true
 text = "Platform_DarkPlates_Curves (ceiling)"
 font_size = 40
 
-[node name="CeilingMetal" type="Node3D" parent="." unique_id=916138339 instance=ExtResource("6_ma2kl")]
-editor_description = "Ceiling variant of Platform_Metal. Visible underside at Y=0; thickness above it."
+[node name="CeilingMetal" parent="." unique_id=916138339 instance=ExtResource("6_ma2kl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5579538e-13, -12)
-metadata/quaternius_source_model = "Platform_Metal"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label5" type="Label3D" parent="." unique_id=961395080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -7.8)
@@ -111,12 +87,8 @@ no_depth_test = true
 text = "Platform_Metal (ceiling)"
 font_size = 40
 
-[node name="CeilingMetal2" type="Node3D" parent="." unique_id=2119240072 instance=ExtResource("7_7kvn5")]
-editor_description = "Ceiling variant of Platform_Metal2. Visible underside at Y=0; thickness above it."
+[node name="CeilingMetal2" parent="." unique_id=2119240072 instance=ExtResource("7_7kvn5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -12)
-metadata/quaternius_source_model = "Platform_Metal2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label6" type="Label3D" parent="." unique_id=882840950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -7.8)
@@ -126,12 +98,8 @@ no_depth_test = true
 text = "Platform_Metal2 (ceiling)"
 font_size = 40
 
-[node name="CeilingMetal2Curve" type="Node3D" parent="." unique_id=547104861 instance=ExtResource("8_i3pcj")]
-editor_description = "Ceiling variant of Platform_Metal2_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingMetal2Curve" parent="." unique_id=547104861 instance=ExtResource("8_i3pcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999998, 1.9895197e-13, -12.000003)
-metadata/quaternius_source_model = "Platform_Metal2_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label7" type="Label3D" parent="." unique_id=930835662]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -7.8)
@@ -141,12 +109,8 @@ no_depth_test = true
 text = "Platform_Metal2_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingMetalCurve" type="Node3D" parent="." unique_id=399940942 instance=ExtResource("9_oj6e4")]
-editor_description = "Ceiling variant of Platform_Metal_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingMetalCurve" parent="." unique_id=399940942 instance=ExtResource("9_oj6e4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 1.9895197e-13, -12.000003)
-metadata/quaternius_source_model = "Platform_Metal_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label8" type="Label3D" parent="." unique_id=2038158640]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -7.8)
@@ -156,12 +120,8 @@ no_depth_test = true
 text = "Platform_Metal_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingRound1" type="Node3D" parent="." unique_id=133536767 instance=ExtResource("10_tfpnc")]
-editor_description = "Ceiling variant of Platform_Round1. Visible underside at Y=0; thickness above it."
+[node name="CeilingRound1" parent="." unique_id=133536767 instance=ExtResource("10_tfpnc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -6.354668e-09, -12)
-metadata/quaternius_source_model = "Platform_Round1"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Round1.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label9" type="Label3D" parent="." unique_id=1355242066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -7.8)
@@ -171,12 +131,8 @@ no_depth_test = true
 text = "Platform_Round1 (ceiling)"
 font_size = 40
 
-[node name="CeilingSimple" type="Node3D" parent="." unique_id=671826676 instance=ExtResource("11_vcn86")]
-editor_description = "Ceiling variant of Platform_Simple. Visible underside at Y=0; thickness above it."
+[node name="CeilingSimple" parent="." unique_id=671826676 instance=ExtResource("11_vcn86")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5579538e-13, -24)
-metadata/quaternius_source_model = "Platform_Simple"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label10" type="Label3D" parent="." unique_id=1414686161]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -19.8)
@@ -186,12 +142,8 @@ no_depth_test = true
 text = "Platform_Simple (ceiling)"
 font_size = 40
 
-[node name="CeilingSimple2" type="Node3D" parent="." unique_id=29628165 instance=ExtResource("12_ftkvh")]
-editor_description = "Ceiling variant of Platform_Simple2. Visible underside at Y=0; thickness above it."
+[node name="CeilingSimple2" parent="." unique_id=29628165 instance=ExtResource("12_ftkvh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -24)
-metadata/quaternius_source_model = "Platform_Simple2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label11" type="Label3D" parent="." unique_id=323008964]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -19.8)
@@ -201,12 +153,8 @@ no_depth_test = true
 text = "Platform_Simple2 (ceiling)"
 font_size = 40
 
-[node name="CeilingSimple2Curve" type="Node3D" parent="." unique_id=917069752 instance=ExtResource("13_wqf3b")]
-editor_description = "Ceiling variant of Platform_Simple2_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingSimple2Curve" parent="." unique_id=917069752 instance=ExtResource("13_wqf3b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999998, 1.9895197e-13, -24.000002)
-metadata/quaternius_source_model = "Platform_Simple2_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label12" type="Label3D" parent="." unique_id=285753169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.15, -19.8)
@@ -216,12 +164,8 @@ no_depth_test = true
 text = "Platform_Simple2_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingSimpleCurve" type="Node3D" parent="." unique_id=657637276 instance=ExtResource("14_rbyuy")]
-editor_description = "Ceiling variant of Platform_Simple_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingSimpleCurve" parent="." unique_id=657637276 instance=ExtResource("14_rbyuy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 1.9895197e-13, -24.000002)
-metadata/quaternius_source_model = "Platform_Simple_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label13" type="Label3D" parent="." unique_id=1604116498]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.15, -19.8)
@@ -231,12 +175,8 @@ no_depth_test = true
 text = "Platform_Simple_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingSquares" type="Node3D" parent="." unique_id=1089584292 instance=ExtResource("15_n874q")]
-editor_description = "Ceiling variant of Platform_Squares. Visible underside at Y=0; thickness above it."
+[node name="CeilingSquares" parent="." unique_id=1089584292 instance=ExtResource("15_n874q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -2.5579538e-13, -24)
-metadata/quaternius_source_model = "Platform_Squares"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label14" type="Label3D" parent="." unique_id=423819690]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.15, -19.8)
@@ -246,12 +186,8 @@ no_depth_test = true
 text = "Platform_Squares (ceiling)"
 font_size = 40
 
-[node name="CeilingSquaresCurve" type="Node3D" parent="." unique_id=125615468 instance=ExtResource("16_r5hpl")]
-editor_description = "Ceiling variant of Platform_Squares_Curve. Visible underside at Y=0; thickness above it."
+[node name="CeilingSquaresCurve" parent="." unique_id=125615468 instance=ExtResource("16_r5hpl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1920929e-06, 1.9895197e-13, -36.000004)
-metadata/quaternius_source_model = "Platform_Squares_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares_Curve.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label15" type="Label3D" parent="." unique_id=1886250815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -31.8)
@@ -261,12 +197,8 @@ no_depth_test = true
 text = "Platform_Squares_Curve (ceiling)"
 font_size = 40
 
-[node name="CeilingX" type="Node3D" parent="." unique_id=854865327 instance=ExtResource("17_7rjec")]
-editor_description = "Ceiling variant of Platform_X. Visible underside at Y=0; thickness above it."
+[node name="CeilingX" parent="." unique_id=854865327 instance=ExtResource("17_7rjec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2.5579538e-13, -36)
-metadata/quaternius_source_model = "Platform_X"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_X.gltf"
-metadata/library_category = "ceilings"
 
 [node name="Label16" type="Label3D" parent="." unique_id=439690454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.15, -31.8)
