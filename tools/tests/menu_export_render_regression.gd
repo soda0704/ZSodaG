@@ -71,7 +71,7 @@ func run() -> void:
 	check(start_button.get_theme_stylebox("focus").get_border_width(SIDE_BOTTOM) == 0, "native focus does not add a second full-width underline")
 	main.selector.option.grab_focus()
 	await wait_ui()
-	check(main.selector.option.selection_line_rect().size.x < main.selector.option.size.x * 0.5 and main.selector.option.get_theme_stylebox("focus") is StyleBoxEmpty, "character selector highlights its caption instead of the full field width")
+	check(main.selector.option.selection_line_rect().size.x < main.selector.option.size.x * 0.5 and main.selector.option.get_theme_stylebox("focus") == main.selector.option.get_theme_stylebox("hover"), "character selector keeps its authored focus frame and caption-sized underline")
 	await screenshot("export-menu-character")
 	main.back()
 	await wait_ui()
@@ -92,8 +92,20 @@ func run() -> void:
 	var scroll_rect: Rect2 = menu.settings_panel.scroll.get_global_rect()
 	check(first_row.scale.x > 1.005 and row_rect.position.x >= scroll_rect.position.x and row_rect.end.x <= scroll_rect.end.x, "enlarged settings text stays inside the left and right scroll edges")
 	await screenshot("export-menu-settings")
-	menu.force_close_menu()
+	var settings = menu.settings_panel
+	var column_x := -1.0
+	var aligned := true
+	for row in settings.rows.get_children():
+		if not row is NorthernMenuSettingRow: continue
+		var editor: Control = row.get_child(1)
+		if column_x < 0.0: column_x = editor.position.x
+		aligned = aligned and is_equal_approx(editor.position.x, column_x) and is_equal_approx(editor.size.x, settings.VALUE_COLUMN_WIDTH)
+	check(aligned, "exported choices, toggles and numbers share the same value column")
+	first_row.get_child(1).pressed.emit()
+	check(settings.apply(false) and not settings.has_changes() and settings.apply_button.disabled, "exported recommended settings apply without a stale pending change")
+	settings.request_back()
 	await wait_ui()
+	check(menu.dialog == null and not menu.is_menu_open(), "exported settings exit after Apply without another confirmation")
 	check(main.single_player_button.is_visible_in_tree(), "closing exported settings restores the home interface")
 	menu.confirm("Оформление окна", "Шрифт, подложка и действия используют тему меню.", [])
 	await wait_ui()

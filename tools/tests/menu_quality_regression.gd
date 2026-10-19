@@ -84,6 +84,37 @@ func run() -> void:
 	settings.apply(false)
 	check(not settings.has_changes() and settings.apply_button.disabled, "applying a preset clears pending changes")
 	check(quality.values.ShadowQuality == 1 and is_equal_approx(root.scaling_3d_scale, 0.75), "Apply commits the complete lighting and rendering preset")
+	settings.draft.Graphics = quality.recommended()
+	settings.draft.GraphicsCalibrationPending = true
+	settings.select_category(1)
+	check(settings.apply(false) and not settings.has_changes(), "applying recommended settings clears pending changes despite numeric storage types")
+	settings.reset_category()
+	check(settings.apply(false) and not settings.has_changes(), "applying default quality clears pending changes despite numeric storage types")
+	for category in 4:
+		settings.select_category(category)
+		await create_timer(0.3).timeout
+		if DisplayServer.get_name() != "headless":
+			var column_x := -1.0
+			var column_width := -1.0
+			var aligned := true
+			for row in settings.rows.get_children():
+				if not row is NorthernMenuSettingRow: continue
+				var editor: Control = row.get_child(1)
+				if column_x < 0.0:
+					column_x = editor.position.x
+					column_width = editor.size.x
+				aligned = aligned and is_equal_approx(editor.position.x, column_x) and is_equal_approx(editor.size.x, column_width)
+			check(aligned, "settings category %d uses one aligned value column" % category)
+			if "--capture" in OS.get_cmdline_user_args():
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("res://tools/.local/settings-lighting-qa/settings-%d.png" % category)
+	settings.request_back()
+	check(menu.dialog == null, "leaving applied settings does not ask to apply them again")
+	await create_timer(0.7).timeout
+	menu.open_settings()
+	await create_timer(0.7).timeout
+	settings = menu.settings_panel
+	settings.select_category(1)
 	var image := NorthernMenuStyle.cursor_image()
 	check(image.get_pixel(4, 4).r > 0.9 and image.get_pixel(3, 4).r < 0.1 and image.get_pixel(3, 4).a == 1.0, "cursor has both light core and opaque dark outline for notebook paper")
 	var monotonic := true

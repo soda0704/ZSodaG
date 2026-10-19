@@ -117,6 +117,8 @@ func run():
 	root.add_child(main)
 	current_scene=main
 	await settle()
+	# Opening settings from the home button gives the overlay a real focus owner.
+	main.settings_button.grab_focus()
 	menu.open_settings()
 	await settle()
 	check(not main.shell.footer.is_visible_in_tree(), "main-menu footer is hidden behind the settings overlay")
