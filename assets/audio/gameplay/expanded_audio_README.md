@@ -45,9 +45,11 @@ root so its positional cues follow the player instead of the world origin.
   to existing floor-0 vent fixtures and floor-2 air scrubbers; fades with power.
 - `scenes/characters/player_audio.tscn`: accepted pickup, battery action and
   flashlight toggle cues follow authoritative events. Breathing is local only.
-  Short/long recovery is selected at the end of a run (threshold 3 seconds),
-  with 6/12 second recovery envelopes and a quiet calm loop. Restarting a run,
-  death, sleep or entering a vehicle fades breathing out.
+  Recovery starts only when stamina is fully exhausted, using the long breath
+  recording with a 12-second envelope. Stopping with stamina left and carrying
+  a body do not trigger it; there is no constant calm loop. Restarting a run,
+  death, sleep or entering a vehicle fades breathing out without replaying an
+  old exhaustion when the player returns.
 - `scenes/characters/weapon_controller.tscn`: reload and empty-trigger streams;
   impact resources choose snow, metal or concrete using collision-ancestor
   `impact_surface` / `footstep_surface` metadata and Terrain3D classification.

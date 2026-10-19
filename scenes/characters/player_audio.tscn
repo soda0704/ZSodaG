@@ -1,8 +1,6 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/components/player_audio.gd" id="logic"]
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_calm.ogg" id="breath_calm"]
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_short.ogg" id="breath_short"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/breath_long.ogg" id="breath_long"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/pickup.ogg" id="pickup"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/battery_insert.ogg" id="battery_insert"]
@@ -12,14 +10,7 @@
 [node name="PlayerAudio" type="Node3D"]
 script = ExtResource("logic")
 recovery_volume_db = -23.0
-carrying_volume_db = -25.0
-short_breath = ExtResource("breath_short")
 long_breath = ExtResource("breath_long")
-
-[node name="CalmBreathing" type="AudioStreamPlayer" parent="."]
-bus = &"Breathing"
-stream = ExtResource("breath_calm")
-volume_db = -80.0
 
 [node name="RecoveryBreathing" type="AudioStreamPlayer" parent="."]
 bus = &"Breathing"

@@ -72,19 +72,43 @@ func run() -> void:
 	check(ContactSurface.classify(child, true) == &"metal", "surface tags are inherited from collision ancestors")
 	check(ContactSurface.classify(world.get_node("SnowExterior/Terrain3D"), true) == &"snow", "terrain hits choose snow impact")
 	surface.free()
+	audio.update_breathing(20.0, false, false)
 	audio.update_breathing(1.0, false, true)
-	check(audio.calm.playing and not audio.recovery.playing, "calm breathing loops for local living player")
-	audio.update_breathing(0.8, true, true)
-	audio.update_breathing(0.1, false, true)
-	check(audio.recovery.playing and audio.recovery.stream == audio.short_breath, "short sprint uses short recovery")
-	audio.update_breathing(4.0, true, true)
-	audio.update_breathing(0.1, false, true)
-	check(audio.recovery.stream == audio.long_breath, "long sprint uses long recovery")
+	check(not audio.recovery.playing and audio.get_node_or_null("CalmBreathing") == null, "resting does not play a constant breathing loop")
+	player._sprint_remaining = player.sprint_duration
+	player._sprint_exhausted = false
+	player._server_move = Vector2(0, -1)
+	player._server_sprint = true
+	player._update_sprint(0.8)
+	audio._process(0.1)
+	player._server_sprint = false
+	player._update_sprint(0.0)
+	audio._process(0.1)
+	check(not audio.recovery.playing, "stopping a short sprint with stamina left stays silent")
+	player._server_sprint = true
+	player._update_sprint(4.0)
+	audio._process(0.1)
+	player._server_sprint = false
+	player._update_sprint(0.0)
+	audio._process(0.1)
+	check(not audio.recovery.playing, "stopping a long sprint with stamina left also stays silent")
+	player._server_sprint = true
+	player._update_sprint(player.sprint_duration)
+	audio._process(0.1)
+	check(player._sprint_remaining == 0.0 and audio.recovery.playing and audio.recovery.stream == audio.long_breath, "actual stamina exhaustion starts recovery breathing")
+	var recovery_left: float = audio._recovery_left
+	audio._process(0.1)
+	check(audio._recovery_left < recovery_left, "remaining exhausted does not restart recovery each frame")
 	var level: float = audio.recovery.volume_db
 	audio.update_breathing(0.1, true, true)
 	check(audio.recovery.volume_db < level, "resumed sprint fades out old recovery")
-	audio.update_breathing(15.0, false, false)
-	check(not audio.calm.playing and not audio.recovery.playing, "remote dead sleeping and driving players remain silent")
+	audio.update_breathing(0.1, false, true, true)
+	check(audio.recovery.playing and audio._recovery_left > 0.0, "a new complete exhaustion can trigger another recovery")
+	audio.update_breathing(15.0, false, true, true)
+	check(not audio.recovery.playing, "recovery ends instead of repeating while exhausted")
+	audio.update_breathing(15.0, false, false, true)
+	audio.update_breathing(0.1, false, true, true)
+	check(not audio.recovery.playing, "returning from an inaudible state does not replay an old exhaustion")
 	var ambience = world.get_node("BaseAmbience")
 	ambience.set_process(false)
 	ambience.set_physics_process(false)

@@ -25,7 +25,7 @@ func run() -> void:
 	audio.play_cue(&"flashlight_on")
 	check(pickup.playing and flashlight.playing and pickup.bus == &"Effects", "interaction cues play on independently adjustable effects bus")
 	check(player.weapon.get_node("ShotAudio").volume_db <= -28.0 and player.weapon.get_node("ShotAudio").bus == &"Weapons", "gunshots substantially reduced and independently routed")
-	check(audio.recovery_volume_db == -23 and audio.carrying_volume_db == -25 and audio.calm_volume_db == -30, "recovery and exertion breathing quieter while calm breathing unchanged")
+	check(audio.recovery_volume_db == -23 and audio.get_node_or_null("CalmBreathing") == null, "exhaustion recovery keeps its mix level without a continuous breathing loop")
 	check(pickup.volume_db == -17,"pickup is quieter without changing its positional routing")
 	var menu = root.get_node("GameMenu")
 	var mixer: AudioMixController = menu.audio_mix

@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/base_interior_ambience.gd" id="logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/base_metal_clangs.mp3" id="metal"]
+
+[node name="BaseInteriorAmbience" type="AudioStreamPlayer"]
+script = ExtResource("logic")
+stream = ExtResource("metal")
+volume_db = -100.0
+bus = &"Ambience"
+base_regions = Array[AABB]([AABB(-46, -3, -13, 38, 12, 26), AABB(-12, -2, -31, 24, 12, 62), AABB(8, -3, -14, 30, 12, 32), AABB(-74, -20, -30, 88, 12, 60), AABB(-79, -40, -31, 98, 16, 62), AABB(-48, -57, -24, 48, 14, 42), AABB(-52, -75, -46, 68, 14, 64), AABB(-58, -94, -51, 76, 16, 68), AABB(-7, -94, -7, 14, 104, 14)])

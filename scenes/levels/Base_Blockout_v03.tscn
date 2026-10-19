@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/arrival_site.tscn" id="15_arrival"]
 [ext_resource type="Texture2D" uid="uid://dxc7ha7khcig4" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="15_p80ce"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_ambience.tscn" id="ambience_audio"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/base_interior_ambience.tscn" id="interior_ambience_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/lighting_fault.wav" id="lighting_fault_audio"]
 [ext_resource type="PackedScene" path="res://scenes/levels/Cave_Day7.tscn" id="cave_day7"]
 [ext_resource type="Script" uid="uid://gv836ybd7oii" path="res://scripts/gameplay/containment_encounter.gd" id="containment_logic"]
 [ext_resource type="NavigationMesh" path="res://assets/navigation/containment.tres" id="containment_nav"]
@@ -314,6 +316,11 @@ script = ExtResource("9_base_gameplay")
 
 [node name="BasePowerLightingController" type="Node" parent="." unique_id=1831214614]
 script = ExtResource("10_power_lighting")
+
+[node name="FaultAudio" type="AudioStreamPlayer" parent="BasePowerLightingController"]
+stream = ExtResource("lighting_fault_audio")
+volume_db = -3.0
+bus = &"Effects"
 
 [node name="BaseDayProgressionController" type="Node" parent="." unique_id=1687325544]
 script = ExtResource("11_day_progression")
@@ -1751,6 +1758,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 2.1, -17)
 
 [node name="BaseAmbience" parent="." unique_id=620291543 instance=ExtResource("ambience_audio")]
 
+[node name="BaseInteriorAmbience" parent="." instance=ExtResource("interior_ambience_audio")]
+
 [node name="ContainmentEncounter" type="Node3D" parent="." unique_id=121495875]
 script = ExtResource("containment_logic")
 monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Tail"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Slasher"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Smily")])
@@ -1763,6 +1772,8 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_
 
 [node name="NavigationRegion" type="NavigationRegion3D" parent="ContainmentEncounter" unique_id=109421315]
 navigation_mesh = ExtResource("containment_nav")
+
+[connection signal="lighting_fault_started" from="BaseGameplayController" to="BasePowerLightingController/FaultAudio" method="play"]
 
 [editable path="WorldLighting"]
 [editable path="WorldIndirectLighting"]

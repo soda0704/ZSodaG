@@ -1,27 +1,19 @@
 extends SceneTree
 
 func _initialize() -> void:
+	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, "res://tools/.local/background_music_test.cfg")
 	run.call_deferred()
 
 func run() -> void:
 	await process_frame
-	var music: AudioStreamPlayer = root.get_node("GameMenu/BackgroundMusic")
-	assert(music.playing and music.bus == &"Music" and music.stream.loop)
-	var start_volume := music.volume_db
-	await create_timer(0.3).timeout
-	assert(music.volume_db > start_volume)
-	var position := music.get_playback_position()
+	var game_menu := root.get_node("GameMenu")
+	assert(not game_menu.has_node("BackgroundMusic"))
 	var menu = load("res://scenes/ui/main_menu.tscn").instantiate()
 	root.add_child(menu)
 	await process_frame
-	assert(menu.background_video.volume_db <= -80.0)
+	assert(menu.background_video.is_playing() and menu.background_video.bus == &"Music")
 	menu.queue_free()
 	await process_frame
-	assert(root.get_node("GameMenu/BackgroundMusic") == music and music.get_playback_position() >= position)
-	var bus := AudioServer.get_bus_index("Music")
-	var muted := AudioServer.is_bus_mute(bus)
-	AudioServer.set_bus_mute(bus, true)
-	assert(music.playing and AudioServer.is_bus_mute(bus))
-	AudioServer.set_bus_mute(bus, muted)
-	print("PASS native music loop, fade-in, Music bus, persistent scene playback and muted video soundtrack")
+	assert(not game_menu.has_node("BackgroundMusic"))
+	print("PASS no persistent background track before or after the main menu; menu video plays on Music")
 	quit()

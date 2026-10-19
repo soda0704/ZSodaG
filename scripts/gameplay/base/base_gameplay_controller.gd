@@ -7,6 +7,7 @@ signal phase_changed(phase: int)
 signal day_changed(day_index: int)
 signal fuel_state_changed(is_fueled: bool)
 signal power_state_changed(is_powered: bool)
+signal lighting_fault_started()
 signal end_day_ready_changed(ready_peer_ids: Array[int])
 signal sleeping_state_changed(sleeping_peer_ids: Array[int])
 signal end_day_consensus_reached(day_index: int)
@@ -96,7 +97,6 @@ var plant_seed_planted := false
 var plant_last_watered_day: int = 0
 var has_authoritative_snapshot := false
 var applying_initial_snapshot := false
-var _siren: AudioStreamPlayer
 var progress_persistence_enabled := true
 var _owns_saved_progress := false
 
@@ -105,11 +105,6 @@ func _ready() -> void:
 	_owns_saved_progress = multiplayer.is_server()
 	has_authoritative_snapshot = multiplayer.is_server()
 	add_to_group("base_gameplay_controller")
-	_siren = AudioStreamPlayer.new()
-	_siren.stream = preload("res://scripts/gameplay/base/power_siren.gd").make_stream()
-	_siren.volume_db = -27.0
-	_siren.bus = &"Effects"
-	add_child(_siren)
 	var steam_network := get_node_or_null("/root/SteamNetwork")
 	if (
 		steam_network != null
@@ -577,6 +572,8 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	var previous_phase := phase
 	var previous_fuel := fuel_delivered
 	var previous_power := main_breaker_on
+	var previous_lighting_fault := bool(containment.get("fault", false))
+	var previous_wiring_fault := bool(maintenance.get("wires_required", false))
 	var previous_ready := end_day_ready_peer_ids.duplicate()
 	var previous_sleeping := sleeping_peer_ids.duplicate()
 
@@ -608,12 +605,6 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 		maintenance["alarm"] = true
 	if main_breaker_on:
 		maintenance["alarm"] = false
-	if is_instance_valid(_siren):
-		var alarm := bool(maintenance.get("alarm", false)) and not main_breaker_on
-		if alarm and not _siren.playing:
-			_siren.play()
-		elif not alarm:
-			_siren.stop()
 	if day_index == 1:
 		quest_stage = QuestStage.UNAVAILABLE
 	elif quest_stage == QuestStage.UNAVAILABLE:
@@ -638,6 +629,11 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	if force_signals or previous_sleeping != sleeping_peer_ids:
 		sleeping_state_changed.emit(sleeping_peer_ids.duplicate())
 	snapshot_changed.emit(get_snapshot())
+	# State restoration and late joins must not replay an earlier outage.
+	var new_lighting_fault := not previous_lighting_fault and bool(containment.get("fault", false))
+	var new_wiring_fault := not previous_wiring_fault and bool(maintenance.get("wires_required", false))
+	if not force_signals and not applying_initial_snapshot and (new_lighting_fault or new_wiring_fault):
+		lighting_fault_started.emit()
 	if multiplayer.is_server() and persist:
 		save_progress_authoritative()
 

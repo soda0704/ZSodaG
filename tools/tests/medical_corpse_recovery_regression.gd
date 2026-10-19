@@ -136,8 +136,9 @@ func run():
  journal._refresh_content()
  check(journal.tasks_label.text.contains("признаки жизни"),"journal records examination note on pickup")
  var audio=player.get_node("PlayerAudio")
- audio.update_breathing(0.5,false,true,true)
- check(audio.recovery.playing and audio._recovery_left>0,"walking with corpse starts exertion breathing")
+ player._sprint_exhausted=false
+ audio._process(0.5)
+ check(not audio.recovery.playing and audio._recovery_left==0,"carrying a corpse does not trigger breathing without stamina exhaustion")
  check(not player.toggle_flashlight_authoritative(),"cannot pull flashlight into occupied hands")
 
  check(player.drop_current_item_authoritative(),"G releases corpse")

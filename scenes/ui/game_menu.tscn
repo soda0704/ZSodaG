@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://scripts/ui/graphics_quality.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/effects/audio_mix_controller.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/ui/control_settings.gd" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/objects/effects/background_music.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_shell.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/esc_menu.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/ui/lobby_menu.tscn" id="8"]
@@ -32,6 +31,5 @@ script = ExtResource("2")
 script = ExtResource("3")
 [node name="ControlSettings" type="Node" parent="."]
 script = ExtResource("4")
-[node name="BackgroundMusic" parent="." instance=ExtResource("5")]
 
 [editable path="MenuRoot/Shell"]
