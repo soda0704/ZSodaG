@@ -48,7 +48,8 @@ func _ready() -> void:
 	var spawn_names := {"SpawnTail": "/spawn tail", "SpawnSlasher": "/spawn slasher", "SpawnSmily": "/spawn smily"}
 	for button_name in spawn_names:
 		$Panel/Box/SpawnBar.get_node(button_name).pressed.connect(func(): insert_command(spawn_names[button_name]))
-	output.text = _help_text()
+	output.text = ""
+	$Panel/Box/Commands.text = _help_text()
 	$Panel/Box/Grip.gui_input.connect(func(event):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			_resizing = event.pressed
@@ -165,9 +166,14 @@ func _submit(line: String) -> void:
 	_completion_options.clear()
 	if line.strip_edges() in ["", "/"]:
 		return
+	if line.strip_edges() == "/clear":
+		_execute_one("/clear")
+		return
 	history.append(line)
 	history_index = history.size()
-	output.add_text("\n> " + line + "\n" + execute(line) + "\n")
+	output.add_text("\n> " + line + "\n")
+	var response := execute(line)
+	if not response.is_empty(): output.add_text(response + "\n")
 
 func execute(line: String) -> String:
 	var results: PackedStringArray = []
@@ -188,7 +194,10 @@ func _execute_one(line: String) -> String:
 		output.append_text("\n" + _help_text())
 		return ""
 	if args[0] == "/clear":
-		output.text = _help_text()
+		output.clear()
+		output.text = ""
+		history.clear()
+		history_index = 0
 		return ""
 	# Camera inspection is local even for a co-op client: never send it to the host.
 	if args[0] == "/freecam":

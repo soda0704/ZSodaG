@@ -269,7 +269,12 @@ func _play_effect(reloading: bool, effect_kind: StringName = &"") -> void:
 			_audio.pitch_scale = 1.0
 			_audio.play()
 		var muzzle: Marker3D = _models[effect_kind].get_node_or_null("Muzzle")
-		if muzzle != null: _flash.global_transform = muzzle.global_transform
+		if muzzle != null:
+			_flash.global_transform = muzzle.global_transform
+			var discharge := _pose.get_node_or_null("MuzzleDischarge")
+			if discharge != null:
+				discharge.global_transform = muzzle.global_transform
+				discharge.fire()
 		_flash.show()
 		$MuzzleTimer.start()
 

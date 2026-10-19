@@ -3,11 +3,13 @@ signal purchase_requested(id: StringName)
 var upgrade: ClickerUpgrade
 var available := false
 var _busy := false
+var _last_view: Array = []
 
 func _ready() -> void:
 	$Buy.pressed.connect(func(): purchase_requested.emit(upgrade.id))
 
 func configure(entry: ClickerUpgrade) -> void:
+	_last_view.clear()
 	upgrade = entry
 	$Icon.texture = entry.icon
 	$Title.text = entry.title.to_upper()
@@ -16,11 +18,16 @@ func configure(entry: ClickerUpgrade) -> void:
 
 func refresh(model: LabClicker, busy: bool) -> void:
 	_busy = busy
-	available = model.samples >= model.cost(upgrade.id)
-	$Owned.text = "OWNED %d" % model.count(upgrade.id)
-	$Buy.text = (LabClicker.format_number(model.cost(upgrade.id)) + "\nBUY") if model.count(upgrade.id) < model.config.max_owned else "MAX"
+	var amount := model.count(upgrade.id)
+	var price: float = ceil(upgrade.base_cost * pow(upgrade.cost_multiplier, amount)) if amount < model.config.max_owned else INF
+	available = model.samples >= price
+	var view := [amount, price, available, busy, model.config.max_owned]
+	if view == _last_view: return
+	_last_view = view
+	$Owned.text = "OWNED %d" % amount
+	$Buy.text = (LabClicker.format_number(price) + "\nBUY") if amount < model.config.max_owned else "MAX"
 	# Insufficient funds remains focusable for a short error sound/message.
-	$Buy.disabled = busy or model.count(upgrade.id) >= model.config.max_owned
+	$Buy.disabled = busy or amount >= model.config.max_owned
 	var shade := Color.WHITE if available else Color(0.47, 0.58, 0.66)
 	$Icon.modulate = shade
 	$Title.modulate = shade

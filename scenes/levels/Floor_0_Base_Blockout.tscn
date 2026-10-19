@@ -226,10 +226,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 25.05)
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.145, 1.3, 22)
 
 [node name="EndDayBunkInteractable01" parent="Gameplay" unique_id=535255200 instance=ExtResource("22_end_day_bunk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.25, 0.95, -6.25)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 23.5, 0.95, -7.1)
 
 [node name="EndDayBunkInteractable02" parent="Gameplay" unique_id=1642140790 instance=ExtResource("22_end_day_bunk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.95, -6.25)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 30, 0.95, -7.1)
 assigned_player_slot = 1
 
 [node name="Snowmobile" parent="Gameplay" unique_id=654441937 instance=ExtResource("42_snowmobile")]

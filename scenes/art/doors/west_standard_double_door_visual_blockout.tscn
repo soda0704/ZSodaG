@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/art/doors/science_standard_door_visual_blockout.tscn" id="1_base"]
 
 [sub_resource type="StandardMaterial3D" id="Material_west_orange"]
-albedo_color = Color(0.78, 0.28, 0.045, 1)
+albedo_color = Color(0.95, 0.73, 0.07, 1)
 metallic = 0.38
 roughness = 0.38
 

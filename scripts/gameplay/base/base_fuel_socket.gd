@@ -14,13 +14,13 @@ var _last_fraction := -1.0
 func _ready() -> void:
 	call_deferred("_bind_controller")
 
-# The player renders only the bound action glyph, without fuel/status text.
+# Only a usable nonempty canister exposes the refill action.
 func get_interaction_hint_for(interactor: Node) -> String:
 	var player := interactor as GamePlayer
 	var controller := _get_controller()
 	if player == null or controller == null or not player.has_held_item(FUEL_ITEM) or player.fuel_liters <= 0.0 or controller.fuel_liters >= controller.FUEL_CAPACITY:
 		return ""
-	return get_node("/root/SteamInput").get_action_hint(&"interact")
+	return get_node("/root/SteamInput").get_action_hint(&"interact") + " Залить топливо"
 
 func get_interaction_prompt() -> String:
 	return ""
@@ -35,7 +35,6 @@ func can_refill(peer_id: int, interactor: Node) -> bool:
 	if player.survival.dead or player.is_sleeping_in_bunk() or player.is_driving() or player.is_carrying_corpse(): return false
 	if not player.has_held_item(FUEL_ITEM) or not is_finite(player.fuel_liters) or player.fuel_liters <= 0.0: return false
 	if player.global_position.distance_to(interaction_point.global_position) > interaction_distance: return false
-	if (-global_basis.z).dot(player.camera.global_position - interaction_point.global_position) <= 0.0: return false
 	var query := PhysicsRayQueryParameters3D.create(player.camera.global_position, interaction_point.global_position, 3, [player.get_rid()])
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	return hit.is_empty() or hit.collider == self

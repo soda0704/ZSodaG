@@ -28,6 +28,7 @@ func _ready() -> void:
 	if not background_video.is_playing():
 		background_video.play()
 	SteamNetwork.state_changed.connect(_on_steam_state_changed)
+	$FeedbackCorner.pressed.connect(func(): GameMenu.open_feedback())
 	_show_home()
 	shell.appear()
 
@@ -36,6 +37,7 @@ func _page(template: String) -> VBoxContainer:
 		selector.queue_free()
 		selector = null
 		skin_option = null
+	$FeedbackCorner.visible = current_view == "home"
 	var page: VBoxContainer = load(template).instantiate()
 	shell.replace(page)
 	if current_view == "home":
@@ -67,9 +69,7 @@ func _show_home() -> void:
 	single_player_button.pressed.connect(_on_single_player_pressed)
 	page.get_node("Navigation/Coop").pressed.connect(func(): _navigate(_show_coop))
 	settings_button.pressed.connect(func(): _navigate(func(): GameMenu.open_settings()))
-	page.get_node("Navigation/Feedback").pressed.connect(func(): GameMenu.open_feedback())
 	exit_button.pressed.connect(_on_exit_pressed)
-	(single_player_button if continue_game_button.disabled else continue_game_button).grab_focus()
 
 func _navigate(callback: Callable) -> void:
 	if _transition_in_progress or shell.busy or GameMenu.is_menu_open():

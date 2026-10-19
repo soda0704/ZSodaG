@@ -514,7 +514,11 @@ func _enter_v3_level() -> void:
 	)
 	await get_tree().create_timer(0.8).timeout
 
-	var packed_level := load(V3_LEVEL_PATH) as PackedScene
+	# Threaded IO keeps the existing transition UI and journal hint animating.
+	ResourceLoader.load_threaded_request(V3_LEVEL_PATH)
+	while ResourceLoader.load_threaded_get_status(V3_LEVEL_PATH) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		await get_tree().process_frame
+	var packed_level := ResourceLoader.load_threaded_get(V3_LEVEL_PATH) as PackedScene
 	if packed_level == null:
 		push_error("Could not load V3 level: %s" % V3_LEVEL_PATH)
 		_entered_v3_level = false

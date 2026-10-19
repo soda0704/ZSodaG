@@ -86,6 +86,7 @@ func begin() -> void:
 	refresh(controller.get_snapshot())
 
 func _process(_delta: float) -> void:
+	$RepairCamera/RepairBeam.visible = active and is_instance_valid(_player) and _player._flashlight_enabled and _player._has_flashlight and _player._battery_charge > 0.0 and not _player._flashlight_malfunctioning
 	var controller: BaseGameplayController = breaker.get_controller()
 	var menu := get_node_or_null("/root/GameMenu")
 	if not is_instance_valid(_player) or controller == null or (menu != null and menu.is_menu_open()):
@@ -232,6 +233,7 @@ func _update_hint() -> void:
 	else: hint.text = "Выберите штекер, затем гнездо с тем же номером · ЛКМ / × · ПКМ — отменить выбор"
 
 func close() -> void:
+	$RepairCamera/RepairBeam.hide()
 	if not active or _closing: return
 	_closing = true
 	active = false

@@ -1503,3 +1503,18 @@ collision_layer = 0
 collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InvestigationZone"]
 shape = SubResource("ShaftInvestigationShape")
+
+[node name="CaveAccessSign" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station"]
+position = Vector3(-39.95, 2.25, -15.2)
+size = Vector3(0.08, 0.9, 1.9)
+material = SubResource("Material_steel")
+
+[node name="Text" type="Label3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station/CaveAccessSign"]
+position = Vector3(-0.05, 0, 0)
+rotation_degrees = Vector3(0, -90, 0)
+pixel_size = 0.0015
+font_size = 28
+outline_size = 0
+text = "Спуститься в шахту можно будет на 7-й день
+Сейчас вы можете сделать это через консоль ~
+командой /cave entry"

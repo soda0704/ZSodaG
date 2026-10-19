@@ -5,8 +5,8 @@ func _ready() -> void:
  add_to_group("medical_corpse_beds")
 func get_interaction_prompt() -> String:
  var player=get_tree().get_first_node_in_group("local_player")
- if is_occupied(): return "Койка занята"
- return "Уложить тело на койку" if player!=null and player.is_carrying_corpse() else "Медицинская койка"
+ if is_occupied(): return ""
+ return "Уложить тело на койку" if player!=null and player.is_carrying_corpse() else ""
 func is_occupied() -> bool:
  var level=get_tree().get_first_node_in_group("expedition_level")
  if level==null: return true

@@ -11,7 +11,7 @@ size = Vector3(0.12, 0.55, 0.12)
 [sub_resource type="BoxMesh" id="handle_mount"]
 size = Vector3(0.12, 0.09, 0.12)
 [sub_resource type="StandardMaterial3D" id="orange"]
-albedo_color = Color(1, 0.42, 0.04, 1)
+albedo_color = Color(0.95, 0.73, 0.07, 1)
 [sub_resource type="Animation" id="open"]
 resource_name = "open"
 length = 4.0
@@ -39,52 +39,52 @@ font_size = 30
 pixel_size = 0.006
 text = "ДВА ИГРОКА · УДЕРЖИВАЙТЕ E"
 
-[node name="Handle0" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
+[node name="Handle0" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
 sync_to_physics = false
-position = Vector3(-2.45, 1.25, 0.17)
+position = Vector3(-2.94, 1.25, 0.28)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")
-gate_path = NodePath("../../../../../..")
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+gate_path = NodePath("..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Handle0"]
 shape = SubResource("handle")
-[node name="Visual" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+[node name="Visual" type="MeshInstance3D" parent="Handle0"]
 mesh = SubResource("handle_mesh")
 material_override = SubResource("orange")
 
-[node name="Handle1" type="AnimatableBody3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState"]
+[node name="Handle1" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
 sync_to_physics = false
-position = Vector3(2.45, 1.25, 0.17)
+position = Vector3(2.94, 1.25, 0.28)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")
-gate_path = NodePath("../../../../../..")
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+gate_path = NodePath("..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Handle1"]
 shape = SubResource("handle")
-[node name="Visual" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+[node name="Visual" type="MeshInstance3D" parent="Handle1"]
 mesh = SubResource("handle_mesh")
 material_override = SubResource("orange")
 
 
 
-[node name="LowerMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+[node name="LowerMount" type="MeshInstance3D" parent="Handle0"]
 position = Vector3(0, -0.23, -0.08)
 mesh = SubResource("handle_mount")
 material_override = SubResource("orange")
 
-[node name="UpperMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle0"]
+[node name="UpperMount" type="MeshInstance3D" parent="Handle0"]
 position = Vector3(0, 0.23, -0.08)
 mesh = SubResource("handle_mount")
 material_override = SubResource("orange")
 
-[node name="LowerMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+[node name="LowerMount" type="MeshInstance3D" parent="Handle1"]
 position = Vector3(0, -0.23, -0.08)
 mesh = SubResource("handle_mount")
 material_override = SubResource("orange")
 
-[node name="UpperMount" type="MeshInstance3D" parent="Visual/GateAssembly/GateStates/DoorPivot/ClosedState/Handle1"]
+[node name="UpperMount" type="MeshInstance3D" parent="Handle1"]
 position = Vector3(0, 0.23, -0.08)
 mesh = SubResource("handle_mount")
 material_override = SubResource("orange")

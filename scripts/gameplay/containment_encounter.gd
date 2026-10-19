@@ -43,28 +43,16 @@ func _ready() -> void:
 			continue
 		_zones[index].body_entered.connect(_on_zone_entered.bind(index))
 	if multiplayer.is_server() and level != null:
-		_bake.call_deferred(level)
+		_prepare_navigation.call_deferred()
 	_on_state({})
 	_check_current_zones.call_deferred()
 
-func _bake(level: Node3D) -> void:
+func _prepare_navigation() -> void:
+	region = $NavigationRegion
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-	level.add_to_group("containment_navigation_source")
-	region = NavigationRegion3D.new()
-	add_child(region)
-	var mesh := NavigationMesh.new()
-	mesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
-	mesh.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
-	mesh.geometry_source_group_name = &"containment_navigation_source"
-	mesh.agent_radius = 0.5
-	mesh.agent_height = 2.0
-	mesh.agent_max_climb = 0.25
-	mesh.cell_size = 0.25
-	mesh.cell_height = 0.25
-	region.navigation_mesh = mesh
-	region.bake_finished.connect(func(): navigation_ready = mesh.get_polygon_count() > 0)
-	region.bake_navigation_mesh(true)
+	if not is_inside_tree(): return
+	navigation_ready = region.navigation_mesh != null and region.navigation_mesh.get_polygon_count() > 0
 
 func _on_zone_entered(body: Node3D, index: int) -> void:
 	if not multiplayer.is_server() or state == null or not body is GamePlayer:

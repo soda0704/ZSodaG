@@ -18,7 +18,8 @@ var _last_sent_scroll := -1
 func _ready() -> void:
 	$Tube.pressed.connect(_click)
 	$Bacteria/Icon.pressed.connect(_collect_bacterium)
-	set_process(false)
+	visibility_changed.connect(_update_visibility)
+	_update_visibility()
 
 func bind(controller: BaseGameplayController, source: Node) -> void:
 	if state == controller and terminal == source: return
@@ -43,7 +44,18 @@ func bind(controller: BaseGameplayController, source: Node) -> void:
 	state.clicker_changed.connect(refresh)
 	terminal.clicker_result.connect(_result)
 	refresh()
-	set_process(true)
+	_update_visibility()
+
+func _update_visibility() -> void:
+	var shown := is_visible_in_tree()
+	set_process(shown and state != null)
+	var idle: AnimationPlayer = $IdleAnimation
+	if shown:
+		idle.play(&"idle")
+		refresh()
+	else:
+		idle.pause()
+		$BacteriaAnimation.pause()
 
 func _process(delta: float) -> void:
 	if terminal != null:
@@ -65,7 +77,7 @@ func _process(delta: float) -> void:
 		refresh()
 
 func refresh() -> void:
-	if state == null: return
+	if state == null or not is_visible_in_tree(): return
 	$CounterPanel/Balance.text = LabClicker.format_number(state.clicker.samples)
 	$Rates.text = "%s / CLICK    %s / SEC" % [LabClicker.format_number(state.clicker.click_power()), LabClicker.format_number(state.clicker.income(ClickerUpgrade.Effect.PASSIVE_INCOME))]
 	$Rhythm/Meter.value = state.clicker.activity * 100.0
@@ -82,6 +94,7 @@ func refresh() -> void:
 			$Status.text = "RARE MICROBE / CATCH IT!"
 		else: $BacteriaAnimation.stop()
 	if appeared:
+		if not $BacteriaAnimation.is_playing(): $BacteriaAnimation.play(&"idle")
 		var locations := $BacteriaLocations.get_children()
 		$Bacteria.position = locations[state.clicker.bacteria_slot % locations.size()].position
 		$Bacteria/Life.value = 100.0 * state.clicker.bacteria_remaining / state.clicker.config.bacteria_lifetime

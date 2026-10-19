@@ -20,7 +20,7 @@ light_cull_mask = 65536
 shadow_enabled = true
 shadow_bias = 0.04
 shadow_normal_bias = 1.0
-shadow_caster_mask = 458752
+shadow_caster_mask = 491520
 directional_shadow_mode = 1
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 96.0
@@ -889,3 +889,25 @@ position = Vector3(-7, -50.1, 0)
 light_color = Color(0.9, 0.27, 0.08, 1)
 light_energy = 0.7
 spot_range = 8.0
+
+[node name="BackupGenerator" type="SpotLight3D" parent="Standard"]
+position = Vector3(-36.5, 2.65, 6.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 1.5
+light_cull_mask = 393217
+shadow_enabled = true
+spot_range = 5.0
+spot_angle = 57.0
+metadata/world_lighting = true
+
+[node name="BackupGenerator" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-36.5, 2.65, 6.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.12, 0.035, 1)
+light_energy = 0.65
+light_cull_mask = 393217
+shadow_enabled = true
+spot_range = 5.0
+spot_angle = 57.0
+metadata/world_lighting = true

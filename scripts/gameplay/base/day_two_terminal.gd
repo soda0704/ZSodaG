@@ -34,6 +34,7 @@ var operator_peer := 0
 var app_scroll := 0
 var _operator_check_elapsed := 0.0
 var _opening_day := 0
+var _quest_authorized_peer := 0
 var _screen_triangles: Array = []
 @onready var app_camera: Camera3D = $Screen/AppCamera
 
@@ -58,27 +59,14 @@ func _ready() -> void:
 	_cache_screen_triangles()
 
 func get_interaction_prompt() -> String:
-	if _controller == null or not _controller.main_breaker_on:
-		return "Терминал отключён · нет основного питания"
-	if _controller.day_index < 2:
-		return "Открыть терминал · приложения / экспедиция"
-	if _controller.day_index > 2:
-		return _objective_text()
-	match _controller.quest_stage:
-		BaseGameplayController.QuestStage.OFFERED:
-			return "Извлечь pass key" if is_key_terminal else "Сначала принесите ключ с уровня 1"
-		BaseGameplayController.QuestStage.ACCEPTED:
-			return "Извлечь pass key" if is_key_terminal else "Найдите ключ в хранилище данных на уровне 1"
-		BaseGameplayController.QuestStage.COLLECTED:
-			return "Ключ у команды — вернитесь в хаб" if is_key_terminal else "Передать ключ и завершить задание"
-		BaseGameplayController.QuestStage.DELIVERED:
-			return "Ключ доставлен. Можно завершить день"
-	return "Терминал недоступен"
+	if _controller == null or not _controller.main_breaker_on: return ""
+	return "Открыть терминал"
 
 func network_interact(peer_id: int, interactor: Node) -> void:
 	if not can_use(peer_id, interactor): return
 	var stage := _controller.quest_stage
 	if is_key_terminal:
+		if _quest_authorized_peer != peer_id: return
 		if stage in [BaseGameplayController.QuestStage.OFFERED, BaseGameplayController.QuestStage.ACCEPTED]:
 			_controller.advance_quest_authoritative(peer_id, stage)
 	elif stage == BaseGameplayController.QuestStage.COLLECTED:
@@ -168,7 +156,7 @@ func _objective_text() -> String:
 				BaseGameplayController.QuestStage.COLLECTED:
 					return "Ключ получен командой. Вернитесь на уровень 0 и передайте его терминалу центрального хаба."
 				BaseGameplayController.QuestStage.DELIVERED:
-					return "Ключ принят. Задание второго дня выполнено. Подтвердите готовность на койках и отдохните всей командой."
+					return "Ключ принят. Задание второго дня выполнено. Ложитесь спать на койках всей командой."
 		3:
 			return "Уровень 2 обследован. Вернитесь на базу и отдохните." if _controller.containment.get("level2", false) else "Спуститесь на уровень 2 и обследуйте внутреннюю зону. На следующий день будет доступен уровень 3."
 		4:
@@ -318,7 +306,15 @@ func _command(peer: int, sequence: int, id: StringName, event_id: int = 0) -> vo
 		session.tokens = float(session.tokens) - 1.0
 		match id:
 			&"click": amount = _controller.clicker.click()
-			&"quest": network_interact(peer, _controller.get_player_node(peer))
+			&"quest_begin": session.quest_started = now
+			&"quest_cancel": session.erase("quest_started")
+			&"quest":
+				accepted = not is_key_terminal or (session.has("quest_started") and now - int(session.quest_started) >= 1250)
+				session.erase("quest_started")
+				if accepted:
+					_quest_authorized_peer = peer
+					network_interact(peer, _controller.get_player_node(peer))
+					_quest_authorized_peer = 0
 			&"bacteria":
 				accepted = event_id == _controller.clicker.bacteria_id and event_id > 0 and _controller.clicker.bacteria_remaining > 0.0
 				if accepted: amount = _controller.clicker.collect_bacterium(event_id)
@@ -328,7 +324,7 @@ func _command(peer: int, sequence: int, id: StringName, event_id: int = 0) -> vo
 	for ready_peer in _controller.clicker_ready_peers(): _command_reply.rpc_id(ready_peer, id, accepted, amount, data)
 	# Purchases use the same durable world save; clicks/autoproduction use its
 	# existing periodic checkpoint, never a disk write or full snapshot per click.
-	if accepted and id not in [&"click", &"quest"]: _controller.save_progress_authoritative()
+	if accepted and id not in [&"click", &"quest", &"quest_begin", &"quest_cancel"]: _controller.save_progress_authoritative()
 
 @rpc("authority", "call_local", "reliable")
 func _command_reply(id: StringName, accepted: bool, amount: float, data: Dictionary) -> void:

@@ -18,7 +18,7 @@ const MAX_NAME_TAG_CHARACTERS := 14
 var _controller: BaseGameplayController
 var _indicator_material: StandardMaterial3D
 func _ready() -> void:
-	status_label.position.y += 0.5
+	status_label.hide()
 	add_to_group("end_day_bunks")
 	_indicator_material = (
 		indicator.get_active_material(0).duplicate() as StandardMaterial3D
@@ -29,46 +29,13 @@ func _ready() -> void:
 
 func get_interaction_prompt() -> String:
 	var controller := _get_controller()
-	if controller == null:
-		return "Койка недоступна"
-	if controller.phase not in [
-		BaseGameplayController.BasePhase.ACTIVE_DAY,
-		BaseGameplayController.BasePhase.ENDING_DAY,
-	]:
-		return "Сначала восстановите питание"
-	if not controller.can_end_current_day():
-		if controller.day_index == 1 and not controller.elevator_backup_installed:
-			return "Сначала установите предохранитель резервного питания лифта"
-		if controller.day_index == 2:
-			return "Сначала доставьте ключ на базу"
-		if controller.day_index == controller.LEVEL_TWO_DAY_INDEX:
-			return "Сначала обследуйте уровень 2"
-		if controller.day_index == controller.TRIALS_DAY_INDEX:
-			return "Сначала обследуйте испытательную камеру на уровне 3"
-		if controller.day_index == controller.CONTAINMENT_DAY_INDEX:
-			return "Сначала зачистите уровень и восстановите питание"
-		return "Конец доступного прототипа"
-
-	var local_peer_id := multiplayer.get_unique_id()
-	if controller.get_player_slot(local_peer_id) != assigned_player_slot:
-		return "Койка другого игрока"
-	if controller.is_peer_ready_to_end_day(local_peer_id):
-		if controller.is_peer_sleeping(local_peer_id):
-			return "Вы уже легли спать"
-		return "Убрать готовность"
-	return "Подготовить койку"
-
+	if controller == null or not controller.can_end_current_day():
+		return "Вы не можете сейчас спать, необходимо завершить все задачи"
+	if controller.get_player_slot(multiplayer.get_unique_id()) != assigned_player_slot: return ""
+	return "Лечь спать"
 
 func get_sleep_interaction_prompt() -> String:
-	var controller := _get_controller()
-	var local_peer_id := multiplayer.get_unique_id()
-	if controller == null or controller.get_player_slot(local_peer_id) != assigned_player_slot:
-		return "Койка другого игрока"
-	if not controller.is_peer_ready_to_end_day(local_peer_id):
-		return "Сначала подготовьте койку"
-	if controller.is_peer_sleeping(local_peer_id):
-		return "Вы уже спите"
-	return "Лечь спать"
+	return get_interaction_prompt()
 
 
 func interact(interactor: Node) -> void:
@@ -76,48 +43,15 @@ func interact(interactor: Node) -> void:
 
 
 func network_interact(peer_id: int, interactor: Node) -> void:
-	if (
-		not multiplayer.is_server()
-		or interactor == null
-		or (interactor is GamePlayer and interactor.is_carrying_corpse())
-		or int(interactor.get("owner_peer_id")) != peer_id
-	):
-		return
-	var controller := _get_controller()
-	if (
-		controller == null
-		or controller.get_player_slot(peer_id) != assigned_player_slot
-		or controller.is_peer_sleeping(peer_id)
-	):
-		return
-	controller.set_end_day_ready_authoritative(
-		peer_id,
-		not controller.is_peer_ready_to_end_day(peer_id)
-	)
-
+	network_sleep_interact(peer_id, interactor)
 
 func network_sleep_interact(peer_id: int, interactor: Node) -> void:
-	if (
-		not multiplayer.is_server()
-		or interactor == null
-		or (interactor is GamePlayer and interactor.is_carrying_corpse())
-		or int(interactor.get("owner_peer_id")) != peer_id
-	):
-		return
+	if not multiplayer.is_server() or not interactor is GamePlayer or interactor.owner_peer_id != peer_id or interactor.survival.dead or interactor.is_carrying_corpse() or interactor.is_driving(): return
 	var controller := _get_controller()
-	if (
-		controller == null
-		or controller.get_player_slot(peer_id) != assigned_player_slot
-		or not controller.is_peer_ready_to_end_day(peer_id)
-		or controller.is_peer_sleeping(peer_id)
-	):
-		return
-	if controller.set_peer_sleeping_authoritative(peer_id, true):
-		if interactor.has_method("enter_bunk_sleep_authoritative"):
-			interactor.call(
-				"enter_bunk_sleep_authoritative",
-				sleep_pose.global_transform
-			)
+	if controller == null or controller.get_player_node(peer_id) != interactor or controller.get_player_slot(peer_id) != assigned_player_slot or controller.is_peer_sleeping(peer_id) or not controller.can_end_current_day(): return
+	if interactor.global_position.distance_to(global_position) > 3.0: return
+	if not controller.set_end_day_ready_authoritative(peer_id, true): return
+	if controller.set_peer_sleeping_authoritative(peer_id, true): interactor.enter_bunk_sleep_authoritative(sleep_pose.global_transform)
 
 
 func cancel_sleep_authoritative(peer_id: int, interactor: Node) -> bool:
@@ -132,8 +66,7 @@ func cancel_sleep_authoritative(peer_id: int, interactor: Node) -> bool:
 		or not controller.is_peer_sleeping(peer_id)
 	):
 		return false
-	# Move the player clear first. The following snapshot folds the bunk at once
-	# and also cancels readiness, so another sleep requires an explicit choice.
+	# Move clear before restoring the bed collision and cancelling the sleep vote.
 	if interactor.has_method("leave_bunk_sleep_authoritative"):
 		interactor.call("leave_bunk_sleep_authoritative", wake_pose.global_transform)
 	controller.set_peer_sleeping_authoritative(peer_id, false)
@@ -187,8 +120,8 @@ func _refresh_visuals() -> void:
 	var is_sleeping := (
 		is_ready and controller.is_peer_sleeping(assigned_peer_id)
 	)
-	bed_pivot.rotation.x = 0.0 if is_ready else -PI * 0.5
-	sleep_surface_collision.set_deferred("disabled", not is_ready or is_sleeping)
+	bed_pivot.rotation.x = 0.0
+	sleep_surface_collision.set_deferred("disabled", is_sleeping)
 
 	var color := Color(0.22, 0.25, 0.28, 1.0)
 	if is_sleeping:
@@ -232,3 +165,9 @@ func abbreviate_player_name(player_name: String) -> String:
 	if normalized.length() <= MAX_NAME_TAG_CHARACTERS:
 		return normalized
 	return normalized.left(MAX_NAME_TAG_CHARACTERS - 1).rstrip(" .") + "…"
+
+func get_interaction_hint_for(_interactor: Node) -> String:
+	var message := get_interaction_prompt()
+	var controller := _get_controller()
+	if message.is_empty() or controller == null or not controller.can_end_current_day(): return message
+	return get_node("/root/SteamInput").get_action_hint(&"interact") + " " + message

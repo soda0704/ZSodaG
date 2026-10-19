@@ -27,3 +27,6 @@ tools/feedback_service/node_modules/
 !/addons/godotsteam/
 !/addons/godotsteam/**
 /addons/godotsteam/**/~*
+
+# Local renders and screenshots; game assets belong under assets/.
+/artifacts/

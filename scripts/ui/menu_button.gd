@@ -10,7 +10,7 @@ func _process(delta: float) -> void:
 		return
 	if position != _last_position:
 		_base_position = position
-	var target := 1.0 if not disabled and (is_hovered() or has_focus()) else 0.0
+	var target := 1.0 if not disabled and (is_hovered() or (has_focus() and theme_type_variation not in [&"MenuNav", &"MenuEscapeNav"])) else 0.0
 	var previous := _hover
 	_hover = lerpf(_hover, target, 1.0 - exp(-delta * 12.0))
 	_press = lerpf(_press, 1.0 if is_pressed() else 0.0, 1.0 - exp(-delta * 18.0))

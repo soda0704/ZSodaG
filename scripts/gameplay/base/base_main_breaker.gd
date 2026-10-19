@@ -81,8 +81,13 @@ func get_interaction_prompt() -> String:
 	if controller.containment.get("fault", false):
 		return "Выключить щит для сброса сбоя" if controller.main_breaker_on else "Включить щит — восстановить освещение"
 	if controller.main_breaker_on: return "Выключить главный щит"
-	if not controller.fuel_delivered: return "Нет топлива для запуска"
+	if not controller.fuel_delivered: return "Нет энергии"
 	return "Включить главный щит"
+
+func get_interaction_hint_for(_interactor: Node) -> String:
+	var prompt := get_interaction_prompt()
+	if prompt == "Нет энергии": return prompt
+	return get_node("/root/SteamInput").get_action_hint(&"interact") + " " + prompt
 
 func interact(interactor: Node) -> void:
 	network_interact(multiplayer.get_unique_id(), interactor)

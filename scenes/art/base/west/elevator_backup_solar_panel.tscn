@@ -1,17 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://iyqsurd2wkm6"]
 
-[ext_resource type="PackedScene" path="res://assets/models/elevator_backup/solar_panel/scene.gltf" id="1_model"]
+[ext_resource type="PackedScene" uid="uid://dh5da74ml7kid" path="res://assets/models/elevator_backup/solar_panel/scene.gltf" id="1_model"]
+
+[ext_resource type="Material" path="res://assets/models/elevator_backup/solar_panel/cell_readability.tres" id="cell_readability"]
 
 [sub_resource type="BoxShape3D" id="panel_shape"]
 size = Vector3(1.48734, 0.86872, 0.86872)
 
-[node name="ElevatorBackupSolarPanel" type="StaticBody3D"]
+[node name="ElevatorBackupSolarPanel" type="StaticBody3D" unique_id=82516353]
 editor_description = "Наземная солнечная панель у пешеходного входа в базу. Положение, модель и коллизия задаются этой сценой и сценой этажа 0."
 
-[node name="Model" parent="." instance=ExtResource("1_model")]
-position = Vector3(0, 0.190614, 0.053765)
-scale = Vector3(0.009, 0.009, 0.009)
+[node name="Model" parent="." unique_id=473609787 instance=ExtResource("1_model")]
+transform = Transform3D(0.009, 0, 0, 0, 0.009, 0, 0, 0, 0.009, 0, 0.190614, 0.053765)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.43436, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1817408975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43436, 0)
 shape = SubResource("panel_shape")
+
+[node name="SolarPanel_SolarPanel_0" parent="Model/Sketchfab_model/fd574d18d2ff4b1b9f07c19132d31521_fbx/RootNode/SolarPanel" index="0"]
+material_override = ExtResource("cell_readability")
+
+[editable path="Model"]

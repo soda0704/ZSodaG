@@ -1,0 +1,386 @@
+{
+  "deleted_files": [
+    {
+      "path": "assets/environments/snow/alpine_overcast_panorama.exr",
+      "bytes": 31665400
+    },
+    {
+      "path": "assets/environments/snow/alpine_overcast_panorama.exr.import",
+      "bytes": 1052
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door.glb",
+      "bytes": 16522024
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door.glb.import",
+      "bytes": 1216
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Frame_BaseColor.png",
+      "bytes": 3855848
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Frame_BaseColor.png.import",
+      "bytes": 1183
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Frame_ORM.png",
+      "bytes": 3784012
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Frame_ORM.png.import",
+      "bytes": 1254
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Leaf_BaseColor.png",
+      "bytes": 5126337
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Leaf_BaseColor.png.import",
+      "bytes": 1180
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Leaf_ORM.png",
+      "bytes": 3783968
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Leaf_ORM.png.import",
+      "bytes": 1251
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Recess_Seal_BaseColor.png",
+      "bytes": 3093547
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Recess_Seal_BaseColor.png.import",
+      "bytes": 1200
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Recess_Seal_ORM.png",
+      "bytes": 3783714
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Door_Recess_Seal_ORM.png.import",
+      "bytes": 1272
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Living_Accent_BaseColor.png",
+      "bytes": 4283438
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Living_Accent_BaseColor.png.import",
+      "bytes": 1191
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Living_Accent_ORM.png",
+      "bytes": 3784080
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/living_hermetic_door_Living_Accent_ORM.png.import",
+      "bytes": 1262
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Frame_BaseColor.png",
+      "bytes": 3855848
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Frame_BaseColor.png.import",
+      "bytes": 1062
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Frame_ORM.png",
+      "bytes": 3784012
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Frame_ORM.png.import",
+      "bytes": 1044
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Leaf_BaseColor.png",
+      "bytes": 5126337
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Leaf_BaseColor.png.import",
+      "bytes": 1059
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Leaf_ORM.png",
+      "bytes": 3783968
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Leaf_ORM.png.import",
+      "bytes": 1041
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Recess_Seal_BaseColor.png",
+      "bytes": 3093547
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Recess_Seal_BaseColor.png.import",
+      "bytes": 1080
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Recess_Seal_ORM.png",
+      "bytes": 3783714
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Door_Recess_Seal_ORM.png.import",
+      "bytes": 1061
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/LivingDoor_Normal.png",
+      "bytes": 5253090
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/LivingDoor_Normal.png.import",
+      "bytes": 1052
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Living_Accent_BaseColor.png",
+      "bytes": 4283438
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Living_Accent_BaseColor.png.import",
+      "bytes": 1071
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Living_Accent_ORM.png",
+      "bytes": 3784080
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/Living_Accent_ORM.png.import",
+      "bytes": 1053
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_Height.png",
+      "bytes": 2844771
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_Height.png.import",
+      "bytes": 1003
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_Normal.png",
+      "bytes": 3480087
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_Normal.png.import",
+      "bytes": 1003
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_ORM.png",
+      "bytes": 3642819
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_ORM.png.import",
+      "bytes": 994
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_basecolor.png",
+      "bytes": 2854254
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/doors_basecolor.png.import",
+      "bytes": 1012
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_Height.png",
+      "bytes": 1960997
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_Height.png.import",
+      "bytes": 1003
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_Normal.png",
+      "bytes": 2343714
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_Normal.png.import",
+      "bytes": 1003
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_ORM.png",
+      "bytes": 2462188
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_ORM.png.import",
+      "bytes": 994
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_basecolor.png",
+      "bytes": 1549796
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/frame_basecolor.png.import",
+      "bytes": 1012
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/paint_microheight_source.png",
+      "bytes": 3822304
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/paint_microheight_source.png.import",
+      "bytes": 1039
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/reference_doors_color.png",
+      "bytes": 2887331
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/reference_doors_color.png.import",
+      "bytes": 1030
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/reference_frame_color.png",
+      "bytes": 1362002
+    },
+    {
+      "path": "assets/models/doors/living_hermetic_door/textures/realistic_2k/reference_frame_color.png.import",
+      "bytes": 1029
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/medical_hermetic_door.glb",
+      "bytes": 19825036
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/medical_hermetic_door.glb.import",
+      "bytes": 1220
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_BaseColor.png",
+      "bytes": 4726499
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_BaseColor.png.import",
+      "bytes": 1013
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_Height.png",
+      "bytes": 3428436
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_Height.png.import",
+      "bytes": 1004
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_Normal.png",
+      "bytes": 3576108
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_Normal.png.import",
+      "bytes": 1004
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_ORM.png",
+      "bytes": 4292911
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/doors_ORM.png.import",
+      "bytes": 995
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_BaseColor.png",
+      "bytes": 2147692
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_BaseColor.png.import",
+      "bytes": 1013
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_Height.png",
+      "bytes": 2177331
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_Height.png.import",
+      "bytes": 1004
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_Normal.png",
+      "bytes": 2190528
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_Normal.png.import",
+      "bytes": 1004
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_ORM.png",
+      "bytes": 2642812
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/frame_ORM.png.import",
+      "bytes": 995
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/paint_microheight_source.png",
+      "bytes": 3822304
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/paint_microheight_source.png.import",
+      "bytes": 1040
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/reference_doors_color.png",
+      "bytes": 2887331
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/reference_doors_color.png.import",
+      "bytes": 1031
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/reference_frame_color.png",
+      "bytes": 1362002
+    },
+    {
+      "path": "assets/models/doors/medical_hermetic_door/textures/realistic_2k/reference_frame_color.png.import",
+      "bytes": 1031
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_AlbedoTransparency.png",
+      "bytes": 4997994
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_AlbedoTransparency.png.import",
+      "bytes": 1049
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_Normal.png",
+      "bytes": 9113783
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_Normal.png.import",
+      "bytes": 1013
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_SpecularSmoothness.png",
+      "bytes": 2976784
+    },
+    {
+      "path": "assets/models/furniture/bed/textures/bed_low_parts_Bed_SpecularSmoothness.png.import",
+      "bytes": 1049
+    },
+    {
+      "path": "assets/models/vehicles/chinook/textures/Chinook_InteriorAlpha_baseColor.png",
+      "bytes": 9861276
+    },
+    {
+      "path": "assets/models/vehicles/chinook/textures/Chinook_InteriorAlpha_baseColor.png.import",
+      "bytes": 1085
+    },
+    {
+      "path": "assets/models/weapons/source/kitchen_knife.blend1",
+      "bytes": 107952
+    },
+    {
+      "path": "assets/models/weapons/source/m4a1.blend1",
+      "bytes": 125406
+    },
+    {
+      "path": "assets/models/weapons/source/pistol.blend1",
+      "bytes": 109373
+    }
+  ],
+  "total_bytes": 226061479,
+  "retained": "Production fitted door scenes and their referenced textures remain intact."
+}

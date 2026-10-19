@@ -105,6 +105,14 @@ func run() -> void:
 	check(player.get_interaction_target() == vault, "vault screen reachable by actual interaction ray")
 	var equipped := player.get_inventory_snapshot()
 	player.try_authoritative_interaction()
+	check(state.quest_stage != BaseGameplayController.QuestStage.COLLECTED, "instant interaction cannot bypass key hold")
+	vault._open_session(1)
+	vault._command(1, 1, &"quest_begin")
+	vault._command(1, 2, &"quest")
+	check(state.quest_stage != BaseGameplayController.QuestStage.COLLECTED, "short hold cannot extract key")
+	vault._command(1, 3, &"quest_begin")
+	await create_timer(1.4).timeout
+	vault._command(1, 4, &"quest")
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "production interaction collects shared pass key without accepting a hub mission")
 	check(player.get_inventory_snapshot() == equipped, "story key does not displace equipment")
 	check(vault.animation_player.current_animation == &"extract", "collection plays authored native extraction clip")
@@ -148,7 +156,10 @@ func run() -> void:
 	snapshot.quest_stage = BaseGameplayController.QuestStage.ACCEPTED
 	state._broadcast_snapshot(snapshot)
 	await visit(vault)
-	player.try_authoritative_interaction()
+	vault._open_session(1)
+	vault._command(1, 1, &"quest_begin")
+	await create_timer(1.4).timeout
+	vault._command(1, 2, &"quest")
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "legacy accepted-stage save still allows key extraction")
 	var journal = root.get_node("QuestJournal")
 	journal._bind_controller()

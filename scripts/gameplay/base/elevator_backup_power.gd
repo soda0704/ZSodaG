@@ -25,11 +25,9 @@ func _bind_controller() -> void:
 
 
 func get_interaction_prompt() -> String:
-	if not is_instance_valid(_controller):
-		return "Резервное питание недоступно"
-	if _controller.elevator_backup_installed:
-		return "Резервное питание лифта подключено"
-	return "Вставить предохранитель · найти в медпункте"
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if not is_instance_valid(_controller) or _controller.elevator_backup_installed or player == null or not player.has_held_item(GamePlayer.FUSE_ITEM): return ""
+	return "Вставить предохранитель"
 
 
 func interact(interactor: Node) -> void:

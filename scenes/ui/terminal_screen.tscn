@@ -17,6 +17,22 @@ bg_color = Color(0.42, 0.025, 0.035, 1)
 [sub_resource type="StyleBoxFlat" id="app_background"]
 bg_color = Color(0.015, 0.035, 0.06, 1)
 
+[sub_resource type="StyleBoxFlat" id="quest_frame"]
+bg_color = Color(0.025, 0.09, 0.06, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.7, 0.46, 1)
+
+[sub_resource type="StyleBoxFlat" id="quest_hover"]
+bg_color = Color(0.08, 0.22, 0.13, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.95, 0.62, 1)
+
 [node name="TerminalScreen" type="PanelContainer"]
 offset_right = 1024.0
 offset_bottom = 488.0
@@ -152,6 +168,9 @@ offset_left = 104.0
 offset_top = 412.0
 offset_right = 928.0
 offset_bottom = 452.0
+theme_override_styles/normal = SubResource("quest_frame")
+theme_override_styles/hover = SubResource("quest_hover")
+theme_override_styles/pressed = SubResource("quest_hover")
 text = "PASS KEY / ВЗАИМОДЕЙСТВОВАТЬ"
 
 [node name="LabClicker" parent="Overlay" instance=ExtResource("clicker")]

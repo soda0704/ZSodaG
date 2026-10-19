@@ -40,7 +40,7 @@ func run():
 	for action in InputMap.get_actions(): InputMap.action_erase_events(action)
 	player._has_flashlight=true; player._battery_charge=.62; player._spare_batteries.assign([.75,.25]); player._held_item_type=&"flashlight"; player._flashlight_enabled=false; player._refresh_equipment_visuals()
 	check(not journal.is_journal_open() and journal._ink_viewport.render_target_update_mode==SubViewport.UPDATE_DISABLED,"closed book stops its ink viewport")
-	check(journal._cards.size()==7,"all inventory card IDs retained")
+	check(journal._cards.size()==9,"all inventory card IDs retained")
 	var font:=journal.tasks_label.get_theme_font("font"); var glyphs:=true
 	for c in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяABCDEFGHIJKLMNOPQRSTUVWXYZ": glyphs=glyphs and font.has_char(c.unicode_at(0))
 	check(glyphs,"journal font contains Cyrillic and Latin")

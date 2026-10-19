@@ -61,3 +61,7 @@ The supplied archive has no explicit licence notice. Selected geometry is separa
 
 This work is based on "Lowpoly Fall Foliage Pack" (https://sketchfab.com/3d-models/lowpoly-fall-foliage-pack-a309cea592804e37af83aed7b99240ad) by EvanLegrand (https://sketchfab.com/evan4129) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/).
 Original licence: assets/models/props/dry_foliage/license.txt. The bent and straight dried flowers are used for stages 6 and 7.
+
+## Bed
+
+Source: user-supplied `Bed-1ebf05f2-textures.zip` (18 October 2026). Imported original Bed.glb and supplied texture maps into `furniture/bed/`; original asset licensing/attribution terms remain applicable. No license is inferred from the archive name.

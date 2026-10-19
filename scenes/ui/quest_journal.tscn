@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/pistol.png" id="11_ul5hq"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/m4a1.png" id="12_uuj7m"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/kitchen_knife.png" id="13_gbkr1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/pistol_ammo.png" id="ammo_sketch"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/rifle_magazine.png" id="magazine_sketch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfhmu"]
 bg_color = Color(1, 1, 1, 0)
@@ -893,6 +895,100 @@ text = "Кухонный нож"
 horizontal_alignment = 1
 
 [node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Kitchen Knife/Content" unique_id=1199169408]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="PistolAmmo" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"pistol_ammo"
+metadata/item_title = "Патроны"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PistolAmmo"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PistolAmmo/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("ammo_sketch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PistolAmmo/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Патроны"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PistolAmmo/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="RifleMagazine" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"rifle_magazine"
+metadata/item_title = "Магазины"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/RifleMagazine"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/RifleMagazine/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("magazine_sketch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/RifleMagazine/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Магазины"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/RifleMagazine/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
 theme_override_font_sizes/font_size = 21

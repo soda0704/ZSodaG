@@ -293,6 +293,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact"):
 		if needs_flashlight_shake():
 			request_inventory_action(&"shake_flashlight")
+		elif get_interaction_target() != null and get_interaction_target().has_method("begin_lobby_interaction") and get_interaction_target().begin_lobby_interaction():
+			pass
 		elif get_interaction_target() != null and get_interaction_target().has_method("begin_terminal_interaction"):
 			get_interaction_target().begin_terminal_interaction()
 		elif not $ItemDrag.begin_interaction():
@@ -881,6 +883,9 @@ func refresh_interaction_prompt() -> void:
 	if prompt.strip_edges().is_empty():
 		interaction_prompt_label.visible = false
 		return
+	if prompt.is_empty():
+		interaction_prompt_label.hide()
+		return
 	interaction_prompt_label.text = "%s %s" % [get_node("/root/SteamInput").get_action_hint(&"interact"), prompt]
 	interaction_prompt_label.visible = true
 
@@ -1109,8 +1114,10 @@ func pickup_world_item_authoritative(
 	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM, SEED_ITEM] and not WeaponController.TYPES.has(item_type):
 		return false
 	if item_type == FLASHLIGHT_ITEM:
-		if _has_flashlight:
+		if weapon_light_mounted or _battery_action_busy:
 			return false
+		if _has_flashlight:
+			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
 		_has_flashlight = true
 		_battery_charge = clampf(float(item_state.get("battery_charge", 1.0)), 0.0, 1.0)
 		if _held_item_type == NO_ITEM:
@@ -1288,7 +1295,7 @@ func _begin_inventory_action(action: StringName) -> void:
 		if _battery_action_busy:
 			return
 		var better_cell := _has_flashlight and not _spare_batteries.is_empty() and float(_spare_batteries.max()) > _battery_charge
-		var battery_priority := better_cell and (is_handheld_flashlight_drawn() or weapon_light_mounted or _battery_charge <= 0.0)
+		var battery_priority := better_cell and (_battery_charge <= 0.0 or (is_handheld_flashlight_drawn() and not weapon_light_mounted))
 		if WeaponController.TYPES.has(_held_item_type) and not battery_priority:
 			weapon.perform_action(&"reload")
 			return
@@ -1605,7 +1612,7 @@ func update_authoritative_flashlight_battery(delta: float) -> void:
 	# A stowed light (journal, sleep, two-hand reload) does not spend charge.
 	if _journal_phase > 0 or _is_sleeping_in_bunk or survival.dead or is_driving() or is_carrying_corpse():
 		return
-	if not weapon_light_mounted and not flashlight.is_enabled:
+	if not weapon_light_mounted and not flashlight.is_enabled and get_tree().get_first_node_in_group("wiring_ui") == null:
 		return
 	_battery_charge = maxf(
 		_battery_charge - delta / maxf(battery_duration_seconds, 1.0),

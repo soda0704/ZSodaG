@@ -42,13 +42,14 @@ var day_index: int = FIRST_DAY
 var phase: BasePhase = BasePhase.ARRIVAL
 var fuel_delivered: bool = false
 const FUEL_CAPACITY := 60.0
-const FUEL_PER_SECOND := 0.01
+const FUEL_PER_SECOND := 0.015
 var fuel_liters := 0.0
 var _fuel_tick := 0.0
 
 
 var clicker := LabClicker.new()
 var _clicker_sync_elapsed := 0.0
+var _last_clicker_sync: Dictionary = {}
 
 func _process(delta: float) -> void:
 	_process_clicker(delta)
@@ -556,7 +557,10 @@ func sync_network_state_to_peer(peer_id: int) -> void:
 func _broadcast_snapshot(snapshot: Dictionary, persist: bool = true) -> void:
 	if not multiplayer.is_server():
 		return
-	_receive_snapshot.rpc(snapshot, persist)
+	# A connecting peer may still be loading the threaded base scene.
+	_receive_snapshot(snapshot, persist)
+	for peer in clicker_ready_peers():
+		_receive_snapshot.rpc_id(peer, snapshot, persist)
 	_update_end_day_consensus_signal()
 
 
@@ -896,6 +900,8 @@ func _process_clicker(delta: float) -> void:
 	if _clicker_sync_elapsed >= 0.2:
 		_clicker_sync_elapsed = 0.0
 		var data := clicker.capture_runtime()
+		if data == _last_clicker_sync: return
+		_last_clicker_sync = data.duplicate(true)
 		_receive_clicker_state(data)
 		for peer in clicker_ready_peers(): _receive_clicker_state.rpc_id(peer, data)
 

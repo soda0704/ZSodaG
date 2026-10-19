@@ -150,3 +150,60 @@ func apply_environment(env: Environment) -> void:
 	# Environment setters update the renderer but do not consistently emit changed.
 	# The isolated hands keep a copy and must receive calibration/effect updates.
 	env.emit_changed()
+
+# Conservative hardware baseline, followed by a measured in-session check.
+# Frame-time correction changes rendering budgets only, never authored light.
+static func recommended(adapter: String = "", pixels: int = 0) -> Dictionary:
+	if adapter.is_empty(): adapter = RenderingServer.get_video_adapter_name()
+	if pixels <= 0: pixels = DisplayServer.screen_get_size().x * DisplayServer.screen_get_size().y if DisplayServer.get_name() != "headless" else 2073600
+	var integrated := adapter.to_lower().contains("intel") or adapter.to_lower().contains("vega") or adapter.to_lower().contains("radeon graphics")
+	var data: Dictionary = DEFAULTS.duplicate()
+	data.merge(PRESETS[1 if integrated else 2], true)
+	if pixels > 2560 * 1440: data.Scale = mini(int(data.Scale), 67)
+	elif pixels > 1920 * 1200: data.Scale = mini(int(data.Scale), 85)
+	data.FPS = 60
+	return data
+
+var _calibration_elapsed := 0.0
+var _calibration_frames: Array[float] = []
+var _calibration_round := 0
+var _previous_frame_usec := 0
+
+func _process(delta: float) -> void:
+	var menu := get_node_or_null("/root/GameMenu")
+	if menu == null or not menu._settings_data.get("GraphicsCalibrationPending", false) or DisplayServer.get_name() == "headless": return
+	var player := get_tree().get_first_node_in_group("local_player")
+	if player == null or menu.is_menu_open() or get_tree().get_first_node_in_group("main_menu") != null or get_tree().get_first_node_in_group("base_gameplay_controller") == null:
+		_previous_frame_usec = 0
+		return
+	var now := Time.get_ticks_usec()
+	var frame_ms := float(now - _previous_frame_usec) / 1000.0 if _previous_frame_usec > 0 else 0.0
+	_previous_frame_usec = now
+	_calibration_elapsed += delta
+	if _calibration_elapsed < 5.0: return # Asset/shader warm-up is not steady gameplay.
+	if frame_ms > 0.0: _calibration_frames.append(frame_ms)
+	if _calibration_frames.size() < 240: return
+	_calibration_frames.sort()
+	var slow_frame := _calibration_frames[int(_calibration_frames.size() * 0.9)]
+	if slow_frame > 18.5 and int(values.Scale) > 50 and _calibration_round < 5:
+		var reduced := values.duplicate()
+		reduced.Scale = maxi(50, int(reduced.Scale) - 10)
+		if _calibration_round >= 1:
+			for key in ["LOD", "VegetationDistance", "DecalDistance", "TrackCount"]: reduced[key] = PRESETS[1][key]
+		apply(reduced)
+		menu._settings_data.Graphics = reduced
+		_calibration_round += 1
+		_calibration_elapsed = 3.0
+		_calibration_frames.clear()
+	else:
+		menu._settings_data.GraphicsCalibrationPending = false
+		menu._settings_data.RecommendedGraphics = values.duplicate()
+		menu._settings_data.GraphicsMeasuredP90 = slow_frame
+		menu.save_settings_data()
+		_calibration_frames.clear()
+
+func restart_recommendation() -> void:
+	_calibration_elapsed = 0.0
+	_calibration_frames.clear()
+	_calibration_round = 0
+	_previous_frame_usec = 0

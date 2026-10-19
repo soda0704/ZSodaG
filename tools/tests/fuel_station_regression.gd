@@ -79,7 +79,7 @@ func run() -> void:
 	player.fuel_liters = 20.0
 	player.refresh_interaction_prompt()
 	var action_hint: String = root.get_node("SteamInput").get_action_hint(&"interact")
-	check(tank.get_interaction_hint_for(player) == action_hint and (DisplayServer.get_name() == "headless" or (player.interaction_prompt_label.visible and player.interaction_prompt_label.text == action_hint)), "nonempty canister shows only action glyph")
+	check(tank.get_interaction_hint_for(player) == action_hint + " Залить топливо" and (DisplayServer.get_name() == "headless" or (player.interaction_prompt_label.visible and player.interaction_prompt_label.text == action_hint + " Залить топливо")), "nonempty canister shows refill action and glyph")
 	player.try_authoritative_interaction()
 	await settle()
 	check(is_equal_approx(state.fuel_liters, 20) and is_zero_approx(player.fuel_liters), "production E transfers full canister without losing fuel")
@@ -108,6 +108,11 @@ func run() -> void:
 	snapshot.fuel_liters = 30.0
 	state._broadcast_snapshot(snapshot)
 	var before := state.fuel_liters
+	player.teleport_authoritative(tank.global_position + Vector3(-1.65, 0, 0), 0)
+	player.camera.look_at(tank.interaction_point.global_position)
+	await settle()
+	check(tank.can_refill(1, player), "side of fuel tank accepts a visible canister")
+	await visit()
 	tank.network_interact(2, player)
 	check(is_equal_approx(state.fuel_liters, before), "wrong peer cannot use another player's canister")
 	player.survival.dead = true

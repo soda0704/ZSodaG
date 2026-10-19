@@ -23,17 +23,17 @@ editor_description = "Исходная CSG-геометрия. Отключит�
 [node name="Lighting" type="Node3D" parent="Blockout/Storage_Room" unique_id=736410727]
 
 [node name="Storage_Main_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Storage_Room/Lighting" unique_id=240287448]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.44, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6444726, 14)
 size = Vector3(0.55, 0.12, 3.2)
 material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Storage_West_Bay_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Storage_Room/Lighting" unique_id=2089275061]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 5.44, 13.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 4.6444726, 13.5)
 size = Vector3(0.45, 0.12, 2.8)
 material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Storage_East_Bay_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Storage_Room/Lighting" unique_id=392919607]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 5.44, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 4.6444726, 14)
 size = Vector3(0.45, 0.12, 3.4)
 material = SubResource("StandardMaterial3D_hub_technical")
 

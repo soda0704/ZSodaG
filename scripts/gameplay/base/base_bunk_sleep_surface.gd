@@ -17,3 +17,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 func _get_bunk() -> Node:
 	var pivot := get_parent()
 	return pivot.get_parent() if pivot != null else null
+
+func get_interaction_hint_for(interactor: Node) -> String:
+	var bunk := _get_bunk()
+	return bunk.get_interaction_hint_for(interactor) if bunk != null else ""

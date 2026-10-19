@@ -1,28 +1,10 @@
-[gd_scene format=3]
-[ext_resource type="Script" path="res://scripts/network/base_session_controller.gd" id="1"]
+[gd_scene format=3 uid="uid://cti3mm1qajmqv"]
+
+[ext_resource type="Script" uid="uid://bv7vjxkymtk3q" path="res://scripts/network/base_session_controller.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/chinook.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/ui/helicopter_lobby_hud.tscn" id="3"]
-[ext_resource type="Texture2D" path="res://assets/environments/snow/overcast_soil_puresky_4k.exr" id="4"]
+[ext_resource type="Texture2D" uid="uid://bxw3bltkwi3hm" path="res://assets/environments/snow/overcast_soil_puresky_4k.exr" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lobby/cabin_sound.tscn" id="5_audio"]
-[sub_resource type="PanoramaSkyMaterial" id="sky_material"]
-panorama = ExtResource("4")
-[sub_resource type="Sky" id="sky"]
-sky_material = SubResource("sky_material")
-[sub_resource type="Environment" id="environment"]
-background_mode = 2
-sky = SubResource("sky")
-ambient_light_color = Color(0.75, 0.82, 0.9, 1)
-tonemap_mode = 4
-ambient_light_source = 2
-ambient_light_energy = 0.10
-reflected_light_source = 1
-ssao_enabled = false
-ssil_enabled = false
-ssr_enabled = false
-sdfgi_enabled = false
-glow_enabled = false
-fog_enabled = false
-volumetric_fog_enabled = false
 
 [sub_resource type="StandardMaterial3D" id="CabinLightPanelMaterial"]
 albedo_color = Color(0.76, 0.81, 0.86, 1)
@@ -30,72 +12,141 @@ roughness = 0.4
 emission_enabled = true
 emission = Color(0.82, 0.88, 1, 1)
 emission_energy_multiplier = 1.6
-[sub_resource type="BoxMesh" id="CabinLightPanelMesh"]
-size = Vector3(0.4, 0.025, 0.13)
-material = SubResource("CabinLightPanelMaterial")
 
-[node name="BaseSession" type="Node3D"]
+[sub_resource type="BoxMesh" id="CabinLightPanelMesh"]
+material = SubResource("CabinLightPanelMaterial")
+size = Vector3(0.4, 0.025, 0.13)
+
+[sub_resource type="PanoramaSkyMaterial" id="sky_material"]
+panorama = ExtResource("4")
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_material")
+
+[sub_resource type="Environment" id="environment"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.75, 0.82, 0.9, 1)
+ambient_light_energy = 0.1
+reflected_light_source = 1
+tonemap_mode = 4
+
+[node name="BaseSession" type="Node3D" unique_id=470531030]
 script = ExtResource("1")
 uses_staging_lobby = true
-staging_spawns_path = NodePath("ArrivalCabin/Spawns")
 gameplay_origin_path = NodePath("Gameplay")
-[node name="ArrivalCabin" parent="." instance=ExtResource("2")]
-[node name="CabinSound" parent="." instance=ExtResource("5_audio")]
-[node name="ArrivalEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("environment")
-[node name="Gameplay" type="Node3D" parent="."]
-[node name="WorldItems" type="Node3D" parent="Gameplay"]
-[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay"]
-spawn_path = NodePath("../WorldItems")
-[node name="Players" type="Node3D" parent="."]
-unique_name_in_owner = true
-[node name="OverviewCamera" type="Camera3D" parent="."]
-unique_name_in_owner = true
-position = Vector3(-1.2, 2.87, -0.4)
-rotation = Vector3(0, -1.5707963, 0)
-current = true
-[node name="LobbyHud" parent="." instance=ExtResource("3")]
+staging_spawns_path = NodePath("ArrivalCabin/Spawns")
 
-[node name="RearRamp" parent="ArrivalCabin" index=3]
+[node name="ArrivalCabin" parent="." unique_id=2080542105 instance=ExtResource("2")]
+
+[node name="Floor" parent="ArrivalCabin/CabinCollision" index="0"]
+transform = Transform3D(0.99939954, -0.034648363, 0, 0.034648363, 0.99939954, 0, 0, 0, 1, -0.2, 1.16, 0)
+
+[node name="Roof" parent="ArrivalCabin/CabinCollision" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 3.28, 0)
+
+[node name="Left" parent="ArrivalCabin/CabinCollision" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 2.2, -1.08)
+
+[node name="Right" parent="ArrivalCabin/CabinCollision" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 2.2, 1.08)
+
+[node name="Cockpit" parent="ArrivalCabin/CabinCollision" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.65, 2.2, 0)
+
+[node name="RearRamp" parent="ArrivalCabin" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.13, 1.04, 0)
 locked_in_flight = true
 
-[node name="LobbyCabinLights" type="Node3D" parent="ArrivalCabin"]
+[node name="Deck" parent="ArrivalCabin/RearRamp" index="0"]
+transform = Transform3D(0.88233286, 0.4706259, 0, -0.4706259, 0.88233286, 0, 0, 0, 1, -0.78, 0.39, 0)
+
+[node name="ClosedPassage" parent="ArrivalCabin/RearRamp" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 1.15, 0)
+
+[node name="RampClearance" parent="ArrivalCabin" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05, 1.5, 0)
+
+[node name="Player1" parent="ArrivalCabin/Spawns" index="0"]
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -1.2, 1.22, -0.4)
+
+[node name="Player2" parent="ArrivalCabin/Spawns" index="1"]
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, 0.3, 1.22, 0.4)
+
+[node name="CabinRearLamp" parent="ArrivalCabin" index="6"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -2.6366181, 3.382555, 0)
+light_energy = 3.4
+
+[node name="CabinFrontLamp" parent="ArrivalCabin" index="7"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.2667618, 3.5976849, 0)
+light_energy = 3.4
+
+[node name="LobbyCabinLights" type="Node3D" parent="ArrivalCabin" unique_id=1953035390]
 editor_description = "Local lobby-only cabin fill. Hidden with ArrivalCabin when the expedition starts."
-[node name="RearPanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(-3, 3.12, 0)
-mesh = SubResource("CabinLightPanelMesh")
+
+[node name="RearPanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=1030941701]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.668456, 3.4935021, 0)
+visible = false
 cast_shadow = 0
-[node name="RearFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(-3, 3.03, 0)
+mesh = SubResource("CabinLightPanelMesh")
+
+[node name="RearFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=896788007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3.03, 0)
 light_color = Color(0.87, 0.91, 1, 1)
-light_energy = 1.3
+light_energy = 0.4
 light_cull_mask = 917505
 omni_range = 4.3
 omni_attenuation = 1.35
-shadow_enabled = false
-[node name="CentrePanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(0, 3.12, 0)
-mesh = SubResource("CabinLightPanelMesh")
+
+[node name="CentrePanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=944747985]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.9533767, 3.4935021, 0)
+visible = false
 cast_shadow = 0
-[node name="CentreFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(0, 3.03, 0)
+mesh = SubResource("CabinLightPanelMesh")
+
+[node name="CentreFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=1082810535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.03, 0)
 light_color = Color(0.87, 0.91, 1, 1)
-light_energy = 1.6
+light_energy = 0.4
 light_cull_mask = 917505
 omni_range = 4.3
 omni_attenuation = 1.35
-shadow_enabled = false
-[node name="FrontPanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(3, 3.12, 0)
-mesh = SubResource("CabinLightPanelMesh")
+
+[node name="FrontPanel" type="MeshInstance3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=1262426929]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.2438474, 3.6161487, 0)
+visible = false
 cast_shadow = 0
-[node name="FrontFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights"]
-position = Vector3(3, 3.03, 0)
+mesh = SubResource("CabinLightPanelMesh")
+
+[node name="FrontFill" type="OmniLight3D" parent="ArrivalCabin/LobbyCabinLights" unique_id=735977928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3.03, 0)
 light_color = Color(0.87, 0.91, 1, 1)
-light_energy = 1.3
+light_energy = 0.4
 light_cull_mask = 917505
 omni_range = 4.3
 omni_attenuation = 1.35
-shadow_enabled = false
+
+[node name="CabinSound" parent="." unique_id=1310910554 instance=ExtResource("5_audio")]
+
+[node name="ArrivalEnvironment" type="WorldEnvironment" parent="." unique_id=1773629549]
+environment = SubResource("environment")
+
+[node name="Gameplay" type="Node3D" parent="." unique_id=1488101204]
+
+[node name="WorldItems" type="Node3D" parent="Gameplay" unique_id=1074408736]
+
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="Gameplay" unique_id=1191858233]
+spawn_path = NodePath("../WorldItems")
+
+[node name="Players" type="Node3D" parent="." unique_id=411327739]
+unique_name_in_owner = true
+
+[node name="OverviewCamera" type="Camera3D" parent="." unique_id=1353321427]
+unique_name_in_owner = true
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -1.2, 2.87, -0.4)
+current = true
+
+[node name="LobbyHud" parent="." unique_id=1715014926 instance=ExtResource("3")]
 
 [editable path="ArrivalCabin"]

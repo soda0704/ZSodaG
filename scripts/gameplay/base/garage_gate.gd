@@ -8,6 +8,8 @@ var _tick := 0.0
 var _state: BaseGameplayController
 var _target_open := false
 var _received_progress := false
+var _hold_progress := 0.0
+var _require_release := false
 @onready var handles: Array[Node3D] = [%Handle0, %Handle1]
 @onready var animation: AnimationPlayer = $AnimationPlayer
 
@@ -23,12 +25,11 @@ func _bind() -> void:
 	_apply_pose(true)
 
 func _on_snapshot(_snapshot: Dictionary) -> void:
-	if _state.maintenance.has("garage_debug_open"):
-		progress = 1.0 if _state.maintenance.garage_debug_open else 0.0
-		_apply_pose()
-	elif _state.maintenance.get("garage_open", false):
-		progress = 1.0
-		_apply_pose()
+	progress = 1.0 if _state.maintenance.get("garage_debug_open", _state.maintenance.get("garage_open", false)) else 0.0
+	_apply_pose()
+
+func required_operators() -> int:
+	return 2 if BaseGameplayController.save_scope == "coop" or (_state != null and _state.get_connected_player_peer_ids().size() > 1) else 1
 
 func debug_set_open(opened: bool) -> void:
 	if not multiplayer.is_server() or _state == null:
@@ -64,13 +65,18 @@ func _physics_process(delta: float) -> void:
 				continue
 			if not operators.has(int(entry.peer)):
 				operators.append(int(entry.peer))
-		if operators.size() == 2 and progress < 1:
-			progress = minf(1, progress + elapsed / opening_seconds)
-			if progress >= 1 and _state != null:
+		if operators.is_empty() and not animation.is_playing(): _require_release = false
+		if operators.size() >= required_operators() and not _require_release and not animation.is_playing():
+			_hold_progress = minf(1.0, _hold_progress + elapsed / opening_seconds)
+			if _hold_progress >= 1.0 and _state != null:
+				_require_release = true
+				_hold_progress = 0.0
 				var snapshot := _state.get_snapshot()
 				snapshot.maintenance.erase("garage_debug_open")
-				snapshot.maintenance["garage_open"] = true
+				snapshot.maintenance["garage_open"] = progress < 1.0
 				_state._broadcast_snapshot(snapshot)
+		else:
+			_hold_progress = 0.0
 		_apply_pose()
 		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
 		if world != null and world.has_method("get_ready_v3_peers"):
@@ -119,7 +125,4 @@ func get_acoustic_openness() -> float:
 	return clampf(absf(pivot.rotation.x) / (PI * 0.5), 0.0, 1.0)
 
 func _refresh_status() -> void:
-	if animation.is_playing():
-		$Status.text = "ВОРОТА ОТКРЫВАЮТСЯ" if _target_open else "ВОРОТА ЗАКРЫВАЮТСЯ"
-	else:
-		$Status.text = "ГАРАЖ ОТКРЫТ" if _target_open else "ДВОЕ · УДЕРЖИВАЙТЕ E · %d%%" % roundi(progress * 100)
+	$Status.hide()

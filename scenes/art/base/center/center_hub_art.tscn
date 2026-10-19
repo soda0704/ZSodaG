@@ -4,7 +4,7 @@
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_arrival"]
-albedo_color = Color(0.9, 0.38, 0.06, 1)
+albedo_color = Color(0.95, 0.73, 0.07, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_living"]
 albedo_color = Color(0.08, 0.52, 0.24, 1)

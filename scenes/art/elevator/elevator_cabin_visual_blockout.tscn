@@ -85,11 +85,11 @@ size = Vector3(0.42, 0.018, 5.28)
 
 [sub_resource type="BoxMesh" id="Mesh_side_panel"]
 material = SubResource("Material_wall_panel")
-size = Vector3(1.93, 3.9, 0.08)
+size = Vector3(1.99, 3.9, 0.24)
 
 [sub_resource type="BoxMesh" id="Mesh_back_panel"]
 material = SubResource("Material_wall_panel")
-size = Vector3(0.08, 3.9, 1.93)
+size = Vector3(0.24, 3.9, 1.99)
 
 [sub_resource type="BoxMesh" id="Mesh_panel_seam_vertical"]
 material = SubResource("Material_structural_steel")
@@ -259,6 +259,20 @@ size = Vector3(0.05, 0.08, 1.2)
 material = SubResource("Material_sign_plate")
 size = Vector3(1.4, 0.58, 0.035)
 
+[sub_resource type="BoxMesh" id="Mesh_inner_corner_cover"]
+material = SubResource("Material_wall_panel")
+size = Vector3(0.5, 4.05, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_inner_corner_cover"]
+size = Vector3(0.5, 4.05, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_inner_jamb_liner"]
+material = SubResource("Material_wall_panel")
+size = Vector3(0.12, 4.05, 1.1)
+
+[sub_resource type="BoxShape3D" id="Shape_inner_jamb_liner"]
+size = Vector3(0.12, 4.05, 1.1)
+
 [node name="ElevatorCabinVisualBlockout" type="Node3D"]
 
 [node name="StructuralFrame" type="Node3D" parent="."]
@@ -340,39 +354,39 @@ mesh = SubResource("Mesh_floor_panel_seam")
 [node name="WallPanels" type="Node3D" parent="."]
 
 [node name="NorthPanelWest" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(-1.9, 2.1, -2.855)
+position = Vector3(-1.9, 2.1, -2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="NorthPanelCenter" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(0, 2.1, -2.855)
+position = Vector3(0.0, 2.1, -2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="NorthPanelEast" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(1.9, 2.1, -2.855)
+position = Vector3(1.9, 2.1, -2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="SouthPanelWest" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(-1.9, 2.1, 2.855)
+position = Vector3(-1.9, 2.1, 2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="SouthPanelCenter" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(0, 2.1, 2.855)
+position = Vector3(0.0, 2.1, 2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="SouthPanelEast" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(1.9, 2.1, 2.855)
+position = Vector3(1.9, 2.1, 2.775)
 mesh = SubResource("Mesh_side_panel")
 
 [node name="EastPanelNorth" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(2.855, 2.1, -1.9)
+position = Vector3(2.775, 2.1, -1.9)
 mesh = SubResource("Mesh_back_panel")
 
 [node name="EastPanelCenter" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(2.855, 2.1, 0)
+position = Vector3(2.775, 2.1, 0.0)
 mesh = SubResource("Mesh_back_panel")
 
 [node name="EastPanelSouth" type="MeshInstance3D" parent="WallPanels"]
-position = Vector3(2.855, 2.1, 1.9)
+position = Vector3(2.775, 2.1, 1.9)
 mesh = SubResource("Mesh_back_panel")
 
 [node name="PanelSeams" type="Node3D" parent="."]
@@ -740,3 +754,53 @@ position = Vector3(-1.9, 3.15, -2.72)
 text = "NORTHERNLAB\nFREIGHT LIFT E-01"
 font_size = 34
 outline_size = 6
+
+[node name="InteriorCornerCovers" type="Node3D" parent="."]
+
+[node name="NE" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(2.74, 2.055, -2.74)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/NE"]
+mesh = SubResource("Mesh_inner_corner_cover")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/NE"]
+shape = SubResource("Shape_inner_corner_cover")
+
+[node name="SE" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(2.74, 2.055, 2.74)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/SE"]
+mesh = SubResource("Mesh_inner_corner_cover")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/SE"]
+shape = SubResource("Shape_inner_corner_cover")
+
+[node name="NW" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(-2.74, 2.055, -2.74)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/NW"]
+mesh = SubResource("Mesh_inner_corner_cover")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/NW"]
+shape = SubResource("Shape_inner_corner_cover")
+
+[node name="SW" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(-2.74, 2.055, 2.74)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/SW"]
+mesh = SubResource("Mesh_inner_corner_cover")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/SW"]
+shape = SubResource("Shape_inner_corner_cover")
+
+[node name="EntryLinerNorth" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(-2.72, 2.055, -2.45)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/EntryLinerNorth"]
+mesh = SubResource("Mesh_inner_jamb_liner")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/EntryLinerNorth"]
+shape = SubResource("Shape_inner_jamb_liner")
+
+[node name="EntryLinerSouth" type="StaticBody3D" parent="InteriorCornerCovers"]
+position = Vector3(-2.72, 2.055, 2.45)
+collision_layer = 1
+[node name="Cover" type="MeshInstance3D" parent="InteriorCornerCovers/EntryLinerSouth"]
+mesh = SubResource("Mesh_inner_jamb_liner")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorCornerCovers/EntryLinerSouth"]
+shape = SubResource("Shape_inner_jamb_liner")

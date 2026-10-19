@@ -2,6 +2,7 @@ class_name WorldItemPickup
 extends RigidBody3D
 
 const PHYSICS_SYNC_RATE := 10.0
+const PHYSICS_IDLE_SYNC_INTERVAL := 2.0
 enum HighlightCategory { COMMON, STORY, SPECIAL }
 
 @export_group("Item")
@@ -31,6 +32,13 @@ var _cargo_cabin: Node3D
 var _cargo_candidate: Node3D
 var _cargo_pose := Transform3D.IDENTITY
 var _cargo_cooldown := 0.0
+var _physics_state_sent := false
+var _physics_idle_elapsed := 0.0
+var _last_sent_transform := Transform3D.IDENTITY
+var _last_sent_linear := Vector3.ZERO
+var _last_sent_angular := Vector3.ZERO
+var _last_sent_cabin_id := 0
+var _last_sent_cargo_pose := Transform3D.IDENTITY
 
 
 func setup_spawn(data: Dictionary) -> void:
@@ -75,15 +83,32 @@ func _physics_process(delta: float) -> void:
 	if not multiplayer.is_server():
 		return
 
+	_physics_idle_elapsed += delta
 	_sync_accumulator += delta
 	var interval := 1.0 / PHYSICS_SYNC_RATE
 	if _sync_accumulator < interval:
 		return
 	_sync_accumulator = fmod(_sync_accumulator, interval)
-	sync_physics_state()
+	# Unreliable movement packets need a slow heartbeat to recover a lost final pose.
+	if not _physics_state_matches_last_send() or _physics_idle_elapsed >= PHYSICS_IDLE_SYNC_INTERVAL:
+		sync_physics_state()
+
+
+func _physics_state_matches_last_send() -> bool:
+	return _physics_state_sent and global_transform == _last_sent_transform \
+		and linear_velocity == _last_sent_linear and angular_velocity == _last_sent_angular \
+		and ( _cargo_cabin.get_instance_id() if is_instance_valid(_cargo_cabin) else 0 ) == _last_sent_cabin_id and _cargo_pose == _last_sent_cargo_pose
 
 
 func sync_physics_state() -> void:
+	# Explicit sends (sleep, drag release, cargo capture) always publish immediately.
+	_physics_idle_elapsed = 0.0
+	_physics_state_sent = true
+	_last_sent_transform = global_transform
+	_last_sent_linear = linear_velocity
+	_last_sent_angular = angular_velocity
+	_last_sent_cabin_id = _cargo_cabin.get_instance_id() if is_instance_valid(_cargo_cabin) else 0
+	_last_sent_cargo_pose = _cargo_pose
 	_receive_physics_state.rpc(
 		global_transform,
 		linear_velocity,

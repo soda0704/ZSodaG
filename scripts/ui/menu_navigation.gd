@@ -12,13 +12,12 @@ func navigation_indicator() -> void:
 func _process(delta: float) -> void:
 	if not is_visible_in_tree():
 		return
-	var focused := get_viewport().gui_get_focus_owner()
+	_selected = null
+	queue_redraw()
 	for child in get_children():
 		if child is Button and not child.disabled and child.is_hovered():
 			_selected = child
 			break
-		if child == focused:
-			_selected = child
 	if not is_instance_valid(_selected):
 		return
 	var font := _selected.get_theme_font("font")
@@ -42,6 +41,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	if not is_instance_valid(_selected): return
 	for index in 24:
 		var from := _rect.position + Vector2(_rect.size.x * index / 24.0, 0)
 		var to := _rect.position + Vector2(_rect.size.x * (index + 1) / 24.0, 0)

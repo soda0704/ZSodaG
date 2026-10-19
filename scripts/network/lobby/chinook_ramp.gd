@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func get_interaction_prompt() -> String:
 	if locked_in_flight:
-		return "Рампа заблокирована до посадки"
+		return ""
 	if animation.is_playing():
 		return "Рампа движется"
 	if opened and _passage_occupied():
@@ -64,3 +64,14 @@ func _apply_state(value: bool, instant := false) -> void:
 		animation.pause()
 
 
+
+func get_interaction_hint_for(_interactor: Node) -> String:
+	var glyph: String = get_node("/root/SteamInput").get_action_hint(&"interact")
+	if locked_in_flight: return glyph
+	if animation.is_playing() or (opened and _passage_occupied()): return ""
+	return glyph + " " + get_interaction_prompt()
+
+func begin_lobby_interaction() -> bool:
+	if not locked_in_flight: return false
+	GameMenu.open_menu(GameMenu.MenuView.SESSION)
+	return true

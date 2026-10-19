@@ -82,6 +82,11 @@ func run() -> void:
 	await visit(client_actor, vault)
 	check(client_actor.get_interaction_target() == vault, "host ray for guest targets vault terminal")
 	client_actor.try_authoritative_interaction()
+	check(state.quest_stage == BaseGameplayController.QuestStage.OFFERED, "guest cannot bypass hold through interaction packet")
+	vault._open_session(client_id)
+	vault._command(client_id, 1, &"quest_begin")
+	await get_tree().create_timer(1.4).timeout
+	vault._command(client_id, 2, &"quest")
 	check(state.quest_stage == BaseGameplayController.QuestStage.COLLECTED, "host confirms collection by guest")
 	await get_tree().create_timer(0.5).timeout
 	verify_phase.rpc_id(client_id, "collected")
@@ -101,6 +106,43 @@ func run() -> void:
 	await get_tree().create_timer(0.5).timeout
 	verify_phase.rpc_id(client_id, "delivered")
 	check(await until(func(): return reports.has("delivered")), "guest sees completed mission and hub key")
+	# Host-authoritative gate and sleep rules with two real ENet players.
+	var level: Node = world.get_node("V3Level")
+	var gate: Node
+	for candidate in level.find_children("*", "Node3D", true, false):
+		if candidate.get_script() != null and candidate.get_script().resource_path.ends_with("garage_gate.gd"):
+			gate = candidate
+			break
+	check(gate != null and gate.required_operators() == 2, "real coop gate requires both players")
+	gate.set_physics_process(false)
+	gate.opening_seconds = 0.2
+	var host_actor: GamePlayer = world.players.get_node("1")
+	host_actor.teleport_authoritative(gate.handles[0].global_position + gate.global_basis.z, 0)
+	client_actor.teleport_authoritative(gate.handles[1].global_position + gate.global_basis.z, 0)
+	for frame in 8: await get_tree().physics_frame
+	for i in 3:
+		gate._hold(1, 0)
+		gate._physics_process(0.1)
+	check(gate.progress == 0.0, "one coop player cannot open gate alone")
+	for i in 3:
+		gate._hold(1, 0)
+		gate._hold(client_id, 1)
+		gate._physics_process(0.1)
+	check(gate.progress == 1.0, "two distinct handles open coop gate")
+	gate.animation.advance(4.1)
+	for frame in 8: await get_tree().physics_frame
+	gate._holds.clear()
+	gate._physics_process(0.4)
+	for i in 3:
+		gate._hold(1, 0)
+		gate._hold(client_id, 1)
+		gate._physics_process(0.1)
+	check(gate.progress == 0.0, "two players can close open coop gate")
+	var bunk: BaseEndDayBunk = level.get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
+	host_actor.teleport_authoritative(bunk.wake_pose.global_position, 0)
+	bunk.network_interact(1, host_actor)
+	check(state.is_peer_sleeping(1) and not state.are_all_connected_players_sleeping(), "coop sleeper waits for actual connected partner")
+	check(bunk.cancel_sleep_authoritative(1, host_actor) and not state.is_peer_sleeping(1), "coop sleeper can get up before partner lies down")
 	finish.rpc_id(client_id, failures)
 	await get_tree().create_timer(0.5).timeout
 	print("TERMINAL COOP CHECKS ", checks, " FAILURES ", failures)

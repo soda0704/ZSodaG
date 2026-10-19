@@ -1,5 +1,8 @@
 # Medical section door
 
+Актуально после очистки 19.10.2026: игра использует `scenes/art/doors/fitted/medical_hermetic_door_visual_blockout.tscn` с геометрией в сцене и шестью текстурами в этом каталоге. Неподключённая GLB и лишние промежуточные изображения удалены по разрешению пользователя. Описание прежней подготовки ниже оставлено как история.
+
+
 Source geometry: Medical_Hermetic_Door.blend. Original file untouched. World vertex positions and polygon count preserved. Frame remains 6 × 6 × 0.6 m as supplied.
 
 Prepared Blender: Blender/Doors/Medical_Hermetic_Door/medical_hermetic_door_realistic_2k.blend.

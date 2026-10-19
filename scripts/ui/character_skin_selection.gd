@@ -15,6 +15,8 @@ func _ready() -> void:
 	option = $SkinOption
 	preview = $Preview/Viewport
 	preview.world_3d = World3D.new()
+	$Preview.resized.connect(_update_preview_size)
+	_update_preview_size.call_deferred()
 	preview.set_meta("ui_presentation", true)
 	camera = $Preview/Viewport/Camera
 	$Preview.gui_input.connect(_preview_input)
@@ -59,3 +61,9 @@ func _preview_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		_dragging = false
+
+func _update_preview_size() -> void:
+	var display_size: Vector2 = $Preview.size
+	if display_size.x < 1 or display_size.y < 1: return
+	var factor := minf(2.0, minf(3840.0 / display_size.x, 2160.0 / display_size.y))
+	preview.size = Vector2i(maxi(2, roundi(display_size.x * factor)), maxi(2, roundi(display_size.y * factor)))

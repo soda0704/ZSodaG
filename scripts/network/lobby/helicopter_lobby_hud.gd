@@ -20,6 +20,12 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if flight_transition.visible:
+		var frame := int(Time.get_ticks_msec() / 170) % 4
+		var cells := ""
+		for i in 4: cells += ("■ " if i == frame else "□ ")
+		$FlightTransition/LoadingActivity.text = cells
+
 	lobby_panel.visible = _waiting_for_arrival and not GameMenu.is_menu_open()
 
 
@@ -62,6 +68,7 @@ func show_transition_cover(message: String) -> int:
 	if is_instance_valid(_transition_tween):
 		_transition_tween.kill()
 	transition_label.text = message
+	$FlightTransition/JournalHint.text = "%s · ЖУРНАЛ ЭКСПЕДИЦИИ\nЗадачи, найденные записи и инвентарь — в журнале" % get_node("/root/SteamInput").get_action_hint(&"journal")
 	flight_transition.visible = true
 	flight_transition.modulate = Color.WHITE
 	return _transition_generation

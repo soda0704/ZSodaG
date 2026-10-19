@@ -245,7 +245,7 @@ func _physics_process(delta: float) -> void:
 	_align_visual_to_ground(delta)
 	_update_engine_audio(delta)
 	# The world label is directly above the seat, too close to the driver's camera.
-	$Status.visible = driver == null or not driver.is_local_player()
+	$Status.visible = false
 	$Status.text = "СНЕГОХОД · %.1f / %.0f л" % [fuel_liters, tank_capacity]
 
 ## S brakes forward motion before engaging reverse. Steering alone does not burn fuel.

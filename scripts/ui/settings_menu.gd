@@ -118,6 +118,11 @@ func select_category(index: int) -> void:
 			_toggle("HDR", "HDR", true, not DisplayServer.window_is_hdr_output_supported())
 			_numeric("HDRWhite", "Опорная яркость HDR", 100, 400, 20, " нит", true)
 		1:
+			var recommended_row := _row("Рекомендуемые настройки · цель 60 FPS")
+			recommended_row.add_child(NorthernMenuStyle.button("Подобрать", func():
+				draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
+				draft.GraphicsCalibrationPending = true
+				select_category(1), 20))
 			_choice("Preset", "Общее качество", ["Свои настройки", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3], true)
 			for spec in QUALITY:
 				if spec.size() == 2:
@@ -165,6 +170,7 @@ func _get_value(key: String, graphics: bool) -> Variant:
 	return draft.Graphics.get(key, 0) if graphics else draft.get(key, 0)
 
 func _set_value(key: String, value: Variant, graphics: bool) -> void:
+	if graphics: draft.GraphicsCalibrationPending = false
 	if graphics:
 		draft.Graphics[key] = value
 	else:
@@ -217,6 +223,7 @@ func _toggle(key: String, text: String, graphics: bool = false, disabled: bool =
 	)
 
 func _preset(index: int) -> void:
+	draft.GraphicsCalibrationPending = false
 	if index == 0:
 		return
 	var data: Dictionary = draft.Graphics.duplicate()

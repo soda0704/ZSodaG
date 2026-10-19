@@ -173,24 +173,19 @@ func restore_checkpoint_floor(floor_index: int) -> void:
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
 	if floor_index < 0 or floor_index > MAX_FLOOR_INDEX:
-		return "Неизвестный уровень"
+		return ""
 	if not is_powered:
-		return "Лифт обесточен"
+		return ""
 	if floor_index > unlocked_floor_index:
-		return "Уровень %s закрыт" % _get_floor_label(floor_index)
+		return ""
 	if state in [
 		ElevatorState.CLOSING,
 		ElevatorState.MOVING,
 		ElevatorState.ARRIVING,
 		ElevatorState.OPENING,
 	]:
-		return "Лифт движется"
-	if floor_index == current_floor_index:
-		return (
-			"Лифт уже здесь"
-			if is_call_button
-			else "Текущий уровень %s" % _get_floor_label(floor_index)
-		)
+		return ""
+	if floor_index == current_floor_index: return ""
 	return (
 		"Вызвать лифт на уровень %s" % _get_floor_label(floor_index)
 		if is_call_button

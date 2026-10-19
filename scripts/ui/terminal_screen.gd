@@ -7,13 +7,22 @@ signal close_requested
 @export var missing_background: StyleBox
 @export var app_background: StyleBox
 var app_open := false
+var _quest_hold := 0.0
+var _quest_holding := false
 var terminal: Node
 
 func _ready() -> void:
 	$Overlay/Tabs/Expedition.pressed.connect(func(): request_app(false))
 	$Overlay/Tabs/Clicker.pressed.connect(func(): request_app(true))
 	$Overlay/Tabs/Close.pressed.connect(func(): close_requested.emit())
-	$Overlay/QuestAction.pressed.connect(func(): quest_requested.emit())
+	$Overlay/QuestAction.pressed.connect(func():
+		if terminal != null and not terminal.is_key_terminal: quest_requested.emit())
+	$Overlay/QuestAction.button_down.connect(func():
+		if terminal != null and terminal.is_key_terminal and not $Overlay/QuestAction.disabled:
+			_quest_hold = 0.0
+			_quest_holding = true
+			terminal.request_clicker_action(&"quest_begin"))
+	$Overlay/QuestAction.button_up.connect(_cancel_quest_hold)
 
 func bind(controller: BaseGameplayController, source: Node) -> void:
 	terminal = source
@@ -43,3 +52,20 @@ func refresh_access() -> void:
 	$Overlay/Tabs/Expedition.disabled = readonly
 	$Overlay/Tabs/Clicker.disabled = readonly
 	$Overlay/LabClicker.refresh()
+
+func _cancel_quest_hold() -> void:
+	if _quest_holding and terminal != null: terminal.request_clicker_action(&"quest_cancel")
+	_quest_holding = false
+	_quest_hold = 0.0
+
+func _process(delta: float) -> void:
+	if terminal == null: return
+	if _quest_holding:
+		if not terminal.active or app_open or $Overlay/QuestAction.disabled:
+			_cancel_quest_hold()
+		else:
+			_quest_hold += delta
+			if _quest_hold >= 1.35:
+				_quest_holding = false
+				quest_requested.emit()
+	$Overlay/QuestAction.text = ("УДЕРЖИВАЙТЕ / ИЗВЛЕЧЬ PASS KEY  %d%%" % mini(100, int(_quest_hold / 1.35 * 100.0))) if terminal.is_key_terminal else "PASS KEY / ВЗАИМОДЕЙСТВОВАТЬ"

@@ -3,6 +3,7 @@ class_name WorldLighting
 extends Node3D
 ## One world shadow pass and a bounded pool of local lamps.
 const EXTERIOR_LAYER := 1 << 16
+const ARRIVAL_SHADOW_LAYER := 1 << 15
 const MAX_ACTIVE_LAMPS := 8
 const MAX_RESIDENT_LAMPS := 10
 @export var outdoor_ambient := 0.12
@@ -38,6 +39,8 @@ func _ready() -> void:
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
 	_tag_exterior(get_parent().get_node("SnowExterior"))
+	var arrival := get_parent().get_node_or_null("ArrivalSite")
+	if arrival != null: _tag_shadow_casters(arrival)
 	for node in find_children("*", "SpotLight3D", true, false):
 		var lamp := node as SpotLight3D
 		_lamps.append(lamp)
@@ -261,3 +264,9 @@ func sample_view_light(camera: Camera3D) -> Color:
 		sum += lamp.light_color * pow(1.0 - distance / lamp.spot_range, 2.0) * lamp.light_energy * 0.16
 	sum += Color(0.08, 0.095, 0.12) * (1.0 - _indoor_mix)
 	return Color(minf(sum.r, 0.35), minf(sum.g, 0.35), minf(sum.b, 0.35), 1.0)
+
+func _tag_shadow_casters(node: Node) -> void:
+	# Separate caster membership must survive the player camera excluding layers 18/19.
+	# This layer never receives the exterior directional light.
+	if node is GeometryInstance3D: node.layers |= ARRIVAL_SHADOW_LAYER
+	for child in node.get_children(): _tag_shadow_casters(child)

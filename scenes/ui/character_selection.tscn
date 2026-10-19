@@ -4,17 +4,45 @@
 [ext_resource type="Script" path="res://scripts/ui/character_skin_selection.gd" id="1_wk3ts"]
 [ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="2_choice"]
 
+[ext_resource type="Shader" path="res://assets/shaders/character_preview_composite.gdshader" id="preview_composite"]
+
 [sub_resource type="StyleBoxEmpty" id="ChoiceFocus"]
 
 [sub_resource type="Environment" id="Environment_ptmoy"]
 background_mode = 1
-background_color = Color(1, 1, 1, 0)
+background_color = Color(0, 0, 0, 0)
 ambient_light_source = 2
 ambient_light_color = Color(0.78, 0.8, 0.76, 1)
-ambient_light_energy = 0.75
+ambient_light_energy = 0.130
 
 [sub_resource type="World3D" id="World3D_j6qxg"]
 environment = SubResource("Environment_ptmoy")
+
+[sub_resource type="ViewportTexture" id="preview_texture"]
+viewport_path = NodePath("Preview/Viewport")
+
+[sub_resource type="ShaderMaterial" id="preview_composite_material"]
+shader = ExtResource("preview_composite")
+
+[sub_resource type="StyleBoxFlat" id="choice_background"]
+bg_color = Color(0.018, 0.025, 0.03, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.28, 0.29, 0.85)
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="choice_hover"]
+bg_color = Color(0.045, 0.06, 0.065, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.48, 0.47, 1)
+content_margin_left = 20.0
+content_margin_right = 20.0
 
 [node name="SkinCard" type="Control" unique_id=2001415178]
 theme = ExtResource("menu_theme")
@@ -23,17 +51,28 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_wk3ts")
 
-[node name="Preview" type="SubViewportContainer" parent="." unique_id=2025599347]
+[node name="SelectionShade" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.015, 0.021, 0.024, 0.32)
+
+[node name="Preview" type="TextureRect" parent="." unique_id=2025599347]
 layout_mode = 0
 anchor_left = 0.42
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 0
-stretch = true
+texture = SubResource("preview_texture")
+material = SubResource("preview_composite_material")
+expand_mode = 1
+stretch_mode = 0
 
 [node name="Viewport" type="SubViewport" parent="Preview" unique_id=687658685]
 world_3d = SubResource("World3D_j6qxg")
 transparent_bg = true
+msaa_3d = 3
 size = Vector2i(2, 2)
 metadata/ui_presentation = true
 
@@ -42,12 +81,13 @@ environment = SubResource("Environment_ptmoy")
 
 [node name="@DirectionalLight3D@130" type="DirectionalLight3D" parent="Preview/Viewport" unique_id=1898559380]
 transform = Transform3D(-0.90630776, -0.24240392, 0.34618866, 0, 0.81915206, 0.57357645, -0.42261833, 0.5198368, -0.74240386, 0, 0, 0)
-light_energy = 1.7
+light_energy = 0.76
+shadow_enabled = true
 
 [node name="@DirectionalLight3D@131" type="DirectionalLight3D" parent="Preview/Viewport" unique_id=1035010627]
 transform = Transform3D(0.81915206, 0.1961747, -0.53898555, 0, 0.9396926, 0.34202012, 0.57357645, -0.28016648, 0.76975113, 0, 0, 0)
 light_color = Color(0.65, 0.72, 0.78, 1)
-light_energy = 0.65
+light_energy = 0.13
 
 [node name="Camera" type="Camera3D" parent="Preview/Viewport" unique_id=500606190]
 transform = Transform3D(-1, 5.640057e-10, -8.742096e-08, 0, 0.9999792, 0.006451473, 8.742278e-08, 0.006451473, -0.9999792, 0, 1.45, -1.55)
@@ -56,7 +96,10 @@ fov = 38.0
 
 [node name="SkinOption" type="OptionButton" parent="." unique_id=2004722994]
 script = ExtResource("2_choice")
-theme_override_styles/focus = SubResource("ChoiceFocus")
+theme_override_styles/focus = SubResource("choice_hover")
+theme_override_styles/normal = SubResource("choice_background")
+theme_override_styles/hover = SubResource("choice_hover")
+theme_override_styles/pressed = SubResource("choice_hover")
 custom_minimum_size = Vector2(460, 70)
 layout_mode = 0
 offset_left = 90.0

@@ -1009,3 +1009,13 @@ mesh = SubResource("mounting_screw")
 position = Vector3(0.36, -0.425, 0.018)
 rotation = Vector3(1.5707964, 0, 0)
 mesh = SubResource("mounting_screw")
+
+[node name="RepairBeam" type="SpotLight3D" parent="Wiring/RepairCamera"]
+visible = false
+position = Vector3(0, -0.04, -0.04)
+light_color = Color(0.91, 0.96, 1, 1)
+light_energy = 1.6
+shadow_enabled = true
+spot_range = 5.0
+spot_angle = 31.0
+spot_attenuation = 0.6

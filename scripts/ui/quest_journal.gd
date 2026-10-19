@@ -32,6 +32,8 @@ var _ink_viewport: SubViewport
 var _page_surfaces: Array[MeshInstance3D] = []
 var _phase_time := 0.0
 var _last_ink_point := Vector2.ZERO
+var _inventory_refresh_elapsed := 0.0
+var _last_inventory_view: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -70,7 +72,10 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(_controller):
 		_bind_controller()
 	if _phase == PresentationState.OPEN:
-		_refresh_inventory()
+		_inventory_refresh_elapsed += delta
+		if _inventory_refresh_elapsed >= 0.1:
+			_inventory_refresh_elapsed = 0.0
+			_refresh_inventory()
 	if is_journal_open():
 		var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or (get_node("/root/GameMenu").is_menu_open() and not get_node("/root/GameMenu").is_capturing_feedback_screenshot()):
@@ -333,6 +338,9 @@ func _select_item(id: StringName) -> void:
 	for card: JournalPhotoCard in _cards.values():
 		card.set_pressed_no_signal(card.item_id == id)
 	_refresh_inventory()
+	if _cards.has(id) and _cards[id].visible:
+		var scroll: ScrollContainer = notebook_pivot.get_node("Reveal/Ink/RightPage/InventoryScroll")
+		scroll.call_deferred("ensure_control_visible", _cards[id])
 
 func _refresh_inventory() -> void:
 	var player := get_tree().get_first_node_in_group("local_player")
@@ -341,10 +349,26 @@ func _refresh_inventory() -> void:
 	var has_light := bool(data.get("has_flashlight", false))
 	var charge := float(data.get("battery_charge", 0.0))
 	var hand := StringName(data.get("held_item", &""))
+	# Only the displayed values invalidate the cards; battery drain is rounded in UI.
+	var input_service := get_node("/root/SteamInput")
+	var view := {"hand": hand, "light": has_light, "charge": roundi(charge * 100.0),
+		"batteries": batteries, "selected": _selected_item,
+		"rounds": data.get("weapon_rounds", 0), "ammo": data.get("pistol_ammo", 0),
+		"magazines": data.get("rifle_magazines", []), "mounted": data.get("weapon_light_mounted", false),
+		"tape": data.get("tape_count", 0), "crowbar": data.get("crowbar_uses", 0),
+		"controls": input_service.get_controls_hint(),
+		"close": [input_service.get_action_hint(&"journal"), input_service.get_action_hint(&"ui_cancel")],
+		"depleted": charge <= 0.0}
+	if view == _last_inventory_view: return
+	_last_inventory_view = view.duplicate(true)
 	_cards[&"flashlight"].visible = has_light
 	_cards[&"battery"].visible = not batteries.is_empty()
 	_cards[&"fuel_can"].visible = hand == &"fuel_can"
 	_cards[&"fuse"].visible = hand == &"fuse"
+	_cards[&"pistol_ammo"].visible = int(data.get("pistol_ammo", 0)) > 0
+	_cards[&"pistol_ammo"].set_note("×%d" % int(data.get("pistol_ammo", 0)))
+	_cards[&"rifle_magazine"].visible = not data.get("rifle_magazines", []).is_empty()
+	_cards[&"rifle_magazine"].set_note("×%d" % data.get("rifle_magazines", []).size())
 	for id: StringName in WeaponController.TYPES:
 		_cards[id].visible = hand == id
 		var reserve := "%d патр." % int(data.get("pistol_ammo", 0)) if id == &"pistol" else "%d магаз." % data.get("rifle_magazines", []).size()
@@ -355,7 +379,7 @@ func _refresh_inventory() -> void:
 		_cards[_selected_item].set_pressed_no_signal(false)
 		_selected_item = &""
 	replace_button.visible = has_light and charge <= 0.0 and not batteries.is_empty()
-	drop_button.visible = _selected_item != &""
+	drop_button.visible = _selected_item != &"" and _selected_item not in [&"pistol_ammo", &"rifle_magazine"]
 	mount_button.visible = hand == &"m4a1" and has_light
 	mount_button.text = "Снять фонарь" if data.get("weapon_light_mounted", false) else "Примотать"
 	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на M4A1: нужен 1 скотч. Свет включается кнопкой F."
@@ -375,8 +399,12 @@ func _refresh_inventory() -> void:
 		inventory_label.text = " · ".join(lines) if lines.size() <= 3 else "%d батареек · заряд %d–%d%%" % [batteries.size(), charges.back(), charges.front()]
 	elif not has_light and batteries.is_empty() and hand == &"":
 		inventory_label.text = "Здесь будут фотографии найденных вещей."
-	if _selected_item == &"" and (int(data.get("pistol_ammo", 0)) > 0 or not data.get("rifle_magazines", []).is_empty()):
-		inventory_label.text = "Запас: патроны ×%d · магазины ×%d" % [int(data.get("pistol_ammo", 0)), data.get("rifle_magazines", []).size()]
+	if _selected_item == &"pistol_ammo":
+		inventory_label.text = "Патронов в запасе: %d" % int(data.get("pistol_ammo", 0))
+	elif _selected_item == &"rifle_magazine":
+		var rounds: Array[String] = []
+		for magazine in data.get("rifle_magazines", []): rounds.append(str(int(magazine)))
+		inventory_label.text = "Патронов в магазинах: " + ", ".join(rounds)
 	controls_label.text = get_node("/root/SteamInput").get_controls_hint()
 	if int(data.get("tape_count", 0)) > 0 or int(data.get("crowbar_uses", 0)) > 0:
 		inventory_label.text += "\nСкотч: %d · Монтировка: %s" % [int(data.get("tape_count", 0)), "есть" if int(data.get("crowbar_uses", 0)) > 0 else "нет"]
@@ -387,6 +415,7 @@ func _refresh_inventory() -> void:
 			close_button.grab_focus()
 
 func _drop_selected() -> void:
+	if _selected_item in [&"pistol_ammo", &"rifle_magazine"]: return
 	if _selected_item == &"battery":
 		_inventory_action(&"drop_battery")
 	elif _selected_item == &"flashlight":

@@ -537,6 +537,8 @@ func load_settings_data() -> Dictionary:
 	defaults["GraphicsPresetRevision"] = preload("res://scripts/ui/graphics_quality.gd").PRESET_REVISION
 	var path := get_settings_path()
 	if not FileAccess.file_exists(path):
+		defaults.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
+		defaults.GraphicsCalibrationPending = true
 		return defaults
 	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
@@ -574,6 +576,7 @@ func save_settings_data() -> bool:
 	return result == OK
 
 func apply_settings_data() -> void:
+	if _settings_data.get("GraphicsCalibrationPending", false): $GraphicsQuality.restart_recommendation()
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 	var resolution := parse_resolution(
 		str(_settings_data.get("Resolution", "1920x1080"))
