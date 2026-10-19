@@ -1,0 +1,23 @@
+[
+  {
+    "source": "antenna1",
+    "name": "Antenna_CentralLattice",
+    "source_triangles": 114798,
+    "triangles": 7390,
+    "height": 1
+  },
+  {
+    "source": "antenna20",
+    "name": "Antenna_ScienceMast",
+    "source_triangles": 13792,
+    "triangles": 1791,
+    "height": 1
+  },
+  {
+    "source": "antenna25",
+    "name": "Antenna_CrossArray",
+    "source_triangles": 3808,
+    "triangles": 900,
+    "height": 1
+  }
+]

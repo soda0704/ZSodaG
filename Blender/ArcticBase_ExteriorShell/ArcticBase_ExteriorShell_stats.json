@@ -1,0 +1,11 @@
+{
+  "pass": 3,
+  "vertices": 22405,
+  "triangles": 30393,
+  "objects": 6,
+  "materials": 4,
+  "collisions": 0,
+  "texture_maps": 0,
+  "bounds_godot": {},
+  "source_reference": "reference_measurements.json"
+}

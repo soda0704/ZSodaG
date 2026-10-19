@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ojj5yvkr85ou"]
+
+[ext_resource type="PackedScene" uid="uid://dqrjbf0rkbo2h" path="res://assets/models/architecture/arctic_base_exterior/ArcticBase_ExteriorShell.glb" id="1_shell"]
+
+[node name="ArcticBase_ExteriorShell" type="Node3D" unique_id=823052525]
+editor_description = "Measured exterior-only shell. Disable this node to compare with the original base. No scripts or collision."
+
+[node name="Model" parent="." unique_id=659112990 instance=ExtResource("1_shell")]
+
+[node name="Base_ExteriorShell_Mesh" parent="Model" index="0" unique_id=1635393134]
+layers = 65537
+
+[node name="Roof_TechnicalEquipment" parent="Model" index="1" unique_id=1155989750]
+layers = 65537
+
+[node name="Antenna_CentralLattice_0" parent="Model" index="2" unique_id=1355340141]
+transform = Transform3D(3.3328235, 0, 0, 0, 2.9515374, 0, 0, 0, 3.1574142, 0, -21.774147, 0)
+layers = 65537
+
+[node name="Antenna_ScienceMast_1" parent="Model" index="3" unique_id=1105246996]
+layers = 65537
+
+[node name="Antenna_CrossArray_2" parent="Model" index="4" unique_id=1611383450]
+layers = 65537
+
+[node name="Antenna_CrossArray_3" parent="Model" index="5" unique_id=1449938108]
+layers = 65537
+
+[editable path="Model"]

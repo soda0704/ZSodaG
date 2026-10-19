@@ -810,10 +810,10 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 23.802559, 0.95, -7.3403735)
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 29.259417, 0.95, -7.3403735)
 
 [node name="ElevatorBackupSolarPanel" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="1" unique_id=1302269298]
-transform = Transform3D(-1.6292067e-07, -1.0402462e-15, -1, 0.059426554, 0.9982327, -9.681811e-09, 0.9982327, -0.059426554, -1.6263273e-07, -38.327595, -0.27492875, 6.959621)
+transform = Transform3D(-2.0216214e-07, 5.299733e-18, -1, -0.013166388, 1.0217978, 1.7286993e-09, 1.2407925, 0.010842576, -1.629115e-07, -39.2579, 0.3641695, 7.0690384)
 
 [node name="ElevatorBackupSolarPanel2" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="5" unique_id=199684900]
-transform = Transform3D(-0.0055927155, -0.0001937856, -0.9999844, 0.05169209, 0.9986632, -0.00048263284, 0.9986475, -0.05169397, -0.005575217, -38.28557, -0.37402314, 5.356989)
+transform = Transform3D(-1.9011684e-07, -1.1221413e-15, -1, 0.010703877, 1.0120827, -1.4944204e-09, 1.1668798, -0.009283912, -1.6291382e-07, -39.258385, 0.37677887, 5.280569)
 
 [node name="West_Connector_Floor" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="0" unique_id=889035786]
 layers = 262145
