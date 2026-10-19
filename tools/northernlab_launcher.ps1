@@ -310,20 +310,49 @@ function Invoke-GodotBuildStep {
     param([string]$Name, [int]$TimeoutSeconds, [string[]]$Arguments)
 
     $logPath = Join-Path $buildLogDirectory "$Name.log"
+    $stdoutPath = Join-Path $buildLogDirectory "$Name.stdout.log"
+    $stderrPath = Join-Path $buildLogDirectory "$Name.stderr.log"
     # Truncate the previous run so a startup failure cannot reuse its success log.
-    Set-Content -LiteralPath $logPath -Value "" -Encoding UTF8
-    $process = Start-Process -FilePath $localGodot `
-        -ArgumentList ($Arguments + @("--log-file", "`"$logPath`"")) `
-        -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru
-    if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
-        Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
+    foreach ($stepLog in @($logPath, $stdoutPath, $stderrPath)) {
+        Set-Content -LiteralPath $stepLog -Value "" -Encoding UTF8
+    }
+    # Keep Godot's console output separate from the hidden launcher console.
+    # Native startup/shutdown errors may only appear on stdout/stderr.
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = $localGodot
+    $startInfo.Arguments = ($Arguments + @("--log-file", "`"$logPath`"")) -join ' '
+    $startInfo.WorkingDirectory = $projectRoot
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
+    $timedOut = $false
+    try {
+        $null = $process.Start()
+        # Drain both streams concurrently so verbose exports cannot block on a full pipe.
+        $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+        $stderrTask = $process.StandardError.ReadToEndAsync()
+        if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
+            $timedOut = $true
+            $process.Kill()
+            $process.WaitForExit()
+        }
+        Set-Content -LiteralPath $stdoutPath -Value $stdoutTask.GetAwaiter().GetResult() -Encoding UTF8
+        Set-Content -LiteralPath $stderrPath -Value $stderrTask.GetAwaiter().GetResult() -Encoding UTF8
+        $exitCode = $process.ExitCode
+    }
+    finally {
+        $process.Dispose()
+    }
+    if ($timedOut) {
         throw "Godot $Name timed out. See $logPath. The current build has been kept."
     }
-    $process.Refresh()
-    $engineError = Select-String -LiteralPath $logPath -Pattern '^(SCRIPT ERROR:|ERROR:)' |
+    $engineError = Select-String -LiteralPath @($logPath, $stdoutPath, $stderrPath) -Pattern '^(SCRIPT ERROR:|ERROR:)' |
         Select-Object -First 1
-    if ($process.ExitCode -ne 0 -or $engineError) {
-        throw "Godot $Name failed (code $($process.ExitCode)). See $logPath. $engineError"
+    if ($exitCode -ne 0 -or $engineError) {
+        throw "Godot $Name failed (code $exitCode). See $logPath. $engineError"
     }
 }
 
@@ -551,7 +580,7 @@ function Start-NorthernLab {
 if ($BuildOnly) {
     Invoke-DevelopmentBuild {
         param($message)
-        Write-Output $message
+        Write-Host $message
     } | Out-Null
     Write-Output "NorthernLab build and shortcut are ready."
     exit 0

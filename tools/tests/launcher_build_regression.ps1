@@ -6,7 +6,7 @@ $tokens = $null
 $ast = [System.Management.Automation.Language.Parser]::ParseFile($launcher, [ref]$tokens, [ref]$parseErrors)
 if ($parseErrors.Count) { throw "Launcher parse errors: $parseErrors" }
 # Load helpers without opening the launcher or touching the real game build.
-foreach ($name in @('Assert-BuildNotRunning', 'Publish-DevelopmentBuild', 'Remove-BuildStagingDirectory')) {
+foreach ($name in @('Assert-BuildNotRunning', 'Publish-DevelopmentBuild', 'Remove-BuildStagingDirectory', 'Invoke-GodotBuildStep')) {
     $definition = $ast.Find({ param($node)
         $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name
     }, $true)
@@ -19,6 +19,51 @@ $outputExecutable = Join-Path $outputDirectory 'NorthernLab.exe'
 New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 Set-Content -LiteralPath $outputExecutable -Value 'previous build'
 try {
+    $buildLogDirectory = Join-Path $testRoot 'logs'
+    New-Item -ItemType Directory -Path $buildLogDirectory | Out-Null
+    $localGodot = (Get-Command powershell.exe -ErrorAction Stop).Source
+    $fakeEngine = Join-Path $testRoot 'fake-engine.ps1'
+    Set-Content -LiteralPath $fakeEngine -Encoding UTF8 -Value @'
+$mode = $args[0]
+$logPath = $args[$args.Count - 1]
+Set-Content -LiteralPath $logPath -Value 'Engine started'
+[Console]::Out.WriteLine('Console output captured')
+if ($mode -eq 'large-output') {
+    $line = 'x' * 1024
+    for ($index = 0; $index -lt 256; $index++) {
+        [Console]::Out.WriteLine($line)
+        [Console]::Error.WriteLine($line)
+    }
+}
+if ($mode -eq 'stderr-error') {
+    [Console]::Error.WriteLine('ERROR: Native shutdown failure')
+}
+if ($mode -eq 'exit-error') { exit 7 }
+exit 0
+'@
+    $engineArguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $fakeEngine + '"'))
+    Invoke-GodotBuildStep -Name 'success' -TimeoutSeconds 20 -Arguments ($engineArguments + 'success')
+    if (-not (Select-String -LiteralPath (Join-Path $buildLogDirectory 'success.stdout.log') -SimpleMatch 'Console output captured' -Quiet)) {
+        throw 'The engine console output was not captured.'
+    }
+    Write-Output 'PASS Engine output is captured without inheriting the launcher console.'
+
+    Invoke-GodotBuildStep -Name 'large-output' -TimeoutSeconds 20 -Arguments ($engineArguments + 'large-output')
+    foreach ($stream in @('stdout', 'stderr')) {
+        if ((Get-Item -LiteralPath (Join-Path $buildLogDirectory "large-output.$stream.log")).Length -lt 262144) {
+            throw "Incomplete engine output: $stream"
+        }
+    }
+    Write-Output 'PASS Both output streams are drained even when they exceed the pipe buffer.'
+
+    foreach ($mode in @('stderr-error', 'exit-error')) {
+        $failed = $false
+        try { Invoke-GodotBuildStep -Name $mode -TimeoutSeconds 20 -Arguments ($engineArguments + $mode) }
+        catch { $failed = $true }
+        if (-not $failed) { throw "Engine failure was ignored: $mode" }
+    }
+    Write-Output 'PASS Native stderr errors and unsuccessful exits stop the build.'
+
     $missingStage = Join-Path $projectRoot 'build/.windows-dev-missing'
     $failed = $false
     try { Publish-DevelopmentBuild $missingStage } catch { $failed = $true }
