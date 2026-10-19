@@ -1,22 +1,170 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://divmx8b0cteer"]
 
-[node name="NorthScienceShellArt" type="Node3D"]
+[ext_resource type="PackedScene" uid="uid://tmby0m4dkhlu" path="res://scenes/objects/base/modular_scifi/floors/platform_simple_2_clear.tscn" id="1_ipk01"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_simple_curve.tscn" id="2_wq5s5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_simple.tscn" id="3_kn8as"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight.tscn" id="4_ab6ex"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_window.tscn" id="5_5gmfu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn" id="6_1e4n7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight_hanging.tscn" id="7_ab6ex"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="8_5gmfu"]
+
+[node name="NorthScienceShellArt" type="Node3D" unique_id=256415560]
 editor_description = "Оболочка научной секции и внутренний разделитель брифинга и лаборатории."
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=967349097]
 editor_description = "Импортированная финальная геометрия."
 
-[node name="ArtCollision" type="Node3D" parent="."]
+[node name="Floors_decal" type="Node3D" parent="Visual" unique_id=506915565]
+
+[node name="PlatformSimpleCurve" parent="Visual/Floors_decal" unique_id=472114873 instance=ExtResource("2_wq5s5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -12)
+
+[node name="PlatformSimpleCurve2" parent="Visual/Floors_decal" unique_id=704273900 instance=ExtResource("2_wq5s5")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4, 0.01, -12)
+
+[node name="PlatformSimpleCurve3" parent="Visual/Floors_decal" unique_id=1527686273 instance=ExtResource("2_wq5s5")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0.01, -22)
+
+[node name="PlatformSimple" parent="Visual/Floors_decal" unique_id=997711218 instance=ExtResource("3_kn8as")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.5, 4, 0.01, -17)
+
+[node name="PlatformSimple2" parent="Visual/Floors_decal" unique_id=1802635335 instance=ExtResource("3_kn8as")]
+transform = Transform3D(-4.371139e-08, 0, 1.5, 0, 1, 0, -1, 0, -6.556708e-08, -1, 0.01, -22)
+
+[node name="Floors" type="Node3D" parent="Visual" unique_id=407814552]
+
+[node name="PlatformSimple2" parent="Visual/Floors" unique_id=1026797230 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -12)
+
+[node name="PlatformSimple3" parent="Visual/Floors" unique_id=1130283606 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -12)
+
+[node name="PlatformSimple4" parent="Visual/Floors" unique_id=379015191 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -12)
+
+[node name="PlatformSimple5" parent="Visual/Floors" unique_id=1941553440 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12)
+
+[node name="PlatformSimple6" parent="Visual/Floors" unique_id=1946759473 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -16)
+
+[node name="PlatformSimple7" parent="Visual/Floors" unique_id=1549113768 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -16)
+
+[node name="PlatformSimple8" parent="Visual/Floors" unique_id=1676827926 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -16)
+
+[node name="PlatformSimple9" parent="Visual/Floors" unique_id=1465580052 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -16)
+
+[node name="PlatformSimple10" parent="Visual/Floors" unique_id=1277814657 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -20)
+
+[node name="PlatformSimple11" parent="Visual/Floors" unique_id=1573574923 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -20)
+
+[node name="PlatformSimple12" parent="Visual/Floors" unique_id=1500895653 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -20)
+
+[node name="PlatformSimple13" parent="Visual/Floors" unique_id=376494519 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -20)
+
+[node name="PlatformSimple14" parent="Visual/Floors" unique_id=330850801 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -24)
+
+[node name="PlatformSimple15" parent="Visual/Floors" unique_id=416133094 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -24)
+
+[node name="PlatformSimple16" parent="Visual/Floors" unique_id=221732638 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -24)
+
+[node name="PlatformSimple17" parent="Visual/Floors" unique_id=1989937351 instance=ExtResource("1_ipk01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -24)
+
+[node name="Wall" type="Node3D" parent="Visual" unique_id=101596086]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 0, -18.008)
+
+[node name="TopCablesStraight" parent="Visual/Wall" unique_id=668733811 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight2" parent="Visual/Wall" unique_id=130116882 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="WallAstraStraightWindow" parent="Visual/Wall" unique_id=303840016 instance=ExtResource("5_5gmfu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="WallAstraStraightWindow2" parent="Visual/Wall" unique_id=1528632351 instance=ExtResource("5_5gmfu")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="Wall5" type="Node3D" parent="Visual" unique_id=630790667]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8, 0, -18.008)
+
+[node name="WallAstraStraight" parent="Visual/Wall5" unique_id=1124737061 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="WallAstraStraight2" parent="Visual/Wall5" unique_id=425468558 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight" parent="Visual/Wall5" unique_id=1451906836 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight2" parent="Visual/Wall5" unique_id=127386568 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="Wall2" type="Node3D" parent="Visual" unique_id=2038639882]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -18.008)
+
+[node name="WallAstraStraight" parent="Visual/Wall2" unique_id=2138096458 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="WallAstraStraight2" parent="Visual/Wall2" unique_id=828699318 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight" parent="Visual/Wall2" unique_id=1149433181 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraightHanging" parent="Visual/Wall2" unique_id=572855026 instance=ExtResource("7_ab6ex")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="Wall3" type="Node3D" parent="Visual" unique_id=853555338]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -18.008)
+
+[node name="TopCablesStraight" parent="Visual/Wall3" unique_id=421562044 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight2" parent="Visual/Wall3" unique_id=1061598342 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="DoorFrameSquare" parent="Visual/Wall3" unique_id=1251993797 instance=ExtResource("8_5gmfu")]
+transform = Transform3D(-3.715468e-08, 0, -2.4, 0, 0.8, 0, 0.85, 0, -1.04907336e-07, 0, 0, 0)
+
+[node name="Wall4" type="Node3D" parent="Visual" unique_id=450662596]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 8, 0, -18.008)
+
+[node name="WallAstraStraight" parent="Visual/Wall4" unique_id=494334172 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.6, 0, 0)
+
+[node name="WallAstraStraight2" parent="Visual/Wall4" unique_id=1650877148 instance=ExtResource("6_1e4n7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight" parent="Visual/Wall4" unique_id=861563798 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
+
+[node name="TopCablesStraight2" parent="Visual/Wall4" unique_id=1871192688 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(-1, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -1, -2.6, 0, 0)
+
+[node name="ArtCollision" type="Node3D" parent="." unique_id=1034301075]
 editor_description = "Упрощённые коллизии финальной геометрии."
 
-[node name="Blockout" type="Node3D" parent="."]
+[node name="Blockout" type="Node3D" parent="." unique_id=508790514]
 editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
 
 [node name="Shared_Structure" type="Node3D" parent="Blockout" unique_id=1117987767]
 
 [node name="North_Science_Floor" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=960449371]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -18)
-use_collision = true
+visible = false
 size = Vector3(16, 0.2, 16)
 
 [node name="Science_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=172815269]
@@ -54,21 +202,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, -18)
 use_collision = true
 size = Vector3(16, 0.3, 16)
 
-[node name="Internal_Dividers" type="Node3D" parent="Blockout"]
+[node name="Research_Isolation_South_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1531000802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -19.5)
+use_collision = true
+size = Vector3(0.3, 5.5, 3)
 
-[node name="Briefing_Research_Transition" type="Node3D" parent="Blockout/Internal_Dividers"]
+[node name="Research_Isolation_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=42250115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -25)
+use_collision = true
+size = Vector3(0.3, 5.5, 2)
+
+[node name="Research_Isolation_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=672176943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -22.5)
+use_collision = true
+size = Vector3(0.3, 2.5, 3)
+
+[node name="Internal_Dividers" type="Node3D" parent="Blockout" unique_id=113623015]
+
+[node name="Briefing_Research_Transition" type="Node3D" parent="Blockout/Internal_Dividers" unique_id=203650537]
 
 [node name="Briefing_Research_West_Wall" type="CSGBox3D" parent="Blockout/Internal_Dividers/Briefing_Research_Transition" unique_id=594731768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.75, -18)
-use_collision = true
+visible = false
 size = Vector3(10, 5.5, 0.3)
 
 [node name="Briefing_Research_East_Wall" type="CSGBox3D" parent="Blockout/Internal_Dividers/Briefing_Research_Transition" unique_id=902808633]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 2.75, -18)
-use_collision = true
+visible = false
 size = Vector3(3, 5.5, 0.3)
 
 [node name="Briefing_Research_Door_Header" type="CSGBox3D" parent="Blockout/Internal_Dividers/Briefing_Research_Transition" unique_id=1599690627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 4.25, -18)
-use_collision = true
+visible = false
 size = Vector3(3, 2.5, 0.3)

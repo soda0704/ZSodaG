@@ -47,6 +47,7 @@ func _ready() -> void:
 		_energies[lamp] = lamp.light_energy
 		_levels[lamp] = 0.0
 		lamp.light_energy = 0.0
+		if not lamp.get_meta("create_lens", true): continue
 		var lens := MeshInstance3D.new()
 		var shape := BoxMesh.new()
 		shape.size = Vector3(0.42, 0.025, 0.16)
@@ -242,8 +243,8 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 		lamp.visible = level > 0.0
 		var energy := float(_energies[lamp]) * level
 		if not is_equal_approx(lamp.light_energy,energy):lamp.light_energy=energy
-		var material:=_emitters[lamp] as StandardMaterial3D
-		if not is_equal_approx(material.emission_energy_multiplier,level*0.45):material.emission_energy_multiplier=level*0.45
+		var material := _emitters.get(lamp) as StandardMaterial3D
+		if material != null and not is_equal_approx(material.emission_energy_multiplier,level*0.45):material.emission_energy_multiplier=level*0.45
 
 func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin

@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cjjrxyl3bdkae"]
+
+[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="1_5ry1l"]
+[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="2_id3g5"]
+[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="3_xiv1m"]
+
+[resource]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("1_5ry1l")
+metallic = 1.0
+metallic_texture = ExtResource("2_id3g5")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_id3g5")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_xiv1m")
+ao_enabled = true
+ao_texture = ExtResource("2_id3g5")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0

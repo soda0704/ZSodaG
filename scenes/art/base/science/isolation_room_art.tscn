@@ -1,41 +1,26 @@
-[gd_scene load_steps=4 format=3]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_science"]
-albedo_color = Color(0.06, 0.32, 0.72, 1)
+[gd_scene format=3 uid="uid://2gq2rsoo3qi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_science_containment"]
 albedo_color = Color(0.78, 0.16, 0.035, 1)
 
-[node name="IsolationRoomArt" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hub_science"]
+albedo_color = Color(0.06, 0.32, 0.72, 1)
+
+[node name="IsolationRoomArt" type="Node3D" unique_id=539528711]
 editor_description = "Изолятор и его стационарное оборудование; дверь и сокеты остаются в сборочной сцене."
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=319897645]
 editor_description = "Импортированная финальная геометрия."
 
-[node name="ArtCollision" type="Node3D" parent="."]
+[node name="ArtCollision" type="Node3D" parent="." unique_id=1947928791]
 editor_description = "Упрощённые коллизии финальной геометрии."
 
-[node name="Blockout" type="Node3D" parent="."]
+[node name="Blockout" type="Node3D" parent="." unique_id=2071360809]
 editor_description = "Исходная CSG-геометрия. Отключите после готовности Visual и ArtCollision."
 
-[node name="Isolation_Room" type="Node3D" parent="Blockout"]
+[node name="Isolation_Room" type="Node3D" parent="Blockout" unique_id=16447830]
 
-[node name="Transition" type="Node3D" parent="Blockout/Isolation_Room"]
-
-[node name="Research_Isolation_South_Wall" type="CSGBox3D" parent="Blockout/Isolation_Room/Transition" unique_id=94229348]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -19.5)
-use_collision = true
-size = Vector3(0.3, 5.5, 3)
-
-[node name="Research_Isolation_North_Wall" type="CSGBox3D" parent="Blockout/Isolation_Room/Transition" unique_id=1012610414]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -25)
-use_collision = true
-size = Vector3(0.3, 5.5, 2)
-
-[node name="Research_Isolation_Door_Header" type="CSGBox3D" parent="Blockout/Isolation_Room/Transition" unique_id=1976362309]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -22.5)
-use_collision = true
-size = Vector3(0.3, 2.5, 3)
+[node name="Transition" type="Node3D" parent="Blockout/Isolation_Room" unique_id=1485123889]
 
 [node name="Containment" type="Node3D" parent="Blockout/Isolation_Room" unique_id=1556139547]
 

@@ -25,13 +25,21 @@ func floor_transform(floor_name:String) -> Transform3D:
 		if value is Transform3D:return value
 	return Transform3D.IDENTITY
 
-func prepare(node: Node, moving := false) -> void:
+func prepare(node: Node, moving := false, dynamic_emission := false) -> void:
 	moving = moving or node is RigidBody3D or node is CharacterBody3D or node is MedicalCorpse or str(node.name) in ["ClosedPreview","OpenPreview","ClosedState","OpenState","DoorLeaves","Leaf","DoorPanel"]
+	dynamic_emission = dynamic_emission or bool(node.get_meta("dynamic_emission", false))
 	if node is GeometryInstance3D:
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED if moving else GeometryInstance3D.GI_MODE_STATIC
+	if dynamic_emission and node is MeshInstance3D and node.mesh != null:
+		for surface in node.mesh.get_surface_count():
+			var source := node.get_active_material(surface) as StandardMaterial3D
+			if source != null and source.emission_enabled:
+				var material := source.duplicate() as StandardMaterial3D
+				material.emission_enabled = false
+				node.set_surface_override_material(surface, material)
 	# No live scripts, door animation or gameplay state during the geometry bake.
 	node.set_script(null)
-	for child in node.get_children(): prepare(child,moving)
+	for child in node.get_children(): prepare(child,moving,dynamic_emission)
 
 func run() -> void:
 	if DisplayServer.get_name()=="headless":

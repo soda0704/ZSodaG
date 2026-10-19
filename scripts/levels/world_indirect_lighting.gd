@@ -23,6 +23,7 @@ func _process(_delta: float) -> void:
 		var editor:=Engine.get_singleton("EditorInterface")
 		if editor==null:return
 		var viewport:SubViewport=editor.get_editor_viewport_3d(0)
+		if viewport == null:return
 		camera=viewport.get_camera_3d()
 	else:
 		camera=get_viewport().get_camera_3d()

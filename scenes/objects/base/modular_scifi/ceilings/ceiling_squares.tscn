@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://xq0svllwlmjc"]
 
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_squares.res" id="1_f2rdc"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_squares.res" id="2_oqlgr"]

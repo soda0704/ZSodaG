@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cnjfr0fcvqr50" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="3_qhkyf"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_straight.tscn" id="4_fegit"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_straight.tscn" id="5_fegit"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="6_n4ead"]
+[ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="6_n4ead"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_simple.tscn" id="7_irmgs"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="8_xqaub"]
 
 [node name="EastLivingShellArt" type="Node3D" unique_id=1554654801]
 editor_description = "Art-обёртка внешней и внутренней архитектурной оболочки East Living. Корень должен оставаться в локальном начале координат секции."
@@ -59,6 +60,9 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 
 [node name="Wall11" type="Node3D" parent="Visual/Walls_5" unique_id=673803939]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 30, 0, 1.4)
 
+[node name="DoorFrameSquare3" parent="Visual/Walls_5/Wall11" unique_id=1251993797 instance=ExtResource("8_xqaub")]
+transform = Transform3D(-3.934025e-08, 0, 1, 0, 0.85, 0, -0.9, 0, -4.371139e-08, 0, 0, 0)
+
 [node name="TopSimpleStraight" parent="Visual/Walls_5/Wall11" unique_id=637029534 instance=ExtResource("5_fegit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 2, 0, 0)
 
@@ -109,6 +113,9 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 30, 
 
 [node name="TopSimpleStraight" parent="Visual/Walls_6/Wall11" unique_id=1063301716 instance=ExtResource("5_fegit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 2, 0, 0)
+
+[node name="DoorFrameSquare2" parent="Visual/Walls_6/Wall11" unique_id=1198217711 instance=ExtResource("8_xqaub")]
+transform = Transform3D(-3.934025e-08, 0, 1, 0, 0.85, 0, -0.9, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="floor" type="Node3D" parent="Visual" unique_id=2141316401]
 
@@ -469,6 +476,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
 
 [node name="TopSimpleStraight" parent="Visual/Walls_4/Wall" unique_id=1394361780 instance=ExtResource("5_fegit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 2, 0, 0)
+
+[node name="DoorFrameSquare" parent="Visual/Walls_4/Wall" unique_id=98795670 instance=ExtResource("8_xqaub")]
+transform = Transform3D(-3.934025e-08, 0, 1, 0, 0.85, 0, -0.9, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="Wall4" type="Node3D" parent="Visual/Walls_4" unique_id=1367636]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 3.4)

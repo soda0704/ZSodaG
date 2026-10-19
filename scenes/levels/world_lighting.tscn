@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dig0dvw45fnxo" path="res://scripts/levels/world_lighting.gd" id="controller"]
 [ext_resource type="Environment" path="res://assets/environments/debug_visibility.tres" id="debug_visibility"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/trials/trials_ceiling_lamp.tscn" id="trials_lamp"]
+[ext_resource type="Script" path="res://scripts/levels/hub_light_fixtures.gd" id="hub_fixtures"]
 
 [node name="WorldLighting" type="Node3D" unique_id=43938933]
 script = ExtResource("controller")
@@ -60,66 +61,6 @@ metadata/world_lighting = true
 
 [node name="Decon" type="SpotLight3D" parent="Standard" unique_id=1247956354]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 3.6, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="HubWest" type="SpotLight3D" parent="Standard" unique_id=37717285]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, 4.2, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="HubEast" type="SpotLight3D" parent="Standard" unique_id=1196959985]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.5, 4.2, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="HubNorth" type="SpotLight3D" parent="Standard" unique_id=552831177]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.2, -5.5)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="HubSouth" type="SpotLight3D" parent="Standard" unique_id=864299723]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.2, 5.5)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -569,7 +510,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L5Dispatch" type="SpotLight3D" parent="Standard" unique_id=1524064318]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.3, -85.0, -3)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.3, -85, -3)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -614,7 +555,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L5Winch" type="SpotLight3D" parent="Standard" unique_id=1884585502]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -82.0, -20.5)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -82, -20.5)
 light_color = Color(0.68, 0.8, 0.94, 1)
 light_energy = 2.0
 light_indirect_energy = 0.65
@@ -643,6 +584,129 @@ spot_attenuation = 1.2
 spot_angle = 60.0
 metadata/world_lighting = true
 
+[node name="TrialsArrival" parent="Standard" unique_id=397974490 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
+
+[node name="TrialsApproach" parent="Standard" unique_id=36968424 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -50.1, 0)
+
+[node name="TrialsControlEast" parent="Standard" unique_id=395208856 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -25, -50.1, 0)
+
+[node name="TrialsControlWest" parent="Standard" unique_id=635244987 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 0)
+
+[node name="TrialsExposureEast" parent="Standard" unique_id=1314167143 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -48.95, -9)
+light_energy = 10.0
+
+[node name="TrialsExposureWest" parent="Standard" unique_id=1554798103 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -48.95, -12)
+light_energy = 10.0
+
+[node name="TrialsEastService" parent="Standard" unique_id=1480286221 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -20, -50.1, -11)
+light_color = Color(0.94, 0.65, 0.35, 1)
+light_energy = 4.5
+
+[node name="TrialsNorthService" parent="Standard" unique_id=660374721 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -50.1, -18)
+light_color = Color(0.94, 0.65, 0.35, 1)
+light_energy = 4.5
+
+[node name="TrialsWestServiceNorth" parent="Standard" unique_id=782628603 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, -10)
+light_color = Color(0.94, 0.65, 0.35, 1)
+light_energy = 4.5
+
+[node name="TrialsWestServiceSouth" parent="Standard" unique_id=165762958 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, 7)
+light_color = Color(0.94, 0.65, 0.35, 1)
+light_energy = 4.5
+
+[node name="TrialsObservationA" parent="Standard" unique_id=891807860 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 9)
+
+[node name="TrialsObservationB" parent="Standard" unique_id=750700514 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -50.1, 9)
+
+[node name="BackupGenerator" type="SpotLight3D" parent="Standard" unique_id=213712665]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.5, 2.65, 6.4)
+light_color = Color(0.68, 0.8, 0.94, 1)
+light_energy = 1.5
+light_cull_mask = 393217
+shadow_enabled = true
+spot_angle = 57.0
+metadata/world_lighting = true
+
+[node name="HubNorthWest" type="SpotLight3D" parent="Standard"]
+position = Vector3(-4.4, 7.5, -4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.88, 0.92, 1, 1)
+light_energy = 8.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.35
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubSouthWest" type="SpotLight3D" parent="Standard"]
+position = Vector3(-4.4, 7.5, 4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.88, 0.92, 1, 1)
+light_energy = 8.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.35
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubSouthEast" type="SpotLight3D" parent="Standard"]
+position = Vector3(4.4, 7.5, 4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.88, 0.92, 1, 1)
+light_energy = 8.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.35
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubNorthEast" type="SpotLight3D" parent="Standard"]
+position = Vector3(4.4, 7.5, -4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(0.88, 0.92, 1, 1)
+light_energy = 8.0
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.35
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
 [node name="Emergency" type="Node3D" parent="." unique_id=718455498]
 
 [node name="GarageExit" type="SpotLight3D" parent="Emergency" unique_id=841241311]
@@ -661,19 +725,21 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="HubEmergency" type="SpotLight3D" parent="Emergency" unique_id=693032149]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -4, 3.4, 0)
+position = Vector3(-4.4, 7.5, -4.4)
+rotation_degrees = Vector3(-90, 0, 0)
 light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
+light_energy = 1.4
 light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
+light_volumetric_fog_energy = 0.15
 light_specular = 0.25
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
 metadata/world_lighting = true
+metadata/create_lens = false
 
 [node name="LivingEmergency" type="SpotLight3D" parent="Emergency" unique_id=1275546478]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 16, 3, 0)
@@ -751,7 +817,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L4Emergency" type="SpotLight3D" parent="Emergency" unique_id=765909551]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -69.0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -69, 0)
 light_color = Color(1, 0.12, 0.035, 1)
 light_energy = 0.7
 light_indirect_energy = 0.65
@@ -766,7 +832,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L4DamagedEmergency" type="SpotLight3D" parent="Emergency" unique_id=378434301]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19, -69.0, -27)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19, -69, -27)
 light_color = Color(1, 0.12, 0.035, 1)
 light_energy = 0.7
 light_indirect_energy = 0.65
@@ -781,7 +847,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L5Emergency" type="SpotLight3D" parent="Emergency" unique_id=1451869031]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -87.0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -87, 0)
 light_color = Color(1, 0.12, 0.035, 1)
 light_energy = 0.7
 light_indirect_energy = 0.65
@@ -796,7 +862,7 @@ spot_angle = 60.0
 metadata/world_lighting = true
 
 [node name="L5WinchEmergency" type="SpotLight3D" parent="Emergency" unique_id=339484235]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -84.0, -20.5)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -84, -20.5)
 light_color = Color(1, 0.12, 0.035, 1)
 light_energy = 0.7
 light_indirect_energy = 0.65
@@ -837,77 +903,71 @@ spot_range = 7.0
 spot_angle = 60.0
 metadata/world_lighting = true
 
-
-[node name="TrialsArrival" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-7, -50.1, 0)
-
-[node name="TrialsApproach" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-16, -50.1, 0)
-
-[node name="TrialsControlEast" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-25, -50.1, 0)
-
-[node name="TrialsControlWest" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-34, -50.1, 0)
-
-[node name="TrialsExposureEast" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-26, -48.95, -9)
-light_energy = 10.0
-
-[node name="TrialsExposureWest" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-34, -48.95, -12)
-light_energy = 10.0
-
-[node name="TrialsEastService" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-20, -50.1, -11)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsNorthService" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-30, -50.1, -18)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsWestServiceNorth" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-41, -50.1, -10)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsWestServiceSouth" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-41, -50.1, 7)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsObservationA" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-34, -50.1, 9)
-
-[node name="TrialsObservationB" parent="Standard" instance=ExtResource("trials_lamp")]
-position = Vector3(-26, -50.1, 9)
-
-[node name="TrialsEmergency" parent="Emergency" instance=ExtResource("trials_lamp")]
-position = Vector3(-7, -50.1, 0)
+[node name="TrialsEmergency" parent="Emergency" unique_id=782984022 instance=ExtResource("trials_lamp")]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
 light_color = Color(0.9, 0.27, 0.08, 1)
 light_energy = 0.7
 spot_range = 8.0
 
-[node name="BackupGenerator" type="SpotLight3D" parent="Standard"]
-position = Vector3(-36.5, 2.65, 6.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 1.5
-light_cull_mask = 393217
-shadow_enabled = true
-spot_range = 5.0
-spot_angle = 57.0
-metadata/world_lighting = true
-
-[node name="BackupGenerator" type="SpotLight3D" parent="Emergency"]
-position = Vector3(-36.5, 2.65, 6.4)
-rotation_degrees = Vector3(-90, 0, 0)
+[node name="BackupGenerator" type="SpotLight3D" parent="Emergency" unique_id=1392966352]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.5, 2.65, 6.4)
 light_color = Color(1, 0.12, 0.035, 1)
 light_energy = 0.65
 light_cull_mask = 393217
 shadow_enabled = true
-spot_range = 5.0
 spot_angle = 57.0
 metadata/world_lighting = true
+
+[node name="HubSouthWest" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-4.4, 7.5, 4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.12, 0.035, 1)
+light_energy = 1.4
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.15
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubSouthEast" type="SpotLight3D" parent="Emergency"]
+position = Vector3(4.4, 7.5, 4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.12, 0.035, 1)
+light_energy = 1.4
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.15
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubNorthEast" type="SpotLight3D" parent="Emergency"]
+position = Vector3(4.4, 7.5, -4.4)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.12, 0.035, 1)
+light_energy = 1.4
+light_indirect_energy = 0.65
+light_volumetric_fog_energy = 0.15
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_normal_bias = 0.25
+spot_range = 12.0
+spot_attenuation = 1.0
+spot_angle = 65.0
+metadata/world_lighting = true
+metadata/create_lens = false
+
+[node name="HubFixtures" type="Node" parent="."]
+script = ExtResource("hub_fixtures")
