@@ -3,6 +3,7 @@ extends VBoxContainer
 
 signal back_requested
 const CATEGORIES := ["Экран", "Качество", "Звук", "Управление"]
+const VALUE_COLUMN_WIDTH := 330.0
 const QUALITY := [
 	["Scale", "Масштаб 3D", 50, 100, 5, "%"],
 	["MSAA", "Сглаживание MSAA", ["Выкл.", "×2", "×4", "×8"], [0, 1, 2, 3]],
@@ -119,10 +120,12 @@ func select_category(index: int) -> void:
 			_numeric("HDRWhite", "Опорная яркость HDR", 100, 400, 20, " нит", true)
 		1:
 			var recommended_row := _row("Рекомендуемые настройки · цель 60 FPS")
-			recommended_row.add_child(NorthernMenuStyle.button("Подобрать", func():
+			var recommend_button := NorthernMenuStyle.button("Подобрать", func():
 				draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
 				draft.GraphicsCalibrationPending = true
-				select_category(1), 20))
+				select_category(1), 20)
+			recommend_button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+			recommended_row.add_child(recommend_button)
 			_choice("Preset", "Общее качество", ["Свои настройки", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3], true)
 			for spec in QUALITY:
 				if spec.size() == 2:
@@ -144,7 +147,7 @@ func select_category(index: int) -> void:
 				var key_button := NorthernMenuStyle.button(text, func(): _wait_for_key(action), 22)
 				key_button.disabled = controls.FIXED_BINDINGS.has(action)
 				key_button.name = action
-				key_button.custom_minimum_size.x = 280
+				key_button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
 				row.add_child(key_button)
 			var hint := NorthernMenuStyle.label(get_node("/root/SteamInput").get_controls_hint(), 20, NorthernMenuStyle.MUTED)
 			hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -158,6 +161,8 @@ func _row(text: String) -> HBoxContainer:
 	row.add_theme_constant_override("separation", 18)
 	var label := NorthernMenuStyle.label(text.to_upper(), 18, NorthernMenuStyle.MUTED)
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.clip_text = true
 	row.add_child(label)
 	rows.add_child(row)
 	row.mouse_entered.connect(func():
@@ -188,6 +193,7 @@ func _numeric(key: String, text: String, low: float, high: float, increment: flo
 	value.value = float(_get_value(key, graphics))
 	value.name = key
 	row.add_child(value)
+	value.custom_minimum_size.x = VALUE_COLUMN_WIDTH
 	value.value_changed.connect(func(next): _set_value(key, next, graphics); row.pulse())
 
 func _choice(key: String, text: String, labels: Array, values: Array, graphics: bool = false) -> void:
@@ -195,7 +201,9 @@ func _choice(key: String, text: String, labels: Array, values: Array, graphics: 
 	var option := OptionButton.new()
 	option.name = key
 	option.theme_type_variation = &"MenuChoice"
-	option.custom_minimum_size.x = 330
+	option.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+	option.fit_to_longest_item = false
+	option.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	for item in labels:
 		option.add_item(str(item).to_upper())
 	option.select(maxi(values.find(_get_value(key, graphics)), 0))
@@ -212,7 +220,7 @@ func _toggle(key: String, text: String, graphics: bool = false, disabled: bool =
 	var row := _row(text)
 	var button := NorthernMenuStyle.button("Вкл." if bool(_get_value(key, graphics)) else "Выкл.", Callable(), 17)
 	button.theme_type_variation = &"MenuToggle"
-	button.custom_minimum_size.x = 280
+	button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
 	button.disabled = disabled
 	button.tooltip_text = "Нужны HDR-дисплей и включённый HDR в Windows." if disabled else ""
 	row.add_child(button)
@@ -236,7 +244,11 @@ func has_changes() -> bool:
 	var applied: Dictionary = _menu._settings_data.duplicate(true)
 	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").normalized(applied.get("Graphics", {}))
 	applied.Graphics = graphics
-	return draft != applied or draft_bindings != original_bindings
+	# Recommended/default values may be integers while normalization uses floats.
+	# Compare both sides in the same representation, including before Apply.
+	var pending := draft.duplicate(true)
+	pending.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(pending.get("Graphics", {}))
+	return pending != applied or draft_bindings != original_bindings
 
 func _changed() -> void:
 	if apply_button != null:
@@ -250,6 +262,7 @@ func apply(show_notice: bool = true) -> bool:
 	if not binding_error.is_empty():
 		description.text = binding_error
 		return false
+	draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(draft.get("Graphics", {}))
 	var previous: Dictionary = _menu._settings_data
 	_menu._settings_data = draft.duplicate(true)
 	var settings_saved: bool = _menu.save_settings_data()

@@ -265,6 +265,8 @@ func run() -> void:
 	level.get_node("WorldLighting/OvercastSun").show()
 	var locations := [
 		["hub",Vector3(0,1.75,6),Vector3(0,1.6,-4)],
+		["technical-storage",Vector3(0,1.75,12),Vector3(-3.5,1.6,18)],
+		["generator",Vector3(-3.5,1.75,20),Vector3(1.5,1.6,22)],
 		["living",Vector3(23,1.75,-1),Vector3(28,1.7,2)],
 		["level-1",Vector3(-8,-16.25,3),Vector3(-14,-16.0,0)],
 		["level-2",Vector3(-17,-31.75,0),Vector3(-29,-33.5,0)],

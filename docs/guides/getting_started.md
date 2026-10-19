@@ -25,7 +25,9 @@ git lfs pull
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/northernlab_launcher.ps1 -BuildOnly
 ```
 
-Результат: `build/windows-dev/NorthernLab.exe`. Перед вычислением отпечатка сборки лаунчер импортирует ресурсы и обновляет реестр классов Godot, включая новые классы меню. Экспорт сначала выполняется в отдельную временную папку; предыдущая сборка заменяется только после успешного экспорта и подготовки всех файлов. Перед пересборкой закройте запущенную NorthernLab.exe. Журналы этапов находятся в `tools/.local/launcher-logs/import.log`, `identity.log` и `export.log`; при ошибке или превышении времени ожидания лаунчер указывает журнал и сохраняет предыдущий билд.
+Результат: `build/windows-dev/NorthernLab.exe`. Перед вычислением отпечатка сборки лаунчер импортирует ресурсы и обновляет реестр классов Godot, включая новые классы меню. Затем `tools/prepare_export_resources.gd` обновляет список выбранных ресурсов в Windows Dev: от главной сцены и autoload прослеживаются зависимости, пути ресурсов в игровых скриптах и ссылки на глобальные классы. Экспорт включает выбранные ресурсы и их зависимости вместо всего проекта. Экспорт сначала выполняется в отдельную временную папку; предыдущая сборка заменяется только после успешного экспорта и подготовки всех файлов. Перед пересборкой закройте запущенную NorthernLab.exe. Журналы этапов находятся в `tools/.local/launcher-logs/import.log`, `identity.log`, `resources.log` и `export.log`; при ошибке или превышении времени ожидания лаунчер указывает журнал и сохраняет предыдущий билд.
+
+Ресурсы с вычисляемыми именами перечислены в `DYNAMIC_FAMILIES` и `DYNAMIC_RESOURCES` подготовительного скрипта: участки Terrain3D, гамма-коррекция, иллюстрации журнала и тела монстров. При добавлении новой схемы вычисляемых путей обновляйте этот список. Обычные зависимости сцен/материалов и полные пути в скриптах подхватываются автоматически. В `tools/.local/export_resources.json` сохраняется список зависимостей для проверки готового пакета тестом `tools/tests/export_resources_regression.gd`.
 
 Для каждого этапа отдельно сохраняются `*.stdout.log` и `*.stderr.log`: в них видны также сообщения нативных библиотек при запуске и завершении Godot. Ошибки проверяются во всех трёх журналах этапа. Вывод процессов Godot отделён от скрытой консоли лаунчера.
 
@@ -36,6 +38,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/northernlab_launcher.p
 ```powershell
 & .\tools\.local\godotsteam-editor\godot.exe --headless --editor --path . --import
 & .\tools\.local\godotsteam-editor\godot.exe --headless --path . --script res://tools/write_build_identity.gd
+& .\tools\.local\godotsteam-editor\godot.exe --headless --path . --script res://tools/prepare_export_resources.gd
 ```
 
 Затем экспортируйте preset **Windows Dev** в редакторе. Лицензии подключённых моделей включаются через `export_presets.cfg`. Исходники Blender, документация и тестовые инструменты исключены из сборки.

@@ -447,6 +447,9 @@ function Invoke-DevelopmentBuild {
         Invoke-GodotBuildStep -Name "identity" -TimeoutSeconds 120 -Arguments @(
             "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
         )
+        Invoke-GodotBuildStep -Name "resources" -TimeoutSeconds 120 -Arguments @(
+            "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/prepare_export_resources.gd"
+        )
         if ($StatusCallback) {
             & $StatusCallback "Exporting NorthernLab v$(Get-GameVersion)..."
         }
