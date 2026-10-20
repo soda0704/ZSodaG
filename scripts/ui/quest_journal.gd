@@ -333,6 +333,38 @@ func _set_quest_photo(id: String, title: String, note: String) -> void:
 func _task_line(done: bool, text_value: String) -> String:
 	return "%s  %s" % ["✓" if done else "○", text_value]
 
+func get_hud_summary() -> Dictionary:
+	# Both presentations share the journal's existing story and maintenance rules.
+	if not is_instance_valid(_controller):
+		return {"day": 0, "objective": "", "tasks": [], "empty_label": "НЕТ АКТИВНЫХ ЗАДАЧ"}
+	var story_available := _controller.day_index < _controller.EXPEDITION_DAY_INDEX
+	var source := tasks_label.text
+	# Later days explicitly have no assigned story yet. Keep only actual recovery/repair
+	# paragraphs, rather than presenting the journal's development notes as objectives.
+	if not story_available and not _controller.maintenance.get("wires_required", false):
+		var paragraphs := source.split("\n\n", false)
+		if not paragraphs.is_empty(): paragraphs.remove_at(0)
+		source = "\n\n".join(paragraphs)
+	var pending: Array[String] = []
+	for paragraph in source.split("\n\n", false):
+		var continuation := ""
+		for line in paragraph.split("\n", false):
+			var task := line.strip_edges()
+			if task.is_empty(): continue
+			if task.begins_with("✓") or task.begins_with("○"):
+				if not continuation.is_empty(): pending.append(continuation)
+				continuation = ""
+				if task.begins_with("○"): pending.append(task.trim_prefix("○").strip_edges())
+			else:
+				continuation += (" " if not continuation.is_empty() else "") + task
+				if task.ends_with(".") or task.ends_with("!") or task.ends_with("?"):
+					pending.append(continuation)
+					continuation = ""
+		if not continuation.is_empty(): pending.append(continuation)
+	return {"day": _controller.day_index,
+		"objective": objective_label.text if story_available or _controller.maintenance.get("wires_required", false) else "Текущие дела",
+		"tasks": pending, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ" if story_available else "НЕТ АКТИВНЫХ ЗАДАЧ"}
+
 func _select_item(id: StringName) -> void:
 	_selected_item = id
 	for card: JournalPhotoCard in _cards.values():

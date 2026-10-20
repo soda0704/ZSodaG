@@ -48,7 +48,12 @@ func run():
  var position:=start.get_playback_position()
  vehicle._update_engine_audio(0.1)
  check(start.get_playback_position()>=position,"startup clip is not restarted each frame")
- await create_timer(maxf(0.0, start.stream.get_length() - 0.55)).timeout
+ # Audio runs on its own clock; reach the overlap using actual playback,
+ # rather than assuming a frame timer stays synchronized under loading.
+ var overlap_at: float = start.stream.get_length() - vehicle.ignition_overlap_seconds * 0.65
+ var audio_deadline := Time.get_ticks_msec() + int(start.stream.get_length() * 2000.0) + 2000
+ while start.playing and start.get_playback_position() < overlap_at and Time.get_ticks_msec() < audio_deadline:
+  await process_frame
  vehicle._update_engine_audio(0.1)
  check(start.playing and idle.playing,"ignition overlaps idle near the end rather than cutting abruptly")
  await create_timer(0.8).timeout

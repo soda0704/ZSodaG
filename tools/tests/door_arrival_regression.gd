@@ -25,8 +25,14 @@ func run():
 	check(world.is_solo_arrival() and not menu.is_menu_open(), "closing ESC does not land")
 	menu.open_menu(menu.MenuView.SESSION)
 	menu._on_ready_pressed()
-	await create_timer(3).timeout
-	check(world.has_node("V3Level") and not world.is_solo_arrival(), "explicit readiness lands at base")
+	var arrival_deadline := Time.get_ticks_msec() + 30000
+	while (not world.has_node("V3Level") or world._v3_transition_in_progress) and Time.get_ticks_msec() < arrival_deadline:
+		await create_timer(0.1).timeout
+	var arrived: bool = world.has_node("V3Level") and not world._v3_transition_in_progress and not world.is_solo_arrival()
+	check(arrived, "explicit readiness lands at base")
+	if not arrived:
+		quit(1)
+		return
 	var controller = get_first_node_in_group("base_gameplay_controller")
 	var player = get_first_node_in_group("network_players")
 	player.set_physics_process(false)

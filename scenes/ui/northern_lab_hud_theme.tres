@@ -1,0 +1,29 @@
+[gd_resource type="Theme" load_steps=4 format=3]
+
+[ext_resource type="FontVariation" path="res://assets/fonts/hud/body.tres" id="1"]
+[ext_resource type="FontVariation" path="res://assets/fonts/hud/heading.tres" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+bg_color = Color(0.035, 0.05, 0.057, 0.48)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.63, 0.72, 0.73, 0.26)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+corner_detail = 8
+
+[resource]
+default_font = ExtResource("1")
+default_font_size = 22
+Label/colors/font_color = Color(0.937, 0.937, 0.91, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.8)
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 1
+HudHeading/base_type = &"Label"
+HudHeading/fonts/font = ExtResource("2")
+HudHeading/colors/font_color = Color(0.886, 0.678, 0.302, 1)
+PanelContainer/styles/panel = SubResource("panel")

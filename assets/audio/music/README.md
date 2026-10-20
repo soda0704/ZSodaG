@@ -1,14 +1,20 @@
-# NorthernLab background music
+# NorthernLab main-menu music
 
-Prepared from the user-provided `E:/Downloads/NorthernLab.wav` (lossless source);
-the accompanying MP3 is the same recording. Source files are unchanged.
+`main_menu.ogg` is prepared from the user-provided
+`D:/Work/11/footage/Create_a_deeply_atmo_#2-1792512733821.wav`.
+The external source is unchanged. Stereo 48 kHz Vorbis quality 6, 30 seconds;
+native Godot looping is enabled in the import settings.
 
-Stereo 48 kHz Vorbis quality 6. Original duration: 233.2 seconds. A 3-second
-equal-power end/head crossfade is baked into the 230.2-second loop; native
-Godot looping is enabled in the import settings.
+`scenes/objects/effects/background_music.tscn` is a child of the main menu,
+not the persistent GameMenu autoload. It starts once on entering the menu,
+continues across its pages and settings overlays, and stops when the menu
+scene is freed. Returning from gameplay creates a fresh player.
 
-`scenes/objects/effects/background_music.tscn` is instanced under the existing
-GameMenu autoload. One player persists across menus, lobby and gameplay without
-restarting on scene changes. Inspector exposes volume (-20 dB) and fade-in
-(2 seconds). The existing Music slider and Master settings control playback.
-The menu background video is retained with its soundtrack muted to avoid overlap.
+Every menu entry starts at silence and fades in for 4 seconds to -6 dB,
+including startup and returning from gameplay. The fade uses a smooth
+amplitude curve; opening settings, changing pages, and looping the track
+do not restart it. It uses the Music bus, sent to
+Master, so the existing Music and Master settings control playback and mute.
+The background video retains its visuals; its old audio track is removed
+and video playback is also muted in the scene. The unused former
+`northernlab.ogg` recording is removed.

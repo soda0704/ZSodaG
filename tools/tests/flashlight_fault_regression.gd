@@ -7,7 +7,7 @@ func check(ok: bool, label: String) -> void:
  if not ok: failures += 1
  print("PASS " if ok else "FAIL ", label)
 func fixture(player: GamePlayer, kind: StringName, charge: float, fault := false, mounted := false) -> void:
- player.apply_inventory_snapshot({"held_item": kind, "has_flashlight": true, "battery_charge": charge, "malfunctioning": fault, "handheld_flashlight_drawn": kind != &"flashlight" and not mounted, "flashlight_enabled": not fault and charge > 0.0, "weapon_light_mounted": mounted, "weapon_rounds": 3, "pistol_ammo": 20, "spare_batteries": [1.0]})
+ player.apply_inventory_snapshot({"held_item": kind, "has_flashlight": true, "battery_charge": charge, "malfunctioning": fault, "handheld_flashlight_drawn": kind != &"flashlight" and not mounted, "flashlight_enabled": not fault and charge > 0.0, "weapon_light_mounted": mounted, "weapon_rounds": 3, "pistol_ammo": 20, "rifle_magazines": [30], "spare_batteries": [1.0]})
 func run() -> void:
  Engine.max_fps = 60
  root.get_node("GameMenu").force_close_menu()
@@ -25,7 +25,11 @@ func run() -> void:
   for charge in [0.0, 0.35]:
    fixture(player, kind, charge, false, kind == &"m4a1")
    player.request_reload_or_battery()
-   check(player._battery_action_busy and player.weapon.reload_left <= 0.0, "R prioritizes battery for %s charge %.2f" % [kind, charge])
+   if kind == &"m4a1" and charge > 0.0:
+    check(player.weapon.reload_left > 0.0 and not player._battery_action_busy, "charged mounted flashlight preserves rifle reload priority")
+    player.weapon.reload_left = 0.0
+    player.request_inventory_action(&"replace_battery")
+   check(player._battery_action_busy and player.weapon.reload_left <= 0.0, "battery replacement starts for %s charge %.2f" % [kind, charge])
    await create_timer(1.25).timeout
    check(is_equal_approx(player._battery_charge, 1.0) and player._held_item_type == kind, "battery inserted; main item retained")
  fixture(player, &"pistol", 1.0)
@@ -57,7 +61,9 @@ func run() -> void:
  check(player.shake_flashlight_authoritative() and player._flashlight_malfunctioning, "one press is insufficient")
  check(not player.shake_flashlight_authoritative(), "duplicate instant request is rejected")
  for i in range(5):
-  await create_timer(0.15).timeout
+  # Production debouncing uses wall time; frame timers may advance differently under load.
+  while Time.get_ticks_msec() - player._last_flashlight_shake_msec < 150:
+   await process_frame
   Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
   var event := InputEventKey.new()
   event.physical_keycode = KEY_E
@@ -66,6 +72,7 @@ func run() -> void:
    player.request_inventory_action(&"shake_flashlight")
   else:
    player._unhandled_input(event)
+  check(player._flashlight_shake_presses == i + 2 or not player._flashlight_malfunctioning, "separate E press %d is accepted" % (i + 2))
  check(not player._flashlight_malfunctioning and player._flashlight_enabled and player.flashlight.beam.visible, "six separate E presses repair and restore beam")
  check(not player.get_node("PlayerUI/FlashlightShakeHint").visible, "repair dismisses hint")
  var intervals: Array[float] = []

@@ -1,5 +1,9 @@
 param(
-    [switch]$BuildOnly
+    [switch]$BuildOnly,
+    [string]$BuildSessionDirectory,
+    [switch]$InitializeOnly,
+    [switch]$Hosted,
+    [switch]$BootstrapOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -106,26 +110,10 @@ function Initialize-GitLfsAssets {
         )
     }
 
-    & $gitCommand.Source lfs version *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw (
-            "Git LFS is not installed. Install Git LFS (or enable it in " +
-            "Git for Windows), then run NorthernLab.cmd again."
-        )
-    }
-
-    & $gitCommand.Source -C $projectRoot lfs install --local *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "Git LFS could not be initialized for this project."
-    }
-
-    & $gitCommand.Source `
-        -C $projectRoot `
-        lfs pull `
-        --include="assets/ui/main_menu.ogv" *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "Git LFS could not download the menu video."
-    }
+    New-Item -ItemType Directory -Path $buildLogDirectory -Force | Out-Null
+    Invoke-GodotBuildStep -PlainArguments -Name 'git_lfs_version' -TimeoutSeconds 30 -Executable $gitCommand.Source -Arguments @('lfs', 'version')
+    Invoke-GodotBuildStep -PlainArguments -Name 'git_lfs_install' -TimeoutSeconds 30 -Executable $gitCommand.Source -Arguments @('-C', "`"$projectRoot`"", 'lfs', 'install', '--local')
+    Invoke-GodotBuildStep -PlainArguments -Name 'git_lfs_pull' -TimeoutSeconds 600 -Executable $gitCommand.Source -Arguments @('-C', "`"$projectRoot`"", 'lfs', 'pull', '--include=assets/ui/main_menu.ogv')
 
     if (
         -not (Test-Path -LiteralPath $mainMenuVideo) -or
@@ -135,6 +123,55 @@ function Initialize-GitLfsAssets {
             "Git LFS finished without downloading assets/ui/main_menu.ogv. " +
             "Check repository access and try again."
         )
+    }
+}
+
+
+function Get-RuntimeFileHash {
+    param([string]$Path)
+
+    $algorithm = [System.Security.Cryptography.SHA256]::Create()
+    $stream = $null
+    try {
+        $stream = [System.IO.File]::OpenRead($Path)
+        return [System.Convert]::ToBase64String($algorithm.ComputeHash($stream))
+    }
+    finally {
+        if ($null -ne $stream) { $stream.Dispose() }
+        $algorithm.Dispose()
+    }
+}
+
+
+function Copy-LocalRuntimeFile {
+    param([string]$Source, [string]$Destination)
+
+    if (Test-Path -LiteralPath $Destination) {
+        if ((Get-Item -LiteralPath $Source).Length -eq (Get-Item -LiteralPath $Destination).Length -and
+            (Get-RuntimeFileHash $Source) -eq (Get-RuntimeFileHash $Destination)) {
+            # Loaded runtime files can be read but Windows forbids overwriting them.
+            return
+        }
+    }
+
+    $pending = $Destination + '.pending-' + [guid]::NewGuid().ToString('N')
+    try {
+        Copy-Item -LiteralPath $Source -Destination $pending
+        if (Test-Path -LiteralPath $Destination) {
+            # Atomic replacement keeps the existing file intact if it is in use.
+            [System.IO.File]::Replace($pending, $Destination, [NullString]::Value)
+        }
+        else {
+            [System.IO.File]::Move($pending, $Destination)
+        }
+    }
+    catch {
+        throw "Cannot update $Destination. Close Godot or the test process using this runtime, then retry. Existing runtime files have been kept. $($_.Exception.Message)"
+    }
+    finally {
+        if (Test-Path -LiteralPath $pending) {
+            Remove-Item -LiteralPath $pending -Force
+        }
     }
 }
 
@@ -167,26 +204,20 @@ function Initialize-LocalGodot {
     if (Test-Path -LiteralPath $localGodot) {
         $resolvedLocal = (Resolve-Path -LiteralPath $localGodot).Path
     }
-    if (
-        $resolvedSource -ne $resolvedLocal -and
-        (
-            -not (Test-Path -LiteralPath $localGodot) -or
-            (Get-Item -LiteralPath $resolvedSource).Length -ne
-                (Get-Item -LiteralPath $localGodot).Length
-        )
-    ) {
-        Copy-Item -LiteralPath $resolvedSource -Destination $localGodot -Force
+    if ($resolvedSource -ne $resolvedLocal) {
+        Copy-LocalRuntimeFile -Source $resolvedSource -Destination $localGodot
     }
 
-    Copy-Item `
-        -LiteralPath (Join-Path $godotSteamDirectory "win64\steam_api64.dll") `
-        -Destination (Join-Path $localEditorDirectory "steam_api64.dll") `
-        -Force
+    Copy-LocalRuntimeFile `
+        -Source (Join-Path $godotSteamDirectory "win64\steam_api64.dll") `
+        -Destination (Join-Path $localEditorDirectory "steam_api64.dll")
 }
 
 
 function Initialize-ExportTemplate {
-    $versionOutput = (& $localGodot --version | Select-Object -First 1).Trim()
+    New-Item -ItemType Directory -Path $buildLogDirectory -Force | Out-Null
+    Invoke-GodotBuildStep -Name 'version' -TimeoutSeconds 30 -Arguments @('--version') -OutputCallback {}
+    $versionOutput = (Get-Content -LiteralPath (Join-Path $buildLogDirectory 'version.stdout.log') -Encoding UTF8 | Select-Object -First 1).Trim()
     if ($versionOutput -notmatch '^(\d+\.\d+\.\d+\.stable)') {
         throw "Cannot determine Godot template version from: $versionOutput"
     }
@@ -257,21 +288,12 @@ function Remove-LegacyArtifacts {
 
 
 function New-LauncherShortcut {
-    $powershellExecutable = Join-Path `
-        $env:SystemRoot `
-        "System32\WindowsPowerShell\v1.0\powershell.exe"
-    if (-not (Test-Path -LiteralPath $powershellExecutable)) {
-        $powershellExecutable = (
-            Get-Command powershell.exe -ErrorAction Stop
-        ).Source
-    }
+    $hostExecutable = Initialize-LauncherHost
     $shell = New-Object -ComObject WScript.Shell
     $shortcut = $shell.CreateShortcut($shortcutPath)
-    $shortcut.TargetPath = $powershellExecutable
-    $shortcut.Arguments = (
-        "-NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden " +
-        "-File `"$launcherScript`""
-    )
+    $shortcut.TargetPath = $hostExecutable
+    $shortcut.Arguments = ''
+    $shortcut.WindowStyle = 1
     $shortcut.WorkingDirectory = $projectRoot
     $shortcut.Description = "Build and launch NorthernLab"
     if (Test-Path -LiteralPath $outputExecutable) {
@@ -281,6 +303,23 @@ function New-LauncherShortcut {
         $shortcut.IconLocation = "$applicationIcon,0"
     }
     $shortcut.Save()
+}
+
+function Initialize-LauncherHost {
+    $source = Join-Path $projectRoot 'tools/launcher/launcher_host.cs'
+    $destination = Join-Path $projectRoot 'tools/.local/NorthernLabLauncher.exe'
+    New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+    $stamp = $destination + '.sha256'
+    $hash = Get-RuntimeFileHash $source
+    if ((Test-Path -LiteralPath $destination) -and (Test-Path -LiteralPath $stamp) -and (Get-Content -LiteralPath $stamp -Raw).Trim() -eq $hash) { return $destination }
+    $pending = Join-Path $projectRoot ('tools/.local/launcher-host-' + [guid]::NewGuid().ToString('N') + '.exe')
+    try {
+        Add-Type -Path $source -OutputAssembly $pending -OutputType WindowsApplication -ReferencedAssemblies @([System.Management.Automation.PowerShell].Assembly.Location, 'System.Windows.Forms.dll')
+        Copy-Item -LiteralPath $pending -Destination $destination -Force
+        Set-Content -LiteralPath $stamp -Value $hash -Encoding ASCII
+    }
+    finally { if (Test-Path -LiteralPath $pending) { Remove-Item -LiteralPath $pending -Force } }
+    return $destination
 }
 
 
@@ -306,8 +345,32 @@ function Assert-BuildNotRunning {
 }
 
 
+function Initialize-ExportAuditRuntime {
+    param([string]$BuildDirectory, [string]$RuntimeDirectory)
+
+    New-Item -ItemType Directory -Path $RuntimeDirectory -Force | Out-Null
+    # Export templates forbid external scripts. Run their embedded pack with the
+    # matching editor and the exact native libraries shipped beside the game.
+    $auditEngine = Join-Path $RuntimeDirectory 'godot.exe'
+    Copy-LocalRuntimeFile -Source $localGodot -Destination $auditEngine
+    foreach ($runtimeFile in Get-ChildItem -LiteralPath $BuildDirectory -File -Filter '*.dll') {
+        Copy-LocalRuntimeFile -Source $runtimeFile.FullName -Destination (Join-Path $RuntimeDirectory $runtimeFile.Name)
+    }
+    foreach ($configurationFile in @('steam_appid.txt', 'game_actions_480.vdf')) {
+        Copy-Item -LiteralPath (Join-Path $BuildDirectory $configurationFile) -Destination (Join-Path $RuntimeDirectory $configurationFile) -Force
+    }
+    return $auditEngine
+}
+
+function Initialize-LauncherProcessCapture {
+    if (-not ('NorthernLab.Launcher.ProcessCapture' -as [type])) {
+        Add-Type -Path (Join-Path $projectRoot 'tools/launcher/process_capture.cs')
+    }
+}
+
 function Invoke-GodotBuildStep {
-    param([string]$Name, [int]$TimeoutSeconds, [string[]]$Arguments)
+    param([string]$Name, [int]$TimeoutSeconds, [string[]]$Arguments, [hashtable]$Environment = @{}, [string]$Executable = $localGodot,
+        [scriptblock]$OutputCallback, [scriptblock]$PulseCallback, [switch]$PlainArguments)
 
     $logPath = Join-Path $buildLogDirectory "$Name.log"
     $stdoutPath = Join-Path $buildLogDirectory "$Name.stdout.log"
@@ -316,36 +379,53 @@ function Invoke-GodotBuildStep {
     foreach ($stepLog in @($logPath, $stdoutPath, $stderrPath)) {
         Set-Content -LiteralPath $stepLog -Value "" -Encoding UTF8
     }
-    # Keep Godot's console output separate from the hidden launcher console.
     # Native startup/shutdown errors may only appear on stdout/stderr.
     $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $startInfo.FileName = $localGodot
-    $startInfo.Arguments = ($Arguments + @("--log-file", "`"$logPath`"")) -join ' '
-    $startInfo.WorkingDirectory = $projectRoot
+    $startInfo.FileName = $Executable
+    $finalArguments = @()
+    $insertedLog = $false
+    foreach ($argument in $Arguments) {
+        if (-not $PlainArguments -and $argument -eq '--' -and -not $insertedLog) {
+            $finalArguments += @('--log-file', "`"$logPath`"")
+            $insertedLog = $true
+        }
+        $finalArguments += $argument
+    }
+    if (-not $PlainArguments -and -not $insertedLog) { $finalArguments += @('--log-file', "`"$logPath`"") }
+    $startInfo.Arguments = $finalArguments -join ' '
+    $startInfo.WorkingDirectory = if ($Executable -eq $localGodot) { $projectRoot } else { Split-Path -Parent $Executable }
     $startInfo.UseShellExecute = $false
     $startInfo.CreateNoWindow = $true
     $startInfo.RedirectStandardOutput = $true
     $startInfo.RedirectStandardError = $true
-    $process = New-Object System.Diagnostics.Process
-    $process.StartInfo = $startInfo
+    foreach ($key in $Environment.Keys) {
+        $startInfo.EnvironmentVariables[$key] = [string]$Environment[$key]
+    }
+    Initialize-LauncherProcessCapture
+    $process = [NorthernLab.Launcher.ProcessCapture]::new($startInfo.FileName, $startInfo.Arguments, $startInfo.WorkingDirectory, $Environment)
     $timedOut = $false
+    $clock = [System.Diagnostics.Stopwatch]::StartNew()
     try {
-        $null = $process.Start()
-        # Drain both streams concurrently so verbose exports cannot block on a full pipe.
-        $stdoutTask = $process.StandardOutput.ReadToEndAsync()
-        $stderrTask = $process.StandardError.ReadToEndAsync()
-        if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
-            $timedOut = $true
-            $process.Kill()
-            $process.WaitForExit()
+        $process.Start($stdoutPath, $stderrPath)
+        while ($true) {
+            foreach ($chunk in $process.Drain()) {
+                $displayChunk = [regex]::Replace($chunk.Text, '\x1B\[[0-?]*[ -/]*[@-~]', '')
+                if ($OutputCallback) { & $OutputCallback $displayChunk $chunk.IsError | Out-Null }
+                else { Write-Host -NoNewline $displayChunk }
+            }
+            if ($PulseCallback) { & $PulseCallback | Out-Null }
+            $process.CheckOutput()
+            if (-not $process.HasExited -and $clock.Elapsed.TotalSeconds -ge $TimeoutSeconds) {
+                $timedOut = $true
+                $process.Kill()
+            }
+            if ($process.HasExited -and $process.OutputFinished) { break }
+            if ($clock.Elapsed.TotalSeconds -ge $TimeoutSeconds + 2) { $timedOut = $true; break }
+            [System.Threading.Thread]::Sleep(20)
         }
-        Set-Content -LiteralPath $stdoutPath -Value $stdoutTask.GetAwaiter().GetResult() -Encoding UTF8
-        Set-Content -LiteralPath $stderrPath -Value $stderrTask.GetAwaiter().GetResult() -Encoding UTF8
         $exitCode = $process.ExitCode
     }
-    finally {
-        $process.Dispose()
-    }
+    finally { $process.Dispose() }
     if ($timedOut) {
         throw "Godot $Name timed out. See $logPath. The current build has been kept."
     }
@@ -406,113 +486,152 @@ function Remove-BuildStagingDirectory {
 
 
 function Invoke-DevelopmentBuild {
-    param([scriptblock]$StatusCallback)
-
-    if ($StatusCallback) {
-        & $StatusCallback "Checking Git LFS, Godot and GodotSteam..."
-    }
-    Initialize-GitLfsAssets
-    Remove-LegacyArtifacts
-    Initialize-LocalGodot
-    $templateVersion = Initialize-ExportTemplate
-
-    if ($StatusCallback) {
-        & $StatusCallback "Building NorthernLab v$(Get-GameVersion)..."
-    }
+    param([scriptblock]$StatusCallback, [scriptblock]$OutputCallback, [scriptblock]$PulseCallback)
 
     $buildRoot = Join-Path $projectRoot "build"
     New-Item -ItemType Directory -Path $buildRoot -Force | Out-Null
-    Assert-BuildNotRunning
-    New-Item -ItemType Directory -Path $buildLogDirectory -Force | Out-Null
-    $stagingDirectory = Join-Path $buildRoot (".windows-dev-" + [guid]::NewGuid().ToString("N"))
-    New-Item -ItemType Directory -Path $stagingDirectory -Force | Out-Null
-    $stagingExecutable = Join-Path $stagingDirectory "NorthernLab.exe"
-
     try {
-        $exportArguments = @(
-            "--headless",
-            "--path",
-            "`"$projectRoot`"",
-            "--export-debug",
-            "`"Windows Dev`"",
-            "`"$stagingExecutable`""
-        )
+        $buildLock = [System.IO.File]::Open((Join-Path $buildRoot '.windows-dev.lock'), 'OpenOrCreate', 'ReadWrite', 'None')
+    }
+    catch { throw "Another build is already running. Wait for it to finish before rebuilding." }
+    try {
+        $stepCallbacks = @{ OutputCallback = $OutputCallback; PulseCallback = $PulseCallback }
+
         if ($StatusCallback) {
-            & $StatusCallback "Importing project resources and script classes..."
+            & $StatusCallback "Checking Git LFS, Godot and GodotSteam..."
         }
-        # Script mode reads the editor's class cache; refresh it before loading autoloads.
-        Invoke-GodotBuildStep -Name "import" -TimeoutSeconds 600 -Arguments @(
-            "--headless", "--editor", "--path", "`"$projectRoot`"", "--import"
-        )
-        Invoke-GodotBuildStep -Name "identity" -TimeoutSeconds 120 -Arguments @(
-            "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
-        )
-        Invoke-GodotBuildStep -Name "resources" -TimeoutSeconds 120 -Arguments @(
-            "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/prepare_export_resources.gd"
-        )
+        Initialize-GitLfsAssets
+        Remove-LegacyArtifacts
+        Initialize-LocalGodot
+        $templateVersion = Initialize-ExportTemplate
+
         if ($StatusCallback) {
-            & $StatusCallback "Exporting NorthernLab v$(Get-GameVersion)..."
-        }
-        Invoke-GodotBuildStep -Name "export" -TimeoutSeconds 600 -Arguments $exportArguments
-        if (-not (Test-Path -LiteralPath $stagingExecutable)) {
-            throw "Godot reported success but did not create $stagingExecutable"
+            & $StatusCallback "Building NorthernLab v$(Get-GameVersion)..."
         }
 
-        Set-Content `
-            -LiteralPath (Join-Path $stagingDirectory "steam_appid.txt") `
-            -Value "480" `
-            -Encoding ASCII
-        Copy-Item `
-            -LiteralPath (Join-Path $projectRoot "game_actions_480.vdf") `
-            -Destination (Join-Path $stagingDirectory "game_actions_480.vdf") `
-            -Force
+        Assert-BuildNotRunning
+        New-Item -ItemType Directory -Path $buildLogDirectory -Force | Out-Null
+        $stagingDirectory = Join-Path $buildRoot (".windows-dev-" + [guid]::NewGuid().ToString("N"))
+        New-Item -ItemType Directory -Path $stagingDirectory -Force | Out-Null
+        $stagingExecutable = Join-Path $stagingDirectory "NorthernLab.exe"
 
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
+        try {
+            $exportArguments = @(
+                "--headless",
+                "--path",
+                "`"$projectRoot`"",
+                "--export-debug",
+                "`"Windows Dev`"",
+                "`"$stagingExecutable`""
+            )
+            if ($StatusCallback) {
+                & $StatusCallback "Importing project resources and script classes..."
+            }
+            # Script mode reads the editor's class cache; refresh it before loading autoloads.
+            Invoke-GodotBuildStep @stepCallbacks -Name "import" -TimeoutSeconds 600 -Arguments @(
+                "--headless", "--editor", "--path", "`"$projectRoot`"", "--import"
+            )
+            Invoke-GodotBuildStep @stepCallbacks -Name "identity" -TimeoutSeconds 120 -Arguments @(
+                "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
+            )
+            Invoke-GodotBuildStep @stepCallbacks -Name "resources" -TimeoutSeconds 120 -Arguments @(
+                "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/prepare_export_resources.gd"
+            )
+            if ($StatusCallback) {
+                & $StatusCallback "Exporting NorthernLab v$(Get-GameVersion)..."
+            }
+            Invoke-GodotBuildStep @stepCallbacks -Name "export" -TimeoutSeconds 600 -Arguments $exportArguments
+            if (-not (Test-Path -LiteralPath $stagingExecutable)) {
+                throw "Godot reported success but did not create $stagingExecutable"
+            }
 
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "SNOWMOBILE_CREDITS.md") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CORPSE_CREDITS.md") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "JOURNAL_CREDITS.md") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CHARACTER_CREDITS.md") -Force
-        Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $stagingDirectory "ITEM_MODEL_CREDITS.md") -Force
+            Set-Content `
+                -LiteralPath (Join-Path $stagingDirectory "steam_appid.txt") `
+                -Value "480" `
+                -Encoding ASCII
+            Copy-Item `
+                -LiteralPath (Join-Path $projectRoot "game_actions_480.vdf") `
+                -Destination (Join-Path $stagingDirectory "game_actions_480.vdf") `
+                -Force
 
-        $revision = "unavailable"
-        $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
-        if ($gitCommand) {
-            $revisionOutput = (& $gitCommand.Source `
-                -C $projectRoot rev-parse --short HEAD 2>$null)
-            if (
-                $LASTEXITCODE -eq 0 -and
-                -not [string]::IsNullOrWhiteSpace($revisionOutput)
-            ) {
-                $revision = $revisionOutput.Trim()
-                $workingTreeStatus = (& $gitCommand.Source `
-                    -C $projectRoot status --porcelain 2>$null)
-                if (-not [string]::IsNullOrWhiteSpace($workingTreeStatus)) {
-                    $revision += "-dirty"
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
+
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "SNOWMOBILE_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CORPSE_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "JOURNAL_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CHARACTER_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $stagingDirectory "ITEM_MODEL_CREDITS.md") -Force
+
+            $revision = "unavailable"
+            $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
+            if ($gitCommand) {
+                Invoke-GodotBuildStep -PlainArguments -Name 'git_revision' -TimeoutSeconds 30 -Executable $gitCommand.Source -Arguments @('-C', "`"$projectRoot`"", 'rev-parse', '--short', 'HEAD') -OutputCallback {}
+                $revisionOutput = Get-Content -LiteralPath (Join-Path $buildLogDirectory 'git_revision.stdout.log') -Raw -Encoding UTF8
+                if (
+                    -not [string]::IsNullOrWhiteSpace($revisionOutput)
+                ) {
+                    $revision = $revisionOutput.Trim()
+                    Invoke-GodotBuildStep -PlainArguments -Name 'git_status' -TimeoutSeconds 30 -Executable $gitCommand.Source -Arguments @('-C', "`"$projectRoot`"", 'status', '--porcelain') -OutputCallback {}
+                    $workingTreeStatus = Get-Content -LiteralPath (Join-Path $buildLogDirectory 'git_status.stdout.log') -Raw -Encoding UTF8
+                    if (-not [string]::IsNullOrWhiteSpace($workingTreeStatus)) {
+                        $revision += "-dirty"
+                    }
                 }
             }
-        }
-        Set-Content `
-            -LiteralPath (Join-Path $stagingDirectory "build_info.txt") `
-            -Value @(
-                "NorthernLab development build"
-                "Revision: $revision"
-                "Built: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')"
-            ) `
-            -Encoding UTF8
+            Set-Content `
+                -LiteralPath (Join-Path $stagingDirectory "build_info.txt") `
+                -Value @(
+                    "NorthernLab development build"
+                    "Revision: $revision"
+                    "Built: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss K')"
+                ) `
+                -Encoding UTF8
 
-        Publish-DevelopmentBuild $stagingDirectory
+            if ($StatusCallback) {
+                & $StatusCallback "Checking packaged resources, New Game and saved-game loading..."
+            }
+            # Run outside the source project so omitted resources cannot be resolved locally.
+            # Redirect user data before autoloads start; never touch the player's real saves.
+            $auditUserData = Join-Path $buildLogDirectory ("export-audit-" + [guid]::NewGuid().ToString("N"))
+            New-Item -ItemType Directory -Path $auditUserData -Force | Out-Null
+            $auditEnvironment = @{
+                APPDATA = $auditUserData
+                LOCALAPPDATA = $auditUserData
+                NORTHERNLAB_EXPORT_MANIFEST = Join-Path $projectRoot "tools/.local/export_resources.json"
+            }
+            $auditEngine = Initialize-ExportAuditRuntime -BuildDirectory $stagingDirectory -RuntimeDirectory (Join-Path $buildLogDirectory 'export-runtime')
+            foreach ($audit in @('export_resources_regression', 'export_new_game_regression')) {
+                if ($StatusCallback) {
+                    $auditMessage = if ($audit -eq 'export_resources_regression') {
+                        "Checking packaged resources (1/3)..."
+                    } else { "Checking New Game, save and Continue (2/3)..." }
+                    & $StatusCallback $auditMessage
+                }
+                $auditScript = Join-Path $projectRoot "tools/tests/$audit.gd"
+                Invoke-GodotBuildStep @stepCallbacks -Name $audit -TimeoutSeconds 180 -Environment $auditEnvironment -Executable $auditEngine -Arguments @(
+                    "--headless", "--path", "`"$stagingDirectory`"",
+                    "--main-pack", "`"$stagingExecutable`"", "--script", "`"$auditScript`""
+                )
+            }
+            if ($StatusCallback) { & $StatusCallback "Checking game executable startup (3/3)..." }
+            Invoke-GodotBuildStep @stepCallbacks -Name 'export_startup' -TimeoutSeconds 60 -Environment $auditEnvironment -Executable $stagingExecutable -Arguments @(
+                '--headless', '--', '--startup-check'
+            )
+            if ($StatusCallback) { & $StatusCallback "Publishing verified build to build/windows-dev..." }
+            Publish-DevelopmentBuild $stagingDirectory
+        }
+        finally {
+            Remove-BuildStagingDirectory $stagingDirectory
+        }
+        New-LauncherShortcut
+        if ($StatusCallback) {
+            & $StatusCallback "Build ready: build/windows-dev"
+        }
+        return $outputExecutable
     }
-    finally {
-        Remove-BuildStagingDirectory $stagingDirectory
-    }
-    New-LauncherShortcut
-    if ($StatusCallback) {
-        & $StatusCallback "Build ready: build/windows-dev"
-    }
-    return $outputExecutable
+    finally { $buildLock.Dispose() }
 }
 
 
@@ -573,20 +692,54 @@ function Start-NorthernLab {
         $arguments += "--disable-vsync"
     }
 
-    Start-Process `
-        -FilePath $outputExecutable `
-        -ArgumentList $arguments `
-        -WorkingDirectory $outputDirectory
+    # Suppress a console without hiding the interactive game window.
+    $gameStart = [System.Diagnostics.ProcessStartInfo]::new()
+    $gameStart.FileName = $outputExecutable
+    $gameStart.Arguments = $arguments -join ' '
+    $gameStart.WorkingDirectory = $outputDirectory
+    $gameStart.UseShellExecute = $false
+    $gameStart.CreateNoWindow = $true
+    $gameProcess = [System.Diagnostics.Process]::Start($gameStart)
+    $gameProcess.Dispose()
 }
 
+function Write-BuildSessionState {
+    param([string]$Directory, [string]$State, [string]$Message)
+    $path = Join-Path $Directory 'state.json'
+    $pending = Join-Path $Directory 'state.pending.json'
+    [IO.File]::WriteAllText($pending, (@{ state = $State; message = $Message; updated = (Get-Date).ToString('o') } | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
+    if (Test-Path -LiteralPath $path) { [IO.File]::Replace($pending, $path, [System.Management.Automation.Language.NullString]::Value) }
+    else { [IO.File]::Move($pending, $path) }
+}
 
 if ($BuildOnly) {
-    Invoke-DevelopmentBuild {
-        param($message)
-        Write-Host $message
-    } | Out-Null
-    Write-Output "NorthernLab build and shortcut are ready."
+    try {
+        Invoke-DevelopmentBuild -StatusCallback {
+            param($message)
+            if ($BuildSessionDirectory) { Write-BuildSessionState $BuildSessionDirectory 'running' $message }
+            Write-Host $message
+        } -PulseCallback {
+            if ($BuildSessionDirectory -and (Test-Path -LiteralPath (Join-Path $BuildSessionDirectory 'cancel.flag'))) {
+                throw [System.OperationCanceledException]::new('Build cancelled by the launcher.')
+            }
+        } | Out-Null
+        if ($BuildSessionDirectory) { Write-BuildSessionState $BuildSessionDirectory 'complete' 'Ready. Build and shortcut updated.' }
+        Write-Output "NorthernLab build and shortcut are ready."
+    }
+    catch {
+        if ($BuildSessionDirectory) { Write-BuildSessionState $BuildSessionDirectory 'failed' $_.Exception.ToString() }
+        Write-Error $_ -ErrorAction Continue
+        if ($Hosted) { throw }
+        exit 1
+    }
+    if ($Hosted) { return }
     exit 0
+}
+
+if ($BootstrapOnly) {
+    New-LauncherShortcut
+    Start-Process -FilePath (Initialize-LauncherHost) -WindowStyle Hidden
+    return
 }
 
 
@@ -597,8 +750,8 @@ $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="NorthernLab Launcher"
-        Width="760" Height="760"
-        MinWidth="700" MinHeight="700"
+        Width="760" Height="900"
+        MinWidth="700" MinHeight="620"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip"
         Background="#071018">
@@ -616,6 +769,7 @@ $xaml = @'
             </Rectangle.Fill>
         </Rectangle>
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <Grid Margin="40,34">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -691,7 +845,8 @@ $xaml = @'
                 </StackPanel>
             </Border>
 
-            <Border Grid.Row="2"
+            <StackPanel Grid.Row="2">
+            <Border
                     Padding="14,10"
                     CornerRadius="5"
                     Background="#C40A151D"
@@ -703,16 +858,28 @@ $xaml = @'
                                Text="Preparing launcher..."
                                Foreground="#D6E2E8"
                                FontSize="12"
+                               TextWrapping="Wrap"
                                VerticalAlignment="Center"/>
                 </DockPanel>
             </Border>
+            <ProgressBar x:Name="BuildProgress" Height="3" Margin="0,6,0,6"
+                         IsIndeterminate="False" Visibility="Collapsed"/>
+            <Expander Header="Build log" Foreground="#9CB4C1" IsExpanded="True" Margin="0,6,0,0">
+                <TextBox x:Name="BuildLog" Height="110" IsReadOnly="True" IsUndoEnabled="False"
+                         Background="#DD0A151D" Foreground="#D6E2E8" BorderBrush="#2D4857"
+                         FontFamily="Consolas" FontSize="11" Padding="8"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </Expander>
+            </StackPanel>
         </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>
 '@
 
 $reader = New-Object System.Xml.XmlNodeReader ([xml]$xaml)
 $window = [Windows.Markup.XamlReader]::Load($reader)
+$window.Height = [Math]::Min($window.Height, [System.Windows.SystemParameters]::WorkArea.Height)
 $window.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Uri]::new($applicationIcon))
 $rootGrid = $window.FindName("RootGrid")
 $windowModeBox = $window.FindName("WindowModeBox")
@@ -724,6 +891,10 @@ $rebuildButton = $window.FindName("RebuildButton")
 $openBuildButton = $window.FindName("OpenBuildButton")
 $statusText = $window.FindName("StatusText")
 $statusDot = $window.FindName("StatusDot")
+$buildLog = $window.FindName("BuildLog")
+$buildProgress = $window.FindName("BuildProgress")
+$script:buildInProgress = $false
+$script:buildCancelled = $false
 
 if (Test-Path -LiteralPath $backgroundPath) {
     $bitmap = New-Object System.Windows.Media.Imaging.BitmapImage
@@ -793,33 +964,108 @@ function Set-LauncherStatus {
     $statusDot.Fill = [System.Windows.Media.SolidColorBrush]::new(
         [System.Windows.Media.ColorConverter]::ConvertFromString($Color)
     )
-    [System.Windows.Forms.Application]::DoEvents()
+
+}
+
+function Add-LauncherBuildOutput {
+    param([string]$Text)
+    if ($buildLog.Text.Length -gt 60000) { $buildLog.Text = $buildLog.Text.Substring($buildLog.Text.Length - 40000) }
+    $buildLog.AppendText([regex]::Replace($Text, '\x1B\[[0-?]*[ -/]*[@-~]', ''))
+    $buildLog.ScrollToEnd()
+}
+
+function Update-LauncherBuild {
+    if (-not $script:buildInProgress -or $null -eq $script:buildWorker) { return }
+    try {
+        foreach ($chunk in $script:buildWorker.Drain()) { Add-LauncherBuildOutput $chunk.Text }
+        $statePath = Join-Path $script:buildSession 'state.json'
+        $state = $null
+        if (Test-Path -LiteralPath $statePath) {
+            $stateFile = [IO.File]::Open($statePath, 'Open', 'Read', ([IO.FileShare]::ReadWrite -bor [IO.FileShare]::Delete))
+            $stateReader = [IO.StreamReader]::new($stateFile, [Text.Encoding]::UTF8)
+            try { $state = $stateReader.ReadToEnd() | ConvertFrom-Json }
+            finally { $stateReader.Dispose() }
+            if (-not $script:closeAfterBuild) { Set-LauncherStatus $state.message }
+        }
+        $script:buildWorker.CheckOutput()
+        if (-not $script:buildWorker.HasExited -or -not $script:buildWorker.OutputFinished) { return }
+        $exitCode = $script:buildWorker.ExitCode
+        $script:buildWorker.Dispose()
+        $script:buildWorker = $null
+        $script:buildTimer.Stop()
+        $script:buildInProgress = $false
+        $buildProgress.IsIndeterminate = $false
+        $buildProgress.Visibility = 'Collapsed'
+        $rebuildButton.IsEnabled = $true
+        if ($exitCode -eq 0 -and $state -and $state.state -eq 'complete' -and (Test-Path -LiteralPath $outputExecutable)) {
+            Set-LauncherStatus 'Ready. Build and shortcut updated.' '#55C58A'
+            $playButton.IsEnabled = $true
+        }
+        else {
+            $message = if ($state -and $state.state -eq 'failed') { $state.message } else {
+                "Build worker stopped unexpectedly (code $exitCode). Logs: $script:buildSession"
+            }
+            Add-LauncherBuildOutput "`r`n$message`r`n"
+            Set-LauncherStatus "Build error. Logs: $script:buildSession" '#E45D53'
+        }
+        [IO.File]::WriteAllText((Join-Path $script:buildSession 'ui-result.json'), (@{
+            hostPid = $PID; workerExitCode = $exitCode; playEnabled = $playButton.IsEnabled
+            status = $statusText.Text; completedAt = (Get-Date).ToString('o')
+        } | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
+        if ($script:closeAfterBuild) { $window.Close() }
+    }
+    catch {
+        # A display/logging failure must not bring down the launcher or worker.
+        $detail = $_.ToString()
+        try { Set-LauncherStatus "Launcher error: $detail" '#E45D53' } catch {}
+        try { [IO.File]::AppendAllText((Join-Path $script:buildSession 'launcher-error.log'), $detail + "`r`n") } catch {}
+    }
 }
 
 function Invoke-LauncherBuild {
+    if ($script:buildInProgress) { return }
+    $script:closeAfterBuild = $false
+    $buildLog.Clear()
     $playButton.IsEnabled = $false
-    $rebuildButton.IsEnabled = $false
     try {
-        Invoke-DevelopmentBuild {
-            param($message)
-            Set-LauncherStatus $message
-        } | Out-Null
-        Set-LauncherStatus "Ready. Build and shortcut updated." "#55C58A"
-        $playButton.IsEnabled = $true
+        Initialize-LauncherProcessCapture
+        $script:buildSession = Join-Path $buildLogDirectory ('sessions/' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Path $script:buildSession -Force | Out-Null
+        $hostExecutable = Initialize-LauncherHost
+        $workerArguments = '--build "' + $script:buildSession + '"'
+        $script:buildWorker = [NorthernLab.Launcher.ProcessCapture]::new($hostExecutable, $workerArguments, $projectRoot, @{})
+        $script:buildWorker.Start((Join-Path $script:buildSession 'worker.stdout.log'), (Join-Path $script:buildSession 'worker.stderr.log'))
+        $script:buildInProgress = $true
+        $rebuildButton.IsEnabled = $false
+        $buildProgress.Visibility = 'Visible'
+        $buildProgress.IsIndeterminate = $true
+        Set-LauncherStatus 'Starting build...'
+        $script:buildTimer.Start()
     }
     catch {
-        Set-LauncherStatus "Build error: $($_.Exception.Message)" "#E45D53"
-        [System.Windows.MessageBox]::Show(
-            $_.Exception.Message,
-            "NorthernLab - build error",
-            [System.Windows.MessageBoxButton]::OK,
-            [System.Windows.MessageBoxImage]::Error
-        ) | Out-Null
-    }
-    finally {
+        if ($script:buildWorker) { $script:buildWorker.Dispose(); $script:buildWorker = $null }
+        $script:buildInProgress = $false
         $rebuildButton.IsEnabled = $true
+        Set-LauncherStatus "Build error: $($_.Exception.Message)" '#E45D53'
+        Add-LauncherBuildOutput $_.Exception.ToString()
     }
 }
+
+$script:buildWorker = $null
+$script:closeAfterBuild = $false
+$script:buildTimer = [System.Windows.Threading.DispatcherTimer]::new()
+$script:buildTimer.Interval = [TimeSpan]::FromMilliseconds(100)
+$script:buildTimer.Add_Tick({ Update-LauncherBuild })
+
+$window.Add_Closing({
+    param($sender, $eventArgs)
+    if ($script:buildInProgress) {
+        $eventArgs.Cancel = $true
+        $script:closeAfterBuild = $true
+        [IO.File]::WriteAllText((Join-Path $script:buildSession 'cancel.flag'), 'cancel')
+        Set-LauncherStatus 'Stopping build safely...'
+    }
+})
 
 $window.Add_ContentRendered({
     Invoke-LauncherBuild
@@ -850,4 +1096,4 @@ $resolutionBox.Add_SelectionChanged({ Update-SettingsFromUi })
 $screenBox.Add_SelectionChanged({ Update-SettingsFromUi })
 $vSyncBox.Add_Click({ Update-SettingsFromUi })
 
-[void]$window.ShowDialog()
+if (-not $InitializeOnly) { [void]$window.ShowDialog() }

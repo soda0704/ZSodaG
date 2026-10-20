@@ -1,0 +1,215 @@
+{
+  "name": "NorthernLab HUD",
+  "version": "1.0",
+  "reference": "Ледяной тоннель_ восстановить питание.png",
+  "reference_canvas": [
+    1672,
+    941
+  ],
+  "layout_canvas": [
+    2560,
+    1440
+  ],
+  "raster_scales": [
+    1,
+    2,
+    4
+  ],
+  "format": "PNG RGBA, 8-bit per channel, straight alpha",
+  "palette": {
+    "white": "#EFEFE8",
+    "amber": "#E2AD4D",
+    "teal": "#84D8DB",
+    "graphite": "#0E1214 / alpha 155"
+  },
+  "font": "Arial, rendered into pixels with Cyrillic glyphs",
+  "assets": [
+    {
+      "stem": "01_logo_day",
+      "title": "Лого / день",
+      "x": 40,
+      "y": 32,
+      "anchor": "top-left",
+      "note": "",
+      "size_1x": [
+        466,
+        78
+      ],
+      "files": {
+        "1x": "PNG_1x/01_logo_day.png",
+        "2x": "PNG_2x/01_logo_day.png",
+        "4x": "PNG_4x/01_logo_day.png"
+      }
+    },
+    {
+      "stem": "02_objectives",
+      "title": "Блок целей",
+      "x": 40,
+      "y": 128,
+      "anchor": "top-left",
+      "note": "",
+      "size_1x": [
+        420,
+        180
+      ],
+      "files": {
+        "1x": "PNG_1x/02_objectives.png",
+        "2x": "PNG_2x/02_objectives.png",
+        "4x": "PNG_4x/02_objectives.png"
+      }
+    },
+    {
+      "stem": "03_compass",
+      "title": "Компас",
+      "x": 869,
+      "y": 28,
+      "anchor": "top-center",
+      "note": "Латинские сокращения направлений сохранены как на референсе.",
+      "size_1x": [
+        870,
+        80
+      ],
+      "files": {
+        "1x": "PNG_1x/03_compass.png",
+        "2x": "PNG_2x/03_compass.png",
+        "4x": "PNG_4x/03_compass.png"
+      }
+    },
+    {
+      "stem": "04_teammate_status",
+      "title": "Статус напарника",
+      "x": 2290,
+      "y": 34,
+      "anchor": "top-right",
+      "note": "",
+      "size_1x": [
+        232,
+        92
+      ],
+      "files": {
+        "1x": "PNG_1x/04_teammate_status.png",
+        "2x": "PNG_2x/04_teammate_status.png",
+        "4x": "PNG_4x/04_teammate_status.png"
+      }
+    },
+    {
+      "stem": "05_crosshair",
+      "title": "Точка прицела",
+      "x": 1264,
+      "y": 704,
+      "anchor": "center",
+      "note": "",
+      "size_1x": [
+        32,
+        32
+      ],
+      "files": {
+        "1x": "PNG_1x/05_crosshair.png",
+        "2x": "PNG_2x/05_crosshair.png",
+        "4x": "PNG_4x/05_crosshair.png"
+      }
+    },
+    {
+      "stem": "06_interaction_E",
+      "title": "E — Осмотреть щит",
+      "x": 1985,
+      "y": 678,
+      "anchor": "contextual",
+      "note": "",
+      "size_1x": [
+        264,
+        64
+      ],
+      "files": {
+        "1x": "PNG_1x/06_interaction_E.png",
+        "2x": "PNG_2x/06_interaction_E.png",
+        "4x": "PNG_4x/06_interaction_E.png"
+      }
+    },
+    {
+      "stem": "07_health_radiation",
+      "title": "Состояние / радиация",
+      "x": 40,
+      "y": 1244,
+      "anchor": "bottom-left",
+      "note": "Значения 92 и 0.04 мЗв сохранены как на референсе. Длина полосы повторяет изображение.",
+      "size_1x": [
+        370,
+        156
+      ],
+      "files": {
+        "1x": "PNG_1x/07_health_radiation.png",
+        "2x": "PNG_2x/07_health_radiation.png",
+        "4x": "PNG_4x/07_health_radiation.png"
+      }
+    },
+    {
+      "stem": "08_equipment_slots",
+      "title": "Слоты снаряжения",
+      "x": 1103,
+      "y": 1248,
+      "anchor": "bottom-center",
+      "note": "",
+      "size_1x": [
+        354,
+        110
+      ],
+      "files": {
+        "1x": "PNG_1x/08_equipment_slots.png",
+        "2x": "PNG_2x/08_equipment_slots.png",
+        "4x": "PNG_4x/08_equipment_slots.png"
+      }
+    },
+    {
+      "stem": "09_journal_J",
+      "title": "J — Журнал",
+      "x": 1202,
+      "y": 1355,
+      "anchor": "bottom-center",
+      "note": "",
+      "size_1x": [
+        156,
+        42
+      ],
+      "files": {
+        "1x": "PNG_1x/09_journal_J.png",
+        "2x": "PNG_2x/09_journal_J.png",
+        "4x": "PNG_4x/09_journal_J.png"
+      }
+    },
+    {
+      "stem": "10_ammunition",
+      "title": "Патроны",
+      "x": 2234,
+      "y": 1298,
+      "anchor": "bottom-right",
+      "note": "",
+      "size_1x": [
+        155,
+        65
+      ],
+      "files": {
+        "1x": "PNG_1x/10_ammunition.png",
+        "2x": "PNG_2x/10_ammunition.png",
+        "4x": "PNG_4x/10_ammunition.png"
+      }
+    },
+    {
+      "stem": "11_flashlight_charge",
+      "title": "Заряд фонаря",
+      "x": 2390,
+      "y": 1298,
+      "anchor": "bottom-right",
+      "note": "",
+      "size_1x": [
+        132,
+        64
+      ],
+      "files": {
+        "1x": "PNG_1x/11_flashlight_charge.png",
+        "2x": "PNG_2x/11_flashlight_charge.png",
+        "4x": "PNG_4x/11_flashlight_charge.png"
+      }
+    }
+  ]
+}

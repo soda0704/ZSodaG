@@ -38,6 +38,7 @@ var _transition_in_progress := false
 var _settings_data: Dictionary = {}
 var _mouse_sensitivity_multiplier := 1.0
 var _applied_display: Dictionary = {}
+var _quitting := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -79,18 +80,56 @@ func _ready() -> void:
 	connect_network_signals()
 	show_view(MenuView.MAIN)
 	menu_root.hide()
+	if OS.is_debug_build() and "--startup-check" in OS.get_cmdline_user_args():
+		_run_startup_check.call_deferred()
+
+func _exit_tree() -> void:
+	NorthernMenuStyle.uninstall_cursor()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_with_save()
 
 func quit_with_save(save_before_exit: bool = true) -> void:
+	if _quitting:
+		return
 	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
 	if save_before_exit and base != null and multiplayer.is_server() and base.progress_persistence_enabled:
 		if not base.save_progress_authoritative():
 			confirm("Не удалось сохранить", "Последняя запись сохранена, но новые изменения не записались. Остаться в игре или выйти без них?", [{"label": "Выйти без сохранения", "action": quit_with_save.bind(false)}])
 			return
-	get_tree().quit()
+	_quitting = true
+	_finish_quit.call_deferred()
+
+func _finish_quit() -> void:
+	var tree := get_tree()
+	tree.paused = false
+	# Free the scene while audio/rendering servers still process frames. Quitting
+	# immediately leaves an active Ogg decoder in the audio server's delete queue.
+	var scene := tree.current_scene
+	tree.current_scene = null
+	if scene != null:
+		scene.queue_free()
+	await tree.process_frame
+	await tree.create_timer(0.15, true, false, true).timeout
+	tree.quit()
+
+func _run_startup_check() -> void:
+	var tree := get_tree()
+	await tree.process_frame
+	await tree.create_timer(0.4, true).timeout
+	var scene := tree.current_scene
+	if scene == null or scene.scene_file_path != "res://scenes/ui/main_menu.tscn":
+		push_error("Packaged executable did not reach the main menu")
+		tree.quit(1)
+		return
+	var music := scene.get_node_or_null("BackgroundMusic") as AudioStreamPlayer
+	if music == null or not music.playing:
+		push_error("Packaged executable did not start the menu music")
+		tree.quit(1)
+		return
+	print("PASS packaged executable starts the main menu and music; checking normal shutdown")
+	quit_with_save(false)
 
 func connect_network_signals() -> void:
 	SteamNetwork.state_changed.connect(_on_network_state_changed)

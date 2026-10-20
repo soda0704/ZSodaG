@@ -50,7 +50,7 @@ func run() -> void:
 	check(main.selector == null, "home does not select a character before new game")
 	check(main.background_video.stream != null and main.background_video.is_playing(), "main background is a playing video")
 	check(main.background_video.get_video_texture().get_size() == Vector2(1920, 1080), "background uses the lighter 1080p playback asset")
-	check(main.background_video.bus == &"Music", "background audio retains Music routing")
+	check(main.background_video.volume_db <= -80.0 and main.get_node("BackgroundMusic").bus == &"Music", "background video is silent and separate menu music uses Music routing")
 	check(main.shell.shade.get_index() < main.shell.content.get_index(), "backdrop shading draws behind text and controls")
 	await screenshot("native-home")
 	main._on_single_player_pressed()

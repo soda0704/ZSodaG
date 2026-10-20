@@ -51,7 +51,7 @@ func run() -> void:
 	var socket := base.get_node("Floor_0_Base_Blockout/Gameplay/ElevatorBackupPower") as ElevatorBackupPower
 	var player := prepare_player(world)
 	var marker := base.get_node(base.elevator_backup_fuse_spawn_path) as Marker3D
-	var light_layer := base.get_node("Floor_0_Base_Blockout/Power_State_Lighting_Blockout/Standard_Lighting_Blockout") as Node3D
+	var lighting := base.get_node("BasePowerLightingController") as BasePowerLightingController
 	check(not elevator.is_powered and not state.elevator_backup_installed, "new expedition starts without elevator backup")
 	check(fuses(world).size() == 1, "exactly one fuse spawns in a new expedition")
 	if fuses(world).size() != 1:
@@ -83,7 +83,7 @@ func run() -> void:
 	check(state.set_end_day_ready_authoritative(1, true) and state.set_peer_sleeping_authoritative(1, true) and state.advance_day_authoritative(), "normal sleep advances from day one")
 	await settle()
 	check(state.day_index == 2 and state.maintenance.get("wires_required", false), "existing first-night wiring failure remains active")
-	check(not state.main_breaker_on and elevator.is_powered and not light_layer.visible, "backup powers only elevator during wiring failure")
+	check(not state.main_breaker_on and elevator.is_powered and not lighting.is_standard_powered, "backup powers only elevator during wiring failure")
 	var snapshot := state.get_snapshot()
 	snapshot.maintenance["wires_required"] = false
 	snapshot.fuel_delivered = true

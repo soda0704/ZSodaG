@@ -1275,6 +1275,11 @@ func request_inventory_action(action: StringName) -> void:
 func request_reload_or_battery() -> void:
 	request_inventory_action(&"reload_or_battery")
 
+func get_reload_or_battery_action() -> StringName:
+	var better_cell := _has_flashlight and not _spare_batteries.is_empty() and float(_spare_batteries.max()) > _battery_charge
+	var battery_priority := better_cell and (_battery_charge <= 0.0 or (is_handheld_flashlight_drawn() and not weapon_light_mounted))
+	return &"reload" if WeaponController.TYPES.has(_held_item_type) and not battery_priority else &"replace_battery"
+
 
 @rpc("authority", "call_local", "reliable")
 func _show_pocket_light_notice() -> void:
@@ -1294,9 +1299,7 @@ func _begin_inventory_action(action: StringName) -> void:
 	if action == &"reload_or_battery":
 		if _battery_action_busy:
 			return
-		var better_cell := _has_flashlight and not _spare_batteries.is_empty() and float(_spare_batteries.max()) > _battery_charge
-		var battery_priority := better_cell and (_battery_charge <= 0.0 or (is_handheld_flashlight_drawn() and not weapon_light_mounted))
-		if WeaponController.TYPES.has(_held_item_type) and not battery_priority:
+		if get_reload_or_battery_action() == &"reload":
 			weapon.perform_action(&"reload")
 			return
 		action = &"replace_battery"

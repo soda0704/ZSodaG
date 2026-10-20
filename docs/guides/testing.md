@@ -38,6 +38,7 @@ Windows-редактор является GUI-приложением: обычн
 | Область | Файлы в `tools/tests/` |
 | --- | --- |
 | Ресурсы | `project_resource_audit.gd` |
+| Игровой HUD | `northern_lab_hud_regression.gd`: живые показатели и действия, адаптивные состояния, прерывания анимаций, клавиши/геймпад и пять разрешений; `-- --base-review` — основная база, `-- --helicopter-review` — вертолёт и высадка, `-- --motion-capture` — кадры анимации. [Устройство HUD](../technical/northern_lab_hud.md) |
 | Сбой освещения и свет кабины | `lighting_fault_cabin_regression.gd`: сбой без переключения рубильника, сброс, editor preview, движение и репликация лампы лифта; `world_lighting_regression.gd` проверяет яркость при сбое графически |
 | Меню Menu, ESC_MENU, LOBBY_MENU и применение настроек | `menu_integration_regression.gd` (для визуальной проверки без `--headless`, с `-- --capture`) |
 | Модели предметов и батарейки | `item_models_regression.gd` |

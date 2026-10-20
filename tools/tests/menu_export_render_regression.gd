@@ -172,4 +172,10 @@ func run() -> void:
 	player.survival.set_physics_process(true)
 	player.refresh_crosshair_visibility()
 	print("EXPORTED MENU RESULT ", failures)
+	# Release gameplay viewports and drain deferred GPU frees before renderer shutdown.
+	current_scene.queue_free()
+	current_scene = null
+	for frame in 3:
+		await process_frame
+		await RenderingServer.frame_post_draw
 	quit(0 if failures.is_empty() else 1)

@@ -1,5 +1,5 @@
 extends SceneTree
-## Refresh selected export roots; Godot adds their ordinary resource dependencies.
+## Select the full dependency closure, including imported fonts and nested themes.
 ## String-built resource families must be listed here because they have no static edge.
 const DYNAMIC_FAMILIES := {
 	"res://assets/environments/calibration": "gamma_*.tres",
@@ -32,7 +32,7 @@ func visit(path: String) -> void:
 		failures.append("Missing export resource: " + path)
 		return
 	for dependency in ResourceLoader.get_dependencies(path):
-		visit(dependency.split("::")[-1])
+		select(dependency.split("::")[-1])
 	if path.get_extension() != "gd": return
 	var source := FileAccess.get_file_as_string(path)
 	# Includes load(variable), menu templates and resource paths stored in constants.
@@ -74,12 +74,16 @@ func run() -> void:
 		return
 	var paths := PackedStringArray(selected.keys())
 	paths.sort()
+	var changed: bool = preset.get_value("preset.0", "export_filter", "") != "resources" or preset.get_value("preset.0", "export_files", PackedStringArray()) != paths
 	preset.set_value("preset.0", "export_filter", "resources")
 	preset.set_value("preset.0", "export_files", paths)
-	if preset.save("res://export_presets.cfg") != OK:
-		push_error("Could not save export_presets.cfg")
-		quit(1)
-		return
+	# Avoid rewriting an unchanged preset while an editor/file watcher reads it.
+	if changed:
+		var result := preset.save("res://export_presets.cfg")
+		if result != OK:
+			push_error("Could not save export_presets.cfg: " + error_string(result))
+			quit(1)
+			return
 	# External manifest lets the package audit check every dependency after export.
 	DirAccess.make_dir_recursive_absolute("res://tools/.local")
 	var manifest := FileAccess.open("res://tools/.local/export_resources.json", FileAccess.WRITE)

@@ -149,7 +149,7 @@ func _on_exit_pressed() -> void:
 	await create_tween().tween_property(exit_button, "modulate:a", 0.55, 0.17).set_custom_interpolator(NorthernMenuStyle.ease).finished
 	shell.busy = false
 	exit_button.modulate.a = 1
-	GameMenu.confirm("Выход из игры", "Завершить игру?", [{"label": "Выйти", "action": func(): get_tree().quit()}])
+	GameMenu.confirm("Выход из игры", "Завершить игру?", [{"label": "Выйти", "action": GameMenu.quit_with_save}])
 
 func set_menu_enabled(value: bool) -> void:
 	_set_controls_enabled(shell.content, value)

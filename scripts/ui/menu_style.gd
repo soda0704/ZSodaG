@@ -80,6 +80,15 @@ static func install_cursor() -> void:
 	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
 		Input.set_custom_mouse_cursor(_cursor, shape, Vector2(14, 14))
 
+static func uninstall_cursor() -> void:
+	if _cursor == null:
+		return
+	# Input and the static cache both retain this GPU texture beyond scene changes.
+	# Release it while the renderer still exists, before the script cache shuts down.
+	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
+		Input.set_custom_mouse_cursor(null, shape)
+	_cursor = null
+
 static func cursor_image() -> Image:
 	var image := Image.create(28, 28, false, Image.FORMAT_RGBA8)
 	image.fill(Color.TRANSPARENT)
