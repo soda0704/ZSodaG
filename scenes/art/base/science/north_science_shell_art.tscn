@@ -8,12 +8,379 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight.tscn" id="6_1e4n7"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight_hanging.tscn" id="7_ab6ex"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="8_5gmfu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_straight.tscn" id="9_2cxhq"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn" id="10_m5db7"]
+[ext_resource type="PackedScene" uid="uid://cnjfr0fcvqr50" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="11_eyjaa"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_straight.tscn" id="12_m5db7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_large_straight.tscn" id="13_m5db7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_outer.tscn" id="14_fvb31"]
+[ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="15_ylb0m"]
+[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="16_64ewl"]
+[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="17_ohb0b"]
+[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="18_t17eb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5rh7d"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wsl4"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mey1g"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aoine"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlwem"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_43mcd"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gacwk"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6xkmp"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h22u1"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xofk"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2t5ac"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4tam3"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qiep8"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic0rr"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ey8m0"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tw4oq"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("16_64ewl")
+metallic = 1.0
+metallic_texture = ExtResource("17_ohb0b")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("17_ohb0b")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("18_t17eb")
+ao_enabled = true
+ao_texture = ExtResource("17_ohb0b")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
 [node name="NorthScienceShellArt" type="Node3D" unique_id=256415560]
 editor_description = "Оболочка научной секции и внутренний разделитель брифинга и лаборатории."
 
 [node name="Visual" type="Node3D" parent="." unique_id=967349097]
 editor_description = "Импортированная финальная геометрия."
+
+[node name="ColumnLargeStraight" parent="Visual" unique_id=673647288 instance=ExtResource("13_m5db7")]
+transform = Transform3D(-1.5, 0, -1.509958e-07, 0, 1, 0, 2.2649371e-07, 0, -1, 3, 0, -10)
+
+[node name="ColumnLargeStraight2" parent="Visual" unique_id=1001946772 instance=ExtResource("13_m5db7")]
+transform = Transform3D(-1.5, 0, -1.509958e-07, 0, 1, 0, 2.2649371e-07, 0, -1, -3, 0, -10)
+
+[node name="TopPlasticCornerOuter" parent="Visual" unique_id=644471279 instance=ExtResource("14_fvb31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6)
+
+[node name="TopPlasticCornerOuter2" parent="Visual" unique_id=1916870563 instance=ExtResource("14_fvb31")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8, 0, -6)
+
+[node name="DoorFrameSquare2" parent="Visual" unique_id=1729811660 instance=ExtResource("8_5gmfu")]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Wall10" type="Node3D" parent="Visual" unique_id=401162143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -19.270966)
+
+[node name="WallAstraStraightFlat" parent="Visual/Wall10" unique_id=1456797421 instance=ExtResource("11_eyjaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, -0.18056297)
+
+[node name="WallAstraStraightFlat2" parent="Visual/Wall10" unique_id=76661082 instance=ExtResource("11_eyjaa")]
+transform = Transform3D(-1, 0, -1.2079664e-07, 0, 1, 0, 1.509958e-07, 0, -0.8, -2, 0, -0.18056297)
+
+[node name="TopSimpleStraight" parent="Visual/Wall10" unique_id=1083227256 instance=ExtResource("12_m5db7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, 0)
+
+[node name="WallAstraStraightFlat3" parent="Visual/Wall10" unique_id=983273089 instance=ExtResource("11_eyjaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, -6.4)
+
+[node name="WallAstraStraightFlat4" parent="Visual/Wall10" unique_id=644319252 instance=ExtResource("11_eyjaa")]
+transform = Transform3D(-1, 0, -1.2079664e-07, 0, 1, 0, 1.509958e-07, 0, -0.8, -2, 0, -6.4)
+
+[node name="TopSimpleStraight3" parent="Visual/Wall10" unique_id=1332527222 instance=ExtResource("12_m5db7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, -6.4)
+
+[node name="TopSimpleStraight2" parent="Visual/Wall10" unique_id=888621440 instance=ExtResource("12_m5db7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, -3.2)
+
+[node name="DoorFrameSquare" parent="Visual/Wall10" unique_id=871378402 instance=ExtResource("8_5gmfu")]
+transform = Transform3D(-3.715468e-08, 0, -1, 0, 0.85, 0, 0.85, 0, -4.371139e-08, 0, 0, -3.125)
+
+[node name="Wall6" type="Node3D" parent="Visual" unique_id=1365190687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12)
+
+[node name="TopPlasticStraight" parent="Visual/Wall6" unique_id=654798426 instance=ExtResource("9_2cxhq")]
+
+[node name="WallAstraCornerSquareInner" parent="Visual/Wall6" unique_id=2139476944 instance=ExtResource("10_m5db7")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, -2)
+
+[node name="TopPlasticStraight2" parent="Visual/Wall6" unique_id=559785289 instance=ExtResource("9_2cxhq")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Wall7" type="Node3D" parent="Visual" unique_id=1276010174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -16)
+
+[node name="WallAstraStraight" parent="Visual/Wall7" unique_id=560492091 instance=ExtResource("6_1e4n7")]
+
+[node name="TopPlasticStraight" parent="Visual/Wall7" unique_id=725017971 instance=ExtResource("9_2cxhq")]
+
+[node name="Wall11" type="Node3D" parent="Visual" unique_id=1000683518]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2, 0, -24)
+
+[node name="WallAstraStraight" parent="Visual/Wall11" unique_id=1843290132 instance=ExtResource("6_1e4n7")]
+
+[node name="TopPlasticStraight" parent="Visual/Wall11" unique_id=1670109562 instance=ExtResource("9_2cxhq")]
+
+[node name="Wall8" type="Node3D" parent="Visual" unique_id=2042310495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -20)
+
+[node name="WallAstraStraight" parent="Visual/Wall8" unique_id=1260945803 instance=ExtResource("6_1e4n7")]
+
+[node name="TopPlasticStraight" parent="Visual/Wall8" unique_id=727888382 instance=ExtResource("9_2cxhq")]
+
+[node name="Wall9" type="Node3D" parent="Visual" unique_id=719627207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -24)
+
+[node name="TopPlasticStraight" parent="Visual/Wall9" unique_id=1729069860 instance=ExtResource("9_2cxhq")]
+
+[node name="WallAstraCornerSquareInner" parent="Visual/Wall9" unique_id=960028277 instance=ExtResource("10_m5db7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="TopPlasticStraight2" parent="Visual/Wall9" unique_id=1108773636 instance=ExtResource("9_2cxhq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="Floors_decal" type="Node3D" parent="Visual" unique_id=506915565]
 
@@ -24,13 +391,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -12)
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4, 0.01, -12)
 
 [node name="PlatformSimpleCurve3" parent="Visual/Floors_decal" unique_id=1527686273 instance=ExtResource("2_wq5s5")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4, 0.01, -22)
+transform = Transform3D(-5.2453668e-08, 0, -1, 0, 1, 0, 1.2, 0, -4.371139e-08, 4, 0.01, -22.4)
 
 [node name="PlatformSimple" parent="Visual/Floors_decal" unique_id=997711218 instance=ExtResource("3_kn8as")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.5, 4, 0.01, -17)
 
 [node name="PlatformSimple2" parent="Visual/Floors_decal" unique_id=1802635335 instance=ExtResource("3_kn8as")]
-transform = Transform3D(-4.371139e-08, 0, 1.5, 0, 1, 0, -1, 0, -6.556708e-08, -1, 0.01, -22)
+transform = Transform3D(-5.2453668e-08, 0, 1.5, 0, 1, 0, -1.2, 0, -6.556708e-08, -1, 0.01, -22.4)
 
 [node name="Floors" type="Node3D" parent="Visual" unique_id=407814552]
 
@@ -154,6 +521,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 0)
 [node name="TopCablesStraight2" parent="Visual/Wall4" unique_id=1871192688 instance=ExtResource("4_ab6ex")]
 transform = Transform3D(-1, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -1, -2.6, 0, 0)
 
+[node name="Wall12" type="Node3D" parent="Visual" unique_id=2056103638]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6, 0, -12)
+
+[node name="TopCablesStraight" parent="Visual/Wall12" unique_id=176431391 instance=ExtResource("4_ab6ex")]
+
+[node name="WallAstraCornerSquareInner" parent="Visual/Wall12" unique_id=794414070 instance=ExtResource("10_m5db7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="TopPlasticStraight2" parent="Visual/Wall12" unique_id=1567102951 instance=ExtResource("9_2cxhq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Wall13" type="Node3D" parent="Visual" unique_id=1257646818]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6, 0, -16)
+
+[node name="TopCablesStraight" parent="Visual/Wall13" unique_id=1465109078 instance=ExtResource("4_ab6ex")]
+
+[node name="WallAstraStraight" parent="Visual/Wall13" unique_id=1837710445 instance=ExtResource("6_1e4n7")]
+
+[node name="Wall14" type="Node3D" parent="Visual" unique_id=679113461]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2, 0, -24)
+
+[node name="TopCablesStraightHanging" parent="Visual/Wall14" unique_id=1096418472 instance=ExtResource("7_ab6ex")]
+
+[node name="WallAstraStraight" parent="Visual/Wall14" unique_id=511937321 instance=ExtResource("6_1e4n7")]
+
+[node name="Wall15" type="Node3D" parent="Visual" unique_id=1718134945]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6, 0, -20)
+
+[node name="TopCablesStraight" parent="Visual/Wall15" unique_id=1915373596 instance=ExtResource("4_ab6ex")]
+
+[node name="WallAstraStraight" parent="Visual/Wall15" unique_id=251482845 instance=ExtResource("6_1e4n7")]
+
+[node name="Wall16" type="Node3D" parent="Visual" unique_id=612077027]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6, 0, -24)
+
+[node name="TopCablesStraight" parent="Visual/Wall16" unique_id=1508108942 instance=ExtResource("4_ab6ex")]
+
+[node name="WallAstraCornerSquareInner" parent="Visual/Wall16" unique_id=1301680637 instance=ExtResource("10_m5db7")]
+transform = Transform3D(-4.371138e-08, 0, 1, 0, 1, 0, -1, 0, -4.371138e-08, 2, 0, -2)
+
+[node name="TopCablesStraight2" parent="Visual/Wall16" unique_id=2100641921 instance=ExtResource("4_ab6ex")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
 [node name="ArtCollision" type="Node3D" parent="." unique_id=1034301075]
 editor_description = "Упрощённые коллизии финальной геометрии."
 
@@ -169,52 +579,53 @@ size = Vector3(16, 0.2, 16)
 
 [node name="Science_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=172815269]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -26)
-use_collision = true
+visible = false
 size = Vector3(16, 5.5, 0.3)
 
 [node name="Science_West_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1685869136]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2.75, -18)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 16)
 
 [node name="Science_East_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1678130274]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.75, -18)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 16)
 
 [node name="Science_South_Wall_West_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=576547217]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 2.75, -10)
-use_collision = true
+visible = false
 size = Vector3(6.5, 5.5, 0.3)
 
 [node name="Science_South_Wall_East_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1880298033]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 2.75, -10)
-use_collision = true
+visible = false
 size = Vector3(6.5, 5.5, 0.3)
 
 [node name="Science_South_Entrance_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=472491049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -10)
-use_collision = true
+visible = false
 size = Vector3(3, 2.5, 0.3)
 
 [node name="North_Science_Ceiling" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=859413323 groups=["exterior_snow_roof"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65, -18)
+visible = false
 use_collision = true
 size = Vector3(16, 0.3, 16)
 
 [node name="Research_Isolation_South_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1531000802]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -19.5)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 3)
 
 [node name="Research_Isolation_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=42250115]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -25)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 2)
 
 [node name="Research_Isolation_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=672176943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -22.5)
-use_collision = true
+visible = false
 size = Vector3(0.3, 2.5, 3)
 
 [node name="Internal_Dividers" type="Node3D" parent="Blockout" unique_id=113623015]
@@ -235,3 +646,119 @@ size = Vector3(3, 5.5, 0.3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 4.25, -18)
 visible = false
 size = Vector3(3, 2.5, 0.3)
+
+[node name="Ceilings" type="Node3D" parent="." unique_id=707126557]
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="CeilingSquares" parent="Ceilings" unique_id=1089584292 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1089584292, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_5rh7d")
+
+[node name="CeilingSquares2" parent="Ceilings" unique_id=1881072077 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -12)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1881072077, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_6wsl4")
+
+[node name="CeilingSquares3" parent="Ceilings" unique_id=694229342 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -12)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(694229342, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_mey1g")
+
+[node name="CeilingSquares4" parent="Ceilings" unique_id=110983853 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -12)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(110983853, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_aoine")
+
+[node name="CeilingSquares5" parent="Ceilings" unique_id=1191008046 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -16)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(1191008046, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_mlwem")
+
+[node name="CeilingSquares6" parent="Ceilings" unique_id=418251327 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -16)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(418251327, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_43mcd")
+
+[node name="CeilingSquares7" parent="Ceilings" unique_id=1134666513 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -16)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(1134666513, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_gacwk")
+
+[node name="CeilingSquares8" parent="Ceilings" unique_id=48446997 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -16)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(48446997, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_6xkmp")
+
+[node name="CeilingSquares9" parent="Ceilings" unique_id=1252512262 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -20)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(1252512262, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_h22u1")
+
+[node name="CeilingSquares10" parent="Ceilings" unique_id=2078442381 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -20)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(2078442381, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_4xofk")
+
+[node name="CeilingSquares11" parent="Ceilings" unique_id=589110786 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -20)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(589110786, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_2t5ac")
+
+[node name="CeilingSquares12" parent="Ceilings" unique_id=1141759735 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -20)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(1141759735, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_4tam3")
+
+[node name="CeilingSquares13" parent="Ceilings" unique_id=1511791008 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -24)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(1511791008, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_qiep8")
+
+[node name="CeilingSquares14" parent="Ceilings" unique_id=1878751790 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -24)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(1878751790, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_ic0rr")
+
+[node name="CeilingSquares15" parent="Ceilings" unique_id=455803367 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -24)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(455803367, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_ey8m0")
+
+[node name="CeilingSquares16" parent="Ceilings" unique_id=1413718245 instance=ExtResource("15_ylb0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -24)
+
+[node name="Mesh0" parent="Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(1413718245, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_tw4oq")
+
+[editable path="Ceilings/CeilingSquares"]
+[editable path="Ceilings/CeilingSquares2"]
+[editable path="Ceilings/CeilingSquares3"]
+[editable path="Ceilings/CeilingSquares4"]
+[editable path="Ceilings/CeilingSquares5"]
+[editable path="Ceilings/CeilingSquares6"]
+[editable path="Ceilings/CeilingSquares7"]
+[editable path="Ceilings/CeilingSquares8"]
+[editable path="Ceilings/CeilingSquares9"]
+[editable path="Ceilings/CeilingSquares10"]
+[editable path="Ceilings/CeilingSquares11"]
+[editable path="Ceilings/CeilingSquares12"]
+[editable path="Ceilings/CeilingSquares13"]
+[editable path="Ceilings/CeilingSquares14"]
+[editable path="Ceilings/CeilingSquares15"]
+[editable path="Ceilings/CeilingSquares16"]

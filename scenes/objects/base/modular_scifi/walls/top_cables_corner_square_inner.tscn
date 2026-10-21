@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bwmdj6buy2i"]
 
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/top_cables_corner_square_inner.res" id="1_yc276"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/top_cables_corner_square_inner.res" id="2_nfnq8"]

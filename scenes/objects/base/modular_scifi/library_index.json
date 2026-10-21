@@ -4172,6 +4172,26 @@
 			"model": "Alien_Scolitex",
 			"name": "alien_scolitex",
 			"scene": "res://scenes/objects/base/modular_scifi/aliens/alien_scolitex.tscn"
+		},
+		{
+			"animated": false,
+			"animations": [],
+			"bounds_position": [
+				-2.0,
+				0.0,
+				-2.0
+			],
+			"bounds_size": [
+				2.0,
+				9.99999974737875e-06,
+				4.0
+			],
+			"category": "floors",
+			"ceiling_variant": false,
+			"collidable": true,
+			"model": "Platform_X_Half",
+			"name": "platform_x_half",
+			"scene": "res://scenes/objects/base/modular_scifi/floors/platform_x_half.tscn"
 		}
 	],
 	"source_models": 191

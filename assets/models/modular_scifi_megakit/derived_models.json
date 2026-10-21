@@ -1,0 +1,11 @@
+{
+  "models": [
+    {
+      "name": "Platform_X_Half",
+      "path": "assets/models/modular_scifi_megakit/models/platforms/Platform_X_Half.gltf",
+      "category": "floors",
+      "animated": false,
+      "derived_from": "Platform_X"
+    }
+  ]
+}

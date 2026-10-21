@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://b0a22emw3fmda"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_corner_square_inner.tscn" id="1_xb1pq"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn" id="2_7ishx"]
+[ext_resource type="PackedScene" uid="uid://bwmdj6buy2i" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn" id="2_7ishx"]
 [ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="3_lnicq"]
-[ext_resource type="Material" uid="uid://cjjrxyl3bdkae" path="res://assets/models/modular_scifi_megakit/materials/mi_trim_02_floor_clear.tres" id="4_2s27x"]
 [ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="5_2s27x"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_corner_square_inner.tscn" id="5_6xqgv"]
 [ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="6_4qbbc"]
@@ -12,95 +11,10 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_corner_square_inner.tscn" id="10_1qd81"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_center_plate.tscn" id="11_n1p7p"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_simple_straight.tscn" id="12_66jkc"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_squares.tscn" id="13_66jkc"]
+[ext_resource type="PackedScene" uid="uid://bxlb5ktay3rfx" path="res://scenes/objects/base/modular_scifi/floors/platform_squares.tscn" id="13_66jkc"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_triangles_straight.tscn" id="14_etacm"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/props/prop_light_corner.tscn" id="15_alplt"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates.tscn" id="16_88a5d"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qd81"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("5_2s27x")
-metallic = 1.0
-metallic_texture = ExtResource("6_4qbbc")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("6_4qbbc")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("7_6xqgv")
-ao_enabled = true
-ao_texture = ExtResource("6_4qbbc")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bg1hh"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("5_2s27x")
-metallic = 1.0
-metallic_texture = ExtResource("6_4qbbc")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("6_4qbbc")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("7_6xqgv")
-ao_enabled = true
-ao_texture = ExtResource("6_4qbbc")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1p7p"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("5_2s27x")
-metallic = 1.0
-metallic_texture = ExtResource("6_4qbbc")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("6_4qbbc")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("7_6xqgv")
-ao_enabled = true
-ao_texture = ExtResource("6_4qbbc")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66jkc"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("5_2s27x")
-metallic = 1.0
-metallic_texture = ExtResource("6_4qbbc")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("6_4qbbc")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("7_6xqgv")
-ao_enabled = true
-ao_texture = ExtResource("6_4qbbc")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etacm"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("5_2s27x")
-metallic = 1.0
-metallic_texture = ExtResource("6_4qbbc")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("6_4qbbc")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("7_6xqgv")
-ao_enabled = true
-ao_texture = ExtResource("6_4qbbc")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
+[ext_resource type="PackedScene" uid="uid://b5hw5uxyyhg25" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_dark_plates.tscn" id="16_88a5d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alplt"]
 resource_local_to_scene = true
@@ -187,6 +101,125 @@ ao_texture = ExtResource("6_4qbbc")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4kb5"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82tfk"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_np4ca"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_51oi6"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01qou"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hakvo"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dx7h4"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("5_2s27x")
+metallic = 1.0
+metallic_texture = ExtResource("6_4qbbc")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("6_4qbbc")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("7_6xqgv")
+ao_enabled = true
+ao_texture = ExtResource("6_4qbbc")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
 [node name="CenterHubShellArt" type="Node3D" unique_id=482590359]
 editor_description = "Оболочка центрального хаба."
 
@@ -220,13 +253,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 transform = Transform3D(-4.371139e-08, 1, 0, 4.371139e-08, 1.9106855e-15, -1, -1, -4.371139e-08, -4.371139e-08, -7.8, 7, -6)
 
 [node name="Mesh0" parent="Visual/Corner/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1089584292, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = ExtResource("4_2s27x")
+surface_material_override/0 = SubResource("StandardMaterial3D_alplt")
 
 [node name="CeilingSquares2" parent="Visual/Corner" unique_id=434206091 instance=ExtResource("3_lnicq")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6, 7, -7.8)
 
 [node name="Mesh0" parent="Visual/Corner/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(434206091, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = ExtResource("4_2s27x")
+surface_material_override/0 = SubResource("StandardMaterial3D_88a5d")
 
 [node name="BottomMetalCornerSquareInner" parent="Visual/Corner" unique_id=1805785281 instance=ExtResource("5_6xqgv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.02, -4)
@@ -244,13 +277,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 transform = Transform3D(-4.371139e-08, 1, 0, 4.371139e-08, 1.9106855e-15, -1, -1, -4.371139e-08, -4.371139e-08, -7.8, 7, -6)
 
 [node name="Mesh0" parent="Visual/Corner2/CeilingSquares/Visual" parent_id_path=PackedInt32Array(508908948, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_1qd81")
+surface_material_override/0 = SubResource("StandardMaterial3D_2psws")
 
 [node name="CeilingSquares2" parent="Visual/Corner2" unique_id=1038234979 instance=ExtResource("3_lnicq")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6, 7, -7.8)
 
 [node name="Mesh0" parent="Visual/Corner2/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1038234979, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_bg1hh")
+surface_material_override/0 = SubResource("StandardMaterial3D_hubx5")
 
 [node name="BottomMetalCornerSquareInner2" parent="Visual/Corner2" unique_id=64613381 instance=ExtResource("5_6xqgv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.02, -4)
@@ -268,13 +301,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 transform = Transform3D(-4.371139e-08, 1, 0, 4.371139e-08, 1.9106855e-15, -1, -1, -4.371139e-08, -4.371139e-08, -7.8, 7, -6)
 
 [node name="Mesh0" parent="Visual/Corner3/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1560864668, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_n1p7p")
+surface_material_override/0 = SubResource("StandardMaterial3D_0inic")
 
 [node name="CeilingSquares2" parent="Visual/Corner3" unique_id=741659768 instance=ExtResource("3_lnicq")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6, 7, -7.8)
 
 [node name="Mesh0" parent="Visual/Corner3/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(741659768, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_66jkc")
+surface_material_override/0 = SubResource("StandardMaterial3D_q4kb5")
 
 [node name="BottomMetalCornerSquareInner3" parent="Visual/Corner3" unique_id=1882648255 instance=ExtResource("5_6xqgv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.02, -4)
@@ -292,13 +325,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 transform = Transform3D(-4.371139e-08, 1, 0, 4.371139e-08, 1.9106855e-15, -1, -1, -4.371139e-08, -4.371139e-08, -7.8, 7, -6)
 
 [node name="Mesh0" parent="Visual/Corner4/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1168654016, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_etacm")
+surface_material_override/0 = SubResource("StandardMaterial3D_82tfk")
 
 [node name="CeilingSquares2" parent="Visual/Corner4" unique_id=1282445590 instance=ExtResource("3_lnicq")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -6, 7, -7.8)
 
 [node name="Mesh0" parent="Visual/Corner4/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1282445590, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_alplt")
+surface_material_override/0 = SubResource("StandardMaterial3D_np4ca")
 
 [node name="BottomMetalCornerSquareInner4" parent="Visual/Corner4" unique_id=777364931 instance=ExtResource("5_6xqgv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.02, -4)
@@ -492,7 +525,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
 transform = Transform3D(1.3113416e-07, -1, 3.821371e-15, 4.371139e-08, 1.9106855e-15, -1, 1, 1.3113416e-07, 4.371139e-08, 8, 7, 0)
 
 [node name="Mesh0" parent="Top_corner/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(678873076, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_88a5d")
+surface_material_override/0 = SubResource("StandardMaterial3D_51oi6")
 
 [node name="Top_corner2" type="Node3D" parent="." unique_id=2049891354]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -504,7 +537,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
 transform = Transform3D(1.3113416e-07, -1, 3.821371e-15, 4.371139e-08, 1.9106855e-15, -1, 1, 1.3113416e-07, 4.371139e-08, 8, 7, 0)
 
 [node name="Mesh0" parent="Top_corner2/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2097697447, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_2psws")
+surface_material_override/0 = SubResource("StandardMaterial3D_01qou")
 
 [node name="Top_corner3" type="Node3D" parent="." unique_id=1411511021]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -516,7 +549,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
 transform = Transform3D(1.3113416e-07, -1, 3.821371e-15, 4.371139e-08, 1.9106855e-15, -1, 1, 1.3113416e-07, 4.371139e-08, 8, 7, 0)
 
 [node name="Mesh0" parent="Top_corner3/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(642455516, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_hubx5")
+surface_material_override/0 = SubResource("StandardMaterial3D_hakvo")
 
 [node name="Top_corner4" type="Node3D" parent="." unique_id=950222132]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -528,7 +561,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
 transform = Transform3D(1.3113416e-07, -1, 3.821371e-15, 4.371139e-08, 1.9106855e-15, -1, 1, 1.3113416e-07, 4.371139e-08, 8, 7, 0)
 
 [node name="Mesh0" parent="Top_corner4/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1414460990, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_0inic")
+surface_material_override/0 = SubResource("StandardMaterial3D_dx7h4")
 
 [node name="Light" type="Node3D" parent="." unique_id=934223373]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)

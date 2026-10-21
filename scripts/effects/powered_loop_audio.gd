@@ -13,4 +13,3 @@ func _bind() -> void:
 func _process(delta: float) -> void:
 	var powered := _power != null and _power.main_breaker_on
 	AudioFade.apply(self, db_to_linear(running_volume_db) if powered else 0.0, delta, fade_seconds)
-

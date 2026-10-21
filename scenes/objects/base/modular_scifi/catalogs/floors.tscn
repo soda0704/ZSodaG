@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_window_thin.tscn" id="29_vcl1e"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_window_wide.tscn" id="30_e3m6b"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_x.tscn" id="31_kk7bk"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_x_half.tscn" id="32_half"]
 
 [node name="FloorsCatalog" type="Node3D" unique_id=1419361104]
 editor_description = "Library preview. Drag individual scenes from the category folder into your level."
@@ -497,4 +498,15 @@ pixel_size = 0.008
 billboard = 1
 no_depth_test = true
 text = "Platform_X"
+font_size = 40
+
+[node name="PlatformXHalf" type="Node3D" parent="." instance=ExtResource("32_half")]
+position = Vector3(11, 0, -72)
+
+[node name="Label31" type="Label3D" parent="."]
+position = Vector3(10, 0.15, -67.8)
+pixel_size = 0.008
+billboard = 1
+no_depth_test = true
+text = "Platform_X_Half"
 font_size = 40

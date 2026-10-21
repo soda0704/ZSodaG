@@ -12,7 +12,8 @@ func require(condition: bool, message: String) -> void:
 
 func run() -> void:
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(LIBRARY + "library_index.json"))
-	require(manifest.source_models == 191 and manifest.objects.size() == 208, "Incomplete library")
+	var derived: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/models/modular_scifi_megakit/derived_models.json"))
+	require(manifest.source_models == 191 and manifest.objects.size() == 208 + derived.models.size(), "Incomplete library")
 	var names: Dictionary = {}
 	for entry: Dictionary in manifest.objects:
 		var path := str(entry.scene)

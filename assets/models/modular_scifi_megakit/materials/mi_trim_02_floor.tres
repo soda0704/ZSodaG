@@ -1,8 +1,8 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bcffh1jjnf0p4"]
 
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_BaseColor.png" id="1_g4o4h"]
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_ORM.png" id="2_m6f2t"]
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_Normal.png" id="3_3a2eu"]
+[ext_resource type="Texture2D" uid="uid://cf5apsuhoeysw" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_BaseColor.png" id="1_g4o4h"]
+[ext_resource type="Texture2D" uid="uid://btrm6ny5008uo" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_ORM.png" id="2_m6f2t"]
+[ext_resource type="Texture2D" uid="uid://cvv2m6xjgsl4g" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_Normal.png" id="3_3a2eu"]
 
 [resource]
 resource_name = "MI_Trim_02_Floor"

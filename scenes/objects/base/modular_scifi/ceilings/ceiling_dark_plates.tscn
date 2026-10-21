@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b5hw5uxyyhg25"]
 
 [ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/platform_dark_plates.res" id="1_4peo1"]
 [ext_resource type="Shape3D" path="res://assets/models/modular_scifi_megakit/collisions/platform_dark_plates.res" id="2_rehme"]

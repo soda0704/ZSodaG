@@ -1,11 +1,11 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dad0f2deo501g"]
 
-[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_diff_2k.jpg" id="albedo"]
-[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_nor_gl_2k.jpg" id="normal"]
-[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_rough_2k.jpg" id="roughness"]
+[ext_resource type="Texture2D" uid="uid://i5kvtyof7alv" path="res://assets/environments/cave/pbr/rock_06_diff_2k.jpg" id="albedo"]
+[ext_resource type="Texture2D" uid="uid://gbv3ko4pat73" path="res://assets/environments/cave/pbr/rock_06_nor_gl_2k.jpg" id="normal"]
+[ext_resource type="Texture2D" uid="uid://b7xw11k8qrph3" path="res://assets/environments/cave/pbr/rock_06_rough_2k.jpg" id="roughness"]
 
 [sub_resource type="StandardMaterial3D" id="Bedrock"]
-albedo_color = Color(0.65, 0.68, 0.70, 1)
+albedo_color = Color(0.65, 0.68, 0.7, 1)
 albedo_texture = ExtResource("albedo")
 roughness_texture = ExtResource("roughness")
 normal_enabled = true
@@ -17,321 +17,245 @@ uv1_world_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_TransitionNorth"]
 material = SubResource("Bedrock")
-size = Vector3(15.00000, 0.15000, 3.95000)
+size = Vector3(15, 0.15, 3.95)
 
 [sub_resource type="BoxShape3D" id="Shape_TransitionNorth"]
-size = Vector3(15.00000, 0.15000, 3.95000)
+size = Vector3(15, 0.15, 3.95)
 
 [sub_resource type="BoxMesh" id="Mesh_TransitionSouth"]
 material = SubResource("Bedrock")
-size = Vector3(15.00000, 0.15000, 3.95000)
+size = Vector3(15, 0.15, 3.95)
 
 [sub_resource type="BoxShape3D" id="Shape_TransitionSouth"]
-size = Vector3(15.00000, 0.15000, 3.95000)
+size = Vector3(15, 0.15, 3.95)
 
 [sub_resource type="BoxMesh" id="Mesh_TransitionEast"]
 material = SubResource("Bedrock")
-size = Vector3(3.95000, 0.15000, 7.10000)
+size = Vector3(3.95, 0.15, 7.1)
 
 [sub_resource type="BoxShape3D" id="Shape_TransitionEast"]
-size = Vector3(3.95000, 0.15000, 7.10000)
+size = Vector3(3.95, 0.15, 7.1)
 
 [sub_resource type="BoxMesh" id="Mesh_TransitionWest"]
 material = SubResource("Bedrock")
-size = Vector3(4.28000, 0.15000, 7.10000)
+size = Vector3(4.28, 0.15, 7.1)
 
 [sub_resource type="BoxShape3D" id="Shape_TransitionWest"]
-size = Vector3(4.28000, 0.15000, 7.10000)
+size = Vector3(4.28, 0.15, 7.1)
 
 [sub_resource type="BoxMesh" id="Mesh_NorthBedrock"]
 material = SubResource("Bedrock")
-size = Vector3(7.70000, 84.20000, 0.30000)
+size = Vector3(7.7, 84.2, 0.3)
 
 [sub_resource type="BoxShape3D" id="Shape_NorthBedrock"]
-size = Vector3(7.70000, 84.20000, 0.30000)
+size = Vector3(7.7, 84.2, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_SouthBedrock"]
 material = SubResource("Bedrock")
-size = Vector3(7.70000, 84.20000, 0.30000)
+size = Vector3(7.7, 84.2, 0.3)
 
 [sub_resource type="BoxShape3D" id="Shape_SouthBedrock"]
-size = Vector3(7.70000, 84.20000, 0.30000)
+size = Vector3(7.7, 84.2, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_EastBedrock"]
 material = SubResource("Bedrock")
-size = Vector3(0.30000, 84.20000, 7.70000)
+size = Vector3(0.3, 84.2, 7.7)
 
 [sub_resource type="BoxShape3D" id="Shape_EastBedrock"]
-size = Vector3(0.30000, 84.20000, 7.70000)
+size = Vector3(0.3, 84.2, 7.7)
 
 [sub_resource type="BoxMesh" id="Mesh_WestNorthBedrock"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 84.20000, 1.17000)
+size = Vector3(0.1, 84.2, 1.17)
 
 [sub_resource type="BoxShape3D" id="Shape_WestNorthBedrock"]
-size = Vector3(0.10000, 84.20000, 1.17000)
+size = Vector3(0.1, 84.2, 1.17)
 
 [sub_resource type="BoxMesh" id="Mesh_WestSouthBedrock"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 84.20000, 1.17000)
+size = Vector3(0.1, 84.2, 1.17)
 
 [sub_resource type="BoxShape3D" id="Shape_WestSouthBedrock"]
-size = Vector3(0.10000, 84.20000, 1.17000)
+size = Vector3(0.1, 84.2, 1.17)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBand1"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 4.10000, 5.36000)
+size = Vector3(0.1, 4.1, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBand1"]
-size = Vector3(0.10000, 4.10000, 5.36000)
-
-[sub_resource type="BoxMesh" id="Mesh_LandingUnderside1"]
-material = SubResource("Bedrock")
-size = Vector3(3.45000, 0.20000, 5.60000)
-
-[sub_resource type="BoxShape3D" id="Shape_LandingUnderside1"]
-size = Vector3(3.45000, 0.20000, 5.60000)
+size = Vector3(0.1, 4.1, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBand2"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 13.90000, 5.36000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBand2"]
-size = Vector3(0.10000, 13.90000, 5.36000)
-
-[sub_resource type="BoxMesh" id="Mesh_LandingUnderside2"]
-material = SubResource("Bedrock")
-size = Vector3(3.45000, 0.20000, 5.60000)
-
-[sub_resource type="BoxShape3D" id="Shape_LandingUnderside2"]
-size = Vector3(3.45000, 0.20000, 5.60000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBand3"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 13.90000, 5.36000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBand3"]
-size = Vector3(0.10000, 13.90000, 5.36000)
-
-[sub_resource type="BoxMesh" id="Mesh_LandingUnderside3"]
-material = SubResource("Bedrock")
-size = Vector3(3.45000, 0.20000, 5.60000)
-
-[sub_resource type="BoxShape3D" id="Shape_LandingUnderside3"]
-size = Vector3(3.45000, 0.20000, 5.60000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBand4"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 13.90000, 5.36000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBand4"]
-size = Vector3(0.10000, 13.90000, 5.36000)
-
-[sub_resource type="BoxMesh" id="Mesh_LandingUnderside4"]
-material = SubResource("Bedrock")
-size = Vector3(3.45000, 0.20000, 5.60000)
-
-[sub_resource type="BoxShape3D" id="Shape_LandingUnderside4"]
-size = Vector3(3.45000, 0.20000, 5.60000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBand5"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 13.90000, 5.36000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBand5"]
-size = Vector3(0.10000, 13.90000, 5.36000)
-
-[sub_resource type="BoxMesh" id="Mesh_LandingUnderside5"]
-material = SubResource("Bedrock")
-size = Vector3(3.45000, 0.20000, 5.60000)
-
-[sub_resource type="BoxShape3D" id="Shape_LandingUnderside5"]
-size = Vector3(3.45000, 0.20000, 5.60000)
+size = Vector3(0.1, 13.9, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_WestBottomBand"]
 material = SubResource("Bedrock")
-size = Vector3(0.10000, 4.00000, 5.36000)
+size = Vector3(0.1, 4, 5.36)
 
 [sub_resource type="BoxShape3D" id="Shape_WestBottomBand"]
-size = Vector3(0.10000, 4.00000, 5.36000)
+size = Vector3(0.1, 4, 5.36)
 
 [sub_resource type="BoxMesh" id="Mesh_ShaftSump"]
 material = SubResource("Bedrock")
-size = Vector3(7.70000, 0.40000, 7.70000)
+size = Vector3(7.7, 0.4, 7.7)
 
 [sub_resource type="BoxShape3D" id="Shape_ShaftSump"]
-size = Vector3(7.70000, 0.40000, 7.70000)
+size = Vector3(7.7, 0.4, 7.7)
 
-[node name="ShaftDepthEnclosure" type="StaticBody3D"]
+[node name="ShaftDepthEnclosure" type="StaticBody3D" unique_id=1800121956]
 editor_description = "Opaque continuation below the short surface rock sleeve. Native editable walls, landing apertures and a sump below the lowest cabin stop; no surface roof or runtime generation."
-collision_layer = 1
 collision_mask = 0
 metadata/footstep_surface = "concrete"
 
-[node name="TransitionNorth" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, -9.87500, -5.52500)
+[node name="TransitionNorth" type="MeshInstance3D" parent="." unique_id=1934638301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.875, -5.525)
 mesh = SubResource("Mesh_TransitionNorth")
 
-[node name="TransitionNorthCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0.00000, -9.87500, -5.52500)
+[node name="TransitionNorthCollision" type="CollisionShape3D" parent="." unique_id=1487030102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.875, -5.525)
 shape = SubResource("Shape_TransitionNorth")
 
-[node name="TransitionSouth" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, -9.87500, 5.52500)
+[node name="TransitionSouth" type="MeshInstance3D" parent="." unique_id=1257376684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.875, 5.525)
 mesh = SubResource("Mesh_TransitionSouth")
 
-[node name="TransitionSouthCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0.00000, -9.87500, 5.52500)
+[node name="TransitionSouthCollision" type="CollisionShape3D" parent="." unique_id=1728892890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.875, 5.525)
 shape = SubResource("Shape_TransitionSouth")
 
-[node name="TransitionEast" type="MeshInstance3D" parent="."]
-position = Vector3(5.52500, -9.87500, 0.00000)
+[node name="TransitionEast" type="MeshInstance3D" parent="." unique_id=872698745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.525, -9.875, 0)
 mesh = SubResource("Mesh_TransitionEast")
 
-[node name="TransitionEastCollision" type="CollisionShape3D" parent="."]
-position = Vector3(5.52500, -9.87500, 0.00000)
+[node name="TransitionEastCollision" type="CollisionShape3D" parent="." unique_id=1452351209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.525, -9.875, 0)
 shape = SubResource("Shape_TransitionEast")
 
-[node name="TransitionWest" type="MeshInstance3D" parent="."]
-position = Vector3(-5.36000, -9.87500, 0.00000)
+[node name="TransitionWest" type="MeshInstance3D" parent="." unique_id=1878791366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.36, -9.875, 0)
 mesh = SubResource("Mesh_TransitionWest")
 
-[node name="TransitionWestCollision" type="CollisionShape3D" parent="."]
-position = Vector3(-5.36000, -9.87500, 0.00000)
+[node name="TransitionWestCollision" type="CollisionShape3D" parent="." unique_id=1269310053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.36, -9.875, 0)
 shape = SubResource("Shape_TransitionWest")
 
-[node name="NorthBedrock" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, -51.90000, -3.70000)
+[node name="NorthBedrock" type="MeshInstance3D" parent="." unique_id=247782099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.9, -3.7)
 mesh = SubResource("Mesh_NorthBedrock")
 
-[node name="NorthBedrockCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0.00000, -51.90000, -3.70000)
+[node name="NorthBedrockCollision" type="CollisionShape3D" parent="." unique_id=2054430593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.9, -3.7)
 shape = SubResource("Shape_NorthBedrock")
 
-[node name="SouthBedrock" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, -51.90000, 3.70000)
+[node name="SouthBedrock" type="MeshInstance3D" parent="." unique_id=17298246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.9, 3.7)
 mesh = SubResource("Mesh_SouthBedrock")
 
-[node name="SouthBedrockCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0.00000, -51.90000, 3.70000)
+[node name="SouthBedrockCollision" type="CollisionShape3D" parent="." unique_id=759814267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.9, 3.7)
 shape = SubResource("Shape_SouthBedrock")
 
-[node name="EastBedrock" type="MeshInstance3D" parent="."]
-position = Vector3(3.70000, -51.90000, 0.00000)
+[node name="EastBedrock" type="MeshInstance3D" parent="." unique_id=617891322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7, -51.9, 0)
 mesh = SubResource("Mesh_EastBedrock")
 
-[node name="EastBedrockCollision" type="CollisionShape3D" parent="."]
-position = Vector3(3.70000, -51.90000, 0.00000)
+[node name="EastBedrockCollision" type="CollisionShape3D" parent="." unique_id=478694147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7, -51.9, 0)
 shape = SubResource("Shape_EastBedrock")
 
-[node name="WestNorthBedrock" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -51.90000, -3.26500)
+[node name="WestNorthBedrock" type="MeshInstance3D" parent="." unique_id=195337850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -51.9, -3.265)
 mesh = SubResource("Mesh_WestNorthBedrock")
 
-[node name="WestNorthBedrockCollision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -51.90000, -3.26500)
+[node name="WestNorthBedrockCollision" type="CollisionShape3D" parent="." unique_id=2055878752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -51.9, -3.265)
 shape = SubResource("Shape_WestNorthBedrock")
 
-[node name="WestSouthBedrock" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -51.90000, 3.26500)
+[node name="WestSouthBedrock" type="MeshInstance3D" parent="." unique_id=333482379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -51.9, 3.265)
 mesh = SubResource("Mesh_WestSouthBedrock")
 
-[node name="WestSouthBedrockCollision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -51.90000, 3.26500)
+[node name="WestSouthBedrockCollision" type="CollisionShape3D" parent="." unique_id=161673925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -51.9, 3.265)
 shape = SubResource("Shape_WestSouthBedrock")
 
-[node name="WestBand1" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -11.85000, 0.00000)
+[node name="WestBand1" type="MeshInstance3D" parent="." unique_id=485266055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -11.85, 0)
 mesh = SubResource("Mesh_WestBand1")
 
-[node name="WestBand1Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -11.85000, 0.00000)
+[node name="WestBand1Collision" type="CollisionShape3D" parent="." unique_id=301341012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -11.85, 0)
 shape = SubResource("Shape_WestBand1")
 
-[node name="LandingUnderside1" type="MeshInstance3D" parent="."]
-position = Vector3(-4.77500, -18.10000, 0.00000)
-mesh = SubResource("Mesh_LandingUnderside1")
-
-[node name="LandingUnderside1Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-4.77500, -18.10000, 0.00000)
-shape = SubResource("Shape_LandingUnderside1")
-
-[node name="WestBand2" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -24.95000, 0.00000)
+[node name="WestBand2" type="MeshInstance3D" parent="." unique_id=2050255372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -24.95, 0)
 mesh = SubResource("Mesh_WestBand2")
 
-[node name="WestBand2Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -24.95000, 0.00000)
+[node name="WestBand2Collision" type="CollisionShape3D" parent="." unique_id=71538060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -24.95, 0)
 shape = SubResource("Shape_WestBand2")
 
-[node name="LandingUnderside2" type="MeshInstance3D" parent="."]
-position = Vector3(-4.77500, -36.10000, 0.00000)
-mesh = SubResource("Mesh_LandingUnderside2")
-
-[node name="LandingUnderside2Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-4.77500, -36.10000, 0.00000)
-shape = SubResource("Shape_LandingUnderside2")
-
-[node name="WestBand3" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -42.95000, 0.00000)
+[node name="WestBand3" type="MeshInstance3D" parent="." unique_id=1066003929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -42.95, 0)
 mesh = SubResource("Mesh_WestBand3")
 
-[node name="WestBand3Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -42.95000, 0.00000)
+[node name="WestBand3Collision" type="CollisionShape3D" parent="." unique_id=1985129479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -42.95, 0)
 shape = SubResource("Shape_WestBand3")
 
-[node name="LandingUnderside3" type="MeshInstance3D" parent="."]
-position = Vector3(-4.77500, -54.10000, 0.00000)
-mesh = SubResource("Mesh_LandingUnderside3")
-
-[node name="LandingUnderside3Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-4.77500, -54.10000, 0.00000)
-shape = SubResource("Shape_LandingUnderside3")
-
-[node name="WestBand4" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -60.95000, 0.00000)
+[node name="WestBand4" type="MeshInstance3D" parent="." unique_id=1038890304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -60.95, 0)
 mesh = SubResource("Mesh_WestBand4")
 
-[node name="WestBand4Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -60.95000, 0.00000)
+[node name="WestBand4Collision" type="CollisionShape3D" parent="." unique_id=855299601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -60.95, 0)
 shape = SubResource("Shape_WestBand4")
 
-[node name="LandingUnderside4" type="MeshInstance3D" parent="."]
-position = Vector3(-4.77500, -72.10000, 0.00000)
-mesh = SubResource("Mesh_LandingUnderside4")
-
-[node name="LandingUnderside4Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-4.77500, -72.10000, 0.00000)
-shape = SubResource("Shape_LandingUnderside4")
-
-[node name="WestBand5" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -78.95000, 0.00000)
+[node name="WestBand5" type="MeshInstance3D" parent="." unique_id=1947440821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -78.95, 0)
 mesh = SubResource("Mesh_WestBand5")
 
-[node name="WestBand5Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -78.95000, 0.00000)
+[node name="WestBand5Collision" type="CollisionShape3D" parent="." unique_id=1185131801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -78.95, 0)
 shape = SubResource("Shape_WestBand5")
 
-[node name="LandingUnderside5" type="MeshInstance3D" parent="."]
-position = Vector3(-4.77500, -90.10000, 0.00000)
-mesh = SubResource("Mesh_LandingUnderside5")
-
-[node name="LandingUnderside5Collision" type="CollisionShape3D" parent="."]
-position = Vector3(-4.77500, -90.10000, 0.00000)
-shape = SubResource("Shape_LandingUnderside5")
-
-[node name="WestBottomBand" type="MeshInstance3D" parent="."]
-position = Vector3(-3.27000, -92.00000, 0.00000)
+[node name="WestBottomBand" type="MeshInstance3D" parent="." unique_id=740413517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -92, 0)
 mesh = SubResource("Mesh_WestBottomBand")
 
-[node name="WestBottomBandCollision" type="CollisionShape3D" parent="."]
-position = Vector3(-3.27000, -92.00000, 0.00000)
+[node name="WestBottomBandCollision" type="CollisionShape3D" parent="." unique_id=969632613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.27, -92, 0)
 shape = SubResource("Shape_WestBottomBand")
 
-[node name="ShaftSump" type="MeshInstance3D" parent="."]
-position = Vector3(0.00000, -93.80000, 0.00000)
+[node name="ShaftSump" type="MeshInstance3D" parent="." unique_id=1157198220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -93.8, 0)
 mesh = SubResource("Mesh_ShaftSump")
 
-[node name="ShaftSumpCollision" type="CollisionShape3D" parent="."]
-position = Vector3(0.00000, -93.80000, 0.00000)
+[node name="ShaftSumpCollision" type="CollisionShape3D" parent="." unique_id=1427643609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -93.8, 0)
 shape = SubResource("Shape_ShaftSump")

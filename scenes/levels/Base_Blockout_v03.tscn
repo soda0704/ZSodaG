@@ -239,18 +239,290 @@ ao_texture = ExtResource("13_uywug")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_letuy"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_letuy"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1j081"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swsu1"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aha2n"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_atyjx"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8kyu"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0k1b"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwui2"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d8uil"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkixi"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ey00e"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oeulh"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w4qip"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gx0ar"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3be50"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1xu0p"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2nlwj"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_1j081"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_eehqw"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_swsu1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i8mvs"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("11_ac0f5")
-shader_parameter/screen_texture = SubResource("ViewportTexture_1j081")
-shader_parameter/error_texture = SubResource("ViewportTexture_letuy")
+shader_parameter/screen_texture = SubResource("ViewportTexture_eehqw")
+shader_parameter/error_texture = SubResource("ViewportTexture_2nlwj")
 shader_parameter/albedo_texture = ExtResource("12_a28d3")
 shader_parameter/emissive_texture = ExtResource("13_uokct")
 shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
@@ -268,18 +540,18 @@ shader_parameter/scanline_strength = 0.025
 shader_parameter/scanline_count = 488.0
 shader_parameter/sweep_strength = 0.012
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_aha2n"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ovb16"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_atyjx"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l7jnc"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_u8kyu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e0867"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("11_ac0f5")
-shader_parameter/screen_texture = SubResource("ViewportTexture_atyjx")
-shader_parameter/error_texture = SubResource("ViewportTexture_aha2n")
+shader_parameter/screen_texture = SubResource("ViewportTexture_l7jnc")
+shader_parameter/error_texture = SubResource("ViewportTexture_ovb16")
 shader_parameter/albedo_texture = ExtResource("12_a28d3")
 shader_parameter/emissive_texture = ExtResource("13_uokct")
 shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
@@ -1051,6 +1323,9 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 [node name="CollisionShape3D" parent="Elevator_Functional_Blockout/CabinMoving/InteriorPanel/FloorButton5" parent_id_path=PackedInt32Array(1503923236, 1718985618) index="1" unique_id=469621637]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 
+[node name="ContainmentEntryZone" parent="Elevator_Functional_Blockout/Landings/Floor_4" parent_id_path=PackedInt32Array(1503923236, 1928124505) index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.25, 0)
+
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0346718, -0.0141816, 0.018938065)
 
@@ -1210,35 +1485,11 @@ layers = 262145
 [node name="Hub_Day1_Abandoned_Crate_B_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Lobby_Blockout/Hub_Abandoned_Cargo_Blockout" parent_id_path=PackedInt32Array(2036079911, 1885625984, 1223246272) index="2" unique_id=1715747838]
 layers = 262145
 
-[node name="Hub_West_Arrival_Sign_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(2036079911, 1885625984, 1946172280) index="0" unique_id=329877947]
-layers = 262145
-
-[node name="Hub_North_Science_Sign_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(2036079911, 1885625984, 1946172280) index="1" unique_id=1110522215]
-layers = 262145
-
-[node name="Hub_East_Living_Sign_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(2036079911, 1885625984, 1946172280) index="2" unique_id=1647935806]
-layers = 262145
-
-[node name="Hub_South_Technical_Sign_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(2036079911, 1885625984, 1946172280) index="3" unique_id=1290270212]
-layers = 262145
-
 [node name="ElevatorBackupSolarPanel" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="1" unique_id=1302269298]
 transform = Transform3D(-2.0216214e-07, 5.299733e-18, -1, -0.013166388, 1.0217978, 1.7286993e-09, 1.2407925, 0.010842576, -1.629115e-07, -39.2579, 0.3641695, 7.0690384)
 
 [node name="ElevatorBackupSolarPanel2" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="5" unique_id=199684900]
 transform = Transform3D(-1.9011684e-07, -1.1221413e-15, -1, 0.010703877, 1.0120827, -1.4944204e-09, 1.1668798, -0.009283912, -1.6291382e-07, -39.258385, 0.37677887, 5.280569)
-
-[node name="West_Connector_Floor" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="0" unique_id=889035786]
-layers = 262145
-
-[node name="West_Connector_North_Wall" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="1" unique_id=518199408]
-layers = 262145
-
-[node name="West_Connector_South_Wall" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="2" unique_id=38072382]
-layers = 262145
-
-[node name="West_Connector_Ceiling" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1716901486) index="3" unique_id=1753964432]
-layers = 262145
 
 [node name="West_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="0" unique_id=272316757]
 layers = 262145
@@ -1310,48 +1561,6 @@ layers = 262145
 layers = 262145
 
 [node name="Technical_Generator_Room_Warning_Header_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 164939900, 1534958846) index="1" unique_id=1847773864]
-layers = 262145
-
-[node name="South_Connector_Floor" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="0" unique_id=1552936644]
-layers = 262145
-
-[node name="South_Connector_West_Wall" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="1" unique_id=1865149918]
-layers = 262145
-
-[node name="South_Connector_East_Wall" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="2" unique_id=1275671781]
-layers = 262145
-
-[node name="South_Connector_Ceiling" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 754130219) index="3" unique_id=1380892307]
-layers = 262145
-
-[node name="South_Connector_West_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="0" unique_id=1947928711]
-layers = 262145
-
-[node name="South_Connector_West_Service_Status_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="1" unique_id=331667515]
-layers = 262145
-
-[node name="South_Connector_East_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="2" unique_id=1494009997]
-layers = 262145
-
-[node name="South_Connector_East_Service_Status_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="3" unique_id=989309990]
-layers = 262145
-
-[node name="South_Connector_West_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="4" unique_id=298137323]
-layers = 262145
-
-[node name="South_Connector_East_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="5" unique_id=2040995181]
-layers = 262145
-
-[node name="South_Connector_West_Vent_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="6" unique_id=1742872527]
-layers = 262145
-
-[node name="South_Connector_East_Vent_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="7" unique_id=499376265]
-layers = 262145
-
-[node name="South_Connector_Technical_Sign_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="8" unique_id=1662709511]
-layers = 262145
-
-[node name="South_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/South_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 1587715613) index="9" unique_id=717494211]
 layers = 262145
 
 [node name="Living_Entry_Wayfinding_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1922948352) index="0" unique_id=1497867543]
@@ -1565,48 +1774,6 @@ layers = 262145
 [node name="Medical_Clinical_Waste_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="3" unique_id=1205701124]
 layers = 262145
 
-[node name="East_Connector_Floor" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="0" unique_id=1841078308]
-layers = 262145
-
-[node name="East_Connector_North_Wall" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="1" unique_id=393652554]
-layers = 262145
-
-[node name="East_Connector_South_Wall" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="2" unique_id=518718718]
-layers = 262145
-
-[node name="East_Connector_Ceiling" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 1847322537) index="3" unique_id=1877587502]
-layers = 262145
-
-[node name="East_Connector_North_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="0" unique_id=837319771]
-layers = 262145
-
-[node name="East_Connector_North_Service_Status_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="1" unique_id=1570882100]
-layers = 262145
-
-[node name="East_Connector_South_Service_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="2" unique_id=1410356917]
-layers = 262145
-
-[node name="East_Connector_South_Service_Status_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="3" unique_id=582603988]
-layers = 262145
-
-[node name="East_Connector_North_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="4" unique_id=1519153476]
-layers = 262145
-
-[node name="East_Connector_South_Wall_Protection_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="5" unique_id=1313244716]
-layers = 262145
-
-[node name="East_Connector_North_Vent_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="6" unique_id=755732914]
-layers = 262145
-
-[node name="East_Connector_South_Vent_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="7" unique_id=1368856407]
-layers = 262145
-
-[node name="East_Connector_Living_Sign_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="8" unique_id=768959893]
-layers = 262145
-
-[node name="East_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/East_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 972492483) index="9" unique_id=1370064485]
-layers = 262145
-
 [node name="North_Science_Floor" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="0" unique_id=960449371]
 layers = 262145
 
@@ -1660,6 +1827,70 @@ size = Vector3(2.5, 5.5, 0.3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.25, -18)
 layers = 262145
 
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1089584292, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_letuy")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1881072077, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_1j081")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 694229342, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_swsu1")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 110983853, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_aha2n")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1191008046, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_atyjx")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 418251327, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_u8kyu")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1134666513, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_m0k1b")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 48446997, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_jwui2")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1252512262, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_d8uil")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 2078442381, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_lkixi")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 589110786, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_ey00e")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1141759735, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_oeulh")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1511791008, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_w4qip")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1878751790, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_gx0ar")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 455803367, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_3be50")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1413718245, 817142463) index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_1xu0p")
+
 [node name="Science_Briefing_Table_Blockout" parent="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt/Blockout/Briefing_Room/Furniture" parent_id_path=PackedInt32Array(2036079911, 18727853, 41546770) index="0" unique_id=239457075]
 layers = 262145
 
@@ -1669,27 +1900,15 @@ layers = 262145
 [node name="Science_Briefing_South_Seating_Blockout" parent="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt/Blockout/Briefing_Room/Furniture" parent_id_path=PackedInt32Array(2036079911, 18727853, 41546770) index="2" unique_id=1802857345]
 layers = 262145
 
-[node name="North_Connector_Floor" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="0" unique_id=29604141]
-layers = 262145
-
-[node name="North_Connector_West_Wall" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="1" unique_id=1171315461]
-layers = 262145
-
-[node name="North_Connector_East_Wall" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="2" unique_id=749625941]
-layers = 262145
-
-[node name="North_Connector_Ceiling" parent="Floor_0_Base_Blockout/North_Science/North_Connector/Structure" parent_id_path=PackedInt32Array(2036079911, 130166584) index="3" unique_id=1511961533]
-layers = 262145
-
 [node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="8" unique_id=55254735]
-display_material = SubResource("ShaderMaterial_swsu1")
+display_material = SubResource("ShaderMaterial_i8mvs")
 
 [node name="Floor_Minus1_Control_Security_Blockout" parent="." unique_id=154470757 instance=ExtResource("4_floor_minus1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -18, 0)
 
 [node name="Encryption_Key_Terminal" parent="Floor_Minus1_Control_Security_Blockout/Secure_Data_Vault" parent_id_path=PackedInt32Array(154470757, 525385897) index="8"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -55.3, 0.015, -4.8)
-display_material = SubResource("ShaderMaterial_u8kyu")
+display_material = SubResource("ShaderMaterial_e0867")
 
 [node name="SecurityDoorTransom" parent="Floor_Minus1_Control_Security_Blockout" index="18"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.525, -5)
@@ -1753,6 +1972,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.1, -24)
 [node name="Floor_Minus5_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -90, 0)
 
+[node name="ExpeditionWinch" parent="Floor_Minus5_Expedition_Shaft_Blockout/Stage_05_Primary_Winch_And_Shaft_Hall" parent_id_path=PackedInt32Array(651481699, 1513967044) index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)
+
 [node name="InvestigationZone" parent="Floor_Minus5_Expedition_Shaft_Blockout" index="10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 2.1, -17)
 
@@ -1804,6 +2026,22 @@ navigation_mesh = ExtResource("containment_nav")
 [editable path="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt"]
 [editable path="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt"]
 [editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares2"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares3"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares4"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares5"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares6"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares7"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares8"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares9"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares10"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares11"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares12"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares13"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares14"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares15"]
+[editable path="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares16"]
 [editable path="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt"]
 [editable path="Floor_Minus1_Control_Security_Blockout"]
 [editable path="Floor_Minus5_Expedition_Shaft_Blockout"]

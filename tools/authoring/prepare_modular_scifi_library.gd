@@ -249,6 +249,12 @@ func run() -> void:
 		# Only thin, flat platform tiles have a usable inverted ceiling surface.
 		if record.category == "floors" and str(record.name).begins_with("Platform_") and data.bounds.size.y < 0.3:
 			save_object(data, "ceilings", "ceiling_" + str(record.name).trim_prefix("Platform_").to_snake_case(), true)
+	# Project derivatives live separately so reimporting the original ZIP preserves them.
+	var derived: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(ASSETS + "derived_models.json"))
+	for record: Dictionary in derived.models:
+		var data := import_model(record)
+		if not data.is_empty():
+			save_object(data, str(record.category), str(record.name).to_snake_case())
 	if not failed:
 		for category: String in CATEGORIES:
 			make_catalog(category)

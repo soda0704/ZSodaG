@@ -113,23 +113,3 @@ size = Vector3(0.7, 0.64, 0.75)
 material = SubResource("StandardMaterial3D_hub_living")
 
 [node name="Hub_Signage_Blockout" type="Node3D" parent="Blockout" unique_id=1946172280]
-
-[node name="Hub_West_Arrival_Sign_Blockout" type="CSGBox3D" parent="Blockout/Hub_Signage_Blockout" unique_id=329877947]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.82, 4.1, 0)
-size = Vector3(0.1, 0.65, 2.4)
-material = SubResource("StandardMaterial3D_hub_arrival")
-
-[node name="Hub_North_Science_Sign_Blockout" type="CSGBox3D" parent="Blockout/Hub_Signage_Blockout" unique_id=1110522215]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, -7.67)
-size = Vector3(2.4, 0.65, 0.1)
-material = SubResource("StandardMaterial3D_hub_science")
-
-[node name="Hub_East_Living_Sign_Blockout" type="CSGBox3D" parent="Blockout/Hub_Signage_Blockout" unique_id=1647935806]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.67, 4.1, 0)
-size = Vector3(0.1, 0.65, 2.4)
-material = SubResource("StandardMaterial3D_hub_living")
-
-[node name="Hub_South_Technical_Sign_Blockout" type="CSGBox3D" parent="Blockout/Hub_Signage_Blockout" unique_id=1290270212]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 7.67)
-size = Vector3(2.4, 0.65, 0.1)
-material = SubResource("StandardMaterial3D_hub_technical")
