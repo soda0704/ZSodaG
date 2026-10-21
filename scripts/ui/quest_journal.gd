@@ -289,22 +289,15 @@ func _refresh_content() -> void:
 			tasks_label.text = _task_line(_controller.containment.get("trials", false), "Войти в испытательную камеру на уровне 3")
 			if _controller.containment.get("trials", false):
 				tasks_label.text += "\n\nВернуться на базу и отдохнуть."
-		elif day == _controller.CONTAINMENT_DAY_INDEX:
-			var investigation: Dictionary = _controller.containment
-			var defeated := 0
-			for hp: Variant in investigation.get("health", [120, 90, 75]):
-				if float(hp) <= 0.0:
-					defeated += 1
-			objective_label.text = "Зачистить уровень 4"
-			tasks_label.text = "\n".join([_task_line(investigation.get("level3", false), "Обследовать уровень 4"), _task_line(defeated == 3, "Зачистить уровень"), _task_line(investigation.get("resolved", false), "Восстановить питание")])
-			if investigation.get("fault", false):
-				tasks_label.text += "\n\nСбой питания: выключите\nи включите главный щит."
-		elif day == _controller.EXPEDITION_DAY_INDEX:
-			objective_label.text = "Экспедиционная шахта · уровень 5"
-			tasks_label.text = "Биосдерживание пройдено. Доступна экспедиционная шахта.\nЗадание шестого дня пока не добавлено."
 		else:
-			objective_label.text = "Пещера · глубинная экспедиция"
-			tasks_label.text = "Отдельный спуск на лебёдке из шахты.\nМаршрут и задание седьмого дня пока не добавлены."
+			var objective := _controller.get_expedition_objective()
+			objective_label.text = objective.title
+			var lines: PackedStringArray = []
+			for task in objective.tasks:
+				lines.append(_task_line(task.done, task.text))
+			tasks_label.text = "\n".join(lines)
+			if not str(objective.get("description", "")).is_empty(): tasks_label.text = str(objective.description) + "\n\n" + tasks_label.text
+			if not objective.note.is_empty(): tasks_label.text += "\n\n" + objective.note
 		coop_status_label.text = ""
 		if not _controller.sleeping_peer_ids.is_empty():
 			coop_status_label.text = "Отдыхают: %d/%d" % [_controller.sleeping_peer_ids.size(), _controller.get_connected_player_peer_ids().size()]
@@ -337,14 +330,10 @@ func get_hud_summary() -> Dictionary:
 	# Both presentations share the journal's existing story and maintenance rules.
 	if not is_instance_valid(_controller):
 		return {"day": 0, "objective": "", "tasks": [], "empty_label": "НЕТ АКТИВНЫХ ЗАДАЧ"}
-	var story_available := _controller.day_index < _controller.EXPEDITION_DAY_INDEX
 	var source := tasks_label.text
-	# Later days explicitly have no assigned story yet. Keep only actual recovery/repair
-	# paragraphs, rather than presenting the journal's development notes as objectives.
-	if not story_available and not _controller.maintenance.get("wires_required", false):
-		var paragraphs := source.split("\n\n", false)
-		if not paragraphs.is_empty(): paragraphs.remove_at(0)
-		source = "\n\n".join(paragraphs)
+	# Narrative belongs on the journal page, not in the HUD's action checklist.
+	var description := str(_controller.get_expedition_objective().get("description", ""))
+	if not description.is_empty(): source = source.trim_prefix(description + "\n\n")
 	var pending: Array[String] = []
 	for paragraph in source.split("\n\n", false):
 		var continuation := ""
@@ -362,8 +351,8 @@ func get_hud_summary() -> Dictionary:
 					continuation = ""
 		if not continuation.is_empty(): pending.append(continuation)
 	return {"day": _controller.day_index,
-		"objective": objective_label.text if story_available or _controller.maintenance.get("wires_required", false) else "Текущие дела",
-		"tasks": pending, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ" if story_available else "НЕТ АКТИВНЫХ ЗАДАЧ"}
+		"objective": objective_label.text,
+		"tasks": pending, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ"}
 
 func _select_item(id: StringName) -> void:
 	_selected_item = id

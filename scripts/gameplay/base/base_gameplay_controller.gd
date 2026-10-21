@@ -240,13 +240,56 @@ func can_end_current_day() -> bool:
 		or (day_index == LEVEL_TWO_DAY_INDEX and bool(containment.get("level2", false)))
 		or (day_index == TRIALS_DAY_INDEX and bool(containment.get("trials", false)))
 		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
-		or (day_index == EXPEDITION_DAY_INDEX and bool(containment.get("shaft", false)))
-		or (day_index >= CAVE_DAY_INDEX and bool(containment.get("cave_exited", false)))
+		or (day_index == EXPEDITION_DAY_INDEX and is_winch_prepared())
+		or (day_index >= CAVE_DAY_INDEX and bool(containment.get("cave_visited", containment.get("cave_exited", false))))
 	)
 
 
 func is_elevator_powered() -> bool:
 	return main_breaker_on or elevator_backup_installed
+
+
+func get_winch_preparation() -> Dictionary:
+	return maintenance.get("winch_preparation", {}) as Dictionary
+
+
+func is_winch_prepared() -> bool:
+	return bool(get_winch_preparation().get("tested", false))
+
+
+func get_expedition_objective() -> Dictionary:
+	var tasks: Array[Dictionary] = []
+	var title := ""
+	var note := ""
+	var description := ""
+	if day_index == CONTAINMENT_DAY_INDEX:
+		var entered := bool(containment.get("level3", false))
+		var cleared := bool(containment.get("fault", false)) or bool(containment.get("resolved", false))
+		title = "Зачистить уровень 4" if entered else "Обследовать уровень 4"
+		tasks.append({"done": entered, "text": "Спуститься на уровень 4"})
+		if entered: tasks.append({"done": cleared, "text": "Зачистить уровень"})
+		if cleared:
+			tasks.append({"done": bool(containment.get("resolved", false)), "text": "Восстановить питание"})
+			if containment.get("fault", false): note = "Сбой питания: выключите и включите главный щит."
+	elif day_index == EXPEDITION_DAY_INDEX:
+		var preparation := get_winch_preparation()
+		title = "Перед следующим спуском"
+		tasks.append({"done": bool(preparation.get("inspected", false)), "text": "Спуститься на уровень 5 и осмотреть пульт лебёдки"})
+		if preparation.get("inspected", false):
+			tasks.append({"done": bool(preparation.get("pin_removed", false)), "text": "Убрать стопорный штифт у барабана"})
+			if not preparation.get("brake_armed", false): note = "Транспортный стопор удерживает механизм рядом с барабаном в машинном отделении."
+		if preparation.get("pin_removed", false):
+			tasks.append({"done": bool(preparation.get("brake_armed", false)), "text": "Перевести рычаг в рабочее положение"})
+		if preparation.get("brake_armed", false):
+			tasks.append({"done": is_winch_prepared(), "text": "Проверить механизм с пульта"})
+			if preparation.get("testing", false): note = "Механизм проходит пробный цикл; проём клети должен оставаться свободным."
+	elif day_index >= CAVE_DAY_INDEX:
+		title = "За последним уровнем"
+		tasks.append({"done": bool(containment.get("cave_visited", containment.get("cave_exited", false))), "text": "Найти продолжение шахты под комплексом"})
+		description = "Лебёдка ведёт глубже лаборатории — что осталось внизу, пока неизвестно."
+	if not tasks.is_empty() and tasks.all(func(task): return task.done):
+		note = "Вернуться на базу и отдохнуть."
+	return {"title": title, "tasks": tasks, "note": note, "description": description}
 
 
 func install_elevator_backup_authoritative(peer_id: int) -> bool:
@@ -407,11 +450,7 @@ func advance_day_authoritative() -> bool:
 			[],
 			[]
 	)
-	if plant_seed_planted and not plant_withered:
-		if plant_last_watered_day == day_index:
-			next.plant_growth_stage = mini(plant_growth_stage + 1, PLANT_FINAL_STAGE)
-		else:
-			next.plant_withered = true
+	_age_plant(next, day_index, day_index + 1)
 	if day_index == 1:
 		var order := [0, 1, 2, 3]
 		order.shuffle()
@@ -425,6 +464,36 @@ func advance_day_authoritative() -> bool:
 		next.main_breaker_on = false
 		next.phase = BasePhase.RESTORING_POWER
 	_broadcast_snapshot(next)
+	return true
+
+
+func _age_plant(snapshot: Dictionary, from_day: int, to_day: int) -> void:
+	for elapsed_day in range(from_day, to_day):
+		if not snapshot.plant_seed_planted or snapshot.plant_withered:
+			break
+		if int(snapshot.plant_last_watered_day) == elapsed_day:
+			snapshot.plant_growth_stage = mini(int(snapshot.plant_growth_stage) + 1, PLANT_FINAL_STAGE)
+		else:
+			snapshot.plant_withered = true
+
+
+func debug_set_day_authoritative(next_day: int) -> bool:
+	if not multiplayer.is_server() or next_day < FIRST_DAY or next_day > MAX_DAY_INDEX:
+		return false
+	var snapshot := get_snapshot()
+	_age_plant(snapshot, day_index, next_day)
+	# Rewinding the calendar cannot leave a watering stamp in the future.
+	if next_day < day_index:
+		snapshot.plant_last_watered_day = mini(plant_last_watered_day, next_day - 1)
+	snapshot.day_index = next_day
+	snapshot.phase = BasePhase.ACTIVE_DAY
+	snapshot.fuel_delivered = true
+	snapshot.fuel_liters = FUEL_CAPACITY
+	snapshot.main_breaker_on = true
+	snapshot.quest_stage = 4 if next_day >= 3 else 1
+	snapshot.sleeping_peer_ids = []
+	snapshot.end_day_ready_peer_ids = []
+	_broadcast_snapshot(snapshot)
 	return true
 
 
@@ -486,6 +555,12 @@ func load_saved_snapshot() -> Dictionary:
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
+	# Earlier day-seven saves predate preparation; preserve access to the cave.
+	if int(snapshot.day_index) >= CAVE_DAY_INDEX and not snapshot.maintenance.has("winch_preparation"):
+		snapshot.maintenance["winch_preparation"] = {"inspected": true, "pin_removed": true, "brake_armed": true, "tested": true, "testing": false}
+	elif snapshot.maintenance.has("winch_preparation"):
+		# An interrupted test is retried at the console, never completed by loading.
+		snapshot.maintenance["winch_preparation"]["testing"] = false
 	snapshot["lab_clicker"] = config.get_value("base", "lab_clicker", {})
 	snapshot["plant_growth_stage"] = int(config.get_value("base", "plant_growth_stage", 0))
 	snapshot["plant_withered"] = bool(config.get_value("base", "plant_withered", false))
@@ -764,9 +839,8 @@ func _make_persistent_snapshot() -> Dictionary:
 	persistent["lab_clicker"] = clicker.capture()
 	persistent["campaign_layout_version"] = 2
 	if is_inside_tree():
-		var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-		if world != null and is_instance_valid(world.get("_v3_elevator_controller")):
-			persistent.maintenance["elevator_floor"] = int(world.get("_v3_elevator_controller").current_floor_index)
+		for transport in get_tree().get_nodes_in_group("elevator_controllers"):
+			persistent.maintenance[transport.checkpoint_key] = int(transport.current_floor_index)
 		for vehicle_node in get_tree().get_nodes_in_group("snowmobiles"):
 			persistent.maintenance["snowmobile"] = vehicle_node.capture_checkpoint()
 	if is_inside_tree():

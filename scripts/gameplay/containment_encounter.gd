@@ -8,6 +8,8 @@ const CREATURE_SCENES := [preload("res://scenes/characters/monsters/the_monster.
 @export var shaft_zone_path := NodePath("../Floor_Minus5_Expedition_Shaft_Blockout/InvestigationZone")
 @export var cave_exit_zone_path := NodePath("../Cave_Day7/ExitZone")
 @export var trials_zone_path := NodePath("../Floor_Minus3_Trials_Observation_Blockout/InvestigationZone")
+@export var entry_zone_path := NodePath("../Elevator_Functional_Blockout/Landings/Floor_4/ContainmentEntryZone")
+@export var cave_visit_zone_path := NodePath("../Cave_Day7/CaveArrival/ShaftVisitZone")
 @export var monster_spawn_paths: Array[NodePath] = []
 var state: BaseGameplayController
 var _zones: Array[Area3D] = []
@@ -35,8 +37,11 @@ func _ready() -> void:
 		monster.encounter = self
 		monster.global_transform = marker.global_transform
 		monster._home = monster.global_position
+		monster._patrol_goal = monster._home
 		monster._target_position = monster.position
 	_zones = [get_node_or_null(level_two_zone_path) as Area3D, get_node_or_null(level_three_zone_path) as Area3D, get_node_or_null(trials_zone_path) as Area3D, get_node_or_null(shaft_zone_path) as Area3D, get_node_or_null(cave_exit_zone_path) as Area3D]
+	_zones.append(get_node_or_null(entry_zone_path) as Area3D)
+	_zones.append(get_node_or_null(cave_visit_zone_path) as Area3D)
 	for index in _zones.size():
 		if _zones[index] == null:
 			push_error("ContainmentEncounter: assign investigation zones in Inspector")
@@ -57,8 +62,8 @@ func _prepare_navigation() -> void:
 func _on_zone_entered(body: Node3D, index: int) -> void:
 	if not multiplayer.is_server() or state == null or not body is GamePlayer:
 		return
-	var required_day: int = [state.LEVEL_TWO_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.TRIALS_DAY_INDEX, state.EXPEDITION_DAY_INDEX, state.CAVE_DAY_INDEX][index]
-	var key: String = ["level2", "level3", "trials", "shaft", "cave_exited"][index]
+	var required_day: int = [state.LEVEL_TWO_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.TRIALS_DAY_INDEX, state.EXPEDITION_DAY_INDEX, state.CAVE_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.CAVE_DAY_INDEX][index]
+	var key: String = ["level2", "level3", "trials", "shaft", "cave_exited", "level3", "cave_visited"][index]
 	if state.day_index != required_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
 		return
 	var data := state.containment.duplicate(true)
@@ -211,6 +216,7 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 		monster.global_position = spawn_point
 		monster.look_at(spawn_point - forward if at_point else center, Vector3.UP)
 		monster._home = spawn_point
+		monster._patrol_goal = spawn_point
 		monster._target_position = monster.position
 		if offset_index % 25 == 24:
 			await get_tree().process_frame

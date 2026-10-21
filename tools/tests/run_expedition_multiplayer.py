@@ -13,6 +13,8 @@ def main():
     parser.add_argument("--wiring", action="store_true", help="test physical breaker wiring and concurrent repair")
     parser.add_argument("--plants", action="store_true", help="test shared daily watering, late join and production E input")
     parser.add_argument("--clicker", action="store_true", help="test shared terminal app, spectator and operator handoff")
+    parser.add_argument("--winch", action="store_true", help="test production shaft transport, late join and client return")
+    parser.add_argument("--preparation", action="store_true", help="test shared day-six brake preparation and client lever input")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
@@ -33,6 +35,16 @@ def main():
         driver = "run_clicker_multiplayer.gd"
         ready_marker = "HOST_READY_FOR_CLICKER_CLIENT"
         result_marker = "COOP CHECKS"
+    if options.winch:
+        label = "winch"
+        driver = "run_winch_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_WINCH_CLIENT"
+        result_marker = "WINCH COOP CHECKS"
+    if options.preparation:
+        label = "preparation"
+        driver = "run_winch_preparation_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_PREPARATION_CLIENT"
+        result_marker = "PREPARATION COOP CHECKS"
     project = Path(__file__).resolve().parents[2]
     output = project / "tools/.local"
     output.mkdir(exist_ok=True)

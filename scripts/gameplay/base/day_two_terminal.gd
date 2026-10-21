@@ -161,16 +161,15 @@ func _objective_text() -> String:
 			return "Уровень 2 обследован. Вернитесь на базу и отдохните." if _controller.containment.get("level2", false) else "Спуститесь на уровень 2 и обследуйте внутреннюю зону. На следующий день будет доступен уровень 3."
 		4:
 			return "Испытательная камера обследована. Вернитесь на базу и отдохните." if _controller.containment.get("trials", false) else "Обследуйте испытательную камеру на уровне 3. Вход доступен через служебный обход."
-		5:
-			if _controller.containment.get("resolved", false) and _controller.containment.get("level3", false):
-				return "Уровень 4 обследован, угроза устранена и питание восстановлено. Вернитесь на базу и отдохните."
-			if _controller.containment.get("fault", false):
-				return "Сбой питания после зачистки. Выключите и снова включите главный щит. Обследуйте внутреннюю зону уровня 4."
-			return "Обследуйте уровень 4, устраните угрозу и восстановите питание после зачистки."
-		6:
-			return "Уровень 5 доступен. Экспедиционная шахта и спуск на лебёдке — следующий этап. Задание этого дня пока не добавлено."
-		7:
-			return "Пещера — отдельная экспедиция после спуска на лебёдке. Маршрут и задание седьмого дня пока не добавлены."
+		_:
+			var objective := _controller.get_expedition_objective()
+			var lines: PackedStringArray = []
+			if not str(objective.get("description", "")).is_empty(): lines.append(str(objective.description))
+			for task in objective.tasks:
+				lines.append(("✓ " if task.done else "") + str(task.text))
+			if not objective.note.is_empty(): lines.append(objective.note)
+			return "\n".join(lines)
+
 	return "Данные задания недоступны."
 
 

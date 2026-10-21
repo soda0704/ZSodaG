@@ -166,7 +166,12 @@ var _inventory_revision: int = 0
 var fuel_liters := 20.0
 var _battery_action_busy: bool = false
 var _pad_sprint: bool = false
-var _noise_step_left := 0.0
+@export_group("AI movement noise")
+@export_range(0.0, 50.0) var walking_noise_radius := 6.0
+@export_range(0.0, 50.0) var sprinting_noise_radius := 14.0
+@export_range(0.0, 5.0) var crouching_noise_radius := 0.8
+@export_range(0.2, 3.0) var noise_stride := 1.5
+var _noise_step_distance := 0.0
 var tape_count := 0
 var crowbar_uses := 0
 var weapon_light_mounted := false
@@ -769,14 +774,29 @@ func simulate_movement(
 		movement_acceleration * delta
 	)
 	var incoming_y := velocity.y
+	var movement_start := global_position
 	if not preload("res://scripts/characters/components/step_motion.gd").try_step(self, delta, max_step_height):
 		move_and_slide()
 	survival.observe_motion(incoming_y, is_on_floor(), get_platform_velocity().y)
 	if multiplayer.is_server():
-		_noise_step_left = maxf(0.0, _noise_step_left - delta)
-		if is_on_floor() and not survival.dead and not _is_crouching and sprinting and Vector2(velocity.x, velocity.z).length() > 3.0 and _noise_step_left <= 0.0:
-			_noise_step_left = 0.5
-			preload("res://scripts/gameplay/gameplay_noise.gd").emit(self, 12.0)
+		_emit_movement_noise(global_position - movement_start - get_platform_velocity() * delta, is_on_floor())
+
+
+func get_movement_noise_radius() -> float:
+	return crouching_noise_radius if _is_crouching else sprinting_noise_radius if _sprint_active else walking_noise_radius
+
+
+func _emit_movement_noise(travel: Vector3, grounded: bool) -> void:
+	if not multiplayer.is_server(): return
+	var distance := Vector2(travel.x, travel.z).length()
+	if not grounded or survival.dead or is_sleeping_in_bunk() or is_driving() or debug_fly or distance > 2.0:
+		_noise_step_distance = 0.0
+		return
+	if distance < 0.001: return
+	_noise_step_distance += distance
+	if _noise_step_distance >= noise_stride:
+		_noise_step_distance = fmod(_noise_step_distance, noise_stride)
+		preload("res://scripts/gameplay/gameplay_noise.gd").emit(self, get_movement_noise_radius())
 
 
 func update_crouch_state(delta: float, wants_to_crouch: bool) -> void:

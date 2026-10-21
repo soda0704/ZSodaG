@@ -3,9 +3,14 @@ extends AudioStreamPlayer3D
 @export var snow_sounds: Array[AudioStream] = []
 @export var metal_sounds: Array[AudioStream] = []
 @export var stride := 1.65
+@export var sprint_volume_offset_db := 3.0
+@export var crouch_volume_offset_db := -18.0
+var _standing_volume_db := 0.0
 var previous := Vector3.ZERO
 var distance := 0.0
 var initialized := false
+func _ready() -> void:
+	_standing_volume_db = volume_db
 func _physics_process(_delta: float) -> void:
 	var actor := get_parent() as CharacterBody3D
 	if actor == null:
@@ -36,5 +41,8 @@ func _physics_process(_delta: float) -> void:
 	if clips.is_empty():
 		return
 	stream = clips.pick_random()
+	volume_db = _standing_volume_db
+	if actor is GamePlayer:
+		volume_db += crouch_volume_offset_db if actor._is_crouching else sprint_volume_offset_db if actor._sprint_active else 0.0
 	pitch_scale = randf_range(0.96, 1.04)
 	play()

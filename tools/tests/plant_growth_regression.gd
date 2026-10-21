@@ -64,6 +64,7 @@ func run() -> void:
 		powered()
 		var goals := state.get_snapshot()
 		goals.quest_stage = BaseGameplayController.QuestStage.DELIVERED
+		goals.maintenance["winch_preparation"] = {"inspected":true,"pin_removed":true,"brake_armed":true,"tested":true}
 		state._broadcast_snapshot(goals)
 		await visit()
 		check(state.water_plant_authoritative(1), "shared watering before growth stage %d" % expected)
@@ -95,11 +96,15 @@ func run() -> void:
 	data.containment.erase("shaft")
 	data.containment.erase("cave_exited")
 	state._broadcast_snapshot(data)
-	check(not state.can_end_current_day(), "day six needs actual shaft visit")
+	check(not state.can_end_current_day(), "day six needs winch preparation")
 	var shaft := base.get_node("Floor_Minus5_Expedition_Shaft_Blockout/InvestigationZone") as Area3D
 	player.teleport_authoritative(shaft.global_position - Vector3(0,1.9,0), 0)
 	await settle()
-	check(state.containment.get("shaft",false) and state.can_end_current_day(), "authored shaft area unlocks ordinary sleep")
+	check(state.containment.get("shaft",false) and not state.can_end_current_day(), "shaft visit alone cannot bypass winch preparation")
+	var prepared := state.get_snapshot()
+	prepared.maintenance["winch_preparation"] = {"inspected":true,"pin_removed":true,"brake_armed":true,"tested":true}
+	state._broadcast_snapshot(prepared)
+	check(state.can_end_current_day(), "completed winch fixture permits normal sleep for later plant days")
 	check(sleep_once() and state.day_index == 7 and not state.can_end_current_day(), "day seven cannot sleep before cave exit")
 	var exit := base.get_node("Cave_Day7/ExitZone") as Area3D
 	player.survival.dead = true

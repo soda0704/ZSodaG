@@ -131,14 +131,13 @@ func _on_sleeping_state_changed() -> void:
 func _capture_elevator_cargo() -> void:
 	if not is_instance_valid(_cargo_candidate):
 		for cabin in get_tree().get_nodes_in_group("elevator_cabins"):
-			var point: Vector3 = cabin.to_local(global_position)
-			if absf(point.x) < 2.7 and absf(point.z) < 2.7 and point.y > -0.8 and point.y < 3.9:
+			if cabin.get_parent().contains_cabin_point(global_position, -0.8):
 				_cargo_candidate = cabin
 				break
 	if not is_instance_valid(_cargo_candidate):
 		return
 	var local := _cargo_candidate.to_local(global_position)
-	if absf(local.x) >= 2.7 or absf(local.z) >= 2.7 or local.y > 4.0:
+	if not _cargo_candidate.get_parent().contains_cabin_point(global_position, -0.8):
 		_cargo_candidate = null
 		return
 	if local.y > 1.0:

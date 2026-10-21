@@ -19,6 +19,11 @@ enum ElevatorState {
 	FAULT,
 }
 
+@export_range(2, 6, 1) var stop_count := 6
+@export var checkpoint_key := "elevator_floor"
+@export var cabin_checkpoint_half_extents := Vector3(2.7, 4.0, 2.7)
+@export var floor_labels := PackedStringArray()
+@export var cabin_light_panel_paths: Array[NodePath] = [NodePath("CabinMoving/CabinVisualArt/LightingModules/NorthPanel"), NodePath("CabinMoving/CabinVisualArt/LightingModules/SouthPanel")]
 @export_range(0, 5, 1) var unlocked_floor_index: int = 1
 ## One new floor per day, starting with the surface on day one.
 ## Day seven uses the separate expedition winch, not another base elevator stop.
@@ -33,7 +38,7 @@ enum ElevatorState {
 @export var use_built_in_surface_platform: bool = true
 
 @onready var cabin: AnimatableBody3D = %CabinMoving
-@onready var cabin_light: SpotLight3D = $CabinMoving/CabinLight
+@onready var cabin_light: SpotLight3D = get_node_or_null("CabinMoving/CabinLight")
 @onready var cabin_door: ElevatorRollupDoor = %CabinDoor
 @onready var cabin_door_travel_barrier: CollisionShape3D = %CabinDoorTravelBarrier
 @onready var passenger_area: Area3D = %PassengerArea
@@ -75,16 +80,19 @@ var _pending_network_snapshot: Dictionary = {}
 
 
 func _ready() -> void:
+	add_to_group("elevator_controllers")
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	cabin.add_to_group("elevator_cabins")
 	is_powered = starts_powered
-	for panel_name in ["NorthPanel", "SouthPanel"]:
-		var panel := cabin.get_node("CabinVisualArt/LightingModules/" + panel_name) as MeshInstance3D
+	for panel_path in cabin_light_panel_paths:
+		var panel := get_node_or_null(panel_path) as MeshInstance3D
+		if panel == null or not panel.get_active_material(0) is StandardMaterial3D:
+			continue
 		var material := panel.get_active_material(0).duplicate() as StandardMaterial3D
 		panel.material_override = material
 		_cabin_light_materials.append(material)
 	_refresh_cabin_light()
-	unlocked_floor_index = clampi(unlocked_floor_index, 0, MAX_FLOOR_INDEX)
+	unlocked_floor_index = clampi(unlocked_floor_index, 0, stop_count - 1)
 	passenger_area.body_entered.connect(_on_passenger_body_entered)
 	passenger_area.body_exited.connect(_on_passenger_body_exited)
 	door_safety_area.body_entered.connect(_on_door_safety_body_entered)
@@ -94,7 +102,7 @@ func _ready() -> void:
 	cabin.position.y = _get_floor_y(current_floor_index)
 	cabin.reset_physics_interpolation()
 	cabin_door.animation_duration = door_animation_duration
-	for floor_index in MAX_FLOOR_INDEX + 1:
+	for floor_index in stop_count:
 		var landing_door := _get_landing_door(floor_index)
 		if is_instance_valid(landing_door):
 			landing_door.animation_duration = door_animation_duration
@@ -148,6 +156,7 @@ func _physics_process(delta: float) -> void:
 		_cabin_motion_target_y,
 		smooth_progress
 	)
+	_refresh_displays()
 	if _cabin_motion_elapsed >= _cabin_motion_duration:
 		_cabin_motion_active = false
 		cabin_motion_finished.emit(_cabin_motion_trip_serial)
@@ -164,7 +173,7 @@ func restore_checkpoint_floor(floor_index: int) -> void:
 	_power_off_after_trip = false
 	cabin.position.y = _get_floor_y(current_floor_index)
 	cabin.reset_physics_interpolation()
-	for index in MAX_FLOOR_INDEX + 1:
+	for index in stop_count:
 		_get_landing_door(index).set_open(index == current_floor_index, true)
 	cabin_door.set_open(true, true)
 	_set_cabin_door_travel_barrier_closed(false)
@@ -172,7 +181,7 @@ func restore_checkpoint_floor(floor_index: int) -> void:
 
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
-	if floor_index < 0 or floor_index > MAX_FLOOR_INDEX:
+	if floor_index < 0 or floor_index > stop_count - 1:
 		return ""
 	if not is_powered:
 		return ""
@@ -219,7 +228,7 @@ func set_day(day_index: int) -> void:
 	if not multiplayer.is_server():
 		return
 	var next_floor := 0
-	for index in mini(floor_unlock_days.size(), MAX_FLOOR_INDEX + 1):
+	for index in mini(floor_unlock_days.size(), stop_count):
 		if day_index >= floor_unlock_days[index]:
 			next_floor = index
 	if next_floor != unlocked_floor_index:
@@ -273,7 +282,7 @@ func _can_accept_destination(destination_floor_index: int) -> bool:
 	if not is_powered:
 		interaction_blocked.emit("unpowered")
 		return false
-	if destination_floor_index < 0 or destination_floor_index > MAX_FLOOR_INDEX:
+	if destination_floor_index < 0 or destination_floor_index > stop_count - 1:
 		interaction_blocked.emit("invalid_floor")
 		return false
 	if destination_floor_index > unlocked_floor_index:
@@ -403,7 +412,7 @@ func _apply_unlocked_floor(next_unlocked_floor_index: int) -> void:
 	unlocked_floor_index = clampi(
 		next_unlocked_floor_index,
 		0,
-		MAX_FLOOR_INDEX
+		stop_count - 1
 	)
 	_refresh_displays()
 
@@ -449,12 +458,12 @@ func _apply_network_snapshot(snapshot: Dictionary) -> void:
 	var previous_floor := current_floor_index
 	_trip_serial = int(snapshot.get("trip_serial", 0))
 	_cabin_motion_trip_serial = _trip_serial
-	current_floor_index = clampi(int(snapshot.get("current_floor_index", 0)), 0, MAX_FLOOR_INDEX)
+	current_floor_index = clampi(int(snapshot.get("current_floor_index", 0)), 0, stop_count - 1)
 	is_powered = bool(snapshot.get("is_powered", true))
 	_refresh_cabin_light()
-	unlocked_floor_index = clampi(int(snapshot.get("unlocked_floor_index", 0)), 0, MAX_FLOOR_INDEX)
-	pending_floor_index = clampi(int(snapshot.get("pending_floor_index", -1)), -1, MAX_FLOOR_INDEX)
-	_active_destination_floor_index = clampi(int(snapshot.get("active_destination_floor_index", -1)), -1, MAX_FLOOR_INDEX)
+	unlocked_floor_index = clampi(int(snapshot.get("unlocked_floor_index", 0)), 0, stop_count - 1)
+	pending_floor_index = clampi(int(snapshot.get("pending_floor_index", -1)), -1, stop_count - 1)
+	_active_destination_floor_index = clampi(int(snapshot.get("active_destination_floor_index", -1)), -1, stop_count - 1)
 	_power_off_after_trip = bool(snapshot.get("power_off_after_trip", false))
 	_active_travel_duration = maxf(float(snapshot.get("active_travel_duration", 0.01)), 0.01)
 	var next_state := clampi(int(snapshot.get("state", ElevatorState.IDLE_OPEN)), ElevatorState.UNPOWERED, ElevatorState.FAULT) as ElevatorState
@@ -474,7 +483,7 @@ func _apply_network_snapshot(snapshot: Dictionary) -> void:
 		cabin.position.y = float(snapshot.get("cabin_y", 0.0))
 	# Only the host advances gameplay phases. Clients continue the same motion
 	# curve and native door animation until the next authoritative phase arrives.
-	for floor_index in MAX_FLOOR_INDEX + 1:
+	for floor_index in stop_count:
 		var landing_door := _get_landing_door(floor_index)
 		if is_instance_valid(landing_door):
 			if floor_index == current_floor_index:
@@ -570,7 +579,12 @@ func _get_floor_y(floor_index: int) -> float:
 
 
 func _get_floor_label(floor_index: int) -> String:
-	return str(floor_index)
+	return floor_labels[floor_index] if floor_index < floor_labels.size() else str(floor_index)
+
+
+func contains_cabin_point(point: Vector3, minimum_y := -0.2) -> bool:
+	var local := cabin.to_local(point)
+	return absf(local.x) < cabin_checkpoint_half_extents.x and absf(local.z) < cabin_checkpoint_half_extents.z and local.y > minimum_y and local.y < cabin_checkpoint_half_extents.y
 
 
 func _has_all_connected_players() -> bool:
@@ -688,11 +702,15 @@ func _get_state_remaining_seconds() -> float:
 func _refresh_displays() -> void:
 	if not is_instance_valid(cabin_floor_display):
 		return
-	var shown_floor_index := (
-		pending_floor_index
-		if pending_floor_index >= 0
-		else current_floor_index
-	)
+	var shown_floor_index := current_floor_index
+	# Display the floor physically being passed, including non-uniform stop spacing.
+	if _cabin_motion_active:
+		var closest := INF
+		for index in stop_count:
+			var distance := absf(cabin.position.y - _get_floor_y(index))
+			if distance < closest:
+				closest = distance
+				shown_floor_index = index
 	cabin_floor_display.text = _get_floor_label(shown_floor_index)
 	cabin_state_display.text = _get_state_label()
 

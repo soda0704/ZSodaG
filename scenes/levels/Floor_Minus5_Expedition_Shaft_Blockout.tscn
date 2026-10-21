@@ -4,6 +4,10 @@
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="authored_door_manager"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l5_machine_room_fire.tscn" id="l5_machine_room_fire"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/elevator/expedition_winch.tscn" id="functional_winch"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/elevator/winch_preparation.tscn" id="winch_preparation"]
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.25, 0.28, 0.3, 1)
 metallic = 0.16
@@ -867,114 +871,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.82, 2.8, -25.3)
 size = Vector3(0.18, 5.6, 2.6)
 material = SubResource("Material_steel")
 
-[node name="Shaft_Cage_Prototype" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1785062772]
-editor_description = "Walkable cargo-and-personnel cage shown at the Level 5 landing. It fills the shaft opening during blockout and can later become a separate moving scene controlled by gameplay code."
-
-[node name="Cage_Loading_Deck" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1331100405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.04, -21)
-use_collision = true
-size = Vector3(4.8, 0.22, 4.2)
-material = SubResource("Material_steel")
-
-[node name="North_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=125386265]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.09, -24.08)
-size = Vector3(6.2, 0.05, 0.16)
-material = SubResource("Material_hazard")
-
-[node name="South_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=351165408]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.09, -17.92)
-size = Vector3(6.2, 0.05, 0.16)
-material = SubResource("Material_hazard")
-
-[node name="West_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1807175098]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.58, 0.09, -21)
-size = Vector3(0.16, 0.05, 6.2)
-material = SubResource("Material_hazard")
-
-[node name="East_Hazard_Edge" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=666030668]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.42, 0.09, -21)
-size = Vector3(0.16, 0.05, 6.2)
-material = SubResource("Material_hazard")
-
-[node name="West_Front_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=803966287]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.65, -19.15)
-size = Vector3(0.18, 3.2, 0.18)
-material = SubResource("Material_steel")
-
-[node name="East_Front_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=361529264]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.65, -19.15)
-size = Vector3(0.18, 3.2, 0.18)
-material = SubResource("Material_steel")
-
-[node name="West_Rear_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=816478414]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.65, -22.85)
-size = Vector3(0.18, 3.2, 0.18)
-material = SubResource("Material_steel")
-
-[node name="East_Rear_Upright" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=529252374]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.65, -22.85)
-size = Vector3(0.18, 3.2, 0.18)
-material = SubResource("Material_steel")
-
-[node name="West_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=81467959]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 1.5, -21)
-use_collision = true
-size = Vector3(0.12, 2.6, 3.7)
-material = SubResource("Material_steel")
-
-[node name="East_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=45341524]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 1.5, -21)
-use_collision = true
-size = Vector3(0.12, 2.6, 3.7)
-material = SubResource("Material_steel")
-
-[node name="Rear_Cage_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=340999925]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.5, -22.85)
-use_collision = true
-size = Vector3(4.5, 2.6, 0.12)
-material = SubResource("Material_steel")
-
-[node name="Cage_Roof_West_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=128604052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.75, 3.25, -21)
-size = Vector3(0.18, 0.18, 3.9)
-material = SubResource("Material_steel")
-
-[node name="Cage_Roof_East_Beam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1867560090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 3.25, -21)
-size = Vector3(0.18, 0.18, 3.9)
-material = SubResource("Material_steel")
-
-[node name="Cage_Roof_Crossbeam" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1522885450]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.25, -21)
-size = Vector3(4.7, 0.22, 0.22)
-material = SubResource("Material_steel")
-
-[node name="Cage_Protective_Roof" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1955831806]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.18, -21)
-use_collision = true
-size = Vector3(4.5, 0.12, 3.7)
-material = SubResource("Material_concrete")
-
-[node name="Cage_Crosshead" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1133843464]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 3.55, -21)
-size = Vector3(2.2, 0.5, 0.55)
-material = SubResource("Material_hazard")
-
-[node name="Cage_West_Open_Gate_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=867325264]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.68, 1.5, -20.275)
-size = Vector3(0.12, 2.8, 2.25)
-material = SubResource("Material_hazard")
-
-[node name="Cage_East_Open_Gate_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Shaft_Cage_Prototype" unique_id=1983753383]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.32, 1.5, -20.275)
-size = Vector3(0.12, 2.8, 2.25)
-material = SubResource("Material_hazard")
+[node name="ExpeditionWinch" parent="Stage_05_Primary_Winch_And_Shaft_Hall" instance=ExtResource("functional_winch")]
+position = Vector3(-47.5, 0, -21)
 
 [node name="Landing_Safety_Enclosure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=878539772]
-editor_description = "Fixed landing protection remains on Level 5 when the cage travels down. The south interlocked gate is shown open for blockout traversal and must close whenever the cage leaves the landing."
+editor_description = "Fixed landing protection remains on Level 5. The animated interlocked gate belongs to ExpeditionWinch and closes before departure."
 
 [node name="Deployed_Landing_Bridge_Plate" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1626464714]
-editor_description = "Retractable bridge plate shown deployed in blockout. It closes the safety clearance between the fixed landing floor and the cage deck."
+editor_description = "Fixed threshold plate bridges the landing clearance. The interlocked landing gate protects the shaft whenever the cage is away."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0.015, -18.48)
 use_collision = true
 size = Vector3(4.5, 0.09, 1.05)
@@ -996,16 +900,6 @@ material = SubResource("Material_hazard")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 1.2, -24.25)
 use_collision = true
 size = Vector3(6.5, 2.4, 0.18)
-material = SubResource("Material_hazard")
-
-[node name="South_Gate_West_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=1525603058]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.55, 1.4, -19.25)
-size = Vector3(0.18, 2.8, 3)
-material = SubResource("Material_hazard")
-
-[node name="South_Gate_East_Parked_Leaf" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=2132846368]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.45, 1.4, -19.25)
-size = Vector3(0.18, 2.8, 3)
 material = SubResource("Material_hazard")
 
 [node name="South_West_Landing_Post" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Landing_Safety_Enclosure" unique_id=337165958]
@@ -1099,11 +993,6 @@ radius = 1.15
 height = 0.55
 sides = 28
 material = SubResource("Material_hazard")
-
-[node name="Vertical_Head_Rope" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=425531425]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 5.25, -21)
-size = Vector3(0.12, 3.4, 0.12)
-material = SubResource("Material_steel")
 
 [node name="West_Cage_Guide" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Primary_Winch_Frame" unique_id=994724530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2, -32.5, -21)
@@ -1421,7 +1310,7 @@ editor_description = "Keep the 3 m wide route from the south connector to the ca
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -15)
 
 [node name="Winch_Operator_Station" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1341177850]
-editor_description = "Non-functional blockout station for supervising the shaft cage and logging recovered material."
+editor_description = "Operator station beside the functional two-stop expedition winch. Landing call is beside the safety gate; travel controls are inside the cage."
 
 [node name="Operator_Console" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" unique_id=2034797921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.1, 0.65, -15.2)
@@ -1475,7 +1364,7 @@ size = Vector3(0.35, 3, 6)
 material = SubResource("Material_concrete")
 
 [node name="Winch_Cage_Travel_Contract" type="Node3D" parent="." unique_id=1492284378]
-editor_description = "LD contract for the separate winch cage. The cage travels vertically 72 m between Level 5 and the future Level 6; this route is independent from the main base elevator."
+editor_description = "LD contract for the expedition winch: 72 m vertically between Level 5 and the lower cave arrival, independent from the main base elevator. The functional assembly uses matching authored stop markers."
 
 [node name="FloorMinus5Departure" type="Marker3D" parent="Winch_Cage_Travel_Contract" unique_id=1856677647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 0, -21)
@@ -1504,17 +1393,5 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InvestigationZone"]
 shape = SubResource("ShaftInvestigationShape")
 
-[node name="CaveAccessSign" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station"]
-position = Vector3(-39.95, 2.25, -15.2)
-size = Vector3(0.08, 0.9, 1.9)
-material = SubResource("Material_steel")
 
-[node name="Text" type="Label3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station/CaveAccessSign"]
-position = Vector3(-0.05, 0, 0)
-rotation_degrees = Vector3(0, -90, 0)
-pixel_size = 0.0015
-font_size = 28
-outline_size = 0
-text = "Спуститься в шахту можно будет на 7-й день
-Сейчас вы можете сделать это через консоль ~
-командой /cave entry"
+[node name="WinchPreparation" parent="Stage_05_Primary_Winch_And_Shaft_Hall" instance=ExtResource("winch_preparation")]

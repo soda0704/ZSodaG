@@ -1,0 +1,337 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_diff_2k.jpg" id="albedo"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_nor_gl_2k.jpg" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/environments/cave/pbr/rock_06_rough_2k.jpg" id="roughness"]
+
+[sub_resource type="StandardMaterial3D" id="Bedrock"]
+albedo_color = Color(0.65, 0.68, 0.70, 1)
+albedo_texture = ExtResource("albedo")
+roughness_texture = ExtResource("roughness")
+normal_enabled = true
+normal_scale = 0.65
+normal_texture = ExtResource("normal")
+uv1_scale = Vector3(0.45, 0.45, 0.45)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxMesh" id="Mesh_TransitionNorth"]
+material = SubResource("Bedrock")
+size = Vector3(15.00000, 0.15000, 3.95000)
+
+[sub_resource type="BoxShape3D" id="Shape_TransitionNorth"]
+size = Vector3(15.00000, 0.15000, 3.95000)
+
+[sub_resource type="BoxMesh" id="Mesh_TransitionSouth"]
+material = SubResource("Bedrock")
+size = Vector3(15.00000, 0.15000, 3.95000)
+
+[sub_resource type="BoxShape3D" id="Shape_TransitionSouth"]
+size = Vector3(15.00000, 0.15000, 3.95000)
+
+[sub_resource type="BoxMesh" id="Mesh_TransitionEast"]
+material = SubResource("Bedrock")
+size = Vector3(3.95000, 0.15000, 7.10000)
+
+[sub_resource type="BoxShape3D" id="Shape_TransitionEast"]
+size = Vector3(3.95000, 0.15000, 7.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_TransitionWest"]
+material = SubResource("Bedrock")
+size = Vector3(4.28000, 0.15000, 7.10000)
+
+[sub_resource type="BoxShape3D" id="Shape_TransitionWest"]
+size = Vector3(4.28000, 0.15000, 7.10000)
+
+[sub_resource type="BoxMesh" id="Mesh_NorthBedrock"]
+material = SubResource("Bedrock")
+size = Vector3(7.70000, 84.20000, 0.30000)
+
+[sub_resource type="BoxShape3D" id="Shape_NorthBedrock"]
+size = Vector3(7.70000, 84.20000, 0.30000)
+
+[sub_resource type="BoxMesh" id="Mesh_SouthBedrock"]
+material = SubResource("Bedrock")
+size = Vector3(7.70000, 84.20000, 0.30000)
+
+[sub_resource type="BoxShape3D" id="Shape_SouthBedrock"]
+size = Vector3(7.70000, 84.20000, 0.30000)
+
+[sub_resource type="BoxMesh" id="Mesh_EastBedrock"]
+material = SubResource("Bedrock")
+size = Vector3(0.30000, 84.20000, 7.70000)
+
+[sub_resource type="BoxShape3D" id="Shape_EastBedrock"]
+size = Vector3(0.30000, 84.20000, 7.70000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestNorthBedrock"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 84.20000, 1.17000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestNorthBedrock"]
+size = Vector3(0.10000, 84.20000, 1.17000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestSouthBedrock"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 84.20000, 1.17000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestSouthBedrock"]
+size = Vector3(0.10000, 84.20000, 1.17000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBand1"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 4.10000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBand1"]
+size = Vector3(0.10000, 4.10000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_LandingUnderside1"]
+material = SubResource("Bedrock")
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxShape3D" id="Shape_LandingUnderside1"]
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBand2"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBand2"]
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_LandingUnderside2"]
+material = SubResource("Bedrock")
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxShape3D" id="Shape_LandingUnderside2"]
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBand3"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBand3"]
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_LandingUnderside3"]
+material = SubResource("Bedrock")
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxShape3D" id="Shape_LandingUnderside3"]
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBand4"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBand4"]
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_LandingUnderside4"]
+material = SubResource("Bedrock")
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxShape3D" id="Shape_LandingUnderside4"]
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBand5"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBand5"]
+size = Vector3(0.10000, 13.90000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_LandingUnderside5"]
+material = SubResource("Bedrock")
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxShape3D" id="Shape_LandingUnderside5"]
+size = Vector3(3.45000, 0.20000, 5.60000)
+
+[sub_resource type="BoxMesh" id="Mesh_WestBottomBand"]
+material = SubResource("Bedrock")
+size = Vector3(0.10000, 4.00000, 5.36000)
+
+[sub_resource type="BoxShape3D" id="Shape_WestBottomBand"]
+size = Vector3(0.10000, 4.00000, 5.36000)
+
+[sub_resource type="BoxMesh" id="Mesh_ShaftSump"]
+material = SubResource("Bedrock")
+size = Vector3(7.70000, 0.40000, 7.70000)
+
+[sub_resource type="BoxShape3D" id="Shape_ShaftSump"]
+size = Vector3(7.70000, 0.40000, 7.70000)
+
+[node name="ShaftDepthEnclosure" type="StaticBody3D"]
+editor_description = "Opaque continuation below the short surface rock sleeve. Native editable walls, landing apertures and a sump below the lowest cabin stop; no surface roof or runtime generation."
+collision_layer = 1
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="TransitionNorth" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -9.87500, -5.52500)
+mesh = SubResource("Mesh_TransitionNorth")
+
+[node name="TransitionNorthCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.00000, -9.87500, -5.52500)
+shape = SubResource("Shape_TransitionNorth")
+
+[node name="TransitionSouth" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -9.87500, 5.52500)
+mesh = SubResource("Mesh_TransitionSouth")
+
+[node name="TransitionSouthCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.00000, -9.87500, 5.52500)
+shape = SubResource("Shape_TransitionSouth")
+
+[node name="TransitionEast" type="MeshInstance3D" parent="."]
+position = Vector3(5.52500, -9.87500, 0.00000)
+mesh = SubResource("Mesh_TransitionEast")
+
+[node name="TransitionEastCollision" type="CollisionShape3D" parent="."]
+position = Vector3(5.52500, -9.87500, 0.00000)
+shape = SubResource("Shape_TransitionEast")
+
+[node name="TransitionWest" type="MeshInstance3D" parent="."]
+position = Vector3(-5.36000, -9.87500, 0.00000)
+mesh = SubResource("Mesh_TransitionWest")
+
+[node name="TransitionWestCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-5.36000, -9.87500, 0.00000)
+shape = SubResource("Shape_TransitionWest")
+
+[node name="NorthBedrock" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -51.90000, -3.70000)
+mesh = SubResource("Mesh_NorthBedrock")
+
+[node name="NorthBedrockCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.00000, -51.90000, -3.70000)
+shape = SubResource("Shape_NorthBedrock")
+
+[node name="SouthBedrock" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -51.90000, 3.70000)
+mesh = SubResource("Mesh_SouthBedrock")
+
+[node name="SouthBedrockCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.00000, -51.90000, 3.70000)
+shape = SubResource("Shape_SouthBedrock")
+
+[node name="EastBedrock" type="MeshInstance3D" parent="."]
+position = Vector3(3.70000, -51.90000, 0.00000)
+mesh = SubResource("Mesh_EastBedrock")
+
+[node name="EastBedrockCollision" type="CollisionShape3D" parent="."]
+position = Vector3(3.70000, -51.90000, 0.00000)
+shape = SubResource("Shape_EastBedrock")
+
+[node name="WestNorthBedrock" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -51.90000, -3.26500)
+mesh = SubResource("Mesh_WestNorthBedrock")
+
+[node name="WestNorthBedrockCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -51.90000, -3.26500)
+shape = SubResource("Shape_WestNorthBedrock")
+
+[node name="WestSouthBedrock" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -51.90000, 3.26500)
+mesh = SubResource("Mesh_WestSouthBedrock")
+
+[node name="WestSouthBedrockCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -51.90000, 3.26500)
+shape = SubResource("Shape_WestSouthBedrock")
+
+[node name="WestBand1" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -11.85000, 0.00000)
+mesh = SubResource("Mesh_WestBand1")
+
+[node name="WestBand1Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -11.85000, 0.00000)
+shape = SubResource("Shape_WestBand1")
+
+[node name="LandingUnderside1" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77500, -18.10000, 0.00000)
+mesh = SubResource("Mesh_LandingUnderside1")
+
+[node name="LandingUnderside1Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-4.77500, -18.10000, 0.00000)
+shape = SubResource("Shape_LandingUnderside1")
+
+[node name="WestBand2" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -24.95000, 0.00000)
+mesh = SubResource("Mesh_WestBand2")
+
+[node name="WestBand2Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -24.95000, 0.00000)
+shape = SubResource("Shape_WestBand2")
+
+[node name="LandingUnderside2" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77500, -36.10000, 0.00000)
+mesh = SubResource("Mesh_LandingUnderside2")
+
+[node name="LandingUnderside2Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-4.77500, -36.10000, 0.00000)
+shape = SubResource("Shape_LandingUnderside2")
+
+[node name="WestBand3" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -42.95000, 0.00000)
+mesh = SubResource("Mesh_WestBand3")
+
+[node name="WestBand3Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -42.95000, 0.00000)
+shape = SubResource("Shape_WestBand3")
+
+[node name="LandingUnderside3" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77500, -54.10000, 0.00000)
+mesh = SubResource("Mesh_LandingUnderside3")
+
+[node name="LandingUnderside3Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-4.77500, -54.10000, 0.00000)
+shape = SubResource("Shape_LandingUnderside3")
+
+[node name="WestBand4" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -60.95000, 0.00000)
+mesh = SubResource("Mesh_WestBand4")
+
+[node name="WestBand4Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -60.95000, 0.00000)
+shape = SubResource("Shape_WestBand4")
+
+[node name="LandingUnderside4" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77500, -72.10000, 0.00000)
+mesh = SubResource("Mesh_LandingUnderside4")
+
+[node name="LandingUnderside4Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-4.77500, -72.10000, 0.00000)
+shape = SubResource("Shape_LandingUnderside4")
+
+[node name="WestBand5" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -78.95000, 0.00000)
+mesh = SubResource("Mesh_WestBand5")
+
+[node name="WestBand5Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -78.95000, 0.00000)
+shape = SubResource("Shape_WestBand5")
+
+[node name="LandingUnderside5" type="MeshInstance3D" parent="."]
+position = Vector3(-4.77500, -90.10000, 0.00000)
+mesh = SubResource("Mesh_LandingUnderside5")
+
+[node name="LandingUnderside5Collision" type="CollisionShape3D" parent="."]
+position = Vector3(-4.77500, -90.10000, 0.00000)
+shape = SubResource("Shape_LandingUnderside5")
+
+[node name="WestBottomBand" type="MeshInstance3D" parent="."]
+position = Vector3(-3.27000, -92.00000, 0.00000)
+mesh = SubResource("Mesh_WestBottomBand")
+
+[node name="WestBottomBandCollision" type="CollisionShape3D" parent="."]
+position = Vector3(-3.27000, -92.00000, 0.00000)
+shape = SubResource("Shape_WestBottomBand")
+
+[node name="ShaftSump" type="MeshInstance3D" parent="."]
+position = Vector3(0.00000, -93.80000, 0.00000)
+mesh = SubResource("Mesh_ShaftSump")
+
+[node name="ShaftSumpCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0.00000, -93.80000, 0.00000)
+shape = SubResource("Shape_ShaftSump")

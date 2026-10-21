@@ -116,31 +116,39 @@ func capture_inventory_checkpoint() -> Dictionary:
 		if player is GamePlayer and not player.is_queued_for_deletion():
 			equipment[_inventory_id(int(player.owner_peer_id))] = player.get_inventory_snapshot()
 			var pose: Transform3D = player.global_transform
-			var in_cabin := false
+			var cabin_data := _capture_cabin_pose(pose) if not player.is_sleeping_in_bunk() and not player.is_driving() else {"transform": pose, "in_cabin": false, "cabin_id": ""}
 			if player.is_sleeping_in_bunk():
-				pose = get_node("V3Level").get_day_start_transform(get_peer_spawn_index(player.owner_peer_id))
+				cabin_data.transform = get_node("V3Level").get_day_start_transform(get_peer_spawn_index(player.owner_peer_id))
 			elif player.is_driving():
-				pose = player.vehicle.get_checkpoint_exit_transform(player)
-			elif is_instance_valid(_v3_elevator_controller):
-				var local: Vector3 = _v3_elevator_controller.cabin.to_local(pose.origin)
-				in_cabin = absf(local.x) < 2.7 and absf(local.z) < 2.7 and local.y > -0.2 and local.y < 4.0
-				if in_cabin:
-					pose = _v3_elevator_controller.cabin.global_transform.affine_inverse() * pose
-			participants[_inventory_id(int(player.owner_peer_id))] = {
-				"transform": pose, "in_cabin": in_cabin, "survival": player.survival.capture_checkpoint()}
+				cabin_data.transform = player.vehicle.get_checkpoint_exit_transform(player)
+			cabin_data["survival"] = player.survival.capture_checkpoint()
+			participants[_inventory_id(int(player.owner_peer_id))] = cabin_data
 	var pickups: Array[Dictionary] = []
 	for pickup in world_items.get_children():
 		if pickup.is_queued_for_deletion() or bool(pickup.get("_collected")):
 			continue
-		var item_transform: Transform3D = pickup.global_transform
-		var in_cabin := false
-		if is_instance_valid(_v3_elevator_controller):
-			var local: Vector3 = _v3_elevator_controller.cabin.to_local(item_transform.origin)
-			in_cabin = absf(local.x) < 2.7 and absf(local.z) < 2.7 and local.y > -0.2 and local.y < 4.0
-			if in_cabin:
-				item_transform = _v3_elevator_controller.cabin.global_transform.affine_inverse() * item_transform
-		pickups.append({"item_type": pickup.item_type, "item_state": pickup.item_state.duplicate(true), "transform": item_transform, "in_cabin": in_cabin})
+		var cargo_data := _capture_cabin_pose(pickup.global_transform)
+		cargo_data["item_type"] = pickup.item_type
+		cargo_data["item_state"] = pickup.item_state.duplicate(true)
+		pickups.append(cargo_data)
 	return {"players": equipment, "participants": participants, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1}
+
+
+func _capture_cabin_pose(pose: Transform3D) -> Dictionary:
+	for transport in get_tree().get_nodes_in_group("elevator_controllers"):
+		if transport.contains_cabin_point(pose.origin):
+			return {"transform": transport.cabin.global_transform.affine_inverse() * pose, "in_cabin": true, "cabin_id": transport.checkpoint_key}
+	return {"transform": pose, "in_cabin": false, "cabin_id": ""}
+
+
+func _restore_cabin_pose(data: Dictionary, pose: Transform3D) -> Transform3D:
+	if bool(data.get("in_cabin", false)):
+		# Older expedition saves contain only the main elevator flag.
+		var key := str(data.get("cabin_id", "elevator_floor"))
+		for transport in get_tree().get_nodes_in_group("elevator_controllers"):
+			if transport.checkpoint_key == key:
+				return transport.cabin.global_transform * pose
+	return pose
 
 
 func _equipment_for_resume(key: String, revision: int = 0) -> Dictionary:
@@ -168,8 +176,7 @@ func _restore_player_equipment(player: Node) -> void:
 	var participant: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).get(key, {})
 	if not participant.is_empty():
 		var pose: Transform3D = participant.get("transform", player.global_transform)
-		if bool(participant.get("in_cabin", false)) and is_instance_valid(_v3_elevator_controller):
-			pose = _v3_elevator_controller.cabin.global_transform * pose
+		pose = _restore_cabin_pose(participant, pose)
 		if pose.origin.is_finite():
 			player.teleport_authoritative(pose.origin, pose.basis.get_euler().y)
 		player.survival.restore_checkpoint_authoritative(participant.get("survival", {}))
@@ -279,8 +286,8 @@ func _request_v3_runtime_state() -> void:
 			ramp.sync_network_state_to_peer(sender_id)
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.sync_network_state_to_peer(sender_id)
-	if is_instance_valid(_v3_elevator_controller):
-		_v3_elevator_controller.sync_network_state_to_peer(sender_id)
+	for transport in get_tree().get_nodes_in_group("elevator_controllers"):
+		transport.sync_network_state_to_peer(sender_id)
 	for corpse in get_tree().get_nodes_in_group("medical_corpses"):
 		corpse.sync_network_state_to_peer(sender_id)
 
@@ -322,8 +329,7 @@ func spawn_player_for_peer(peer_id: int, selected_variant: int = -1) -> void:
 		var participant: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).get(key, {})
 		if not participant.is_empty():
 			var pose: Transform3D = participant.get("transform", Transform3D.IDENTITY)
-			if bool(participant.get("in_cabin", false)):
-				pose = _v3_elevator_controller.cabin.global_transform * pose
+			pose = _restore_cabin_pose(participant, pose)
 			if pose.origin.is_finite():
 				spawn_data["position"] = players.to_local(pose.origin)
 				spawn_data["yaw"] = pose.basis.get_euler().y
@@ -564,8 +570,9 @@ func _enter_v3_level() -> void:
 		"Elevator_Functional_Blockout"
 	) as FunctionalElevatorController
 	if multiplayer.is_server():
-		_v3_elevator_controller.set_day(_base_gameplay_controller.day_index)
-		_v3_elevator_controller.restore_checkpoint_floor(int(_base_gameplay_controller.maintenance.get("elevator_floor", 0)))
+		for transport in get_tree().get_nodes_in_group("elevator_controllers"):
+			transport.set_day(_base_gameplay_controller.day_index)
+			transport.restore_checkpoint_floor(int(_base_gameplay_controller.maintenance.get(transport.checkpoint_key, 0)))
 
 	overview_camera.current = false
 	# Let the authored terrain and CSG collision enter the physics world before
@@ -658,7 +665,7 @@ func spawn_v3_world_items() -> void:
 		for data: Dictionary in _base_gameplay_controller.inventory_checkpoint.get("pickups", []):
 			var restored: Transform3D = data.get("transform", Transform3D.IDENTITY)
 			if bool(data.get("in_cabin", false)):
-				restored = _v3_elevator_controller.cabin.global_transform * restored
+				restored = _restore_cabin_pose(data, restored)
 			elif migrate_props:
 				if StringName(data.item_type) == GamePlayer.FUEL_ITEM and _is_original_fuel_location(restored.origin):
 					restored = _v3_fuel_can_transforms[migrated_fuel_count % _v3_fuel_can_transforms.size()]

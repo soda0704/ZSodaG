@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/environments/elevator/surface_shaft_rock.res" id="rock"]
+[ext_resource type="ConcavePolygonShape3D" path="res://assets/environments/elevator/surface_shaft_rock_collision.res" id="solid"]
+
+[node name="SurfaceRockLining" type="StaticBody3D"]
+editor_description = "Hollow square bedrock shaft below grade. Open bore; original surface cage remains unchanged. Mesh authored offline in tools/authoring/author_surface_shaft_rock.gd."
+collision_layer = 1
+collision_mask = 0
+metadata/footstep_surface = "concrete"
+
+[node name="Bedrock" type="MeshInstance3D" parent="."]
+mesh = ExtResource("rock")
+
+[node name="SolidRock" type="CollisionShape3D" parent="."]
+shape = ExtResource("solid")

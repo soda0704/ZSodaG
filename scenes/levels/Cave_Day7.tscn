@@ -329,6 +329,9 @@ points = PackedVector3Array(-0.90369964, -1.2575176, -0.95559376, 1.0757046, 1.2
 [sub_resource type="BoxShape3D" id="CaveExitZoneShape"]
 size = Vector3(6, 5, 7)
 
+[sub_resource type="BoxShape3D" id="ShaftVisitShape"]
+size = Vector3(7, 3, 7)
+
 [node name="Cave_Day7" type="Node3D" unique_id=1716915777]
 metadata/editor_description = "Continuous volumetric limestone sculpt: irregular floor, galleries, natural shaft and terrain-overlapping external mouth. Static native resources, no runtime sculpting."
 metadata/route_length_m = 796.4297
@@ -2866,3 +2869,11 @@ collision_layer = 0
 collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ExitZone"]
 shape = SubResource("CaveExitZoneShape")
+
+[node name="ShaftVisitZone" type="Area3D" parent="CaveArrival"]
+position = Vector3(0, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CaveArrival/ShaftVisitZone"]
+shape = SubResource("ShaftVisitShape")

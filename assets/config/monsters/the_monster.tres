@@ -14,3 +14,5 @@ attack_damage = 32.0
 attack_windup = 0.9
 attack_cooldown = 2.3
 sight_distance = 24.0
+search_duration = 3.0
+search_radius = 2.5

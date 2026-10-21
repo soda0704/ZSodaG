@@ -18,6 +18,7 @@ enum Behavior { PURSUER, SKIRMISHER, TERRITORIAL }
 @export_range(1.0, 100.0) var sight_distance := 24.0
 @export_range(10.0, 360.0) var field_of_view := 116.0
 @export_range(0.0, 10.0) var close_awareness_distance := 3.0
+@export_range(0.0, 3.0) var crouched_awareness_distance := 0.7
 @export_range(0.05, 2.0) var sight_interval := 0.15
 @export_range(0.1, 60.0) var sight_memory := 18.0
 @export_range(0.1, 60.0) var hearing_memory := 8.0
@@ -36,3 +37,8 @@ enum Behavior { PURSUER, SKIRMISHER, TERRITORIAL }
 @export_range(0.05, 3.0) var path_update_interval := 0.3
 @export_range(0.05, 5.0) var stop_distance := 1.4
 @export_range(0.05, 3.0) var patrol_stop_distance := 0.7
+@export_range(0.1, 5.0) var navigation_projection_distance := 2.0
+@export_range(0.5, 10.0) var stuck_timeout := 2.0
+@export_group("Investigation")
+@export_range(0.5, 15.0) var search_duration := 4.0
+@export_range(0.5, 10.0) var search_radius := 3.0

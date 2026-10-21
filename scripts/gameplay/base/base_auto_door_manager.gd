@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 	if _update_left > 0.0:
 		return
 	_update_left = UPDATE_INTERVAL
-	_nearby_players = get_tree().get_nodes_in_group("network_players")
+	_refresh_nearby_actors()
 	for legacy_blocker in _legacy_blockers:
 		if is_instance_valid(legacy_blocker) and not legacy_blocker.disabled:
 			legacy_blocker.set_deferred("disabled", true)
@@ -66,6 +66,13 @@ func _process(delta: float) -> void:
 		_controller._broadcast_snapshot(snapshot)
 
 
+func _refresh_nearby_actors() -> void:
+	_nearby_players = get_tree().get_nodes_in_group("network_players")
+	for monster in get_tree().get_nodes_in_group("hostile_monsters"):
+		if monster.is_visible_in_tree() and monster.health > 0.0:
+			_nearby_players.append(monster)
+
+
 func debug_set_door_open(anchor: Node, opened: bool) -> bool:
 	if not multiplayer.is_server() or _controller == null:
 		return false
@@ -73,7 +80,7 @@ func debug_set_door_open(anchor: Node, opened: bool) -> bool:
 		if door.anchor == anchor:
 			var snapshot := _controller.get_snapshot()
 			var overrides: Dictionary = snapshot.maintenance.get("debug_doors", {})
-			_nearby_players = get_tree().get_nodes_in_group("network_players")
+			_refresh_nearby_actors()
 			overrides[str(get_parent().get_path_to(anchor))] = {"open": opened, "powered": _controller.main_breaker_on, "near": _has_player_near(door.anchor, CLOSE_DISTANCE)}
 			snapshot.maintenance["debug_doors"] = overrides
 			_controller._broadcast_snapshot(snapshot)

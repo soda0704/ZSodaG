@@ -111,7 +111,7 @@ func run():
  state.save_progress_authoritative()
  check(state.load_saved_snapshot().day_index==7,"new saves support reserved cave day 7")
  journal._refresh_content()
- check(journal.tasks_label.text.contains("лебёдке") and not state.can_end_current_day(),"cave journal describes separate unfinished winch route")
+ check(journal.tasks_label.text.contains("продолжение шахты") and not state.can_end_current_day(),"day seven journal directs exploration beneath the complex")
  state.progress_persistence_enabled=false
  print("RESULT FAILURES ",failures)
  quit(0 if failures==0 else 1)

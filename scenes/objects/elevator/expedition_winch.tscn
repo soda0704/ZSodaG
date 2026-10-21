@@ -1,0 +1,522 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/elevator/expedition_winch_controller.gd" id="controller"]
+[ext_resource type="Script" path="res://scripts/gameplay/elevator/elevator_floor_button.gd" id="button"]
+[ext_resource type="PackedScene" path="res://scenes/objects/elevator/winch_safety_gate.tscn" id="gate"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/winch_gears_loop.ogg" id="motor"]
+[ext_resource type="FontFile" path="res://assets/fonts/hud/RobotoCondensed.ttf" id="font"]
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.15, 0.19, 0.2, 1)
+metallic = 0.65
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="hazard"]
+albedo_color = Color(0.48, 0.3, 0.055, 1)
+metallic = 0.5
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="panel"]
+albedo_color = Color(0.035, 0.065, 0.065, 1)
+metallic = 0.4
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(4.8, 0.22, 4.2)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box3s"]
+size = Vector3(4.8, 0.22, 4.2)
+
+[sub_resource type="BoxMesh" id="box5"]
+size = Vector3(0.12, 2.6, 3.7)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box5s"]
+size = Vector3(0.12, 2.6, 3.7)
+
+[sub_resource type="BoxMesh" id="box7"]
+size = Vector3(0.12, 2.6, 3.7)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box7s"]
+size = Vector3(0.12, 2.6, 3.7)
+
+[sub_resource type="BoxMesh" id="box9"]
+size = Vector3(4.5, 2.6, 0.12)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box9s"]
+size = Vector3(4.5, 2.6, 0.12)
+
+[sub_resource type="BoxMesh" id="box11"]
+size = Vector3(4.5, 0.12, 3.7)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box11s"]
+size = Vector3(4.5, 0.12, 3.7)
+
+[sub_resource type="BoxMesh" id="box13"]
+size = Vector3(2.2, 0.5, 0.55)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box14"]
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box15"]
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box16"]
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box17"]
+size = Vector3(0.18, 3.2, 0.18)
+material = SubResource("hazard")
+
+[sub_resource type="BoxShape3D" id="travel_barrier"]
+size = Vector3(4.4, 3.0, 0.22)
+
+[sub_resource type="BoxShape3D" id="PassengerAreaShape"]
+size = Vector3(4.15, 2.8, 3.1)
+
+[sub_resource type="BoxShape3D" id="DoorSafetyAreaShape"]
+size = Vector3(4.5, 3.0, 1.2)
+
+[sub_resource type="BoxShape3D" id="buttonshape"]
+size = Vector3(0.38, 0.35, 0.16)
+
+[sub_resource type="BoxMesh" id="box22"]
+size = Vector3(0.62, 0.65, 0.12)
+material = SubResource("panel")
+
+[sub_resource type="BoxMesh" id="box23"]
+size = Vector3(0.32, 0.28, 0.14)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box24"]
+size = Vector3(0.62, 0.65, 0.12)
+material = SubResource("panel")
+
+[sub_resource type="BoxMesh" id="box25"]
+size = Vector3(0.32, 0.28, 0.14)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box26"]
+size = Vector3(1.1, 3, 0.2)
+material = SubResource("hazard")
+
+[sub_resource type="BoxShape3D" id="box26s"]
+size = Vector3(1.1, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="box28"]
+size = Vector3(1.1, 3, 0.2)
+material = SubResource("hazard")
+
+[sub_resource type="BoxShape3D" id="box28s"]
+size = Vector3(1.1, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="box30"]
+size = Vector3(0.62, 0.65, 0.12)
+material = SubResource("panel")
+
+[sub_resource type="BoxMesh" id="box31"]
+size = Vector3(0.32, 0.28, 0.14)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box32"]
+size = Vector3(1.1, 3, 0.2)
+material = SubResource("hazard")
+
+[sub_resource type="BoxShape3D" id="box32s"]
+size = Vector3(1.1, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="box34"]
+size = Vector3(1.1, 3, 0.2)
+material = SubResource("hazard")
+
+[sub_resource type="BoxShape3D" id="box34s"]
+size = Vector3(1.1, 3, 0.2)
+
+[sub_resource type="BoxMesh" id="box36"]
+size = Vector3(0.62, 0.65, 0.12)
+material = SubResource("panel")
+
+[sub_resource type="BoxMesh" id="box37"]
+size = Vector3(0.32, 0.28, 0.14)
+material = SubResource("hazard")
+
+[sub_resource type="BoxMesh" id="box38"]
+size = Vector3(4.8, 0.26, 2.5)
+material = SubResource("steel")
+
+[sub_resource type="BoxShape3D" id="box38s"]
+size = Vector3(4.8, 0.26, 2.5)
+
+[sub_resource type="BoxMesh" id="box40"]
+size = Vector3(0.12, 4.2, 0.12)
+material = SubResource("steel")
+
+[sub_resource type="Animation" id="rope_travel"]
+resource_name = "travel"
+tracks/0/type = "value"
+tracks/0/path = NodePath("HeadRope:position")
+tracks/0/interp = 1
+tracks/0/keys = {"times": PackedFloat32Array(0, 1), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(0, 5.65, 0), Vector3(0, -30.35, 0)]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HeadRope:scale")
+tracks/1/interp = 1
+tracks/1/keys = {"times": PackedFloat32Array(0, 1), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [Vector3(1, 1, 1), Vector3(1, 18.142857, 1)]}
+
+[sub_resource type="AnimationLibrary" id="rope_library"]
+_data = {&"travel": SubResource("rope_travel")}
+
+[node name="ExpeditionWinch" type="Node3D"]
+script = ExtResource("controller")
+stop_count = 2
+checkpoint_key = "winch_floor"
+cabin_checkpoint_half_extents = Vector3(2.12, 3.0, 1.65)
+floor_labels = PackedStringArray("УРОВЕНЬ 5", "НИЖНЯЯ ШАХТА")
+cabin_light_panel_paths = Array[NodePath]([])
+unlocked_floor_index = 1
+floor_unlock_days = PackedInt32Array(7, 7)
+floor_spacing = 72.0
+travel_speed = 4.5
+travel_start_stop_time = 2.0
+door_animation_duration = 1.2
+arrival_alignment_duration = 0.35
+starts_powered = false
+require_all_connected_players = false
+use_built_in_surface_platform = false
+gameplay_state_path = NodePath("../../../BaseGameplayController")
+rope_animation_path = NodePath("RopeAnimation")
+landing_lights_paths = Array[NodePath]([NodePath("Landings/Floor_0/CallLight"), NodePath("Landings/Floor_1/CallLight")])
+
+[node name="Shaft" type="Node3D" parent="."]
+
+
+[node name="FloorStops" type="Node3D" parent="Shaft"]
+
+
+[node name="Surface" type="Marker3D" parent="Shaft/FloorStops"]
+
+
+[node name="FloorMinus1" type="Marker3D" parent="Shaft/FloorStops"]
+position = Vector3(0, -72, 0)
+
+[node name="CabinMoving" type="AnimatableBody3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 1
+collision_mask = 0
+metadata/footstep_surface = "metal"
+
+[node name="Deck" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(0, -0.06, 0)
+mesh = SubResource("box3")
+
+[node name="DeckCollision" type="CollisionShape3D" parent="CabinMoving"]
+position = Vector3(0, -0.06, 0)
+shape = SubResource("box3s")
+
+[node name="WestWall" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(-2.25, 1.5, 0)
+mesh = SubResource("box5")
+
+[node name="WestWallCollision" type="CollisionShape3D" parent="CabinMoving"]
+position = Vector3(-2.25, 1.5, 0)
+shape = SubResource("box5s")
+
+[node name="EastWall" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(2.25, 1.5, 0)
+mesh = SubResource("box7")
+
+[node name="EastWallCollision" type="CollisionShape3D" parent="CabinMoving"]
+position = Vector3(2.25, 1.5, 0)
+shape = SubResource("box7s")
+
+[node name="RearWall" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(0, 1.5, -1.85)
+mesh = SubResource("box9")
+
+[node name="RearWallCollision" type="CollisionShape3D" parent="CabinMoving"]
+position = Vector3(0, 1.5, -1.85)
+shape = SubResource("box9s")
+
+[node name="Roof" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(0, 3.18, 0)
+mesh = SubResource("box11")
+
+[node name="RoofCollision" type="CollisionShape3D" parent="CabinMoving"]
+position = Vector3(0, 3.18, 0)
+shape = SubResource("box11s")
+
+[node name="Crosshead" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(0, 3.55, 0)
+mesh = SubResource("box13")
+
+[node name="Post-2.25-1.85" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(-2.25, 1.65, -1.85)
+mesh = SubResource("box14")
+
+[node name="Post-2.251.85" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(-2.25, 1.65, 1.85)
+mesh = SubResource("box15")
+
+[node name="Post2.25-1.85" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(2.25, 1.65, -1.85)
+mesh = SubResource("box16")
+
+[node name="Post2.251.85" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(2.25, 1.65, 1.85)
+mesh = SubResource("box17")
+
+[node name="CabinDoor" parent="CabinMoving" instance=ExtResource("gate")]
+unique_name_in_owner = true
+position = Vector3(0, 0, 1.85)
+internal_collision_enabled = false
+
+[node name="CabinDoorTravelBarrier" type="CollisionShape3D" parent="CabinMoving"]
+unique_name_in_owner = true
+position = Vector3(0, 1.5, 1.85)
+shape = SubResource("travel_barrier")
+disabled = true
+
+[node name="PassengerArea" type="Area3D" parent="CabinMoving"]
+unique_name_in_owner = true
+position = Vector3(0, 1.45, -0.1)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/PassengerArea"]
+shape = SubResource("PassengerAreaShape")
+
+[node name="DoorSafetyArea" type="Area3D" parent="CabinMoving"]
+unique_name_in_owner = true
+position = Vector3(0, 1.5, 2.25)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/DoorSafetyArea"]
+shape = SubResource("DoorSafetyAreaShape")
+
+[node name="CabinLight" type="SpotLight3D" parent="CabinMoving"]
+position = Vector3(0, 3.05, 0)
+rotation_degrees = Vector3(-90, 0, 0)
+light_color = Color(1, 0.84, 0.6, 1)
+light_energy = 3.0
+spot_range = 7.0
+spot_angle = 75.0
+shadow_enabled = true
+
+[node name="TravelAudio" type="AudioStreamPlayer3D" parent="CabinMoving"]
+bus = &"Machinery"
+stream = ExtResource("motor")
+volume_db = -60.0
+max_distance = 45.0
+unit_size = 4.0
+
+[node name="CabinFloorDisplay" type="Label3D" parent="CabinMoving"]
+unique_name_in_owner = true
+position = Vector3(0, 2.5, -1.77)
+font = ExtResource("font")
+font_size = 48
+pixel_size = 0.008
+modulate = Color(0.85, 0.8, 0.55, 1)
+text = "ЛЕБЁДКА"
+
+[node name="CabinStateDisplay" type="Label3D" parent="CabinMoving"]
+unique_name_in_owner = true
+position = Vector3(0, 2.15, -1.77)
+font = ExtResource("font")
+font_size = 48
+pixel_size = 0.008
+modulate = Color(0.85, 0.8, 0.55, 1)
+text = "ЛЕБЁДКА"
+
+[node name="UpButtonPanel" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(-1, 1.5, -1.78)
+mesh = SubResource("box22")
+
+[node name="UpButton" type="StaticBody3D" parent="CabinMoving"]
+position = Vector3(-1, 1.5, -1.7)
+script = ExtResource("button")
+floor_index = 0
+is_call_button = false
+controller_path = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/UpButton"]
+shape = SubResource("buttonshape")
+
+[node name="Cap" type="MeshInstance3D" parent="CabinMoving/UpButton"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("box23")
+
+[node name="Label" type="Label3D" parent="CabinMoving/UpButton"]
+position = Vector3(0, 0.25, 0.1)
+font = ExtResource("font")
+font_size = 32
+pixel_size = 0.004
+text = "ВВЕРХ"
+
+[node name="DownButtonPanel" type="MeshInstance3D" parent="CabinMoving"]
+position = Vector3(1, 1.5, -1.78)
+mesh = SubResource("box24")
+
+[node name="DownButton" type="StaticBody3D" parent="CabinMoving"]
+position = Vector3(1, 1.5, -1.7)
+script = ExtResource("button")
+floor_index = 1
+is_call_button = false
+controller_path = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinMoving/DownButton"]
+shape = SubResource("buttonshape")
+
+[node name="Cap" type="MeshInstance3D" parent="CabinMoving/DownButton"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("box25")
+
+[node name="Label" type="Label3D" parent="CabinMoving/DownButton"]
+position = Vector3(0, 0.25, 0.1)
+font = ExtResource("font")
+font_size = 32
+pixel_size = 0.004
+text = "ВНИЗ"
+
+[node name="Landings" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Floor_0" type="Node3D" parent="Landings"]
+position = Vector3(0, 0, 0)
+
+[node name="LandingDoor" parent="Landings/Floor_0" instance=ExtResource("gate")]
+position = Vector3(0, 0, 2.65)
+
+[node name="GateFlank-2.75" type="MeshInstance3D" parent="Landings/Floor_0"]
+position = Vector3(-2.75, 1.5, 2.65)
+mesh = SubResource("box26")
+
+[node name="GateFlank-2.75Body" type="StaticBody3D" parent="Landings/Floor_0"]
+position = Vector3(-2.75, 1.5, 2.65)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_0/GateFlank-2.75Body"]
+shape = SubResource("box26s")
+
+[node name="GateFlank2.75" type="MeshInstance3D" parent="Landings/Floor_0"]
+position = Vector3(2.75, 1.5, 2.65)
+mesh = SubResource("box28")
+
+[node name="GateFlank2.75Body" type="StaticBody3D" parent="Landings/Floor_0"]
+position = Vector3(2.75, 1.5, 2.65)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_0/GateFlank2.75Body"]
+shape = SubResource("box28s")
+
+[node name="CallButtonPanel" type="MeshInstance3D" parent="Landings/Floor_0"]
+position = Vector3(-2.7, 1.35, 2.77)
+mesh = SubResource("box30")
+
+[node name="CallButton" type="StaticBody3D" parent="Landings/Floor_0"]
+position = Vector3(-2.7, 1.35, 2.85)
+script = ExtResource("button")
+floor_index = 0
+is_call_button = true
+controller_path = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_0/CallButton"]
+shape = SubResource("buttonshape")
+
+[node name="Cap" type="MeshInstance3D" parent="Landings/Floor_0/CallButton"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("box31")
+
+[node name="Label" type="Label3D" parent="Landings/Floor_0/CallButton"]
+position = Vector3(0, 0.25, 0.1)
+font = ExtResource("font")
+font_size = 32
+pixel_size = 0.004
+text = "ВЫЗОВ"
+
+[node name="Floor_1" type="Node3D" parent="Landings"]
+position = Vector3(0, -72, 0)
+
+[node name="LandingDoor" parent="Landings/Floor_1" instance=ExtResource("gate")]
+position = Vector3(0, 0, 2.65)
+
+[node name="GateFlank-2.75" type="MeshInstance3D" parent="Landings/Floor_1"]
+position = Vector3(-2.75, 1.5, 2.65)
+mesh = SubResource("box32")
+
+[node name="GateFlank-2.75Body" type="StaticBody3D" parent="Landings/Floor_1"]
+position = Vector3(-2.75, 1.5, 2.65)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_1/GateFlank-2.75Body"]
+shape = SubResource("box32s")
+
+[node name="GateFlank2.75" type="MeshInstance3D" parent="Landings/Floor_1"]
+position = Vector3(2.75, 1.5, 2.65)
+mesh = SubResource("box34")
+
+[node name="GateFlank2.75Body" type="StaticBody3D" parent="Landings/Floor_1"]
+position = Vector3(2.75, 1.5, 2.65)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_1/GateFlank2.75Body"]
+shape = SubResource("box34s")
+
+[node name="CallButtonPanel" type="MeshInstance3D" parent="Landings/Floor_1"]
+position = Vector3(2.7, 1.35, 2.77)
+mesh = SubResource("box36")
+
+[node name="CallButton" type="StaticBody3D" parent="Landings/Floor_1"]
+position = Vector3(2.7, 1.35, 2.85)
+script = ExtResource("button")
+floor_index = 1
+is_call_button = true
+controller_path = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_1/CallButton"]
+shape = SubResource("buttonshape")
+
+[node name="Cap" type="MeshInstance3D" parent="Landings/Floor_1/CallButton"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("box37")
+
+[node name="Label" type="Label3D" parent="Landings/Floor_1/CallButton"]
+position = Vector3(0, 0.25, 0.1)
+font = ExtResource("font")
+font_size = 32
+pixel_size = 0.004
+text = "ВЫЗОВ"
+
+[node name="ArrivalBridge" type="MeshInstance3D" parent="Landings/Floor_1"]
+position = Vector3(0, -0.08, 3.25)
+mesh = SubResource("box38")
+
+[node name="ArrivalBridgeBody" type="StaticBody3D" parent="Landings/Floor_1"]
+position = Vector3(0, -0.08, 3.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_1/ArrivalBridgeBody"]
+shape = SubResource("box38s")
+
+[node name="HeadRope" type="MeshInstance3D" parent="."]
+position = Vector3(0, 5.65, 0)
+mesh = SubResource("box40")
+
+[node name="RopeAnimation" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("rope_library")
+
+[node name="CallLight" type="OmniLight3D" parent="Landings/Floor_0"]
+position = Vector3(-2.7, 2.35, 3.1)
+light_color = Color(1, 0.73, 0.35, 1)
+light_energy = 0.8
+omni_range = 5.0
+shadow_enabled = true
+
+[node name="CallLight" type="OmniLight3D" parent="Landings/Floor_1"]
+position = Vector3(2.7, 2.35, 3.1)
+light_color = Color(1, 0.73, 0.35, 1)
+light_energy = 0.8
+omni_range = 5.0
+shadow_enabled = true

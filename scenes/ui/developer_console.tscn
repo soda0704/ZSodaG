@@ -40,8 +40,12 @@ selection_enabled = true
 bbcode_enabled = true
 
 [node name="Commands" type="RichTextLabel" parent="Panel/Box"]
-visible = false
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+selection_enabled = true
+scroll_following = false
 
 [node name="SpawnBar" type="HBoxContainer" parent="Panel/Box"]
 visible = false

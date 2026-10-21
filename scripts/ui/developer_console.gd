@@ -3,6 +3,7 @@ extends CanvasLayer
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
 const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off"]
+const INSPECTION_COMMANDS := ["/status", "/plant status", "/plant water", "/item seed_packet"]
 const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
@@ -25,7 +26,7 @@ var _completion_caret := -1
 
 const DESCRIPTIONS := {"/cave": "Пещера: вход, логово или выход", "/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/speed": "Скорость ходьбы и полёта (0.1–20 или reset)", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
 
-const COMMAND_DETAILS := {"/cave entry": "Дно природной шахты", "/cave lair": "Логово перед каменной ширмой", "/cave exit": "Выход в нижнюю долину", "/level 0": "Телепортироваться: поверхность базы", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: испытания и наблюдение", "/level 4": "Телепортироваться: биосдерживание", "/level 5": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/day 5": "Переключить сюжет на день 5", "/day 6": "Переключить сюжет на день 6", "/day 7": "Переключить сюжет на день 7 (пещера в разработке)", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
+const COMMAND_DETAILS := {"/cave entry": "Дно природной шахты", "/cave lair": "Логово перед каменной ширмой", "/cave exit": "Выход в нижнюю долину", "/level 0": "Телепортироваться: поверхность базы", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: испытания и наблюдение", "/level 4": "Телепортироваться: биосдерживание", "/level 5": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/day 5": "Переключить сюжет на день 5", "/day 6": "Переключить сюжет на день 6", "/day 7": "Переключить сюжет на день 7 (нижняя шахта)", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
 
 func _help_text() -> String:
 	var lines: PackedStringArray = []
@@ -34,6 +35,8 @@ func _help_text() -> String:
 	lines.append("[url=/fullbright]/fullbright[/url] — Светлый тестовый режим без затемнения; on/off — включить/выключить")
 	for command in COMMANDS:
 		lines.append("[url=%s]%s[/url] — %s" % [command, command, COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
+	for command in INSPECTION_COMMANDS:
+		lines.append("[url=%s]%s[/url] — %s" % [command, command, _inspection_description(command)])
 	return "\n".join(lines)
 
 func _ready() -> void:
@@ -42,6 +45,7 @@ func _ready() -> void:
 	entry.text_changed.connect(func(_text):
 		if not _completion_editing:
 			_completion_options.clear()
+		_refresh_suggestions()
 	)
 	output.meta_clicked.connect(func(command): insert_command(str(command)))
 	$Panel/Box/Commands.meta_clicked.connect(func(command): insert_command(str(command)))
@@ -50,6 +54,7 @@ func _ready() -> void:
 		$Panel/Box/SpawnBar.get_node(button_name).pressed.connect(func(): insert_command(spawn_names[button_name]))
 	output.text = ""
 	$Panel/Box/Commands.text = _help_text()
+	_refresh_suggestions()
 	$Panel/Box/Grip.gui_input.connect(func(event):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			_resizing = event.pressed
@@ -129,7 +134,7 @@ func complete_command() -> void:
 			partial = "/" + partial
 		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
 		_completion_suffix = entry.text.substr(bounds.y)
-		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS:
+		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS:
 			if command.begins_with(partial):
 				_completion_options.append(command)
 		_completion_index = -1
@@ -166,8 +171,9 @@ func _submit(line: String) -> void:
 	_completion_options.clear()
 	if line.strip_edges() in ["", "/"]:
 		return
-	if line.strip_edges() == "/clear":
+	if line.strip_edges().trim_prefix("/") == "clear":
 		_execute_one("/clear")
+		_refresh_suggestions()
 		return
 	history.append(line)
 	history_index = history.size()
@@ -183,6 +189,7 @@ func execute(line: String) -> String:
 			continue
 		if not command.begins_with("/"):
 			command = "/" + command
+		if command.split(" ", false)[0] == "/clear": results.clear()
 		results.append(_execute_one(command))
 	return "\n".join(results)
 
@@ -198,6 +205,7 @@ func _execute_one(line: String) -> String:
 		output.text = ""
 		history.clear()
 		history_index = 0
+		_refresh_suggestions()
 		return ""
 	# Camera inspection is local even for a co-op client: never send it to the host.
 	if args[0] == "/freecam":
@@ -282,6 +290,18 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
 		return TargetCommands.execute(args, player, selected, point)
 	match args[0]:
+		"/status":
+			if state == null: return "База ещё не загружена."
+			return "День %d · питание %s · топливо %.1f л\n%s\n%s" % [state.day_index, state.main_breaker_on, state.fuel_liters, state.get_expedition_objective().title, state.containment]
+		"/plant":
+			if state == null: return "База ещё не загружена."
+			if args.size() != 2 or args[1] not in ["status", "water"]: return "Использование: /plant status | water"
+			if args[1] == "water":
+				if not state.plant_seed_planted or state.plant_withered: return "Нужно живое посаженное растение."
+				var plant_snapshot: Dictionary = state.get_snapshot()
+				plant_snapshot.plant_last_watered_day = state.day_index
+				state._broadcast_snapshot(plant_snapshot)
+			return "Растение: посажено %s · стадия %d/7 · увяло %s · последний полив: день %d" % [state.plant_seed_planted, state.plant_growth_stage, state.plant_withered, state.plant_last_watered_day]
 		"/speed":
 			if args.size() != 2 or (args[1] != "reset" and not args[1].is_valid_float()):
 				return "Использование: /speed 3 — скорость ×3; /speed reset — обычная скорость. Диапазон: 0.1–20."
@@ -370,16 +390,8 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 			return "Пещера: %s. /level 5 — вернуться к лебёдке. День и задания не изменены." % destination
 		"/day":
 			if args.size() != 2 or not args[1].is_valid_int() or int(args[1]) not in range(1, BaseGameplayController.MAX_DAY_INDEX + 1):
-				return "Использование: /day 1..7"
-			var snapshot: Dictionary = state.get_snapshot()
-			snapshot.day_index = int(args[1])
-			snapshot.fuel_delivered = true
-			snapshot.fuel_liters = 60.0
-			snapshot.main_breaker_on = true
-			snapshot.quest_stage = 4 if int(args[1]) >= 3 else 1
-			snapshot.sleeping_peer_ids = []
-			snapshot.end_day_ready_peer_ids = []
-			state._broadcast_snapshot(snapshot)
+				return "Использование: /day 1..999"
+			state.debug_set_day_authoritative(int(args[1]))
 			if int(args[1]) < 3 and encounter != null:
 				encounter.debug_reset()
 			return "День изменён и сохранён."
@@ -433,3 +445,19 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 			encounter._commit(data)
 			return "Сбой включён. Выключите и включите главный щит."
 	return "Неизвестная команда. /help — справка."
+
+
+func _refresh_suggestions() -> void:
+	if not is_node_ready(): return
+	var bounds := _segment_bounds()
+	var partial := entry.text.substr(bounds.x, bounds.y - bounds.x).strip_edges().to_lower()
+	if not partial.begins_with("/"): partial = "/" + partial
+	var lines: PackedStringArray = []
+	for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS:
+		if command.begins_with(partial):
+			lines.append("[url=%s]%s[/url] — %s" % [command, command, _inspection_description(command) if command in INSPECTION_COMMANDS else COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
+	$Panel/Box/Commands.text = "\n".join(lines)
+
+
+func _inspection_description(command: String) -> String:
+	return {"/status": "День, питание и общий прогресс", "/plant status": "Рост, увядание и день полива", "/plant water": "Отладочный полив сегодня; увядшее растение не оживляет", "/item seed_packet": "Пакет семян в точке прицела"}.get(command, "")

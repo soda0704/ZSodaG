@@ -10,14 +10,14 @@
 
 | Группа | Команды |
 | --- | --- |
-| Справка | `/help`, `/clear`, `/target` |
+| Справка | `/help`, `/clear`, `/target`, `/status` |
 | Перемещение | `/fly`, `/across`, `/speed 3`, `/speed reset`, `/where`, `/outside`, `/level 0` … `/level 5`, `/testroom` |
 | Свободная камера | `/freecam`, `/freecam on`, `/freecam off`, `/freecam speed 5`, `/freecam speed reset` |
 | Игрок | `/god`, `/heal`, `/flashlight` |
 | Предметы | `/item TYPE [COUNT]`, `/weapon pistol|m4a1|kitchen_knife`, `/ammo`, `/fuel full|empty`, `/tape`, `/crowbar` |
 | Объект под прицелом | `/open [ID]`, `/close [ID]`, `/kill [ID]` |
 | Существа | `/spawn tail|slasher|smily [COUNT]`, `/despawn`, `/monsters reset|kill` |
-| Прогресс | `/day 1` … `/day 7`, `/wiring`, `/lightfault` |
+| Прогресс | `/day 1` … `/day 999`, `/wiring`, `/lightfault`, `/plant status`, `/plant water` |
 | Видимость для тестирования | `/fullbright [on|off]` |
 
 Типы `/item`: `tape`, `crowbar`, `fuel_can`, `flashlight`, `battery`, `fuse`, `pistol`, `m4a1`, `kitchen_knife`, `pistol_ammo`, `rifle_magazine`. Предмет и тестовый монстр появляются в запомненной точке прицела. `/despawn` удаляет отладочно созданных существ, а не заменяет зачистку сюжетной встречи.
@@ -45,3 +45,9 @@
 `scripts/ui/developer_console.gd`, `developer_target_commands.gd`; сцена `scenes/ui/developer_console.tscn`. Свободная камера — `scripts/characters/components/debug_free_camera.gd`. Параметры перетаскивания — компонент `ItemDrag` игрока, не настройки панели консоли.
 
 Проверки: `debug_visibility_regression.gd`, `debug_free_camera_regression.gd`, `respawn_debug_controls_regression.gd`, `door_arrival_regression.gd`, `monster_inspector_ai_regression.gd`. Сетевой тест терминалов дополнительно проверяет, что настройка мрака гостя не меняет видимость хоста.
+
+## Подсказки и отладочная смена дня
+
+Кликабельный список под выводом фильтруется по текущей команде. Tab перебирает дополнения; `/clear` (также `clear`) очищает вывод и историю, сохраняя список. В последовательности через `;` очистка удаляет и результаты предшествующих команд.
+
+`/day N` проживает пропущенные дни растения по обычным правилам: полито в завершаемый день — одна стадия роста, первый пропущенный полив — необратимое увядание. Перемотка назад не отменяет рост или гибель и убирает дату полива из будущего. `/plant status` показывает состояние, `/plant water` отмечает отладочный полив сегодня без дистанционной проверки; засохшее растение эта команда не оживляет. `/status` показывает день, питание, топливо и общие флаги прогресса. Команды изменения состояния подтверждает хост и сохраняет прежним механизмом.

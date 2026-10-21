@@ -1753,12 +1753,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.1, -24)
 [node name="Floor_Minus5_Expedition_Shaft_Blockout" parent="." unique_id=651481699 instance=ExtResource("7_floor_minus4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -90, 0)
 
-[node name="CaveAccessSign" parent="Floor_Minus5_Expedition_Shaft_Blockout/Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station" parent_id_path=PackedInt32Array(651481699, 1341177850) index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.95, 2.25, -15.2)
-
-[node name="Text" parent="Floor_Minus5_Expedition_Shaft_Blockout/Stage_05_Primary_Winch_And_Shaft_Hall/Winch_Operator_Station/CaveAccessSign" index="0"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.05, 0, 0)
-
 [node name="InvestigationZone" parent="Floor_Minus5_Expedition_Shaft_Blockout" index="10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 2.1, -17)
 
