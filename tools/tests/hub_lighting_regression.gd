@@ -35,18 +35,18 @@ func run() -> void:
 			var source := mesh.mesh.surface_get_material(surface) as StandardMaterial3D
 			if source != null and source.emission_enabled:
 				check(mesh.get_active_material(surface) != source, "fixture has a separate material from the modular asset library")
-	var lamps: Array[SpotLight3D] = []
+	var lamps: Array[Light3D] = []
 	for circuit in ["Standard", "Emergency"]:
 		var count := 0
-		for lamp: SpotLight3D in lighting.get_node(circuit).get_children():
+		for lamp: Light3D in lighting.get_node(circuit).get_children():
 			if not str(lamp.name).begins_with("Hub"): continue
 			count += 1
 			lamps.append(lamp)
-			check((-lamp.global_basis.z).dot(Vector3.DOWN) > 0.99, circuit + "/" + str(lamp.name) + " faces the floor")
+			check(lamp is OmniLight3D or (-lamp.global_basis.z).dot(Vector3.DOWN) > 0.99, circuit + "/" + str(lamp.name) + " faces the floor")
 			var target := Vector3(signf(lamp.global_position.x) * 5.3, 1.2, signf(lamp.global_position.z) * 5.3)
 			var offset := target - lamp.global_position
 			var query := PhysicsRayQueryParameters3D.create(lamp.global_position, target, 1)
-			check(offset.length() < lamp.spot_range and (-lamp.global_basis.z).angle_to(offset) < deg_to_rad(lamp.spot_angle) and level.get_world_3d().direct_space_state.intersect_ray(query).is_empty(), circuit + "/" + str(lamp.name) + " reaches its sector without ceiling or elevator obstruction")
+			check(offset.length() < WorldLighting.lamp_range(lamp) and (lamp is OmniLight3D or (-lamp.global_basis.z).angle_to(offset) < deg_to_rad(lamp.spot_angle)) and level.get_world_3d().direct_space_state.intersect_ray(query).is_empty(), circuit + "/" + str(lamp.name) + " reaches its sector without ceiling or elevator obstruction")
 		check(count == 4, circuit + " covers all four hub sectors")
 	for powered in [true, false, true]:
 		power.apply_power_state(powered)
@@ -59,7 +59,7 @@ func run() -> void:
 		check(lighting._resident_lamps.size() <= WorldLighting.MAX_RESIDENT_LAMPS, "hub respects the existing light budget")
 		for entry in fixtures._materials:
 			var material: StandardMaterial3D = entry.material
-			check(material.emission_enabled and (material.emission.is_equal_approx(entry.color) if powered else material.emission.is_equal_approx(Color(1, 0.12, 0.035))), "fixture emission follows the electrical circuit")
+			check(material.emission_enabled and (material.emission.is_equal_approx(entry.color) if powered else material.emission.is_equal_approx(WorldLighting.EMERGENCY_COLOR)), "fixture emission follows the electrical circuit")
 	check_fault_audio(state, level.get_node("BasePowerLightingController/FaultAudio"))
 	check_first_night_fault_audio(state, level.get_node("BasePowerLightingController/FaultAudio"))
 	check_audio_settings(level.get_node("BasePowerLightingController/FaultAudio"), "EffectsVolume")

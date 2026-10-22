@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dig0dvw45fnxo" path="res://scripts/levels/world_lighting.gd" id="controller"]
 [ext_resource type="Environment" path="res://assets/environments/debug_visibility.tres" id="debug_visibility"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/trials/trials_ceiling_lamp.tscn" id="trials_lamp"]
 [ext_resource type="Script" path="res://scripts/levels/hub_light_fixtures.gd" id="hub_fixtures"]
 
 [node name="WorldLighting" type="Node3D" unique_id=43938933]
@@ -29,945 +28,2503 @@ metadata/world_lighting = true
 
 [node name="Standard" type="Node3D" parent="." unique_id=1377672619]
 
-[node name="Garage" type="SpotLight3D" parent="Standard" unique_id=1132081566]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32, 3.6, -2.5)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="EntranceWork1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-35.0000, 5.2458, -2.0000)
+light_color = Color(0.84, 0.92, 1, 1)
+light_energy = 3.0413
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="Equipment" type="SpotLight3D" parent="Standard" unique_id=1789615953]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -22, 3.6, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="EntranceWork2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-29.0000, 5.2458, -2.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.84, 0.92, 1, 1)
+light_energy = 4.2240
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="Decon" type="SpotLight3D" parent="Standard" unique_id=1247956354]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 3.6, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="EquipmentWork" type="OmniLight3D" parent="Standard"]
+position = Vector3(-23.0000, 5.2458, 0.0000)
+light_color = Color(0.84, 0.92, 1, 1)
+light_energy = 2.7878
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="LivingRoute" type="SpotLight3D" parent="Standard" unique_id=851503846]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 3.6, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Decontamination1" type="SpotLight3D" parent="Standard"]
+position = Vector3(-14.0000, 5.2458, -2.5000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.94, 1)
+light_energy = 4.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "decontamination"
 
-[node name="CommonRoom" type="SpotLight3D" parent="Standard" unique_id=1752297696]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 24, 3.6, 2)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Decontamination2" type="OmniLight3D" parent="Standard"]
+position = Vector3(-14.0000, 5.2458, 2.5000)
+light_color = Color(0.8, 1, 0.94, 1)
+light_energy = 2.8800
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "decontamination"
 
-[node name="Bunks" type="SpotLight3D" parent="Standard" unique_id=1581464155]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 25, 3.6, -6)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="LivingPassage" type="OmniLight3D" parent="Standard"]
+position = Vector3(13.5000, 4.7458, 0.0000)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 2.7360
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="Briefing" type="SpotLight3D" parent="Standard" unique_id=1215699014]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6, -14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Dining1" type="OmniLight3D" parent="Standard"]
+position = Vector3(15.0000, 4.7458, -4.0000)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 2.7360
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="Research" type="SpotLight3D" parent="Standard" unique_id=325768141]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6, -22)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Dining2" type="SpotLight3D" parent="Standard"]
+position = Vector3(15.0000, 4.7458, 4.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 3.8
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="Storage" type="SpotLight3D" parent="Standard" unique_id=1019436195]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6, 14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Quarters1" type="OmniLight3D" parent="Standard"]
+position = Vector3(23.0000, 4.7458, -5.0000)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 2.3040
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="Generator" type="SpotLight3D" parent="Standard" unique_id=1090106842]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6, 22)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Quarters2" type="SpotLight3D" parent="Standard"]
+position = Vector3(29.0000, 4.7458, -5.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.88, 0.72, 1)
+light_energy = 3.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="L1Checkpoint" type="SpotLight3D" parent="Standard" unique_id=622496206]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, -14.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Medical1" type="OmniLight3D" parent="Standard"]
+position = Vector3(24.0000, 4.8258, 5.5000)
+light_color = Color(0.84, 0.97, 1, 1)
+light_energy = 3.3120
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "medical"
 
-[node name="L1Spine" type="SpotLight3D" parent="Standard" unique_id=1522050081]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.5, -14.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Medical2" type="SpotLight3D" parent="Standard"]
+position = Vector3(29.0000, 4.8258, 5.5000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.84, 0.97, 1, 1)
+light_energy = 4.6
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "medical"
 
-[node name="L1North" type="SpotLight3D" parent="Standard" unique_id=1576766069]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -20.5, -14.4, -13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="Briefing1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-3.5000, 4.8258, -14.0000)
+light_color = Color(0.8, 0.9, 1, 1)
+light_energy = 3.2400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "research"
 
-[node name="L1South" type="SpotLight3D" parent="Standard" unique_id=900217690]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -20.5, -14.4, 13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L1GalleryNorth" type="SpotLight3D" parent="Standard" unique_id=268752620]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -14.4, -13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L1GallerySouth" type="SpotLight3D" parent="Standard" unique_id=978727173]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -14.4, 13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L1Vault" type="SpotLight3D" parent="Standard" unique_id=820121962]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -46.5, -14.4, -13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L1Command" type="SpotLight3D" parent="Standard" unique_id=1495733667]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -59, -14.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L2Entry" type="SpotLight3D" parent="Standard" unique_id=448444136]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9, -30.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L2Reservoir" type="SpotLight3D" parent="Standard" unique_id=1133849848]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -29.5, -30.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L2Filtration" type="SpotLight3D" parent="Standard" unique_id=1743061387]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -29, -30.4, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L2Pump" type="SpotLight3D" parent="Standard" unique_id=1653509540]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -29, -30.4, 14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L2Annex" type="SpotLight3D" parent="Standard" unique_id=77548546]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -52, -30.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Arrival" type="SpotLight3D" parent="Standard" unique_id=2090241799]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -68.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Sanitation" type="SpotLight3D" parent="Standard" unique_id=1387741967]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -68.4, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Corridor" type="SpotLight3D" parent="Standard" unique_id=876517963]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -17, -68.4, -5)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Lab" type="SpotLight3D" parent="Standard" unique_id=1065376193]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19, -68.4, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Vault" type="SpotLight3D" parent="Standard" unique_id=1685791742]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32, -68.4, -17)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Damaged" type="SpotLight3D" parent="Standard" unique_id=2088297449]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -68.7, -27)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L4Gallery" type="SpotLight3D" parent="Standard" unique_id=225076279]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -68.4, -19)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Arrival" type="SpotLight3D" parent="Standard" unique_id=361351585]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -86.5, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Checkpoint" type="SpotLight3D" parent="Standard" unique_id=2073308522]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13, -86.5, 0)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Dispatch" type="SpotLight3D" parent="Standard" unique_id=1524064318]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.3, -85, -3)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Control" type="SpotLight3D" parent="Standard" unique_id=163772674]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.75, -86.5, 1.8)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Connector" type="SpotLight3D" parent="Standard" unique_id=927196085]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -86.5, -9.5)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Winch" type="SpotLight3D" parent="Standard" unique_id=1884585502]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -82, -20.5)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="L5Machine" type="SpotLight3D" parent="Standard" unique_id=583342520]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19, -85.3, -21)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="TrialsArrival" parent="Standard" unique_id=397974490 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
-
-[node name="TrialsApproach" parent="Standard" unique_id=36968424 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -50.1, 0)
-
-[node name="TrialsControlEast" parent="Standard" unique_id=395208856 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -25, -50.1, 0)
-
-[node name="TrialsControlWest" parent="Standard" unique_id=635244987 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 0)
-
-[node name="TrialsExposureEast" parent="Standard" unique_id=1314167143 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -48.95, -9)
-light_energy = 10.0
-
-[node name="TrialsExposureWest" parent="Standard" unique_id=1554798103 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -48.95, -12)
-light_energy = 10.0
-
-[node name="TrialsEastService" parent="Standard" unique_id=1480286221 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -20, -50.1, -11)
-light_color = Color(0.94, 0.65, 0.35, 1)
+[node name="Briefing2" type="SpotLight3D" parent="Standard"]
+position = Vector3(3.5000, 4.8258, -14.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 0.9, 1, 1)
 light_energy = 4.5
-
-[node name="TrialsNorthService" parent="Standard" unique_id=660374721 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -50.1, -18)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsWestServiceNorth" parent="Standard" unique_id=782628603 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, -10)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsWestServiceSouth" parent="Standard" unique_id=165762958 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -50.1, 7)
-light_color = Color(0.94, 0.65, 0.35, 1)
-light_energy = 4.5
-
-[node name="TrialsObservationA" parent="Standard" unique_id=891807860 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -50.1, 9)
-
-[node name="TrialsObservationB" parent="Standard" unique_id=750700514 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -50.1, 9)
-
-[node name="BackupGenerator" type="SpotLight3D" parent="Standard" unique_id=213712665]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.5, 2.65, 6.4)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 1.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-spot_angle = 57.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "research"
+
+[node name="Research" type="OmniLight3D" parent="Standard"]
+position = Vector3(3.5000, 4.8258, -22.0000)
+light_color = Color(0.8, 0.9, 1, 1)
+light_energy = 3.6000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "research"
+
+[node name="Isolation" type="OmniLight3D" parent="Standard"]
+position = Vector3(-5.5000, 4.8000, -22.5000)
+light_color = Color(0.8, 0.9, 1, 1)
+light_energy = 2.7360
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "research"
+
+[node name="Stores1" type="SpotLight3D" parent="Standard"]
+position = Vector3(-5.0000, 4.3958, 14.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 4.4
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="Stores2" type="OmniLight3D" parent="Standard"]
+position = Vector3(0.0000, 4.3958, 14.0000)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 3.1680
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="Stores3" type="SpotLight3D" parent="Standard"]
+position = Vector3(5.0000, 4.3958, 14.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 4.4
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="GeneratorWork1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-5.0000, 4.3958, 21.5000)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 3.9600
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="GeneratorWork2" type="SpotLight3D" parent="Standard"]
+position = Vector3(5.0000, 4.3958, 21.5000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 5.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="GeneratorPanel" type="SpotLight3D" parent="Standard"]
+position = Vector3(3.0000, 4.3958, 24.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 3.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 7.0
+spot_attenuation = 0.85
+spot_angle = 65.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
+
+[node name="BackupService" type="OmniLight3D" parent="Standard"]
+position = Vector3(-36.5000, 2.7458, 6.4000)
+light_color = Color(1, 0.94, 0.83, 1)
+light_energy = 1.4400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 5.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
 
 [node name="HubNorthWest" type="SpotLight3D" parent="Standard"]
-position = Vector3(-4.4, 7.5, -4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(0.88, 0.92, 1, 1)
-light_energy = 8.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.35
-light_specular = 0.25
+position = Vector3(-3.7000, 7.5000, -3.7000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.94, 0.97, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 13.0
+spot_attenuation = 0.85
+spot_angle = 68.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
 
-[node name="HubSouthWest" type="SpotLight3D" parent="Standard"]
-position = Vector3(-4.4, 7.5, 4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(0.88, 0.92, 1, 1)
+[node name="HubSouthWest" type="OmniLight3D" parent="Standard"]
+position = Vector3(-5.0, 7.3, 5.0)
+light_color = Color(0.94, 0.97, 1, 1)
 light_energy = 8.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.35
-light_specular = 0.25
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 16.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
 
 [node name="HubSouthEast" type="SpotLight3D" parent="Standard"]
-position = Vector3(4.4, 7.5, 4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(0.88, 0.92, 1, 1)
-light_energy = 8.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.35
-light_specular = 0.25
+position = Vector3(3.7000, 7.5000, 3.7000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.94, 0.97, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 13.0
+spot_attenuation = 0.85
+spot_angle = 68.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
 
-[node name="HubNorthEast" type="SpotLight3D" parent="Standard"]
-position = Vector3(4.4, 7.5, -4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(0.88, 0.92, 1, 1)
+[node name="HubNorthEast" type="OmniLight3D" parent="Standard"]
+position = Vector3(5.0, 7.3, -5.0)
+light_color = Color(0.94, 0.97, 1, 1)
 light_energy = 8.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.35
-light_specular = 0.25
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 16.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
+
+[node name="ControlArrival" type="OmniLight3D" parent="Standard"]
+position = Vector3(-8.0000, -12.8400, 0.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSpine1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-19.0000, -12.8400, 0.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.1760
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSpine2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-31.0000, -12.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 5.8
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSpine3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-43.0000, -12.8400, 0.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.1760
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSpine4" type="SpotLight3D" parent="Standard"]
+position = Vector3(-54.0000, -12.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 5.8
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlNorth1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-18.0000, -12.8400, -12.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlNorth2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-30.0000, -12.8400, -12.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlNorth3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-36.0000, -12.8400, -12.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSouth1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-18.0000, -12.8400, 12.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSouth2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-30.0000, -12.8400, 13.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlSouth3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-36.0000, -12.8400, 13.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="DataVault1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-44.0000, -12.8400, -13.0000)
+light_color = Color(0.74, 0.86, 1, 1)
+light_energy = 4.1760
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "data_vault"
+
+[node name="DataVault2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-50.0000, -12.8400, -13.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.74, 0.86, 1, 1)
+light_energy = 5.8
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "data_vault"
+
+[node name="CommandWork1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-59.0000, -12.8400, -2.0000)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 4.6080
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="CommandWork2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-59.0000, -12.8400, 3.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 0.9, 1, 1)
+light_energy = 6.4
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="LifeSupportEntry" type="OmniLight3D" parent="Standard"]
+position = Vector3(-9.0000, -29.0000, 0.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="BridgeWork1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-23.0000, -29.0400, 0.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 5.0400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="BridgeWork2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-34.0000, -29.0400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 7.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="BridgeWork3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-44.0000, -29.0400, 0.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 5.0400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="FiltrationWork1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-20.0000, -29.0400, -16.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="FiltrationWork2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-28.0000, -29.0400, -16.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="FiltrationWork3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-36.0000, -29.0400, -16.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="FiltrationWork4" type="SpotLight3D" parent="Standard"]
+position = Vector3(-44.0000, -29.0400, -16.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="PumpsWork1" type="SpotLight3D" parent="Standard"]
+position = Vector3(-21.0000, -29.0000, 14.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="PumpsWork2" type="OmniLight3D" parent="Standard"]
+position = Vector3(-29.0000, -29.0000, 14.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="PumpsWork3" type="SpotLight3D" parent="Standard"]
+position = Vector3(-37.0000, -29.0000, 14.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 6.2
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="PumpsWork4" type="OmniLight3D" parent="Standard"]
+position = Vector3(-44.0000, -29.0000, 14.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.4640
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="ServiceAnnex" type="OmniLight3D" parent="Standard"]
+position = Vector3(-51.0000, -29.0400, 0.0000)
+light_color = Color(0.8, 1, 0.91, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="TrialsArrival" type="OmniLight3D" parent="Standard"]
+position = Vector3(-7.0000, -49.8400, 0.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 6.4800
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsApproach" type="SpotLight3D" parent="Standard"]
+position = Vector3(-16.0000, -49.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 9.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsControl1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-25.0000, -49.8400, 0.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 6.8400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsControl2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-34.0000, -49.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 9.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsExposure1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-26.0000, -48.6400, -9.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 7.5600
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 12.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsExposure2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-34.0000, -48.6400, -12.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 10.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 12.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsService1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-20.0000, -49.8400, -11.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsService2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-30.0000, -49.8400, -18.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsService3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-41.0000, -49.8400, -10.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsService4" type="SpotLight3D" parent="Standard"]
+position = Vector3(-41.0000, -49.8400, 7.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsObservation1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-34.0000, -49.8400, 9.0000)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 6.4800
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsObservation2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-26.0000, -49.8400, 9.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.89, 0.85, 1, 1)
+light_energy = 9.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="ContainmentArrival" type="OmniLight3D" parent="Standard"]
+position = Vector3(-5.5000, -68.1900, 0.0000)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 3.5424
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="Sanitation" type="SpotLight3D" parent="Standard"]
+position = Vector3(-11.0000, -68.1900, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 4.9200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ObservationPassage1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-19.0000, -68.1900, -2.5000)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 3.4243
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ObservationPassage2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-19.0000, -68.1900, -7.5000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 4.7560
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ExperimentalLab1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-14.0000, -68.1900, -14.0000)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 4.1328
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ExperimentalLab2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-24.0000, -68.1900, -16.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 5.7400
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ColdVault1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-32.0000, -68.1900, -14.5000)
+light_color = Color(0.72, 0.86, 1, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "cold_vault"
+
+[node name="ColdVault2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-32.0000, -68.1900, -20.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.72, 0.86, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "cold_vault"
+
+[node name="ContainmentWalkway1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-16.0000, -68.1900, -27.0000)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 2.9520
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentWalkway2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-25.0000, -68.3000, -27.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 4.1000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentWalkway3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-34.0000, -68.1900, -27.0000)
+light_color = Color(0.82, 1, 0.93, 1)
+light_energy = 2.9520
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="IncidentGallery1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-9.5000, -68.1900, -17.0000)
+light_color = Color(1, 0.86, 0.73, 1)
+light_energy = 3.9600
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "incident_gallery"
+
+[node name="IncidentGallery2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-9.5000, -68.1900, -24.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.86, 0.73, 1)
+light_energy = 5.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "incident_gallery"
+
+[node name="ExpeditionArrival" type="OmniLight3D" parent="Standard"]
+position = Vector3(-6.2500, -85.7900, 0.0000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ExpeditionCheckpoint" type="SpotLight3D" parent="Standard"]
+position = Vector3(-13.0000, -85.7900, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 6.0
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="CargoWalkway1" type="OmniLight3D" parent="Standard"]
+position = Vector3(-22.0000, -85.5100, -3.0000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 4.6800
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="CargoWalkway2" type="SpotLight3D" parent="Standard"]
+position = Vector3(-29.0000, -84.1900, -3.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 6.5
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 11.0
+spot_attenuation = 0.85
+spot_angle = 76.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="CargoWalkway3" type="OmniLight3D" parent="Standard"]
+position = Vector3(-34.0000, -84.1900, -3.0000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 4.6800
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="DispatchWork" type="OmniLight3D" parent="Standard"]
+position = Vector3(-31.7500, -84.1900, 1.8000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 4.0320
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ShaftConnection" type="OmniLight3D" parent="Standard"]
+position = Vector3(-33.5000, -85.5100, -9.5000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 4.3200
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="WinchWork" type="OmniLight3D" parent="Standard"]
+position = Vector3(-33.5000, -80.9400, -18.0000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 5.7600
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 13.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="MachineService" type="OmniLight3D" parent="Standard"]
+position = Vector3(-19.0000, -84.7689, -21.0000)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 3.7440
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 11.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
 
 [node name="Emergency" type="Node3D" parent="." unique_id=718455498]
 
-[node name="GarageExit" type="SpotLight3D" parent="Emergency" unique_id=841241311]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28, 2.8, 3)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="EntranceEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-34.0000, 5.2458, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="HubEmergency" type="SpotLight3D" parent="Emergency" unique_id=693032149]
-position = Vector3(-4.4, 7.5, -4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 1.4
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.15
-light_specular = 0.25
+[node name="EntranceEscape2" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-25.0000, 5.2458, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "entrance"
 
-[node name="LivingEmergency" type="SpotLight3D" parent="Emergency" unique_id=1275546478]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 16, 3, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="EntranceEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-14.0000, 5.2458, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="TechnicalEmergency" type="SpotLight3D" parent="Emergency" unique_id=1199842391]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.1, 12)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="LivingEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(14.0000, 4.7458, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="ScienceEmergency" type="SpotLight3D" parent="Emergency" unique_id=204538427]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.1, -12)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="LivingEscape2" type="OmniLight3D" parent="Emergency"]
+position = Vector3(25.0000, 4.7458, 5.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="L1Emergency" type="SpotLight3D" parent="Emergency" unique_id=428255843]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -12, -15, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="LivingEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(25.0000, 4.7458, -5.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "living"
 
-[node name="L2Emergency" type="SpotLight3D" parent="Emergency" unique_id=649660582]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -10, -31, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="TechnicalEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(0.0000, 4.3958, 13.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="L4Emergency" type="SpotLight3D" parent="Emergency" unique_id=765909551]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -69, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="TechnicalEscape2" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-4.0000, 4.3958, 22.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="L4DamagedEmergency" type="SpotLight3D" parent="Emergency" unique_id=378434301]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19, -69, -27)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="ScienceEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(0.0000, 4.8000, -13.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="L5Emergency" type="SpotLight3D" parent="Emergency" unique_id=1451869031]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -87, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="ScienceEscape2" type="OmniLight3D" parent="Emergency"]
+position = Vector3(0.0000, 2.7983, -23.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "entrance"
 
-[node name="L5WinchEmergency" type="SpotLight3D" parent="Emergency" unique_id=339484235]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -84, -20.5)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
+[node name="ControlEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-8.0000, -12.8400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "control"
 
-[node name="EquipmentEmergency" type="SpotLight3D" parent="Emergency" unique_id=2036379018]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -22, 3.2, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.9
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.2
+[node name="ControlEscape2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-21.0000, -12.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 8.0
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "control"
 
-[node name="DeconEmergency" type="SpotLight3D" parent="Emergency" unique_id=717686365]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 3.1, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.7
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
+[node name="ControlEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-34.0000, -12.8400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 7.0
-spot_angle = 60.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "control"
 
-[node name="TrialsEmergency" parent="Emergency" unique_id=782984022 instance=ExtResource("trials_lamp")]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -7, -50.1, 0)
-light_color = Color(0.9, 0.27, 0.08, 1)
-light_energy = 0.7
-spot_range = 8.0
-
-[node name="BackupGenerator" type="SpotLight3D" parent="Emergency" unique_id=1392966352]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.5, 2.65, 6.4)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 0.65
+[node name="ControlEscape4" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-48.0000, -12.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-spot_angle = 57.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
+metadata/lighting_zone = "control"
 
-[node name="HubSouthWest" type="SpotLight3D" parent="Emergency"]
-position = Vector3(-4.4, 7.5, 4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 1.4
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.15
-light_specular = 0.25
+[node name="ControlEscape5" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-59.0000, -12.8400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "control"
+
+[node name="ControlEscape6" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-20.0000, -12.8400, -12.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlEscape7" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-34.0000, -12.8400, 13.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="ControlEscape8" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-48.0000, -12.8400, -13.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "control"
+
+[node name="LifeSupportEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-9.0000, -29.0400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="LifeSupportEscape2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-24.0000, -29.0400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="LifeSupportEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-36.0000, -29.0400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="LifeSupportEscape4" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-50.0000, -29.0400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="LifeSupportEscape5" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-28.0000, -29.0400, -16.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="LifeSupportEscape6" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-38.0000, -29.0400, 14.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "life_support"
+
+[node name="TrialsEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-7.0000, -49.8400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsEscape2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-16.0000, -49.8400, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-28.0000, -49.8400, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsEscape4" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-34.0000, -49.8400, 9.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="TrialsEscape5" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-41.0000, -49.8400, -10.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "trials"
+
+[node name="ContainmentEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-5.5000, -68.1900, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentEscape2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-11.0000, -68.1900, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-19.0000, -68.1900, -5.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentEscape4" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-24.0000, -68.1900, -16.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentEscape5" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-32.0000, -68.1900, -17.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentEscape6" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-9.5000, -68.1900, -22.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ExpeditionEscape1" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-6.2500, -85.7900, 0.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ExpeditionEscape2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-13.0000, -85.7900, 0.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.0625
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 72.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ExpeditionEscape3" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-26.0000, -84.1900, -3.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ExpeditionEscape4" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-33.5000, -85.5900, -9.5000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="ExpeditionEscape5" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-19.0000, -84.7689, -21.0000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 10.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="HubEmergency" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-3.7000, 7.5000, -3.7000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.9700
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 13.0
+spot_attenuation = 0.85
+spot_angle = 68.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "hub"
+
+[node name="HubSouthWest" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-5.0, 7.3, 5.0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 4.6
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 16.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "hub"
 
 [node name="HubSouthEast" type="SpotLight3D" parent="Emergency"]
-position = Vector3(4.4, 7.5, 4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 1.4
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.15
-light_specular = 0.25
+position = Vector3(3.7000, 7.5000, 3.7000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.9700
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 13.0
+spot_attenuation = 0.85
+spot_angle = 68.0
+spot_angle_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
 
-[node name="HubNorthEast" type="SpotLight3D" parent="Emergency"]
-position = Vector3(4.4, 7.5, -4.4)
-rotation_degrees = Vector3(-90, 0, 0)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 1.4
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 0.15
-light_specular = 0.25
+[node name="HubNorthEast" type="OmniLight3D" parent="Emergency"]
+position = Vector3(5.0, 7.3, -5.0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 4.6
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
 light_cull_mask = 393217
 shadow_enabled = true
-shadow_normal_bias = 0.25
-spot_range = 12.0
-spot_attenuation = 1.0
-spot_angle = 65.0
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 16.0
+omni_attenuation = 1.2
 metadata/world_lighting = true
-metadata/create_lens = false
+metadata/lighting_zone = "hub"
+
+[node name="ContainmentWarning1" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-16.0000, -68.1900, -27.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.9700
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 70.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentWarning2" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-27.0000, -68.4500, -27.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.9700
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 70.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="ContainmentWarning3" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-35.0000, -68.1900, -27.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.9700
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 10.0
+spot_attenuation = 0.85
+spot_angle = 70.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "containment"
+
+[node name="WinchWarning" type="SpotLight3D" parent="Emergency"]
+position = Vector3(-33.5000, -80.9400, -18.0000)
+rotation = Vector3(-1.5707963, 0, 0)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 3.9600
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.3
+spot_range = 13.0
+spot_attenuation = 0.85
+spot_angle = 68.0
+spot_angle_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "expedition"
+
+[node name="BackupService" type="OmniLight3D" parent="Emergency"]
+position = Vector3(-36.5000, 2.7458, 6.4000)
+light_color = Color(1, 0.025, 0.012, 1)
+light_energy = 2.2000
+light_indirect_energy = 1.05
+light_volumetric_fog_energy = 0.25
+light_specular = 0.35
+light_size = 0.22
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_normal_bias = 0.16
+omni_range = 5.0
+omni_attenuation = 1.2
+metadata/world_lighting = true
+metadata/lighting_zone = "technical"
 
 [node name="HubFixtures" type="Node" parent="."]
 script = ExtResource("hub_fixtures")

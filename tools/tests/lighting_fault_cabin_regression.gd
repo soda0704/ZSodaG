@@ -90,6 +90,17 @@ func run() -> void:
 	deleted.free()
 	preview._update_editor_lamp_visibility(Vector3.ZERO)
 	check(preview._editor_visibility.size() == 9 and preview._editor_lights.size() == 9, "deleted lamps release their preview state")
+	for lamp: Light3D in preview._editor_lights: lamp.shadow_enabled = true
+	var volume := OmniLight3D.new()
+	volume.position = Vector3(0, 1, 0)
+	volume.light_energy = 2.7
+	volume.shadow_enabled = true
+	preview.add_child(volume)
+	preview._update_editor_lamp_visibility(Vector3.ZERO)
+	var slots := 0
+	for lamp: Light3D in preview._editor_lights:
+		if preview._editor_visibility.get(lamp, false): slots += WorldLighting.shadow_slot_cost(lamp)
+	check(preview._editor_visibility.get(volume, false) and slots == WorldLighting.MAX_ACTIVE_SHADOW_SLOTS and is_equal_approx(volume.light_energy, 2.7), "mixed editor preview budgets two cells per omni and preserves authored brightness")
 	preview.queue_free()
 	await process_frame
 

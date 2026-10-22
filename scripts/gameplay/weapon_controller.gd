@@ -126,6 +126,7 @@ func _physics_process(delta: float) -> void:
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
 	align_mounted_light(_pose, kind)
 	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
+	player.flashlight.set_external_light_enabled(_mounted_beam.is_visible_in_tree())
 	var local: bool = player.is_local_player()
 	_hud.visible = active and local and not player.is_debug_free_camera_active() and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:

@@ -4,6 +4,7 @@ extends Node
 var _materials: Array[Dictionary] = []
 var _standard: Node3D
 var _emergency: Node3D
+var _lighting: WorldLighting
 
 func _ready() -> void:
 	_bind_fixtures.call_deferred()
@@ -12,6 +13,7 @@ func _bind_fixtures() -> void:
 	var fixtures := get_node_or_null(fixtures_path)
 	_standard = get_node_or_null("../Standard") as Node3D
 	_emergency = get_node_or_null("../Emergency") as Node3D
+	_lighting = get_parent() as WorldLighting
 	if fixtures == null or _standard == null or _emergency == null: return
 	for mesh: MeshInstance3D in fixtures.find_children("*", "MeshInstance3D", true, false):
 		if mesh.mesh == null: continue
@@ -23,7 +25,11 @@ func _bind_fixtures() -> void:
 			_materials.append({"material": material, "color": source.emission, "energy": source.emission_energy_multiplier})
 	_standard.visibility_changed.connect(_update_emission)
 	_emergency.visibility_changed.connect(_update_emission)
+	if _lighting != null: _lighting.emergency_intensity_changed.connect(_on_emergency_intensity_changed)
 	_update_emission()
+
+func _on_emergency_intensity_changed(_intensity: float) -> void:
+	if _emergency.is_visible_in_tree(): _update_emission()
 
 func _update_emission() -> void:
 	if not is_instance_valid(_standard) or not is_instance_valid(_emergency): return
@@ -32,5 +38,6 @@ func _update_emission() -> void:
 	for entry in _materials:
 		var material: StandardMaterial3D = entry.material
 		material.emission_enabled = powered or backup
-		material.emission = entry.color if powered else Color(1.0, 0.12, 0.035)
-		material.emission_energy_multiplier = float(entry.energy) * (1.0 if powered else 0.25 if backup else 0.0)
+		material.emission = entry.color if powered else WorldLighting.EMERGENCY_COLOR
+		var pulse := _lighting.emergency_intensity if _lighting != null else 1.0
+		material.emission_energy_multiplier = float(entry.energy) * (1.0 if powered else 0.25 * pulse if backup else 0.0)

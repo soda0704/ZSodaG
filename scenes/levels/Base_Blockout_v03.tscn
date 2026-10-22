@@ -601,681 +601,425 @@ script = ExtResource("11_day_progression")
 
 [node name="WorldLighting" parent="." unique_id=294664761 node_paths=PackedStringArray("lower_exterior_bounds") instance=ExtResource("world_lighting")]
 outdoor_ambient = 0.13
-indoor_ambient = 0.026
+indoor_ambient = 0.035
 lower_exterior_bounds = NodePath("../SnowExterior/LowerValleyOutdoorRegion/LowerValleyOutdoorBounds")
 
 [node name="OvercastSun" parent="WorldLighting" index="0" unique_id=1849345055]
 transform = Transform3D(0.8480481, 0.35458526, -0.3938068, 0, 0.74314487, 0.6691306, 0.52991927, -0.567455, 0.63022256, -43.710815, 604.7393, 20.342651)
 
-[node name="Garage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0" unique_id=1132081566]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32, 5.2446346, -2.5)
-light_energy = 3.0
-spot_range = 10.0
-spot_angle = 90.0
-
-[node name="Equipment" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="1" unique_id=1789615953]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -22, 4.9417405, 0.6183059)
-spot_range = 10.0
-spot_angle = 90.0
-
-[node name="Equipment2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="2" unique_id=474096536]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.47272, 2.730144, 4.611776)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="Decon" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="3" unique_id=1247956354]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 5.0077896, -3.3804176)
-spot_angle = 90.0
-
-[node name="Decon2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="4" unique_id=618924480]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14, 5.0077896, 3.4432883)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="LivingRoute" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="5" unique_id=851503846]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.599893, 0)
-spot_angle = 90.0
-
-[node name="CommonRoom" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="6" unique_id=1752297696]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 23.919449, 4.878539, 5.5071864)
-spot_angle = 90.0
-
-[node name="Bunks" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="7" unique_id=1581464155]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 22.410854, 4.0918403, -4.865959)
-spot_angle = 90.0
-
-[node name="Briefing" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="8" unique_id=1215699014]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.231792, 5.0932264, -14.152635)
-spot_range = 10.0
-spot_angle = 88.0
-
-[node name="Research" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="9" unique_id=325768141]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7134385, 5.2346945, -22.102057)
-spot_angle = 83.48
-
-[node name="LivingRoute3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="10" unique_id=827006818]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.733364, 4.7825603)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="LivingRoute2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="11" unique_id=13852950]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.881338, 4.5381255, -4.2792864)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="Storage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="12" unique_id=1019436195]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.137316, 4.389255, 14.130008)
-light_color = Color(0.889224, 0.7544507, 0.6954628, 1)
-light_energy = 3.0
-spot_angle = 90.0
-
-[node name="CommonRoom2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="13" unique_id=1463819810]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 27.999365, 4.878539, 5.5071864)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="Generator" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="14" unique_id=1090106842]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.1435966, 4.2838006, 22)
-light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
-light_energy = 5.757
-spot_angle = 80.0
-
-[node name="Bunks2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="15" unique_id=1113628022]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.037237, 4.0918403, -4.865959)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="L1Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="16" unique_id=622496206]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, -12.75178, 0)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="Briefing2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="17" unique_id=1799111014]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 4.156422, 5.0932264, -14.152635)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 10.0
-spot_attenuation = 1.2
-spot_angle = 88.0
-metadata/world_lighting = true
-
-[node name="L1Spine" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="18" unique_id=1522050081]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.5, -12.87399, 0)
-spot_angle = 70.0
-
-[node name="L1North" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="19" unique_id=1576766069]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19.2065, -13.076548, -12.535298)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="Storage2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="20" unique_id=1136490357]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.035851, 4.389255, 14.130008)
-light_color = Color(0.86559176, 0.7614305, 0.7265575, 1)
-light_energy = 3.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="Storage3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="21" unique_id=456689141]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.190652, 4.389255, 14.130008)
-light_color = Color(0.81642056, 0.7757882, 0.77773166, 1)
-light_energy = 3.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 90.0
-metadata/world_lighting = true
-
-[node name="L1South" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="22" unique_id=900217690]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.903229, -12.77413, 12.136874)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="Generator2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="23" unique_id=702240495]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 5.8342423, 4.2838006, 22)
-light_color = Color(0.8820602, 0.7643977, 0.64149255, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L1GalleryNorth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="24" unique_id=268752620]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -35.668163, -13.002254, -12.32815)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="L1GallerySouth" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="25" unique_id=978727173]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.733435, -13.027121, 13)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="L1Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="26" unique_id=820121962]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -50.745197, -13.00374, -13)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="L1Command" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="27" unique_id=1495733667]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -59, -13.067945, 0)
-light_energy = 5.0
-spot_range = 12.0
-spot_angle = 80.0
-
-[node name="L2Entry" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="28" unique_id=448444136]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9, -28.69552, 0)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L1GalleryNorth2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="29" unique_id=679454353]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -30.461756, -13.002254, -12.32815)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Reservoir" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="30" unique_id=1133849848]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.767235, -29.113695, 0)
-light_color = Color(0.7906348, 0.806979, 0.6031601, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L1GallerySouth2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="31" unique_id=735491202]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -36.06095, -13.027121, 13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Filtration" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="32" unique_id=1743061387]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -19.804705, -29.083967, -16)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L1Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="33" unique_id=148201660]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -47.504143, -13.00374, -13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L1Vault3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="34" unique_id=1758480331]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -44.287197, -13.00374, -13)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Pump" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="35" unique_id=1653509540]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -20.469007, -28.82847, 14)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L2Annex" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="36" unique_id=77548546]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -50.122223, -29.041079, 0)
-light_color = Color(0.8656014, 0.7575941, 0.7541479, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="37" unique_id=2090241799]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.5, -68.17349, 0.037667155)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L2Reservoir2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="38" unique_id=1406935218]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.310486, -29.113695, 0)
-light_color = Color(0.7906348, 0.806979, 0.6031601, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L4Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="39" unique_id=1387741967]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -11, -68.16328, 0)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L2Filtration2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="40" unique_id=1452762798]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.931164, -29.083967, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Filtration3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="41" unique_id=836334050]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.794172, -29.083967, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Filtration4" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="42" unique_id=1488208183]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -37.292263, -29.083967, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Filtration5" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="43" unique_id=1995319423]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -43.801563, -29.083967, -16)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L4Corridor" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="44" unique_id=876517963]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.19126, -2.5892024)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L2Pump2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="45" unique_id=1148576580]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.757925, -28.82847, 14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Pump3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="46" unique_id=1409514709]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -37.51819, -28.82847, 14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L2Pump4" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="47" unique_id=1199655130]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -44.276455, -28.82847, 14)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L4Lab" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="48" unique_id=1065376193]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -23.962423, -68.11881, -16)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Vault" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="49" unique_id=1685791742]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -68.141884, -19.37401)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Damaged" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50" unique_id=2088297449]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -34.62126, -68.12058, -27.067616)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Gallery" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51" unique_id=225076279]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -68.03543, -16.778728)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Corridor2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52" unique_id=1516780077]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -18.975847, -68.19126, -7.3054028)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L5Arrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53" unique_id=361351585]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -6.25, -85.82141, 0)
-light_color = Color(0.8569854, 0.6912626, 0.6312529, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Lab2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54" unique_id=419328990]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13.989648, -68.14457, -14.046828)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L5Checkpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="55" unique_id=2073308522]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -13, -85.57585, -0.53912157)
-light_color = Color(0.89015, 0.75139964, 0.71522003, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Vault2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="56" unique_id=713514229]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -32.05865, -68.141884, -14.601833)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L5Dispatch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="57" unique_id=1524064318]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -28.831512, -84.33406, -3)
-light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Damaged2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="58" unique_id=1410520326]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -25.553005, -68.12058, -27.067616)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L4Damaged3" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="59" unique_id=208633472]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -16.327955, -68.12058, -27.067616)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L5Control" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="60" unique_id=163772674]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -31.75, -84.71353, 1.8)
-light_color = Color(0.91310155, 0.7459119, 0.6703188, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L4Gallery2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="61" unique_id=1496636072]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -9.5, -68.060646, -24.326042)
-light_color = Color(0.68, 0.8, 0.94, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="L5Connector" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="62" unique_id=927196085]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -85.30132, -9.5)
-light_color = Color(0.9040641, 0.7527789, 0.65081495, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L5Winch" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="63" unique_id=1884585502]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.5, -81.37807, -18.195316)
-light_color = Color(0.88580453, 0.7619946, 0.6471212, 1)
-light_energy = 5.0
-spot_angle = 80.0
-
-[node name="L5Dispatch2" type="SpotLight3D" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="65" unique_id=1402982798]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -33.394592, -84.43987, -3)
-light_color = Color(0.89816374, 0.7480996, 0.710733, 1)
-light_energy = 5.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_specular = 0.25
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 9.0
-spot_attenuation = 1.2
-spot_angle = 80.0
-metadata/world_lighting = true
-
-[node name="HubNorthWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="79"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.7, 7.5, -3.7)
-light_energy = 4.0
-
-[node name="HubSouthWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="80"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.7, 7.5, 3.7)
-light_energy = 4.0
-
-[node name="HubSouthEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="81"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7, 7.5, 3.7)
-light_energy = 4.0
-
-[node name="HubNorthEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="82"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7, 7.5, -3.7)
-light_energy = 4.0
-
-[node name="HubEmergency" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="1" unique_id=693032149]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.7, 7.5, -3.7)
-light_energy = 1.0
-
-[node name="DeconEmergency2" type="SpotLight3D" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="13" unique_id=1253677036]
-transform = Transform3D(0.9743143, 9.843479e-09, -0.22519256, 0.22519256, -4.2588628e-08, 0.9743143, 0, -1, -4.3711385e-08, 5.922015, 3.7340007, 22.063286)
-light_color = Color(1, 0.12, 0.035, 1)
-light_energy = 2.0
-light_indirect_energy = 0.65
-light_volumetric_fog_energy = 1.5
-light_cull_mask = 393217
-shadow_enabled = true
-shadow_normal_bias = 0.5
-spot_range = 12.0
-spot_angle = 60.0
-metadata/world_lighting = true
-
-[node name="HubSouthWest" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="16"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.7, 7.5, 3.7)
-light_energy = 1.0
-
-[node name="HubSouthEast" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="17"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7, 7.5, 3.7)
-light_energy = 1.0
-
-[node name="HubNorthEast" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="18"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.7, 7.5, -3.7)
-light_energy = 1.0
+[node name="EntranceWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.6, -2)
+
+[node name="EntranceWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="1"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -29, 4.6, -2)
+
+[node name="EquipmentWork" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4.6, 0)
+
+[node name="Decontamination1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="3"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -14, 4.6, -2.5)
+
+[node name="Decontamination2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.6, 2.5)
+
+[node name="LivingPassage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 4.7458, 0)
+
+[node name="Dining1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.7458, -4)
+
+[node name="Dining2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="7"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 15, 4.7458, 4)
+
+[node name="Quarters1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 4.7458, -5)
+
+[node name="Quarters2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="9"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 29, 4.7458, -5)
+
+[node name="Medical1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 4.8258, 5.5)
+
+[node name="Medical2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="11"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 29, 4.8258, 5.5)
+
+[node name="Briefing1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 4.8258, -14)
+
+[node name="Briefing2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="13"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 3.5, 4.8258, -14)
+
+[node name="Research" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 4.8258, -22)
+
+[node name="Isolation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4.8, -22.5)
+
+[node name="Stores1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="16"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -5, 4.3958, 14)
+
+[node name="Stores2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3958, 14)
+
+[node name="Stores3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="18"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 5, 4.3958, 14)
+
+[node name="GeneratorWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.3958, 21.5)
+
+[node name="GeneratorWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="20"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 5, 4.3958, 21.5)
+
+[node name="GeneratorPanel" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="21"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 3, 4.3958, 24)
+
+[node name="BackupService" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.7458, 6.4)
+
+[node name="HubNorthWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="23"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -3.7, 7.5, -3.7)
+
+[node name="HubSouthWest" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 7.3, 5)
+
+[node name="HubSouthEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="25"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 3.7, 7.5, 3.7)
+
+[node name="HubNorthEast" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="26"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7.3, -5)
+
+[node name="ControlArrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="27"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -12.84, 0)
+
+[node name="ControlSpine1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="28"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -12.84, 0)
+
+[node name="ControlSpine2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="29"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -31, -12.84, 0)
+
+[node name="ControlSpine3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, -12.84, 0)
+
+[node name="ControlSpine4" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="31"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -54, -12.84, 0)
+
+[node name="ControlNorth1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -12.84, -12)
+
+[node name="ControlNorth2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="33"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -12.84, -12)
+
+[node name="ControlNorth3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -12.84, -12)
+
+[node name="ControlSouth1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -12.84, 12)
+
+[node name="ControlSouth2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="36"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -12.84, 13)
+
+[node name="ControlSouth3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="37"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -12.84, 13)
+
+[node name="DataVault1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="38"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -12.84, -13)
+
+[node name="DataVault2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="39"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -50, -12.84, -13)
+
+[node name="CommandWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="40"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, -12.84, -2)
+
+[node name="CommandWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="41"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -59, -12.84, 3)
+
+[node name="LifeSupportEntry" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="42"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -29, 0)
+
+[node name="BridgeWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="43"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -29.04, 0)
+
+[node name="BridgeWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="44"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -29.04, 0)
+
+[node name="BridgeWork3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="45"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -29.04, 0)
+
+[node name="FiltrationWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="46"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -29.04, -16)
+
+[node name="FiltrationWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="47"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -28, -29.04, -16)
+
+[node name="FiltrationWork3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="48"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -29.04, -16)
+
+[node name="FiltrationWork4" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="49"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -44, -29.04, -16)
+
+[node name="PumpsWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="50"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -21, -29, 14)
+
+[node name="PumpsWork2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="51"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, -29, 14)
+
+[node name="PumpsWork3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="52"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -37, -29, 14)
+
+[node name="PumpsWork4" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="53"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, -29, 14)
+
+[node name="ServiceAnnex" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="54"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, -29.04, 0)
+
+[node name="TrialsArrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="55"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -49.84, 0)
+
+[node name="TrialsApproach" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="56"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -49.84, 0)
+
+[node name="TrialsControl1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="57"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -49.84, 0)
+
+[node name="TrialsControl2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="58"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -49.84, 0)
+
+[node name="TrialsExposure1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="59"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, -48.64, -9)
+
+[node name="TrialsExposure2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="60"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -34, -48.64, -12)
+
+[node name="TrialsService1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="61"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -49.84, -11)
+
+[node name="TrialsService2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="62"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -30, -49.84, -18)
+
+[node name="TrialsService3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="63"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -49.84, -10)
+
+[node name="TrialsService4" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="64"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -41, -49.84, 7)
+
+[node name="TrialsObservation1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="65"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -49.84, 9)
+
+[node name="TrialsObservation2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="66"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -26, -49.84, 9)
+
+[node name="ContainmentArrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="67"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -68.19, 0)
+
+[node name="Sanitation" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="68"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -11, -68.19, 0)
+
+[node name="ObservationPassage1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="69"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -68.19, -2.5)
+
+[node name="ObservationPassage2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="70"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -19, -68.19, -7.5)
+
+[node name="ExperimentalLab1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="71"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -68.19, -14)
+
+[node name="ExperimentalLab2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="72"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -24, -68.19, -16)
+
+[node name="ColdVault1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="73"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -68.19, -14.5)
+
+[node name="ColdVault2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="74"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -32, -68.19, -20)
+
+[node name="ContainmentWalkway1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="75"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -68.19, -27)
+
+[node name="ContainmentWalkway2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="76"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -25, -68.3, -27)
+
+[node name="ContainmentWalkway3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="77"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -68.19, -27)
+
+[node name="IncidentGallery1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="78"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -68.19, -17)
+
+[node name="IncidentGallery2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="79"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -9.5, -68.19, -24)
+
+[node name="ExpeditionArrival" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="80"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.25, -85.79, 0)
+
+[node name="ExpeditionCheckpoint" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="81"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -13, -85.79, 0)
+
+[node name="CargoWalkway1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="82"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -85.51, -3)
+
+[node name="CargoWalkway2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="83"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -29, -84.19, -3)
+
+[node name="CargoWalkway3" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="84"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -84.19, -3)
+
+[node name="DispatchWork" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="85"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.75, -84.19, 1.8)
+
+[node name="ShaftConnection" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="86"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -85.51, -9.5)
+
+[node name="WinchWork" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="87"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -80.94, -18)
+
+[node name="MachineService" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="88"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -84.7689, -21)
+
+[node name="EntranceEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 4.6, 0)
+
+[node name="EntranceEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 4.6, 0)
+
+[node name="EntranceEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.6, 0)
+
+[node name="LivingEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.7458, 0)
+
+[node name="LivingEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4.7458, 5)
+
+[node name="LivingEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4.7458, -5)
+
+[node name="TechnicalEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3958, 13)
+
+[node name="TechnicalEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.3958, 22)
+
+[node name="ScienceEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -13)
+
+[node name="ScienceEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7983, -23)
+
+[node name="ControlEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -12.84, 0)
+
+[node name="ControlEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="11"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -21, -12.84, 0)
+
+[node name="ControlEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -12.84, 0)
+
+[node name="ControlEscape4" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="13"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -48, -12.84, 0)
+
+[node name="ControlEscape5" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, -12.84, 0)
+
+[node name="ControlEscape6" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -12.84, -12)
+
+[node name="ControlEscape7" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -12.84, 13)
+
+[node name="ControlEscape8" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, -12.84, -13)
+
+[node name="LifeSupportEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -29.04, 0)
+
+[node name="LifeSupportEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="19"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -24, -29.04, 0)
+
+[node name="LifeSupportEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, -29.04, 0)
+
+[node name="LifeSupportEscape4" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="21"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -50, -29.04, 0)
+
+[node name="LifeSupportEscape5" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -29.04, -16)
+
+[node name="LifeSupportEscape6" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, -29.04, 14)
+
+[node name="TrialsEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -49.84, 0)
+
+[node name="TrialsEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="25"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -49.84, 0)
+
+[node name="TrialsEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="26"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -49.84, 0)
+
+[node name="TrialsEscape4" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="27"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, -49.84, 9)
+
+[node name="TrialsEscape5" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="28"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -49.84, -10)
+
+[node name="ContainmentEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="29"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -68.19, 0)
+
+[node name="ContainmentEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="30"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -11, -68.19, 0)
+
+[node name="ContainmentEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -68.19, -5)
+
+[node name="ContainmentEscape4" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -68.19, -16)
+
+[node name="ContainmentEscape5" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="33"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, -68.19, -17)
+
+[node name="ContainmentEscape6" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -68.19, -22)
+
+[node name="ExpeditionEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.25, -85.79, 0)
+
+[node name="ExpeditionEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="36"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -13, -85.79, 0)
+
+[node name="ExpeditionEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="37"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, -84.19, -3)
+
+[node name="ExpeditionEscape4" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="38"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -85.59, -9.5)
+
+[node name="ExpeditionEscape5" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="39"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -84.7689, -21)
+
+[node name="HubEmergency" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="40"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -3.7, 7.5, -3.7)
+
+[node name="HubSouthWest" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="41"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 7.3, 5)
+
+[node name="HubSouthEast" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="42"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 3.7, 7.5, 3.7)
+
+[node name="HubNorthEast" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="43"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7.3, -5)
+
+[node name="ContainmentWarning1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="44"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -16, -68.19, -27)
+
+[node name="ContainmentWarning2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="45"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -27, -68.45, -27)
+
+[node name="ContainmentWarning3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="46"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -35, -68.19, -27)
+
+[node name="WinchWarning" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="47"]
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -33.5, -80.94, -18)
+
+[node name="BackupService" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="48"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.7458, 6.4)
 
 [node name="WorldIndirectLighting" parent="." unique_id=2024796229 instance=ExtResource("indirect_lighting")]
 

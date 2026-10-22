@@ -6,6 +6,7 @@
 
 - [Состояние проекта](PROJECT_STATUS.md).
 - [Запуск, зависимости и сборка](guides/getting_started.md).
+- [Проверки экспорта и запускателя](technical/export_build_checks.md).
 - [Управление и проверка игрового маршрута](guides/playtesting.md).
 - [Автотесты и ручные проверки](guides/testing.md).
 - [Правила разработки и обновления документации](guides/contributing.md).
@@ -21,6 +22,7 @@
 - [Состояние базы, дни и питание](technical/base_gameplay_state.md).
 - [Обслуживание электросистемы](technical/maintenance.md).
 - [Второй день: ключ шифрования](technical/day_two_slice.md).
+- [Лабораторный кликер](technical/lab_clicker.md).
 - [Сохранения и совместимость](technical/save_system.md).
 - [Steam и репликация](technical/steam_networking.md).
 - [Вертолёт и начало экспедиции](technical/helicopter_lobby.md).
@@ -47,6 +49,7 @@
 ## Интерфейс, звук и окружение
 
 - [Главное меню, Esc и лобби](technical/menus.md).
+- [Игровой HUD](technical/northern_lab_hud.md).
 - [Проверка обновления меню и освещения](technical/menu_lighting_qa.md).
 - [Обратная связь тестеров и GitHub](technical/tester_feedback.md).
 - [Журнал и анимация](technical/journal_presentation.md).
@@ -54,12 +57,15 @@
 - [Звук и акустика](technical/audio_mix.md).
 - [Графика и пользовательские настройки](technical/settings.md).
 - [Освещение мира и отладочная видимость](technical/world_lighting.md).
+- [Проверка света, новая расстановка и очистка скриптов](technical/lighting_audit_2026_10_22.md).
 - [Снежное окружение и следы](technical/snow_exterior.md).
 - [Скалистый обрыв](technical/east_cliff_revision.md).
 - [Следы пуль](technical/bullet_surface_marks.md).
 - [Подготовка моделей и текстур](technical/art_pipeline.md).
 - [Модели снаряжения и генератора](technical/item_models.md).
 - [Оптимизация и измерения](technical/project_optimization.md).
+- [Ревизия оптимизации от 19 октября](technical/optimization_2026_10_19.md).
+- [Доработки игровой логики от 19 октября](technical/runtime_polish_2026_10_19.md).
 - [Контрольный замер окружения](technical/performance_baseline.md).
 - [Версия игры](technical/game_version.md).
 

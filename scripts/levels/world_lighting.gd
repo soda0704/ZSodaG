@@ -1,11 +1,17 @@
 @tool
 class_name WorldLighting
 extends Node3D
-## One world shadow pass and a bounded pool of local lamps.
+## A bounded shadow atlas pool shared by spot and omni lamps.
 const EXTERIOR_LAYER := 1 << 16
 const ARRIVAL_SHADOW_LAYER := 1 << 15
 const MAX_ACTIVE_LAMPS := 8
 const MAX_RESIDENT_LAMPS := 10
+const MAX_ACTIVE_SHADOW_SLOTS := 8
+const MAX_RESIDENT_SHADOW_SLOTS := 10
+const EMERGENCY_COLOR := Color(1.0, 0.025, 0.012)
+const EMERGENCY_PERIOD := 2.0
+const EMERGENCY_MIN_INTENSITY := 0.15
+signal emergency_intensity_changed(intensity: float)
 @export var outdoor_ambient := 0.12
 @export var indoor_ambient := 0.025
 @export_group("Exterior below the base")
@@ -14,11 +20,16 @@ const MAX_RESIDENT_LAMPS := 10
 @export var debug_visibility_profile: Environment
 var debug_darkness := 1.0
 var _debug_viewports: Dictionary = {}
-var _lamps: Array[SpotLight3D] = []
-var _resident_lamps: Array[SpotLight3D] = []
+var _lamps: Array[Light3D] = []
+var _resident_lamps: Array[Light3D] = []
 var _energies: Dictionary = {}
 var _levels: Dictionary = {}
-var _emitters: Dictionary = {}
+var _lamp_enabled: Dictionary = {}
+var _pool_visibility: Dictionary = {}
+var _emergency_lamps: Dictionary = {}
+var _emergency_phase := 0.0
+var emergency_intensity := 1.0
+var _setting_lamp_visibility := false
 var _camera: Camera3D
 var _camera_environment: Environment
 var _indoor_mix := 1.0
@@ -29,7 +40,7 @@ var _outdoor_volume_length := 160.0
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
 var quality_shadow_distance := 96.0
-var _editor_lights:Array[SpotLight3D]=[]
+var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
 var _editor_visibility:Dictionary={}
 
@@ -40,34 +51,106 @@ func _ready() -> void:
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
 	_tag_exterior(get_parent().get_node("SnowExterior"))
 	var arrival := get_parent().get_node_or_null("ArrivalSite")
-	if arrival != null: _tag_shadow_casters(arrival)
-	for node in find_children("*", "SpotLight3D", true, false):
-		var lamp := node as SpotLight3D
-		_lamps.append(lamp)
-		_energies[lamp] = lamp.light_energy
-		_levels[lamp] = 0.0
-		lamp.light_energy = 0.0
-		if not lamp.get_meta("create_lens", true): continue
-		var lens := MeshInstance3D.new()
-		var shape := BoxMesh.new()
-		shape.size = Vector3(0.42, 0.025, 0.16)
-		lens.mesh = shape
-		lens.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		var material := StandardMaterial3D.new()
-		material.set_meta("world_lighting_emission", true)
-		material.albedo_color = lamp.light_color.darkened(0.5)
-		material.emission_enabled = true
-		material.emission = lamp.light_color
-		material.emission_energy_multiplier = 0.0
-		lens.material_override = material
-		lamp.add_child(lens)
-		lens.rotation.x = PI / 2
-		_emitters[lamp] = material
+	if arrival != null:
+		_tag_shadow_casters(arrival)
+		_tag_arrival_exterior(arrival)
+	for node in find_children("*", "Light3D", true, false):
+		if node is SpotLight3D or node is OmniLight3D: _register_lamp(node)
+	get_tree().node_added.connect(_on_node_added)
+
+func _on_node_added(node: Node) -> void:
+	if (node is SpotLight3D or node is OmniLight3D) and is_ancestor_of(node):
+		_register_lamp_id.call_deferred(node.get_instance_id())
+
+func _register_lamp_id(id: int) -> void:
+	var lamp := instance_from_id(id) as Light3D
+	if is_instance_valid(lamp): _register_lamp(lamp)
+
+static func lamp_range(lamp: Light3D) -> float:
+	return lamp.spot_range if lamp is SpotLight3D else lamp.omni_range if lamp is OmniLight3D else 0.0
+
+static func shadow_slot_cost(lamp: Light3D) -> int:
+	# Omni shadows occupy two neighbouring atlas cells (dual paraboloid).
+	return (2 if lamp is OmniLight3D else 1) if lamp.shadow_enabled else 0
+
+func _select_nearest(lamps: Array[Light3D], at: Vector3) -> Array[Light3D]:
+	# Compare coverage: a narrow task lamp must not evict a room's broad fill.
+	lamps.sort_custom(func(a: Light3D, b: Light3D) -> bool: return a.global_position.distance_squared_to(at) / pow(lamp_range(a), 2.0) < b.global_position.distance_squared_to(at) / pow(lamp_range(b), 2.0))
+	var selected: Array[Light3D] = []
+	var slots := 0
+	for lamp in lamps:
+		var cost := shadow_slot_cost(lamp)
+		if selected.size() >= MAX_ACTIVE_LAMPS: break
+		if slots + cost > MAX_ACTIVE_SHADOW_SLOTS: continue
+		selected.append(lamp)
+		slots += cost
+	return selected
+
+func _register_lamp(lamp: Light3D) -> void:
+	if not is_instance_valid(lamp) or not is_ancestor_of(lamp) or _lamps.has(lamp): return
+	_lamps.append(lamp)
+	_energies[lamp] = lamp.light_energy
+	_levels[lamp] = 0.0
+	_lamp_enabled[lamp] = lamp.visible
+	_pool_visibility[lamp] = lamp.visible
+	var emergency := get_node_or_null("Emergency")
+	if emergency != null and emergency.is_ancestor_of(lamp):
+		_emergency_lamps[lamp] = lamp.light_color
+		lamp.light_color = EMERGENCY_COLOR
+	lamp.light_energy = 0.0
+	lamp.visibility_changed.connect(_on_lamp_visibility_changed.bind(lamp))
+	lamp.tree_exiting.connect(_unregister_lamp.bind(lamp), CONNECT_ONE_SHOT)
+
+func _on_lamp_visibility_changed(lamp: Light3D) -> void:
+	# Ancestor visibility also emits this signal. Only a local user change is intent.
+	if not _setting_lamp_visibility and lamp.visible != bool(_pool_visibility[lamp]):
+		_lamp_enabled[lamp] = lamp.visible
+		_pool_visibility[lamp] = lamp.visible
+
+func set_lamp_enabled(lamp: Light3D, enabled: bool) -> void:
+	# Also works on a distant lamp whose render visibility is already false.
+	if not _lamp_enabled.has(lamp): return
+	_lamp_enabled[lamp] = enabled
+	if not enabled:
+		_setting_lamp_visibility = true
+		lamp.hide()
+		_pool_visibility[lamp] = false
+		_setting_lamp_visibility = false
+
+func _unregister_lamp(lamp: Light3D) -> void:
+	if not _energies.has(lamp): return
+	lamp.visibility_changed.disconnect(_on_lamp_visibility_changed.bind(lamp))
+	lamp.light_energy = float(_energies[lamp])
+	if _emergency_lamps.has(lamp): lamp.light_color = _emergency_lamps[lamp]
+	lamp.visible = bool(_lamp_enabled[lamp])
+	_lamps.erase(lamp)
+	_resident_lamps.erase(lamp)
+	for cache in [_energies, _levels, _lamp_enabled, _pool_visibility, _emergency_lamps]:
+		cache.erase(lamp)
+
+func _advance_emergency(delta: float) -> void:
+	# One clock for every backup source and the existing fixture materials.
+	# Modulate energy, never circuit visibility or the shadow residency budget.
+	_emergency_phase = fposmod(_emergency_phase + delta / EMERGENCY_PERIOD, 1.0)
+	var wave := 0.5 + 0.5 * cos(_emergency_phase * TAU)
+	emergency_intensity = lerpf(EMERGENCY_MIN_INTENSITY, 1.0, wave * wave)
+	emergency_intensity_changed.emit(emergency_intensity)
 
 func _tag_exterior(node: Node) -> void:
 	if node is GeometryInstance3D: node.layers |= EXTERIOR_LAYER
 	if node.is_class("Terrain3D"): node.set("render_layers", int(node.get("render_layers")) | EXTERIOR_LAYER)
 	for child in node.get_children(): _tag_exterior(child)
+
+func _tag_arrival_exterior(arrival: Node) -> void:
+	# The fixed pad, ramp and rails need both receiver and caster membership.
+	# Chinook's imported interior is separate from its exterior mesh surfaces;
+	# keep the cabin on its own lamps rather than admitting sun through its walls.
+	for child in arrival.get_children():
+		if child.name == &"Chinook":
+			for mesh: MeshInstance3D in child.find_children("*", "MeshInstance3D", true, false):
+				if "Chinook_Exterior" in mesh.name: mesh.layers |= EXTERIOR_LAYER
+		else:
+			_tag_exterior(child)
 
 func _exclude_body(camera: Camera3D) -> Array[RID]:
 	var result: Array[RID] = []
@@ -93,6 +176,7 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		_editor_preview(delta)
 		return
+	_advance_emergency(delta)
 	var camera := get_viewport().get_camera_3d()
 	if camera == null: return
 	if camera != _camera:
@@ -182,9 +266,9 @@ func _editor_preview(delta:float) -> void:
 	_update_editor_lamp_visibility(camera.global_position)
 
 func _update_editor_lamp_visibility(at: Vector3) -> void:
-	var current: Array[SpotLight3D] = []
-	for lamp: SpotLight3D in find_children("*", "SpotLight3D", true, false):
-		current.append(lamp)
+	var current: Array[Light3D] = []
+	for lamp: Light3D in find_children("*", "Light3D", true, false):
+		if lamp is SpotLight3D or lamp is OmniLight3D: current.append(lamp)
 	for lamp in _editor_lights:
 		if not is_instance_valid(lamp):
 			_editor_visibility.erase(lamp)
@@ -193,11 +277,10 @@ func _update_editor_lamp_visibility(at: Vector3) -> void:
 			RenderingServer.instance_set_visible(lamp.get_instance(), lamp.is_visible_in_tree())
 			_editor_visibility.erase(lamp)
 	_editor_lights = current
-	var nearby:Array[SpotLight3D]=[]
+	var nearby:Array[Light3D]=[]
 	for lamp in _editor_lights:
-		if lamp.is_visible_in_tree() and absf(lamp.global_position.y-at.y)<lamp.spot_range:nearby.append(lamp)
-	nearby.sort_custom(func(a:SpotLight3D,b:SpotLight3D)->bool:return a.global_position.distance_squared_to(at)<b.global_position.distance_squared_to(at))
-	if nearby.size()>MAX_ACTIVE_LAMPS:nearby.resize(MAX_ACTIVE_LAMPS)
+		if lamp.is_visible_in_tree() and absf(lamp.global_position.y-at.y)<lamp_range(lamp):nearby.append(lamp)
+	nearby = _select_nearest(nearby, at)
 	for lamp in _editor_lights:
 		if not is_instance_valid(lamp):continue
 		var active := lamp in nearby
@@ -214,11 +297,11 @@ func _exit_tree() -> void:
 		if is_instance_valid(lamp):RenderingServer.instance_set_visible(lamp.get_instance(),lamp.is_visible_in_tree())
 
 func _update_lamps(at: Vector3, delta: float) -> void:
-	var nearby: Array[SpotLight3D] = []
+	var nearby: Array[Light3D] = []
 	for lamp in _lamps:
-		if lamp.get_parent().visible and lamp.global_position.distance_to(at) < 24.0 and absf(lamp.global_position.y-at.y) < lamp.spot_range: nearby.append(lamp)
-	nearby.sort_custom(func(a: SpotLight3D, b: SpotLight3D) -> bool: return a.global_position.distance_squared_to(at) < b.global_position.distance_squared_to(at))
-	if nearby.size() > MAX_ACTIVE_LAMPS: nearby.resize(MAX_ACTIVE_LAMPS)
+		var parent := lamp.get_parent_node_3d()
+		if bool(_lamp_enabled[lamp]) and (parent == null or parent.is_visible_in_tree()) and lamp.global_position.distance_to(at) < 24.0 and absf(lamp.global_position.y-at.y) < lamp_range(lamp): nearby.append(lamp)
+	nearby = _select_nearest(nearby, at)
 	var targets: Dictionary = {}
 	for lamp in _lamps:
 		var wanted := 1.0 if lamp in nearby else 0.0
@@ -228,46 +311,53 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 	# Finish fading existing residents before admitting new lamps to the atlas.
 	# Capacity limits must never force a visible source to disappear in one frame.
 	var residents := 0
+	var resident_slots := 0
 	for lamp in _lamps:
 		if float(_levels[lamp]) > 0.0:
 			_levels[lamp] = move_toward(float(_levels[lamp]), float(targets[lamp]), delta * 5.0)
-			if float(_levels[lamp]) > 0.0: residents += 1
+			if float(_levels[lamp]) > 0.0:
+				residents += 1
+				resident_slots += shadow_slot_cost(lamp)
 	for lamp in nearby:
-		if float(_levels[lamp]) == 0.0 and residents < MAX_RESIDENT_LAMPS and float(targets[lamp]) > 0.0:
+		var cost := shadow_slot_cost(lamp)
+		if float(_levels[lamp]) == 0.0 and residents < MAX_RESIDENT_LAMPS and resident_slots + cost <= MAX_RESIDENT_SHADOW_SLOTS and float(targets[lamp]) > 0.0:
 			_levels[lamp] = minf(float(targets[lamp]), delta * 5.0)
 			residents += 1
+			resident_slots += cost
 	_resident_lamps.clear()
 	for lamp in _lamps:
 		var level := float(_levels[lamp])
 		if level > 0.0: _resident_lamps.append(lamp)
-		lamp.visible = level > 0.0
+		_setting_lamp_visibility = true
+		lamp.visible = level > 0.0 and bool(_lamp_enabled[lamp])
+		_pool_visibility[lamp] = lamp.visible
+		_setting_lamp_visibility = false
 		var energy := float(_energies[lamp]) * level
+		if _emergency_lamps.has(lamp): energy *= emergency_intensity
 		if not is_equal_approx(lamp.light_energy,energy):lamp.light_energy=energy
-		var material := _emitters.get(lamp) as StandardMaterial3D
-		if material != null and not is_equal_approx(material.emission_energy_multiplier,level*0.45):material.emission_energy_multiplier=level*0.45
 
 func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
 	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, 0.12, _indoor_mix)
 	var exclude := _exclude_body(camera)
-	var sources: Array[SpotLight3D] = _resident_lamps.duplicate()
+	var sources: Array[Light3D] = _resident_lamps.duplicate()
 	for mobile in get_tree().get_nodes_in_group("mobile_interior_lights"):
-		if mobile is SpotLight3D and mobile not in sources:
+		if (mobile is SpotLight3D or mobile is OmniLight3D) and mobile not in sources:
 			sources.append(mobile)
 	for lamp in sources:
 		if not lamp.is_visible_in_tree() or lamp.light_energy <= 0.0: continue
 		var offset := at - lamp.global_position
 		var distance := offset.length()
-		if distance > lamp.spot_range or distance < 0.1: continue
-		if (-lamp.global_basis.z).dot(offset / distance) < cos(deg_to_rad(lamp.spot_angle)): continue
+		if distance > lamp_range(lamp) or distance < 0.1: continue
+		if lamp is SpotLight3D and (-lamp.global_basis.z).dot(offset / distance) < cos(deg_to_rad(lamp.spot_angle)): continue
 		var query := PhysicsRayQueryParameters3D.create(at, lamp.global_position, 1, exclude)
 		if not get_world_3d().direct_space_state.intersect_ray(query).is_empty(): continue
-		sum += lamp.light_color * pow(1.0 - distance / lamp.spot_range, 2.0) * lamp.light_energy * 0.16
+		sum += lamp.light_color * pow(1.0 - distance / lamp_range(lamp), 2.0) * lamp.light_energy * 0.16
 	sum += Color(0.08, 0.095, 0.12) * (1.0 - _indoor_mix)
 	return Color(minf(sum.r, 0.35), minf(sum.g, 0.35), minf(sum.b, 0.35), 1.0)
 
 func _tag_shadow_casters(node: Node) -> void:
 	# Separate caster membership must survive the player camera excluding layers 18/19.
-	# This layer never receives the exterior directional light.
+	# Receiver membership is assigned separately by _tag_arrival_exterior.
 	if node is GeometryInstance3D: node.layers |= ARRIVAL_SHADOW_LAYER
 	for child in node.get_children(): _tag_shadow_casters(child)

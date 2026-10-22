@@ -31,8 +31,8 @@
 [ext_resource type="PackedScene" uid="uid://b0a22emw3fmda" path="res://scenes/art/base/center/center_hub_shell_art.tscn" id="29_center_hub_shell_art"]
 [ext_resource type="PackedScene" uid="uid://bryvl180tngg1" path="res://scenes/art/base/center/center_hub_art.tscn" id="30_center_hub_art"]
 [ext_resource type="PackedScene" uid="uid://ch5em6a8lc1vj" path="res://scenes/art/base/west/west_entrance_shell_art.tscn" id="31_west_entrance_shell_art"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/west/garage_art.tscn" id="32_garage_art"]
-[ext_resource type="PackedScene" path="res://scenes/art/base/west/equipment_room_art.tscn" id="33_equipment_room_art"]
+[ext_resource type="PackedScene" uid="uid://dcjasmmegftoi" path="res://scenes/art/base/west/garage_art.tscn" id="32_garage_art"]
+[ext_resource type="PackedScene" uid="uid://ew2abe5f348n" path="res://scenes/art/base/west/equipment_room_art.tscn" id="33_equipment_room_art"]
 [ext_resource type="PackedScene" path="res://scenes/art/base/west/decontamination_art.tscn" id="34_decontamination_art"]
 [ext_resource type="PackedScene" uid="uid://cjrbntcsssmk3" path="res://scenes/art/base/technical/south_technical_shell_art.tscn" id="35_south_technical_shell_art"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/floors/platform_x_half.tscn" id="36_8phyr"]
@@ -360,7 +360,7 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -26.003, 0, 3.5)
 transform = Transform3D(0.8133333, 0, 0, 0, 0.8, 0, 0, 0, 1, -32, 0, 1.753)
 
 [node name="West_Pedestrian_Inner_Door_Visual_Prototype" parent="Doors" unique_id=474262819 instance=ExtResource("17_west_pedestrian_inner_door_visual")]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -35.003, 0, 3)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -35.003, 0, 5)
 
 [node name="West_Pedestrian_Exterior_Door_Visual_Prototype" parent="Doors" unique_id=895177845 instance=ExtResource("18_west_pedestrian_exterior_door_visual")]
 transform = Transform3D(0, 0, -1, 0, 1.25, 0, 1, 0, 0, -38.003, 0, 3)
@@ -494,18 +494,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.040687084, 3.4806833, -2.0
 
 [node name="Hub_Abandoned_Cargo_Blockout" parent="Center_Hub/Art/CenterHubArt/Blockout/Hub_Lobby_Blockout" parent_id_path=PackedInt32Array(1885625984, 1445090402) index="4" unique_id=1223246272]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63689244, 0, 0.7632258)
-
-[node name="Hub_West_Arrival_Sign_Blockout" parent="Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(1885625984, 1946172280) index="0" unique_id=329877947]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.82, 6, 0)
-
-[node name="Hub_North_Science_Sign_Blockout" parent="Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(1885625984, 1946172280) index="1" unique_id=1110522215]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -7.67)
-
-[node name="Hub_East_Living_Sign_Blockout" parent="Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(1885625984, 1946172280) index="2" unique_id=1647935806]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.67, 6, 0)
-
-[node name="Hub_South_Technical_Sign_Blockout" parent="Center_Hub/Art/CenterHubArt/Blockout/Hub_Signage_Blockout" parent_id_path=PackedInt32Array(1885625984, 1946172280) index="3" unique_id=1290270212]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 7.67)
 
 [node name="West_Entrance" type="Node3D" parent="." unique_id=1457487264]
 
@@ -756,7 +744,6 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 display_material = SubResource("ShaderMaterial_8uay2")
 
 [node name="ArcticBase_ExteriorShell" parent="." unique_id=1692178500 instance=ExtResource("exterior_shell")]
-visible = false
 
 [editable path="Doors/PedestrianWindPassage"]
 [editable path="Center_Hub/Art/CenterHubShellArt"]

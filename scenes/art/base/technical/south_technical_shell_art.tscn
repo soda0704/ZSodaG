@@ -14,6 +14,23 @@
 [ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="13_a32q8"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="13_vs3tt"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vs3tt"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("11_vs3tt")
+metallic = 1.0
+metallic_texture = ExtResource("12_fa6jk")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("12_fa6jk")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("13_a32q8")
+ao_enabled = true
+ao_texture = ExtResource("12_fa6jk")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fa6jk"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
@@ -269,23 +286,6 @@ ao_texture = ExtResource("12_fa6jk")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkr2d"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("11_vs3tt")
-metallic = 1.0
-metallic_texture = ExtResource("12_fa6jk")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("12_fa6jk")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("13_a32q8")
-ao_enabled = true
-ao_texture = ExtResource("12_fa6jk")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
 [node name="SouthTechnicalShellArt" type="Node3D" unique_id=1597912168]
 editor_description = "Оболочка технической секции и разделитель помещений."
 
@@ -299,97 +299,97 @@ transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0.3,
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -6, 5, 12)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2096620768, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_fa6jk")
+surface_material_override/0 = SubResource("StandardMaterial3D_vs3tt")
 
 [node name="CeilingSquares2" parent="Visual/Ceilings" unique_id=1536227918 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -6, 5, 16)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1536227918, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_a32q8")
+surface_material_override/0 = SubResource("StandardMaterial3D_fa6jk")
 
 [node name="CeilingSquares3" parent="Visual/Ceilings" unique_id=834180572 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -6, 5, 20)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(834180572, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_iglso")
+surface_material_override/0 = SubResource("StandardMaterial3D_a32q8")
 
 [node name="CeilingSquares4" parent="Visual/Ceilings" unique_id=1916987067 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -6, 5, 24)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(1916987067, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_fg73g")
+surface_material_override/0 = SubResource("StandardMaterial3D_iglso")
 
 [node name="CeilingSquares5" parent="Visual/Ceilings" unique_id=2110597265 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -2, 5, 12)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(2110597265, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_uiq0k")
+surface_material_override/0 = SubResource("StandardMaterial3D_fg73g")
 
 [node name="CeilingSquares6" parent="Visual/Ceilings" unique_id=2103868206 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -2, 5, 16)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(2103868206, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_a0tak")
+surface_material_override/0 = SubResource("StandardMaterial3D_uiq0k")
 
 [node name="CeilingSquares7" parent="Visual/Ceilings" unique_id=1011829789 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -2, 5, 20)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(1011829789, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_8ur7v")
+surface_material_override/0 = SubResource("StandardMaterial3D_a0tak")
 
 [node name="CeilingSquares8" parent="Visual/Ceilings" unique_id=2078387479 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -2, 5, 24)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(2078387479, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ky6hd")
+surface_material_override/0 = SubResource("StandardMaterial3D_8ur7v")
 
 [node name="CeilingSquares9" parent="Visual/Ceilings" unique_id=311591634 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 2, 5, 12)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(311591634, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_6umcv")
+surface_material_override/0 = SubResource("StandardMaterial3D_ky6hd")
 
 [node name="CeilingSquares10" parent="Visual/Ceilings" unique_id=420156577 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 2, 5, 16)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(420156577, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_8bygb")
+surface_material_override/0 = SubResource("StandardMaterial3D_6umcv")
 
 [node name="CeilingSquares11" parent="Visual/Ceilings" unique_id=476750687 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 2, 5, 20)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(476750687, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_bcs71")
+surface_material_override/0 = SubResource("StandardMaterial3D_8bygb")
 
 [node name="CeilingSquares12" parent="Visual/Ceilings" unique_id=637424257 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 2, 5, 24)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(637424257, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_pd1sm")
+surface_material_override/0 = SubResource("StandardMaterial3D_bcs71")
 
 [node name="CeilingSquares13" parent="Visual/Ceilings" unique_id=1464018267 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 6, 5, 12)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(1464018267, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_np27i")
+surface_material_override/0 = SubResource("StandardMaterial3D_pd1sm")
 
 [node name="CeilingSquares14" parent="Visual/Ceilings" unique_id=1483207972 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 6, 5, 16)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(1483207972, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_hrkka")
+surface_material_override/0 = SubResource("StandardMaterial3D_np27i")
 
 [node name="CeilingSquares15" parent="Visual/Ceilings" unique_id=298649282 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 6, 5, 20)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(298649282, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_fsynj")
+surface_material_override/0 = SubResource("StandardMaterial3D_hrkka")
 
 [node name="CeilingSquares16" parent="Visual/Ceilings" unique_id=1633977577 instance=ExtResource("9_naj1b")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 6, 5, 24)
 
 [node name="Mesh0" parent="Visual/Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(1633977577, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_rkr2d")
+surface_material_override/0 = SubResource("StandardMaterial3D_fsynj")
 
 [node name="Walls_5" type="Node3D" parent="Visual" unique_id=267552247]
 

@@ -4,7 +4,7 @@ const OUT := "res://tools/.local/world-lighting-review/"
 var failures := 0
 
 func _initialize() -> void:
-	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://world_lighting_test.cfg")
+	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"res://tools/.local/world_lighting_test.cfg")
 	run.call_deferred()
 
 func check(ok: bool, label: String) -> void:
@@ -38,6 +38,18 @@ func capture(label: String) -> Image:
 	picture.save_png(OUT+label+".png")
 	return picture
 
+func shadow_slots_in_view(level: Node3D, camera: Camera3D) -> int:
+	var slots := 0
+	for lamp: Light3D in level.find_children("*", "Light3D", true, false):
+		if not (lamp is SpotLight3D or lamp is OmniLight3D) or not lamp.is_visible_in_tree() or lamp.light_energy <= 0.0: continue
+		# Remote winch indicators and the helicopter do not share a visible pass.
+		# Use conservative range spheres rather than only the light's centre.
+		var in_view := true
+		for plane: Plane in camera.get_frustum():
+			if plane.distance_to(lamp.global_position) > WorldLighting.lamp_range(lamp): in_view = false
+		if in_view: slots += WorldLighting.shadow_slot_cost(lamp)
+	return slots
+
 func run() -> void:
 	if DisplayServer.get_name()=="headless": quit(1); return
 	var menu=root.get_node("GameMenu")
@@ -55,6 +67,7 @@ func run() -> void:
 	state.containment={"fault":false}
 	var power:BasePowerLightingController=level.get_node("BasePowerLightingController")
 	var lighting=level.get_node("WorldLighting")
+	check(lighting.is_visible_in_tree(),"assembled level enables the shared lighting root")
 	var indirect: Node3D=level.get_node("WorldIndirectLighting")
 	var probes:=indirect.find_children("*","VoxelGI",true,false)
 	check(probes.size()==8,"all eight lighting zones have baked voxel geometry")
@@ -72,6 +85,7 @@ func run() -> void:
 	check(interior_probes and overlap_safe,"underground GI excludes sky while surface GI preserves exterior ambient; no triple overlap")
 	var authored: Environment = level.get_node("SnowExterior/OvercastDayEnvironment").environment
 	var panorama := authored.sky.sky_material as PanoramaSkyMaterial
+	check(authored.reflected_light_source == Environment.REFLECTION_SOURCE_SKY,"outdoor metal receives HDR sky reflections")
 	check(panorama != null and panorama.panorama.resource_path.ends_with("overcast_soil_puresky_4k.exr") and panorama.panorama.get_width() == 4096,"sky uses the full-resolution project EXR")
 	check(authored.sky.radiance_size == Sky.RADIANCE_SIZE_1024 and authored.sky.process_mode == Sky.PROCESS_MODE_QUALITY,"static HDR sky uses quality radiance processing")
 	var player:GamePlayer=load("res://scenes/characters/player.tscn").instantiate()
@@ -83,9 +97,16 @@ func run() -> void:
 	player.apply_held_item_inventory(&"pistol",{})
 	player.weapon.apply_state(&"pistol",12,0)
 	player.update_character_animation(1.0/60)
+	# Photometry must sample world surfaces rather than moving HUD labels.
+	player.get_node("PlayerUI").hide()
+	player.weapon.get_node("HUD").hide()
 	var camera:Camera3D=player.camera
 	camera.make_current()
 	await frames(45)
+	var no_generated_geometry := true
+	for lamp: Light3D in lighting._lamps:
+		no_generated_geometry = no_generated_geometry and lamp.get_child_count() == 0
+	check(no_generated_geometry,"world lamps add light without generated glowing squares")
 	if "--approach-check" in OS.get_cmdline_user_args():
 		player.debug_free_camera.set_enabled(true)
 		camera=player.debug_free_camera
@@ -185,6 +206,20 @@ func run() -> void:
 	check(not player.body_animator.first_person.view_camera.environment.volumetric_fog_enabled,"hands never render the world's volumetric scattering again")
 	power.apply_power_state(false)
 	await frames(40)
+	var pulse_min := 1.0
+	var pulse_max := 0.0
+	for frame in 150:
+		await process_frame
+		if frame % 10 != 0: continue
+		var pulse_picture := await capture("emergency-pulse-%02d" % frame)
+		pulse_min = minf(pulse_min, mean(pulse_picture))
+		pulse_max = maxf(pulse_max, mean(pulse_picture))
+	print("RENDER PULSE min=",pulse_min," max=",pulse_max)
+	check(pulse_max > pulse_min * 1.25,"real emergency render visibly blinks with the running clock")
+	# Compare still images at the same bright phase; temporal behaviour is tested above.
+	var hold_bright_phase := func() -> void: lighting._emergency_phase = 0.0
+	process_frame.connect(hold_bright_phase)
+	await frames(30)
 	var emergency:=await capture("garage-emergency")
 	power.apply_power_state(true)
 	await frames(40)
@@ -216,7 +251,14 @@ func run() -> void:
 	await capture("garage-powered")
 	print("GI LEVELS direct=",mean(direct_only)," bounced=",mean(bounced_only))
 	check(mean(bounced_only)>mean(direct_only)+0.005,"voxel indirect light visibly contributes beyond direct lamps")
-	check(mean(powered)<0.22,"indirect light preserves the dark horror interior")
+	# The approved relight is brighter and neutral. Keep exposure bounded and
+	# verify highlight detail instead of enforcing the former horror darkness.
+	var clipped_surfaces := 0
+	for x in 48:
+		for y in 27:
+			var color := powered.get_pixel(x*powered.get_width()/48,y*powered.get_height()/27)
+			if minf(color.r,minf(color.g,color.b)) > 0.98: clipped_surfaces += 1
+	check(mean(powered)>0.12 and mean(powered)<0.42 and clipped_surfaces<26,"brighter realistic interior retains surface detail without white clipping")
 	print("LIGHT LEVELS emergency=",mean(emergency)," powered=",mean(powered))
 	check(mean(powered)>mean(emergency)*1.15,"standard room lighting is brighter than the emergency circuit")
 	var home:=camera.global_transform
@@ -244,9 +286,7 @@ func run() -> void:
 		for i in values.size():
 			if not previous.is_empty() and values[i]>=0 and previous[i]>=0:largest_jump=maxf(largest_jump,absf(values[i]-previous[i]))
 		previous=values
-		var active:=0
-		for lamp in level.find_children("*","SpotLight3D",true,false):
-			if lamp.is_visible_in_tree() and lamp.shadow_enabled:active+=1
+		var active := shadow_slots_in_view(level, camera)
 		maximum_lamps=maxi(maximum_lamps,active)
 		check(is_equal_approx(camera.environment.ambient_light_energy,lighting.indoor_ambient),"camera rotation preserves indoor ambient %d"%index)
 	print("MOTION largest_luminance_step=",largest_jump," max_shadow_lamps=",maximum_lamps)
@@ -265,6 +305,7 @@ func run() -> void:
 	level.get_node("WorldLighting/OvercastSun").show()
 	var locations := [
 		["hub",Vector3(0,1.75,6),Vector3(0,1.6,-4)],
+		["hub-walkway",Vector3(-5.3,1.75,5.3),Vector3(-5.3,2,-5.3)],
 		["technical-storage",Vector3(0,1.75,12),Vector3(-3.5,1.6,18)],
 		["generator",Vector3(-3.5,1.75,20),Vector3(1.5,1.6,22)],
 		["living",Vector3(23,1.75,-1),Vector3(28,1.7,2)],
@@ -272,7 +313,8 @@ func run() -> void:
 		["level-2",Vector3(-17,-31.75,0),Vector3(-29,-33.5,0)],
 		["level-3",Vector3(-25,-52.25,1),Vector3(-30,-52,-10)],
 		["level-4",Vector3(-5.5,-70.25,2),Vector3(-11,-70.25,0)],
-		["level-5",Vector3(-6.25,-88.25,2),Vector3(-13,-88.25,0)]
+		["level-5",Vector3(-6.25,-88.25,2),Vector3(-13,-88.25,0)],
+		["winch-work",Vector3(-33.5,-86.25,-15),Vector3(-33.5,-84,-22)]
 	]
 	for location in locations:
 		camera.global_position=location[1]
@@ -281,9 +323,7 @@ func run() -> void:
 		var room_picture:=await capture(location[0])
 		print("ROOM ",location[0]," mean=",mean(room_picture)," fps=",Engine.get_frames_per_second())
 		check(is_equal_approx(camera.environment.ambient_light_energy,lighting.indoor_ambient),"room "+location[0]+" uses interior lighting")
-		var residents:=0
-		for lamp in level.find_children("*","SpotLight3D",true,false):
-			if lamp.is_visible_in_tree() and lamp.shadow_enabled:residents+=1
+		var residents := shadow_slots_in_view(level, camera)
 		check(residents<=16,"room "+location[0]+" stays within the shadow budget")
 		check(indirect.get_active_probe_count()<=3,"room "+location[0]+" does not render GI on unrelated floors")
 		var resident_probes:=0
@@ -291,6 +331,78 @@ func run() -> void:
 			if probe.data!=null:resident_probes+=1
 		check(resident_probes<=3,"room "+location[0]+" releases distant GPU volumes")
 		check(player.body_animator.first_person.view_camera.environment.get_instance_id()==hands_environment_id,"room "+location[0]+" reuses the hand environment")
+		var room_pose := camera.global_transform
+		var view_overlay:CanvasLayer=player.body_animator.first_person.overlay
+		var presentation=player.body_animator.first_person
+		var was_external:bool=presentation._external_view
+		presentation.set_external_view(true)
+		# The winch inspection target is above the player; floor photometry needs
+		# its own downward aim instead of reusing the machinery's target height.
+		var floor_target:Vector3=location[2]
+		floor_target.y=camera.global_position.y-1.75
+		camera.look_at(floor_target)
+		var floor_pose:=camera.global_transform
+		await frames(20)
+		check(not view_overlay.visible,"floor photometry excludes the first-person overlay "+location[0])
+		var floor_picture := await capture(location[0]+"-floor")
+		var floor_total := 0.0
+		var floor_samples := 0
+		var floor_points:Array[Vector3]=[]
+		for x in 12:
+			for y in 8:
+				var screen := Vector2(0.15 + x * 0.06, 0.45 + y * 0.06) * root.get_visible_rect().size
+				var ray := camera.project_ray_normal(screen)
+				var hit := camera.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(camera.global_position,camera.global_position+ray*25.0,1,[player.get_rid()]))
+				if hit.is_empty() or hit.normal.dot(Vector3.UP)<0.8 or hit.position.y>camera.global_position.y-1.2: continue
+				var value := sample(floor_picture,camera,hit.position)
+				if value < 0.0: continue
+				floor_total += value
+				floor_samples += 1
+				floor_points.append(hit.position)
+		var floor_mean := floor_total/maxi(floor_samples,1)
+		print("FLOOR ",location[0]," samples=",floor_samples," luminance=",floor_mean)
+		check(floor_samples>=3 and floor_mean>0.018,"room "+location[0]+" has visible physical floor sections")
+		camera.look_at(location[2] + Vector3.UP * 3.0)
+		await frames(20)
+		var ceiling_picture := await capture(location[0]+"-ceiling")
+		var ceiling_total := 0.0
+		var ceiling_samples := 0
+		for x in 12:
+			for y in 8:
+				var screen := Vector2(0.15 + x * 0.06, 0.04 + y * 0.05) * root.get_visible_rect().size
+				var ray := camera.project_ray_normal(screen)
+				var query := PhysicsRayQueryParameters3D.create(camera.global_position, camera.global_position + ray * 35.0, 1, [player.get_rid()])
+				var hit := camera.get_world_3d().direct_space_state.intersect_ray(query)
+				if hit.is_empty() or hit.normal.dot(Vector3.DOWN) < 0.7: continue
+				var value := sample(ceiling_picture, camera, hit.position)
+				if value < 0.0: continue
+				ceiling_total += value
+				ceiling_samples += 1
+		var ceiling_mean := ceiling_total / maxi(ceiling_samples, 1)
+		print("CEILING ",location[0]," samples=",ceiling_samples," luminance=",ceiling_mean)
+		check(ceiling_samples >= 3 and ceiling_mean > 0.018,"room "+location[0]+" has a visible physical ceiling")
+		presentation.set_external_view(was_external)
+		camera.global_transform = room_pose
+		power.apply_power_state(false)
+		await frames(30)
+		var backup_picture := await capture(location[0]+"-emergency")
+		print("BACKUP ROOM ",location[0]," mean=",mean(backup_picture))
+		if location[0] != "hub":
+			check(mean(backup_picture)>0.008,"emergency route "+location[0]+" remains readable")
+			check(mean(room_picture)>mean(backup_picture)*1.1,"normal circuit "+location[0]+" is brighter than emergency")
+		camera.global_transform=floor_pose
+		presentation.set_external_view(true)
+		await frames(15)
+		var backup_floor:=await capture(location[0]+"-floor-emergency")
+		var backup_floor_total:=0.0
+		for point in floor_points:backup_floor_total+=sample(backup_floor,camera,point)
+		var backup_floor_mean:=backup_floor_total/maxi(floor_points.size(),1)
+		print("BACKUP FLOOR ",location[0]," luminance=",backup_floor_mean)
+		check(floor_points.size()>=3 and backup_floor_mean>0.004,"room "+location[0]+" retains visible floor sections in the bright emergency phase")
+		presentation.set_external_view(was_external)
+		camera.global_transform=room_pose
+		power.apply_power_state(true)
+		await frames(30)
 	var smooth_handover := true
 	var bounded_handover := true
 	for step in 120:
@@ -298,11 +410,14 @@ func run() -> void:
 		var route := Vector3(lerpf(-35.0, 30.0, step / 119.0), 1.75, 0.0)
 		lighting._update_lamps(route, 1.0 / 60.0)
 		var residents := 0
+		var resident_slots := 0
 		for lamp in lighting._lamps:
 			var lamp_level: float = lighting._levels[lamp]
-			if lamp_level > 0.0: residents += 1
+			if lamp_level > 0.0:
+				residents += 1
+				resident_slots += WorldLighting.shadow_slot_cost(lamp)
 			if absf(lamp_level - float(before[lamp])) > 5.0 / 60.0 + 0.0001: smooth_handover = false
-		if residents > lighting.MAX_RESIDENT_LAMPS: bounded_handover = false
+		if residents > lighting.MAX_RESIDENT_LAMPS or resident_slots > lighting.MAX_RESIDENT_SHADOW_SLOTS: bounded_handover = false
 	check(smooth_handover,"changing nearest lamps never abruptly removes a resident light")
 	check(bounded_handover,"lamp handover reserves flashlight slots even during rapid traversal")
 	camera.global_transform=home
@@ -316,6 +431,35 @@ func run() -> void:
 	check(player.flashlight.beam.is_visible_in_tree() and player.flashlight.beam.shadow_enabled,"handheld flashlight casts world shadows")
 	check(mean(flashlight_picture)>mean(emergency),"flashlight makes the emergency room more readable")
 	player.flashlight.set_enabled(false,false)
+	var arrival:Node3D=level.get_node("ArrivalSite")
+	var ramp:GeometryInstance3D=arrival.get_node("MetalAccessRamp")
+	check((ramp.layers & WorldLighting.EXTERIOR_LAYER)!=0 and (ramp.layers & WorldLighting.ARRIVAL_SHADOW_LAYER)!=0,"arrival ramp receives sunlight and retains its shadow layer")
+	var aircraft_split := true
+	var exterior_meshes := 0
+	var interior_meshes := 0
+	for mesh:MeshInstance3D in arrival.get_node("Chinook").find_children("*","MeshInstance3D",true,false):
+		if "Chinook_Exterior" in mesh.name:
+			exterior_meshes += 1
+			aircraft_split = aircraft_split and (mesh.layers & WorldLighting.EXTERIOR_LAYER)!=0
+		if "Chinook Interior" in mesh.name:
+			interior_meshes += 1
+			aircraft_split = aircraft_split and (mesh.layers & WorldLighting.EXTERIOR_LAYER)==0
+	check(aircraft_split and exterior_meshes>0 and interior_meshes>0,"aircraft exterior receives sun while cabin surfaces keep their separate lighting")
+	camera.global_position=arrival.to_global(Vector3(26,3,5))
+	camera.look_at(arrival.to_global(Vector3(20,2.5,0)))
+	await frames(45)
+	var ramp_picture := await capture("arrival-ramp")
+	var ramp_total := 0.0
+	var ramp_samples := 0
+	for x in [19.0,21.0,23.0,25.0,27.0]:
+		for z in [-0.7,0.0,0.7]:
+			var point := arrival.to_global(Vector3(x,3.55-(x-15.7)*3.45/15.3+0.015,z))
+			var value := sample(ramp_picture,camera,point)
+			if value<0.0:continue
+			ramp_total+=value
+			ramp_samples+=1
+	print("ARRIVAL RAMP samples=",ramp_samples," luminance=",ramp_total/maxi(ramp_samples,1))
+	check(ramp_samples>=8 and ramp_total/maxi(ramp_samples,1)>0.035,"metal ramp remains readable under the overcast sky")
 	camera.global_position=Vector3(-65,2.5,8)
 	camera.look_at(Vector3(-38,2,0))
 	await frames(45)
@@ -358,4 +502,5 @@ func run() -> void:
 	check(is_equal_approx(lighting.get_node("OvercastSun").directional_shadow_max_distance,96.0),"High preset restores authored exterior shadow distance")
 	check(not level.get_node("SnowExterior/Terrain3D/MouseViewport/MouseCamera").environment.ssao_enabled,"preset switching preserves Terrain3D picking environment")
 	print("WORLD LIGHTING FAILURES ",failures)
+	process_frame.disconnect(hold_bright_phase)
 	quit(1 if failures else 0)

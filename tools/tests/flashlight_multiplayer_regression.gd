@@ -63,6 +63,15 @@ func run() -> void:
  client_shake.rpc_id(client_id, 5)
  await get_tree().create_timer(1.3).timeout
  check(not actor._flashlight_malfunctioning and actor._flashlight_enabled and actor.flashlight.beam.visible, "six client taps repair authoritative torch")
+ actor.apply_inventory_snapshot({"held_item": &"m4a1", "has_flashlight": true, "weapon_light_mounted": true, "battery_charge": 0.8, "flashlight_enabled": true, "weapon_rounds": 20})
+ actor._publish_inventory()
+ await get_tree().create_timer(0.3).timeout
+ check(not actor.flashlight.malfunction_timer.is_stopped() and not actor.flashlight.malfunction_timer.paused, "remote owner's mounted light runs server contact timer")
+ actor.flashlight.begin_malfunction(true)
+ await get_tree().create_timer(0.3).timeout
+ client_repair_mounted.rpc_id(client_id)
+ await get_tree().create_timer(1.5).timeout
+ check(not actor._flashlight_malfunctioning and actor._flashlight_enabled and actor.weapon._mounted_beam.is_visible_in_tree(), "client repairs mounted torch on authoritative server")
  finish_remote.rpc_id(client_id)
  await get_tree().create_timer(0.5).timeout
  finish()
@@ -86,6 +95,10 @@ func client_shake(count: int) -> void:
  for i in range(count):
   actor.request_inventory_action(&"shake_flashlight")
   await get_tree().create_timer(0.16).timeout
+@rpc("authority", "call_remote", "reliable")
+func client_repair_mounted() -> void:
+ check(actor.weapon_light_mounted and actor._flashlight_malfunctioning and actor.needs_flashlight_shake(), "mounted contact fault reaches owning client")
+ await client_shake(6)
 @rpc("authority", "call_remote", "reliable")
 func finish_remote() -> void:
  check(not actor._flashlight_malfunctioning and actor._flashlight_enabled and not actor.get_node("PlayerUI/FlashlightShakeHint").visible, "repaired state and hidden hint reach client")

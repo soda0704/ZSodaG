@@ -1635,7 +1635,8 @@ func update_authoritative_flashlight_battery(delta: float) -> void:
 	# A stowed light (journal, sleep, two-hand reload) does not spend charge.
 	if _journal_phase > 0 or _is_sleeping_in_bunk or survival.dead or is_driving() or is_carrying_corpse():
 		return
-	if not weapon_light_mounted and not flashlight.is_enabled and get_tree().get_first_node_in_group("wiring_ui") == null:
+	var light_working := weapon._mounted_beam.is_visible_in_tree() if weapon_light_mounted else flashlight.is_enabled
+	if not light_working and get_tree().get_first_node_in_group("wiring_ui") == null:
 		return
 	_battery_charge = maxf(
 		_battery_charge - delta / maxf(battery_duration_seconds, 1.0),

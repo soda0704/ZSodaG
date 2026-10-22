@@ -62,6 +62,7 @@ var _battery_tween: Tween
 var _battery_pose: float = 0.0
 var _replacement_cell: MeshInstance3D
 var rig_animator: Node
+var _external_light_enabled := false
 
 
 func _ready() -> void:
@@ -216,16 +217,29 @@ func set_enabled(value: bool, should_emit_signal: bool = true) -> void:
 	is_enabled = next_state
 	apply_light_output(is_enabled)
 
-	if is_enabled and malfunction_enabled:
+	_update_malfunction_timer()
+
+	if should_emit_signal:
+		state_changed.emit(is_enabled)
+
+
+func set_external_light_enabled(value: bool) -> void:
+	# A mounted lamp uses another Light3D, but the same physical battery/contact.
+	var next_state := value and battery_charge > 0.0 and not is_malfunctioning
+	if _external_light_enabled == next_state:
+		return
+	_external_light_enabled = next_state
+	_update_malfunction_timer()
+
+
+func _update_malfunction_timer() -> void:
+	if (is_enabled or _external_light_enabled) and malfunction_enabled and not is_malfunctioning:
 		malfunction_timer.paused = false
 		if malfunction_timer.is_stopped():
 			malfunction_timer.start(randf_range(maxf(malfunction_interval_seconds, 0.1), maxf(malfunction_interval_max_seconds, malfunction_interval_seconds)))
 	else:
 		# Pocketing pauses the current interval instead of rerolling it.
 		malfunction_timer.paused = true
-
-	if should_emit_signal:
-		state_changed.emit(is_enabled)
 
 
 func set_battery_charge(value: float, should_emit_signal: bool = true) -> void:
@@ -237,6 +251,8 @@ func set_battery_charge(value: float, should_emit_signal: bool = true) -> void:
 	battery_charge = next_charge
 	if battery_charge <= 0.0 and is_enabled:
 		set_enabled(false)
+	if battery_charge <= 0.0:
+		set_external_light_enabled(false)
 	if should_emit_signal:
 		battery_changed.emit(battery_charge)
 	if was_charged and battery_charge <= 0.0:
@@ -253,14 +269,15 @@ func drain_battery(delta: float) -> void:
 func begin_malfunction(force: bool = false) -> void:
 	if (
 		(not malfunction_enabled and not force)
-		or not is_available
-		or not is_enabled
+		or not ((is_available and is_enabled) or _external_light_enabled)
+		or battery_charge <= 0.0
 		or is_malfunctioning
 	):
 		return
 
 	is_malfunctioning = true
 	is_enabled = false
+	_external_light_enabled = false
 	malfunction_timer.stop()
 	_flicker_step = 0
 	state_changed.emit(false)

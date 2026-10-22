@@ -47,7 +47,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_astra_straight.tscn" id="45_ke51e"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_inner.tscn" id="46_makyr"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_round_outer.tscn" id="47_7odfe"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn" id="48_qeytg"]
+[ext_resource type="PackedScene" uid="uid://bwmdj6buy2i" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_inner.tscn" id="48_qeytg"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_corner_square_outer.tscn" id="49_goys8"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight.tscn" id="50_a8gf7"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_cables_straight_hanging.tscn" id="51_qqnvc"]
