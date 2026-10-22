@@ -58,6 +58,9 @@
 [ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_03.tres" id="mark_glass_3"]
 [ext_resource type="Texture2D" path="res://assets/effects/bullet_marks/glass_04.tres" id="mark_glass_4"]
 
+[ext_resource type="Script" path="res://scripts/gameplay/weapons/flamethrower_controller.gd" id="flame_logic"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/flamethrower_jet.tscn" id="flame_jet"]
+
 [node name="Weapon" type="Node3D"]
 script = ExtResource("controller")
 pistol_sound = ExtResource("pistol")
@@ -115,3 +118,9 @@ grow_vertical = 0
 mouse_filter = 2
 horizontal_alignment = 2
 theme_override_font_sizes/font_size = 22
+
+
+[node name="Flamethrower" type="Node" parent="."]
+script = ExtResource("flame_logic")
+
+[node name="FlameJet" parent="Flamethrower" instance=ExtResource("flame_jet")]

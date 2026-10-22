@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+const FlameCommands = preload("res://scripts/ui/developer_flamethrower_commands.gd")
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
 const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off"]
@@ -33,8 +34,8 @@ func _help_text() -> String:
 	lines.append("[url=/freecam]/freecam[/url] — Выйти из тела / вернуться; WASD, мышь, Space/Ctrl, Shift ×3")
 	lines.append("[url=/freecam speed 5]/freecam speed 5[/url] — Скорость камеры (0.1–100 м/с); /freecam speed reset — сброс")
 	lines.append("[url=/fullbright]/fullbright[/url] — Светлый тестовый режим без затемнения; on/off — включить/выключить")
-	for command in COMMANDS:
-		lines.append("[url=%s]%s[/url] — %s" % [command, command, COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
+	for command in COMMANDS + FlameCommands.COMMANDS:
+		lines.append("[url=%s]%s[/url] — %s" % [command, command, (FlameCommands.description(command) if command in FlameCommands.COMMANDS else COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], "")))])
 	for command in INSPECTION_COMMANDS:
 		lines.append("[url=%s]%s[/url] — %s" % [command, command, _inspection_description(command)])
 	return "\n".join(lines)
@@ -134,7 +135,7 @@ func complete_command() -> void:
 			partial = "/" + partial
 		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
 		_completion_suffix = entry.text.substr(bounds.y)
-		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS:
+		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS + FlameCommands.COMMANDS:
 			if command.begins_with(partial):
 				_completion_options.append(command)
 		_completion_index = -1
@@ -289,6 +290,8 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
 		return TargetCommands.execute(args, player, selected, point)
+	if args[0]=="/flame":
+		return FlameCommands.execute(args,player)
 	match args[0]:
 		"/status":
 			if state == null: return "База ещё не загружена."
@@ -401,8 +404,8 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 				player.pickup_world_item_authoritative(&"rifle_magazine", {"rounds": 30})
 			return "Добавлены патроны и магазины."
 		"/weapon":
-			if args.size() != 2 or args[1] not in ["pistol", "m4a1", "kitchen_knife"]:
-				return "Использование: /weapon pistol|m4a1|kitchen_knife"
+			if args.size() != 2 or args[1] not in ["pistol", "m4a1", "kitchen_knife", "flamethrower"]:
+				return "Использование: /weapon pistol|m4a1|kitchen_knife|flamethrower"
 			return "Оружие выдано." if player.pickup_world_item_authoritative(StringName(args[1]), {}) else "Не удалось взять оружие."
 		"/monsters":
 			if encounter == null or args.size() != 2 or args[1] not in ["reset", "kill"]:
@@ -453,9 +456,9 @@ func _refresh_suggestions() -> void:
 	var partial := entry.text.substr(bounds.x, bounds.y - bounds.x).strip_edges().to_lower()
 	if not partial.begins_with("/"): partial = "/" + partial
 	var lines: PackedStringArray = []
-	for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS:
+	for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS + FlameCommands.COMMANDS:
 		if command.begins_with(partial):
-			lines.append("[url=%s]%s[/url] — %s" % [command, command, _inspection_description(command) if command in INSPECTION_COMMANDS else COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], ""))])
+			lines.append("[url=%s]%s[/url] — %s" % [command, command, _inspection_description(command) if command in INSPECTION_COMMANDS else (FlameCommands.description(command) if command in FlameCommands.COMMANDS else COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], "")))])
 	$Panel/Box/Commands.text = "\n".join(lines)
 
 

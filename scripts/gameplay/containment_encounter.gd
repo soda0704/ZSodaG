@@ -64,7 +64,9 @@ func _on_zone_entered(body: Node3D, index: int) -> void:
 		return
 	var required_day: int = [state.LEVEL_TWO_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.TRIALS_DAY_INDEX, state.EXPEDITION_DAY_INDEX, state.CAVE_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.CAVE_DAY_INDEX][index]
 	var key: String = ["level2", "level3", "trials", "shaft", "cave_exited", "level3", "cave_visited"][index]
-	if state.day_index != required_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
+	if key == "cave_exited" and not state.are_cave_hives_destroyed(): return
+	var valid_day: bool = state.day_index >= required_day if key in ["cave_exited", "cave_visited"] else state.day_index == required_day
+	if not valid_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
 		return
 	var data := state.containment.duplicate(true)
 	data[key] = true

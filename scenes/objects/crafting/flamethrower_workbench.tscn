@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/crafting/flamethrower_workbench.gd" id="logic"]
+
+[sub_resource type="BoxShape3D" id="TabletopTarget"]
+size = Vector3(3.7, 0.08, 0.85)
+
+[node name="FlamethrowerWorkbench" type="StaticBody3D"]
+editor_description = "Interaction fitted over the existing equipment-room issue island at surface level. Uses the original table; no replacement room or UI overlay."
+script = ExtResource("logic")
+position = Vector3(-22, 1.23, -0.5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("TabletopTarget")

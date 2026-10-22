@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/crafting/prepared/hardware_box.res" id="1_vre16"]
+
+[node name="HardwareBox" type="Node3D" unique_id=39627271]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=718138686]
+mesh = ExtResource("1_vre16")

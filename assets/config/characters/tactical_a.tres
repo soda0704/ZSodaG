@@ -12,3 +12,5 @@ body_scene = ExtResource("2")
 first_person_scene = ExtResource("3")
 ragdoll_scene = ExtResource("5")
 retarget_bone_map = ExtResource("6")
+
+first_person_item_offsets = Dictionary[StringName, Vector3]({&"flamethrower": Vector3(0.0, 0.04, -0.15)})

@@ -73,7 +73,9 @@ func _valid_item(path: NodePath) -> WorldItemPickup:
 	var item := get_node_or_null(path) as WorldItemPickup
 	if item == null or item._collected or item.drag_owner_peer not in [0, player.owner_peer_id] or item.global_position.distance_to(player.head.global_position) > item.drag_distance:
 		return null
-	var ray := PhysicsRayQueryParameters3D.create(player.head.global_position, item.global_position, 1, [player.get_rid(), item.get_rid()])
+	# Bottom pivots may sit microscopically inside a supporting floor/table.
+	# Test the authored interior anchor, keeping real world occlusion intact.
+	var ray := PhysicsRayQueryParameters3D.create(player.head.global_position, item.get_interaction_position(), 1, [player.get_rid(), item.get_rid()])
 	if not player.debug_across and not player.get_world_3d().direct_space_state.intersect_ray(ray).is_empty():
 		return null
 	return item

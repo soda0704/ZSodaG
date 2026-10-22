@@ -1,0 +1,11 @@
+Model Information:
+* title:	Apocalyptic Flamethrower
+* source:	https://sketchfab.com/3d-models/apocalyptic-flamethrower-3f3ed85845574db48b4c943161469d14
+* author:	Nazareno_rojas (https://sketchfab.com/Nazareno_rojas)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Apocalyptic Flamethrower" (https://sketchfab.com/3d-models/apocalyptic-flamethrower-3f3ed85845574db48b4c943161469d14) by Nazareno_rojas (https://sketchfab.com/Nazareno_rojas) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

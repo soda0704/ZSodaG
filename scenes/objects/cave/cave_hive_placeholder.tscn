@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/cave/cave_hive_placeholder.gd" id="target"]
+[ext_resource type="Script" path="res://scripts/gameplay/monster_visual.gd" id="visual"]
+[ext_resource type="PackedScene" path="res://assets/monsters/the_monster/scene.gltf" id="model"]
+
+[sub_resource type="CapsuleShape3D" id="BodyShape"]
+radius = 0.45
+height = 1.9
+
+[node name="HivePlaceholder" type="StaticBody3D"]
+editor_description = "Temporary hive represented by the tailed monster in a frozen native pose. No AI, patrol, hearing or attacks."
+script = ExtResource("target")
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.95, 0)
+shape = SubResource("BodyShape")
+
+[node name="Visual" type="Node3D" parent="."]
+rotation = Vector3(0, 3.1415927, 0)
+script = ExtResource("visual")
+
+[node name="Model" parent="Visual" instance=ExtResource("model")]
+position = Vector3(0.05489679, 0.08547643, 3.0602893)
+scale = Vector3(0.8933325, 0.8933325, 0.8933325)

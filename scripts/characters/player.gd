@@ -172,6 +172,8 @@ var _pad_sprint: bool = false
 @export_range(0.0, 5.0) var crouching_noise_radius := 0.8
 @export_range(0.2, 3.0) var noise_stride := 1.5
 var _noise_step_distance := 0.0
+const CRAFT_RECIPE = preload("res://assets/config/flamethrower_recipe.tres")
+var crafting_parts: Dictionary = {}
 var tape_count := 0
 var crowbar_uses := 0
 var weapon_light_mounted := false
@@ -1131,7 +1133,12 @@ func pickup_world_item_authoritative(
 		_publish_inventory()
 		return true
 
-	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM, SEED_ITEM] and not WeaponController.TYPES.has(item_type):
+	if CRAFT_RECIPE.pickup_scenes.has(item_type):
+		crafting_parts[item_type] = int(crafting_parts.get(item_type, 0)) + 1
+		_publish_inventory()
+		return true
+
+	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM, SEED_ITEM, &"flamethrower"] and not WeaponController.TYPES.has(item_type):
 		return false
 	if item_type == FLASHLIGHT_ITEM:
 		if weapon_light_mounted or _battery_action_busy:
@@ -1142,10 +1149,10 @@ func pickup_world_item_authoritative(
 		_battery_charge = clampf(float(item_state.get("battery_charge", 1.0)), 0.0, 1.0)
 		if _held_item_type == NO_ITEM:
 			_held_item_type = FLASHLIGHT_ITEM
-		_handheld_flashlight_drawn = _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1"]
+		_handheld_flashlight_drawn = _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1", &"flamethrower"]
 		_flashlight_malfunctioning = bool(item_state.get("malfunctioning", false))
 		_flashlight_shake_presses = 0
-		_flashlight_enabled = _held_item_type != &"m4a1" and _battery_charge > 0.0 and not _flashlight_malfunctioning
+		_flashlight_enabled = _held_item_type not in [&"m4a1", &"flamethrower"] and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	else:
 		var keep_handheld := is_handheld_flashlight_drawn()
 		# Equipment is pocketed, only another bulky hand item is dropped.
@@ -1156,6 +1163,8 @@ func pickup_world_item_authoritative(
 				_battery_charge = 0.0
 				weapon_light_mounted = false
 		_held_item_type = item_type
+		if item_type == &"flamethrower":
+			weapon.flame.fuel_liters = clampf(float(item_state.get("fuel_liters",weapon.flame.capacity_liters)),0,weapon.flame.capacity_liters)
 		if item_type == FUEL_ITEM:
 			fuel_liters = clampf(float(item_state.get("fuel_liters", 20.0)), 0.0, 20.0)
 		if WeaponController.TYPES.has(item_type):
@@ -1169,14 +1178,14 @@ func pickup_world_item_authoritative(
 				_flashlight_malfunctioning = bool(item_state.get("mounted_malfunctioning", false))
 			weapon.reload_left = 0.0
 			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
-		_handheld_flashlight_drawn = keep_handheld and _has_flashlight and item_type != &"m4a1"
+		_handheld_flashlight_drawn = keep_handheld and _has_flashlight and item_type not in [&"m4a1", &"flamethrower"]
 		_flashlight_enabled = (weapon_light_mounted or _handheld_flashlight_drawn) and _battery_charge > 0.0 and not _flashlight_malfunctioning
 	_publish_inventory()
 	return true
 
 
 func is_handheld_flashlight_drawn() -> bool:
-	return _has_flashlight and not weapon_light_mounted and _held_item_type != &"m4a1" and (_held_item_type == FLASHLIGHT_ITEM or _handheld_flashlight_drawn)
+	return _has_flashlight and not weapon_light_mounted and _held_item_type not in [&"m4a1", &"flamethrower"] and (_held_item_type == FLASHLIGHT_ITEM or _handheld_flashlight_drawn)
 
 
 func is_offhand_flashlight_drawn() -> bool:
@@ -1186,6 +1195,7 @@ func is_offhand_flashlight_drawn() -> bool:
 func get_inventory_snapshot() -> Dictionary:
 	return {
 		"held_item": _held_item_type,
+		"crafting_parts": crafting_parts.duplicate(),
 		"debug_fly": debug_fly,
 		"debug_across": debug_across,
 		"debug_speed_multiplier": debug_speed_multiplier,
@@ -1204,6 +1214,8 @@ func get_inventory_snapshot() -> Dictionary:
 		"pistol_ammo": weapon.pistol_ammo if weapon != null else 0,
 		"rifle_magazines": weapon.rifle_magazines.duplicate() if weapon != null else [],
 		"weapon_reload": weapon.reload_left if weapon != null else 0.0,
+		"flame_fuel_liters": weapon.flame.fuel_liters if weapon != null else 3.0,
+		"flame_active": weapon.flame.emitting if weapon != null else false,
 	}
 
 
@@ -1228,6 +1240,10 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	debug_fly = bool(data.get("debug_fly", false))
 	debug_across = bool(data.get("debug_across", false))
 	debug_speed_multiplier = clampf(float(data.get("debug_speed_multiplier", 1.0)), 0.1, 20.0)
+	crafting_parts.clear()
+	for type in CRAFT_RECIPE.pickup_scenes:
+		var count := clampi(int(data.get("crafting_parts", {}).get(type,0)),0,100)
+		if count > 0: crafting_parts[type] = count
 	tape_count = maxi(0, int(data.get("tape_count", 0)))
 	crowbar_uses = clampi(int(data.get("crowbar_uses", 0)), 0, 3)
 	weapon_light_mounted = bool(data.get("weapon_light_mounted", false)) and StringName(data.get("held_item", "")) == &"m4a1" and bool(data.get("has_flashlight", false))
@@ -1246,12 +1262,13 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	for magazine: Variant in data.get("rifle_magazines", []):
 		if weapon.rifle_magazines.size() < 10 and int(magazine) > 0:
 			weapon.rifle_magazines.append(clampi(int(magazine), 1, 30))
+	weapon.flame.apply_inventory(data)
 	weapon.apply_state(_held_item_type, int(data.get("weapon_rounds", WeaponController.CAPACITY.get(_held_item_type, 0))), float(data.get("weapon_reload", 0.0)))
 	if _held_item_type == FLASHLIGHT_ITEM and not _has_flashlight:
 		_held_item_type = NO_ITEM
 	# Legacy pistol mounts become a handheld lamp without losing ownership/charge.
 	var legacy_pistol_mount := _held_item_type == &"pistol" and bool(data.get("weapon_light_mounted", false))
-	_handheld_flashlight_drawn = bool(data.get("handheld_flashlight_drawn", legacy_pistol_mount)) and _has_flashlight and not weapon_light_mounted and _held_item_type != &"m4a1"
+	_handheld_flashlight_drawn = bool(data.get("handheld_flashlight_drawn", legacy_pistol_mount)) and _has_flashlight and not weapon_light_mounted and _held_item_type not in [&"m4a1", &"flamethrower"]
 	if _held_item_type == NO_ITEM and _handheld_flashlight_drawn:
 		_held_item_type = FLASHLIGHT_ITEM
 		_handheld_flashlight_drawn = false
@@ -1268,7 +1285,7 @@ func toggle_flashlight_authoritative() -> bool:
 		return false
 	if weapon_light_mounted:
 		_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0 and not _flashlight_malfunctioning
-	elif _held_item_type == &"m4a1":
+	elif _held_item_type in [&"m4a1", &"flamethrower"]:
 		_show_pocket_light_notice.rpc_id(owner_peer_id)
 		return false
 	else:
@@ -1296,6 +1313,7 @@ func request_reload_or_battery() -> void:
 	request_inventory_action(&"reload_or_battery")
 
 func get_reload_or_battery_action() -> StringName:
+	if _held_item_type == &"flamethrower":return &"refuel_flamethrower"
 	var better_cell := _has_flashlight and not _spare_batteries.is_empty() and float(_spare_batteries.max()) > _battery_charge
 	var battery_priority := better_cell and (_battery_charge <= 0.0 or (is_handheld_flashlight_drawn() and not weapon_light_mounted))
 	return &"reload" if WeaponController.TYPES.has(_held_item_type) and not battery_priority else &"replace_battery"
@@ -1318,6 +1336,9 @@ func _begin_inventory_action(action: StringName) -> void:
 		return
 	if action == &"reload_or_battery":
 		if _battery_action_busy:
+			return
+		if get_reload_or_battery_action() == &"refuel_flamethrower":
+			perform_inventory_action_authoritative(&"refuel_flamethrower")
 			return
 		if get_reload_or_battery_action() == &"reload":
 			weapon.perform_action(&"reload")
@@ -1368,7 +1389,16 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 		return false
 	if not multiplayer.is_server() or _is_sleeping_in_bunk:
 		return false
+	if String(action).begins_with("drop_part:"):
+		var type := StringName(String(action).trim_prefix("drop_part:"))
+		if not CRAFT_RECIPE.pickup_scenes.has(type) or int(crafting_parts.get(type,0)) <= 0: return false
+		crafting_parts[type] = int(crafting_parts[type]) - 1
+		spawn_dropped_item_authoritative(type,{})
+		_publish_inventory()
+		return true
 	match action:
+		&"refuel_flamethrower":
+			return weapon.flame.refuel_authoritative()
 		&"mount_light":
 			if tape_count <= 0 or not _has_flashlight or weapon_light_mounted or _held_item_type != &"m4a1":
 				return false
@@ -1430,6 +1460,8 @@ func perform_inventory_action_authoritative(action: StringName) -> bool:
 
 
 func get_held_item_state() -> Dictionary:
+	if _held_item_type == &"flamethrower":
+		return {"fuel_liters":weapon.flame.fuel_liters}
 	if _held_item_type == FUEL_ITEM:
 		return {"fuel_liters": fuel_liters}
 	if WeaponController.TYPES.has(_held_item_type):
@@ -1535,6 +1567,9 @@ func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
 	drop_current_item_at_authoritative(drop_transform)
 	if crowbar_uses > 0:
 		spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses}, drop_transform, Vector3.ZERO)
+	for type in crafting_parts:
+		for index in int(crafting_parts[type]): spawn_dropped_item_authoritative(type,{},drop_transform,Vector3.ZERO)
+	crafting_parts.clear()
 	for index in tape_count:
 		spawn_dropped_item_authoritative(&"tape", {}, drop_transform, Vector3.ZERO)
 	crowbar_uses = 0
@@ -1605,6 +1640,8 @@ func spawn_dropped_item_authoritative(
 		else SEED_PICKUP_SCENE if item_type == SEED_ITEM
 		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
 		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
+		else load(CRAFT_RECIPE.pickup_scenes[item_type]) if CRAFT_RECIPE.pickup_scenes.has(item_type)
+		else preload("res://scenes/objects/crafting/flamethrower_pickup.tscn") if item_type == &"flamethrower"
 		else preload("res://scenes/objects/items/tool_pickup.tscn") if item_type in [&"tape", &"crowbar"]
 		else preload("res://scenes/objects/items/pistol_pickup.tscn") if item_type==&"pistol"
 		else preload("res://scenes/objects/items/m4a1_pickup.tscn") if item_type==&"m4a1"
@@ -1795,7 +1832,7 @@ func apply_flashlight_inventory(
 	_battery_charge = clampf(battery_charge, 0.0, 1.0) if has_flashlight else 0.0
 	if _held_item_type in [NO_ITEM, FLASHLIGHT_ITEM]:
 		_held_item_type = FLASHLIGHT_ITEM if has_flashlight and enabled else NO_ITEM
-	_handheld_flashlight_drawn = enabled and has_flashlight and _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1"]
+	_handheld_flashlight_drawn = enabled and has_flashlight and _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1", &"flamethrower"]
 	_flashlight_enabled = enabled and is_handheld_flashlight_drawn() and not malfunctioning
 	_flashlight_malfunctioning = malfunctioning and _has_flashlight
 	_refresh_equipment_visuals()
@@ -1810,7 +1847,7 @@ func apply_held_item_inventory(
 ) -> void:
 	var keep_handheld := is_handheld_flashlight_drawn()
 	_held_item_type = item_type
-	_handheld_flashlight_drawn = keep_handheld and item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1"]
+	_handheld_flashlight_drawn = keep_handheld and item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1", &"flamethrower"]
 	if item_type == FLASHLIGHT_ITEM:
 		_has_flashlight = true
 		_battery_charge = clampf(float(item_state.get("battery_charge", 1.0)), 0.0, 1.0)
@@ -1893,7 +1930,7 @@ func update_battery_ui() -> void:
 		return
 	if is_local_player() and _has_flashlight and Time.get_ticks_msec() < _equipment_notice_until and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open():
 		battery_label.visible = true
-		battery_label.text = "Для M4A1 примотайте фонарик скотчем через журнал"
+		battery_label.text = "Огнемёт занимает обе руки" if _held_item_type == &"flamethrower" else "Для M4A1 примотайте фонарик скотчем через журнал"
 		return
 	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and (is_handheld_flashlight_drawn() or _battery_charge <= 0.0)
 	if not battery_label.visible:

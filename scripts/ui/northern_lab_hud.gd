@@ -24,7 +24,7 @@ const CARD_BODY_HEIGHT := 76.0
 const PARALLAX := preload("res://scripts/ui/hud_parallax.gd")
 const LAYOUT := preload("res://scripts/ui/hud_layout.gd")
 const EDGE_INSET := 16.0
-const ITEM_TITLES := {&"m4a1": "M4A1", &"kitchen_knife": "Нож", &"fuel_can": "Канистра",
+const ITEM_TITLES := {&"flamethrower":"Огнемёт",&"m4a1": "M4A1", &"kitchen_knife": "Нож", &"fuel_can": "Канистра",
 	&"fuse": "Предохранитель", &"seed_packet": "Семена"}
 
 var player: GamePlayer
@@ -554,7 +554,7 @@ func equipment_layout(snapshot: Dictionary) -> Array:
 	if snapshot.get("has_flashlight", false):
 		cards.append({"item": &"flashlight", "hint": str(snapshot.get("light_hint", "F"))})
 	if hand not in [&"", &"flashlight"]:
-		cards.append({"item": hand, "hint": str(snapshot.get("attack_hint", "ЛКМ")) if WeaponController.TYPES.has(hand) else ""})
+		cards.append({"item": hand, "hint": str(snapshot.get("attack_hint", "ЛКМ")) if WeaponController.TYPES.has(hand) or hand==&"flamethrower" else ""})
 	var width := cards.size() * CARD_SIZE.x + maxf(0, cards.size() - 1) * CARD_GAP
 	for index in cards.size():
 		cards[index].rect = Rect2(Vector2((_canvas_size.x - width) * 0.5 + index * (CARD_SIZE.x + CARD_GAP), _canvas_size.y - CARD_TOP_MARGIN), CARD_SIZE)
@@ -604,7 +604,7 @@ func status_layout(snapshot: Dictionary, driving: bool = false) -> Dictionary:
 	var reserve_width := _font.get_string_size("/ %d" % reserve, HORIZONTAL_ALIGNMENT_LEFT, -1, 28).x
 	var ammo_width := maxf(130, magazine_width + 14 + reserve_width)
 	var right := _canvas_size.x - 48
-	return {"has_ammo": has_ammo, "has_light": has_light, "reserve": reserve,
+	return {"has_fuel": hand==&"flamethrower" and not driving, "has_ammo": has_ammo, "has_light": has_light, "reserve": reserve,
 		"magazine": magazine, "magazine_width": magazine_width, "ammo_width": ammo_width,
 		"ammo_x": right - (154 if has_light else 0) - ammo_width, "battery_x": right - 128}
 
@@ -613,6 +613,11 @@ func _draw_ammunition_and_light() -> void:
 	var hand := StringName(view_state.held_item)
 	var layout := status_layout(view_state, player.is_driving())
 	var x: float = layout.ammo_x
+	if layout.has_fuel:
+		var fuel_ratio:=clampf(float(view_state.get("flame_fuel_liters",0.0))/player.weapon.flame.capacity_liters,0,1)
+		_text("%d%%" % roundi(fuel_ratio*100),Vector2(x,top-8),48,AMBER if fuel_ratio<.2 else WHITE)
+		_text("Топливо",Vector2(x,top-56),18,MUTED)
+		_text("%s — Заправить от канистры" % view_state.reload_hint,Vector2(x-100,top+27),18,MUTED)
 	if layout.has_ammo:
 		var rounds := int(view_state.weapon_rounds)
 		var low := rounds <= maxi(1, int(WeaponController.CAPACITY.get(hand, 0)) / 4)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Russian cola Dobriy Coca cola
+* source:	https://sketchfab.com/3d-models/russian-cola-dobriy-coca-cola-12b9d507cc7d458b8f78b341fc1b1355
+* author:	EREMA_GEP (https://sketchfab.com/EREMA_GEP)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Russian cola Dobriy Coca cola" (https://sketchfab.com/3d-models/russian-cola-dobriy-coca-cola-12b9d507cc7d458b8f78b341fc1b1355) by EREMA_GEP (https://sketchfab.com/EREMA_GEP) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

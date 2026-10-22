@@ -15,6 +15,16 @@
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/pistol_ammo.png" id="ammo_sketch"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_sketches/rifle_magazine.png" id="magazine_sketch"]
 
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/flamethrower.png" id="craft_flamethrower"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/large_cylinder.png" id="craft_large_cylinder"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/small_cylinder.png" id="craft_small_cylinder"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/cola_can.png" id="craft_cola_can"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/pipe_bundle.png" id="craft_pipe_bundle"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/hardware_box.png" id="craft_hardware_box"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/pressure_gauge.png" id="craft_pressure_gauge"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/valve.png" id="craft_valve"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/tape.png" id="craft_tape"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfhmu"]
 bg_color = Color(1, 1, 1, 0)
 corner_radius_top_left = 2
@@ -942,6 +952,476 @@ text = "Патроны"
 horizontal_alignment = 1
 
 [node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PistolAmmo/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="FlameRecipe" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_recipe"
+metadata/item_title = "Схема огнемёта"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/FlameRecipe"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/FlameRecipe/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_flamethrower")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/FlameRecipe/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Схема огнемёта"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/FlameRecipe/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Flamethrower" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flamethrower"
+metadata/item_title = "Огнемёт"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flamethrower"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flamethrower/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_flamethrower")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flamethrower/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Огнемёт"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Flamethrower/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="LargeCylinder" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_large_cylinder"
+metadata/item_title = "Большой баллон"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/LargeCylinder"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/LargeCylinder/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_large_cylinder")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/LargeCylinder/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Большой баллон"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/LargeCylinder/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="SmallCylinder" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_small_cylinder"
+metadata/item_title = "Малый баллон"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/SmallCylinder"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/SmallCylinder/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_small_cylinder")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/SmallCylinder/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Малый баллон"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/SmallCylinder/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="ColaCan" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_cola_can"
+metadata/item_title = "Банка колы"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/ColaCan"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/ColaCan/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_cola_can")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/ColaCan/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Банка колы"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/ColaCan/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="PipeBundle" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_pipe_bundle"
+metadata/item_title = "Связка труб"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PipeBundle"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PipeBundle/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_pipe_bundle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PipeBundle/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Связка труб"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PipeBundle/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="HardwareBox" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_hardware_box"
+metadata/item_title = "Коробка крепежа"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/HardwareBox"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/HardwareBox/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_hardware_box")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/HardwareBox/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Коробка крепежа"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/HardwareBox/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="PressureGauge" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_pressure_gauge"
+metadata/item_title = "Манометр"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PressureGauge"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PressureGauge/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_pressure_gauge")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PressureGauge/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Манометр"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/PressureGauge/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Valve" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"flame_valve"
+metadata/item_title = "Вентиль"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Valve"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Valve/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_valve")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Valve/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Вентиль"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Valve/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Tape" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid"]
+custom_minimum_size = Vector2(216, 220)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_roxsm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vh4yy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yl10t")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3t5x6")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ns82b")
+toggle_mode = true
+script = ExtResource("5_hfhmu")
+item_id = &"tape"
+metadata/item_title = "Скотч"
+
+[node name="Content" type="VBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Tape"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Picture" type="TextureRect" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Tape/Content"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("craft_tape")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Tape/Content"]
+layout_mode = 2
+theme_type_variation = &"JournalHeading"
+theme_override_colors/font_color = Color(0.23921569, 0.1882353, 0.15294118, 1)
+theme_override_font_sizes/font_size = 26
+text = "Скотч"
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/InventoryScroll/InventoryGrid/Tape/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.50980395, 0.4117647, 0.30980393, 1)
 theme_override_font_sizes/font_size = 21

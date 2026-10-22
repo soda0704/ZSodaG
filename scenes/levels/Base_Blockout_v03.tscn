@@ -35,6 +35,9 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
 [ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/crafting/flamethrower_workbench.tscn" id="flame_bench"]
+[ext_resource type="PackedScene" path="res://scenes/objects/crafting/flamethrower_loot_spawns.tscn" id="flame_loot"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvvig"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
@@ -1744,6 +1747,10 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_
 navigation_mesh = ExtResource("containment_nav")
 
 [connection signal="lighting_fault_started" from="BaseGameplayController" to="BasePowerLightingController/FaultAudio" method="play"]
+
+[node name="FlamethrowerWorkbench" parent="." instance=ExtResource("flame_bench")]
+
+[node name="FlamethrowerLootSpawns" parent="." instance=ExtResource("flame_loot")]
 
 [editable path="WorldLighting"]
 [editable path="WorldIndirectLighting"]

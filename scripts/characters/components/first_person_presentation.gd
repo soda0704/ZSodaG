@@ -4,7 +4,7 @@ extends Node3D
 
 const VIEW_LAYER := 1 << 19
 const LOCAL_BODY_LAYER := 1 << 17
-const KINDS := {&"m4a1":"Rifle",&"pistol":"Pistol",&"flashlight":"Flashlight",&"kitchen_knife":"Knife",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}
+const KINDS := {&"flamethrower":"Flamethrower",&"m4a1":"Rifle",&"pistol":"Pistol",&"flashlight":"Flashlight",&"kitchen_knife":"Knife",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}
 @export var angular_mass := 0.014
 @export var max_lag_degrees := 1.5
 @export var settling_frequency := 13.0
@@ -41,6 +41,7 @@ var _environment_source: Environment
 var _view_environment: Environment
 var _environment_dirty:=true
 var _view_frame := Transform3D.IDENTITY
+var _item_offsets: Dictionary = {}
 var _lighting_fill: DirectionalLight3D
 var _view_world_root:Node3D
 var _world_light_instances:Dictionary={}
@@ -48,7 +49,7 @@ var _model_lights: Array[Light3D] = []
 var _model_geometry: Array[GeometryInstance3D] = []
 var _environment_keys: Array[StringName] = []
 
-func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
+func initialize(asset: PackedScene, owner_camera: Camera3D, item_offsets: Dictionary = {}) -> void:
 	camera=owner_camera
 	# OFF on the model alone still inherits an interpolated moving ancestor.
 	# Keep the rendered view rig independent of the physics camera hierarchy.
@@ -57,6 +58,7 @@ func initialize(asset: PackedScene, owner_camera: Camera3D) -> void:
 	_view_frame = camera.get_global_transform_interpolated()
 	global_transform = _view_frame
 	model=asset.instantiate()
+	_item_offsets=item_offsets
 	aim_pivot=Node3D.new();aim_pivot.name="AimAlignment";add_child(aim_pivot)
 	var recoil_pivot:=Node3D.new();recoil_pivot.name="RecoilPivot";aim_pivot.add_child(recoil_pivot)
 	recoil_pivot.add_child(model)
@@ -181,7 +183,7 @@ func _process(delta: float) -> void:
 	var book_weight: float=tree.get("parameters/BookBlend/blend_amount")
 	tree.set("parameters/BookBlend/blend_amount",move_toward(book_weight,1.0 if book_phase>0 else 0.0,animation_delta*12))
 	model.get_node("Journal").visible=book_phase>0 or book_weight>0.01
-	var aiming: bool=context.get("aiming",false) and kind in ["Rifle","Pistol"] and book_phase==0 and not context.get("reloading",false)
+	var aiming: bool=context.get("aiming",false) and context.get("held_item",&"") != &"flamethrower" and kind in ["Rifle","Pistol"] and book_phase==0 and not context.get("reloading",false)
 	_ads=move_toward(_ads,1.0 if aiming else 0.0,delta*5.5)
 	for label in ["Rifle","Pistol"]: tree.set("parameters/%s/blend_position"%label,_ads)
 	var velocity: Vector3=context.get("velocity",Vector3.ZERO)
@@ -213,6 +215,7 @@ func _process(delta: float) -> void:
 	_refresh_visibility()
 	view_camera.global_transform=_view_frame
 	view_camera.global_basis=_view_frame.basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
+	var item_offset: Vector3=_item_offsets.get(context.get("held_item",&""),Vector3.ZERO)
 	_sync_environment()
 	_update_lighting(delta)
 	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
@@ -222,8 +225,10 @@ func _process(delta: float) -> void:
 	tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, animation_delta * 8.0))
 	tree.set("parameters/OffhandAim/blend_position", 0.0)
 	tree.advance(animation_delta)
-	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand)
+	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand,context.get("held_item",&""))
 	_align_weapon_sights()
+	# Apply framing after animation evaluation, which restores the model root.
+	aim_pivot.position+=item_offset*(1.0-book_weight)
 	_sync_world_light_instances()
 
 func _sync_view_resolution() -> void:
@@ -314,27 +319,32 @@ func _update_lighting(delta: float) -> void:
 	_lighting_fill.light_color=target/magnitude if magnitude>0.0001 else Color.WHITE
 	_lighting_fill.light_energy=lerpf(_lighting_fill.light_energy,magnitude,1.0-exp(-8.0*delta))
 
-static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float, offhand_flashlight := false) -> void:
+static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float, offhand_flashlight := false, held_item: StringName = &"") -> void:
 	var sk: Skeleton3D=instance.get_node("Skeleton3D")
 	var book: Node3D=instance.get_node("Journal")
 	var sockets: Node3D=sk.get_node("RightHand/Equipment")
 	var left_ik: TwoBoneIK3D=sk.get_node("SupportHandIK")
 	var right_ik: TwoBoneIK3D=sk.get_node("RightGripIK")
 	var weight:=1-exp(-18*delta)
+	var flame_wrist: CopyTransformModifier3D=sk.get_node_or_null("FlamethrowerWrist")
+	if flame_wrist!=null:
+		var hold:=equipment_kind=="Flamethrower" and journal_phase==0 and not reloading and not offhand_flashlight
+		flame_wrist.influence=lerpf(flame_wrist.influence,1.0 if hold else 0.0,weight)
+		sk.get_node("FlamethrowerSupportIK").influence=flame_wrist.influence
 	for side in ["Left","Right"]:
 		var target: Node3D=sk.get_node(side+"WristTarget")
 		var ik:=left_ik if side=="Left" else right_ik
 		var marker: Node3D
 		if journal_phase>0: marker=book.get_node(side+"Grip")
 		elif side=="Left" and equipment_kind in ["Rifle","Pistol"] and not reloading and not offhand_flashlight:
-			marker=sockets.get_node(("m4a1" if equipment_kind=="Rifle" else "pistol")+"/LeftHandGrip")
+			marker=sockets.get_node(("flamethrower" if held_item == &"flamethrower" else "m4a1" if equipment_kind=="Rifle" else "pistol")+"/LeftHandGrip")
 		var amount:=1.0 if marker!=null else 0.0
 		if marker!=null:
 			target.transform=sk.global_transform.affine_inverse()*marker.global_transform
 			ik.set_target_node(0,ik.get_path_to(target))
 		ik.active=true; ik.influence=lerpf(ik.influence,amount,weight)
 		# Position IK preserves the authored hand/forearm relationship.
-		# Wrist orientation belongs to the clip, never a global CopyTransform.
+		# The flamethrower also has a native wrist constraint fitted to its tube.
 
 func action(item: String, label: String) -> void:
 	if _journal_phase>0 or item=="Relaxed": return

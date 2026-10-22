@@ -14,6 +14,8 @@ enum HighlightCategory { COMMON, STORY, SPECIAL }
 @export_group("Interaction")
 @export var pickup_enabled := true
 @export var draggable := true
+## Aim/visibility anchor inside the item, rather than a bottom pivot resting on a surface.
+@export_node_path("Node3D") var interaction_anchor_path := NodePath("CollisionShape3D")
 @export_range(0.1, 10.0) var drag_distance := 3.5
 @export_range(0.1, 10.0) var interaction_distance := 4.0
 ## -1 keeps the existing item-type resistance; nonnegative values override it.
@@ -21,6 +23,10 @@ enum HighlightCategory { COMMON, STORY, SPECIAL }
 
 var _collected: bool = false
 var drag_owner_peer := 0
+
+func get_interaction_position() -> Vector3:
+	var anchor := get_node_or_null(interaction_anchor_path) as Node3D if not interaction_anchor_path.is_empty() else null
+	return anchor.global_position if anchor != null else global_position
 
 func get_push_resistance() -> float:
 	if push_resistance >= 0.0: return push_resistance

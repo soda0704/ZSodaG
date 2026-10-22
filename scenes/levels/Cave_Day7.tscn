@@ -216,6 +216,8 @@
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/rocks/rock_face_02/cave_mesh.res" id="242_rpj4d"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/rocks/boulder_01/cave_mesh.res" id="243_d1qg0"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/cave/cave_hive_encounter.tscn" id="hive_encounter"]
+
 [sub_resource type="Curve3D" id="Curve3D_t87yq"]
 bake_interval = 0.7
 _data = {
@@ -2877,3 +2879,5 @@ collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CaveArrival/ShaftVisitZone"]
 shape = SubResource("ShaftVisitShape")
+
+[node name="HiveEncounter" parent="." instance=ExtResource("hive_encounter")]

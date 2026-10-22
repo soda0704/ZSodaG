@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/cave/cave_hive_encounter.gd" id="encounter"]
+[ext_resource type="PackedScene" path="res://scenes/objects/cave/cave_hive_placeholder.tscn" id="hive"]
+
+[sub_resource type="BoxShape3D" id="DiscoveryShape"]
+size = Vector3(9, 4, 8)
+
+[node name="CaveHiveEncounter" type="Node3D"]
+editor_description = "Day-seven end chamber: three stationary tailed-creature hive placeholders. Positions, poses and discovery area are authored here."
+script = ExtResource("encounter")
+
+[node name="DiscoveryZone" type="Area3D" parent="."]
+position = Vector3(289, -153.6, -5)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DiscoveryZone"]
+shape = SubResource("DiscoveryShape")
+
+[node name="Hive0" parent="." instance=ExtResource("hive")]
+position = Vector3(288.891, -155.2608, -0.629432)
+rotation = Vector3(0, 0.7, 0)
+hive_index = 0
+pose_time = 0.4
+
+[node name="Hive1" parent="." instance=ExtResource("hive")]
+position = Vector3(292.891, -154.7282, -6.629432)
+rotation = Vector3(0, 1.5, 0)
+hive_index = 1
+pose_time = 1.1
+
+[node name="Hive2" parent="." instance=ExtResource("hive")]
+position = Vector3(296.891, -155.7371, 1.370568)
+rotation = Vector3(0, 1.05, 0)
+hive_index = 2
+pose_time = 2.0

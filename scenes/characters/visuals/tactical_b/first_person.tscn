@@ -11,10 +11,13 @@
 [ext_resource type="Texture2D" path="res://assets/models/weapons/kitchen_knife_Material_normal.jpg" id="9_b2sey"]
 [ext_resource type="PackedScene" path="res://scenes/objects/equipment/mounted_flashlight.tscn" id="10_3kkuw"]
 [ext_resource type="ArrayMesh" path="res://assets/models/items/flashlight/gameplay.res" id="11_2ljur"]
+[ext_resource type="ArrayMesh" path="res://assets/models/items/flashlight/mount_tape.res" id="12_5iu83"]
 [ext_resource type="PackedScene" path="res://scenes/ui/journal/book/articulated_journal.tscn" id="13_64upq"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_2_cover.res" id="14_03thc"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_3_cover.res" id="15_4axgh"]
+[ext_resource type="Script" path="res://scripts/effects/muzzle_discharge.gd" id="15_r0q8j"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/inner_cover.res" id="16_k3hb6"]
+[ext_resource type="AnimationLibrary" path="res://assets/animations/flamethrower/b_fp.res" id="17_b2sey"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_0.res" id="17_gsyom"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_1.res" id="18_322ft"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_2.res" id="19_ah8il"]
@@ -22,11 +25,10 @@
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/object_3_body.res" id="21_4br62"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/reading_page.res" id="22_no4du"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/paper_binding.res" id="23_u2mpr"]
-
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/muzzle_discharge.tscn" id="discharge_fx"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/flamethrower_model.tscn" id="flame_model"]
 [ext_resource type="AnimationLibrary" path="res://scenes/characters/visuals/tactical_b/first_person_offhand.tres" id="offhand_clips"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_b/first_person_offhand_socket.tscn" id="offhand_socket"]
-
-[ext_resource type="PackedScene" path="res://scenes/objects/effects/muzzle_discharge.tscn" id="discharge_fx"]
 
 [sub_resource type="Skin" id="Skin_yto6m"]
 bind_count = 88
@@ -467,6 +469,11 @@ top_radius = 0.0195
 bottom_radius = 0.0195
 height = 0.001
 radial_segments = 24
+
+[sub_resource type="StandardMaterial3D" id="TapeMaterial"]
+cull_mode = 2
+albedo_color = Color(0.16, 0.17, 0.18, 1)
+roughness = 0.95
 
 [sub_resource type="Animation" id="Animation_13yyl"]
 length = 3.0
@@ -34596,7 +34603,7 @@ _data = {
 &"Stow": SubResource("Animation_xj5ec")
 }
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_bxehm"]
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_3kkuw"]
 input_0/name = "RifleReload"
 input_0/auto_advance = false
 input_0/break_loop_at_end = false
@@ -34622,20 +34629,20 @@ input_5/auto_advance = false
 input_5/break_loop_at_end = false
 input_5/reset = true
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_05jxu"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_2ljur"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3hi7u"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gp4ue"]
 animation = &"CarryIdle"
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_ysp24"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_64upq"]
 mix_mode = 1
 fadein_time = 0.02
 fadeout_time = 0.06
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v7flt"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_03thc"]
 animation = &"Draw"
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_nsml5"]
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_4axgh"]
 xfade_time = 0.18
 input_0/name = "Relaxed"
 input_0/auto_advance = false
@@ -34669,103 +34676,180 @@ input_7/name = "Carry"
 input_7/auto_advance = false
 input_7/break_loop_at_end = false
 input_7/reset = true
+input_8/name = "Flamethrower"
+input_8/auto_advance = false
+input_8/break_loop_at_end = false
+input_8/reset = true
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xj5ec"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k3hb6"]
+animation = &"flamethrower/HipIdle"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_gsyom"]
+min_space = -0.62
+max_space = 0.62
+blend_point_0/node = SubResource("AnimationNodeAnimation_k3hb6")
+blend_point_0/pos = 0.0
+blend_point_0/name = &"0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_322ft"]
 animation = &"offhand/SoloIdle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_icwjx"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ah8il"]
 animation = &"offhand/Battery"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1ux43"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j4goo"]
 animation = &"FuelIdle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ps6vu"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4br62"]
 animation = &"FuseIdle"
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_ojn3g"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_no4du"]
 fadein_time = 0.08
 fadeout_time = 0.16
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s2utf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u2mpr"]
 animation = &"JournalClose"
 
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_hg36d"]
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_yto6m"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_vs7wm"]
-nodes/Clip/node = SubResource("AnimationNodeAnimation_s2utf")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_bxehm"]
+nodes/Clip/node = SubResource("AnimationNodeAnimation_u2mpr")
 nodes/Clip/position = Vector2(0, 0)
-nodes/Time/node = SubResource("AnimationNodeTimeSeek_hg36d")
+nodes/Time/node = SubResource("AnimationNodeTimeSeek_yto6m")
 nodes/Time/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"Time", &"Time", 0, &"Clip"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_268gd"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_05jxu"]
 animation = &"JournalOpen"
 
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_oismh"]
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_3hi7u"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_dnrrg"]
-nodes/Clip/node = SubResource("AnimationNodeAnimation_268gd")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ysp24"]
+nodes/Clip/node = SubResource("AnimationNodeAnimation_05jxu")
 nodes/Clip/position = Vector2(0, 0)
-nodes/Time/node = SubResource("AnimationNodeTimeSeek_oismh")
+nodes/Time/node = SubResource("AnimationNodeTimeSeek_3hi7u")
 nodes/Time/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"Time", &"Time", 0, &"Clip"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s4631"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v7flt"]
 animation = &"JournalReading"
 
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_6db3v"]
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_nsml5"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_yrw63"]
-nodes/Clip/node = SubResource("AnimationNodeAnimation_s4631")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xj5ec"]
+nodes/Clip/node = SubResource("AnimationNodeAnimation_v7flt")
 nodes/Clip/position = Vector2(0, 0)
-nodes/Time/node = SubResource("AnimationNodeTimeSeek_6db3v")
+nodes/Time/node = SubResource("AnimationNodeTimeSeek_nsml5")
 nodes/Time/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"Time", &"Time", 0, &"Clip"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1n4wr"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_icwjx"]
 xfade_time = 0.12
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ppyri"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1ux43"]
 xfade_time = 0.12
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uu0nc"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ps6vu"]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0i7ae"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ojn3g"]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_86qe7"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s2utf"]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ql1vj"]
-states/JournalClose/node = SubResource("AnimationNodeBlendTree_vs7wm")
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hg36d"]
+states/JournalClose/node = SubResource("AnimationNodeBlendTree_bxehm")
 states/JournalClose/position = Vector2(0, 0)
-states/JournalOpen/node = SubResource("AnimationNodeBlendTree_dnrrg")
+states/JournalOpen/node = SubResource("AnimationNodeBlendTree_ysp24")
 states/JournalOpen/position = Vector2(0, 0)
-states/JournalReading/node = SubResource("AnimationNodeBlendTree_yrw63")
+states/JournalReading/node = SubResource("AnimationNodeBlendTree_xj5ec")
 states/JournalReading/position = Vector2(0, 0)
-transitions = ["JournalOpen", "JournalReading", SubResource("AnimationNodeStateMachineTransition_1n4wr"), "JournalClose", "JournalReading", SubResource("AnimationNodeStateMachineTransition_ppyri"), "JournalReading", "JournalClose", SubResource("AnimationNodeStateMachineTransition_uu0nc"), "JournalOpen", "JournalClose", SubResource("AnimationNodeStateMachineTransition_0i7ae"), "JournalClose", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_86qe7")]
+transitions = ["JournalOpen", "JournalReading", SubResource("AnimationNodeStateMachineTransition_icwjx"), "JournalClose", "JournalReading", SubResource("AnimationNodeStateMachineTransition_1ux43"), "JournalReading", "JournalClose", SubResource("AnimationNodeStateMachineTransition_ps6vu"), "JournalOpen", "JournalClose", SubResource("AnimationNodeStateMachineTransition_ojn3g"), "JournalClose", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_s2utf")]
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_au7n0"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_vs7wm"]
 filter_enabled = true
 filters = ["Skeleton3D:Head", "Skeleton3D:HeadTop_End", "Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftShoulder", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Neck", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightShoulder", "Skeleton3D:Right_Elbow_Pads", "Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 mix_mode = 1
 fadein_time = 0.01
 fadeout_time = 0.04
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_my11p"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_268gd"]
 animation = &"KnifeIdle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bo8kn"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oismh"]
 animation = &"KnifeAttack"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ogvoe"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dnrrg"]
+animation = &"offhand/Hold-1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s4631"]
+animation = &"offhand/Hold0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6db3v"]
+animation = &"offhand/Hold1"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_yrw63"]
+min_space = -0.48
+max_space = 0.48
+blend_point_0/node = SubResource("AnimationNodeAnimation_dnrrg")
+blend_point_0/pos = -0.48
+blend_point_0/name = &"0"
+blend_point_1/node = SubResource("AnimationNodeAnimation_s4631")
+blend_point_1/pos = 0.0
+blend_point_1/name = &"1"
+blend_point_2/node = SubResource("AnimationNodeAnimation_6db3v")
+blend_point_2/pos = 0.48
+blend_point_2/name = &"2"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_1n4wr"]
+filter_enabled = true
+filters = ["", "Skeleton3D:LeftArm", "Skeleton3D:LeftFoot", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftLeg", "Skeleton3D:LeftShoulder", "Skeleton3D:LeftToeBase", "Skeleton3D:LeftToe_End", "Skeleton3D:LeftUpLeg", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Left_Knee_Pads", "Skeleton3D:Left_Pouch.1", "Skeleton3D:Left_Pouch.2", "Skeleton3D:Left_Pouch.3"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ppyri"]
 animation = &"PistolIdle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mpvue"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uu0nc"]
 animation = &"PistolADS"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_0i7ae"]
+min_space = 0.0
+blend_point_0/node = SubResource("AnimationNodeAnimation_ppyri")
+blend_point_0/pos = 0.0
+blend_point_0/name = &"0"
+blend_point_1/node = SubResource("AnimationNodeAnimation_uu0nc")
+blend_point_1/pos = 1.0
+blend_point_1/name = &"1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_86qe7"]
+animation = &"PistolBattery"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ql1vj"]
+animation = &"PistolRecoil"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_au7n0"]
+animation = &"PistolReload"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_my11p"]
+input_0/name = "Rifle"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "Pistol"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bo8kn"]
+animation = &"RelaxedIdle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ogvoe"]
+animation = &"RifleIdle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mpvue"]
+animation = &"RifleADS"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_a0dja"]
 min_space = 0.0
@@ -34777,138 +34861,82 @@ blend_point_1/pos = 1.0
 blend_point_1/name = &"1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_46ceg"]
-animation = &"PistolBattery"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3xth1"]
-animation = &"PistolRecoil"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cgb3o"]
-animation = &"PistolReload"
-
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_j5a7d"]
-input_0/name = "Rifle"
-input_0/auto_advance = false
-input_0/break_loop_at_end = false
-input_0/reset = true
-input_1/name = "Pistol"
-input_1/auto_advance = false
-input_1/break_loop_at_end = false
-input_1/reset = true
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gm5x0"]
-animation = &"RelaxedIdle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xtbjp"]
-animation = &"RifleIdle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e3g4w"]
-animation = &"RifleADS"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_imu5l"]
-min_space = 0.0
-blend_point_0/node = SubResource("AnimationNodeAnimation_xtbjp")
-blend_point_0/pos = 0.0
-blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_e3g4w")
-blend_point_1/pos = 1.0
-blend_point_1/name = &"1"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ko3p5"]
 animation = &"RifleBattery"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tlrai"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3xth1"]
 animation = &"RifleRecoil"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uqh1y"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cgb3o"]
 animation = &"RifleReload"
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_srghb"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_j5a7d"]
 mix_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7mnco"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gm5x0"]
 animation = &"Stow"
 
-[sub_resource type="AnimationNodeAnimation" id="OffhandPoseNegative"]
-animation = &"offhand/Hold-1"
-
-[sub_resource type="AnimationNodeAnimation" id="OffhandPose0"]
-animation = &"offhand/Hold0"
-
-[sub_resource type="AnimationNodeAnimation" id="OffhandPose1"]
-animation = &"offhand/Hold1"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="OffhandAim"]
-blend_point_0/node = SubResource("OffhandPoseNegative")
-blend_point_0/pos = -0.48
-blend_point_1/node = SubResource("OffhandPose0")
-blend_point_1/pos = 0.0
-blend_point_2/node = SubResource("OffhandPose1")
-blend_point_2/pos = 0.48
-min_space = -0.48
-max_space = 0.48
-
-[sub_resource type="AnimationNodeBlend2" id="OffhandBlend"]
-filter_enabled = true
-filters = ["Skeleton3D:Left_Elbow_Pads", true, "Skeleton3D:LeftUpLeg", true, "Skeleton3D:LeftLeg", true, "Skeleton3D:LeftFoot", true, "Skeleton3D:LeftToeBase", true, "Skeleton3D:LeftToe_End", true, "Skeleton3D:Left_Knee_Pads", true, "Skeleton3D:Left_Pouch.1", true, "Skeleton3D:Left_Pouch.2", true, "Skeleton3D:Left_Pouch.3", true, "Skeleton3D:LeftShoulder", true, "Skeleton3D:LeftArm", true, "Skeleton3D:LeftForeArm", true, "Skeleton3D:LeftHand", true, "Skeleton3D:LeftHandThumb1", true, "Skeleton3D:LeftHandThumb2", true, "Skeleton3D:LeftHandThumb3", true, "Skeleton3D:LeftHandThumb4", true, "Skeleton3D:LeftHandIndex1", true, "Skeleton3D:LeftHandIndex2", true, "Skeleton3D:LeftHandIndex3", true, "Skeleton3D:LeftHandIndex4", true, "Skeleton3D:LeftHandMiddle1", true, "Skeleton3D:LeftHandMiddle2", true, "Skeleton3D:LeftHandMiddle3", true, "Skeleton3D:LeftHandMiddle4", true, "Skeleton3D:LeftHandRing1", true, "Skeleton3D:LeftHandRing2", true, "Skeleton3D:LeftHandRing3", true, "Skeleton3D:LeftHandRing4", true, "Skeleton3D:LeftHandPinky1", true, "Skeleton3D:LeftHandPinky2", true, "Skeleton3D:LeftHandPinky3", true, "Skeleton3D:LeftHandPinky4", true]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_kl1pm"]
-nodes/Relaxed/node = SubResource("AnimationNodeAnimation_gm5x0")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xtbjp"]
+nodes/Relaxed/node = SubResource("AnimationNodeAnimation_bo8kn")
 nodes/Relaxed/position = Vector2(0, 0)
-nodes/Rifle/node = SubResource("AnimationNodeBlendSpace1D_imu5l")
+nodes/Rifle/node = SubResource("AnimationNodeBlendSpace1D_a0dja")
 nodes/Rifle/position = Vector2(0, 0)
-nodes/Pistol/node = SubResource("AnimationNodeBlendSpace1D_a0dja")
+nodes/Pistol/node = SubResource("AnimationNodeBlendSpace1D_0i7ae")
 nodes/Pistol/position = Vector2(0, 0)
-nodes/Flashlight/node = SubResource("AnimationNodeAnimation_xj5ec")
+nodes/Flashlight/node = SubResource("AnimationNodeAnimation_322ft")
 nodes/Flashlight/position = Vector2(0, 0)
-nodes/Knife/node = SubResource("AnimationNodeAnimation_my11p")
+nodes/Knife/node = SubResource("AnimationNodeAnimation_268gd")
 nodes/Knife/position = Vector2(0, 0)
-nodes/Fuse/node = SubResource("AnimationNodeAnimation_ps6vu")
+nodes/Fuse/node = SubResource("AnimationNodeAnimation_4br62")
 nodes/Fuse/position = Vector2(0, 0)
-nodes/Fuel/node = SubResource("AnimationNodeAnimation_1ux43")
+nodes/Fuel/node = SubResource("AnimationNodeAnimation_j4goo")
 nodes/Fuel/position = Vector2(0, 0)
-nodes/Carry/node = SubResource("AnimationNodeAnimation_3hi7u")
+nodes/Carry/node = SubResource("AnimationNodeAnimation_gp4ue")
 nodes/Carry/position = Vector2(0, 0)
-nodes/Equipment/node = SubResource("AnimationNodeTransition_nsml5")
+nodes/Equipment/node = SubResource("AnimationNodeTransition_4axgh")
 nodes/Equipment/position = Vector2(0, 0)
-nodes/RifleReload/node = SubResource("AnimationNodeAnimation_uqh1y")
+nodes/RifleReload/node = SubResource("AnimationNodeAnimation_cgb3o")
 nodes/RifleReload/position = Vector2(0, 0)
-nodes/PistolReload/node = SubResource("AnimationNodeAnimation_cgb3o")
+nodes/PistolReload/node = SubResource("AnimationNodeAnimation_au7n0")
 nodes/PistolReload/position = Vector2(0, 0)
-nodes/RifleBattery/node = SubResource("AnimationNodeAnimation_ko3p5")
+nodes/RifleBattery/node = SubResource("AnimationNodeAnimation_46ceg")
 nodes/RifleBattery/position = Vector2(0, 0)
-nodes/PistolBattery/node = SubResource("AnimationNodeAnimation_46ceg")
+nodes/PistolBattery/node = SubResource("AnimationNodeAnimation_86qe7")
 nodes/PistolBattery/position = Vector2(0, 0)
-nodes/FlashlightBattery/node = SubResource("AnimationNodeAnimation_icwjx")
+nodes/FlashlightBattery/node = SubResource("AnimationNodeAnimation_ah8il")
 nodes/FlashlightBattery/position = Vector2(0, 0)
-nodes/KnifeAttack/node = SubResource("AnimationNodeAnimation_bo8kn")
+nodes/KnifeAttack/node = SubResource("AnimationNodeAnimation_oismh")
 nodes/KnifeAttack/position = Vector2(0, 0)
-nodes/Action/node = SubResource("AnimationNodeTransition_bxehm")
+nodes/Action/node = SubResource("AnimationNodeTransition_3kkuw")
 nodes/Action/position = Vector2(0, 0)
-nodes/Handling/node = SubResource("AnimationNodeOneShot_ojn3g")
+nodes/Handling/node = SubResource("AnimationNodeOneShot_no4du")
 nodes/Handling/position = Vector2(0, 0)
-nodes/RifleRecoil/node = SubResource("AnimationNodeAnimation_tlrai")
+nodes/RifleRecoil/node = SubResource("AnimationNodeAnimation_3xth1")
 nodes/RifleRecoil/position = Vector2(0, 0)
-nodes/PistolRecoil/node = SubResource("AnimationNodeAnimation_3xth1")
+nodes/PistolRecoil/node = SubResource("AnimationNodeAnimation_ql1vj")
 nodes/PistolRecoil/position = Vector2(0, 0)
-nodes/Recoil/node = SubResource("AnimationNodeTransition_j5a7d")
+nodes/Recoil/node = SubResource("AnimationNodeTransition_my11p")
 nodes/Recoil/position = Vector2(0, 0)
-nodes/Kick/node = SubResource("AnimationNodeOneShot_au7n0")
+nodes/Kick/node = SubResource("AnimationNodeOneShot_vs7wm")
 nodes/Kick/position = Vector2(0, 0)
-nodes/DrawClip/node = SubResource("AnimationNodeAnimation_v7flt")
+nodes/DrawClip/node = SubResource("AnimationNodeAnimation_03thc")
 nodes/DrawClip/position = Vector2(0, 0)
-nodes/Draw/node = SubResource("AnimationNodeOneShot_ysp24")
+nodes/Draw/node = SubResource("AnimationNodeOneShot_64upq")
 nodes/Draw/position = Vector2(0, 0)
-nodes/StowClip/node = SubResource("AnimationNodeAnimation_7mnco")
+nodes/StowClip/node = SubResource("AnimationNodeAnimation_gm5x0")
 nodes/StowClip/position = Vector2(0, 0)
-nodes/Stow/node = SubResource("AnimationNodeOneShot_srghb")
+nodes/Stow/node = SubResource("AnimationNodeOneShot_j5a7d")
 nodes/Stow/position = Vector2(0, 0)
-nodes/Journal/node = SubResource("AnimationNodeStateMachine_ql1vj")
+nodes/Journal/node = SubResource("AnimationNodeStateMachine_hg36d")
 nodes/Journal/position = Vector2(0, 0)
-nodes/BookBlend/node = SubResource("AnimationNodeBlend2_05jxu")
+nodes/BookBlend/node = SubResource("AnimationNodeBlend2_2ljur")
 nodes/BookBlend/position = Vector2(0, 0)
-nodes/OffhandAim/node = SubResource("OffhandAim")
-nodes/OffhandTorch/node = SubResource("OffhandBlend")
-node_connections = [&"output", 0, &"BookBlend", &"Equipment", 0, &"Relaxed", &"Equipment", 1, &"Rifle", &"Equipment", 2, &"Pistol", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Knife", &"Equipment", 5, &"Fuse", &"Equipment", 6, &"Fuel", &"Equipment", 7, &"Carry", &"Action", 0, &"RifleReload", &"Action", 1, &"PistolReload", &"Action", 2, &"RifleBattery", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Equipment", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Handling", &"Kick", 1, &"Recoil", &"Draw", 0, &"Kick", &"Draw", 1, &"DrawClip", &"Stow", 0, &"Draw", &"Stow", 1, &"StowClip", &"BookBlend", 0, &"OffhandTorch", &"OffhandTorch", 0, &"Stow", &"OffhandTorch", 1, &"OffhandAim", &"BookBlend", 1, &"Journal"]
+nodes/OffhandAim/node = SubResource("AnimationNodeBlendSpace1D_yrw63")
+nodes/OffhandAim/position = Vector2(0, 0)
+nodes/OffhandTorch/node = SubResource("AnimationNodeBlend2_1n4wr")
+nodes/OffhandTorch/position = Vector2(0, 0)
+nodes/Flamethrower/node = SubResource("AnimationNodeBlendSpace1D_gsyom")
+nodes/Flamethrower/position = Vector2(0, 800)
+node_connections = [&"output", 0, &"BookBlend", &"Equipment", 0, &"Relaxed", &"Equipment", 1, &"Rifle", &"Equipment", 2, &"Pistol", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Knife", &"Equipment", 5, &"Fuse", &"Equipment", 6, &"Fuel", &"Equipment", 7, &"Carry", &"Equipment", 8, &"Flamethrower", &"Action", 0, &"RifleReload", &"Action", 1, &"PistolReload", &"Action", 2, &"RifleBattery", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Equipment", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Handling", &"Kick", 1, &"Recoil", &"Draw", 0, &"Kick", &"Draw", 1, &"DrawClip", &"Stow", 0, &"Draw", &"Stow", 1, &"StowClip", &"BookBlend", 0, &"OffhandTorch", &"BookBlend", 1, &"Journal", &"OffhandTorch", 0, &"Stow", &"OffhandTorch", 1, &"OffhandAim"]
 
 [sub_resource type="Skin" id="Skin_g61ir"]
 bind_count = 2
@@ -35604,6 +35632,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.092, -0.008)
 [node name="FrontSight" parent="Skeleton3D/RightHand/Equipment/m4a1" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.092, -0.403)
 
+[node name="FlashlightMount" parent="Skeleton3D/RightHand/Equipment/m4a1" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048, 0.035, -0.32)
+
 [node name="SupportHand" type="Marker3D" parent="Skeleton3D/RightHand/Equipment/m4a1" unique_id=1953715217]
 transform = Transform3D(0.38848755, 0.84992343, -0.35595927, -0.11390454, 0.4276337, 0.89674693, 0.9143863, -0.3078297, 0.2629406, -0.074778624, -0.014736239, -0.162)
 
@@ -35617,22 +35648,22 @@ transform = Transform3D(0.38848755, 0.84992343, -0.35595927, -0.11390454, 0.4276
 transform = Transform3D(0.02662756, 0.23567474, -0.971467, -0.17857827, -0.95505774, -0.23658872, -0.98356533, 0.1797827, 0.016655535, 0.008072875, 0.086119175, 0.013050424)
 visible = false
 
-[node name="Blade" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="0" unique_id=490104534]
+[node name="Blade" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="0" unique_id=2021187821]
 layers = 524288
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_wdv57")
 
-[node name="Handle" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="1" unique_id=1245173786]
+[node name="Handle" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="1" unique_id=821688266]
 layers = 524288
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_bf8el")
 
-[node name="Bolts" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="2" unique_id=1159123166]
+[node name="Bolts" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="2" unique_id=350747902]
 layers = 524288
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_k6pmk")
 
-[node name="Bolster" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="3" unique_id=847377787]
+[node name="Bolster" parent="Skeleton3D/RightHand/Equipment/kitchen_knife" index="3" unique_id=1112267285]
 layers = 524288
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_gcal0")
@@ -35668,26 +35699,44 @@ cast_shadow = 0
 mesh = SubResource("CylinderMesh_0in1l")
 
 [node name="TapeBack" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
 layers = 524288
+material_override = SubResource("TapeMaterial")
 cast_shadow = 0
+mesh = ExtResource("12_5iu83")
 
 [node name="TapeFront" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.045)
 layers = 524288
+material_override = SubResource("TapeMaterial")
 cast_shadow = 0
+mesh = ExtResource("12_5iu83")
 
 [node name="Beam" parent="Skeleton3D/RightHand/Equipment/MountedLamp" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125)
 visible = false
+light_color = Color(1, 0.92, 0.8, 1)
+light_energy = 1.6
+light_indirect_energy = 0.4
+light_volumetric_fog_energy = 2.0
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.025
+shadow_normal_bias = 0.4
+spot_range = 22.0
+spot_angle = 27.0
+metadata/world_lighting = true
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1926845910]
-light_indirect_energy = 0.0
-light_volumetric_fog_energy = 0.0
-light_energy = 0.45
-omni_range = 1.2
-light_cull_mask = 393217
-metadata/world_lighting = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.55)
 visible = false
+light_energy = 0.45
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+light_cull_mask = 393217
+omni_range = 1.2
+metadata/world_lighting = true
 
 [node name="FlashlightGrip" type="Marker3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1951773320]
 transform = Transform3D(0.049347643, 0.94522023, -0.32268175, -0.33446553, -0.28878275, -0.8970714, -0.9411155, 0.1521945, 0.30189276, -0.09974848, -0.14855428, 0.08794241)
@@ -35697,6 +35746,13 @@ transform = Transform3D(0.02662751, -0.97146714, -0.23567444, -0.17857835, -0.23
 
 [node name="FuelGrip" type="Marker3D" parent="Skeleton3D/RightHand/Equipment" unique_id=67466866]
 transform = Transform3D(0.6517592, 0.3024839, 0.045975246, 0.3059341, -0.6429577, -0.10681627, -0.0038196181, 0.116227634, -0.7105468, -0.09664535, 0.23970948, -0.005809861)
+
+[node name="flamethrower" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=486757917 instance=ExtResource("flame_model")]
+transform = Transform3D(0.021918973, 0.9246727, 0.38013127, -0.3525313, 0.36294872, -0.8625484, -0.93554324, -0.11510201, 0.33393154, 0.025784817, 0.039742683, 0.028384186)
+visible = false
+
+[node name="MuzzleDischarge" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=331348235 instance=ExtResource("discharge_fx")]
+script = ExtResource("15_r0q8j")
 
 [node name="SupportHandIK" type="TwoBoneIK3D" parent="Skeleton3D" unique_id=1159791343]
 influence = 0.0
@@ -35731,14 +35787,18 @@ settings/0/end_bone = 11
 settings/0/use_virtual_end = false
 settings/0/extend_end_bone = false
 
-[node name="LeftHand" parent="Skeleton3D" instance=ExtResource("offhand_socket")]
+[node name="LeftHand" type="BoneAttachment3D" parent="Skeleton3D" unique_id=1661337696 instance=ExtResource("offhand_socket")]
+transform = Transform3D(-0.1614702, -0.3763476, 0.91229886, -0.30441582, -0.86035657, -0.4087993, 0.93875325, -0.34372732, 0.024355777, -0.523054, 0.9427065, -0.09905791)
+bone_name = "LeftHand"
+bone_idx = 36
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=570607429]
-libraries/offhand = ExtResource("offhand_clips")
 libraries/ = SubResource("AnimationLibrary_icwjx")
+libraries/flamethrower = ExtResource("17_b2sey")
+libraries/offhand = ExtResource("offhand_clips")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2044392105]
-tree_root = SubResource("AnimationNodeBlendTree_kl1pm")
+tree_root = SubResource("AnimationNodeBlendTree_xtbjp")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Rifle/blend_position = 0.0
 parameters/Pistol/blend_position = 0.0
@@ -35767,6 +35827,9 @@ parameters/Journal/JournalClose/Time/seek_request = -1.0
 parameters/Journal/JournalOpen/Time/seek_request = -1.0
 parameters/Journal/JournalReading/Time/seek_request = -1.0
 parameters/BookBlend/blend_amount = 0.0
+parameters/OffhandAim/blend_position = 0.0
+parameters/OffhandTorch/blend_amount = 0.0
+parameters/Flamethrower/blend_position = 0.0
 
 [node name="Journal" parent="." unique_id=1372829979 instance=ExtResource("13_64upq")]
 transform = Transform3D(1, 0, 0, 0, 0.96105546, 0.27635565, 0, -0.27635565, 0.96105546, 0.105, 1.59, -0.48)
@@ -35862,4 +35925,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 1.02, 0.08)
 [editable path="Skeleton3D/RightHand/Equipment/MountedLamp/Model"]
 [editable path="Journal"]
 
-[node name="MuzzleDischarge" parent="Skeleton3D/RightHand/Equipment" instance=ExtResource("discharge_fx")]
+[node name="FlamethrowerGripTarget" type="ModifierBoneTarget3D" parent="Skeleton3D"]
+bone_name = "RightHand"
+bone = 11
+
+[node name="Grip" type="Marker3D" parent="Skeleton3D/FlamethrowerGripTarget"]
+transform = Transform3D(0.38666078, 0.08096936, 0.9186606, -0.8829605, -0.25505662, 0.3941151, 0.26622167, -0.96352994, -0.027127638, -0.04675371, 0.36392286, -0.009961054)
+
+[node name="FlamethrowerSupportIK" type="TwoBoneIK3D" parent="Skeleton3D"]
+influence = 0.0
+setting_count = 1
+settings/0/target_node = NodePath("../FlamethrowerGripTarget/Grip")
+settings/0/pole_node = NodePath("../../LeftElbowPole")
+settings/0/root_bone_name = "LeftArm"
+settings/0/root_bone = 34
+settings/0/middle_bone_name = "LeftForeArm"
+settings/0/middle_bone = 35
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "LeftHand"
+settings/0/end_bone = 36
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = false
+
+[node name="FlamethrowerWrist" type="CopyTransformModifier3D" parent="Skeleton3D"]
+influence = 0.0
+setting_count = 1
+settings/0/apply_bone_name = "LeftHand"
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../FlamethrowerGripTarget/Grip")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/relative = false
+settings/0/additive = false

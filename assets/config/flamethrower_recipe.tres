@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/crafting/flamethrower_recipe.gd" id="recipe"]
+
+[resource]
+script = ExtResource("recipe")
+requirements = {&"flame_large_cylinder": 1, &"flame_small_cylinder": 1, &"flame_cola_can": 1, &"flame_pipe_bundle": 1, &"tape": 1, &"flame_hardware_box": 1, &"flame_pressure_gauge": 1, &"flame_valve": 1}
+titles = {&"flame_large_cylinder": "Большой баллон", &"flame_small_cylinder": "Малый баллон", &"flame_cola_can": "Банка колы", &"flame_pipe_bundle": "Связка труб", &"tape": "Скотч", &"flame_hardware_box": "Коробка крепежа", &"flame_pressure_gauge": "Манометр", &"flame_valve": "Вентиль"}
+pickup_scenes = {&"flame_large_cylinder": "res://scenes/objects/crafting/large_cylinder_pickup.tscn", &"flame_small_cylinder": "res://scenes/objects/crafting/small_cylinder_pickup.tscn", &"flame_cola_can": "res://scenes/objects/crafting/cola_can_pickup.tscn", &"flame_pipe_bundle": "res://scenes/objects/crafting/pipe_bundle_pickup.tscn", &"flame_hardware_box": "res://scenes/objects/crafting/hardware_box_pickup.tscn", &"flame_pressure_gauge": "res://scenes/objects/crafting/pressure_gauge_pickup.tscn", &"flame_valve": "res://scenes/objects/crafting/valve_pickup.tscn"}
+craft_limit = 2

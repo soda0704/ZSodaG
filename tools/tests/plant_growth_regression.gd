@@ -10,7 +10,7 @@ func fixture(day: int, planted: bool, stage: int, dead: bool = false) -> void:
 	snapshot.elevator_backup_installed = true
 	snapshot.maintenance = {}
 	snapshot.quest_stage = BaseGameplayController.QuestStage.DELIVERED
-	snapshot.containment = {"level2":true,"trials":true,"level3":true,"resolved":true,"shaft":true,"cave_exited":true}
+	snapshot.containment = {"level2":true,"trials":true,"level3":true,"resolved":true,"shaft":true,"cave_exited":true,"cave_hives_found":true,"cave_hive_health":[0.0,0.0,0.0]}
 	snapshot.plant_seed_planted = planted
 	snapshot.plant_growth_stage = stage
 	snapshot.plant_withered = dead
@@ -95,6 +95,8 @@ func run() -> void:
 	var data := state.get_snapshot()
 	data.containment.erase("shaft")
 	data.containment.erase("cave_exited")
+	data.containment.erase("cave_hives_found")
+	data.containment.erase("cave_hive_health")
 	state._broadcast_snapshot(data)
 	check(not state.can_end_current_day(), "day six needs winch preparation")
 	var shaft := base.get_node("Floor_Minus5_Expedition_Shaft_Blockout/InvestigationZone") as Area3D
@@ -106,6 +108,10 @@ func run() -> void:
 	state._broadcast_snapshot(prepared)
 	check(state.can_end_current_day(), "completed winch fixture permits normal sleep for later plant days")
 	check(sleep_once() and state.day_index == 7 and not state.can_end_current_day(), "day seven cannot sleep before cave exit")
+	var cleared := state.get_snapshot()
+	cleared.containment.cave_hives_found = true
+	cleared.containment.cave_hive_health = [0.0,0.0,0.0]
+	state._broadcast_snapshot(cleared)
 	var exit := base.get_node("Cave_Day7/ExitZone") as Area3D
 	player.survival.dead = true
 	player.teleport_authoritative(exit.global_position - Vector3(0,1.9,0), 0)

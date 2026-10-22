@@ -190,6 +190,15 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 
 
 func spawn_standalone_gameplay() -> void:
+	var recipe = preload("res://assets/config/flamethrower_recipe.tres")
+	if not has_node("CraftLoot0"):
+		var craft_loot := get_flamethrower_loot()
+		for index in craft_loot.size():
+			var loot := craft_loot[index]
+			var scene: PackedScene = load(recipe.pickup_scenes[loot.type]) if loot.type != &"tape" else preload("res://scenes/objects/items/tool_pickup.tscn")
+			var pickup := scene.instantiate() as WorldItemPickup
+			pickup.setup_spawn({"pickup_name": "CraftLoot%d" % index, "item_type": loot.type, "item_state": {}, "transform": global_transform.affine_inverse() * loot.transform})
+			add_child(pickup)
 	var state := get_node("BaseGameplayController") as BaseGameplayController
 	if not state.plant_seed_planted and not has_node("KitchenSeedPacket"):
 		var packet := preload("res://scenes/objects/items/seed_packet_pickup.tscn").instantiate() as WorldItemPickup
@@ -252,3 +261,11 @@ func spawn_standalone_gameplay() -> void:
 		var item := scene.instantiate() as WorldItemPickup
 		item.setup_spawn({"pickup_name": "ExtraLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": loot_transform(loot)})
 		add_child(item)
+
+
+## Shared editor markers for both F6 and the authoritative session spawner.
+func get_flamethrower_loot() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for marker: Marker3D in $FlamethrowerLootSpawns.get_children():
+		result.append({"type": StringName(marker.get_meta("item_type")), "transform": marker.global_transform, "state": {}})
+	return result

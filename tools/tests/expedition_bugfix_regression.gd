@@ -55,7 +55,7 @@ func run() -> void:
 	check(journal.get_hud_summary().tasks.any(func(task): return "продолжение шахты" in task), "day seven HUD directs exploration beneath the complex")
 	player.teleport_authoritative(base.get_node("Cave_Day7/CaveArrival").global_position, 0)
 	await settle()
-	check(state.containment.get("cave_visited", false) and state.can_end_current_day(), "actual shaft visit completes day seven without cave exit")
+	check(state.containment.get("cave_visited", false) and not state.can_end_current_day(), "actual shaft visit starts exploration without completing day seven")
 	var snapshot := state.get_snapshot()
 	snapshot.day_index = 1; snapshot.plant_seed_planted = true; snapshot.plant_withered = false
 	snapshot.plant_growth_stage = 0; snapshot.plant_last_watered_day = 1

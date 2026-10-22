@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://assets/effects/flamethrower/jet.gdshader" id="1_7v88f"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7v88f"]
+frequency = 0.025
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ys7d0"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_7v88f")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7v88f")
+shader_parameter/turbulence = SubResource("NoiseTexture2D_ys7d0")
+shader_parameter/hot_tint = Color(0.16, 0.17, 0.18, 1)
+shader_parameter/cool_tint = Color(0.045, 0.048, 0.052, 1)
+shader_parameter/emission_energy = 0.0
+shader_parameter/opacity = 0.12
+shader_parameter/erosion = null
+shader_parameter/scroll_speed = null
+shader_parameter/smoke = true

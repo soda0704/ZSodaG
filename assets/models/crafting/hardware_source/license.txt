@@ -1,0 +1,11 @@
+Model Information:
+* title:	Republic Steel Fastener Case
+* source:	https://sketchfab.com/3d-models/republic-steel-fastener-case-6bf269f2c99b4e4dae65d6a15e77e560
+* author:	Connections XR (https://sketchfab.com/connectionsxr)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Republic Steel Fastener Case" (https://sketchfab.com/3d-models/republic-steel-fastener-case-6bf269f2c99b4e4dae65d6a15e77e560) by Connections XR (https://sketchfab.com/connectionsxr) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

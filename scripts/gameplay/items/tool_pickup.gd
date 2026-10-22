@@ -13,4 +13,4 @@ func _ready() -> void:
 
 func get_interaction_prompt() -> String:
 	if not pickup_enabled: return ""
-	return "Скотч · крепление фонарика" if item_type == &"tape" else "Монтировка"
+	return "Скотч" if item_type == &"tape" else "Монтировка"

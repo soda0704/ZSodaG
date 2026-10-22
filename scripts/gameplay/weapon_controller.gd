@@ -3,6 +3,7 @@ extends Node3D
 
 const TYPES := [&"pistol", &"m4a1", &"kitchen_knife"]
 const MODEL_SCENES := {
+	&"flamethrower": preload("res://scenes/objects/items/flamethrower_model.tscn"),
 	&"pistol": preload("res://scenes/objects/items/pistol_model.tscn"),
 	&"m4a1": preload("res://scenes/objects/items/m4a1_model.tscn"),
 	&"kitchen_knife": preload("res://assets/models/weapons/kitchen_knife.glb"),
@@ -52,6 +53,7 @@ const TITLES := {&"pistol": "Пистолет", &"m4a1": "M4A1", &"kitchen_knife
 @export_range(0.1, 20.0) var mark_fade_seconds := 5.0
 @export_range(1, 512) var max_surface_marks := 128
 @export_range(0.0005, 0.02) var mark_surface_offset := 0.003
+@onready var flame = $Flamethrower
 @onready var _mechanism_audio: AudioStreamPlayer3D = $MechanismAudio
 @export var impact_audio_scene: PackedScene
 
@@ -82,6 +84,7 @@ func _ready() -> void:
 	_mounted_beam = _mounted_lamp.get_node("Beam")
 	for id: StringName in TYPES:
 		_models[id] = _pose.get_node(String(id))
+	_models[&"flamethrower"] = _pose.get_node("flamethrower")
 	_flash = _pose.get_node("MuzzleFlash")
 	_audio = $ShotAudio
 	_hud = $HUD/WeaponLabel
@@ -120,7 +123,7 @@ func _physics_process(delta: float) -> void:
 				if reload_left == 0.0:
 					_commit_reload()
 					_notify_inventory()
-	var active: bool = TYPES.has(kind) and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
+	var active: bool = (TYPES.has(kind) or kind == &"flamethrower") and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
 	var presentation_active: bool = active and player._journal_phase == 0 and not player._battery_flashlight_presentation
 	for model_id in _models: _models[model_id].visible = presentation_active and model_id == kind
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
@@ -131,16 +134,16 @@ func _physics_process(delta: float) -> void:
 	_hud.visible = active and local and not player.is_debug_free_camera_active() and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:
 		var controller: bool = get_node("/root/SteamInput").using_controller
-		_hud.text = str(TITLES[kind])
-		if kind != &"kitchen_knife":
+		_hud.text = "Огнемёт" if kind == &"flamethrower" else str(TITLES[kind])
+		if kind not in [&"kitchen_knife", &"flamethrower"]:
 			var reserve := "патроны: %d" % pistol_ammo if kind == &"pistol" else "магазины: %d" % rifle_magazines.size()
 			var action_hint := "[↑] Перезарядка" if controller else "[R] Перезарядка"
 			if player.weapon_light_mounted and player._battery_charge <= 0.0 and not player._spare_batteries.is_empty():
 				action_hint = "[↑] Заменить батарейку" if controller else "[R] Заменить батарейку"
 			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ""]
-		else:
+		elif kind == &"kitchen_knife":
 			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
-	if active and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	if active and kind != &"flamethrower" and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var attack := Input.is_action_pressed("weapon_attack") if kind == &"m4a1" else Input.is_action_just_pressed("weapon_attack")
 		if attack and _cooldown <= 0.0 and reload_left <= 0.0:
 			request_action(&"fire")

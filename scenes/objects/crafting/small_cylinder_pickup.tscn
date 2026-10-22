@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/items/world_item_pickup.gd" id="item"]
+[ext_resource type="PackedScene" path="res://scenes/art/crafting/small_cylinder.tscn" id="model"]
+
+[sub_resource type="BoxShape3D" id="shape"]
+size = Vector3(0.17, 0.26, 0.17)
+
+[node name="SmallCylinderPickup" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 1
+mass = 0.35
+linear_damp = 0.45
+angular_damp = 1.4
+script = ExtResource("item")
+item_type = &"flame_small_cylinder"
+display_name = "Малый баллон"
+
+[node name="Model" parent="." instance=ExtResource("model")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.13, 0)
+shape = SubResource("shape")

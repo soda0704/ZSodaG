@@ -241,7 +241,7 @@ func can_end_current_day() -> bool:
 		or (day_index == TRIALS_DAY_INDEX and bool(containment.get("trials", false)))
 		or (day_index == CONTAINMENT_DAY_INDEX and bool(containment.get("level3", false)) and bool(containment.get("resolved", false)))
 		or (day_index == EXPEDITION_DAY_INDEX and is_winch_prepared())
-		or (day_index >= CAVE_DAY_INDEX and bool(containment.get("cave_visited", containment.get("cave_exited", false))))
+		or (day_index >= CAVE_DAY_INDEX and are_cave_hives_destroyed() and bool(containment.get("cave_exited", false)))
 	)
 
 
@@ -255,6 +255,18 @@ func get_winch_preparation() -> Dictionary:
 
 func is_winch_prepared() -> bool:
 	return bool(get_winch_preparation().get("tested", false))
+
+
+func get_destroyed_cave_hive_count() -> int:
+	var health: Array = containment.get("cave_hive_health", [])
+	var destroyed := 0
+	for index in mini(health.size(), 3):
+		if is_finite(float(health[index])) and float(health[index]) <= 0.0: destroyed += 1
+	return destroyed
+
+
+func are_cave_hives_destroyed() -> bool:
+	return bool(containment.get("cave_hives_found", false)) and get_destroyed_cave_hive_count() == 3
 
 
 func get_expedition_objective() -> Dictionary:
@@ -285,9 +297,31 @@ func get_expedition_objective() -> Dictionary:
 			if preparation.get("testing", false): note = "Механизм проходит пробный цикл; проём клети должен оставаться свободным."
 	elif day_index >= CAVE_DAY_INDEX:
 		title = "За последним уровнем"
-		tasks.append({"done": bool(containment.get("cave_visited", containment.get("cave_exited", false))), "text": "Найти продолжение шахты под комплексом"})
+		var visited := bool(containment.get("cave_visited", false))
+		var found := bool(containment.get("cave_hives_found", false))
+		var cleared := are_cave_hives_destroyed()
+		var exited := cleared and bool(containment.get("cave_exited", false))
+		tasks.append({"done": visited, "text": "Найти продолжение шахты под комплексом"})
 		description = "Лебёдка ведёт глубже лаборатории — что осталось внизу, пока неизвестно."
-	if not tasks.is_empty() and tasks.all(func(task): return task.done):
+		if visited or found:
+			tasks.append({"done": found, "text": "Исследовать пещеру"})
+		if found:
+			title = "В глубине"
+			description = "В конце пещеры обнаружены три улья. Нужно уничтожить их, прежде чем покинуть это место."
+			var crafted := int(maintenance.get("flamethrower_crafting",{}).get("crafted",0))
+			if not cleared or crafted > 0:
+				tasks.append({"done": crafted > 0, "text": "Собрать огнемёт"})
+			if not cleared:
+				description += " Схему сборки можно рассмотреть на столе в комнате снаряжения уровня 0."
+			tasks.append({"done": cleared, "text": "Уничтожить ульи (%d/3)" % get_destroyed_cave_hive_count()})
+		if cleared:
+			title = "Наружу"
+			description = "Ульи уничтожены. Осталось найти выход из пещеры."
+			tasks.append({"done": exited, "text": "Выйти наружу"})
+		if exited:
+			title = "По ту сторону"
+			description = "Три улья уничтожены. Вы выбрались наружу."
+	if day_index < CAVE_DAY_INDEX and not tasks.is_empty() and tasks.all(func(task): return task.done):
 		note = "Вернуться на базу и отдохнуть."
 	return {"title": title, "tasks": tasks, "note": note, "description": description}
 

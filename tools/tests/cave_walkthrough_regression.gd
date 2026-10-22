@@ -10,6 +10,8 @@ func run():
 	root.get_node("GameMenu").force_close_menu()
 	for frame in 12:await physics_frame
 	var state:BaseGameplayController=base.get_node("BaseGameplayController");state.set_process(false)
+	state.progress_persistence_enabled = false
+	state.debug_set_day_authoritative(7)
 	var player:GamePlayer=get_first_node_in_group("network_players")
 	player.set_physics_process(false);player.survival.set_physics_process(false)
 	var cave:Node3D=base.get_node("Cave_Day7")
@@ -19,11 +21,13 @@ func run():
 	player.survival._physics_process(0.01)
 	check(not player.survival.dead and player.survival.health==100,"Cave depth does not trigger out-of-world death")
 	var started:=Time.get_ticks_msec();var last_progress:=started;var low_sections:=0
+	var discovery_offset := -1.0
 	while distance<total-0.7 and Time.get_ticks_msec()-started<60000:
 		await physics_frame
 		var next_distance:=curve.get_closest_offset(player.global_position)
 		if next_distance>distance+0.025:last_progress=Time.get_ticks_msec()
 		distance=next_distance
+		if discovery_offset < 0.0 and state.containment.get("cave_hives_found",false): discovery_offset = distance
 		var target:=curve.sample_baked(minf(total,distance+0.7),true)
 		var offset:=target-player.global_position;offset.y=0
 		if Time.get_ticks_msec()-last_progress>1800:
@@ -39,6 +43,7 @@ func run():
 			print("LOST_FLOOR ",distance," ",player.global_position," expected ",target);break
 	check(distance>=total-0.7,"Actual GamePlayer walks from shaft to mouth without jumps/teleports (%.1f / %.1fm)"%[distance,total])
 	check(low_sections>10,"Both low passages traversed with production crouch component")
+	check(discovery_offset > total * 0.84 and discovery_offset < total * 0.91,"Hive task reveals in the final chamber, not at the shaft (%.1fm)" % discovery_offset)
 	check(player.collision_shape.shape.height>1.7,"Player can stand again after low passage")
 	var console=root.get_node("DeveloperConsole")
 	check(cave.get_node("ExitThreshold").global_position.distance_to(Vector3(342,-155.9,2))<0.02,"Console exit marker follows saved scene")

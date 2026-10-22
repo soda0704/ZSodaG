@@ -15,6 +15,9 @@ def main():
     parser.add_argument("--clicker", action="store_true", help="test shared terminal app, spectator and operator handoff")
     parser.add_argument("--winch", action="store_true", help="test production shaft transport, late join and client return")
     parser.add_argument("--preparation", action="store_true", help="test shared day-six brake preparation and client lever input")
+    parser.add_argument("--hives", action="store_true", help="test cave hive progress, late join and client weapon damage")
+    parser.add_argument("--crafting", action="store_true", help="test two-player flamethrower assembly, part migration and resume")
+    parser.add_argument("--flame", action="store_true", help="test continuous jet, guest damage, ownership, fuel and trigger timeout")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
@@ -45,6 +48,21 @@ def main():
         driver = "run_winch_preparation_multiplayer.gd"
         ready_marker = "HOST_READY_FOR_PREPARATION_CLIENT"
         result_marker = "PREPARATION COOP CHECKS"
+    if options.hives:
+        label = "hives"
+        driver = "run_cave_hives_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_HIVES_CLIENT"
+        result_marker = "HIVES COOP CHECKS"
+    if options.crafting:
+        label = "crafting"
+        driver = "run_flamethrower_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_CRAFT_CLIENT"
+        result_marker = "CRAFT COOP CHECKS"
+    if options.flame:
+        label = "flame"
+        driver = "run_flamethrower_fire_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_CRAFT_CLIENT"
+        result_marker = "CRAFT COOP CHECKS"
     project = Path(__file__).resolve().parents[2]
     output = project / "tools/.local"
     output.mkdir(exist_ok=True)

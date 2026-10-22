@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/crafting/prepared/pressure_gauge.res" id="1_nq2h5"]
+
+[node name="PressureGauge" type="Node3D" unique_id=535583836]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1538693498]
+mesh = ExtResource("1_nq2h5")

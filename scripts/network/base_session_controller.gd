@@ -5,6 +5,14 @@ const PLAYER_SCENE := preload(
 )
 const BATTERY_PICKUP_SCRIPT := preload("res://scripts/gameplay/items/battery_pickup.gd")
 const ITEM_SCENES := {
+	&"flame_large_cylinder": preload("res://scenes/objects/crafting/large_cylinder_pickup.tscn"),
+	&"flame_small_cylinder": preload("res://scenes/objects/crafting/small_cylinder_pickup.tscn"),
+	&"flame_cola_can": preload("res://scenes/objects/crafting/cola_can_pickup.tscn"),
+	&"flame_pipe_bundle": preload("res://scenes/objects/crafting/pipe_bundle_pickup.tscn"),
+	&"flame_hardware_box": preload("res://scenes/objects/crafting/hardware_box_pickup.tscn"),
+	&"flame_pressure_gauge": preload("res://scenes/objects/crafting/pressure_gauge_pickup.tscn"),
+	&"flame_valve": preload("res://scenes/objects/crafting/valve_pickup.tscn"),
+	&"flamethrower": preload("res://scenes/objects/crafting/flamethrower_pickup.tscn"),
 	&"seed_packet": preload("res://scenes/objects/items/seed_packet_pickup.tscn"),
 	&"tape": preload("res://scenes/objects/items/tool_pickup.tscn"),
 	&"crowbar": preload("res://scenes/objects/items/tool_pickup.tscn"),
@@ -131,7 +139,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 		cargo_data["item_type"] = pickup.item_type
 		cargo_data["item_state"] = pickup.item_state.duplicate(true)
 		pickups.append(cargo_data)
-	return {"players": equipment, "participants": participants, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1}
+	return {"players": equipment, "participants": participants, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1, "flamethrower_parts_layout_version": 1}
 
 
 func _capture_cabin_pose(pose: Transform3D) -> Dictionary:
@@ -629,6 +637,10 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	var migrate_craft := int(_base_gameplay_controller.inventory_checkpoint.get("flamethrower_parts_layout_version", 0)) < 1
+	if migrate_craft:
+		for loot: Dictionary in get_node("V3Level").get_flamethrower_loot():
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * loot.transform, loot.state)
 	var migrate_backup := int(_base_gameplay_controller.inventory_checkpoint.get("elevator_backup_layout_version", 0)) < 1
 	if migrate_backup and not _base_gameplay_controller.elevator_backup_installed and not _checkpoint_has_fuse():
 		var level := get_node("V3Level") as BaseBlockoutRuntime
@@ -673,7 +685,7 @@ func spawn_v3_world_items() -> void:
 				else:
 					restored = _migrate_prop_transform(StringName(data.item_type), restored)
 			spawn_world_item(StringName(data.item_type), world_items.global_transform.affine_inverse() * restored, data.item_state)
-		if migrate_props or migrate_backup:
+		if migrate_props or migrate_backup or migrate_craft:
 			save_inventory_checkpoint()
 		return
 	if not _base_gameplay_controller.plant_seed_planted:

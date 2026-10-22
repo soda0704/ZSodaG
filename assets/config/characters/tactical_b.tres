@@ -14,3 +14,5 @@ ragdoll_scene = ExtResource("5")
 retarget_bone_map = ExtResource("6")
 forward_walk_stride_speed = 2.50
 
+
+first_person_item_offsets = Dictionary[StringName, Vector3]({&"flamethrower": Vector3(0.0, 0.04, -0.15)})

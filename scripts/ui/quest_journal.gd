@@ -1,6 +1,7 @@
 class_name QuestJournalUI
 extends CanvasLayer
 
+const CRAFT_RECIPE = preload("res://assets/config/flamethrower_recipe.tres")
 const ILLUSTRATION_ROOT := "res://assets/ui/journal_sketches/"
 enum PresentationState { CLOSED, OPENING, OPEN, CLOSING }
 @export_range(0.5, 3.0) var closing_speed := 1.35
@@ -376,6 +377,7 @@ func _refresh_inventory() -> void:
 		"batteries": batteries, "selected": _selected_item,
 		"rounds": data.get("weapon_rounds", 0), "ammo": data.get("pistol_ammo", 0),
 		"magazines": data.get("rifle_magazines", []), "mounted": data.get("weapon_light_mounted", false),
+		"fuel": roundi(float(data.get("flame_fuel_liters",0.0))*100), "parts": data.get("crafting_parts", {}), "recipe": _controller != null and _controller.containment.get("cave_hives_found",false),
 		"tape": data.get("tape_count", 0), "crowbar": data.get("crowbar_uses", 0),
 		"controls": input_service.get_controls_hint(),
 		"close": [input_service.get_action_hint(&"journal"), input_service.get_action_hint(&"ui_cancel")],
@@ -396,11 +398,24 @@ func _refresh_inventory() -> void:
 		_cards[id].set_note("" if id == &"kitchen_knife" else "%d · запас %s" % [int(data.get("weapon_rounds", 0)), reserve])
 	_cards[&"flashlight"].set_note("%d%%" % roundi(charge * 100.0))
 	_cards[&"battery"].set_note("×%d" % batteries.size())
+	var recipe_known: bool = _controller != null and _controller.containment.get("cave_hives_found",false)
+	var show_recipe := _selected_item == &"flame_recipe" and recipe_known
+	var counts: Dictionary = data.get("crafting_parts", {}).duplicate()
+	counts[&"tape"] = int(data.get("tape_count",0))
+	_cards[&"flame_recipe"].visible = recipe_known
+	_cards[&"flame_recipe"].set_note("По 1 каждой детали")
+	_cards[&"flamethrower"].visible = hand == &"flamethrower"
+	_cards[&"flamethrower"].set_note("Топливо: %d%%" % roundi(float(data.get("flame_fuel_liters",0.0))/player.weapon.flame.capacity_liters*100) if player!=null else "")
+	for type in CRAFT_RECIPE.requirements:
+		var count := int(counts.get(type,0))
+		_cards[type].visible = show_recipe or count > 0
+		_cards[type].set_note("%d / 1" % count if recipe_known else "×%d" % count)
 	if _cards.has(_selected_item) and not _cards[_selected_item].visible:
 		_cards[_selected_item].set_pressed_no_signal(false)
 		_selected_item = &""
 	replace_button.visible = has_light and charge <= 0.0 and not batteries.is_empty()
-	drop_button.visible = _selected_item != &"" and _selected_item not in [&"pistol_ammo", &"rifle_magazine"]
+	drop_button.visible = _selected_item != &"" and _selected_item not in [&"pistol_ammo", &"rifle_magazine", &"flame_recipe"]
+	drop_button.disabled = CRAFT_RECIPE.requirements.has(_selected_item) and int(counts.get(_selected_item,0)) <= 0
 	mount_button.visible = hand == &"m4a1" and has_light
 	mount_button.text = "Снять фонарь" if data.get("weapon_light_mounted", false) else "Примотать"
 	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на M4A1: нужен 1 скотч. Свет включается кнопкой F."
@@ -426,6 +441,12 @@ func _refresh_inventory() -> void:
 		var rounds: Array[String] = []
 		for magazine in data.get("rifle_magazines", []): rounds.append(str(int(magazine)))
 		inventory_label.text = "Патронов в магазинах: " + ", ".join(rounds)
+	if _selected_item == &"flame_recipe":
+		inventory_label.text = "На один огнемёт — по 1 каждой детали.\nСборка на столе в комнате снаряжения, уровень 0."
+	elif _selected_item == &"flamethrower":
+		inventory_label.text = "Удерживать атаку — струя огня.\nЗаправка: навести на канистру и нажать %s." % input_service.get_action_hint(&"replace_battery")
+	elif CRAFT_RECIPE.requirements.has(_selected_item):
+		inventory_label.text = "%s: %d / 1 для сборки" % [CRAFT_RECIPE.titles[_selected_item], int(counts.get(_selected_item,0))]
 	controls_label.text = get_node("/root/SteamInput").get_controls_hint()
 	if int(data.get("tape_count", 0)) > 0 or int(data.get("crowbar_uses", 0)) > 0:
 		inventory_label.text += "\nСкотч: %d · Монтировка: %s" % [int(data.get("tape_count", 0)), "есть" if int(data.get("crowbar_uses", 0)) > 0 else "нет"]
@@ -436,8 +457,12 @@ func _refresh_inventory() -> void:
 			close_button.grab_focus()
 
 func _drop_selected() -> void:
-	if _selected_item in [&"pistol_ammo", &"rifle_magazine"]: return
-	if _selected_item == &"battery":
+	if _selected_item in [&"pistol_ammo", &"rifle_magazine", &"flame_recipe"]: return
+	if CRAFT_RECIPE.pickup_scenes.has(_selected_item):
+		_inventory_action(StringName("drop_part:" + String(_selected_item)))
+	elif _selected_item == &"tape":
+		_inventory_action(&"drop_tape")
+	elif _selected_item == &"battery":
 		_inventory_action(&"drop_battery")
 	elif _selected_item == &"flashlight":
 		_inventory_action(&"drop_flashlight")

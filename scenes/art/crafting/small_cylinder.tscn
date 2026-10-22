@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/models/crafting/prepared/loose_cylinder_paint.tres" id="1_yq538"]
+[ext_resource type="ArrayMesh" path="res://assets/models/crafting/prepared/small_cylinder.res" id="2_hb61u"]
+
+[node name="SmallCylinder" type="Node3D" unique_id=800275528]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1678111197]
+material_override = ExtResource("1_yq538")
+mesh = ExtResource("2_hb61u")

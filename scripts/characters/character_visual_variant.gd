@@ -17,3 +17,6 @@ extends Resource
 @export_range(0.1,10.0) var other_walk_stride_speed := 1.79
 @export_range(0.1,10.0) var run_stride_speed := 3.186
 @export_range(0.1,10.0) var crouch_stride_speed := 1.105
+
+@export_group("First-person framing")
+@export var first_person_item_offsets: Dictionary[StringName, Vector3] = {}

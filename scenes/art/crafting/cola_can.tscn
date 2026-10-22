@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/crafting/prepared/cola_can.res" id="1_wcdcs"]
+
+[node name="ColaCan" type="Node3D" unique_id=981901760]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1007890735]
+mesh = ExtResource("1_wcdcs")

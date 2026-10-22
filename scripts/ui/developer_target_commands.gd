@@ -17,8 +17,10 @@ static func execute(args: PackedStringArray, player: GamePlayer, selected: NodeP
 	var tree := player.get_tree()
 	if args[0] == "/item":
 		var world := tree.get_first_node_in_group("network_gameplay_controller")
-		if world == null or args.size() < 2 or not world.ITEM_SCENES.has(StringName(args[1])):
-			return "Использование: /item tape|crowbar|fuel_can|flashlight|battery|fuse|pistol|m4a1|kitchen_knife|pistol_ammo|rifle_magazine [число]"
+		var kind:=StringName(args[1]) if args.size()>1 else &""
+		var supported: bool=world.ITEM_SCENES.has(kind) if world!=null else (GamePlayer.CRAFT_RECIPE.pickup_scenes.has(kind) or WeaponController.TYPES.has(kind) or kind in [&"flamethrower",&"flashlight",&"fuse",&"seed_packet",&"battery",&"fuel_can",&"tape",&"crowbar",&"pistol_ammo",&"rifle_magazine"])
+		if args.size() not in [2,3] or not supported:
+			return "Использование: /item tape|crowbar|fuel_can|flashlight|battery|fuse|pistol|m4a1|kitchen_knife|pistol_ammo|rifle_magazine|flamethrower|flame_<деталь> [число]"
 		if args.size() > 2 and (not args[2].is_valid_int() or int(args[2]) < 1):
 			return "Количество должно быть положительным целым числом."
 		if not point.is_finite() or player.global_position.distance_to(point) > 65:
@@ -26,7 +28,10 @@ static func execute(args: PackedStringArray, player: GamePlayer, selected: NodeP
 		var count := clampi(int(args[2]), 1, 100) if args.size() > 2 else 1
 		for index in count:
 			var position := point + Vector3((index % 5) * 0.35, 0.35 + (index / 25) * 0.3, ((index / 5) % 5) * 0.35)
-			world.spawn_world_item(StringName(args[1]), world.world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, position), {})
+			if world!=null:
+				world.spawn_world_item(StringName(args[1]), world.world_items.global_transform.affine_inverse() * Transform3D(Basis.IDENTITY, position), {})
+			else:
+				player.spawn_dropped_item_authoritative(StringName(args[1]),{},Transform3D(Basis.IDENTITY,position),Vector3.ZERO)
 		return "Создано предметов: %d" % count
 	var path := NodePath(args[1]) if args.size() > 1 else selected
 	var target := player.get_node_or_null(path) if not path.is_empty() else null

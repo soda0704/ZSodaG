@@ -42,7 +42,7 @@ func _ready() -> void:
 		first_person = preload("res://scripts/characters/components/first_person_presentation.gd").new()
 		first_person.name="FirstPersonPresentation"
 		get_node(first_person_parent).add_child(first_person)
-		first_person.initialize(variant.first_person_scene,get_node(first_person_parent))
+		first_person.initialize(variant.first_person_scene,get_node(first_person_parent),variant.first_person_item_offsets)
 		first_person_model=first_person.model
 		_make_shadow_items()
 	set_local_visibility(false)
@@ -181,13 +181,13 @@ func update_context(delta: float, context: Dictionary) -> void:
 		tree.set("parameters/Inertia/add_amount",variant.inertia_strength)
 		if not equipment.is_empty():
 			if equipment!=_equipment_kind: tree.set("parameters/Equipment/transition_request",equipment)
-			for name in ["Rifle","Pistol","Knife","Flashlight","Fuse","Fuel","Carry"]:
+			for name in ["Rifle","Pistol","Knife","Flashlight","Fuse","Fuel","Carry","Flamethrower"]:
 				tree.set("parameters/%s/blend_position"%name,clampf(limited_pitch*0.70-(0.10 if name in ["Rifle","Pistol"] and not context.get("aiming",false) else 0.0),-0.48,0.48))
 		var offhand: bool = context.get("offhand_flashlight", false) and journal == 0 and not _sleeping and not context.get("driving", false) and not context.get("carrying", false) and not context.get("reloading", false)
 		tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, delta * 8.0))
 		tree.set("parameters/OffhandAim/blend_position", limited_pitch * 0.70)
 		tree.advance(delta)
-		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand)
+		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand,kind)
 	if first_person!=null:
 		var fp_context:=context.duplicate(); fp_context["sleeping"]=_sleeping
 		first_person.update_context(fp_context)
@@ -214,11 +214,11 @@ func _update_floor_offset(grounded: bool) -> void:
 		model.position.y = clampf(hit.position.y - player.global_position.y, -0.15, 0.10)
 
 func _kind_name(kind: StringName) -> String:
-	return {&"m4a1":"Rifle",&"pistol":"Pistol",&"kitchen_knife":"Knife",&"flashlight":"Flashlight",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}.get(kind,"")
+	return {&"flamethrower":"Flamethrower",&"m4a1":"Rifle",&"pistol":"Pistol",&"kitchen_knife":"Knife",&"flashlight":"Flashlight",&"fuse":"Fuse",&"seed_packet":"Fuse",&"fuel_can":"Fuel"}.get(kind,"")
 
 func _sync_world_items(kind: StringName, journal: int) -> void:
 	var sockets: Node3D=model.get_node("Skeleton3D/RightHand/Equipment")
-	for label in ["pistol","m4a1","kitchen_knife"]: sockets.get_node(label).visible=String(kind)==label and journal==0
+	for label in ["pistol","m4a1","kitchen_knife","flamethrower"]: sockets.get_node(label).visible=String(kind)==label and journal==0
 	for pair in [["FuseGrip",&"fuse"],["FuelGrip",&"fuel_can"]]: sockets.get_node(pair[0]+"/ShadowItem").visible=kind==pair[1] and journal==0
 	sockets.get_node("FuseGrip/ShadowSeedPacket").visible = kind == &"seed_packet" and journal == 0
 	var offhand: bool = get_parent().is_handheld_flashlight_drawn() or get_parent()._battery_flashlight_presentation

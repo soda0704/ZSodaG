@@ -1,0 +1,30 @@
+{
+	"cola_can": {
+		"original_triangles": 316,
+		"triangles": 158
+	},
+	"flamethrower": {
+		"original_triangles": 43087,
+		"triangles": 21543
+	},
+	"hardware_box": {
+		"original_triangles": 30072,
+		"triangles": 1878
+	},
+	"large_cylinder": {
+		"original_triangles": 800,
+		"triangles": 400
+	},
+	"pressure_gauge": {
+		"original_triangles": 1352,
+		"triangles": 676
+	},
+	"small_cylinder": {
+		"original_triangles": 480,
+		"triangles": 240
+	},
+	"valve": {
+		"original_triangles": 2436,
+		"triangles": 1218
+	}
+}
