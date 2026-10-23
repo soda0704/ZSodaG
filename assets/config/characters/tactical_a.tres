@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1")
 variant_id = 0
-display_name = "Tactical"
+display_name = "Тактический комплект"
 body_scene = ExtResource("2")
 first_person_scene = ExtResource("3")
 ragdoll_scene = ExtResource("5")

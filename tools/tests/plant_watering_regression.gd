@@ -155,4 +155,6 @@ func run() -> void:
 	base.queue_free()
 	await process_frame
 	print("PLANT WATERING CHECKS ", checks, " FAILURES ", failures)
+	# Allow deferred audio/resource releases to complete before server teardown.
+	await create_timer(0.3).timeout
 	quit(1 if failures else 0)

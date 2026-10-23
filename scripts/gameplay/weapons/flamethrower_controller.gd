@@ -147,7 +147,7 @@ func _process(_delta: float) -> void:
 	var show:=emitting and can_emit()
 	var jet:=physics_jet() if show else {}
 	if not show:
-		effect.set_jet(false,Vector3.ZERO,Vector3.FORWARD,0,false)
+		if effect.active:effect.set_jet(false,Vector3.ZERO,Vector3.FORWARD,0,false)
 		return
 	var origin: Vector3=jet.origin;var direction: Vector3=jet.direction
 	if actor.is_local_player() and not actor.body_animator._external_view:

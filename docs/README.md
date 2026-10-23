@@ -7,6 +7,8 @@
 - [Состояние проекта](PROJECT_STATUS.md).
 - [Запуск, зависимости и сборка](guides/getting_started.md).
 - [Проверки экспорта и запускателя](technical/export_build_checks.md).
+- [Версия для тестеров: установщик и portable](guides/distributing_playtest.md).
+- [Оптимизация тестовой поставки](technical/playtest_optimization.md).
 - [Управление и проверка игрового маршрута](guides/playtesting.md).
 - [Автотесты и ручные проверки](guides/testing.md).
 - [Правила разработки и обновления документации](guides/contributing.md).
@@ -30,6 +32,8 @@
 - [Пещера дня 7 и нижняя долина](technical/cave_environment.md).
 
 ## Игровые механики
+
+- [Детали, сборка и стрельба огнемёта](technical/flamethrower_crafting.md).
 
 - [Игрок, движение и ввод](technical/player.md).
 - [Персонажи, анимация и ragdoll](technical/character_visuals.md).

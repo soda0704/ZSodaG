@@ -10,6 +10,7 @@ export.cfg
 
 .vscode/
 .idea/
+__pycache__/
 
 # Project-local editor copy used to isolate GodotSteam's Steamworks DLL.
 tools/.local/

@@ -744,6 +744,7 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 display_material = SubResource("ShaderMaterial_8uay2")
 
 [node name="ArcticBase_ExteriorShell" parent="." unique_id=1692178500 instance=ExtResource("exterior_shell")]
+visible = true
 
 [editable path="Doors/PedestrianWindPassage"]
 [editable path="Center_Hub/Art/CenterHubShellArt"]

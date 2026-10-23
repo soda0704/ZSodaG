@@ -4,6 +4,8 @@ NorthernLab — игра от первого лица об экспедиции 
 
 ## Начало работы
 
+Для тестеров предусмотрены отдельные установщик и portable без исходников и Godot: [подготовка и передача версии](docs/guides/distributing_playtest.md).
+
 1. Получите проект через `git clone`; для видео и HDR-ресурсов установите Git LFS и выполните `git lfs pull`.
 2. Откройте `project.godot` в совместимом Godot. Проект использует Forward+, Jolt Physics, GodotSteam и Terrain3D.
 3. Для Windows-сборки запустите `NorthernLab.cmd`. Лаунчер проверит зависимости, соберёт игру и откроет настройки запуска.

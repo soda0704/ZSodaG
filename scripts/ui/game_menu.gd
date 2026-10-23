@@ -80,7 +80,7 @@ func _ready() -> void:
 	connect_network_signals()
 	show_view(MenuView.MAIN)
 	menu_root.hide()
-	if OS.is_debug_build() and "--startup-check" in OS.get_cmdline_user_args():
+	if "--startup-check" in OS.get_cmdline_user_args():
 		_run_startup_check.call_deferred()
 
 func _exit_tree() -> void:

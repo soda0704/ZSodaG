@@ -173,10 +173,10 @@ WorldLighting выбирает разрешённые лампы по расст
 в поле зрения использовалось до 9 ячеек локальных теней при лимите 16.
 
 Контрольные кадры:
-[гараж](../../tools/.local/world-lighting-review/garage-powered.png),
-[аварийный гараж](../../tools/.local/world-lighting-review/garage-emergency.png),
-[проход хаба](../../tools/.local/world-lighting-review/hub-walkway.png),
-[испытательный этаж](../../tools/.local/world-lighting-review/level-3.png).
+гараж — снимок garage-powered.png (локальный результат проверки, в Git не хранится),
+аварийный гараж — снимок garage-emergency.png (локальный результат проверки, в Git не хранится),
+проход хаба — снимок hub-walkway.png (локальный результат проверки, в Git не хранится),
+испытательный этаж — снимок level-3.png (локальный результат проверки, в Git не хранится).
 Папка `tools/.local` содержит локальные результаты и не входит в Git.
 
 ## Дополнение: чёрные секции и лестница площадки

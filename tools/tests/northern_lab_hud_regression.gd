@@ -503,13 +503,13 @@ func review_layout_states() -> void:
 	check(is_equal_approx(gun.ammo_x + gun.ammo_width, hud._canvas_size.x - 48), "ammo aligns to the right when there is no battery")
 	check(kit.ammo_x + kit.ammo_width < kit.battery_x - 13, "ammo and battery do not overlap with a large reserve")
 	check(not hud.status_layout({"held_item": &"pistol"}, true).has_ammo, "vehicle state removes unavailable gun status")
-	# Exercise real story data, including unassigned days and mid-animation retargeting.
+	# Day seven now has an assigned descent objective; it is no longer an empty day.
 	state.day_index = state.EXPEDITION_DAY_INDEX
 	state.maintenance = {}
 	state.main_breaker_on = true
 	state.snapshot_changed.emit(state.get_snapshot())
 	hud.refresh_state()
-	check(hud.view_state.quest.tasks.is_empty(), "unassigned story notes do not masquerade as tasks")
+	check(not hud.view_state.quest.tasks.is_empty(), "day seven exposes its assigned descent objective")
 	state.day_index = 2
 	state.quest_stage = 4
 	state.snapshot_changed.emit(state.get_snapshot())
@@ -521,7 +521,8 @@ func review_layout_states() -> void:
 		state.snapshot_changed.emit(state.get_snapshot())
 		hud.refresh_state()
 		hud._update_animations(0.04)
-		state.day_index = state.EXPEDITION_DAY_INDEX
+		state.day_index = 2
+		state.quest_stage = 4
 		state.maintenance = {}
 		state.snapshot_changed.emit(state.get_snapshot())
 		hud.refresh_state()

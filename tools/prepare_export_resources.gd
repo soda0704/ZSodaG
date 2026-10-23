@@ -74,9 +74,13 @@ func run() -> void:
 		return
 	var paths := PackedStringArray(selected.keys())
 	paths.sort()
-	var changed: bool = preset.get_value("preset.0", "export_filter", "") != "resources" or preset.get_value("preset.0", "export_files", PackedStringArray()) != paths
-	preset.set_value("preset.0", "export_filter", "resources")
-	preset.set_value("preset.0", "export_files", paths)
+	var changed := false
+	for section in preset.get_sections():
+		if not section.begins_with("preset.") or section.ends_with(".options"): continue
+		if preset.get_value(section, "platform", "") != "Windows Desktop": continue
+		changed = changed or preset.get_value(section, "export_filter", "") != "resources" or preset.get_value(section, "export_files", PackedStringArray()) != paths
+		preset.set_value(section, "export_filter", "resources")
+		preset.set_value(section, "export_files", paths)
 	# Avoid rewriting an unchanged preset while an editor/file watcher reads it.
 	if changed:
 		var result := preset.save("res://export_presets.cfg")

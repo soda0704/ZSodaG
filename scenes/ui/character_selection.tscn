@@ -108,9 +108,9 @@ offset_top = 384.0
 offset_bottom = 454.0
 selected = 0
 item_count = 2
-popup/item_0/text = "Tactical"
+popup/item_0/text = "Тактический комплект"
 popup/item_0/id = 0
-popup/item_1/text = "Military"
+popup/item_1/text = "Полевой комплект"
 popup/item_1/id = 1
 
 [node name="@Label@128" type="Label" parent="." unique_id=460463809]

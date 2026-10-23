@@ -542,6 +542,9 @@ controller_path = NodePath("../../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Landings/Floor_0/CallButton" unique_id=822303021]
 shape = SubResource("Shape_call_panel")
 
+[node name="ArrivalPoint" type="Marker3D" parent="Landings/Floor_0"]
+position = Vector3(-5.5, 0.2, 0)
+
 [node name="FloorLabel" type="Label3D" parent="Landings/Floor_0" unique_id=1139089156]
 transform = Transform3D(-3.6199901e-06, 0, -1, 0, 1, 0, 1, 0, -3.6199901e-06, -3.63, 4.58, 0)
 text = "SURFACE 0"
