@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/entrance.res" id="gi"]
+
+[node name="LoadingRenderWarmup" type="SubViewport"]
+size = Vector2i(16, 16)
+own_world_3d = true
+render_target_update_mode = 1
+
+[node name="Probe" type="VoxelGI" parent="."]
+position = Vector3(-27, 3, 0)
+size = Vector3(38, 12, 26)
+data = ExtResource("gi")
+
+[node name="Camera" type="Camera3D" parent="."]
+position = Vector3(-27, 3, 0)
+current = true
+

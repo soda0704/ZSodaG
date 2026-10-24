@@ -30,11 +30,13 @@ func run() -> void:
 	check(screen.music.stream.loop and screen.video.loop and screen.video.volume_db <= -80, "both media loop; video remains muted")
 	check(absf(screen.music.stream.get_length() - 45.0) < 0.1, "final crossfaded music resource contains the full 45-second loop")
 	check(screen.tip_title.text == "Прислушивайся.", "approved opening copy")
+	check(screen.find_child("NextHint", true, false) == null, "no tip counter or Space instruction is displayed")
+	check(screen.tip_seconds <= 6.0, "automatic tips change every few seconds")
 	var event := InputEventKey.new()
 	event.physical_keycode = KEY_SPACE
 	event.pressed = true
 	Input.parse_input_event(event)
-	await process_frame
+	await tip_finished(screen)
 	check(screen.tip_index == 1 and "находиться" in screen.tip_body.text, "real Space input selects the next approved tip")
 	event.echo = true
 	Input.parse_input_event(event)
@@ -44,6 +46,7 @@ func run() -> void:
 	event.pressed = false
 	Input.parse_input_event(event)
 	screen.next_tip()
+	await tip_finished(screen)
 	check(screen.tip_title.text == "Делитесь с напарником." and screen.tip_body.text == "Удерживайте [ СКМ ], чтобы протянуть предмет.", "handoff copy is short and uses current input binding")
 	var old_events := InputMap.action_get_events(&"offer_item")
 	InputMap.action_erase_events(&"offer_item")
@@ -56,21 +59,26 @@ func run() -> void:
 	for previous in old_events: InputMap.action_add_event(&"offer_item", previous)
 	screen._refresh_tip()
 	screen.next_tip()
+	await tip_finished(screen)
 	check(screen.tip_title.text == "Вдвоём легче." and "[ E ]" in screen.tip_body.text, "carry tip uses approved copy and spaced action")
 	screen.next_tip()
+	await tip_finished(screen)
 	check("ваши вещи" in screen.tip_body.text and "Просмотреть — [ J ]" in screen.tip_body.text, "journal copy follows approved wording")
 	screen.next_tip()
+	await tip_finished(screen)
 	check(screen.tip_index == 0, "tip list wraps")
 	screen._process(screen.tip_seconds)
+	await tip_finished(screen)
 	check(screen.tip_index == 1, "automatic cycling also works")
 	if DisplayServer.get_name() != "headless":
+		check(RenderingServer.viewport_get_update_mode(root.get_node("GameMenu/LoadingRenderWarmup").get_viewport_rid()) == RenderingServer.VIEWPORT_UPDATE_DISABLED, "startup warmup no longer renders during loading")
 		root.mode = Window.MODE_WINDOWED
 		DirAccess.make_dir_recursive_absolute("res://tools/.local/loading-review")
 		for dimensions in [Vector2i(1920, 1080), Vector2i(1024, 768), Vector2i(3440, 1440), Vector2i(1280, 720)]:
 			root.size = dimensions
 			for frame in 20: await process_frame
 			await RenderingServer.frame_post_draw
-			var tip_rect: Rect2 = screen.next_hint.get_global_rect()
+			var tip_rect: Rect2 = screen.tip_body.get_global_rect()
 			check(root.get_visible_rect().grow(1).encloses(tip_rect), "footer fits " + str(dimensions))
 			check(screen.video.get_video_texture().get_width() > 0, "video decoded " + str(dimensions))
 			root.get_texture().get_image().save_png("res://tools/.local/loading-review/%dx%d.png" % [dimensions.x, dimensions.y])
@@ -97,3 +105,9 @@ func run() -> void:
 	await process_frame
 	print("RESULT ", checks, " CHECKS; FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
+
+func tip_finished(screen: Control) -> void:
+	await process_frame
+	var deadline := Time.get_ticks_msec() + 2000
+	while screen._tip_changing and Time.get_ticks_msec() < deadline:
+		await process_frame

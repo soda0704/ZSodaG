@@ -46,6 +46,9 @@ func _ready() -> void:
 	ensure_music_bus()
 	_settings_data = load_settings_data()
 	apply_settings_data()
+	$LoadingRenderWarmup.msaa_3d = get_viewport().msaa_3d
+	$LoadingRenderWarmup.screen_space_aa = get_viewport().screen_space_aa
+	$LoadingRenderWarmup.use_taa = get_viewport().use_taa
 	NorthernMenuStyle.install_cursor()
 	menu_root = $MenuRoot
 	shell = $MenuRoot/Shell

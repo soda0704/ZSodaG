@@ -60,7 +60,7 @@ func run():
 	print("VIEWPORTS ",root.get_visible_rect().size," FP ",player.body_animator.first_person.viewport.size," INK ",journal._ink_viewport.size)
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://tools/.local/journal-base.png")
-	check(journal._ink_viewport.render_target_update_mode==SubViewport.UPDATE_ALWAYS,"live content remains on physical reading pages")
+	check(journal.is_journal_open() and journal._ink_viewport.get_texture().get_size()==Vector2(1400,986),"live content remains on physical reading pages")
 	check(absf(Quaternion(book.get_node("FrontCoverPivot").basis).dot(Quaternion(Vector3.UP,PI)))>.99,"front cover opens onto left page")
 	check(journal.objective_label.text=="Выяснить что тут произошло" and journal.day_label.text.length()>0,"production mission text survives UI reparenting")
 	check(journal._cards[&"flashlight"].visible and journal._cards[&"battery"].visible and not journal._cards[&"pistol"].visible,"inventory visibility follows gameplay ownership")

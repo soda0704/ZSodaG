@@ -1,29 +1,21 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/journal_inserts.gd" id="1_1k3rm"]
-[ext_resource type="Shader" path="res://assets/shaders/journal_paper_insert.gdshader" id="2_vcp2n"]
-[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_0.svg" id="3_egwg5"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmim6"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0, 0.33333334, 0.33333334, 0.33333334)
-shader_parameter/paper_back = null
-
-[sub_resource type="QuadMesh" id="QuadMesh_hda8i"]
-size = Vector2(0.051, 0.057976)
+[ext_resource type="Script" path="res://scripts/ui/journal_inserts.gd" id="1_vcp2n"]
+[ext_resource type="Shader" path="res://assets/shaders/journal_paper_insert.gdshader" id="2_egwg5"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_0.svg" id="3_xmim6"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/journal.png" id="4_hda8i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pdh7j"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0, 0, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0, 0.33333334, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_h4lu3"]
 size = Vector2(0.051, 0.057976)
@@ -31,11 +23,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hf6ba"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0, 0.6666667, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0, 0, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_ya6ay"]
 size = Vector2(0.051, 0.057976)
@@ -43,11 +38,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mf3pj"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.33333334, 0.33333334, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0, 0.6666667, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_gchtw"]
 size = Vector2(0.051, 0.057976)
@@ -55,11 +53,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xandq"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.33333334, 0, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.33333334, 0.33333334, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_o2pk6"]
 size = Vector2(0.051, 0.057976)
@@ -67,11 +68,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3g71s"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.33333334, 0.6666667, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.33333334, 0, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_psj06"]
 size = Vector2(0.051, 0.057976)
@@ -79,11 +83,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xoshj"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.6666667, 0.33333334, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.33333334, 0.6666667, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_y6asf"]
 size = Vector2(0.051, 0.057976)
@@ -91,11 +98,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ncle4"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.6666667, 0, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.6666667, 0.33333334, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_hrihm"]
 size = Vector2(0.051, 0.057976)
@@ -103,11 +113,14 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fqm5c"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0.6666667, 0.6666667, 0.33333334, 0.33333334)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.6666667, 0, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_gas44"]
 size = Vector2(0.051, 0.057976)
@@ -115,16 +128,34 @@ size = Vector2(0.051, 0.057976)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vx40t"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_vcp2n")
-shader_parameter/ink_texture = ExtResource("3_egwg5")
-shader_parameter/source_rect = null
-shader_parameter/panel_rect = Vector4(0, 0, 1, 1)
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0.6666667, 0.6666667, 0.33333334, 0.33333334)
 shader_parameter/paper_back = null
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
 
 [sub_resource type="QuadMesh" id="QuadMesh_3mfi4"]
+size = Vector2(0.051, 0.057976)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wug1d"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_egwg5")
+shader_parameter/ink_texture = ExtResource("3_xmim6")
+shader_parameter/source_rect = Vector4(0, 0, 1, 1)
+shader_parameter/panel_rect = Vector4(0, 0, 1, 1)
+shader_parameter/paper_back = Color(0.89, 0.88, 0.84, 0)
+shader_parameter/paper_texture = ExtResource("4_hda8i")
+shader_parameter/paper_rect = null
+shader_parameter/paper_source_rect = null
+
+[sub_resource type="QuadMesh" id="QuadMesh_hk7pj"]
 size = Vector2(0.21, 0.303)
 
-[sub_resource type="Animation" id="Animation_wug1d"]
+[sub_resource type="Animation" id="Animation_78bch"]
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -258,7 +289,7 @@ tracks/10/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_hk7pj"]
+[sub_resource type="Animation" id="Animation_axxsy"]
 length = 1.35
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -381,7 +412,7 @@ tracks/9/keys = {
 "values": [0, -3.141592653589793, -3.141592653589793]
 }
 
-[sub_resource type="Animation" id="Animation_78bch"]
+[sub_resource type="Animation" id="Animation_wv7y5"]
 length = 0.72
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -420,7 +451,7 @@ tracks/2/keys = {
 "values": [0, 0, -3.141592653589793, -3.141592653589793]
 }
 
-[sub_resource type="Animation" id="Animation_axxsy"]
+[sub_resource type="Animation" id="Animation_drf05"]
 length = 0.72
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -459,7 +490,7 @@ tracks/2/keys = {
 "values": [-3.141592653589793, -3.141592653589793, 0, 0]
 }
 
-[sub_resource type="Animation" id="Animation_wv7y5"]
+[sub_resource type="Animation" id="Animation_ir1uf"]
 length = 1.35
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -582,126 +613,176 @@ tracks/9/keys = {
 "values": [-3.141592653589793, -3.141592653589793, 0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_drf05"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_arnww"]
 _data = {
-&"RESET": SubResource("Animation_wug1d"),
-&"fold": SubResource("Animation_hk7pj"),
-&"page_to_map": SubResource("Animation_78bch"),
-&"page_to_notes": SubResource("Animation_axxsy"),
-&"unfold": SubResource("Animation_wv7y5")
+&"RESET": SubResource("Animation_78bch"),
+&"fold": SubResource("Animation_axxsy"),
+&"page_to_map": SubResource("Animation_wv7y5"),
+&"page_to_notes": SubResource("Animation_drf05"),
+&"unfold": SubResource("Animation_ir1uf")
 }
 
-[node name="Inserts" type="Node3D" unique_id=1147955098]
-script = ExtResource("1_1k3rm")
+[sub_resource type="Animation" id="Animation_ht01o"]
+length = 0.28
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoupeAim/Lift:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.28),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.07), Vector3(0.18, -0.16, 0.01)]
+}
 
-[node name="MapFold" type="Node3D" parent="." unique_id=466207343]
+[sub_resource type="Animation" id="Animation_o0k6j"]
+length = 0.28
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoupeAim/Lift:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.28),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.18, -0.16, 0.01), Vector3(0, 0, 0.07)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jwtga"]
+_data = {
+&"lower": SubResource("Animation_ht01o"),
+&"raise": SubResource("Animation_o0k6j")
+}
+
+[node name="Inserts" type="Node3D" unique_id=936133830]
+script = ExtResource("1_vcp2n")
+
+[node name="MapFold" type="Node3D" parent="." unique_id=576222944]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0915, 0.00799, 0.0005)
 visible = false
 
-[node name="Column0" type="Node3D" parent="MapFold" unique_id=1626830426]
+[node name="Column0" type="Node3D" parent="MapFold" unique_id=88352984]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0255, 0, 0)
 
-[node name="Center" type="Node3D" parent="MapFold/Column0" unique_id=1527032146]
+[node name="Center" type="Node3D" parent="MapFold/Column0" unique_id=915458205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0255, 0, 0)
 
-[node name="Middle" type="MeshInstance3D" parent="MapFold/Column0/Center" unique_id=1085008632]
-layers = 262145
-material_override = SubResource("ShaderMaterial_xmim6")
-cast_shadow = 0
-mesh = SubResource("QuadMesh_hda8i")
-
-[node name="Top" type="Node3D" parent="MapFold/Column0/Center" unique_id=1188875718]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
-
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column0/Center/Top" unique_id=323780110]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
+[node name="Middle" type="MeshInstance3D" parent="MapFold/Column0/Center" unique_id=239559504]
 layers = 262145
 material_override = SubResource("ShaderMaterial_pdh7j")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_h4lu3")
 
-[node name="Bottom" type="Node3D" parent="MapFold/Column0/Center" unique_id=314676396]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
+[node name="Top" type="Node3D" parent="MapFold/Column0/Center" unique_id=1815177408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
 
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column0/Center/Bottom" unique_id=563781988]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column0/Center/Top" unique_id=610497252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_hf6ba")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_ya6ay")
 
-[node name="Column1" type="Node3D" parent="MapFold" unique_id=1224639627]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0002)
+[node name="Bottom" type="Node3D" parent="MapFold/Column0/Center" unique_id=162373831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
 
-[node name="Center" type="Node3D" parent="MapFold/Column1" unique_id=289435419]
-
-[node name="Middle" type="MeshInstance3D" parent="MapFold/Column1/Center" unique_id=2025823207]
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column0/Center/Bottom" unique_id=1019410237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_mf3pj")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_gchtw")
 
-[node name="Top" type="Node3D" parent="MapFold/Column1/Center" unique_id=486773944]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
+[node name="Column1" type="Node3D" parent="MapFold" unique_id=41537226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0002)
 
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column1/Center/Top" unique_id=1634185215]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
+[node name="Center" type="Node3D" parent="MapFold/Column1" unique_id=1600253559]
+
+[node name="Middle" type="MeshInstance3D" parent="MapFold/Column1/Center" unique_id=831572883]
 layers = 262145
 material_override = SubResource("ShaderMaterial_xandq")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_o2pk6")
 
-[node name="Bottom" type="Node3D" parent="MapFold/Column1/Center" unique_id=167240252]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
+[node name="Top" type="Node3D" parent="MapFold/Column1/Center" unique_id=1131587878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
 
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column1/Center/Bottom" unique_id=1963056091]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column1/Center/Top" unique_id=1244679103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_3g71s")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_psj06")
 
-[node name="Column2" type="Node3D" parent="MapFold" unique_id=975517221]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0255, 0, 0.0004)
+[node name="Bottom" type="Node3D" parent="MapFold/Column1/Center" unique_id=264720848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
 
-[node name="Center" type="Node3D" parent="MapFold/Column2" unique_id=482200756]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0255, 0, 0)
-
-[node name="Middle" type="MeshInstance3D" parent="MapFold/Column2/Center" unique_id=2141588519]
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column1/Center/Bottom" unique_id=40764899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_xoshj")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_y6asf")
 
-[node name="Top" type="Node3D" parent="MapFold/Column2/Center" unique_id=452303118]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
+[node name="Column2" type="Node3D" parent="MapFold" unique_id=259885749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0255, 0, 0.0004)
 
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column2/Center/Top" unique_id=911764781]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
+[node name="Center" type="Node3D" parent="MapFold/Column2" unique_id=214284113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0255, 0, 0)
+
+[node name="Middle" type="MeshInstance3D" parent="MapFold/Column2/Center" unique_id=385934578]
 layers = 262145
 material_override = SubResource("ShaderMaterial_ncle4")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_hrihm")
 
-[node name="Bottom" type="Node3D" parent="MapFold/Column2/Center" unique_id=331734452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
+[node name="Top" type="Node3D" parent="MapFold/Column2/Center" unique_id=1345598159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0.00035)
 
-[node name="Panel" type="MeshInstance3D" parent="MapFold/Column2/Center/Bottom" unique_id=1403185164]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column2/Center/Top" unique_id=762848534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_fqm5c")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_gas44")
 
-[node name="TurnPivot" type="Node3D" parent="." unique_id=736122548]
-visible = false
+[node name="Bottom" type="Node3D" parent="MapFold/Column2/Center" unique_id=1320180569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0.0007)
 
-[node name="Page" type="MeshInstance3D" parent="TurnPivot" unique_id=664654680]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0, 0.002)
+[node name="Panel" type="MeshInstance3D" parent="MapFold/Column2/Center/Bottom" unique_id=1560793658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028988, 0)
 layers = 262145
 material_override = SubResource("ShaderMaterial_vx40t")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_3mfi4")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1651870885]
-libraries/ = SubResource("AnimationLibrary_drf05")
+[node name="TurnPivot" type="Node3D" parent="." unique_id=1957653760]
+visible = false
+
+[node name="Page" type="MeshInstance3D" parent="TurnPivot" unique_id=1406720985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0, 0.002)
+layers = 262145
+material_override = SubResource("ShaderMaterial_wug1d")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_hk7pj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=763063820]
+libraries/ = SubResource("AnimationLibrary_arnww")
+speed_scale = 2.0
+
+[node name="LoupeAim" type="Node3D" parent="." unique_id=833457377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0915, 0.00799, 0)
+visible = false
+
+[node name="Lift" type="Node3D" parent="LoupeAim" unique_id=644351837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.07)
+
+[node name="RightGrip" type="Marker3D" parent="LoupeAim/Lift" unique_id=1725515928]
+transform = Transform3D(-0.4951176, -0.42692578, -0.7566987, 0.14214922, 0.8194032, -0.555313, 0.85711884, -0.38250938, -0.34501353, 0.0658, -0.0758, -0.008)
+
+[node name="LoupeAnimation" type="AnimationPlayer" parent="." unique_id=1088279254]
+libraries/ = SubResource("AnimationLibrary_jwtga")

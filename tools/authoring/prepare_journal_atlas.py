@@ -60,15 +60,15 @@ def main():
         def project(x,z):return (40+(x-x0)/w*720,65+(z-z0)/h*670)
         svg=['<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="800" height="850" viewBox="0 0 800 850">',
         '<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 H0 V40" fill="none" stroke="#6f796b" stroke-opacity=".13" stroke-width=".7"/></pattern><linearGradient id="paper" x2="1" y2="1"><stop stop-color="#e1d7b9"/><stop offset=".48" stop-color="#f0e7cf"/><stop offset="1" stop-color="#cec3a1"/></linearGradient></defs>',
-        '<path d="M7 13 L782 5 L794 831 L19 845 Z" fill="#463c2d" opacity=".16"/><path d="M3 6 L775 0 L788 820 L10 835 Z" fill="url(#paper)" stroke="#8e8061" stroke-width="1.5"/><path d="M30 45 H758 V754 H30 Z" fill="url(#grid)"/>',
+        '<path d="M10 14 L782 8 L796 828 L18 843 Z" fill="#3b332b" opacity=".12"/><path d="M3 6 L775 0 L788 820 L10 835 Z" fill="#e3e0d5" fill-opacity=".65" stroke="#756b59" stroke-opacity=".42" stroke-width="1"/><path d="M30 45 H758 V754 H30 Z" fill="url(#grid)"/>',
         '<path d="M265 9 L269 825 M533 7 L537 824 M8 420 L781 414" stroke="#918366" stroke-width="2" opacity=".2"/><path d="M268 9 L272 825 M536 7 L540 824 M8 423 L781 417" stroke="#fff8e4" stroke-width="2" opacity=".45"/>',
         '<path d="M30 60 V35 H80 M720 35 H760 V60 M30 735 V760 H80 M720 760 H760 V735" fill="none" stroke="#7e7056" stroke-width="1"/>',
-        '<path d="'+path_of(floor,project)+'" fill="#b4b39c" fill-opacity=".42" stroke="#575c50" stroke-width="2.1" fill-rule="evenodd" stroke-linejoin="round"/>',
+        '<path d="'+path_of(floor,project)+'" fill="#b4b39c" fill-opacity=".12" stroke="#575c50" stroke-width="2.1" fill-rule="evenodd" stroke-linejoin="round"/>',
         '<path d="'+path_of(walls,project)+'" fill="none" stroke="#38483f" stroke-opacity=".8" stroke-width="1.1" stroke-linecap="round"/>']
         if cave: svg.append('<path d="'+path_of(line,project)+'" fill="none" stroke="#84634c" stroke-opacity=".65" stroke-width="1.3" stroke-dasharray="6 5"/>')
         else:
             ex,ez=project(0,0)
-            svg.append(f'<rect x="{ex-8}" y="{ez-8}" width="16" height="16" fill="#eee6ce" stroke="#8d4e3a" stroke-width="2"/><path d="M{ex-3} {ez+4} L{ex} {ez-3} L{ex+3} {ez+4}" fill="none" stroke="#8d4e3a" stroke-width="1.6"/>')
+            svg.append(f'<rect x="{ex-8}" y="{ez-8}" width="16" height="16" fill="none" stroke="#8d4e3a" stroke-width="2"/><path d="M{ex-3} {ez+4} L{ex} {ez-3} L{ex+3} {ez+4}" fill="none" stroke="#8d4e3a" stroke-width="1.6"/>')
         svg.append('<path d="M714 116 V73 L706 91 M714 73 L722 91" stroke="#4f594c" fill="none" stroke-width="2"/><text x="708" y="65" font-family="serif" font-size="17" fill="#4f594c">N</text>')
         length=100 if cave else 10
         px=length/w*720

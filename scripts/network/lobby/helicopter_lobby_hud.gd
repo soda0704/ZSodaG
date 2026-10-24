@@ -112,3 +112,24 @@ func reveal_transition_cover(transition_id: int) -> void:
 		return
 	flight_transition.visible = false
 	flight_transition.modulate = Color.WHITE
+
+
+func wait_for_transition_ready(transition_id: int) -> void:
+	# Adapt to slow CPUs rather than assuming two frames mean a finished level.
+	# A rolling baseline also permits a deliberately capped 30 FPS setup.
+	var stable_seconds := 0.0
+	var elapsed := 0.0
+	var average := 1.0 / 60.0
+	var previous := Time.get_ticks_usec()
+	while transition_id == _transition_generation and stable_seconds < 0.8:
+		await get_tree().process_frame
+		var now := Time.get_ticks_usec()
+		var frame := (now - previous) / 1000000.0
+		previous = now
+		elapsed += frame
+		var limit := maxf(0.05, average * 1.75)
+		stable_seconds = stable_seconds + frame if frame <= limit else 0.0
+		average = lerpf(average, minf(frame, 0.1), 0.1)
+		# Persistent low framerate is not a loading operation. Don't trap a player
+		# behind the cover indefinitely on unsupported hardware.
+		if elapsed >= 10.0: break

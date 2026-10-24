@@ -14,6 +14,7 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/items/flashlight/mount_tape.res" id="12_ohk6t"]
 [ext_resource type="PackedScene" path="res://scenes/ui/journal/book/articulated_journal.tscn" id="13_055v4"]
 [ext_resource type="Script" path="res://scripts/effects/muzzle_discharge.gd" id="15_oo5wk"]
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/book/magnifier.tscn" id="16_xxwki"]
 [ext_resource type="AnimationLibrary" path="res://assets/animations/flamethrower/a_body.res" id="17_xxwki"]
 [ext_resource type="AnimationLibrary" path="res://assets/animations/handoff/a_body.res" id="18_oo5wk"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/muzzle_discharge.tscn" id="discharge_fx"]
@@ -70343,6 +70344,189 @@ _data = {
 &"Carry": SubResource("Animation_nowlo")
 }
 
+[sub_resource type="Animation" id="Animation_gvdsu"]
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skeleton3D:RightHandThumb1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.18338713, -0.36591572, -0.5589884, 0.72111505)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton3D:RightHandThumb2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.20923273, -0.024435213, 0.4821501, 0.8503857)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Skeleton3D:RightHandThumb3")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -0.19228314, -0.020665918, 0.14578478, 0.97023034)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Skeleton3D:RightHandThumb4")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.016058542, 0.08373469, -0.019782672, 0.9961623)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Skeleton3D:RightHandThumb4_end")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 9.778887e-09, 7.450581e-09, 9.313226e-10, 1)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Skeleton3D:RightHandIndex1")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.23388045, -0.24450561, -0.11454385, 0.9340218)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Skeleton3D:RightHandIndex2")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.41263768, 0.06930435, -0.17583062, 0.89107275)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Skeleton3D:RightHandIndex3")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 0.2996776, 0.09129154, -0.07004507, 0.94707596)
+tracks/8/type = "rotation_3d"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Skeleton3D:RightHandIndex4")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = PackedFloat32Array(0, 1, 0.057612494, 0.018774439, 0.06334188, 0.9961507)
+tracks/9/type = "rotation_3d"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Skeleton3D:RightHandIndex4_end")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = PackedFloat32Array(0, 1, 0, -5.2939566e-23, -1.4901165e-08, 1)
+tracks/10/type = "rotation_3d"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Skeleton3D:RightHandMiddle1")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = PackedFloat32Array(0, 1, 0.24465108, -0.14445628, -0.088656776, 0.9546823)
+tracks/11/type = "rotation_3d"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Skeleton3D:RightHandMiddle2")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = PackedFloat32Array(0, 1, 0.4380179, 0.04610695, -0.096932665, 0.8925349)
+tracks/12/type = "rotation_3d"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Skeleton3D:RightHandMiddle3")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = PackedFloat32Array(0, 1, 0.34543654, 0.08110499, -0.027282866, 0.93453264)
+tracks/13/type = "rotation_3d"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Skeleton3D:RightHandMiddle4")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = PackedFloat32Array(0, 1, 1.4901161e-07, 4.4703484e-08, -7.1054274e-15, 1)
+tracks/14/type = "rotation_3d"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Skeleton3D:RightHandMiddle4_end")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = PackedFloat32Array(0, 1, 2.9802315e-08, -1.164153e-08, -1.3969835e-08, 1)
+tracks/15/type = "rotation_3d"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Skeleton3D:RightHandRing1")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = PackedFloat32Array(0, 1, 0.25464755, -0.012645977, -0.05445028, 0.96541697)
+tracks/16/type = "rotation_3d"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Skeleton3D:RightHandRing2")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = PackedFloat32Array(0, 1, 0.44836652, 0.008861016, 0.005214748, 0.89379066)
+tracks/17/type = "rotation_3d"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Skeleton3D:RightHandRing3")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = PackedFloat32Array(0, 1, 0.18123507, 0.05545571, 0.03446181, 0.9812701)
+tracks/18/type = "rotation_3d"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Skeleton3D:RightHandRing4")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = PackedFloat32Array(0, 1, -0.026182048, -0.003971019, -0.025909008, 0.99931353)
+tracks/19/type = "rotation_3d"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Skeleton3D:RightHandRing4_end")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = PackedFloat32Array(0, 1, 7.450581e-09, -3.72529e-09, 2.0489097e-08, 1)
+tracks/20/type = "rotation_3d"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Skeleton3D:RightHandPinky1")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = PackedFloat32Array(0, 1, 0.2600687, 0.13846993, -0.015020304, 0.9554919)
+tracks/21/type = "rotation_3d"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Skeleton3D:RightHandPinky2")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = PackedFloat32Array(0, 1, 0.42718092, -0.009314826, 0.13680324, 0.89370835)
+tracks/22/type = "rotation_3d"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Skeleton3D:RightHandPinky3")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = PackedFloat32Array(0, 1, 0.2813213, -0.033380423, 0.080516174, 0.95564705)
+tracks/23/type = "rotation_3d"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Skeleton3D:RightHandPinky4")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = PackedFloat32Array(0, 1, -7.450581e-09, -1.9428896e-16, 2.6077029e-08, 1)
+tracks/24/type = "rotation_3d"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Skeleton3D:RightHandPinky4_end")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = PackedFloat32Array(0, 1, 1.4901163e-08, 1.4901161e-08, 1.3038516e-08, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7dfvd"]
+_data = {
+&"Grip": SubResource("Animation_gvdsu")
+}
+
 [sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_oo5wk"]
 input_0/name = "RifleReload"
 input_0/auto_advance = false
@@ -70590,6 +70774,13 @@ blend_point_3/name = &"3"
 blend_point_4/node = SubResource("AnimationNodeAnimation_nv6ph")
 blend_point_4/pos = Vector2(1, 0)
 blend_point_4/name = &"4"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_yf27k"]
+filter_enabled = true
+filters = ["Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandIndex4_end", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandMiddle4_end", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandPinky4_end", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandRing4_end", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightHandThumb4_end"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qdfte"]
+animation = &"loupe/Grip"
 
 [sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_38ua4"]
 
@@ -71885,7 +72076,11 @@ nodes/OfferBlend/node = SubResource("AnimationNodeBlend2_sepk3")
 nodes/OfferBlend/position = Vector2(1000, 400)
 nodes/OfferHeavy/node = SubResource("AnimationNodeAnimation_j0bh1")
 nodes/OfferHeavy/position = Vector2(600, 1250)
-node_connections = [&"output", 0, &"OfferBlend", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"Equipment", 7, &"Flamethrower", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil", &"OffhandTorch", 0, &"Handling", &"OffhandTorch", 1, &"OffhandAim", &"OfferPose", 0, &"OfferPocket", &"OfferPose", 1, &"OfferRifle", &"OfferPose", 2, &"OfferPistol", &"OfferPose", 3, &"OfferKnife", &"OfferPose", 4, &"OfferFlashlight", &"OfferPose", 5, &"OfferFuse", &"OfferPose", 6, &"OfferFuel", &"OfferPose", 7, &"OfferFlamethrower", &"OfferPose", 8, &"OfferHeavy", &"OfferBlend", 0, &"OffhandTorch", &"OfferBlend", 1, &"OfferPose"]
+nodes/LoupePose/node = SubResource("AnimationNodeAnimation_qdfte")
+nodes/LoupePose/position = Vector2(0, 0)
+nodes/LoupeGrip/node = SubResource("AnimationNodeBlend2_yf27k")
+nodes/LoupeGrip/position = Vector2(0, 0)
+node_connections = [&"output", 0, &"LoupeGrip", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"Equipment", 7, &"Flamethrower", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil", &"OffhandTorch", 0, &"Handling", &"OffhandTorch", 1, &"OffhandAim", &"OfferPose", 0, &"OfferPocket", &"OfferPose", 1, &"OfferRifle", &"OfferPose", 2, &"OfferPistol", &"OfferPose", 3, &"OfferKnife", &"OfferPose", 4, &"OfferFlashlight", &"OfferPose", 5, &"OfferFuse", &"OfferPose", 6, &"OfferFuel", &"OfferPose", 7, &"OfferFlamethrower", &"OfferPose", 8, &"OfferHeavy", &"OfferBlend", 0, &"OffhandTorch", &"OfferBlend", 1, &"OfferPose", &"LoupeGrip", 0, &"OfferBlend", &"LoupeGrip", 1, &"LoupePose"]
 
 [node name="CharacterModel" type="Node3D" unique_id=1095966297]
 metadata/approved_grips_integrated = true
@@ -72617,6 +72812,10 @@ visible = false
 [node name="MuzzleDischarge" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1564041008 instance=ExtResource("discharge_fx")]
 script = ExtResource("15_oo5wk")
 
+[node name="JournalMagnifier" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1910341509 instance=ExtResource("16_xxwki")]
+transform = Transform3D(-0.62057006, 0.7841504, 0.0009729789, 0.78414, 0.62056744, -0.0045356518, -0.004160432, -0.002051738, -0.9999893, 0.07959417, 0.121395916, 0.023467088)
+visible = false
+
 [node name="SupportHandIK" type="TwoBoneIK3D" parent="Skeleton3D" unique_id=543723500]
 influence = 0.0
 setting_count = 1
@@ -72726,11 +72925,25 @@ settings/0/axes = 7
 settings/0/invert = 0
 settings/0/additive = false
 
+[node name="LoupeWrist" type="CopyTransformModifier3D" parent="Skeleton3D" unique_id=749673696]
+influence = 0.0
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "RightHand"
+settings/0/apply_bone = -1
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../RightWristTarget")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = false
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=924503950]
 libraries/ = SubResource("AnimationLibrary_gvdsu")
 libraries/flamethrower = ExtResource("17_xxwki")
 libraries/handoff = ExtResource("18_oo5wk")
 libraries/heavy = SubResource("AnimationLibrary_tnnho")
+libraries/loupe = SubResource("AnimationLibrary_7dfvd")
 libraries/offhand = ExtResource("offhand_clips")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1842896289]
@@ -72774,6 +72987,7 @@ parameters/OfferPose/current_state = ""
 parameters/OfferPose/transition_request = ""
 parameters/OfferPose/current_index = -1
 parameters/OfferBlend/blend_amount = 0.0
+parameters/LoupeGrip/blend_amount = 0.0
 
 [node name="Journal" type="Node3D" parent="." unique_id=1372829979 instance=ExtResource("13_055v4")]
 transform = Transform3D(0.8, 0, 0, 0, 0.6014446, 0.5275077, 0, -0.5275077, 0.6014446, 0.102, 1.4, -0.4)

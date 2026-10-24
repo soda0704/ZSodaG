@@ -60,7 +60,6 @@ def main():
     node('Rule', 'ColorRect', 'Footer/Content', 'layout_mode = 2\ncustom_minimum_size = Vector2(0, 1)\nmouse_filter = 2\ncolor = Color(0.886, 0.678, 0.302, 0.3)')
     node('TipTitle', 'Label', 'Footer/Content', 'unique_name_in_owner = true\nlayout_mode = 2\ntheme_override_font_sizes/font_size = 24\ntext = "Прислушивайся."')
     node('TipBody', 'Label', 'Footer/Content', 'unique_name_in_owner = true\nlayout_mode = 2\nsize_flags_vertical = 3\ncustom_minimum_size = Vector2(0, 60)\ntheme_override_font_sizes/font_size = 22\nautowrap_mode = 2\ntext = "Бег и выстрелы привлекают внимание."')
-    node('NextHint', 'Label', 'Footer/Content', 'unique_name_in_owner = true\nlayout_mode = 2\ntheme_override_font_sizes/font_size = 18\ntheme_override_colors/font_color = Color(0.68, 0.7, 0.67, 1)\ntext = "01 / 05     [ Пробел ] — Следующая подсказка"')
     node('Music', 'AudioStreamPlayer', '.', 'stream = ExtResource("music")\nbus = &"Music"\nvolume_db = -80.0')
     node('AnimationPlayer', 'AnimationPlayer', '.', 'libraries = {&"": SubResource("library")}')
     (ROOT / 'scenes/ui/loading_screen.tscn').write_text('\n'.join(lines).replace('\n[', '\n\n[') + '\n', encoding='utf8')

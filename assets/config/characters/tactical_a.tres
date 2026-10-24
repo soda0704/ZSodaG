@@ -1,16 +1,20 @@
-[gd_resource type="Resource" script_class="CharacterVisualVariant" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="CharacterVisualVariant" format=3]
+
 [ext_resource type="Script" path="res://scripts/characters/character_visual_variant.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_a/body.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_a/first_person.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_a/ragdoll.tscn" id="5"]
 [ext_resource type="BoneMap" path="res://assets/config/characters/humanoid_bone_map.tres" id="6"]
+
 [resource]
 script = ExtResource("1")
-variant_id = 0
 display_name = "Тактический комплект"
 body_scene = ExtResource("2")
 first_person_scene = ExtResource("3")
 ragdoll_scene = ExtResource("5")
 retarget_bone_map = ExtResource("6")
-
-first_person_item_offsets = Dictionary[StringName, Vector3]({&"flamethrower": Vector3(0.0, 0.04, -0.15)})
+first_person_item_offsets = Dictionary[StringName, Vector3]({
+&"flamethrower": Vector3(0, 0.04, -0.15)
+})
+journal_loupe_grip = Transform3D(-0.62057006, 0.78414, -0.004160432, 0.7841504, 0.62056744, -0.002051738, 0.00097297865, -0.0045356518, -0.9999892, -0.0457, -0.1377, 0.02394)
+journal_loupe_world_grip = Transform3D(-0.62057006, 0.78414, -0.004160432, 0.7841504, 0.62056744, -0.002051738, 0.00097297865, -0.0045356518, -0.9999892, -0.0457, -0.1377, 0.02394)

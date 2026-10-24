@@ -32,6 +32,8 @@ offset_top = 184.0
 offset_right = 650.0
 offset_bottom = 750.0
 follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
 [node name="Plan" type="TextureRect" parent="MapScroll"]
 layout_mode = 2
 custom_minimum_size = Vector2(510,566)
@@ -152,21 +154,11 @@ text = "▲ Вы     △ Напарник
 □ Лифт
 Посещённые уровни"
 autowrap_mode = 3
-[node name="Zoom" type="HBoxContainer" parent="."]
-offset_left = 460.0
+[node name="LoupeButton" type="Button" parent="."]
+offset_left = 1160.0
 offset_top = 755.0
-offset_right = 640.0
+offset_right = 1240.0
 offset_bottom = 802.0
-[node name="Minus" type="Button" parent="Zoom"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 44)
-text = "−"
-[node name="Scale" type="Label" parent="Zoom"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 44)
-horizontal_alignment = 1
-text = "1×"
-[node name="Plus" type="Button" parent="Zoom"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 44)
-text = "+"
+toggle_mode = true
+text = "2х"
+tooltip_text = "Увеличить участок карты. Ведите курсор по плану."

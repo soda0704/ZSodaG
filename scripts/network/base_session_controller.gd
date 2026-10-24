@@ -316,6 +316,9 @@ func _request_v3_runtime_state() -> void:
 		return
 	if not _v3_ready_peers.has(sender_id):
 		_v3_ready_peers.append(sender_id)
+	for pickup in get_tree().get_nodes_in_group("world_items"):
+		if get_node("V3Level").is_ancestor_of(pickup):
+			pickup.sync_physics_state_to_peer(sender_id)
 	for ramp in get_tree().get_nodes_in_group("helicopter_ramps"):
 		if not ramp.locked_in_flight:
 			ramp.sync_network_state_to_peer(sender_id)
@@ -567,7 +570,8 @@ func _enter_v3_level() -> void:
 		lobby_hud.reveal_transition_cover(transition_id)
 		return
 
-	var v3_level := packed_level.instantiate() as BaseBlockoutRuntime
+	var construction := preload("res://scripts/network/level_load_job.gd").new()
+	var v3_level := await construction.instantiate(packed_level, get_tree()) as BaseBlockoutRuntime
 	if v3_level == null:
 		push_error("V3 root must use BaseBlockoutRuntime")
 		_entered_v3_level = false
@@ -576,6 +580,8 @@ func _enter_v3_level() -> void:
 		return
 	v3_level.name = "V3Level"
 	v3_level.network_runtime_managed = true
+	var indirect := v3_level.get_node("WorldIndirectLighting")
+	indirect.prepare_loading()
 	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
 	# The staging sky belongs to the cabin, not the loaded expedition.
 	for path in ["ArrivalEnvironment", "ArrivalSun"]:
@@ -635,7 +641,21 @@ func _enter_v3_level() -> void:
 		spawn_v3_world_items()
 	else:
 		_request_v3_runtime_state.rpc_id(1)
-	lobby_hud.reveal_transition_cover(transition_id)
+		# A faster guest must not uncover a default day or an empty expedition
+		# while a slower host is still restoring its checkpoint.
+		while is_instance_valid(_base_gameplay_controller) and not _base_gameplay_controller.has_authoritative_snapshot:
+			await get_tree().process_frame
+		if not is_instance_valid(_base_gameplay_controller): return
+	# The final camera, physics bodies and restored loot must exist before warming
+	# lighting. Keep the cover up until actual frames have settled on this machine.
+	await get_tree().process_frame
+	var arrival_camera := get_viewport().get_camera_3d()
+	if arrival_camera != null:
+		await indirect.finish_loading(arrival_camera.global_position.y)
+	else:
+		await indirect.finish_loading(get_v3_spawn_position(0).y)
+	await lobby_hud.wait_for_transition_ready(transition_id)
+	await lobby_hud.reveal_transition_cover(transition_id)
 	_v3_transition_in_progress = false
 	lobby_hud.refresh()
 

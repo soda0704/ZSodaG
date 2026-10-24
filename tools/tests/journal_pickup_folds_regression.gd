@@ -4,10 +4,15 @@ var failures := 0
 var actor: GamePlayer
 var journal: QuestJournalUI
 var capture := false
+var capture_dir := "res://tools/.local/journal-fold-review/"
+var final_hand_pose := Transform3D.IDENTITY
+var final_fingers: Dictionary = {}
+var world_fingers: Dictionary = {}
 func _initialize() -> void:
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://journal_pickup_%d.cfg" % OS.get_process_id())
 	ProjectSettings.set_setting(JournalReadingStore.ROOT_SETTING,"user://journal_pickup_reader_%d" % OS.get_process_id())
 	capture = DisplayServer.get_name() != "headless"
+	if OS.get_cmdline_user_args().has("--variant=1"): capture_dir = "res://tools/.local/journal-fold-review-b/"
 	create_timer(110).timeout.connect(func(): quit(2))
 	run.call_deferred()
 func check(ok: bool, label: String) -> void:
@@ -22,19 +27,36 @@ func ticks(count: int) -> void:
 func screenshot(name: String) -> void:
 	if not capture: return
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png("res://tools/.local/journal-fold-review/" + name + ".png")
+	root.get_texture().get_image().save_png(capture_dir + name + ".png")
 func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1600,1000)
-	DirAccess.make_dir_recursive_absolute("res://tools/.local/journal-fold-review")
+	DirAccess.make_dir_recursive_absolute(capture_dir)
 	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await ticks(70)
 	root.get_node("GameMenu").force_close_menu()
 	actor = get_first_node_in_group("local_player")
+	if OS.get_cmdline_user_args().has("--variant=1"):
+		var parent := actor.get_parent()
+		var at := actor.global_position
+		parent.remove_child(actor)
+		actor.free()
+		actor = load("res://scenes/characters/player.tscn").instantiate()
+		actor.name = "1"
+		actor.setup(1,"Variant B",at,Color.WHITE,0,1)
+		parent.add_child(actor)
 	actor.set_physics_process(false)
 	actor.survival.set_physics_process(false)
+	var final_skeleton: Skeleton3D = actor.body_animator.first_person_model.get_node("Skeleton3D")
+	final_skeleton.skeleton_updated.connect(func():
+		final_hand_pose = final_skeleton.get_bone_global_pose(final_skeleton.find_bone("RightHand"))
+		for name in ["RightHandIndex2","RightHandIndex3","RightHandMiddle1","RightHandMiddle2","RightHandMiddle3","RightHandPinky2","RightHandThumb3"]:
+			final_fingers[name] = final_skeleton.get_bone_global_pose(final_skeleton.find_bone(name)).origin)
+	var world_skeleton: Skeleton3D = actor.body_animator.model.get_node("Skeleton3D")
+	world_skeleton.skeleton_updated.connect(func():
+		for name in ["RightHandMiddle1","RightHandMiddle3"]: world_fingers[name] = world_skeleton.get_bone_global_pose(world_skeleton.find_bone(name)).origin)
 	journal = root.get_node("QuestJournal")
 	var state: BaseGameplayController = base.get_node("BaseGameplayController")
 	state.set_process(false)
@@ -74,8 +96,11 @@ func run() -> void:
 	actor.has_journal = false
 	state._apply_snapshot(saved,true)
 	check(actor.has_journal and first._collected and not second._collected,"restoring claims restores ownership without respawning the taken copy")
+	var open_started := Time.get_ticks_usec()
 	journal.open_journal()
+	check(Time.get_ticks_usec()-open_started<100000,"opening does not synchronously read back the GPU")
 	await ticks(65)
+	check(journal._ink_viewport.render_target_update_mode!=SubViewport.UPDATE_ALWAYS,"static pages are cached rather than redrawn each frame")
 	var inserts = journal._inserts
 	check(inserts.get_node("MapFold").find_children("*","MeshInstance3D",true,false).size()==9,"map consists of nine native paper panels")
 	var center: MeshInstance3D = inserts.get_node("MapFold/Column1/Center/Middle")
@@ -84,16 +109,25 @@ func run() -> void:
 	actor.head.rotation.x = 0
 	await ticks(5)
 	journal._show_section(true)
-	await ticks(20)
+	inserts.animation.pause()
+	inserts.animation.seek(.35,true)
 	check(journal._section_busy and inserts.get_node("TurnPivot").visible,"switch to map starts a physical page turn")
 	await screenshot("page-turn")
-	await ticks(30)
-	check(journal._map_open and inserts.animation.current_animation=="unfold","page turn reveals the glued folded map before unfolding")
+	inserts.animation.play("page_to_map")
+	inserts.animation.seek(.70,true)
+	inserts.animation.advance(.03)
+	inserts.animation.pause()
+	inserts.animation.seek(.12,true)
+	check(journal._map_open and inserts.animation.assigned_animation=="unfold","page turn reveals the glued folded map before unfolding")
+	journal._request_ink_update()
 	await screenshot("folded-center")
-	await ticks(35)
+	inserts.animation.seek(.60,true)
 	check(absf(inserts.get_node("MapFold/Column0").rotation.y)<.1 and absf(inserts.get_node("MapFold/Column2").rotation.y)>.1,"paper columns open in distinct native hinge stages")
 	await screenshot("unfolding-columns")
-	await ticks(55)
+	inserts.animation.play("unfold")
+	inserts.animation.seek(1.34,true)
+	inserts.animation.advance(.03)
+	await ticks(3)
 	check(center.transform.is_equal_approx(center_pose),"central square remains fixed throughout unfolding")
 	check(not journal._section_busy and inserts.displaying_map,"full unfolding settles and restores page input")
 	for column in [0,1,2]:
@@ -103,8 +137,40 @@ func run() -> void:
 	actor.head.rotation.x = 0
 	await ticks(5)
 	await screenshot("map-open")
+	journal._on_loupe_requested(true)
+	await ticks(105)
+	check(inserts.loupe_active and inserts.get_node("LoupeAim").visible,"magnification raises a physical magnifier")
+	check(is_equal_approx(float(inserts.magnifier.get_node("Lens").material_override.get_shader_parameter("magnification")),2.0),"lens magnifies by two without resizing the map")
+	var optical_at: Vector3 = inserts.to_local(inserts.magnifier.global_position)
+	var optical_eye: Vector3 = inserts.to_local(actor.body_animator.first_person.view_camera.global_position)
+	var optical_ray := optical_at-optical_eye
+	optical_at = optical_eye+optical_ray*((inserts.get_node("MapFold").position.z-optical_eye.z)/optical_ray.z)
+	var expected_uv := Vector2((optical_at.x/inserts.sheet_width+1)*700,(.5-optical_at.y/inserts.sheet_height)*986)/Vector2(1400,986)
+	check((inserts.magnifier.get_node("Lens").material_override.get_shader_parameter("focus_atlas") as Vector2).distance_to(expected_uv)<.002,"lens enlarges the paper directly beneath its actual attached position")
+	var skeleton: Skeleton3D = actor.body_animator.first_person_model.get_node("Skeleton3D")
+	var wrist: Vector3 = skeleton.to_global(final_hand_pose.origin)
+	var grip: Node3D = inserts.get_node("LoupeAim/Lift/RightGrip")
+	print("LOUPE WRIST ERROR ",wrist.distance_to(grip.global_position))
+	for bone_name in final_fingers:
+		print("LOUPE ANATOMY ",bone_name," ",inserts.magnifier.to_local(skeleton.to_global(final_fingers[bone_name])))
+	if capture: check(wrist.distance_to(grip.global_position)<.04,"right hand actually holds the magnifier handle")
+	var lift: Node3D = inserts.magnifier
+	var grasp := lift.to_local(skeleton.to_global((final_fingers["RightHandMiddle1"]+final_fingers["RightHandMiddle3"])*.5))
+	# FP modifiers use the rendered viewmodel viewport; validate contact with a real renderer.
+	if capture: check(grasp.distance_to(lift.get_node("Handle").position)<.015,"handle lies inside the closed palm rather than beside the fist")
+	var world_lift: Node3D = actor.body_animator.model.get_node("Skeleton3D/RightHand/Equipment/JournalMagnifier")
+	if world_fingers.has("RightHandMiddle1"):
+		print("WORLD LOUPE GRASP ",world_lift.to_local(world_skeleton.to_global((world_fingers["RightHandMiddle1"]+world_fingers["RightHandMiddle3"])*.5)))
+		check(world_lift.to_local(world_skeleton.to_global((world_fingers["RightHandMiddle1"]+world_fingers["RightHandMiddle3"])*.5)).distance_to(world_lift.get_node("Handle").position)<.015,"teammate model also grips the handle with its closed palm")
+
+	await screenshot("loupe-in-hand")
+	inserts.set_loupe_focus(Vector2(450,400))
+	await ticks(12)
+	await screenshot("loupe-detail")
+	journal._on_loupe_requested(false)
+	await ticks(20)
 	journal._show_section(false)
-	await ticks(35)
+	await ticks(15)
 	check(journal._section_busy and inserts.animation.current_animation=="fold","return to notes folds the paper first")
 	await screenshot("folding-rows")
 	await ticks(105)
@@ -112,16 +178,23 @@ func run() -> void:
 	journal._show_section(true)
 	await ticks(60)
 	journal.close_journal()
-	await ticks(180)
-	check(not journal.is_journal_open() and not inserts.busy,"closing during unfold safely reverses the paper before stowing")
+	check(journal._phase==journal.PresentationState.CLOSING and journal._map_open,"close starts immediately from the map without returning to notes")
+	await ticks(50)
+	check(not journal.is_journal_open() and not inserts.busy,"stowing has no extra paper-return delay")
 	journal.open_journal()
 	await ticks(65)
-	journal._show_section(true)
+	check(journal._map_open and inserts.displaying_map,"reopening retains the map spread")
+	journal._show_section(false)
 	await ticks(15)
 	actor.survival.dead = true
 	await ticks(3)
 	check(not journal.is_journal_open() and not inserts.busy and not inserts.get_node("MapFold").visible,"death cancels a page transition without leaving floating panels")
 	actor.survival.dead = false
+	journal._page_surfaces[0].queue_free()
+	await ticks(2)
+	journal.open_journal()
+	check(journal.is_journal_open() and is_instance_valid(journal._page_surfaces[0]),"reopening rebuilds a replaced player page without stale mesh references")
+	journal.force_close()
 	base.queue_free()
 	await ticks(2)
 	print("JOURNAL PICKUP AND FOLDS: %d checks, %d failures" % [checks,failures])

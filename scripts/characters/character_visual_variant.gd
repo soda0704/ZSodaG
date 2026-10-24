@@ -20,3 +20,5 @@ extends Resource
 
 @export_group("First-person framing")
 @export var first_person_item_offsets: Dictionary[StringName, Vector3] = {}
+@export var journal_loupe_grip := Transform3D.IDENTITY
+@export var journal_loupe_world_grip := Transform3D.IDENTITY

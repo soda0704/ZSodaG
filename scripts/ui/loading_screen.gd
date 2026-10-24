@@ -2,7 +2,7 @@ extends Control
 ## Presentation only; the existing session controller owns the actual loading.
 @export var videos: Array[VideoStream] = []
 @export var tips: Array[LoadingTip] = []
-@export_range(3.0, 30.0) var tip_seconds := 10.0
+@export_range(3.0, 30.0) var tip_seconds := 5.0
 @export var music_volume_db := -12.0
 @onready var video: VideoStreamPlayer = $VideoFrame/Video
 @onready var music: AudioStreamPlayer = $Music
@@ -11,9 +11,10 @@ extends Control
 @onready var status: Label = %TransitionLabel
 @onready var tip_title: Label = %TipTitle
 @onready var tip_body: Label = %TipBody
-@onready var next_hint: Label = %NextHint
 var tip_index := 0
 var _tip_elapsed := 0.0
+var _tip_tween: Tween
+var _tip_changing := false
 var _music_tween: Tween
 var _previous_mouse_mode := Input.MOUSE_MODE_VISIBLE
 var _owns_mouse := false
@@ -36,6 +37,7 @@ func show_cover(message: String) -> void:
 	show()
 	modulate = Color.WHITE
 	status.text = message
+	_reset_tip_transition()
 	tip_index = 0
 	_tip_elapsed = 0.0
 	_refresh_tip()
@@ -58,6 +60,7 @@ func fade_music(seconds: float) -> void:
 func _visibility_changed() -> void:
 	if not is_node_ready() or is_visible_in_tree(): return
 	set_process(false)
+	_reset_tip_transition()
 	video.stop()
 	music.stop()
 	animation.stop()
@@ -86,10 +89,25 @@ func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func next_tip() -> void:
-	if tips.is_empty(): return
-	tip_index = (tip_index + 1) % tips.size()
+	if tips.is_empty() or _tip_changing: return
 	_tip_elapsed = 0.0
-	_refresh_tip()
+	_tip_changing = true
+	_tip_tween = create_tween()
+	_tip_tween.tween_property(tip_title, "modulate:a", 0.0, 0.15)
+	_tip_tween.parallel().tween_property(tip_body, "modulate:a", 0.0, 0.15)
+	_tip_tween.chain().tween_callback(func():
+		tip_index = (tip_index + 1) % tips.size()
+		_refresh_tip()
+	)
+	_tip_tween.chain().tween_property(tip_title, "modulate:a", 1.0, 0.25)
+	_tip_tween.parallel().tween_property(tip_body, "modulate:a", 1.0, 0.25)
+	_tip_tween.chain().tween_callback(func(): _tip_changing = false)
+
+func _reset_tip_transition() -> void:
+	if is_instance_valid(_tip_tween): _tip_tween.kill()
+	_tip_changing = false
+	tip_title.modulate.a = 1.0
+	tip_body.modulate.a = 1.0
 
 func _refresh_tip() -> void:
 	if not is_node_ready() or tips.is_empty(): return
@@ -99,8 +117,6 @@ func _refresh_tip() -> void:
 		copy = copy.replace("{" + str(action) + "}", service.get_action_hint(action))
 	tip_title.text = tips[tip_index].title
 	tip_body.text = copy
-	var key: String = service.get_action_hint(&"ui_accept") if service.using_controller else "[ Пробел ]"
-	next_hint.text = "%02d / %02d     %s — Следующая подсказка" % [tip_index + 1, tips.size(), key]
 
 func _layout() -> void:
 	# Native containers wrap copy; physical window size sets the same readable

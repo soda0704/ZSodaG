@@ -6,6 +6,32 @@ var _render_states:Dictionary={}
 var _data_paths:Dictionary={}
 var _failed_paths:Dictionary={}
 var _debug_disabled := false
+var _loading := false
+var _loading_data: Dictionary = {}
+
+func prepare_loading() -> void:
+	# Keep authored resources and visibility intact; defer GPU volume activation
+	# until the arrival camera exists instead of initializing every floor at once.
+	if _loading: return
+	_loading = true
+	for probe: VoxelGI in get_children():
+		if probe.data != null:
+			_data_paths[probe] = probe.data.resource_path
+			_loading_data[probe] = probe.data
+			probe.data = null
+
+func finish_loading(height: float) -> void:
+	if not _loading: return
+	for probe: VoxelGI in get_children():
+		var surface_view := height >= -8.0 and probe.global_position.y >= 0.0
+		if surface_view or absf(height - probe.global_position.y) < probe.size.y * 0.5 + 6.0:
+			probe.data = _loading_data.get(probe)
+			# Give each volume its own rendered frame under the loading cover.
+			await get_tree().process_frame
+			await get_tree().process_frame
+	_loading_data.clear()
+	_loading = false
+	update_floor(height)
 
 func set_debug_disabled(value: bool) -> void:
 	_debug_disabled = value
@@ -18,6 +44,7 @@ func _ready() -> void:
 		if probe.data!=null:_data_paths[probe]=probe.data.resource_path
 
 func _process(_delta: float) -> void:
+	if _loading: return
 	var camera:Camera3D
 	if Engine.is_editor_hint():
 		var editor:=Engine.get_singleton("EditorInterface")

@@ -40,18 +40,25 @@ func observe_contacts(touching: bool, supported: bool, speed: float, impact: flo
 	if _send_elapsed >= .1 and (absf(moving - _last_sent_speed) > .025 or _send_elapsed >= .3):
 		_send_elapsed = 0
 		_last_sent_speed = moving
-		_receive_motion.rpc(moving)
+		_receive_motion(moving)
+		for peer in prop.get_ready_physics_peers():
+			_receive_motion.rpc_id(peer, moving)
 	_noise_elapsed += delta
 	if moving > 0 and _noise_elapsed >= .7:
 		_noise_elapsed = 0
 		preload("res://scripts/gameplay/gameplay_noise.gd").emit(prop, drag_noise_radius * lerpf(.4, 1, clampf(moving / full_volume_speed, 0, 1)))
 	if was_supported and not supported and prop.grips.size() >= 2 and rising > .12:
-		_receive_event.rpc(false, .45, randf_range(.96, 1.04))
+		_send_event(false, .45, randf_range(.96, 1.04))
 	if touching and impact >= impact_threshold and _impact_cooldown <= 0:
 		_impact_cooldown = .4
 		var strength := clampf(impact / 3, .3, 1)
-		_receive_event.rpc(true, strength, randf_range(.94, 1.03))
+		_send_event(true, strength, randf_range(.94, 1.03))
 		preload("res://scripts/gameplay/gameplay_noise.gd").emit(prop, impact_noise_radius * strength)
+
+func _send_event(placing: bool, strength: float, pitch: float) -> void:
+	_receive_event(placing, strength, pitch)
+	for peer in prop.get_ready_physics_peers():
+		_receive_event.rpc_id(peer, placing, strength, pitch)
 
 @rpc("authority", "call_local", "unreliable_ordered", 2)
 func _receive_motion(speed: float) -> void:

@@ -35,6 +35,8 @@ func _ready() -> void:
 	model = variant.body_scene.instantiate()
 	add_child(model)
 	model.name = "CharacterModel"
+	model.get_node("Journal/FrontCoverPivot/Inserts").configure_grip(variant.journal_loupe_world_grip if variant.journal_loupe_world_grip != Transform3D.IDENTITY else variant.journal_loupe_grip)
+	model.get_node("Journal/FrontCoverPivot/Inserts").configure_magnifier(model.get_node("Skeleton3D/RightHand/Equipment/JournalMagnifier"),variant.journal_loupe_world_grip)
 	skeleton = model.get_node("Skeleton3D")
 	_skeleton = skeleton
 	_prepare_tree(model)
@@ -44,6 +46,8 @@ func _ready() -> void:
 		get_node(first_person_parent).add_child(first_person)
 		first_person.initialize(variant.first_person_scene,get_node(first_person_parent),variant.first_person_item_offsets)
 		first_person_model=first_person.model
+		first_person_model.get_node("Journal/FrontCoverPivot/Inserts").configure_grip(variant.journal_loupe_grip)
+		first_person_model.get_node("Journal/FrontCoverPivot/Inserts").configure_magnifier(first_person_model.get_node("Skeleton3D/RightHand/Equipment/JournalMagnifier"),variant.journal_loupe_grip)
 		_make_shadow_items()
 	set_local_visibility(false)
 
@@ -135,7 +139,7 @@ func update_context(delta: float, context: Dictionary) -> void:
 	var kind: StringName = context.get("held_item",&"")
 	var state := "Stand"
 	var inserts := model.get_node_or_null("Journal/FrontCoverPivot/Inserts")
-	if inserts != null: inserts.sync_world(bool(context.get("journal_map",false)), journal)
+	if inserts != null: inserts.sync_world(bool(context.get("journal_map",false)), journal,bool(context.get("journal_loupe",false)))
 	if _sleeping: state = "Sleep"
 	elif context.get("driving",false): state = "Vehicle"
 	elif not _corpse_action.is_empty(): state = _corpse_action
@@ -189,7 +193,8 @@ func update_context(delta: float, context: Dictionary) -> void:
 		tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, delta * 8.0))
 		tree.set("parameters/OffhandAim/blend_position", limited_pitch * 0.70)
 		GameFirstPersonPresentation.update_offer_tree(tree, context, delta)
-		tree.advance(delta)
+		GameFirstPersonPresentation.update_loupe_pose(tree,model,journal)
+		tree.advance(delta * (float(context.get("journal_animation_speed",1.6)) if journal in [1,3] else 1.0))
 		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand,kind,context.get("heavy_targets",{}))
 	if first_person!=null:
 		var fp_context:=context.duplicate(); fp_context["sleeping"]=_sleeping

@@ -139,8 +139,10 @@ var _remote_target_pitch: float = 0.0
 var _remote_crouching: bool = false
 var _remote_grounded: bool = true
 var _journal_phase := 0
+@export_range(1.0, 2.5) var journal_animation_speed := 1.6
 var has_journal := false
 var _journal_map := false
+var _journal_loupe := false
 var _aiming := false
 var _aim_serial_state := false
 var _has_remote_snapshot: bool = false
@@ -550,6 +552,8 @@ func update_character_animation(delta: float) -> void:
 		"offhand_flashlight": is_offhand_flashlight_drawn() and not _battery_flashlight_presentation and not $ItemDrag.is_heavy_carrying() and not handoff.pocket_pose(),
 		"journal_phase": _journal_phase,
 		"journal_map": _journal_map,
+		"journal_loupe": _journal_loupe,
+		"journal_animation_speed": journal_animation_speed,
 		"carrying": is_carrying_corpse(),
 		"driving": is_driving(),
 		"reloading": weapon != null and weapon.reload_left>0.0,
@@ -970,22 +974,24 @@ func restore_journal_ownership(_snapshot: Dictionary = {}) -> void:
 	has_journal = true
 	if multiplayer.is_server(): _publish_inventory()
 
-func request_journal_map(value: bool) -> void:
+func request_journal_map(value: bool, loupe := false) -> void:
 	if not is_local_player() or not has_journal: return
 	_journal_map = value
-	if multiplayer.is_server(): _receive_journal_map.rpc(value)
-	else: _submit_journal_map.rpc_id(1,value)
+	_journal_loupe = value and loupe
+	if multiplayer.is_server(): _receive_journal_map.rpc(value,loupe)
+	else: _submit_journal_map.rpc_id(1,value,loupe)
 
 @rpc("any_peer", "call_remote", "reliable", 2)
-func _submit_journal_map(value: bool) -> void:
+func _submit_journal_map(value: bool, loupe := false) -> void:
 	if not multiplayer.is_server() or multiplayer.get_remote_sender_id() != owner_peer_id or not has_journal or _journal_phase != 2: return
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
 	if value and (state == null or not state.has_entered_base()): return
-	_receive_journal_map.rpc(value)
+	_receive_journal_map.rpc(value,loupe)
 
 @rpc("authority", "call_local", "reliable", 2)
-func _receive_journal_map(value: bool) -> void:
+func _receive_journal_map(value: bool, loupe := false) -> void:
 	_journal_map = value
+	_journal_loupe = value and loupe
 
 func _push_loose_item(item: WorldItemPickup, _movement: Vector3, delta: float) -> void:
 	if not multiplayer.is_server() or item.freeze or item.drag_owner_peer != 0:
@@ -1030,7 +1036,9 @@ func _submit_journal_phase(phase: int) -> void:
 
 func _publish_journal_phase(phase: int) -> void:
 	_journal_phase = phase
-	if phase == 0: _journal_map = false
+	if phase == 0:
+		_journal_map = false
+		_journal_loupe = false
 	_refresh_equipment_visuals()
 	_receive_journal_phase.rpc(phase)
 
@@ -1038,7 +1046,9 @@ func _publish_journal_phase(phase: int) -> void:
 @rpc("authority","call_remote","reliable",2)
 func _receive_journal_phase(phase: int) -> void:
 	_journal_phase = clampi(phase,0,3)
-	if phase == 0: _journal_map = false
+	if phase == 0:
+		_journal_map = false
+		_journal_loupe = false
 	_refresh_equipment_visuals()
 
 
@@ -1809,7 +1819,7 @@ func send_snapshot_if_due(delta: float) -> void:
 		_server_last_sequence,
 		get_inventory_snapshot(),
 		Vector3(_sprint_remaining, 1.0 if _sprint_exhausted else 0.0, 1.0 if _sprint_active else 0.0),
-		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"journal_map":_journal_map,"variant":character_variant_id,"aiming":_aiming}
+		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"journal_map":_journal_map,"journal_loupe":_journal_loupe,"variant":character_variant_id,"aiming":_aiming}
 	)
 
 
@@ -1833,6 +1843,7 @@ func _receive_authoritative_state(
 	_remote_grounded = bool(server_animation.get("grounded",_remote_grounded))
 	_journal_phase = int(server_animation.get("journal_phase",_journal_phase))
 	_journal_map = bool(server_animation.get("journal_map",_journal_map))
+	_journal_loupe = bool(server_animation.get("journal_loupe",_journal_loupe))
 	if not is_local_player(): _aiming=bool(server_animation.get("aiming",false))
 	if server_sprint_state.x >= 0.0:
 		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)

@@ -9,9 +9,11 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/lobby_menu.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/menu_join.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://scenes/ui/tester_feedback.tscn" id="feedback"]
+[ext_resource type="PackedScene" path="res://scenes/ui/loading_render_warmup.tscn" id="render_warmup"]
 [node name="GameMenu" type="CanvasLayer"]
 layer = 100
 script = ExtResource("1")
+[node name="LoadingRenderWarmup" parent="." instance=ExtResource("render_warmup")]
 [node name="MenuRoot" type="Control" parent="."]
 theme = ExtResource("menu_theme")
 visible = false

@@ -115,7 +115,22 @@ func sync_physics_state() -> void:
 	_last_sent_angular = angular_velocity
 	_last_sent_cabin_id = _cargo_cabin.get_instance_id() if is_instance_valid(_cargo_cabin) else 0
 	_last_sent_cargo_pose = _cargo_pose
-	_receive_physics_state.rpc(
+	for peer in get_ready_physics_peers():
+		sync_physics_state_to_peer(peer)
+
+
+func get_ready_physics_peers() -> PackedInt32Array:
+	var session := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if session != null and session.has_method("get_ready_v3_peers"):
+		var level := session.get_node_or_null("V3Level")
+		if level != null and level.is_ancestor_of(self):
+			return PackedInt32Array(session.get_ready_v3_peers())
+	return multiplayer.get_peers()
+
+
+func sync_physics_state_to_peer(peer: int) -> void:
+	_receive_physics_state.rpc_id(
+		peer,
 		global_transform,
 		linear_velocity,
 		angular_velocity,

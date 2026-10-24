@@ -462,13 +462,6 @@ theme_override_font_sizes/font_size = 22
 autowrap_mode = 2
 text = "Бег и выстрелы привлекают внимание."
 
-[node name="NextHint" type="Label" parent="Footer/Content"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.68, 0.7, 0.67, 1)
-text = "01 / 05     [ Пробел ] — Следующая подсказка"
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("music")
 bus = &"Music"

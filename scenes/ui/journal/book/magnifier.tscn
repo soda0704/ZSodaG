@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/journal_magnifier.gdshader" id="1_ttkm7"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_0.svg" id="2_fo26h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wn4a3"]
+albedo_color = Color(0.17, 0.18, 0.16, 1)
+metallic = 0.85
+roughness = 0.32
+
+[sub_resource type="TorusMesh" id="TorusMesh_8naj3"]
+inner_radius = 0.023
+outer_radius = 0.0275
+rings = 48
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_km2xx"]
+albedo_color = Color(0.13, 0.09, 0.055, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0mndg"]
+top_radius = 0.0065
+bottom_radius = 0.0075
+height = 0.08
+radial_segments = 12
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ketdy"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_ttkm7")
+shader_parameter/ink_texture = ExtResource("2_fo26h")
+shader_parameter/focus_atlas = null
+shader_parameter/window_extent = null
+shader_parameter/magnification = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_vhufm"]
+size = Vector2(0.048, 0.048)
+
+[node name="JournalMagnifier" type="Node3D" unique_id=1910341509]
+visible = false
+
+[node name="Rim" type="MeshInstance3D" parent="." unique_id=292145309]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+layers = 262145
+material_override = SubResource("StandardMaterial3D_wn4a3")
+cast_shadow = 0
+mesh = SubResource("TorusMesh_8naj3")
+
+[node name="Handle" type="MeshInstance3D" parent="." unique_id=738635338]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0.041, -0.051, 0)
+layers = 262145
+material_override = SubResource("StandardMaterial3D_km2xx")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_0mndg")
+
+[node name="Lens" type="MeshInstance3D" parent="." unique_id=2112504105]
+layers = 262145
+material_override = SubResource("ShaderMaterial_ketdy")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_vhufm")

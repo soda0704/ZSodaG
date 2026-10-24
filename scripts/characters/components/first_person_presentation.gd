@@ -154,6 +154,7 @@ func _process(delta: float) -> void:
 	_view_frame = camera.get_global_transform_interpolated()
 	_sync_view_resolution()
 	var animation_delta:=delta
+	if int(context.get("journal_phase",0)) in [1,3]: animation_delta *= float(context.get("journal_animation_speed",1.6))
 	delta=minf(delta,0.04)
 	var next: String=KINDS.get(context.get("held_item",&""),"Relaxed")
 	if context.get("carrying",false): next="Carry"
@@ -235,6 +236,7 @@ func _process(delta: float) -> void:
 	tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, animation_delta * 8.0))
 	tree.set("parameters/OffhandAim/blend_position", 0.0)
 	update_offer_tree(tree, context, animation_delta)
+	update_loupe_pose(tree,model,book_phase)
 	tree.advance(animation_delta)
 	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand,context.get("held_item",&""),context.get("heavy_targets",{}))
 	_align_weapon_sights()
@@ -344,6 +346,9 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 	var left_ik: TwoBoneIK3D=sk.get_node("SupportHandIK")
 	var right_ik: TwoBoneIK3D=sk.get_node("RightGripIK")
 	var weight:=1-exp(-18*delta)
+	var loupe_wrist := sk.get_node_or_null("LoupeWrist")
+	var loupe_aim := book.get_node_or_null("FrontCoverPivot/Inserts/LoupeAim")
+	if loupe_wrist != null: loupe_wrist.influence = 1.0 if journal_phase>0 and loupe_aim != null and loupe_aim.visible else 0.0
 	var flame_wrist: CopyTransformModifier3D=sk.get_node_or_null("FlamethrowerWrist")
 	if flame_wrist!=null:
 		var hold:=equipment_kind=="Flamethrower" and journal_phase==0 and not reloading and not offhand_flashlight
@@ -356,6 +361,9 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 		if journal_phase>0: marker=book.get_node(side+"Grip")
 		elif side=="Left" and equipment_kind in ["Rifle","Pistol"] and not reloading and not offhand_flashlight:
 			marker=sockets.get_node(("flamethrower" if held_item == &"flamethrower" else "m4a1" if equipment_kind=="Rifle" else "pistol")+"/LeftHandGrip")
+		var loupe := book.get_node_or_null("FrontCoverPivot/Inserts/LoupeAim")
+		if journal_phase>0 and side=="Right" and loupe != null and loupe.visible:
+			marker = loupe.get_node("Lift/RightGrip")
 		var contact: Variant = heavy_targets.get(side)
 		var amount:=1.0 if marker!=null or contact is Transform3D else 0.0
 		if marker!=null:
@@ -367,6 +375,11 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 		ik.active=true; ik.influence=lerpf(ik.influence,amount,weight)
 		# Position IK preserves the authored hand/forearm relationship.
 		# The flamethrower also has a native wrist constraint fitted to its tube.
+
+static func update_loupe_pose(animation_tree: AnimationTree, instance: Node3D, phase: int) -> void:
+	if not animation_tree.tree_root.has_node("LoupeGrip"): return
+	var aim := instance.get_node_or_null("Journal/FrontCoverPivot/Inserts/LoupeAim")
+	animation_tree.set("parameters/LoupeGrip/blend_amount",1.0 if phase>0 and aim!=null and aim.visible else 0.0)
 
 func action(item: String, label: String) -> void:
 	if _journal_phase>0 or item=="Relaxed": return

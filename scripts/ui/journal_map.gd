@@ -1,4 +1,5 @@
 extends Control
+signal loupe_requested(active: bool)
 @export var atlas: JournalAtlas
 @onready var plan: TextureRect = $MapScroll/Plan
 @onready var title: Label = $Title
@@ -7,8 +8,7 @@ extends Control
 @onready var marker: Polygon2D = $MapScroll/Plan/Player
 @onready var mate_marker: Polygon2D = $MapScroll/Plan/Teammate
 @onready var scroll: ScrollContainer = $MapScroll
-var zoom := 1.0
-var _panning := false
+@onready var loupe_button: Button = $LoupeButton
 var selected := 0
 var visited: Array = []
 var _buttons: Array[Node] = []
@@ -18,9 +18,7 @@ var actor: GamePlayer
 func _ready() -> void:
 	_buttons = $Levels.get_children()
 	for i in _buttons.size(): _buttons[i].pressed.connect(select_floor.bind(i))
-	$Zoom/Minus.pressed.connect(change_zoom.bind(-1))
-	$Zoom/Plus.pressed.connect(change_zoom.bind(1))
-	scroll.gui_input.connect(_pan_input)
+	loupe_button.toggled.connect(func(active): loupe_requested.emit(active))
 	visibility_changed.connect(_on_visibility_changed)
 	select_floor(0)
 
@@ -48,11 +46,6 @@ func level_for(position: Vector3) -> int:
 	return nearest
 
 func select_floor(index: int) -> void:
-	if selected != index:
-		zoom = 1.0
-		plan.custom_minimum_size = Vector2(510,566)
-		scroll.scroll_horizontal = 0
-		scroll.scroll_vertical = 0
 	selected = clampi(index, 0, atlas.floors.size()-1)
 	var known := visited.has(selected)
 	var data := atlas.floors[selected]
@@ -65,31 +58,11 @@ func select_floor(index: int) -> void:
 		_buttons[i].button_pressed = i == selected
 		_buttons[i].disabled = not visited.has(i)
 	_update_markers()
-	$Zoom/Scale.text = "%d×" % int(zoom)
-	$Zoom/Minus.disabled = not known or zoom <= 1
-	$Zoom/Plus.disabled = not known or zoom >= 4
-
-func change_zoom(direction: int) -> void:
-	var old := zoom
-	zoom = clampf(zoom * (2 if direction > 0 else .5), 1, 4)
-	var center := Vector2(scroll.scroll_horizontal,scroll.scroll_vertical) + scroll.size * .5
-	plan.custom_minimum_size = Vector2(510,566) * zoom
-	await get_tree().process_frame
-	scroll.scroll_horizontal = roundi(center.x * zoom/old - scroll.size.x * .5)
-	scroll.scroll_vertical = roundi(center.y * zoom/old - scroll.size.y * .5)
-	select_floor(selected)
-
-func _pan_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		_panning = event.pressed and zoom > 1
-	elif event is InputEventMouseMotion and _panning:
-		scroll.scroll_horizontal -= roundi(event.relative.x)
-		scroll.scroll_vertical -= roundi(event.relative.y)
-		scroll.accept_event()
+	loupe_button.disabled = not known
 
 func _process(delta: float) -> void:
 	if not is_visible_in_tree(): return
-	if get_viewport() is SubViewport and get_viewport().render_target_update_mode == SubViewport.UPDATE_DISABLED: return
+	if not get_node("/root/QuestJournal").is_journal_open(): return
 	_elapsed += delta
 	if _elapsed < .1: return
 	_elapsed = 0.0

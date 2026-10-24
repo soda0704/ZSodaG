@@ -119,7 +119,9 @@ func _publish_grips() -> void:
 	var slots := {}
 	for owner in grips: owners.append(int(owner))
 	for owner in grips: slots[owner] = int(grips[owner].slot)
-	_receive_grips.rpc(owners, slots)
+	_receive_grips(owners, slots)
+	for peer in get_ready_physics_peers():
+		_receive_grips.rpc_id(peer, owners, slots)
 
 @rpc("authority", "call_local", "reliable", 2)
 func _receive_grips(owners: Array[int], slots: Dictionary) -> void:
