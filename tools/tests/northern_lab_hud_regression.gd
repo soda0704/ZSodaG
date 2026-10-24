@@ -197,7 +197,9 @@ func run() -> void:
 	state.progress_persistence_enabled = false
 	world.add_child(state)
 	state.set_process(false)
+	state.maintenance["base_entered"] = true
 	actor = load("res://scenes/characters/player.tscn").instantiate()
+	actor.has_journal = true
 	actor.name = "1"
 	actor.setup(1, "HUD test", Vector3(0, 0.1, 0), Color.WHITE)
 	world.get_node("Players").add_child(actor)
@@ -490,7 +492,7 @@ func review_layout_states() -> void:
 	var compact: Dictionary = hud.interaction_layout("[E] Осмотреть щит")
 	check(compact.rect.size.y <= 48 and compact.rect.size.y >= compact.key_size.y + 12, "single-line interaction is compact with enough keycap padding")
 	var centered := true
-	for source in ["[E] Осмотреть щит", "[PageDown] Включить", "[R2] Взаимодействовать", "Нет питания"]:
+	for source in ["[E] Осмотреть щит", "[ E ] Осмотреть щит", "[PageDown] Включить", "[R2] Взаимодействовать", "Нет питания"]:
 		var layout: Dictionary = hud.interaction_layout(source)
 		var text_center: float = layout.rect.position.x + layout.indent + layout.text_width * 0.5
 		centered = centered and absf(text_center - layout.rect.get_center().x) < 0.01

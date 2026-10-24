@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_4.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Биосдерживание"
+level_label = "−04"
+elevation = -72.0
+scene_root = NodePath("Floor_Minus4_Biocontainment_Blockout")
+plan = ExtResource("2")
+world_rect = Rect2(-39.6750015258789, -36.186358171825745, 45.69809851419168, 42.52461945070614)

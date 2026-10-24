@@ -218,6 +218,10 @@ func run() -> void:
 		# Left leaves travel with the cover; their inner sides face the reader when open.
 		paper("Leaf%d" % i,leaf,0.006-i*0.0007,true)
 	binding()
+	var inserts := load("res://scenes/ui/journal/book/inserts.tscn").instantiate() as Node3D
+	inserts.position = Vector3(0,0,-.0085)
+	inserts.rotation.y = PI
+	own(inserts,cover,"Inserts")
 	assert(cover.has_node("Object_2Cover"), "Front leather must belong to the moving cover")
 	var packed := PackedScene.new()
 	assert(packed.pack(book) == OK)

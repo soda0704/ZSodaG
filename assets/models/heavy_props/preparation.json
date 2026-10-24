@@ -1,0 +1,52 @@
+{
+  "concrete_joist_1": {
+    "original_triangles": 175872,
+    "triangles": 12239,
+    "sampled_deviation_m": 0.007006263360381126,
+    "size_blender": [
+      5.600969076156616,
+      0.44453857839107513,
+      0.658382463036105
+    ]
+  },
+  "concrete_joist_2": {
+    "original_triangles": 160056,
+    "triangles": 18869,
+    "sampled_deviation_m": 0.006002729292958975,
+    "size_blender": [
+      5.600360870361328,
+      0.40826815366744995,
+      0.664588987827301
+    ]
+  },
+  "powered_workbench": {
+    "original_triangles": 742,
+    "triangles": 742,
+    "sampled_deviation_m": 0,
+    "size_blender": [
+      2.4000000953674316,
+      1.561498999595642,
+      2.8759572505950928
+    ]
+  },
+  "sofa": {
+    "original_triangles": 9648,
+    "triangles": 3376,
+    "sampled_deviation_m": 0.0029479097574949265,
+    "size_blender": [
+      2.499999523162842,
+      1.1211693286895752,
+      1.2562452554702759
+    ]
+  },
+  "bench": {
+    "original_triangles": 568,
+    "triangles": 568,
+    "sampled_deviation_m": 0,
+    "size_blender": [
+      3.200000286102295,
+      0.6425598859786987,
+      0.7767466306686401
+    ]
+  }
+}

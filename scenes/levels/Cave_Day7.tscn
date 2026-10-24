@@ -208,6 +208,9 @@
 [ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_-1_collision.res" id="214_jywwc"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-9_0.res" id="215_svx20"]
 [ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-9_0_collision.res" id="216_60g0q"]
+[ext_resource type="Script" path="res://scripts/gameplay/cave/cave_hive_encounter.gd" id="217_1uglf"]
+[ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/seam_repairs.res" id="218_b3u28"]
+[ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/seam_repairs_collision.res" id="219_5krox"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/sculpted/rock_17_-8_0.res" id="223_uv7xv"]
 [ext_resource type="Shape3D" path="res://assets/environments/cave/sculpted/rock_17_-8_0_collision.res" id="224_qoxsd"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/rocks/rock_face_01/cave_mesh.res" id="241_cuyxs"]
@@ -215,7 +218,6 @@
 [ext_resource type="Shape3D" path="res://assets/environments/cave/cave_mouth_collision.res" id="242_034b3"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/rocks/rock_face_02/cave_mesh.res" id="242_rpj4d"]
 [ext_resource type="ArrayMesh" path="res://assets/environments/cave/rocks/boulder_01/cave_mesh.res" id="243_d1qg0"]
-
 [ext_resource type="PackedScene" path="res://scenes/objects/cave/cave_hive_encounter.tscn" id="hive_encounter"]
 
 [sub_resource type="Curve3D" id="Curve3D_t87yq"]
@@ -225,6 +227,9 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 28
+
+[sub_resource type="BoxShape3D" id="ShaftVisitShape"]
+size = Vector3(7, 3, 7)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_o37my"]
 points = PackedVector3Array(0.59895086, 0.028420798, 0.07257616, 0.59855187, -0.025148258, 0.07252305, -0.10087986, -0.43788096, 0.84451103, -0.19086069, 0.40391636, 0.27888763, -0.15238152, 0.43146506, -0.7865451, 0.25296697, -0.21513453, -0.65865606, -0.42434365, -0.37736955, -0.7119654, -0.59217703, -0.37003672, 0.5942609, 0.11708988, -0.48524997, 0.8580974, 0.382322, 0.26051894, 0.1926808, -0.3870805, 0.31801698, 0.07125933, -0.10008571, 0.05626917, 0.67366225, 0.46857637, -0.3496517, 0.4247943, -0.36285338, 0.31787792, -0.8103714, 0.5699611, 0.16197562, -0.11458252, -0.35037142, -0.025485005, -0.8931716, -0.07619889, 0.48995477, -0.4087913, -0.17468311, -0.3912944, -0.60962564, 0.03583057, 0.3266393, -0.7657529, -0.6496341, -0.1693786, -0.3514997, 0.06700207, -0.25541705, 0.8521629, -0.5703809, -0.41197705, 0.57192945, -0.51003015, -0.18933825, -0.8000278, -0.31586125, 0.05578674, 0.5877545, 0.41111374, 0.17457873, 0.278708, 0.2755875, -0.10510885, -0.67479295, 0.11518651, 0.42771935, -0.3803412, -0.16232152, 0.48995477, -0.4375269, -0.4817227, -0.37984663, -0.68923104, -0.6496341, -0.25541705, -0.3514997, 0.32891718, -0.42539147, 0.55252165, 0.12433298, -0.45607516, 0.9096341)
@@ -331,14 +336,11 @@ points = PackedVector3Array(-0.90369964, -1.2575176, -0.95559376, 1.0757046, 1.2
 [sub_resource type="BoxShape3D" id="CaveExitZoneShape"]
 size = Vector3(6, 5, 7)
 
-[sub_resource type="BoxShape3D" id="ShaftVisitShape"]
-size = Vector3(7, 3, 7)
-
 [node name="Cave_Day7" type="Node3D" unique_id=1716915777]
 metadata/editor_description = "Continuous volumetric limestone sculpt: irregular floor, galleries, natural shaft and terrain-overlapping external mouth. Static native resources, no runtime sculpting."
 metadata/route_length_m = 796.4297
 metadata/sculpt_grid_m = 0.3
-metadata/triangle_count = 369959
+metadata/triangle_count = 370255
 metadata/art_pass = "Local rock outcrops; old scan sheets and failed exterior shell removed. Terrain and distant backdrop no longer overlap."
 
 [node name="AuthoredRoute" type="Path3D" parent="." unique_id=440294608]
@@ -1348,6 +1350,14 @@ metadata/clearance = 2.6125336
 
 [node name="CaveArrival" type="Marker3D" parent="." unique_id=1004308857]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.5, -161.9, -21)
+
+[node name="ShaftVisitZone" type="Area3D" parent="CaveArrival" unique_id=1002772472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CaveArrival/ShaftVisitZone" unique_id=937537137]
+shape = SubResource("ShaftVisitShape")
 
 [node name="Lair" type="Marker3D" parent="." unique_id=223697905]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 292.89096, -155.45567, -2.6294317)
@@ -2865,19 +2875,24 @@ mesh = ExtResource("242_rpj4d")
 transform = Transform3D(1.1, 0, 0, 0, 0.7, 0, 0, 0, 0.48, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_lx6p0")
 
-[node name="ExitZone" type="Area3D" parent="."]
-position = Vector3(342, -153.9, 2)
+[node name="ExitZone" type="Area3D" parent="." unique_id=923175530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 342, -153.9, 2)
 collision_layer = 0
 collision_mask = 2
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitZone"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitZone" unique_id=785653104]
 shape = SubResource("CaveExitZoneShape")
 
-[node name="ShaftVisitZone" type="Area3D" parent="CaveArrival"]
-position = Vector3(0, 1.5, 0)
-collision_layer = 0
-collision_mask = 2
+[node name="HiveEncounter" type="Node3D" parent="." unique_id=1436677192 instance=ExtResource("hive_encounter")]
+editor_description = "Day-seven end chamber: three stationary tailed-creature hive placeholders. Positions, poses and discovery area are authored here."
+script = ExtResource("217_1uglf")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CaveArrival/ShaftVisitZone"]
-shape = SubResource("ShaftVisitShape")
+[node name="GeologySeamRepairs" type="StaticBody3D" parent="." unique_id=1413420582]
+collision_mask = 0
+metadata/footstep_surface = "concrete"
 
-[node name="HiveEncounter" parent="." instance=ExtResource("hive_encounter")]
+[node name="Bedrock" type="MeshInstance3D" parent="GeologySeamRepairs" unique_id=1013503486]
+mesh = ExtResource("218_b3u28")
+
+[node name="SolidRock" type="CollisionShape3D" parent="GeologySeamRepairs" unique_id=45259323]
+shape = ExtResource("219_5krox")

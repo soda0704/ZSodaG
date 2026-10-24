@@ -1,0 +1,478 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="logic"]
+
+[ext_resource type="Script" path="res://scripts/ui/loading_tip.gd" id="tip"]
+
+[ext_resource type="Theme" path="res://scenes/ui/northern_lab_hud_theme.tres" id="theme"]
+
+[ext_resource type="VideoStream" path="res://assets/ui/loading/vhs_01.ogv" id="video"]
+
+[ext_resource type="AudioStream" path="res://assets/audio/music/loading_northernlab.ogg" id="music"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/loading/atom_atlas.png" id="atlas"]
+
+[sub_resource type="Resource" id="tip0"]
+script = ExtResource("tip")
+title = "Прислушивайся."
+body = "Бег и выстрелы привлекают внимание. Пригнувшись, можно остаться незамеченным чуть дольше."
+
+[sub_resource type="Resource" id="tip1"]
+script = ExtResource("tip")
+title = "Свет не бесконечен."
+body = "Берегите заряд — неизвестно, сколько ещё находиться в темноте."
+
+[sub_resource type="Resource" id="tip2"]
+script = ExtResource("tip")
+title = "Делитесь с напарником."
+body = "Удерживайте {offer_item}, чтобы протянуть предмет."
+
+[sub_resource type="Resource" id="tip3"]
+script = ExtResource("tip")
+title = "Вдвоём легче."
+body = "Удерживайте {interact}, чтобы тащить предмет. С напарником его можно приподнять."
+
+[sub_resource type="Resource" id="tip4"]
+script = ExtResource("tip")
+title = "Журнал экспедиции."
+body = "Задачи, найденные записи и ваши вещи — в журнале. Просмотреть — {journal}."
+
+[sub_resource type="AtlasTexture" id="frame0"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame1"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame2"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame3"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame4"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame5"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame6"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame7"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 0, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame8"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame9"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame10"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame11"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame12"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame13"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame14"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame15"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 160, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame16"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame17"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame18"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame19"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame20"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame21"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame22"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame23"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 320, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame24"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame25"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame26"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame27"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame28"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame29"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame30"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame31"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 480, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame32"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame33"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame34"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame35"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame36"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame37"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame38"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame39"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 640, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame40"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame41"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame42"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame43"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame44"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame45"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame46"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame47"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 800, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame48"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame49"]
+atlas = ExtResource("atlas")
+region = Rect2(160, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame50"]
+atlas = ExtResource("atlas")
+region = Rect2(320, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame51"]
+atlas = ExtResource("atlas")
+region = Rect2(480, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame52"]
+atlas = ExtResource("atlas")
+region = Rect2(640, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame53"]
+atlas = ExtResource("atlas")
+region = Rect2(800, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame54"]
+atlas = ExtResource("atlas")
+region = Rect2(960, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame55"]
+atlas = ExtResource("atlas")
+region = Rect2(1120, 960, 160, 160)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame56"]
+atlas = ExtResource("atlas")
+region = Rect2(0, 1120, 160, 160)
+filter_clip = true
+
+[sub_resource type="Animation" id="atom"]
+resource_name = "atom"
+length = 1.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Footer/Content/Status/Atom:texture")
+tracks/0/interp = 0
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0000000, 0.0333333, 0.0666667, 0.1000000, 0.1333333, 0.1666667, 0.2000000, 0.2333333, 0.2666667, 0.3000000, 0.3333333, 0.3666667, 0.4000000, 0.4333333, 0.4666667, 0.5000000, 0.5333333, 0.5666667, 0.6000000, 0.6333333, 0.6666667, 0.7000000, 0.7333333, 0.7666667, 0.8000000, 0.8333333, 0.8666667, 0.9000000, 0.9333333, 0.9666667, 1.0000000, 1.0333333, 1.0666667, 1.1000000, 1.1333333, 1.1666667, 1.2000000, 1.2333333, 1.2666667, 1.3000000, 1.3333333, 1.3666667, 1.4000000, 1.4333333, 1.4666667, 1.5000000, 1.5333333, 1.5666667, 1.6000000, 1.6333333, 1.6666667, 1.7000000, 1.7333333, 1.7666667, 1.8000000, 1.8333333, 1.8666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [SubResource("frame0"), SubResource("frame1"), SubResource("frame2"), SubResource("frame3"), SubResource("frame4"), SubResource("frame5"), SubResource("frame6"), SubResource("frame7"), SubResource("frame8"), SubResource("frame9"), SubResource("frame10"), SubResource("frame11"), SubResource("frame12"), SubResource("frame13"), SubResource("frame14"), SubResource("frame15"), SubResource("frame16"), SubResource("frame17"), SubResource("frame18"), SubResource("frame19"), SubResource("frame20"), SubResource("frame21"), SubResource("frame22"), SubResource("frame23"), SubResource("frame24"), SubResource("frame25"), SubResource("frame26"), SubResource("frame27"), SubResource("frame28"), SubResource("frame29"), SubResource("frame30"), SubResource("frame31"), SubResource("frame32"), SubResource("frame33"), SubResource("frame34"), SubResource("frame35"), SubResource("frame36"), SubResource("frame37"), SubResource("frame38"), SubResource("frame39"), SubResource("frame40"), SubResource("frame41"), SubResource("frame42"), SubResource("frame43"), SubResource("frame44"), SubResource("frame45"), SubResource("frame46"), SubResource("frame47"), SubResource("frame48"), SubResource("frame49"), SubResource("frame50"), SubResource("frame51"), SubResource("frame52"), SubResource("frame53"), SubResource("frame54"), SubResource("frame55"), SubResource("frame56")]}
+
+[sub_resource type="AnimationLibrary" id="library"]
+_data = {&"atom": SubResource("atom")}
+
+[sub_resource type="Gradient" id="gradient"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.008, 0.01, 0.011, 0.04, 0.008, 0.01, 0.011, 0.38, 0.008, 0.01, 0.011, 0.98)
+
+[sub_resource type="GradientTexture2D" id="shade"]
+gradient = SubResource("gradient")
+width = 8
+height = 512
+fill_from = Vector2(0, 0)
+fill_to = Vector2(0, 1)
+
+[node name="LoadingScreen" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+process_mode = 3
+theme = ExtResource("theme")
+script = ExtResource("logic")
+videos = Array[VideoStream]([ExtResource("video")])
+tips = Array[ExtResource("tip")]([SubResource("tip0"), SubResource("tip1"), SubResource("tip2"), SubResource("tip3"), SubResource("tip4")])
+
+[node name="Black" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.008, 0.01, 0.011, 1)
+
+[node name="VideoFrame" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+clip_contents = true
+ratio = 1.7777778
+stretch_mode = 3
+
+[node name="Video" type="VideoStreamPlayer" parent="VideoFrame"]
+layout_mode = 2
+mouse_filter = 2
+expand = true
+loop = true
+volume_db = -80.0
+
+[node name="Shade" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("shade")
+expand_mode = 1
+
+[node name="Footer" type="MarginContainer" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -270.0
+offset_right = 1920.0
+mouse_filter = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 36
+
+[node name="Content" type="VBoxContainer" parent="Footer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Status" type="HBoxContainer" parent="Footer/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Atom" type="TextureRect" parent="Footer/Content/Status"]
+layout_mode = 2
+custom_minimum_size = Vector2(62, 62)
+mouse_filter = 2
+texture = SubResource("frame0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TransitionLabel" type="Label" parent="Footer/Content/Status"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudHeading"
+theme_override_font_sizes/font_size = 20
+text = "ПОСАДКА У БАЗЫ…"
+
+[node name="Rule" type="ColorRect" parent="Footer/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 1)
+mouse_filter = 2
+color = Color(0.886, 0.678, 0.302, 0.3)
+
+[node name="TipTitle" type="Label" parent="Footer/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Прислушивайся."
+
+[node name="TipBody" type="Label" parent="Footer/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 60)
+theme_override_font_sizes/font_size = 22
+autowrap_mode = 2
+text = "Бег и выстрелы привлекают внимание."
+
+[node name="NextHint" type="Label" parent="Footer/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.68, 0.7, 0.67, 1)
+text = "01 / 05     [ Пробел ] — Следующая подсказка"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("music")
+bus = &"Music"
+volume_db = -80.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("library")}

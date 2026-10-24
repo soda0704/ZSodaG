@@ -11,6 +11,8 @@
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/leaf_2.res" id="10_dcmm2"]
 [ext_resource type="ArrayMesh" path="res://scenes/ui/journal/book/paper_binding.res" id="10_g61ir"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/book/inserts.tscn" id="inserts"]
+
 [sub_resource type="Skin" id="Skin_g61ir"]
 bind_count = 2
 bind/0/name = &""
@@ -79,3 +81,7 @@ cast_shadow = 0
 mesh = ExtResource("10_g61ir")
 skin = SubResource("Skin_g61ir")
 skeleton = NodePath("../PaperBindingRig")
+
+[node name="Inserts" parent="FrontCoverPivot" instance=ExtResource("inserts")]
+position = Vector3(0, 0, -0.0085)
+rotation = Vector3(0, 3.1415927, 0)

@@ -139,7 +139,33 @@ func capture_inventory_checkpoint() -> Dictionary:
 		cargo_data["item_type"] = pickup.item_type
 		cargo_data["item_state"] = pickup.item_state.duplicate(true)
 		pickups.append(cargo_data)
-	return {"players": equipment, "participants": participants, "pickups": pickups, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1, "flamethrower_parts_layout_version": 1}
+	var heavy_props := capture_heavy_prop_checkpoint()
+	return {"players": equipment, "participants": participants, "pickups": pickups, "heavy_props": heavy_props, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1, "flamethrower_parts_layout_version": 1}
+
+
+func capture_heavy_prop_checkpoint() -> Dictionary:
+	var result := {}
+	for prop in get_tree().get_nodes_in_group("heavy_carry_props"):
+		if prop.is_queued_for_deletion() or prop.checkpoint_key == &"": continue
+		var pose: Dictionary = {"transform": prop.global_transform, "in_cabin": false, "cabin_id": "", "frozen": prop.freeze}
+		if is_instance_valid(prop._cargo_cabin):
+			pose = {"transform": prop._cargo_pose, "in_cabin": true, "cabin_id": prop._cargo_cabin.get_parent().checkpoint_key}
+		pose["item_state"] = prop.item_state.duplicate(true)
+		result[String(prop.checkpoint_key)] = pose
+	return result
+
+
+func restore_heavy_prop_checkpoint(saved: Dictionary) -> void:
+	if not multiplayer.is_server(): return
+	for prop in get_tree().get_nodes_in_group("heavy_carry_props"):
+		var data: Dictionary = saved.get(String(prop.checkpoint_key), {})
+		if not data.get("transform") is Transform3D: continue
+		prop.global_transform = _restore_cabin_pose(data, data.transform)
+		prop.freeze = bool(data.get("frozen", false))
+		if data.get("item_state") is Dictionary: prop.item_state = data.item_state.duplicate(true)
+		prop.linear_velocity = Vector3.ZERO
+		prop.angular_velocity = Vector3.ZERO
+		prop.sync_physics_state()
 
 
 func _capture_cabin_pose(pose: Transform3D) -> Dictionary:
@@ -181,6 +207,7 @@ func _restore_player_equipment(player: Node) -> void:
 	var data := _equipment_for_resume(key, int(player.get("_inventory_revision")))
 	if not data.is_empty():
 		player.apply_inventory_snapshot(data)
+	player.restore_journal_ownership()
 	var participant: Dictionary = _base_gameplay_controller.inventory_checkpoint.get("participants", {}).get(key, {})
 	if not participant.is_empty():
 		var pose: Transform3D = participant.get("transform", player.global_transform)
@@ -637,6 +664,7 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	restore_heavy_prop_checkpoint(_base_gameplay_controller.inventory_checkpoint.get("heavy_props", {}))
 	var migrate_craft := int(_base_gameplay_controller.inventory_checkpoint.get("flamethrower_parts_layout_version", 0)) < 1
 	if migrate_craft:
 		for loot: Dictionary in get_node("V3Level").get_flamethrower_loot():

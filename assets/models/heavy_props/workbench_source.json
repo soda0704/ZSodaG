@@ -1,0 +1,28 @@
+{
+  "uid": "861378b3ed3b48aaa104ea4d322907c9",
+  "name": "workbench sci-fi lowpoly",
+  "author": "Klimuk Sergey",
+  "source_url": "https://sketchfab.com/3d-models/workbench-sci-fi-lowpoly-861378b3ed3b48aaa104ea4d322907c9",
+  "project": "https://github.com/seryi882/sketchfab-downloader-extension",
+  "format": "glb+gltf+osgjs",
+  "geometry_count": 1,
+  "textures_downloaded": 5,
+  "textures_skipped": false,
+  "textures_embedded_in_glb": 4,
+  "files": [
+    "workbench_sci-fi_lowpoly.glb",
+    "model.gltf",
+    "model.bin",
+    "textures/T_workbench_norm.png",
+    "textures/T_Workbench_Metal.png",
+    "textures/T_Workbench_Emit.png",
+    "textures/T_workbench_diff_alpha.png",
+    "file.osgjs",
+    "model_file.bin",
+    "model_file_wireframe.bin",
+    "textures/T_workbench_diff.png",
+    "textures/T_Workbench_Rough.png",
+    "README.txt"
+  ],
+  "note": "Open .glb (textures packed inside when enabled) or model.gltf. See README.txt."
+}

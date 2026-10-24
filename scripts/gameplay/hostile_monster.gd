@@ -103,6 +103,7 @@ func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
 		var nearby_weight := 0.0
 		for item in get_tree().get_nodes_in_group("world_items"):
+			if item is HeavyCarryProp: continue
 			if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.8:
 				item.linear_velocity += (item.global_position - global_position).normalized() * 1.2
 				nearby_weight = maxf(nearby_weight, item.get_push_resistance())

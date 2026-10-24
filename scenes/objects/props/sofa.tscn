@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/items/heavy_carry_prop.gd" id="1_rgqf4"]
+[ext_resource type="PackedScene" path="res://assets/models/heavy_props/sofa.gltf" id="2_0ajf4"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/props/heavy_prop_audio.tscn" id="carry_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/sofa_drag.wav" id="carry_drag"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/sofa_lift.wav" id="carry_lift"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/sofa_place.wav" id="carry_place"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3147t"]
+size = Vector3(2.4, 0.7, 1.04)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l678b"]
+size = Vector3(2.4, 0.55, 0.24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dvug3"]
+size = Vector3(0.25, 0.6, 1.04)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xgqfe"]
+size = Vector3(0.25, 0.6, 1.04)
+
+[node name="MovableSofa" type="RigidBody3D" unique_id=1014270944]
+mass = 160.0
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 8
+linear_damp = 2.0
+angular_damp = 5.0
+script = ExtResource("1_rgqf4")
+checkpoint_key = &"sofa"
+display_name = "Диван"
+pickup_enabled = false
+draggable = false
+interaction_anchor_path = NodePath("AimAnchor")
+drag_distance = 5.0
+push_resistance = 25.0
+
+[node name="Visual" type="Node3D" parent="." unique_id=1056639989 instance=ExtResource("2_0ajf4")]
+
+[node name="Seat" type="CollisionShape3D" parent="." unique_id=53327845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_3147t")
+
+[node name="Back" type="CollisionShape3D" parent="." unique_id=290543620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.43)
+shape = SubResource("BoxShape3D_l678b")
+
+[node name="ArmLeft" type="CollisionShape3D" parent="." unique_id=1555350011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.12, 0.73, 0)
+shape = SubResource("BoxShape3D_dvug3")
+
+[node name="ArmRight" type="CollisionShape3D" parent="." unique_id=1919413886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.12, 0.73, 0)
+shape = SubResource("BoxShape3D_xgqfe")
+
+[node name="Grips" type="Node3D" parent="." unique_id=1850220922]
+
+[node name="Left" type="Marker3D" parent="Grips" unique_id=1904566487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13, 0.75, 0)
+
+[node name="LeftHand" type="Marker3D" parent="Grips/Left" unique_id=1721145682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -0.27)
+
+[node name="RightHand" type="Marker3D" parent="Grips/Left" unique_id=2088753125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0.27)
+
+[node name="Right" type="Marker3D" parent="Grips" unique_id=761224022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.13, 0.75, 0)
+
+[node name="LeftHand" type="Marker3D" parent="Grips/Right" unique_id=194479629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0.27)
+
+[node name="RightHand" type="Marker3D" parent="Grips/Right" unique_id=61096037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -0.27)
+
+[node name="AimAnchor" type="Marker3D" parent="." unique_id=505598587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CarryAudio" parent="." instance=ExtResource("carry_audio")]
+drag_stream = ExtResource("carry_drag")
+lift_stream = ExtResource("carry_lift")
+place_stream = ExtResource("carry_place")
+drag_volume_db = -22.0
+event_volume_db = -15.0
+drag_noise_radius = 7.0
+impact_noise_radius = 11.0

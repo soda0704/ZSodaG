@@ -5,7 +5,7 @@ var failures:=0
 var base: Node3D
 var state: BaseGameplayController
 var player: GamePlayer
-var bench: StaticBody3D
+var bench: HeavyCarryProp
 func _initialize() -> void:
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://crafting_%d.cfg" % OS.get_process_id())
 	run.call_deferred()
@@ -19,10 +19,12 @@ func aim(target: Vector3) -> void:
 	var offset := target-player.head.global_position
 	player.rotation.y=atan2(-offset.x,-offset.z)
 	player.head.rotation.x=atan2(offset.y,Vector2(offset.x,offset.z).length())
-func approach_bench() -> void:
-	player.teleport_authoritative(Vector3(-22, .04,1.2),0)
+func approach_bench(side := -1.0) -> void:
+	var approach := bench.global_position + bench.global_basis.x.normalized() * side * 1.6
+	approach.y = .04
+	player.teleport_authoritative(approach,0)
 	await settle()
-	aim(bench.global_position)
+	aim(bench.get_interaction_position())
 func run() -> void:
 	base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate(); root.add_child(base); current_scene=base
 	await settle()
@@ -81,7 +83,7 @@ func run() -> void:
 	check(int(player.crafting_parts[part_type])==before-1,"dropping spends one component")
 	player.pickup_world_item_authoritative(part_type,{})
 	state.debug_set_day_authoritative(7)
-	var snapshot := state.get_snapshot(); snapshot.containment["cave_hives_found"]=true; snapshot.containment["cave_visited"]=true
+	var snapshot := state.get_snapshot(); snapshot.containment["cave_hives_found"]=true; snapshot.containment["cave_visited"]=true; snapshot.main_breaker_on=true; snapshot.fuel_liters=30.0
 	state._broadcast_snapshot(snapshot)
 	journal._refresh_content(); journal._select_item(&"flame_recipe")
 	check(journal._cards[&"flame_recipe"].visible and journal._cards[&"tape"].visible,"discovery exposes native recipe and requirement cards")
@@ -91,7 +93,19 @@ func run() -> void:
 	player.crafting_parts.erase(&"flame_pressure_gauge")
 	check(not bench.craft_authoritative(player) and bench.crafted_count()==0,"missing gauge cannot consume other components")
 	player.crafting_parts=saved_parts
-	player.try_authoritative_interaction()
+	var parts_before_outage := player.crafting_parts.duplicate()
+	var outage := state.get_snapshot()
+	outage.main_breaker_on=false
+	state._broadcast_snapshot(outage)
+	check(not bench.craft_authoritative(player) and player.crafting_parts==parts_before_outage,"unpowered workbench cannot consume parts or craft")
+	check(not bench.get_node("WorkbenchVisual").material_override.emission_enabled,"native workbench animation turns indicators off without power")
+	outage.main_breaker_on=true
+	state._broadcast_snapshot(outage)
+	check(bench.get_node("WorkbenchVisual").material_override.emission_enabled,"native workbench animation restores powered indicators")
+	var crafting_drag = player.get_node("ItemDrag")
+	check(crafting_drag.begin_interaction(),"E tap captures the movable powered workbench")
+	crafting_drag._pickup(bench.get_path())
+	crafting_drag.cancel()
 	check(bench.crafted_count()==1,"first real table interaction assembles flamethrower")
 	check(player.has_held_item(&"flamethrower") and bench.crafted_count()==1,"first finished item is awarded to hands")
 	check(not player.weapon.perform_action(&"fire") and not player.weapon.perform_action(&"reload"),"generic bullet controller cannot fire or reload the continuous-jet item")
@@ -99,6 +113,9 @@ func run() -> void:
 	check(player.has_held_item(&"flamethrower"),"finished item survives inventory restoration")
 	check(player.drop_current_item_authoritative(),"finished item can be dropped")
 	await settle(2)
+	# The dropped weapon may obstruct the old aim ray; approach the opposite
+	# end rather than granting the craft interaction through a physical item.
+	await approach_bench(1.0)
 	check(bench.craft_authoritative(player) and bench.crafted_count()==2,"second recipe produces second flamethrower")
 	for type in RECIPE.pickup_scenes: player.pickup_world_item_authoritative(type,{})
 	var extras := player.crafting_parts.duplicate()

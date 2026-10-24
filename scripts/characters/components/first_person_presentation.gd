@@ -37,6 +37,8 @@ var _external_view := false
 var _hidden_geometry: Dictionary = {}
 var _book_elapsed:=0.0
 var _empty_elapsed := 1.0
+var _heavy_alignment := 0.0
+var _hands_in_world := false
 var _environment_source: Environment
 var _view_environment: Environment
 var _environment_dirty:=true
@@ -211,21 +213,30 @@ func _process(delta: float) -> void:
 		Basis.from_euler(_angle.limit_length(deg_to_rad(2.0))),
 		_offset.limit_length(0.025)
 	)
+	_heavy_alignment = move_toward(_heavy_alignment, 1.0 if context.get("heavy_carry", false) else 0.0, animation_delta * 8.0)
+	if _heavy_alignment > 0.0:
+		# World furniture stays in the gameplay world. Match its projection and
+		# keep the authored carrying pose on the body when the player looks down.
+		# The model's native root offset supplies the anatomical origin.
+		var body_frame: Transform3D = context.get("body_transform", _view_frame)
+		global_transform = global_transform.interpolate_with(body_frame * model.transform.affine_inverse(), _heavy_alignment)
 	_view_world_root.global_transform=global_transform
 	_refresh_visibility()
 	view_camera.global_transform=_view_frame
-	view_camera.global_basis=_view_frame.basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight))
+	view_camera.global_basis=_view_frame.basis*Basis(Vector3.RIGHT,deg_to_rad(-viewmodel_framing_pitch)*(1.0-_ads)*(1.0-book_weight)*(1.0-_heavy_alignment))
 	var item_offset: Vector3=_item_offsets.get(context.get("held_item",&""),Vector3.ZERO)
 	_sync_environment()
 	_update_lighting(delta)
 	view_camera.fov=lerpf(lerpf(viewmodel_fov,viewmodel_ads_fov,_ads),45.0,book_weight)
+	view_camera.fov=lerpf(view_camera.fov, camera.fov, _heavy_alignment)
 	# Only the spring integration needs a bounded step. Animation playback must
 	# keep real time even on a heavy level at less than 25 rendered frames/sec.
 	var offhand: bool = context.get("offhand_flashlight", false) and book_phase == 0 and not context.get("reloading", false) and not context.get("carrying", false) and not context.get("driving", false) and not context.get("sleeping", false)
 	tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, animation_delta * 8.0))
 	tree.set("parameters/OffhandAim/blend_position", 0.0)
+	update_offer_tree(tree, context, animation_delta)
 	tree.advance(animation_delta)
-	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand,context.get("held_item",&""))
+	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand,context.get("held_item",&""),context.get("heavy_targets",{}))
 	_align_weapon_sights()
 	# Apply framing after animation evaluation, which restores the model root.
 	aim_pivot.position+=item_offset*(1.0-book_weight)
@@ -319,7 +330,14 @@ func _update_lighting(delta: float) -> void:
 	_lighting_fill.light_color=target/magnitude if magnitude>0.0001 else Color.WHITE
 	_lighting_fill.light_energy=lerpf(_lighting_fill.light_energy,magnitude,1.0-exp(-8.0*delta))
 
-static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float, offhand_flashlight := false, held_item: StringName = &"") -> void:
+static func update_offer_tree(target_tree: AnimationTree, values: Dictionary, delta: float) -> void:
+	if not target_tree.tree_root.has_node("OfferBlend"): return
+	var active: bool = values.get("offering", false) and int(values.get("journal_phase", 0)) == 0
+	var label: String = "Heavy" if values.get("heavy_carry", false) else "Pocket" if values.get("offer_pocket", false) else KINDS.get(values.get("held_item", &""), "Pocket")
+	target_tree.set("parameters/OfferPose/transition_request", label)
+	target_tree.set("parameters/OfferBlend/blend_amount", move_toward(float(target_tree.get("parameters/OfferBlend/blend_amount")), 1.0 if active else 0.0, delta * 6))
+
+static func update_grips(instance: Node3D, equipment_kind: String, journal_phase: int, reloading: bool, delta: float, offhand_flashlight := false, held_item: StringName = &"", heavy_targets: Dictionary = {}) -> void:
 	var sk: Skeleton3D=instance.get_node("Skeleton3D")
 	var book: Node3D=instance.get_node("Journal")
 	var sockets: Node3D=sk.get_node("RightHand/Equipment")
@@ -338,9 +356,13 @@ static func update_grips(instance: Node3D, equipment_kind: String, journal_phase
 		if journal_phase>0: marker=book.get_node(side+"Grip")
 		elif side=="Left" and equipment_kind in ["Rifle","Pistol"] and not reloading and not offhand_flashlight:
 			marker=sockets.get_node(("flamethrower" if held_item == &"flamethrower" else "m4a1" if equipment_kind=="Rifle" else "pistol")+"/LeftHandGrip")
-		var amount:=1.0 if marker!=null else 0.0
+		var contact: Variant = heavy_targets.get(side)
+		var amount:=1.0 if marker!=null or contact is Transform3D else 0.0
 		if marker!=null:
 			target.transform=sk.global_transform.affine_inverse()*marker.global_transform
+			ik.set_target_node(0,ik.get_path_to(target))
+		elif contact is Transform3D:
+			target.transform=sk.global_transform.affine_inverse()*contact
 			ik.set_target_node(0,ik.get_path_to(target))
 		ik.active=true; ik.influence=lerpf(ik.influence,amount,weight)
 		# Position IK preserves the authored hand/forearm relationship.
@@ -370,8 +392,18 @@ func cancel_action() -> void:
 
 func _refresh_visibility() -> void:
 	var book_weight: float = tree.get("parameters/BookBlend/blend_amount")
-	model.visible = not _disabled and (kind != "Relaxed" or _empty_elapsed < 0.32 or _journal_phase > 0 or book_weight > 0.01) and not context.get("driving", false) and not context.get("sleeping", false)
+	var offer_visible: bool = tree.tree_root.has_node("OfferBlend") and float(tree.get("parameters/OfferBlend/blend_amount")) > 0.001
+	model.visible = not _disabled and (kind != "Relaxed" or _empty_elapsed < 0.32 or _journal_phase > 0 or book_weight > 0.01 or context.get("offering", false) or offer_visible) and not context.get("driving", false) and not context.get("sleeping", false)
 	var draw_view := model.visible and camera.current and not _external_view
+	var world_hands: bool = draw_view and context.get("heavy_carry", false)
+	if world_hands != _hands_in_world:
+		_hands_in_world = world_hands
+		# Carrying hands share depth with furniture, so its seat can hide palms
+		# underneath it. Normal weapons retain their separate viewmodel depth.
+		var scenario := camera.get_world_3d().scenario if world_hands else viewport.find_world_3d().scenario
+		for geometry in _model_geometry: RenderingServer.instance_set_scenario(geometry.get_instance(), scenario)
+		if world_hands: camera.cull_mask |= VIEW_LAYER
+		else: camera.cull_mask &= ~VIEW_LAYER
 	# Hide renderable geometry, including held items, from every camera.
 	# Gameplay light render instances remain in the main world.
 	for geometry in _model_geometry:
@@ -383,8 +415,8 @@ func _refresh_visibility() -> void:
 		else:
 			if not _hidden_geometry.has(id) or geometry.visible: _hidden_geometry[id] = geometry.visible
 			geometry.hide()
-	overlay.visible = draw_view
-	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if draw_view else SubViewport.UPDATE_DISABLED
+	overlay.visible = draw_view and not world_hands
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if draw_view and not world_hands else SubViewport.UPDATE_DISABLED
 
 func set_external_view(value: bool) -> void:
 	_external_view = value
@@ -396,5 +428,6 @@ func set_dead(value: bool) -> void:
 	_refresh_visibility()
 
 func _exit_tree() -> void:
+	if is_instance_valid(camera): camera.cull_mask &= ~VIEW_LAYER
 	if is_instance_valid(overlay): overlay.queue_free()
 

@@ -15,6 +15,13 @@
 
 [ext_resource type="PackedScene" path="res://scenes/objects/base/day_two_terminal.tscn" id="quest_terminal"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/props/concrete_joist_1.tscn" id="carry_joist"]
+
+[ext_resource type="Script" path="res://scripts/gameplay/items/heavy_prop_route_blocker.gd" id="joist_route"]
+
+[sub_resource type="BoxShape3D" id="joist_route_shape"]
+size = Vector3(0.12, 5.6, 4.6)
+
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.3, 0.34, 0.38, 1)
 metallic = 0.2
@@ -1590,43 +1597,43 @@ script = ExtResource("authored_door_manager")
 
 [node name="l1_checkpoint_spine" parent="Doors" instance=ExtResource("l1_checkpoint_spine")]
 transform = Transform3D(-4.3711393332531486e-08, 0, 0.999999999999999, 0, 1, 0, -0.999999999999999, 0, -4.3711393332531486e-08, -16.0, 0.0, 0.0)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_security_post" parent="Doors" instance=ExtResource("l1_security_post")]
 transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -12.0, 0.0, -5.0)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_communications" parent="Doors" instance=ExtResource("l1_communications")]
 transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -12.0, 0.0, 5.0)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_surveillance" parent="Doors" instance=ExtResource("l1_surveillance")]
 transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -23.0, 0.0, -6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_data_vault" parent="Doors" instance=ExtResource("l1_data_vault")]
 transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -50.0, 0.0, -6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_incident_record_gallery" parent="Doors" instance=ExtResource("l1_incident_record_gallery")]
 transform = Transform3D(1.0, 0, -0.0, 0, 1, 0, 0.0, 0, 1.0, -36.0, 0.0, -6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_emergency_coordination" parent="Doors" instance=ExtResource("l1_emergency_coordination")]
 transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -23.0, 0.0, 6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_access_systems" parent="Doors" instance=ExtResource("l1_access_systems")]
 transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -50.0, 0.0, 6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_response_coordination_gallery" parent="Doors" instance=ExtResource("l1_response_coordination_gallery")]
 transform = Transform3D(-0.9999999999999962, 0, 8.742277689510028e-08, 0, 1, 0, -8.742277689510028e-08, 0, -0.9999999999999962, -36.0, 0.0, 6.19999980926514)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="l1_command_center" parent="Doors" instance=ExtResource("l1_command_center")]
 transform = Transform3D(-4.3711393332531486e-08, 0, 0.999999999999999, 0, 1, 0, -0.999999999999999, 0, -4.3711393332531486e-08, -56.0, 0.0, 0.0)
-metadata/unpowered_open = true
+metadata/unpowered_open = false
 
 [node name="SecurityDoorTransom" type="CSGBox3D" parent="."]
 position = Vector3(-12, 4.525, -5)
@@ -1639,3 +1646,20 @@ position = Vector3(-12, 4.525, 5)
 size = Vector3(2.8, 1.75, 0.35)
 use_collision = true
 material = SubResource("Material_structure")
+
+[node name="FallenCheckpointJoist" parent="." instance=ExtResource("carry_joist")]
+position = Vector3(-15.55, 0.015, 0)
+rotation_degrees = Vector3(0, 90, 0)
+checkpoint_key = &"level1_checkpoint_joist"
+freeze = true
+editor_description = "Authored beam placement stays until grabbed. JoistRouteBlocker prevents crouching/jumping around the initial obstacle, then permanently clears after the beam is moved."
+
+[node name="JoistRouteBlocker" type="StaticBody3D" parent="."]
+position = Vector3(-16, 2.7, 0)
+collision_layer = 1048576
+collision_mask = 0
+script = ExtResource("joist_route")
+prop_path = NodePath("../FallenCheckpointJoist")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JoistRouteBlocker"]
+shape = SubResource("joist_route_shape")

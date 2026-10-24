@@ -15,6 +15,7 @@ const DIGITAL_GAMEPLAY_ACTIONS := {
 	&"flashlight": &"flashlight",
 	&"replace_battery": &"replace_battery",
 	&"drop_item": &"drop_item",
+	&"offer_item": &"offer_item",
 	&"journal": &"journal",
 	&"sprint": &"sprint",
 	&"crouch": &"crouch",
@@ -136,20 +137,23 @@ func get_action_hint(action: StringName) -> String:
 			&"pause": "Options" if ps else "Menu",
 			&"replace_battery": "↑",
 			&"drop_item": "↓",
+			&"offer_item": "R3" if ps else "RS",
 		}
-		return "[%s]" % labels.get(action, str(action))
+		return "[ %s ]" % labels.get(action, str(action))
 	if InputMap.has_action(action):
 		for event in InputMap.action_get_events(action):
 			if event is InputEventKey:
-				return "[%s]" % OS.get_keycode_string(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
-	return "[Esc]" if action == &"ui_cancel" else "[%s]" % str(action)
+				return "[ %s ]" % OS.get_keycode_string(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
+			if event is InputEventMouseButton:
+				return "[ %s ]" % {MOUSE_BUTTON_LEFT: "ЛКМ", MOUSE_BUTTON_RIGHT: "ПКМ", MOUSE_BUTTON_MIDDLE: "СКМ"}.get(event.button_index, "Мышь %d" % event.button_index)
+	return "[ Esc ]" if action == &"ui_cancel" else "[ %s ]" % str(action)
 
 
 func get_controls_hint() -> String:
-	return "%s действие · %s прыжок · %s бег%s · %s присесть\n%s достать / убрать фонарик · %s батарейка · %s бросить из рук" % [
+	return "%s действие · %s прыжок · %s бег%s · %s присесть\n%s достать / убрать фонарик · %s батарейка · %s бросить из рук\n%s удерживать — протянуть предмет; нажать — отменить передачу из журнала" % [
 		get_action_hint(&"interact"), get_action_hint(&"jump"), get_action_hint(&"sprint"),
 		" (нажатие)" if using_controller else " (удерживать)", get_action_hint(&"crouch"),
-		get_action_hint(&"flashlight"), get_action_hint(&"replace_battery"), get_action_hint(&"drop_item")]
+		get_action_hint(&"flashlight"), get_action_hint(&"replace_battery"), get_action_hint(&"drop_item"), get_action_hint(&"offer_item")]
 
 
 func initialize_native_input() -> bool:
@@ -333,6 +337,7 @@ func _ensure_godot_joypad_fallback() -> void:
 	_add_joy_button(&"flashlight", JOY_BUTTON_Y)
 	_add_joy_button(&"replace_battery", JOY_BUTTON_DPAD_UP)
 	_add_joy_button(&"drop_item", JOY_BUTTON_DPAD_DOWN)
+	_add_joy_button(&"offer_item", JOY_BUTTON_RIGHT_STICK)
 	_add_joy_button(&"journal", JOY_BUTTON_BACK)
 	_add_joy_button(&"journal", JOY_BUTTON_TOUCHPAD)
 	_add_joy_button(&"sprint", JOY_BUTTON_LEFT_STICK)

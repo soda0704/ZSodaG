@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/items/heavy_carry_prop.gd" id="1_uhwya"]
+[ext_resource type="PackedScene" path="res://assets/models/heavy_props/bench.gltf" id="2_e3toi"]
+
+[ext_resource type="PackedScene" path="res://scenes/objects/props/heavy_prop_audio.tscn" id="carry_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/bench_drag.wav" id="carry_drag"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/bench_lift.wav" id="carry_lift"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/heavy_props/bench_place.wav" id="carry_place"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7an14"]
+size = Vector3(3.2, 0.17, 0.64)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1pv0p"]
+size = Vector3(0.22, 0.6, 0.53)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r34h8"]
+size = Vector3(0.22, 0.6, 0.53)
+
+[node name="MovableBench" type="RigidBody3D" unique_id=1845746697]
+mass = 70.0
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 8
+linear_damp = 2.0
+angular_damp = 5.0
+script = ExtResource("1_uhwya")
+checkpoint_key = &"bench"
+display_name = "Скамья"
+pickup_enabled = false
+draggable = false
+interaction_anchor_path = NodePath("AimAnchor")
+drag_distance = 5.0
+push_resistance = 25.0
+
+[node name="Visual" type="Node3D" parent="." unique_id=619989918 instance=ExtResource("2_e3toi")]
+
+[node name="Seat" type="CollisionShape3D" parent="." unique_id=1495386995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69, 0)
+shape = SubResource("BoxShape3D_7an14")
+
+[node name="LegLeft" type="CollisionShape3D" parent="." unique_id=1275206477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 0.3, 0)
+shape = SubResource("BoxShape3D_1pv0p")
+
+[node name="LegRight" type="CollisionShape3D" parent="." unique_id=106433859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 0.3, 0)
+shape = SubResource("BoxShape3D_r34h8")
+
+[node name="Grips" type="Node3D" parent="." unique_id=937452732]
+
+[node name="Left" type="Marker3D" parent="Grips" unique_id=929494942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55, 0.75, 0)
+
+[node name="LeftHand" type="Marker3D" parent="Grips/Left" unique_id=408442593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, -0.27)
+
+[node name="RightHand" type="Marker3D" parent="Grips/Left" unique_id=2009062807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.27)
+
+[node name="Right" type="Marker3D" parent="Grips" unique_id=1927325875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 0.75, 0)
+
+[node name="LeftHand" type="Marker3D" parent="Grips/Right" unique_id=2043539809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.27)
+
+[node name="RightHand" type="Marker3D" parent="Grips/Right" unique_id=1377618601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, -0.27)
+
+[node name="AimAnchor" type="Marker3D" parent="." unique_id=394441539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CarryAudio" parent="." instance=ExtResource("carry_audio")]
+drag_stream = ExtResource("carry_drag")
+lift_stream = ExtResource("carry_lift")
+place_stream = ExtResource("carry_place")

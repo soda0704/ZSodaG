@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/items/heavy_prop_audio.gd" id="logic"]
+
+[node name="CarryAudio" type="Node3D"]
+position = Vector3(0, 0.45, 0)
+script = ExtResource("logic")
+
+[node name="Drag" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+unit_size = 2.0
+max_distance = 22.0
+volume_db = -80.0
+
+[node name="Event" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+unit_size = 2.0
+max_distance = 25.0
+max_polyphony = 2

@@ -124,12 +124,14 @@ func _physics_process(delta: float) -> void:
 					_commit_reload()
 					_notify_inventory()
 	var active: bool = (TYPES.has(kind) or kind == &"flamethrower") and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
-	var presentation_active: bool = active and player._journal_phase == 0 and not player._battery_flashlight_presentation
+	var presentation_active: bool = active and player._journal_phase == 0 and not player._battery_flashlight_presentation and not player.handoff.pocket_pose() and not player.get_node("ItemDrag").is_heavy_carrying()
 	for model_id in _models: _models[model_id].visible = presentation_active and model_id == kind
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
 	align_mounted_light(_pose, kind)
-	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0
-	player.flashlight.set_external_light_enabled(_mounted_beam.is_visible_in_tree())
+	var repairing: bool = player.is_wiring_view_active()
+	_mounted_beam.visible = _mounted_lamp.visible and player._flashlight_enabled and player._battery_charge > 0.0 and not repairing
+	var repair_light: bool = repairing and player._has_flashlight and player._flashlight_enabled and player._battery_charge > 0.0 and not player._flashlight_malfunctioning
+	player.flashlight.set_external_light_enabled(_mounted_beam.is_visible_in_tree() or repair_light)
 	var local: bool = player.is_local_player()
 	_hud.visible = active and local and not player.is_debug_free_camera_active() and not player._is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
 	if _hud.visible:
@@ -137,12 +139,12 @@ func _physics_process(delta: float) -> void:
 		_hud.text = "Огнемёт" if kind == &"flamethrower" else str(TITLES[kind])
 		if kind not in [&"kitchen_knife", &"flamethrower"]:
 			var reserve := "патроны: %d" % pistol_ammo if kind == &"pistol" else "магазины: %d" % rifle_magazines.size()
-			var action_hint := "[↑] Перезарядка" if controller else "[R] Перезарядка"
+			var action_hint := "[ ↑ ] Перезарядка" if controller else "[ R ] Перезарядка"
 			if player.weapon_light_mounted and player._battery_charge <= 0.0 and not player._spare_batteries.is_empty():
-				action_hint = "[↑] Заменить батарейку" if controller else "[R] Заменить батарейку"
+				action_hint = "[ ↑ ] Заменить батарейку" if controller else "[ R ] Заменить батарейку"
 			_hud.text += "  %d · %s\n%s" % [rounds, reserve, "Перезарядка…" if reload_left > 0.0 else ""]
 		elif kind == &"kitchen_knife":
-			_hud.text += "\n" + ("[R2] Удар" if controller else "[ЛКМ] Удар")
+				_hud.text += "\n" + ("[ R2 ] Удар" if controller else "[ ЛКМ ] Удар")
 	if active and kind != &"flamethrower" and local and _hud.visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var attack := Input.is_action_pressed("weapon_attack") if kind == &"m4a1" else Input.is_action_just_pressed("weapon_attack")
 		if attack and _cooldown <= 0.0 and reload_left <= 0.0:
@@ -176,6 +178,7 @@ func _request(action: StringName) -> void:
 
 func perform_action(action: StringName) -> bool:
 	var player := get_parent()
+	if player.handoff.is_offering() or player.get_node("ItemDrag").is_heavy_carrying(): return false
 	if player.is_driving() or player.is_carrying_corpse():
 		return false
 	if not multiplayer.is_server() or player.survival.dead or player.is_sleeping_in_bunk() or not TYPES.has(kind):

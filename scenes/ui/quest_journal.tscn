@@ -25,6 +25,8 @@
 [ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/valve.png" id="craft_valve"]
 [ext_resource type="Texture2D" path="res://assets/ui/journal_crafting/tape.png" id="craft_tape"]
 
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/map_sheet.tscn" id="map_sheet"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfhmu"]
 bg_color = Color(1, 1, 1, 0)
 corner_radius_top_left = 2
@@ -1503,6 +1505,13 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Примотать фонарь"
 
+[node name="GiveItem" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Передать"
+tooltip_text = "Предложить одну вещь напарнику. Он забирает её на E. Нажатие колёсика отменяет предложение."
+
 [node name="Footer" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=530872865]
 layout_mode = 0
 offset_left = 155.0
@@ -1530,6 +1539,47 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Закрыть"
+
+[node name="Sections" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink"]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 72.0
+offset_right = 635.0
+offset_bottom = 116.0
+theme_override_constants/separation = 22
+[node name="Notes" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/Sections"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 44)
+toggle_mode = true
+button_pressed = true
+text = "Записи"
+[node name="Map" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/Sections"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 44)
+toggle_mode = true
+text = "Карта"
+[node name="History" type="HBoxContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink"]
+layout_mode = 0
+offset_left = 785.0
+offset_top = 72.0
+offset_right = 1245.0
+offset_bottom = 116.0
+theme_override_font_sizes/font_size = 23
+[node name="Previous" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/History"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 44)
+text = "‹"
+[node name="Caption" type="Label" parent="JournalRoot/NotebookPivot/Reveal/Ink/History"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 23
+text = "Сегодня"
+[node name="Next" type="Button" parent="JournalRoot/NotebookPivot/Reveal/Ink/History"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 44)
+text = "›"
+[node name="MapSheet" parent="JournalRoot/NotebookPivot/Reveal/Ink" instance=ExtResource("map_sheet")]
 
 [node name="HelpPanel" type="PanelContainer" parent="JournalRoot/NotebookPivot/Reveal/Ink" unique_id=1981944157]
 visible = false

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_2.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Жизнеобеспечение"
+level_label = "−02"
+elevation = -36.0
+scene_root = NodePath("Floor_Minus2_Life_Support_Blockout")
+plan = ExtResource("2")
+world_rect = Rect2(-59.1750015258789, -30.33531289163771, 65.19892503427221, 60.67122190689219)

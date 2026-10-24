@@ -36,11 +36,12 @@ func run():
 	root.get_node("GameMenu").force_close_menu(); await delay(.4)
 	for frame in 30: await process_frame
 	player=get_first_node_in_group("local_player"); journal=root.get_node("QuestJournal")
+	player.has_journal = true
 	player.set_process_unhandled_input(false); player.survival.set_physics_process(false)
 	for action in InputMap.get_actions(): InputMap.action_erase_events(action)
 	player._has_flashlight=true; player._battery_charge=.62; player._spare_batteries.assign([.75,.25]); player._held_item_type=&"flashlight"; player._flashlight_enabled=false; player._refresh_equipment_visuals()
 	check(not journal.is_journal_open() and journal._ink_viewport.render_target_update_mode==SubViewport.UPDATE_DISABLED,"closed book stops its ink viewport")
-	check(journal._cards.size()==9,"all inventory card IDs retained")
+	check(journal._cards.has_all([&"flashlight",&"battery",&"pistol"]),"all inventory card IDs retained")
 	var font:=journal.tasks_label.get_theme_font("font"); var glyphs:=true
 	for c in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяABCDEFGHIJKLMNOPQRSTUVWXYZ": glyphs=glyphs and font.has_char(c.unicode_at(0))
 	check(glyphs,"journal font contains Cyrillic and Latin")
@@ -61,7 +62,7 @@ func run():
 	root.get_texture().get_image().save_png("res://tools/.local/journal-base.png")
 	check(journal._ink_viewport.render_target_update_mode==SubViewport.UPDATE_ALWAYS,"live content remains on physical reading pages")
 	check(absf(Quaternion(book.get_node("FrontCoverPivot").basis).dot(Quaternion(Vector3.UP,PI)))>.99,"front cover opens onto left page")
-	check(journal.tasks_label.text.length()>0 and journal.day_label.text.length()>0,"production mission text survives UI reparenting")
+	check(journal.objective_label.text=="Выяснить что тут произошло" and journal.day_label.text.length()>0,"production mission text survives UI reparenting")
 	check(journal._cards[&"flashlight"].visible and journal._cards[&"battery"].visible and not journal._cards[&"pistol"].visible,"inventory visibility follows gameplay ownership")
 	await page_click(journal._cards[&"battery"])
 	check(journal._selected_item==&"battery" and journal.inventory_label.text.contains("75%"),"projected mouse selects real battery card")

@@ -24,10 +24,6 @@ editor_description = "Исходная CSG-геометрия. Отключит�
 
 [node name="Fixtures" type="Node3D" parent="Blockout/Equipment_Room" unique_id=791115085]
 
-[node name="Equipment_Issue_Island_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=1932951052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.6, -0.5)
-use_collision = true
-size = Vector3(4, 1.2, 1)
 
 [node name="Equipment_Suit_Rack_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=1736175210]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.4, -7.2)
@@ -44,9 +40,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.25, 0.45, -5.25)
 use_collision = true
 size = Vector3(1.2, 0.9, 4.5)
 
-[node name="Equipment_Issue_Terminal_Blockout" type="CSGBox3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=308281565]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.6, -0.5)
-size = Vector3(0.8, 0.8, 0.25)
 
 [node name="West_Dropped_Equipment_Blockout" type="Node3D" parent="Blockout/Equipment_Room/Fixtures" unique_id=874418290]
 

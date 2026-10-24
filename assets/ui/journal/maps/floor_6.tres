@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_6.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Нижняя выработка"
+level_label = "ШАХТА"
+elevation = -162
+scene_root = NodePath("Cave_Day7")
+plan = ExtResource("2")
+world_rect = Rect2(-39.99998807911834, -226.6899906857645, 388.43248626086046, 361.4580080483007)

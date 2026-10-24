@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://catocfqsutyw3"]
 
-[ext_resource type="Shader" path="res://assets/effects/flamethrower/jet.gdshader" id="1_opcvo"]
+[ext_resource type="Shader" uid="uid://fcih007a55bp" path="res://assets/effects/flamethrower/jet.gdshader" id="1_opcvo"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_opcvo"]
 frequency = 0.025
@@ -20,6 +20,6 @@ shader_parameter/hot_tint = Color(1, 0.52, 0.12, 1)
 shader_parameter/cool_tint = Color(0.61, 0.055, 0.004, 1)
 shader_parameter/emission_energy = 1.4
 shader_parameter/opacity = 0.82
-shader_parameter/erosion = null
-shader_parameter/scroll_speed = null
+shader_parameter/erosion = 0.45
+shader_parameter/scroll_speed = 0.8
 shader_parameter/smoke = false

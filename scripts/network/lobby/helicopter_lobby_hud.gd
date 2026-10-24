@@ -5,7 +5,6 @@ const HUD_LAYOUT := preload("res://scripts/ui/hud_layout.gd")
 @onready var lobby_id_label: Label = %LobbyIdLabel
 @onready var lobby_panel: Control = %LobbyPanel
 @onready var flight_transition: Control = %FlightTransition
-@onready var transition_label: Label = %TransitionLabel
 
 var _transition_generation: int = 0
 var _transition_tween: Tween
@@ -37,12 +36,6 @@ func _layout_panel() -> void:
 
 
 func _process(delta: float) -> void:
-	if flight_transition.visible:
-		var frame := int(Time.get_ticks_msec() / 170) % 4
-		var cells := ""
-		for i in 4: cells += ("■ " if i == frame else "□ ")
-		$FlightTransition/LoadingActivity.text = cells
-
 	lobby_panel.visible = _waiting_for_arrival and not GameMenu.is_menu_open()
 	if lobby_panel.visible:
 		if not is_instance_valid(_motion_hud):
@@ -53,7 +46,7 @@ func _process(delta: float) -> void:
 		lobby_panel.position = _panel_base_position + drift
 	_panel_reveal = move_toward(_panel_reveal, 1.0, delta / 0.20) if lobby_panel.visible else 0.0
 	lobby_panel.modulate.a = _panel_reveal * _panel_reveal * (3.0 - 2.0 * _panel_reveal)
-	var pause_hint := str(get_node("/root/SteamInput").get_action_hint(&"pause")).trim_prefix("[").trim_suffix("]").to_upper().replace("ESCAPE", "ESC")
+	var pause_hint := str(get_node("/root/SteamInput").get_action_hint(&"pause")).to_upper().replace("ESCAPE", "ESC")
 	var hint := "%s — МЕНЮ ЛОББИ" % pause_hint
 	if $LobbyPanel/Margin/Content/MenuHint.text != hint:
 		$LobbyPanel/Margin/Content/MenuHint.text = hint
@@ -97,10 +90,7 @@ func show_transition_cover(message: String) -> int:
 	_transition_generation += 1
 	if is_instance_valid(_transition_tween):
 		_transition_tween.kill()
-	transition_label.text = message
-	$FlightTransition/JournalHint.text = "%s · ЖУРНАЛ ЭКСПЕДИЦИИ\nЗадачи, найденные записи и инвентарь — в журнале" % get_node("/root/SteamInput").get_action_hint(&"journal")
-	flight_transition.visible = true
-	flight_transition.modulate = Color.WHITE
+	flight_transition.show_cover(message)
 	return _transition_generation
 
 
@@ -109,6 +99,7 @@ func reveal_transition_cover(transition_id: int) -> void:
 		return
 	if is_instance_valid(_transition_tween):
 		_transition_tween.kill()
+	flight_transition.fade_music(0.8)
 	_transition_tween = create_tween()
 	_transition_tween.tween_property(
 		flight_transition,

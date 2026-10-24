@@ -1,0 +1,30 @@
+{
+  "uid": "31d19757e5444022b14ca2d2f77e7a9e",
+  "name": "heavily damaged reinforced concrete joists",
+  "author": "Оrрндп ЯТG",
+  "source_url": "https://sketchfab.com/3d-models/heavily-damaged-reinforced-concrete-joists-31d19757e5444022b14ca2d2f77e7a9e",
+  "project": "https://github.com/seryi882/sketchfab-downloader-extension",
+  "format": "glb+gltf+osgjs",
+  "geometry_count": 74,
+  "textures_downloaded": 8,
+  "textures_skipped": false,
+  "textures_embedded_in_glb": 6,
+  "files": [
+    "heavily_damaged_reinforced_concrete_joists.glb",
+    "model.gltf",
+    "model.bin",
+    "textures/Volume14_metallic.jpg",
+    "textures/DefaultMaterial_Mixed_AO.png",
+    "textures/Volume14_normal2.png",
+    "textures/DefaultMaterial_Normal_OpenGL.png",
+    "textures/Volume14_albedo.jpg",
+    "textures/DefaultMaterial_Base_color.png",
+    "file.osgjs",
+    "model_file.bin",
+    "model_file_wireframe.bin",
+    "textures/Volume14_roughness.jpg",
+    "textures/DefaultMaterial_Roughness.png",
+    "README.txt"
+  ],
+  "note": "Open .glb (textures packed inside when enabled) or model.gltf. See README.txt."
+}

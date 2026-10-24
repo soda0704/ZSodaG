@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="JournalAtlas" format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_atlas.gd" id="atlas"]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="floor"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_0.tres" id="f0"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_1.tres" id="f1"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_2.tres" id="f2"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_3.tres" id="f3"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_4.tres" id="f4"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_5.tres" id="f5"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/floor_6.tres" id="f6"]
+[resource]
+script = ExtResource("atlas")
+floors = Array[ExtResource("floor")]([ExtResource("f0"), ExtResource("f1"), ExtResource("f2"), ExtResource("f3"), ExtResource("f4"), ExtResource("f5"), ExtResource("f6")])

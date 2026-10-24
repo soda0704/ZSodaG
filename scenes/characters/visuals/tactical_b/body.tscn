@@ -29,6 +29,7 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/items/flashlight/mount_tape.res" id="26_e2rok"]
 [ext_resource type="Script" path="res://scripts/effects/muzzle_discharge.gd" id="29_2d0hd"]
 [ext_resource type="AnimationLibrary" path="res://assets/animations/flamethrower/b_body.res" id="31_gfpmr"]
+[ext_resource type="AnimationLibrary" path="res://assets/animations/handoff/b_body.res" id="32_2d0hd"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/muzzle_discharge.tscn" id="discharge_fx"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/flamethrower_model.tscn" id="flame_model"]
 [ext_resource type="AnimationLibrary" path="res://scenes/characters/visuals/tactical_b/body_offhand.tres" id="offhand_clips"]
@@ -78056,7 +78057,351 @@ _data = {
 &"WalkRight": SubResource("Animation_bert8")
 }
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_e2rok"]
+[sub_resource type="Animation" id="Animation_bvlm0"]
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skeleton3D:RightArm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.7265557, 0.6214064, 0.16805105, 0.24027021)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton3D:RightForeArm")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.057992462, 0.011441165, -0.00036301342, 0.9982514)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Skeleton3D:RightHand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.37724215, -0.012064505, 0.10915645, 0.91958016)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Skeleton3D:RightHandThumb1")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.12958762, -0.09556806, -0.31009984, 0.93696964)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Skeleton3D:RightHandThumb2")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 8.739904e-07, -0.015110656, 1.980414e-06, 0.9998859)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Skeleton3D:RightHandThumb3")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.005030969, -0.008749902, 0.003722822, 0.9999422)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Skeleton3D:RightHandThumb4")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.035356134, 0.076809235, -0.022605803, 0.9961623)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Skeleton3D:RightHandMiddle1")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 0.03830604, -0.23545645, -0.01756755, 0.9709708)
+tracks/8/type = "rotation_3d"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Skeleton3D:RightHandMiddle2")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = PackedFloat32Array(0, 1, 0.2426864, 0.08646891, -0.08995042, 0.96204746)
+tracks/9/type = "rotation_3d"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Skeleton3D:RightHandMiddle3")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = PackedFloat32Array(0, 1, 0.15536356, 0.14594035, -0.018262912, 0.976847)
+tracks/10/type = "rotation_3d"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Skeleton3D:RightHandMiddle4")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = PackedFloat32Array(0, 1, 0.041342735, 0.055208426, 0.055931523, 0.99604946)
+tracks/11/type = "rotation_3d"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Skeleton3D:RightHandRing1")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = PackedFloat32Array(0, 1, 0.040028233, -0.12541847, -0.013173134, 0.99120855)
+tracks/12/type = "rotation_3d"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Skeleton3D:RightHandRing2")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = PackedFloat32Array(0, 1, 0.25622988, 0.07605948, -0.03654868, 0.96292543)
+tracks/13/type = "rotation_3d"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Skeleton3D:RightHandRing3")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = PackedFloat32Array(0, 1, 0.33894765, 0.19273946, 0.047654774, 0.91961676)
+tracks/14/type = "rotation_3d"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Skeleton3D:RightHandRing4")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = PackedFloat32Array(0, 1, -0.02338686, -0.026878474, -0.010156249, 0.9993135)
+tracks/15/type = "rotation_3d"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Skeleton3D:RightHandPinky1")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = PackedFloat32Array(0, 1, 0.04189065, 0.08223408, -0.0046122367, 0.9957216)
+tracks/16/type = "rotation_3d"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Skeleton3D:RightHandPinky2")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = PackedFloat32Array(0, 1, 0.25212586, 0.030802533, 0.058479246, 0.9654346)
+tracks/17/type = "rotation_3d"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Skeleton3D:RightHandPinky3")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = PackedFloat32Array(0, 1, 0.1472238, 0.083863236, 0.052877877, 0.984122)
+tracks/18/type = "rotation_3d"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Skeleton3D:RightHandPinky4")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = PackedFloat32Array(0, 1, -0.007286027, -0.009060783, -0.0053644907, 0.9999181)
+tracks/19/type = "rotation_3d"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Skeleton3D:RightHandIndex1")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = PackedFloat32Array(0, 1, 0.038153555, -0.24382451, -0.017896393, 0.9689033)
+tracks/20/type = "rotation_3d"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Skeleton3D:RightHandIndex2")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = PackedFloat32Array(0, 1, 0.24997091, 0.19155356, -0.067089796, 0.9467422)
+tracks/21/type = "rotation_3d"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Skeleton3D:RightHandIndex3")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = PackedFloat32Array(0, 1, 0.17613178, 0.030268833, 0.0076808436, 0.98387116)
+tracks/22/type = "rotation_3d"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Skeleton3D:RightHandIndex4")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = PackedFloat32Array(0, 1, 0.03653886, 0.062075756, 0.04995383, 0.9961507)
+tracks/23/type = "rotation_3d"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Skeleton3D:Right_Elbow_Pads")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = PackedFloat32Array(0, 1, 0.37811276, -0.49032345, 0.67606866, -0.39943063)
+tracks/24/type = "rotation_3d"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Skeleton3D:LeftArm")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = PackedFloat32Array(0, 1, -0.6388141, 0.7034397, 0.18977533, -0.24713244)
+tracks/25/type = "rotation_3d"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Skeleton3D:LeftForeArm")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = PackedFloat32Array(0, 1, 0.059631396, -0.0026299849, 0.0070510553, 0.99819213)
+tracks/26/type = "rotation_3d"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Skeleton3D:LeftHand")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = PackedFloat32Array(0, 1, 0.4001985, -0.0036609229, -0.055179223, 0.91475844)
+tracks/27/type = "rotation_3d"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Skeleton3D:LeftHandThumb1")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = PackedFloat32Array(0, 1, 0.14979658, -0.019757506, 0.30855107, 0.93913096)
+tracks/28/type = "rotation_3d"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Skeleton3D:LeftHandThumb2")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = PackedFloat32Array(0, 1, -2.892154e-06, -0.006579982, -3.6407037e-06, 0.99997836)
+tracks/29/type = "rotation_3d"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Skeleton3D:LeftHandThumb3")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = PackedFloat32Array(0, 1, 0.0012819263, -0.0051475917, 0.0061349925, 0.9999671)
+tracks/30/type = "rotation_3d"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("Skeleton3D:LeftHandThumb4")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = PackedFloat32Array(0, 1, 0.005313897, 0.15546156, 0.041637473, 0.98694974)
+tracks/31/type = "rotation_3d"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("Skeleton3D:LeftHandIndex1")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = PackedFloat32Array(0, 1, 0.04926298, 0.048012044, 0.017630748, 0.99747545)
+tracks/32/type = "rotation_3d"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("Skeleton3D:LeftHandIndex2")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = PackedFloat32Array(0, 1, 0.25608906, -0.003097353, 0.03750158, 0.9659205)
+tracks/33/type = "rotation_3d"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("Skeleton3D:LeftHandIndex3")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = PackedFloat32Array(0, 1, 0.15489477, -0.0018677607, 0.021877171, 0.98768693)
+tracks/34/type = "rotation_3d"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Skeleton3D:LeftHandIndex4")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = PackedFloat32Array(0, 1, -0.00065521157, -0.0010390042, 0.008737152, 0.9999611)
+tracks/35/type = "rotation_3d"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("Skeleton3D:LeftHandMiddle1")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = PackedFloat32Array(0, 1, 0.048910514, 0.06741987, 0.018584399, 0.99635184)
+tracks/36/type = "rotation_3d"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath("Skeleton3D:LeftHandMiddle2")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = PackedFloat32Array(0, 1, 0.2546469, -0.007524745, 0.046277225, 0.9658969)
+tracks/37/type = "rotation_3d"
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/path = NodePath("Skeleton3D:LeftHandMiddle3")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/keys = PackedFloat32Array(0, 1, 0.27942157, -0.0029692363, 0.023373859, 0.9598794)
+tracks/38/type = "rotation_3d"
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/path = NodePath("Skeleton3D:LeftHandMiddle4")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/keys = PackedFloat32Array(0, 1, 0.11711654, -0.001346132, 0.0051465444, 0.9931039)
+tracks/39/type = "rotation_3d"
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/path = NodePath("Skeleton3D:LeftHandRing1")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/keys = PackedFloat32Array(0, 1, 0.051226467, -0.090567335, 0.010638244, 0.9945151)
+tracks/40/type = "rotation_3d"
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/path = NodePath("Skeleton3D:LeftHandRing2")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/keys = PackedFloat32Array(0, 1, 0.256669, 0.00011961097, -0.0333159, 0.965925)
+tracks/41/type = "rotation_3d"
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/path = NodePath("Skeleton3D:LeftHandRing3")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/keys = PackedFloat32Array(0, 1, 0.35453287, 0.015233831, 0.035787035, 0.93423426)
+tracks/42/type = "rotation_3d"
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/path = NodePath("Skeleton3D:LeftHandRing4")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/keys = PackedFloat32Array(0, 1, -0.02380906, 0.0017394845, 0.004822225, 0.99970347)
+tracks/43/type = "rotation_3d"
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/path = NodePath("Skeleton3D:LeftHandPinky1")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/keys = PackedFloat32Array(0, 1, 0.051455755, -0.11283841, 0.009488432, 0.9922347)
+tracks/44/type = "rotation_3d"
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/path = NodePath("Skeleton3D:LeftHandPinky2")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/keys = PackedFloat32Array(0, 1, 0.25422397, -0.014183415, -0.048558682, 0.96582144)
+tracks/45/type = "rotation_3d"
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/path = NodePath("Skeleton3D:LeftHandPinky3")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/keys = PackedFloat32Array(0, 1, 0.15312675, -0.002523143, -0.031991567, 0.9876854)
+tracks/46/type = "rotation_3d"
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/path = NodePath("Skeleton3D:LeftHandPinky4")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/keys = PackedFloat32Array(0, 1, 0.04217739, -0.0020044553, -0.018850237, 0.9989303)
+tracks/47/type = "rotation_3d"
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/path = NodePath("Skeleton3D:Left_Elbow_Pads")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/keys = PackedFloat32Array(0, 1, 0.054102182, -0.58644783, 0.80694723, -0.044587813)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2y2ca"]
+_data = {
+&"Carry": SubResource("Animation_bvlm0")
+}
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_2d0hd"]
 input_0/name = "RifleReload"
 input_0/auto_advance = false
 input_0/break_loop_at_end = false
@@ -78082,29 +78427,29 @@ input_5/auto_advance = false
 input_5/break_loop_at_end = false
 input_5/reset = true
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2d0hd"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gfpmr"]
 animation = &"CarryAim-1"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gfpmr"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1e1i8"]
 animation = &"CarryAim0"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1e1i8"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_stmdg"]
 animation = &"CarryAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_stmdg"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_nsyg6"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_2d0hd")
+blend_point_0/node = SubResource("AnimationNodeAnimation_gfpmr")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_gfpmr")
+blend_point_1/node = SubResource("AnimationNodeAnimation_1e1i8")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_1e1i8")
+blend_point_2/node = SubResource("AnimationNodeAnimation_stmdg")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_nsyg6"]
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_vyapd"]
 xfade_time = 0.18
 input_0/name = "Rifle"
 input_0/auto_advance = false
@@ -78139,346 +78484,343 @@ input_7/auto_advance = false
 input_7/break_loop_at_end = false
 input_7/reset = true
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vyapd"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xwx7i"]
 animation = &"flamethrower/HipAim-1"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xwx7i"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pb4sa"]
 animation = &"flamethrower/HipAim0"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pb4sa"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_okob3"]
 animation = &"flamethrower/HipAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_okob3"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_0nbp4"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_vyapd")
+blend_point_0/node = SubResource("AnimationNodeAnimation_xwx7i")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_xwx7i")
+blend_point_1/node = SubResource("AnimationNodeAnimation_pb4sa")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_pb4sa")
+blend_point_2/node = SubResource("AnimationNodeAnimation_okob3")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0nbp4"]
-animation = &"offhand/SoloAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wshjs"]
-animation = &"offhand/SoloAim0"
+animation = &"offhand/SoloAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yepis"]
+animation = &"offhand/SoloAim0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iojaf"]
 animation = &"offhand/SoloAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_iojaf"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_0ink4"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_0nbp4")
+blend_point_0/node = SubResource("AnimationNodeAnimation_wshjs")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_wshjs")
+blend_point_1/node = SubResource("AnimationNodeAnimation_yepis")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_yepis")
+blend_point_2/node = SubResource("AnimationNodeAnimation_iojaf")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0ink4"]
-animation = &"offhand/Battery"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hwwj1"]
-animation = &"FuelAim-1"
+animation = &"offhand/Battery"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qsxkx"]
-animation = &"FuelAim0"
+animation = &"FuelAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cobmh"]
+animation = &"FuelAim0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_npsp2"]
 animation = &"FuelAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_npsp2"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_uo6bc"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_hwwj1")
+blend_point_0/node = SubResource("AnimationNodeAnimation_qsxkx")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_qsxkx")
+blend_point_1/node = SubResource("AnimationNodeAnimation_cobmh")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_cobmh")
+blend_point_2/node = SubResource("AnimationNodeAnimation_npsp2")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uo6bc"]
-animation = &"FuseAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w5sjl"]
-animation = &"FuseAim0"
+animation = &"FuseAim-1"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f1nhj"]
+animation = &"FuseAim0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rx11i"]
 animation = &"FuseAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_rx11i"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_yw22l"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_uo6bc")
+blend_point_0/node = SubResource("AnimationNodeAnimation_w5sjl")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_w5sjl")
+blend_point_1/node = SubResource("AnimationNodeAnimation_f1nhj")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_f1nhj")
+blend_point_2/node = SubResource("AnimationNodeAnimation_rx11i")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_yw22l"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_b22e6"]
 filter_enabled = true
 filters = ["Skeleton3D:Head", "Skeleton3D:HeadTop_End", "Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftShoulder", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Neck", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightShoulder", "Skeleton3D:Right_Elbow_Pads", "Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 fadein_time = 0.04
 fadeout_time = 0.13
 
-[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_b22e6"]
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_18uwo"]
 filter_enabled = true
 filters = ["Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_18uwo"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_dkv3a"]
 filter_enabled = true
 filters = ["Skeleton3D:Head", "Skeleton3D:HeadTop_End", "Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftShoulder", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Neck", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightShoulder", "Skeleton3D:Right_Elbow_Pads", "Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 mix_mode = 1
 fadein_time = 0.01
 fadeout_time = 0.04
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dkv3a"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1qmt"]
 animation = &"KnifeAim-1"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1qmt"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wmsqq"]
 animation = &"KnifeAim0"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wmsqq"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_27bl4"]
 animation = &"KnifeAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_27bl4"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_6107c"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_dkv3a")
+blend_point_0/node = SubResource("AnimationNodeAnimation_e1qmt")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_e1qmt")
+blend_point_1/node = SubResource("AnimationNodeAnimation_wmsqq")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_wmsqq")
+blend_point_2/node = SubResource("AnimationNodeAnimation_27bl4")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6107c"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3rxdo"]
 animation = &"KnifeAttack"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3rxdo"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q6pir"]
 animation = &"LeanNeutral"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q6pir"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0tsai"]
 animation = &"LeanForward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0tsai"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hxd2l"]
 animation = &"LeanBackward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hxd2l"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqooq"]
 animation = &"LeanLeft"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqooq"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iri14"]
 animation = &"LeanRight"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_iri14"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_3rxdo")
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_nyh37"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_q6pir")
 blend_point_0/pos = Vector2(0, 0)
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_q6pir")
+blend_point_1/node = SubResource("AnimationNodeAnimation_0tsai")
 blend_point_1/pos = Vector2(0, -1)
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_0tsai")
+blend_point_2/node = SubResource("AnimationNodeAnimation_hxd2l")
 blend_point_2/pos = Vector2(0, 1)
 blend_point_2/name = &"2"
-blend_point_3/node = SubResource("AnimationNodeAnimation_hxd2l")
+blend_point_3/node = SubResource("AnimationNodeAnimation_bqooq")
 blend_point_3/pos = Vector2(-1, 0)
 blend_point_3/name = &"3"
-blend_point_4/node = SubResource("AnimationNodeAnimation_bqooq")
+blend_point_4/node = SubResource("AnimationNodeAnimation_iri14")
 blend_point_4/pos = Vector2(1, 0)
 blend_point_4/name = &"4"
 
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_nyh37"]
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_e2e21"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e2e21"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dvebr"]
 animation = &"CarryPickup"
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_dvebr"]
-nodes/Pose/node = SubResource("AnimationNodeAnimation_e2e21")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_a62yv"]
+nodes/Pose/node = SubResource("AnimationNodeAnimation_dvebr")
 nodes/Pose/position = Vector2(0, 0)
-nodes/ActionTime/node = SubResource("AnimationNodeTimeSeek_nyh37")
+nodes/ActionTime/node = SubResource("AnimationNodeTimeSeek_e2e21")
 nodes/ActionTime/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"ActionTime", &"ActionTime", 0, &"Pose"]
 
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_a62yv"]
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_gb2eg"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gb2eg"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ap0n8"]
 animation = &"CarryPlace"
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ap0n8"]
-nodes/Pose/node = SubResource("AnimationNodeAnimation_gb2eg")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_3d7oa"]
+nodes/Pose/node = SubResource("AnimationNodeAnimation_ap0n8")
 nodes/Pose/position = Vector2(0, 0)
-nodes/ActionTime/node = SubResource("AnimationNodeTimeSeek_a62yv")
+nodes/ActionTime/node = SubResource("AnimationNodeTimeSeek_gb2eg")
 nodes/ActionTime/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"ActionTime", &"ActionTime", 0, &"Pose"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3d7oa"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vp1cw"]
 animation = &"CrouchIdle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vp1cw"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g5meg"]
 animation = &"CrouchForward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g5meg"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k6n6d"]
 animation = &"CrouchBackward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k6n6d"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wuq3n"]
 animation = &"CrouchLeft"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wuq3n"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sgyvm"]
 animation = &"CrouchRight"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_sgyvm"]
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_rpi0c"]
 min_space = Vector2(-7, -7)
 max_space = Vector2(7, 7)
-blend_point_0/node = SubResource("AnimationNodeAnimation_3d7oa")
+blend_point_0/node = SubResource("AnimationNodeAnimation_vp1cw")
 blend_point_0/pos = Vector2(0, 0)
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_vp1cw")
+blend_point_1/node = SubResource("AnimationNodeAnimation_g5meg")
 blend_point_1/pos = Vector2(0, -2.2)
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_g5meg")
+blend_point_2/node = SubResource("AnimationNodeAnimation_k6n6d")
 blend_point_2/pos = Vector2(0, 2.2)
 blend_point_2/name = &"2"
-blend_point_3/node = SubResource("AnimationNodeAnimation_k6n6d")
+blend_point_3/node = SubResource("AnimationNodeAnimation_wuq3n")
 blend_point_3/pos = Vector2(-2.2, 0)
 blend_point_3/name = &"3"
-blend_point_4/node = SubResource("AnimationNodeAnimation_wuq3n")
+blend_point_4/node = SubResource("AnimationNodeAnimation_sgyvm")
 blend_point_4/pos = Vector2(2.2, 0)
 blend_point_4/name = &"4"
 
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_rpi0c"]
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_rl4uq"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rl4uq"]
-nodes/Locomotion/node = SubResource("AnimationNodeBlendSpace2D_sgyvm")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5rkqv"]
+nodes/Locomotion/node = SubResource("AnimationNodeBlendSpace2D_rpi0c")
 nodes/Locomotion/position = Vector2(0, 0)
-nodes/StrideRate/node = SubResource("AnimationNodeTimeScale_rpi0c")
+nodes/StrideRate/node = SubResource("AnimationNodeTimeScale_rl4uq")
 nodes/StrideRate/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"StrideRate", &"StrideRate", 0, &"Locomotion"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5rkqv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lllfv"]
 animation = &"CrouchEnter"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lllfv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qyhpv"]
 animation = &"CrouchExit"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qyhpv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e7vvu"]
 animation = &"Death"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e7vvu"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bert8"]
 animation = &"InAir"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bert8"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fggtc"]
 animation = &"JournalClose"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fggtc"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j07xf"]
 animation = &"JournalOpen"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j07xf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x4gi2"]
 animation = &"JournalReading"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x4gi2"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kfdb4"]
 animation = &"JumpStart"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kfdb4"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lwnl8"]
 animation = &"Landing"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lwnl8"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6kyso"]
 animation = &"Sleep"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6kyso"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dcpkt"]
 animation = &"Idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dcpkt"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a2tsv"]
 animation = &"WalkForward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a2tsv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2iojf"]
 animation = &"RunForward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2iojf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c1ngg"]
 animation = &"WalkBackward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c1ngg"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i832u"]
 animation = &"RunBackward"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i832u"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p27td"]
 animation = &"WalkLeft"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p27td"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vqd8d"]
 animation = &"RunLeft"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vqd8d"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aw6hc"]
 animation = &"WalkRight"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aw6hc"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sgjud"]
 animation = &"RunRight"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_sgjud"]
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_87476"]
 min_space = Vector2(-7, -7)
 max_space = Vector2(7, 7)
-blend_point_0/node = SubResource("AnimationNodeAnimation_6kyso")
+blend_point_0/node = SubResource("AnimationNodeAnimation_dcpkt")
 blend_point_0/pos = Vector2(0, 0)
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_dcpkt")
+blend_point_1/node = SubResource("AnimationNodeAnimation_a2tsv")
 blend_point_1/pos = Vector2(0, -4)
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_a2tsv")
+blend_point_2/node = SubResource("AnimationNodeAnimation_2iojf")
 blend_point_2/pos = Vector2(0, -6.8)
 blend_point_2/name = &"2"
-blend_point_3/node = SubResource("AnimationNodeAnimation_2iojf")
+blend_point_3/node = SubResource("AnimationNodeAnimation_c1ngg")
 blend_point_3/pos = Vector2(0, 4)
 blend_point_3/name = &"3"
-blend_point_4/node = SubResource("AnimationNodeAnimation_c1ngg")
+blend_point_4/node = SubResource("AnimationNodeAnimation_i832u")
 blend_point_4/pos = Vector2(0, 6.8)
 blend_point_4/name = &"4"
-blend_point_5/node = SubResource("AnimationNodeAnimation_i832u")
+blend_point_5/node = SubResource("AnimationNodeAnimation_p27td")
 blend_point_5/pos = Vector2(-4, 0)
 blend_point_5/name = &"5"
-blend_point_6/node = SubResource("AnimationNodeAnimation_p27td")
+blend_point_6/node = SubResource("AnimationNodeAnimation_vqd8d")
 blend_point_6/pos = Vector2(-6.8, 0)
 blend_point_6/name = &"6"
-blend_point_7/node = SubResource("AnimationNodeAnimation_vqd8d")
+blend_point_7/node = SubResource("AnimationNodeAnimation_aw6hc")
 blend_point_7/pos = Vector2(4, 0)
 blend_point_7/name = &"7"
-blend_point_8/node = SubResource("AnimationNodeAnimation_aw6hc")
+blend_point_8/node = SubResource("AnimationNodeAnimation_sgjud")
 blend_point_8/pos = Vector2(6.8, 0)
 blend_point_8/name = &"8"
 
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_87476"]
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_2rbsb"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_2rbsb"]
-nodes/Locomotion/node = SubResource("AnimationNodeBlendSpace2D_sgjud")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wyh4l"]
+nodes/Locomotion/node = SubResource("AnimationNodeBlendSpace2D_87476")
 nodes/Locomotion/position = Vector2(0, 0)
-nodes/StrideRate/node = SubResource("AnimationNodeTimeScale_87476")
+nodes/StrideRate/node = SubResource("AnimationNodeTimeScale_2rbsb")
 nodes/StrideRate/position = Vector2(0, 0)
 node_connections = [&"output", 0, &"StrideRate", &"StrideRate", 0, &"Locomotion"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wyh4l"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_84ge5"]
 animation = &"TurnLeft"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_84ge5"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ehjdf"]
 animation = &"TurnRight"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ehjdf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d7bbf"]
 animation = &"Vehicle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d7bbf"]
-xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3iqqi"]
 xfade_time = 0.16
@@ -78578,11 +78920,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vpnk3"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mk17t"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_julck"]
 xfade_time = 0.16
@@ -78625,11 +78967,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_snpqd"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_172io"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_74jyr"]
 xfade_time = 0.16
@@ -78687,11 +79029,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_66ob5"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f0hkl"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4dp7x"]
 xfade_time = 0.16
@@ -78773,11 +79115,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x36ix"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_upfo7"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p7jrg"]
 xfade_time = 0.16
@@ -78823,11 +79165,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8q85b"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y5ftp"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y5ykw"]
 xfade_time = 0.16
@@ -78873,11 +79215,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_00qt2"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vfn2f"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2o23i"]
 xfade_time = 0.16
@@ -78950,11 +79292,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_orgx7"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fofnl"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6jpj3"]
 xfade_time = 0.16
@@ -79021,11 +79363,11 @@ xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8tq61"]
 xfade_time = 0.16
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3dwfc"]
 xfade_time = 0.16
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p1sy6"]
 xfade_time = 0.16
@@ -79310,103 +79652,176 @@ xfade_time = 0.16
 xfade_time = 0.16
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a4l6v"]
+xfade_time = 0.16
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qnykp"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qnykp"]
-states/CarryPickup/node = SubResource("AnimationNodeBlendTree_dvebr")
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ewsa2"]
+states/CarryPickup/node = SubResource("AnimationNodeBlendTree_a62yv")
 states/CarryPickup/position = Vector2(0, 0)
-states/CarryPlace/node = SubResource("AnimationNodeBlendTree_ap0n8")
+states/CarryPlace/node = SubResource("AnimationNodeBlendTree_3d7oa")
 states/CarryPlace/position = Vector2(0, 0)
-states/Crouch/node = SubResource("AnimationNodeBlendTree_rl4uq")
+states/Crouch/node = SubResource("AnimationNodeBlendTree_5rkqv")
 states/Crouch/position = Vector2(0, 0)
-states/CrouchEnter/node = SubResource("AnimationNodeAnimation_5rkqv")
+states/CrouchEnter/node = SubResource("AnimationNodeAnimation_lllfv")
 states/CrouchEnter/position = Vector2(0, 0)
-states/CrouchExit/node = SubResource("AnimationNodeAnimation_lllfv")
+states/CrouchExit/node = SubResource("AnimationNodeAnimation_qyhpv")
 states/CrouchExit/position = Vector2(0, 0)
-states/Death/node = SubResource("AnimationNodeAnimation_qyhpv")
+states/Death/node = SubResource("AnimationNodeAnimation_e7vvu")
 states/Death/position = Vector2(0, 0)
-states/InAir/node = SubResource("AnimationNodeAnimation_e7vvu")
+states/InAir/node = SubResource("AnimationNodeAnimation_bert8")
 states/InAir/position = Vector2(0, 0)
-states/JournalClose/node = SubResource("AnimationNodeAnimation_bert8")
+states/JournalClose/node = SubResource("AnimationNodeAnimation_fggtc")
 states/JournalClose/position = Vector2(0, 0)
-states/JournalOpen/node = SubResource("AnimationNodeAnimation_fggtc")
+states/JournalOpen/node = SubResource("AnimationNodeAnimation_j07xf")
 states/JournalOpen/position = Vector2(0, 0)
-states/JournalReading/node = SubResource("AnimationNodeAnimation_j07xf")
+states/JournalReading/node = SubResource("AnimationNodeAnimation_x4gi2")
 states/JournalReading/position = Vector2(0, 0)
-states/JumpStart/node = SubResource("AnimationNodeAnimation_x4gi2")
+states/JumpStart/node = SubResource("AnimationNodeAnimation_kfdb4")
 states/JumpStart/position = Vector2(0, 0)
-states/Landing/node = SubResource("AnimationNodeAnimation_kfdb4")
+states/Landing/node = SubResource("AnimationNodeAnimation_lwnl8")
 states/Landing/position = Vector2(0, 0)
-states/Sleep/node = SubResource("AnimationNodeAnimation_lwnl8")
+states/Sleep/node = SubResource("AnimationNodeAnimation_6kyso")
 states/Sleep/position = Vector2(0, 0)
-states/Stand/node = SubResource("AnimationNodeBlendTree_2rbsb")
+states/Stand/node = SubResource("AnimationNodeBlendTree_wyh4l")
 states/Stand/position = Vector2(0, 0)
-states/TurnLeft/node = SubResource("AnimationNodeAnimation_wyh4l")
+states/TurnLeft/node = SubResource("AnimationNodeAnimation_84ge5")
 states/TurnLeft/position = Vector2(0, 0)
-states/TurnRight/node = SubResource("AnimationNodeAnimation_84ge5")
+states/TurnRight/node = SubResource("AnimationNodeAnimation_ehjdf")
 states/TurnRight/position = Vector2(0, 0)
-states/Vehicle/node = SubResource("AnimationNodeAnimation_ehjdf")
+states/Vehicle/node = SubResource("AnimationNodeAnimation_d7bbf")
 states/Vehicle/position = Vector2(0, 0)
-transitions = ["Stand", "Crouch", SubResource("AnimationNodeStateMachineTransition_d7bbf"), "Stand", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_3iqqi"), "Stand", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_mqmag"), "Stand", "JumpStart", SubResource("AnimationNodeStateMachineTransition_63iag"), "Stand", "InAir", SubResource("AnimationNodeStateMachineTransition_t234e"), "Stand", "Landing", SubResource("AnimationNodeStateMachineTransition_61l0b"), "Stand", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_4nvqa"), "Stand", "TurnRight", SubResource("AnimationNodeStateMachineTransition_x4sgo"), "Stand", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_a8k3u"), "Stand", "JournalReading", SubResource("AnimationNodeStateMachineTransition_81b2e"), "Stand", "JournalClose", SubResource("AnimationNodeStateMachineTransition_a6lsq"), "Stand", "Death", SubResource("AnimationNodeStateMachineTransition_e0aty"), "Stand", "Vehicle", SubResource("AnimationNodeStateMachineTransition_dey3j"), "Stand", "Sleep", SubResource("AnimationNodeStateMachineTransition_m34it"), "Stand", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_8aq1d"), "Stand", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_gg2u3"), "Crouch", "Stand", SubResource("AnimationNodeStateMachineTransition_o16s2"), "Crouch", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_dtuo4"), "Crouch", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_7chfw"), "Crouch", "JumpStart", SubResource("AnimationNodeStateMachineTransition_fitju"), "Crouch", "InAir", SubResource("AnimationNodeStateMachineTransition_5hqy3"), "Crouch", "Landing", SubResource("AnimationNodeStateMachineTransition_e825s"), "Crouch", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_pl3fe"), "Crouch", "TurnRight", SubResource("AnimationNodeStateMachineTransition_hcnn6"), "Crouch", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_l7wx8"), "Crouch", "JournalReading", SubResource("AnimationNodeStateMachineTransition_bslru"), "Crouch", "JournalClose", SubResource("AnimationNodeStateMachineTransition_8f1qf"), "Crouch", "Death", SubResource("AnimationNodeStateMachineTransition_k78wn"), "Crouch", "Vehicle", SubResource("AnimationNodeStateMachineTransition_lr7vb"), "Crouch", "Sleep", SubResource("AnimationNodeStateMachineTransition_7cqs2"), "Crouch", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_hmeuy"), "Crouch", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_74a3j"), "CrouchEnter", "Stand", SubResource("AnimationNodeStateMachineTransition_22b84"), "CrouchEnter", "Crouch", SubResource("AnimationNodeStateMachineTransition_vpnk3"), "CrouchEnter", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_mk17t"), "CrouchEnter", "JumpStart", SubResource("AnimationNodeStateMachineTransition_julck"), "CrouchEnter", "InAir", SubResource("AnimationNodeStateMachineTransition_04oti"), "CrouchEnter", "Landing", SubResource("AnimationNodeStateMachineTransition_5h7sa"), "CrouchEnter", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_kepy7"), "CrouchEnter", "TurnRight", SubResource("AnimationNodeStateMachineTransition_18j8a"), "CrouchEnter", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_63ago"), "CrouchEnter", "JournalReading", SubResource("AnimationNodeStateMachineTransition_fv4f0"), "CrouchEnter", "JournalClose", SubResource("AnimationNodeStateMachineTransition_dllt8"), "CrouchEnter", "Death", SubResource("AnimationNodeStateMachineTransition_cjpgi"), "CrouchEnter", "Vehicle", SubResource("AnimationNodeStateMachineTransition_mx31y"), "CrouchEnter", "Sleep", SubResource("AnimationNodeStateMachineTransition_x0eqw"), "CrouchEnter", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_vsfxi"), "CrouchEnter", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_chlh2"), "CrouchExit", "Stand", SubResource("AnimationNodeStateMachineTransition_snpqd"), "CrouchExit", "Crouch", SubResource("AnimationNodeStateMachineTransition_172io"), "CrouchExit", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_74jyr"), "CrouchExit", "JumpStart", SubResource("AnimationNodeStateMachineTransition_xxu1j"), "CrouchExit", "InAir", SubResource("AnimationNodeStateMachineTransition_tvjdn"), "CrouchExit", "Landing", SubResource("AnimationNodeStateMachineTransition_rcsm6"), "CrouchExit", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_j2ma7"), "CrouchExit", "TurnRight", SubResource("AnimationNodeStateMachineTransition_ryp7j"), "CrouchExit", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_mpoaf"), "CrouchExit", "JournalReading", SubResource("AnimationNodeStateMachineTransition_sh1nu"), "CrouchExit", "JournalClose", SubResource("AnimationNodeStateMachineTransition_rblba"), "CrouchExit", "Death", SubResource("AnimationNodeStateMachineTransition_3lonm"), "CrouchExit", "Vehicle", SubResource("AnimationNodeStateMachineTransition_c1tm6"), "CrouchExit", "Sleep", SubResource("AnimationNodeStateMachineTransition_myurk"), "CrouchExit", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_5i7rg"), "CrouchExit", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_sctcy"), "JumpStart", "Stand", SubResource("AnimationNodeStateMachineTransition_rqter"), "JumpStart", "Crouch", SubResource("AnimationNodeStateMachineTransition_7f6v7"), "JumpStart", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_ls2gs"), "JumpStart", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_atoux"), "JumpStart", "InAir", SubResource("AnimationNodeStateMachineTransition_66ob5"), "JumpStart", "Landing", SubResource("AnimationNodeStateMachineTransition_f0hkl"), "JumpStart", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_4dp7x"), "JumpStart", "TurnRight", SubResource("AnimationNodeStateMachineTransition_0m1f0"), "JumpStart", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_naqwi"), "JumpStart", "JournalReading", SubResource("AnimationNodeStateMachineTransition_3y5y7"), "JumpStart", "JournalClose", SubResource("AnimationNodeStateMachineTransition_43l3h"), "JumpStart", "Death", SubResource("AnimationNodeStateMachineTransition_ptkd7"), "JumpStart", "Vehicle", SubResource("AnimationNodeStateMachineTransition_irpit"), "JumpStart", "Sleep", SubResource("AnimationNodeStateMachineTransition_bywhn"), "JumpStart", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_fuhsd"), "JumpStart", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_tbu41"), "InAir", "Stand", SubResource("AnimationNodeStateMachineTransition_gjbcr"), "InAir", "Crouch", SubResource("AnimationNodeStateMachineTransition_ebllx"), "InAir", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_5keea"), "InAir", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_43inx"), "InAir", "JumpStart", SubResource("AnimationNodeStateMachineTransition_4a8pd"), "InAir", "Landing", SubResource("AnimationNodeStateMachineTransition_yuffi"), "InAir", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_g16a6"), "InAir", "TurnRight", SubResource("AnimationNodeStateMachineTransition_4xn75"), "InAir", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_nt3th"), "InAir", "JournalReading", SubResource("AnimationNodeStateMachineTransition_3poth"), "InAir", "JournalClose", SubResource("AnimationNodeStateMachineTransition_a75vs"), "InAir", "Death", SubResource("AnimationNodeStateMachineTransition_b0yxy"), "InAir", "Vehicle", SubResource("AnimationNodeStateMachineTransition_7a0v7"), "InAir", "Sleep", SubResource("AnimationNodeStateMachineTransition_gq3is"), "InAir", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_cuxb4"), "InAir", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_k3a5e"), "Landing", "Stand", SubResource("AnimationNodeStateMachineTransition_x36ix"), "Landing", "Crouch", SubResource("AnimationNodeStateMachineTransition_upfo7"), "Landing", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_p7jrg"), "Landing", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_utxph"), "Landing", "JumpStart", SubResource("AnimationNodeStateMachineTransition_4qal3"), "Landing", "InAir", SubResource("AnimationNodeStateMachineTransition_1uqnd"), "Landing", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_lee7k"), "Landing", "TurnRight", SubResource("AnimationNodeStateMachineTransition_5cfse"), "Landing", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_yy6gn"), "Landing", "JournalReading", SubResource("AnimationNodeStateMachineTransition_26v3m"), "Landing", "JournalClose", SubResource("AnimationNodeStateMachineTransition_3jo6s"), "Landing", "Death", SubResource("AnimationNodeStateMachineTransition_y883m"), "Landing", "Vehicle", SubResource("AnimationNodeStateMachineTransition_246ya"), "Landing", "Sleep", SubResource("AnimationNodeStateMachineTransition_wa5vr"), "Landing", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_jqpe1"), "Landing", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_v04rc"), "TurnLeft", "Stand", SubResource("AnimationNodeStateMachineTransition_8q85b"), "TurnLeft", "Crouch", SubResource("AnimationNodeStateMachineTransition_y5ftp"), "TurnLeft", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_y5ykw"), "TurnLeft", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_e3v2d"), "TurnLeft", "JumpStart", SubResource("AnimationNodeStateMachineTransition_37ae5"), "TurnLeft", "InAir", SubResource("AnimationNodeStateMachineTransition_anv2k"), "TurnLeft", "Landing", SubResource("AnimationNodeStateMachineTransition_cit1r"), "TurnLeft", "TurnRight", SubResource("AnimationNodeStateMachineTransition_h8lts"), "TurnLeft", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_lhdpd"), "TurnLeft", "JournalReading", SubResource("AnimationNodeStateMachineTransition_42ec8"), "TurnLeft", "JournalClose", SubResource("AnimationNodeStateMachineTransition_4ey27"), "TurnLeft", "Death", SubResource("AnimationNodeStateMachineTransition_us1yq"), "TurnLeft", "Vehicle", SubResource("AnimationNodeStateMachineTransition_7uayu"), "TurnLeft", "Sleep", SubResource("AnimationNodeStateMachineTransition_1me4y"), "TurnLeft", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_hvfyw"), "TurnLeft", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_dab1p"), "TurnRight", "Stand", SubResource("AnimationNodeStateMachineTransition_00qt2"), "TurnRight", "Crouch", SubResource("AnimationNodeStateMachineTransition_vfn2f"), "TurnRight", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_2o23i"), "TurnRight", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_aw6e5"), "TurnRight", "JumpStart", SubResource("AnimationNodeStateMachineTransition_y2p44"), "TurnRight", "InAir", SubResource("AnimationNodeStateMachineTransition_5grsx"), "TurnRight", "Landing", SubResource("AnimationNodeStateMachineTransition_6s7vj"), "TurnRight", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_bmllm"), "TurnRight", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_uviv0"), "TurnRight", "JournalReading", SubResource("AnimationNodeStateMachineTransition_0xw6b"), "TurnRight", "JournalClose", SubResource("AnimationNodeStateMachineTransition_f4125"), "TurnRight", "Death", SubResource("AnimationNodeStateMachineTransition_kf71j"), "TurnRight", "Vehicle", SubResource("AnimationNodeStateMachineTransition_c2myy"), "TurnRight", "Sleep", SubResource("AnimationNodeStateMachineTransition_51ymy"), "TurnRight", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_m1yc5"), "TurnRight", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_tt6ne"), "JournalOpen", "Stand", SubResource("AnimationNodeStateMachineTransition_25gm5"), "JournalOpen", "Crouch", SubResource("AnimationNodeStateMachineTransition_0bja6"), "JournalOpen", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_t56nb"), "JournalOpen", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_yxjmf"), "JournalOpen", "JumpStart", SubResource("AnimationNodeStateMachineTransition_oyal2"), "JournalOpen", "InAir", SubResource("AnimationNodeStateMachineTransition_h2jn3"), "JournalOpen", "Landing", SubResource("AnimationNodeStateMachineTransition_qan2g"), "JournalOpen", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_oxr4a"), "JournalOpen", "TurnRight", SubResource("AnimationNodeStateMachineTransition_idune"), "JournalOpen", "JournalReading", SubResource("AnimationNodeStateMachineTransition_orgx7"), "JournalOpen", "JournalClose", SubResource("AnimationNodeStateMachineTransition_fofnl"), "JournalOpen", "Death", SubResource("AnimationNodeStateMachineTransition_6jpj3"), "JournalOpen", "Vehicle", SubResource("AnimationNodeStateMachineTransition_yvvnp"), "JournalOpen", "Sleep", SubResource("AnimationNodeStateMachineTransition_pc1e1"), "JournalOpen", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_i6ffj"), "JournalOpen", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_nmcku"), "JournalReading", "Stand", SubResource("AnimationNodeStateMachineTransition_dqm8e"), "JournalReading", "Crouch", SubResource("AnimationNodeStateMachineTransition_gstl0"), "JournalReading", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_jfrhi"), "JournalReading", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_levb4"), "JournalReading", "JumpStart", SubResource("AnimationNodeStateMachineTransition_bdjxn"), "JournalReading", "InAir", SubResource("AnimationNodeStateMachineTransition_w6epv"), "JournalReading", "Landing", SubResource("AnimationNodeStateMachineTransition_y771k"), "JournalReading", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_k5gho"), "JournalReading", "TurnRight", SubResource("AnimationNodeStateMachineTransition_e6rdi"), "JournalReading", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_6wdir"), "JournalReading", "JournalClose", SubResource("AnimationNodeStateMachineTransition_l8don"), "JournalReading", "Death", SubResource("AnimationNodeStateMachineTransition_chbws"), "JournalReading", "Vehicle", SubResource("AnimationNodeStateMachineTransition_so5ue"), "JournalReading", "Sleep", SubResource("AnimationNodeStateMachineTransition_0k2mu"), "JournalReading", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_yr6ib"), "JournalReading", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_cc7ry"), "JournalClose", "Stand", SubResource("AnimationNodeStateMachineTransition_8tq61"), "JournalClose", "Crouch", SubResource("AnimationNodeStateMachineTransition_3dwfc"), "JournalClose", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_p1sy6"), "JournalClose", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_d4foh"), "JournalClose", "JumpStart", SubResource("AnimationNodeStateMachineTransition_hvxay"), "JournalClose", "InAir", SubResource("AnimationNodeStateMachineTransition_6n740"), "JournalClose", "Landing", SubResource("AnimationNodeStateMachineTransition_bribu"), "JournalClose", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_e7ire"), "JournalClose", "TurnRight", SubResource("AnimationNodeStateMachineTransition_udyfb"), "JournalClose", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_xteo4"), "JournalClose", "JournalReading", SubResource("AnimationNodeStateMachineTransition_kt7kp"), "JournalClose", "Death", SubResource("AnimationNodeStateMachineTransition_684ef"), "JournalClose", "Vehicle", SubResource("AnimationNodeStateMachineTransition_nqdx6"), "JournalClose", "Sleep", SubResource("AnimationNodeStateMachineTransition_ig4tn"), "JournalClose", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_dx645"), "JournalClose", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_ttdc0"), "Death", "Stand", SubResource("AnimationNodeStateMachineTransition_3w2bs"), "Death", "Crouch", SubResource("AnimationNodeStateMachineTransition_x5dcr"), "Death", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_smnc0"), "Death", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_3x2ub"), "Death", "JumpStart", SubResource("AnimationNodeStateMachineTransition_r2o2e"), "Death", "InAir", SubResource("AnimationNodeStateMachineTransition_0qjqe"), "Death", "Landing", SubResource("AnimationNodeStateMachineTransition_e0rrw"), "Death", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_qtktv"), "Death", "TurnRight", SubResource("AnimationNodeStateMachineTransition_hg8h7"), "Death", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_i887d"), "Death", "JournalReading", SubResource("AnimationNodeStateMachineTransition_8p1cq"), "Death", "JournalClose", SubResource("AnimationNodeStateMachineTransition_1duoi"), "Death", "Vehicle", SubResource("AnimationNodeStateMachineTransition_sm1ge"), "Death", "Sleep", SubResource("AnimationNodeStateMachineTransition_0kxxu"), "Death", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_klst5"), "Death", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_7y48o"), "Vehicle", "Stand", SubResource("AnimationNodeStateMachineTransition_sc3up"), "Vehicle", "Crouch", SubResource("AnimationNodeStateMachineTransition_lndod"), "Vehicle", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_yq0gl"), "Vehicle", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_fufri"), "Vehicle", "JumpStart", SubResource("AnimationNodeStateMachineTransition_psorb"), "Vehicle", "InAir", SubResource("AnimationNodeStateMachineTransition_82c30"), "Vehicle", "Landing", SubResource("AnimationNodeStateMachineTransition_xtofb"), "Vehicle", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_2bu62"), "Vehicle", "TurnRight", SubResource("AnimationNodeStateMachineTransition_wkghh"), "Vehicle", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_1csqh"), "Vehicle", "JournalReading", SubResource("AnimationNodeStateMachineTransition_505ms"), "Vehicle", "JournalClose", SubResource("AnimationNodeStateMachineTransition_7theq"), "Vehicle", "Death", SubResource("AnimationNodeStateMachineTransition_igf2j"), "Vehicle", "Sleep", SubResource("AnimationNodeStateMachineTransition_3yipa"), "Vehicle", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_krm31"), "Vehicle", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_b2q6v"), "Sleep", "Stand", SubResource("AnimationNodeStateMachineTransition_foopg"), "Sleep", "Crouch", SubResource("AnimationNodeStateMachineTransition_btw5x"), "Sleep", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_kg1wt"), "Sleep", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_gh51q"), "Sleep", "JumpStart", SubResource("AnimationNodeStateMachineTransition_d7tj6"), "Sleep", "InAir", SubResource("AnimationNodeStateMachineTransition_hxdch"), "Sleep", "Landing", SubResource("AnimationNodeStateMachineTransition_34lcc"), "Sleep", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_s26hg"), "Sleep", "TurnRight", SubResource("AnimationNodeStateMachineTransition_1kyeg"), "Sleep", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_83xpn"), "Sleep", "JournalReading", SubResource("AnimationNodeStateMachineTransition_tk48f"), "Sleep", "JournalClose", SubResource("AnimationNodeStateMachineTransition_pk20s"), "Sleep", "Death", SubResource("AnimationNodeStateMachineTransition_p8c37"), "Sleep", "Vehicle", SubResource("AnimationNodeStateMachineTransition_hkh57"), "Sleep", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_dwm2w"), "Sleep", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_7ap2i"), "CarryPickup", "Stand", SubResource("AnimationNodeStateMachineTransition_kojb4"), "CarryPickup", "Crouch", SubResource("AnimationNodeStateMachineTransition_uww8n"), "CarryPickup", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_1lu46"), "CarryPickup", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_bw2wk"), "CarryPickup", "JumpStart", SubResource("AnimationNodeStateMachineTransition_kjwi8"), "CarryPickup", "InAir", SubResource("AnimationNodeStateMachineTransition_6cxnu"), "CarryPickup", "Landing", SubResource("AnimationNodeStateMachineTransition_7th8s"), "CarryPickup", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_lhn04"), "CarryPickup", "TurnRight", SubResource("AnimationNodeStateMachineTransition_8opjb"), "CarryPickup", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_vw7je"), "CarryPickup", "JournalReading", SubResource("AnimationNodeStateMachineTransition_alw4n"), "CarryPickup", "JournalClose", SubResource("AnimationNodeStateMachineTransition_wj2id"), "CarryPickup", "Death", SubResource("AnimationNodeStateMachineTransition_xg8bw"), "CarryPickup", "Vehicle", SubResource("AnimationNodeStateMachineTransition_rhxfa"), "CarryPickup", "Sleep", SubResource("AnimationNodeStateMachineTransition_a722w"), "CarryPickup", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_d6fs5"), "CarryPlace", "Stand", SubResource("AnimationNodeStateMachineTransition_bicr1"), "CarryPlace", "Crouch", SubResource("AnimationNodeStateMachineTransition_4dcrh"), "CarryPlace", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_d8clu"), "CarryPlace", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_gdyfc"), "CarryPlace", "JumpStart", SubResource("AnimationNodeStateMachineTransition_l4mvk"), "CarryPlace", "InAir", SubResource("AnimationNodeStateMachineTransition_ff54c"), "CarryPlace", "Landing", SubResource("AnimationNodeStateMachineTransition_1vunu"), "CarryPlace", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_xxi18"), "CarryPlace", "TurnRight", SubResource("AnimationNodeStateMachineTransition_yswou"), "CarryPlace", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_nyq26"), "CarryPlace", "JournalReading", SubResource("AnimationNodeStateMachineTransition_t07ia"), "CarryPlace", "JournalClose", SubResource("AnimationNodeStateMachineTransition_uc7cn"), "CarryPlace", "Death", SubResource("AnimationNodeStateMachineTransition_r101r"), "CarryPlace", "Vehicle", SubResource("AnimationNodeStateMachineTransition_vp2kj"), "CarryPlace", "Sleep", SubResource("AnimationNodeStateMachineTransition_54qxy"), "CarryPlace", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_0cahv"), "Start", "Stand", SubResource("AnimationNodeStateMachineTransition_a4l6v")]
+transitions = ["Stand", "Crouch", SubResource("AnimationNodeStateMachineTransition_3iqqi"), "Stand", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_mqmag"), "Stand", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_63iag"), "Stand", "JumpStart", SubResource("AnimationNodeStateMachineTransition_t234e"), "Stand", "InAir", SubResource("AnimationNodeStateMachineTransition_61l0b"), "Stand", "Landing", SubResource("AnimationNodeStateMachineTransition_4nvqa"), "Stand", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_x4sgo"), "Stand", "TurnRight", SubResource("AnimationNodeStateMachineTransition_a8k3u"), "Stand", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_81b2e"), "Stand", "JournalReading", SubResource("AnimationNodeStateMachineTransition_a6lsq"), "Stand", "JournalClose", SubResource("AnimationNodeStateMachineTransition_e0aty"), "Stand", "Death", SubResource("AnimationNodeStateMachineTransition_dey3j"), "Stand", "Vehicle", SubResource("AnimationNodeStateMachineTransition_m34it"), "Stand", "Sleep", SubResource("AnimationNodeStateMachineTransition_8aq1d"), "Stand", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_gg2u3"), "Stand", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_o16s2"), "Crouch", "Stand", SubResource("AnimationNodeStateMachineTransition_dtuo4"), "Crouch", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_7chfw"), "Crouch", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_fitju"), "Crouch", "JumpStart", SubResource("AnimationNodeStateMachineTransition_5hqy3"), "Crouch", "InAir", SubResource("AnimationNodeStateMachineTransition_e825s"), "Crouch", "Landing", SubResource("AnimationNodeStateMachineTransition_pl3fe"), "Crouch", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_hcnn6"), "Crouch", "TurnRight", SubResource("AnimationNodeStateMachineTransition_l7wx8"), "Crouch", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_bslru"), "Crouch", "JournalReading", SubResource("AnimationNodeStateMachineTransition_8f1qf"), "Crouch", "JournalClose", SubResource("AnimationNodeStateMachineTransition_k78wn"), "Crouch", "Death", SubResource("AnimationNodeStateMachineTransition_lr7vb"), "Crouch", "Vehicle", SubResource("AnimationNodeStateMachineTransition_7cqs2"), "Crouch", "Sleep", SubResource("AnimationNodeStateMachineTransition_hmeuy"), "Crouch", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_74a3j"), "Crouch", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_22b84"), "CrouchEnter", "Stand", SubResource("AnimationNodeStateMachineTransition_vpnk3"), "CrouchEnter", "Crouch", SubResource("AnimationNodeStateMachineTransition_mk17t"), "CrouchEnter", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_julck"), "CrouchEnter", "JumpStart", SubResource("AnimationNodeStateMachineTransition_04oti"), "CrouchEnter", "InAir", SubResource("AnimationNodeStateMachineTransition_5h7sa"), "CrouchEnter", "Landing", SubResource("AnimationNodeStateMachineTransition_kepy7"), "CrouchEnter", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_18j8a"), "CrouchEnter", "TurnRight", SubResource("AnimationNodeStateMachineTransition_63ago"), "CrouchEnter", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_fv4f0"), "CrouchEnter", "JournalReading", SubResource("AnimationNodeStateMachineTransition_dllt8"), "CrouchEnter", "JournalClose", SubResource("AnimationNodeStateMachineTransition_cjpgi"), "CrouchEnter", "Death", SubResource("AnimationNodeStateMachineTransition_mx31y"), "CrouchEnter", "Vehicle", SubResource("AnimationNodeStateMachineTransition_x0eqw"), "CrouchEnter", "Sleep", SubResource("AnimationNodeStateMachineTransition_vsfxi"), "CrouchEnter", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_chlh2"), "CrouchEnter", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_snpqd"), "CrouchExit", "Stand", SubResource("AnimationNodeStateMachineTransition_172io"), "CrouchExit", "Crouch", SubResource("AnimationNodeStateMachineTransition_74jyr"), "CrouchExit", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_xxu1j"), "CrouchExit", "JumpStart", SubResource("AnimationNodeStateMachineTransition_tvjdn"), "CrouchExit", "InAir", SubResource("AnimationNodeStateMachineTransition_rcsm6"), "CrouchExit", "Landing", SubResource("AnimationNodeStateMachineTransition_j2ma7"), "CrouchExit", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_ryp7j"), "CrouchExit", "TurnRight", SubResource("AnimationNodeStateMachineTransition_mpoaf"), "CrouchExit", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_sh1nu"), "CrouchExit", "JournalReading", SubResource("AnimationNodeStateMachineTransition_rblba"), "CrouchExit", "JournalClose", SubResource("AnimationNodeStateMachineTransition_3lonm"), "CrouchExit", "Death", SubResource("AnimationNodeStateMachineTransition_c1tm6"), "CrouchExit", "Vehicle", SubResource("AnimationNodeStateMachineTransition_myurk"), "CrouchExit", "Sleep", SubResource("AnimationNodeStateMachineTransition_5i7rg"), "CrouchExit", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_sctcy"), "CrouchExit", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_rqter"), "JumpStart", "Stand", SubResource("AnimationNodeStateMachineTransition_7f6v7"), "JumpStart", "Crouch", SubResource("AnimationNodeStateMachineTransition_ls2gs"), "JumpStart", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_atoux"), "JumpStart", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_66ob5"), "JumpStart", "InAir", SubResource("AnimationNodeStateMachineTransition_f0hkl"), "JumpStart", "Landing", SubResource("AnimationNodeStateMachineTransition_4dp7x"), "JumpStart", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_0m1f0"), "JumpStart", "TurnRight", SubResource("AnimationNodeStateMachineTransition_naqwi"), "JumpStart", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_3y5y7"), "JumpStart", "JournalReading", SubResource("AnimationNodeStateMachineTransition_43l3h"), "JumpStart", "JournalClose", SubResource("AnimationNodeStateMachineTransition_ptkd7"), "JumpStart", "Death", SubResource("AnimationNodeStateMachineTransition_irpit"), "JumpStart", "Vehicle", SubResource("AnimationNodeStateMachineTransition_bywhn"), "JumpStart", "Sleep", SubResource("AnimationNodeStateMachineTransition_fuhsd"), "JumpStart", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_tbu41"), "JumpStart", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_gjbcr"), "InAir", "Stand", SubResource("AnimationNodeStateMachineTransition_ebllx"), "InAir", "Crouch", SubResource("AnimationNodeStateMachineTransition_5keea"), "InAir", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_43inx"), "InAir", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_4a8pd"), "InAir", "JumpStart", SubResource("AnimationNodeStateMachineTransition_yuffi"), "InAir", "Landing", SubResource("AnimationNodeStateMachineTransition_g16a6"), "InAir", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_4xn75"), "InAir", "TurnRight", SubResource("AnimationNodeStateMachineTransition_nt3th"), "InAir", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_3poth"), "InAir", "JournalReading", SubResource("AnimationNodeStateMachineTransition_a75vs"), "InAir", "JournalClose", SubResource("AnimationNodeStateMachineTransition_b0yxy"), "InAir", "Death", SubResource("AnimationNodeStateMachineTransition_7a0v7"), "InAir", "Vehicle", SubResource("AnimationNodeStateMachineTransition_gq3is"), "InAir", "Sleep", SubResource("AnimationNodeStateMachineTransition_cuxb4"), "InAir", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_k3a5e"), "InAir", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_x36ix"), "Landing", "Stand", SubResource("AnimationNodeStateMachineTransition_upfo7"), "Landing", "Crouch", SubResource("AnimationNodeStateMachineTransition_p7jrg"), "Landing", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_utxph"), "Landing", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_4qal3"), "Landing", "JumpStart", SubResource("AnimationNodeStateMachineTransition_1uqnd"), "Landing", "InAir", SubResource("AnimationNodeStateMachineTransition_lee7k"), "Landing", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_5cfse"), "Landing", "TurnRight", SubResource("AnimationNodeStateMachineTransition_yy6gn"), "Landing", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_26v3m"), "Landing", "JournalReading", SubResource("AnimationNodeStateMachineTransition_3jo6s"), "Landing", "JournalClose", SubResource("AnimationNodeStateMachineTransition_y883m"), "Landing", "Death", SubResource("AnimationNodeStateMachineTransition_246ya"), "Landing", "Vehicle", SubResource("AnimationNodeStateMachineTransition_wa5vr"), "Landing", "Sleep", SubResource("AnimationNodeStateMachineTransition_jqpe1"), "Landing", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_v04rc"), "Landing", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_8q85b"), "TurnLeft", "Stand", SubResource("AnimationNodeStateMachineTransition_y5ftp"), "TurnLeft", "Crouch", SubResource("AnimationNodeStateMachineTransition_y5ykw"), "TurnLeft", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_e3v2d"), "TurnLeft", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_37ae5"), "TurnLeft", "JumpStart", SubResource("AnimationNodeStateMachineTransition_anv2k"), "TurnLeft", "InAir", SubResource("AnimationNodeStateMachineTransition_cit1r"), "TurnLeft", "Landing", SubResource("AnimationNodeStateMachineTransition_h8lts"), "TurnLeft", "TurnRight", SubResource("AnimationNodeStateMachineTransition_lhdpd"), "TurnLeft", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_42ec8"), "TurnLeft", "JournalReading", SubResource("AnimationNodeStateMachineTransition_4ey27"), "TurnLeft", "JournalClose", SubResource("AnimationNodeStateMachineTransition_us1yq"), "TurnLeft", "Death", SubResource("AnimationNodeStateMachineTransition_7uayu"), "TurnLeft", "Vehicle", SubResource("AnimationNodeStateMachineTransition_1me4y"), "TurnLeft", "Sleep", SubResource("AnimationNodeStateMachineTransition_hvfyw"), "TurnLeft", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_dab1p"), "TurnLeft", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_00qt2"), "TurnRight", "Stand", SubResource("AnimationNodeStateMachineTransition_vfn2f"), "TurnRight", "Crouch", SubResource("AnimationNodeStateMachineTransition_2o23i"), "TurnRight", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_aw6e5"), "TurnRight", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_y2p44"), "TurnRight", "JumpStart", SubResource("AnimationNodeStateMachineTransition_5grsx"), "TurnRight", "InAir", SubResource("AnimationNodeStateMachineTransition_6s7vj"), "TurnRight", "Landing", SubResource("AnimationNodeStateMachineTransition_bmllm"), "TurnRight", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_uviv0"), "TurnRight", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_0xw6b"), "TurnRight", "JournalReading", SubResource("AnimationNodeStateMachineTransition_f4125"), "TurnRight", "JournalClose", SubResource("AnimationNodeStateMachineTransition_kf71j"), "TurnRight", "Death", SubResource("AnimationNodeStateMachineTransition_c2myy"), "TurnRight", "Vehicle", SubResource("AnimationNodeStateMachineTransition_51ymy"), "TurnRight", "Sleep", SubResource("AnimationNodeStateMachineTransition_m1yc5"), "TurnRight", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_tt6ne"), "TurnRight", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_25gm5"), "JournalOpen", "Stand", SubResource("AnimationNodeStateMachineTransition_0bja6"), "JournalOpen", "Crouch", SubResource("AnimationNodeStateMachineTransition_t56nb"), "JournalOpen", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_yxjmf"), "JournalOpen", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_oyal2"), "JournalOpen", "JumpStart", SubResource("AnimationNodeStateMachineTransition_h2jn3"), "JournalOpen", "InAir", SubResource("AnimationNodeStateMachineTransition_qan2g"), "JournalOpen", "Landing", SubResource("AnimationNodeStateMachineTransition_oxr4a"), "JournalOpen", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_idune"), "JournalOpen", "TurnRight", SubResource("AnimationNodeStateMachineTransition_orgx7"), "JournalOpen", "JournalReading", SubResource("AnimationNodeStateMachineTransition_fofnl"), "JournalOpen", "JournalClose", SubResource("AnimationNodeStateMachineTransition_6jpj3"), "JournalOpen", "Death", SubResource("AnimationNodeStateMachineTransition_yvvnp"), "JournalOpen", "Vehicle", SubResource("AnimationNodeStateMachineTransition_pc1e1"), "JournalOpen", "Sleep", SubResource("AnimationNodeStateMachineTransition_i6ffj"), "JournalOpen", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_nmcku"), "JournalOpen", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_dqm8e"), "JournalReading", "Stand", SubResource("AnimationNodeStateMachineTransition_gstl0"), "JournalReading", "Crouch", SubResource("AnimationNodeStateMachineTransition_jfrhi"), "JournalReading", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_levb4"), "JournalReading", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_bdjxn"), "JournalReading", "JumpStart", SubResource("AnimationNodeStateMachineTransition_w6epv"), "JournalReading", "InAir", SubResource("AnimationNodeStateMachineTransition_y771k"), "JournalReading", "Landing", SubResource("AnimationNodeStateMachineTransition_k5gho"), "JournalReading", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_e6rdi"), "JournalReading", "TurnRight", SubResource("AnimationNodeStateMachineTransition_6wdir"), "JournalReading", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_l8don"), "JournalReading", "JournalClose", SubResource("AnimationNodeStateMachineTransition_chbws"), "JournalReading", "Death", SubResource("AnimationNodeStateMachineTransition_so5ue"), "JournalReading", "Vehicle", SubResource("AnimationNodeStateMachineTransition_0k2mu"), "JournalReading", "Sleep", SubResource("AnimationNodeStateMachineTransition_yr6ib"), "JournalReading", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_cc7ry"), "JournalReading", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_8tq61"), "JournalClose", "Stand", SubResource("AnimationNodeStateMachineTransition_3dwfc"), "JournalClose", "Crouch", SubResource("AnimationNodeStateMachineTransition_p1sy6"), "JournalClose", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_d4foh"), "JournalClose", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_hvxay"), "JournalClose", "JumpStart", SubResource("AnimationNodeStateMachineTransition_6n740"), "JournalClose", "InAir", SubResource("AnimationNodeStateMachineTransition_bribu"), "JournalClose", "Landing", SubResource("AnimationNodeStateMachineTransition_e7ire"), "JournalClose", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_udyfb"), "JournalClose", "TurnRight", SubResource("AnimationNodeStateMachineTransition_xteo4"), "JournalClose", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_kt7kp"), "JournalClose", "JournalReading", SubResource("AnimationNodeStateMachineTransition_684ef"), "JournalClose", "Death", SubResource("AnimationNodeStateMachineTransition_nqdx6"), "JournalClose", "Vehicle", SubResource("AnimationNodeStateMachineTransition_ig4tn"), "JournalClose", "Sleep", SubResource("AnimationNodeStateMachineTransition_dx645"), "JournalClose", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_ttdc0"), "JournalClose", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_3w2bs"), "Death", "Stand", SubResource("AnimationNodeStateMachineTransition_x5dcr"), "Death", "Crouch", SubResource("AnimationNodeStateMachineTransition_smnc0"), "Death", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_3x2ub"), "Death", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_r2o2e"), "Death", "JumpStart", SubResource("AnimationNodeStateMachineTransition_0qjqe"), "Death", "InAir", SubResource("AnimationNodeStateMachineTransition_e0rrw"), "Death", "Landing", SubResource("AnimationNodeStateMachineTransition_qtktv"), "Death", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_hg8h7"), "Death", "TurnRight", SubResource("AnimationNodeStateMachineTransition_i887d"), "Death", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_8p1cq"), "Death", "JournalReading", SubResource("AnimationNodeStateMachineTransition_1duoi"), "Death", "JournalClose", SubResource("AnimationNodeStateMachineTransition_sm1ge"), "Death", "Vehicle", SubResource("AnimationNodeStateMachineTransition_0kxxu"), "Death", "Sleep", SubResource("AnimationNodeStateMachineTransition_klst5"), "Death", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_7y48o"), "Death", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_sc3up"), "Vehicle", "Stand", SubResource("AnimationNodeStateMachineTransition_lndod"), "Vehicle", "Crouch", SubResource("AnimationNodeStateMachineTransition_yq0gl"), "Vehicle", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_fufri"), "Vehicle", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_psorb"), "Vehicle", "JumpStart", SubResource("AnimationNodeStateMachineTransition_82c30"), "Vehicle", "InAir", SubResource("AnimationNodeStateMachineTransition_xtofb"), "Vehicle", "Landing", SubResource("AnimationNodeStateMachineTransition_2bu62"), "Vehicle", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_wkghh"), "Vehicle", "TurnRight", SubResource("AnimationNodeStateMachineTransition_1csqh"), "Vehicle", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_505ms"), "Vehicle", "JournalReading", SubResource("AnimationNodeStateMachineTransition_7theq"), "Vehicle", "JournalClose", SubResource("AnimationNodeStateMachineTransition_igf2j"), "Vehicle", "Death", SubResource("AnimationNodeStateMachineTransition_3yipa"), "Vehicle", "Sleep", SubResource("AnimationNodeStateMachineTransition_krm31"), "Vehicle", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_b2q6v"), "Vehicle", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_foopg"), "Sleep", "Stand", SubResource("AnimationNodeStateMachineTransition_btw5x"), "Sleep", "Crouch", SubResource("AnimationNodeStateMachineTransition_kg1wt"), "Sleep", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_gh51q"), "Sleep", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_d7tj6"), "Sleep", "JumpStart", SubResource("AnimationNodeStateMachineTransition_hxdch"), "Sleep", "InAir", SubResource("AnimationNodeStateMachineTransition_34lcc"), "Sleep", "Landing", SubResource("AnimationNodeStateMachineTransition_s26hg"), "Sleep", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_1kyeg"), "Sleep", "TurnRight", SubResource("AnimationNodeStateMachineTransition_83xpn"), "Sleep", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_tk48f"), "Sleep", "JournalReading", SubResource("AnimationNodeStateMachineTransition_pk20s"), "Sleep", "JournalClose", SubResource("AnimationNodeStateMachineTransition_p8c37"), "Sleep", "Death", SubResource("AnimationNodeStateMachineTransition_hkh57"), "Sleep", "Vehicle", SubResource("AnimationNodeStateMachineTransition_dwm2w"), "Sleep", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_7ap2i"), "Sleep", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_kojb4"), "CarryPickup", "Stand", SubResource("AnimationNodeStateMachineTransition_uww8n"), "CarryPickup", "Crouch", SubResource("AnimationNodeStateMachineTransition_1lu46"), "CarryPickup", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_bw2wk"), "CarryPickup", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_kjwi8"), "CarryPickup", "JumpStart", SubResource("AnimationNodeStateMachineTransition_6cxnu"), "CarryPickup", "InAir", SubResource("AnimationNodeStateMachineTransition_7th8s"), "CarryPickup", "Landing", SubResource("AnimationNodeStateMachineTransition_lhn04"), "CarryPickup", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_8opjb"), "CarryPickup", "TurnRight", SubResource("AnimationNodeStateMachineTransition_vw7je"), "CarryPickup", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_alw4n"), "CarryPickup", "JournalReading", SubResource("AnimationNodeStateMachineTransition_wj2id"), "CarryPickup", "JournalClose", SubResource("AnimationNodeStateMachineTransition_xg8bw"), "CarryPickup", "Death", SubResource("AnimationNodeStateMachineTransition_rhxfa"), "CarryPickup", "Vehicle", SubResource("AnimationNodeStateMachineTransition_a722w"), "CarryPickup", "Sleep", SubResource("AnimationNodeStateMachineTransition_d6fs5"), "CarryPickup", "CarryPlace", SubResource("AnimationNodeStateMachineTransition_bicr1"), "CarryPlace", "Stand", SubResource("AnimationNodeStateMachineTransition_4dcrh"), "CarryPlace", "Crouch", SubResource("AnimationNodeStateMachineTransition_d8clu"), "CarryPlace", "CrouchEnter", SubResource("AnimationNodeStateMachineTransition_gdyfc"), "CarryPlace", "CrouchExit", SubResource("AnimationNodeStateMachineTransition_l4mvk"), "CarryPlace", "JumpStart", SubResource("AnimationNodeStateMachineTransition_ff54c"), "CarryPlace", "InAir", SubResource("AnimationNodeStateMachineTransition_1vunu"), "CarryPlace", "Landing", SubResource("AnimationNodeStateMachineTransition_xxi18"), "CarryPlace", "TurnLeft", SubResource("AnimationNodeStateMachineTransition_yswou"), "CarryPlace", "TurnRight", SubResource("AnimationNodeStateMachineTransition_nyq26"), "CarryPlace", "JournalOpen", SubResource("AnimationNodeStateMachineTransition_t07ia"), "CarryPlace", "JournalReading", SubResource("AnimationNodeStateMachineTransition_uc7cn"), "CarryPlace", "JournalClose", SubResource("AnimationNodeStateMachineTransition_r101r"), "CarryPlace", "Death", SubResource("AnimationNodeStateMachineTransition_vp2kj"), "CarryPlace", "Vehicle", SubResource("AnimationNodeStateMachineTransition_54qxy"), "CarryPlace", "Sleep", SubResource("AnimationNodeStateMachineTransition_0cahv"), "CarryPlace", "CarryPickup", SubResource("AnimationNodeStateMachineTransition_a4l6v"), "Start", "Stand", SubResource("AnimationNodeStateMachineTransition_qnykp")]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ewsa2"]
-animation = &"offhand/Hold-1"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mygk7"]
-animation = &"offhand/Hold0"
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_mygk7"]
+filter_enabled = true
+filters = ["Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:Right_Elbow_Pads"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0b1b5"]
+animation = &"handoff/Flamethrower"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqlbl"]
+animation = &"handoff/Flashlight"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vj08a"]
+animation = &"handoff/Fuel"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bu2i8"]
+animation = &"handoff/Fuse"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_puc1j"]
+animation = &"heavy/Carry"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6ywcm"]
+animation = &"handoff/Knife"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_forib"]
+animation = &"handoff/Pistol"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ymctd"]
+animation = &"handoff/Pocket"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_hn5y3"]
+xfade_time = 0.12
+input_0/name = "Pocket"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "Rifle"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "Pistol"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+input_3/name = "Knife"
+input_3/auto_advance = false
+input_3/break_loop_at_end = false
+input_3/reset = true
+input_4/name = "Flashlight"
+input_4/auto_advance = false
+input_4/break_loop_at_end = false
+input_4/reset = true
+input_5/name = "Fuse"
+input_5/auto_advance = false
+input_5/break_loop_at_end = false
+input_5/reset = true
+input_6/name = "Fuel"
+input_6/auto_advance = false
+input_6/break_loop_at_end = false
+input_6/reset = true
+input_7/name = "Flamethrower"
+input_7/auto_advance = false
+input_7/break_loop_at_end = false
+input_7/reset = true
+input_8/name = "Heavy"
+input_8/auto_advance = false
+input_8/break_loop_at_end = false
+input_8/reset = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qpfej"]
+animation = &"handoff/Rifle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q7wdx"]
+animation = &"offhand/Hold-1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_74qii"]
+animation = &"offhand/Hold0"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0yg1n"]
 animation = &"offhand/Hold1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_lqlbl"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_tp8er"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_ewsa2")
+blend_point_0/node = SubResource("AnimationNodeAnimation_q7wdx")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_mygk7")
+blend_point_1/node = SubResource("AnimationNodeAnimation_74qii")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_0b1b5")
+blend_point_2/node = SubResource("AnimationNodeAnimation_0yg1n")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_vj08a"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_3cmui"]
 filter_enabled = true
 filters = ["", "Skeleton3D:LeftArm", "Skeleton3D:LeftFoot", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftLeg", "Skeleton3D:LeftShoulder", "Skeleton3D:LeftToeBase", "Skeleton3D:LeftToe_End", "Skeleton3D:LeftUpLeg", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Left_Knee_Pads", "Skeleton3D:Left_Pouch.1", "Skeleton3D:Left_Pouch.2", "Skeleton3D:Left_Pouch.3"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bu2i8"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kcwm4"]
 animation = &"PistolAim-1"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_puc1j"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5j2oh"]
 animation = &"PistolAim0"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6ywcm"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fleen"]
 animation = &"PistolAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_forib"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_sglvs"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_bu2i8")
+blend_point_0/node = SubResource("AnimationNodeAnimation_kcwm4")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_puc1j")
+blend_point_1/node = SubResource("AnimationNodeAnimation_5j2oh")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_6ywcm")
+blend_point_2/node = SubResource("AnimationNodeAnimation_fleen")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ymctd"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ndmmu"]
 animation = &"PistolBattery"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hn5y3"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqa62"]
 animation = &"PistolRecoil"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qpfej"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yjxnf"]
 animation = &"PistolReload"
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_q7wdx"]
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_cs0i5"]
 input_0/name = "Rifle"
 input_0/auto_advance = false
 input_0/break_loop_at_end = false
@@ -79416,97 +79831,119 @@ input_1/auto_advance = false
 input_1/break_loop_at_end = false
 input_1/reset = true
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_74qii"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dnydv"]
 animation = &"RifleAim-1"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0yg1n"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c7cu6"]
 animation = &"RifleAim0"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tp8er"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cv0d2"]
 animation = &"RifleAim1"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_3cmui"]
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_peck6"]
 min_space = -0.62
 max_space = 0.62
-blend_point_0/node = SubResource("AnimationNodeAnimation_74qii")
+blend_point_0/node = SubResource("AnimationNodeAnimation_dnydv")
 blend_point_0/pos = -0.62
 blend_point_0/name = &"0"
-blend_point_1/node = SubResource("AnimationNodeAnimation_0yg1n")
+blend_point_1/node = SubResource("AnimationNodeAnimation_c7cu6")
 blend_point_1/pos = 0.0
 blend_point_1/name = &"1"
-blend_point_2/node = SubResource("AnimationNodeAnimation_tp8er")
+blend_point_2/node = SubResource("AnimationNodeAnimation_cv0d2")
 blend_point_2/pos = 0.62
 blend_point_2/name = &"2"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kcwm4"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3u7qi"]
 animation = &"RifleBattery"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5j2oh"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4sux1"]
 animation = &"RifleRecoil"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fleen"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqdy3"]
 animation = &"RifleReload"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_sglvs"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_oy3b3"]
 filter_enabled = true
 filters = ["Skeleton3D:Head", "Skeleton3D:HeadTop_End", "Skeleton3D:LeftArm", "Skeleton3D:LeftForeArm", "Skeleton3D:LeftHand", "Skeleton3D:LeftHandIndex1", "Skeleton3D:LeftHandIndex2", "Skeleton3D:LeftHandIndex3", "Skeleton3D:LeftHandIndex4", "Skeleton3D:LeftHandMiddle1", "Skeleton3D:LeftHandMiddle2", "Skeleton3D:LeftHandMiddle3", "Skeleton3D:LeftHandMiddle4", "Skeleton3D:LeftHandPinky1", "Skeleton3D:LeftHandPinky2", "Skeleton3D:LeftHandPinky3", "Skeleton3D:LeftHandPinky4", "Skeleton3D:LeftHandRing1", "Skeleton3D:LeftHandRing2", "Skeleton3D:LeftHandRing3", "Skeleton3D:LeftHandRing4", "Skeleton3D:LeftHandThumb1", "Skeleton3D:LeftHandThumb2", "Skeleton3D:LeftHandThumb3", "Skeleton3D:LeftHandThumb4", "Skeleton3D:LeftShoulder", "Skeleton3D:Left_Elbow_Pads", "Skeleton3D:Neck", "Skeleton3D:RightArm", "Skeleton3D:RightForeArm", "Skeleton3D:RightHand", "Skeleton3D:RightHandIndex1", "Skeleton3D:RightHandIndex2", "Skeleton3D:RightHandIndex3", "Skeleton3D:RightHandIndex4", "Skeleton3D:RightHandMiddle1", "Skeleton3D:RightHandMiddle2", "Skeleton3D:RightHandMiddle3", "Skeleton3D:RightHandMiddle4", "Skeleton3D:RightHandPinky1", "Skeleton3D:RightHandPinky2", "Skeleton3D:RightHandPinky3", "Skeleton3D:RightHandPinky4", "Skeleton3D:RightHandRing1", "Skeleton3D:RightHandRing2", "Skeleton3D:RightHandRing3", "Skeleton3D:RightHandRing4", "Skeleton3D:RightHandThumb1", "Skeleton3D:RightHandThumb2", "Skeleton3D:RightHandThumb3", "Skeleton3D:RightHandThumb4", "Skeleton3D:RightShoulder", "Skeleton3D:Right_Elbow_Pads", "Skeleton3D:Spine", "Skeleton3D:Spine1", "Skeleton3D:Spine2"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ndmmu"]
-nodes/Movement/node = SubResource("AnimationNodeStateMachine_qnykp")
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_8dwhl"]
+nodes/Movement/node = SubResource("AnimationNodeStateMachine_ewsa2")
 nodes/Movement/position = Vector2(0, 0)
-nodes/Rifle/node = SubResource("AnimationNodeBlendSpace1D_3cmui")
+nodes/Rifle/node = SubResource("AnimationNodeBlendSpace1D_peck6")
 nodes/Rifle/position = Vector2(0, 100)
-nodes/Pistol/node = SubResource("AnimationNodeBlendSpace1D_forib")
+nodes/Pistol/node = SubResource("AnimationNodeBlendSpace1D_sglvs")
 nodes/Pistol/position = Vector2(0, 170)
-nodes/Knife/node = SubResource("AnimationNodeBlendSpace1D_27bl4")
+nodes/Knife/node = SubResource("AnimationNodeBlendSpace1D_6107c")
 nodes/Knife/position = Vector2(0, 240)
-nodes/Flashlight/node = SubResource("AnimationNodeBlendSpace1D_iojaf")
+nodes/Flashlight/node = SubResource("AnimationNodeBlendSpace1D_0ink4")
 nodes/Flashlight/position = Vector2(0, 310)
-nodes/Fuse/node = SubResource("AnimationNodeBlendSpace1D_rx11i")
+nodes/Fuse/node = SubResource("AnimationNodeBlendSpace1D_yw22l")
 nodes/Fuse/position = Vector2(0, 380)
-nodes/Fuel/node = SubResource("AnimationNodeBlendSpace1D_npsp2")
+nodes/Fuel/node = SubResource("AnimationNodeBlendSpace1D_uo6bc")
 nodes/Fuel/position = Vector2(0, 450)
-nodes/Carry/node = SubResource("AnimationNodeBlendSpace1D_stmdg")
+nodes/Carry/node = SubResource("AnimationNodeBlendSpace1D_nsyg6")
 nodes/Carry/position = Vector2(0, 520)
-nodes/Equipment/node = SubResource("AnimationNodeTransition_nsyg6")
+nodes/Equipment/node = SubResource("AnimationNodeTransition_vyapd")
 nodes/Equipment/position = Vector2(300, 200)
-nodes/UpperBody/node = SubResource("AnimationNodeBlend2_sglvs")
+nodes/UpperBody/node = SubResource("AnimationNodeBlend2_oy3b3")
 nodes/UpperBody/position = Vector2(600, 0)
-nodes/Lean/node = SubResource("AnimationNodeBlendSpace2D_iri14")
+nodes/Lean/node = SubResource("AnimationNodeBlendSpace2D_nyh37")
 nodes/Lean/position = Vector2(600, 300)
-nodes/Inertia/node = SubResource("AnimationNodeAdd2_b22e6")
+nodes/Inertia/node = SubResource("AnimationNodeAdd2_18uwo")
 nodes/Inertia/position = Vector2(900, 0)
-nodes/RifleReload/node = SubResource("AnimationNodeAnimation_fleen")
+nodes/RifleReload/node = SubResource("AnimationNodeAnimation_bqdy3")
 nodes/RifleReload/position = Vector2(900, 150)
-nodes/RifleBattery/node = SubResource("AnimationNodeAnimation_kcwm4")
+nodes/RifleBattery/node = SubResource("AnimationNodeAnimation_3u7qi")
 nodes/RifleBattery/position = Vector2(900, 220)
-nodes/PistolReload/node = SubResource("AnimationNodeAnimation_qpfej")
+nodes/PistolReload/node = SubResource("AnimationNodeAnimation_yjxnf")
 nodes/PistolReload/position = Vector2(900, 290)
-nodes/PistolBattery/node = SubResource("AnimationNodeAnimation_ymctd")
+nodes/PistolBattery/node = SubResource("AnimationNodeAnimation_ndmmu")
 nodes/PistolBattery/position = Vector2(900, 360)
-nodes/FlashlightBattery/node = SubResource("AnimationNodeAnimation_0ink4")
+nodes/FlashlightBattery/node = SubResource("AnimationNodeAnimation_hwwj1")
 nodes/FlashlightBattery/position = Vector2(900, 430)
-nodes/KnifeAttack/node = SubResource("AnimationNodeAnimation_6107c")
+nodes/KnifeAttack/node = SubResource("AnimationNodeAnimation_3rxdo")
 nodes/KnifeAttack/position = Vector2(900, 500)
-nodes/Action/node = SubResource("AnimationNodeTransition_e2rok")
+nodes/Action/node = SubResource("AnimationNodeTransition_2d0hd")
 nodes/Action/position = Vector2(1150, 250)
-nodes/Handling/node = SubResource("AnimationNodeOneShot_yw22l")
+nodes/Handling/node = SubResource("AnimationNodeOneShot_b22e6")
 nodes/Handling/position = Vector2(1400, 0)
-nodes/RifleRecoil/node = SubResource("AnimationNodeAnimation_5j2oh")
+nodes/RifleRecoil/node = SubResource("AnimationNodeAnimation_4sux1")
 nodes/RifleRecoil/position = Vector2(0, 0)
-nodes/PistolRecoil/node = SubResource("AnimationNodeAnimation_hn5y3")
+nodes/PistolRecoil/node = SubResource("AnimationNodeAnimation_lqa62")
 nodes/PistolRecoil/position = Vector2(0, 0)
-nodes/Recoil/node = SubResource("AnimationNodeTransition_q7wdx")
+nodes/Recoil/node = SubResource("AnimationNodeTransition_cs0i5")
 nodes/Recoil/position = Vector2(0, 0)
-nodes/Kick/node = SubResource("AnimationNodeOneShot_18uwo")
+nodes/Kick/node = SubResource("AnimationNodeOneShot_dkv3a")
 nodes/Kick/position = Vector2(0, 0)
-nodes/OffhandAim/node = SubResource("AnimationNodeBlendSpace1D_lqlbl")
+nodes/OffhandAim/node = SubResource("AnimationNodeBlendSpace1D_tp8er")
 nodes/OffhandAim/position = Vector2(0, 0)
-nodes/OffhandTorch/node = SubResource("AnimationNodeBlend2_vj08a")
+nodes/OffhandTorch/node = SubResource("AnimationNodeBlend2_3cmui")
 nodes/OffhandTorch/position = Vector2(0, 0)
-nodes/Flamethrower/node = SubResource("AnimationNodeBlendSpace1D_okob3")
+nodes/Flamethrower/node = SubResource("AnimationNodeBlendSpace1D_0nbp4")
 nodes/Flamethrower/position = Vector2(0, 800)
-node_connections = [&"output", 0, &"OffhandTorch", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"Equipment", 7, &"Flamethrower", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil", &"OffhandTorch", 0, &"Handling", &"OffhandTorch", 1, &"OffhandAim"]
+nodes/OfferPose/node = SubResource("AnimationNodeTransition_hn5y3")
+nodes/OfferPose/position = Vector2(800, 400)
+nodes/OfferPocket/node = SubResource("AnimationNodeAnimation_ymctd")
+nodes/OfferPocket/position = Vector2(600, 400)
+nodes/OfferRifle/node = SubResource("AnimationNodeAnimation_qpfej")
+nodes/OfferRifle/position = Vector2(600, 500)
+nodes/OfferPistol/node = SubResource("AnimationNodeAnimation_forib")
+nodes/OfferPistol/position = Vector2(600, 600)
+nodes/OfferKnife/node = SubResource("AnimationNodeAnimation_6ywcm")
+nodes/OfferKnife/position = Vector2(600, 700)
+nodes/OfferFlashlight/node = SubResource("AnimationNodeAnimation_lqlbl")
+nodes/OfferFlashlight/position = Vector2(600, 800)
+nodes/OfferFuse/node = SubResource("AnimationNodeAnimation_bu2i8")
+nodes/OfferFuse/position = Vector2(600, 900)
+nodes/OfferFuel/node = SubResource("AnimationNodeAnimation_vj08a")
+nodes/OfferFuel/position = Vector2(600, 1000)
+nodes/OfferFlamethrower/node = SubResource("AnimationNodeAnimation_0b1b5")
+nodes/OfferFlamethrower/position = Vector2(600, 1100)
+nodes/OfferBlend/node = SubResource("AnimationNodeBlend2_mygk7")
+nodes/OfferBlend/position = Vector2(1000, 400)
+nodes/OfferHeavy/node = SubResource("AnimationNodeAnimation_puc1j")
+nodes/OfferHeavy/position = Vector2(600, 1250)
+node_connections = [&"output", 0, &"OfferBlend", &"Equipment", 0, &"Rifle", &"Equipment", 1, &"Pistol", &"Equipment", 2, &"Knife", &"Equipment", 3, &"Flashlight", &"Equipment", 4, &"Fuse", &"Equipment", 5, &"Fuel", &"Equipment", 6, &"Carry", &"Equipment", 7, &"Flamethrower", &"UpperBody", 0, &"Movement", &"UpperBody", 1, &"Equipment", &"Inertia", 0, &"UpperBody", &"Inertia", 1, &"Lean", &"Action", 0, &"RifleReload", &"Action", 1, &"RifleBattery", &"Action", 2, &"PistolReload", &"Action", 3, &"PistolBattery", &"Action", 4, &"FlashlightBattery", &"Action", 5, &"KnifeAttack", &"Handling", 0, &"Kick", &"Handling", 1, &"Action", &"Recoil", 0, &"RifleRecoil", &"Recoil", 1, &"PistolRecoil", &"Kick", 0, &"Inertia", &"Kick", 1, &"Recoil", &"OffhandTorch", 0, &"Handling", &"OffhandTorch", 1, &"OffhandAim", &"OfferPose", 0, &"OfferPocket", &"OfferPose", 1, &"OfferRifle", &"OfferPose", 2, &"OfferPistol", &"OfferPose", 3, &"OfferKnife", &"OfferPose", 4, &"OfferFlashlight", &"OfferPose", 5, &"OfferFuse", &"OfferPose", 6, &"OfferFuel", &"OfferPose", 7, &"OfferFlamethrower", &"OfferPose", 8, &"OfferHeavy", &"OfferBlend", 0, &"OffhandTorch", &"OfferBlend", 1, &"OfferPose"]
 
 [node name="@Node3D@179" type="Node3D" unique_id=1069509090]
 metadata/approved_grips_integrated = true
@@ -80295,7 +80732,7 @@ transform = Transform3D(0.026627537, -0.97146726, -0.23567432, -0.17857824, -0.2
 transform = Transform3D(0.7195412, -0.017119603, 0.019171912, -0.013426207, -0.7082991, -0.12857632, 0.021917518, 0.1281369, -0.7081672, 0.019509688, 0.25760648, -0.009641888)
 
 [node name="flamethrower" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=960674207 instance=ExtResource("flame_model")]
-transform = Transform3D(0.021918973, 0.9246727, 0.38013127, -0.3525313, 0.36294872, -0.8625484, -0.93554324, -0.11510201, 0.33393154, 0.025784817, 0.039742683, 0.028384186)
+transform = Transform3D(0.021918973, 0.9246727, 0.38013127, -0.3525313, 0.36294872, -0.8625484, -0.93554324, -0.11510201, 0.33393154, 0.025784817, 0.039742682, 0.028384186)
 visible = false
 
 [node name="MuzzleDischarge" type="Node3D" parent="Skeleton3D/RightHand/Equipment" unique_id=1934269873 instance=ExtResource("discharge_fx")]
@@ -80370,17 +80807,55 @@ secondary_limit_angle = 0.7853982
 secondary_damp_threshold = 1.0
 
 [node name="LeftHand" type="BoneAttachment3D" parent="Skeleton3D" unique_id=1273665506 instance=ExtResource("offhand_socket")]
-transform = Transform3D(-0.16147014, -0.3763477, 0.9122988, -0.32850546, -0.8512132, -0.40929118, 0.930597, -0.36578363, 0.013813272, -0.45291987, 1.0500951, -0.074508205)
+transform = Transform3D(-0.16147012, -0.37634763, 0.9122986, -0.3285054, -0.85121316, -0.40929103, 0.93059695, -0.36578354, 0.013813298, -0.45291987, 1.0500951, -0.0745082)
 bone_name = "LeftHand"
 bone_idx = 36
+
+[node name="FlamethrowerGripTarget" type="ModifierBoneTarget3D" parent="Skeleton3D" unique_id=667349927]
+transform = Transform3D(-0.07196905, -0.20072368, -0.97700065, -0.018968938, -0.9790884, 0.20254982, -0.99722636, 0.03311014, 0.066656604, 0.11445595, 0.93218195, 0.025532484)
+bone_name = "RightHand"
+bone = 11
+
+[node name="Grip" type="Marker3D" parent="Skeleton3D/FlamethrowerGripTarget" unique_id=2044724881]
+transform = Transform3D(0.38666078, 0.08096936, 0.9186606, -0.8829605, -0.25505662, 0.3941151, 0.26622167, -0.96352994, -0.027127638, -0.04675371, 0.36392286, -0.009961054)
+
+[node name="FlamethrowerSupportIK" type="TwoBoneIK3D" parent="Skeleton3D" unique_id=602988640]
+influence = 0.0
+setting_count = 1
+settings/0/target_node = NodePath("../FlamethrowerGripTarget/Grip")
+settings/0/pole_node = NodePath("../../LeftElbowPole")
+settings/0/root_bone_name = "LeftArm"
+settings/0/root_bone = 34
+settings/0/middle_bone_name = "LeftForeArm"
+settings/0/middle_bone = 35
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "LeftHand"
+settings/0/end_bone = 36
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = false
+
+[node name="FlamethrowerWrist" type="CopyTransformModifier3D" parent="Skeleton3D" unique_id=565128416]
+influence = 0.0
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "LeftHand"
+settings/0/apply_bone = 36
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../FlamethrowerGripTarget/Grip")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1362576307]
 libraries/ = SubResource("AnimationLibrary_fggtc")
 libraries/flamethrower = ExtResource("31_gfpmr")
+libraries/handoff = ExtResource("32_2d0hd")
+libraries/heavy = SubResource("AnimationLibrary_2y2ca")
 libraries/offhand = ExtResource("offhand_clips")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=331029363]
-tree_root = SubResource("AnimationNodeBlendTree_ndmmu")
+tree_root = SubResource("AnimationNodeBlendTree_8dwhl")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Movement/CarryPickup/ActionTime/seek_request = -1.0
 parameters/Movement/CarryPlace/ActionTime/seek_request = -1.0
@@ -80416,6 +80891,10 @@ parameters/Kick/request = 0
 parameters/OffhandAim/blend_position = 0.0
 parameters/OffhandTorch/blend_amount = 0.0
 parameters/Flamethrower/blend_position = 0.0
+parameters/OfferPose/current_state = ""
+parameters/OfferPose/transition_request = ""
+parameters/OfferPose/current_index = -1
+parameters/OfferBlend/blend_amount = 0.0
 
 [node name="Journal" type="Node3D" parent="." unique_id=1372829979 instance=ExtResource("13_fwx6l")]
 transform = Transform3D(0.8, 0, 0, 0, 0.6014446, 0.5275077, 0, -0.5275077, 0.6014446, 0.102, 1.4, -0.4)
@@ -80444,36 +80923,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -0.55)
 [editable path="Skeleton3D/RightHand/Equipment/kitchen_knife"]
 [editable path="Skeleton3D/RightHand/Equipment/MountedLamp"]
 [editable path="Skeleton3D/RightHand/Equipment/MountedLamp/Model"]
-
-[node name="FlamethrowerGripTarget" type="ModifierBoneTarget3D" parent="Skeleton3D"]
-bone_name = "RightHand"
-bone = 11
-
-[node name="Grip" type="Marker3D" parent="Skeleton3D/FlamethrowerGripTarget"]
-transform = Transform3D(0.38666078, 0.08096936, 0.9186606, -0.8829605, -0.25505662, 0.3941151, 0.26622167, -0.96352994, -0.027127638, -0.04675371, 0.36392286, -0.009961054)
-
-[node name="FlamethrowerSupportIK" type="TwoBoneIK3D" parent="Skeleton3D"]
-influence = 0.0
-setting_count = 1
-settings/0/target_node = NodePath("../FlamethrowerGripTarget/Grip")
-settings/0/pole_node = NodePath("../../LeftElbowPole")
-settings/0/root_bone_name = "LeftArm"
-settings/0/root_bone = 34
-settings/0/middle_bone_name = "LeftForeArm"
-settings/0/middle_bone = 35
-settings/0/pole_direction = 0
-settings/0/end_bone_name = "LeftHand"
-settings/0/end_bone = 36
-settings/0/use_virtual_end = false
-settings/0/extend_end_bone = false
-
-[node name="FlamethrowerWrist" type="CopyTransformModifier3D" parent="Skeleton3D"]
-influence = 0.0
-setting_count = 1
-settings/0/apply_bone_name = "LeftHand"
-settings/0/reference_type = 1
-settings/0/reference_node = NodePath("../FlamethrowerGripTarget/Grip")
-settings/0/copy = 2
-settings/0/axes = 7
-settings/0/relative = false
-settings/0/additive = false

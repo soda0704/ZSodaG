@@ -79,6 +79,7 @@ func begin() -> void:
 	_player.refresh_crosshair_visibility()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	camera.make_current()
+	_player._refresh_equipment_visuals()
 	camera_animation.play(&"focus")
 	hud.show()
 	set_process(true)
@@ -249,6 +250,7 @@ func close() -> void:
 	if get_viewport().get_camera_3d() == camera and is_instance_valid(_previous_camera) and _previous_camera.is_inside_tree(): _previous_camera.make_current()
 	var menu := get_node_or_null("/root/GameMenu")
 	if is_instance_valid(_player) and _player.is_inside_tree():
+		_player._refresh_equipment_visuals()
 		if not _player.survival.dead and (menu == null or not menu.is_menu_open()): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		_player.refresh_crosshair_visibility()
 	var controller: BaseGameplayController = breaker.get_controller()

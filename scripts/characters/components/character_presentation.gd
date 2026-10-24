@@ -134,6 +134,8 @@ func update_context(delta: float, context: Dictionary) -> void:
 	model.get_node("Journal").visible = journal>0
 	var kind: StringName = context.get("held_item",&"")
 	var state := "Stand"
+	var inserts := model.get_node_or_null("Journal/FrontCoverPivot/Inserts")
+	if inserts != null: inserts.sync_world(bool(context.get("journal_map",false)), journal)
 	if _sleeping: state = "Sleep"
 	elif context.get("driving",false): state = "Vehicle"
 	elif not _corpse_action.is_empty(): state = _corpse_action
@@ -186,18 +188,19 @@ func update_context(delta: float, context: Dictionary) -> void:
 		var offhand: bool = context.get("offhand_flashlight", false) and journal == 0 and not _sleeping and not context.get("driving", false) and not context.get("carrying", false) and not context.get("reloading", false)
 		tree.set("parameters/OffhandTorch/blend_amount", move_toward(float(tree.get("parameters/OffhandTorch/blend_amount")), 1.0 if offhand else 0.0, delta * 8.0))
 		tree.set("parameters/OffhandAim/blend_position", limited_pitch * 0.70)
+		GameFirstPersonPresentation.update_offer_tree(tree, context, delta)
 		tree.advance(delta)
-		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand,kind)
+		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand,kind,context.get("heavy_targets",{}))
 	if first_person!=null:
 		var fp_context:=context.duplicate(); fp_context["sleeping"]=_sleeping
 		first_person.update_context(fp_context)
-		_sync_world_items(kind,journal)
+		_sync_world_items(kind, 1 if context.get("offer_pocket", false) else journal)
 	_previous_grounded = grounded
 	_update_floor_offset(grounded and not _sleeping and not context.get("driving", false))
 	_journal_phase = journal
 	_sampled = true
 	for modifier in skeleton.get_children():
-		if modifier is LookAtModifier3D: modifier.active = not _sleeping
+		if modifier is LookAtModifier3D: modifier.active = not _sleeping and (not context.get("heavy_carry",false) or modifier.name != "Spine2Look")
 	if not equipment.is_empty(): _equipment_kind = equipment
 
 func _update_floor_offset(grounded: bool) -> void:

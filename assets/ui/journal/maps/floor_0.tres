@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_0.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Главный этаж"
+level_label = "00"
+elevation = -0.0141815999522805
+scene_root = NodePath("Floor_0_Base_Blockout")
+plan = ExtResource("2")
+world_rect = Rect2(-43.179670715332, -38.37719158396901, 82.51831922083684, 76.78788038605651)

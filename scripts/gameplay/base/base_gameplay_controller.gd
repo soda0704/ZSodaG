@@ -130,6 +130,8 @@ func _ready() -> void:
 		var saved_snapshot := load_saved_snapshot()
 		if not saved_snapshot.is_empty():
 			initial_snapshot = saved_snapshot
+	if multiplayer.is_server() and not initial_snapshot.maintenance.has("journal_campaign_id"):
+		initial_snapshot.maintenance["journal_campaign_id"] = "%s_%s" % [Time.get_unix_time_from_system(), randi()]
 	_apply_snapshot(initial_snapshot, true)
 
 
@@ -247,6 +249,10 @@ func can_end_current_day() -> bool:
 
 func is_elevator_powered() -> bool:
 	return main_breaker_on or elevator_backup_installed
+
+func has_entered_base() -> bool:
+	# Existing progressed saves already imply a visit, even before this flag existed.
+	return bool(maintenance.get("base_entered", false)) or day_index > FIRST_DAY or phase != BasePhase.ARRIVAL or fuel_delivered or main_breaker_on or elevator_backup_installed
 
 
 func get_winch_preparation() -> Dictionary:
@@ -659,6 +665,8 @@ func sync_network_state_to_peer(peer_id: int) -> void:
 
 
 func _broadcast_snapshot(snapshot: Dictionary, persist: bool = true) -> void:
+	if multiplayer.is_server() and not snapshot.maintenance.has("journal_campaign_id"):
+		snapshot.maintenance["journal_campaign_id"] = "%s_%s" % [Time.get_unix_time_from_system(), randi()]
 	if not multiplayer.is_server():
 		return
 	# A connecting peer may still be loading the threaded base scene.

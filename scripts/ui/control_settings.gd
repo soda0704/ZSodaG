@@ -2,7 +2,7 @@ class_name NorthernControlSettings
 extends Node
 ## Input persistence, independent of the menu presentation.
 
-const ACTIONS := {"move_forward": "Вперёд", "move_backward": "Назад", "move_left": "Влево", "move_right": "Вправо", "jump": "Прыжок", "sprint": "Бег", "crouch": "Приседание", "interact": "Взаимодействие / перенос", "weapon_attack": "Атака", "weapon_aim": "Прицеливание", "flashlight": "Фонарик", "replace_battery": "Перезарядка / батарейка", "drop_item": "Бросить предмет", "journal": "Журнал", "pause": "Меню", "tester_feedback": "Отчёт об ошибке"}
+const ACTIONS := {"move_forward": "Вперёд", "move_backward": "Назад", "move_left": "Влево", "move_right": "Вправо", "jump": "Прыжок", "sprint": "Бег", "crouch": "Приседание", "interact": "Взаимодействие / перенос", "weapon_attack": "Атака", "weapon_aim": "Прицеливание", "flashlight": "Фонарик", "replace_battery": "Перезарядка / батарейка", "drop_item": "Бросить предмет", "offer_item": "Протянуть предмет / отменить передачу", "journal": "Журнал", "pause": "Меню", "tester_feedback": "Отчёт об ошибке"}
 const FIXED_BINDINGS := {"pause": {"key": KEY_ESCAPE}}
 var repaired_on_load := false
 var defaults: Dictionary = {}

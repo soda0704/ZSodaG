@@ -20,6 +20,10 @@
 
 
 [ext_resource type="PackedScene" path="res://scenes/ui/flashlight_shake_hint.tscn" id="shake_hint"]
+[ext_resource type="Script" path="res://scripts/characters/components/item_handoff.gd" id="handoff"]
+
+[sub_resource type="SphereShape3D" id="HandoffTargetShape"]
+radius = 0.3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 resource_local_to_scene = true
@@ -29,6 +33,7 @@ height = 1.8
 
 [node name="Player" type="CharacterBody3D" unique_id=412239836]
 collision_layer = 2
+collision_mask = 1048577
 floor_max_angle = 0.872665
 floor_snap_length = 0.28
 safe_margin = 0.04
@@ -38,6 +43,16 @@ script = ExtResource("1_player")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape_player")
+
+[node name="ItemHandoff" type="Area3D" parent="."]
+position = Vector3(0, 1.3, -0.65)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+script = ExtResource("handoff")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemHandoff"]
+shape = SubResource("HandoffTargetShape")
 
 [node name="ItemDrag" type="Node" parent="." unique_id=1506189670]
 script = ExtResource("8_drag")
@@ -135,7 +150,7 @@ theme_override_colors/font_color = Color(1, 0.9, 0.72, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
-text = "[E] Взаимодействовать"
+text = "[ E ] Взаимодействовать"
 horizontal_alignment = 1
 
 [node name="BatteryLabel" type="Label" parent="PlayerUI" unique_id=1461945325]

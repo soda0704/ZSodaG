@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_5.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Экспедиционный сектор"
+level_label = "−05"
+elevation = -90.0
+scene_root = NodePath("Floor_Minus5_Expedition_Shaft_Blockout")
+plan = ExtResource("2")
+world_rect = Rect2(-45.1750015258789, -35.8203225485709, 51.19578826618646, 47.64052519214573)

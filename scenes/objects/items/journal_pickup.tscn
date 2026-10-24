@@ -1,0 +1,20 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/gameplay/items/journal_pickup.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/journal/book/articulated_journal.tscn" id="model"]
+[sub_resource type="BoxShape3D" id="shape"]
+size = Vector3(0.22, 0.038, 0.306)
+[node name="JournalPickup" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 1
+mass = 0.45
+freeze = true
+script = ExtResource("script")
+item_type = &"journal"
+display_name = "Полевой журнал"
+highlight_category = 1
+draggable = false
+interaction_distance = 2.5
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("shape")
+[node name="Model" parent="." instance=ExtResource("model")]
+rotation = Vector3(-1.5707963, 0, 0)

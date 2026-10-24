@@ -17,6 +17,7 @@ enum PresentationState { CLOSED, OPENING, OPEN, CLOSING }
 @onready var replace_button: Button = $JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions/ReplaceBattery
 @onready var mount_button: Button = $JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions/MountLight
 @onready var drop_button: Button = $JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions/DropItem
+@onready var give_button: Button = $JournalRoot/NotebookPivot/Reveal/Ink/RightPage/Actions/GiveItem
 @onready var close_button: Button = $JournalRoot/NotebookPivot/Reveal/Ink/Footer/CloseButton
 @onready var close_hint: Label = $JournalRoot/NotebookPivot/Reveal/Ink/Footer/CloseHint
 @onready var help_panel: PanelContainer = $JournalRoot/NotebookPivot/Reveal/Ink/HelpPanel
@@ -35,6 +36,19 @@ var _phase_time := 0.0
 var _last_ink_point := Vector2.ZERO
 var _inventory_refresh_elapsed := 0.0
 var _last_inventory_view: Dictionary = {}
+var _reading := JournalReadingStore.new()
+var _campaign_id := ""
+var _live_record: Dictionary = {}
+var _read_elapsed := 0.0
+var _history_day := -1
+var _map_open := false
+var _inserts: Node3D
+var _section_busy := false
+var _close_after_section := false
+@onready var _history: HBoxContainer = $JournalRoot/NotebookPivot/Reveal/Ink/History
+@onready var _map_sheet: Control = $JournalRoot/NotebookPivot/Reveal/Ink/MapSheet
+@onready var _notes_tab: Button = $JournalRoot/NotebookPivot/Reveal/Ink/Sections/Notes
+@onready var _map_tab: Button = $JournalRoot/NotebookPivot/Reveal/Ink/Sections/Map
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -44,6 +58,7 @@ func _ready() -> void:
 		card.focus_entered.connect(_select_item.bind(card.item_id))
 	replace_button.pressed.connect(_inventory_action.bind(&"replace_battery"))
 	drop_button.pressed.connect(_drop_selected)
+	give_button.pressed.connect(_offer_selected)
 	mount_button.pressed.connect(_mount_light)
 	close_button.pressed.connect(close_journal)
 	$JournalRoot/NotebookPivot/Reveal/Ink/Footer/HelpButton.pressed.connect(_toggle_help)
@@ -53,6 +68,10 @@ func _ready() -> void:
 	_layout_book()
 	call_deferred("_bind_controller")
 	_initialize_book_ui()
+	_notes_tab.pressed.connect(_show_section.bind(false))
+	_map_tab.pressed.connect(_show_section.bind(true))
+	_history.get_node("Previous").pressed.connect(_turn_history.bind(-1))
+	_history.get_node("Next").pressed.connect(_turn_history.bind(1))
 
 func _initialize_book_ui() -> void:
 	_ink_viewport=SubViewport.new(); _ink_viewport.name="JournalInkViewport"
@@ -73,6 +92,9 @@ func _process(delta: float) -> void:
 	if not is_instance_valid(_controller):
 		_bind_controller()
 	if _phase == PresentationState.OPEN:
+		if not _map_open and not _section_busy and _history_day < 0 and not help_panel.visible:
+			_read_elapsed += delta
+			if _read_elapsed >= .8: _reading.mark_read(_live_record)
 		_inventory_refresh_elapsed += delta
 		if _inventory_refresh_elapsed >= 0.1:
 			_inventory_refresh_elapsed = 0.0
@@ -121,7 +143,11 @@ func open_journal() -> void:
 	if get_tree().get_first_node_in_group("wiring_ui") != null or get_tree().get_first_node_in_group("terminal_ui") != null: return
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player == null or player.survival.dead or player.is_debug_free_camera_active() or get_node("/root/GameMenu").is_menu_open() or player.is_sleeping_in_bunk(): return
+	if not player.has_journal: return
 	_bind_controller()
+	_history_day = -1
+	_read_elapsed = 0.0
+	_apply_section(false)
 	_refresh_content()
 	journal_root.show()
 	help_panel.hide()
@@ -139,6 +165,14 @@ func close_journal() -> void:
 	if not is_journal_open() or _phase == PresentationState.CLOSING: return
 	if help_panel.visible:
 		_toggle_help()
+		return
+	if _phase == PresentationState.OPEN and is_instance_valid(_inserts) and (_inserts.busy or _inserts.displaying_map):
+		_close_after_section = true
+		_section_busy = true
+		_blocker.show()
+		var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+		if player != null: player.request_journal_map(false)
+		_inserts.return_to_notes()
 		return
 	_phase_time=0.72*(1-clampf(_phase_time/0.88,0,1)) if _phase==PresentationState.OPENING else 0.0
 	_phase = PresentationState.CLOSING
@@ -159,6 +193,10 @@ func _animation_finished(_clip: StringName) -> void:
 func force_close() -> void:
 	var was_open := is_journal_open()
 	_phase = PresentationState.CLOSED
+	_section_busy = false
+	_close_after_section = false
+	if is_instance_valid(_inserts): _inserts.reset()
+	_set_map_cutout(false)
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null and was_open: player.request_journal_phase(0)
 	journal_root.hide()
@@ -182,6 +220,12 @@ func _bind_character_arms(player: GamePlayer) -> void:
 	_character_arms=player.body_animator.first_person_model
 	_arms_variant=player.character_variant_id
 	var book: Node3D=_character_arms.get_node("Journal")
+	_inserts = book.get_node("FrontCoverPivot/Inserts")
+	_inserts.reset()
+	if not _inserts.content_requested.is_connected(_apply_section): _inserts.content_requested.connect(_apply_section)
+	if not _inserts.transition_finished.is_connected(_section_finished): _inserts.transition_finished.connect(_section_finished)
+	var rect: Rect2 = _map_sheet.scroll.get_global_rect()
+	_inserts.bind_ink(_ink_viewport.get_texture(),Rect2(rect.position / Vector2(_ink_viewport.size),rect.size / Vector2(_ink_viewport.size)))
 	# Widen the physical spread and its UI surfaces together, once per instance.
 	if not book.has_meta("reading_width_fitted"):
 		book.scale.x *= 1.04
@@ -198,12 +242,20 @@ func _bind_character_arms(player: GamePlayer) -> void:
 			surface.layers=1<<19; surface.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		var material:=ShaderMaterial.new(); material.shader=preload("res://assets/shaders/journal_ink.gdshader")
 		material.set_shader_parameter("ink_texture",_ink_viewport.get_texture()); material.set_shader_parameter("atlas_offset",0.0 if side=="Left" else 0.5)
+		var image: TextureRect = notebook_pivot.get_node("Reveal/BookImage")
+		var box := image.get_global_rect()
+		var texture_size := image.texture.get_size()
+		var drawn := texture_size * minf(box.size.x / texture_size.x,box.size.y / texture_size.y)
+		var paper_at := (box.position + (box.size-drawn)*.5) / Vector2(_ink_viewport.size)
+		var paper_size := drawn / Vector2(_ink_viewport.size)
+		material.set_shader_parameter("paper_texture",image.texture)
+		material.set_shader_parameter("paper_rect",Vector4(paper_at.x,paper_at.y,paper_size.x,paper_size.y))
 		surface.material_override=material
 		_page_surfaces.append(surface)
 
 func _input(event: InputEvent) -> void:
 	if get_node("/root/GameMenu").is_menu_open(): return
-	if _phase!=PresentationState.OPEN or _page_surfaces.is_empty(): return
+	if _phase!=PresentationState.OPEN or _section_busy or _page_surfaces.is_empty(): return
 	var player:=get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player==null: return
 	if event is InputEventMouse:
@@ -256,10 +308,10 @@ func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 	_refresh_content()
 
 func _refresh_content() -> void:
-	if not is_instance_valid(_controller):
+	if not is_instance_valid(_controller) or not _controller.has_entered_base():
 		day_label.text = "ПОЛЕВЫЕ ЗАПИСИ"
-		objective_label.text = "Подготовка к экспедиции"
-		tasks_label.text = "Задание появится на базе."
+		objective_label.text = "Выяснить что тут произошло"
+		tasks_label.text = ""
 		_quest_card.hide()
 		coop_status_label.text = ""
 	else:
@@ -317,6 +369,90 @@ func _refresh_content() -> void:
 			tasks_label.text += "\n\n" + _task_line(delivered.has(0), "Отнести тело с моста на медицинскую койку · %d/1" % (1 if delivered.has(0) else 0))
 			tasks_label.text += "\nПроверить на признаки жизни или узнать причину смерти."
 	_refresh_inventory()
+	_capture_record()
+
+func has_unread_entries() -> bool:
+	var actor := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	return actor != null and actor.has_journal and _reading.unread(_live_record)
+
+func _capture_record() -> void:
+	var identity := str(_controller.maintenance.get("journal_campaign_id", "")) if is_instance_valid(_controller) else ""
+	if identity != _campaign_id:
+		_campaign_id = identity
+		if not identity.is_empty(): _reading.bind_campaign(identity)
+		else: _reading = JournalReadingStore.new()
+		_history_day = -1
+	_live_record = {"day": _controller.day_index if is_instance_valid(_controller) else 1,
+		"objective": objective_label.text, "tasks": tasks_label.text}
+	var actor := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if actor != null and actor.has_journal and _reading.capture(_live_record): _read_elapsed = 0.0
+	if _history_day >= 0:
+		_display_history()
+	_history.get_node("Caption").text = "Сегодня · %02d" % int(_live_record.day) if _history_day < 0 else "День %02d · архив" % _history_day
+	_history.get_node("Previous").disabled = _reading.entries.size() < 2 or (_history_day >= 0 and _history_day == int(_reading.entries.front().day))
+	_history.get_node("Next").disabled = _history_day < 0
+	var visited: Array = _controller.maintenance.get("journal_visited", []).duplicate() if is_instance_valid(_controller) else []
+	if is_instance_valid(_controller) and _controller.has_entered_base() and not visited.has(0): visited.append(0)
+	_map_sheet.update_visited(visited)
+	_map_tab.visible = is_instance_valid(_controller) and _controller.has_entered_base()
+
+func _turn_history(direction: int) -> void:
+	var index := _reading.entries.size()-1
+	if _history_day >= 0:
+		for i in _reading.entries.size():
+			if int(_reading.entries[i].day) == _history_day: index = i
+	index = clampi(index + direction, 0, _reading.entries.size()-1)
+	_history_day = -1 if index == _reading.entries.size()-1 else int(_reading.entries[index].day)
+	_refresh_content()
+	_read_elapsed = 0.0
+
+func _display_history() -> void:
+	for record in _reading.entries:
+		if int(record.day) != _history_day: continue
+		day_label.text = "ЭКСПЕДИЦИЯ / ДЕНЬ %02d / АРХИВ" % _history_day
+		objective_label.text = record.objective
+		tasks_label.text = record.tasks
+		_quest_card.hide()
+		coop_status_label.text = ""
+		return
+	_history_day = -1
+
+func _show_section(show_map: bool) -> void:
+	if show_map and (not is_instance_valid(_controller) or not _controller.has_entered_base()): return
+	if _section_busy or show_map == _map_open: return
+	if _phase != PresentationState.OPEN or not is_instance_valid(_inserts): return
+	if DisplayServer.get_name() != "headless":
+		_inserts.bind_turn_texture(ImageTexture.create_from_image(_ink_viewport.get_texture().get_image()))
+	_section_busy = true
+	_read_elapsed = 0.0
+	_blocker.show()
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if player != null: player.request_journal_map(show_map)
+	_inserts.transition_to(show_map)
+
+func _section_finished() -> void:
+	_section_busy = false
+	if _phase == PresentationState.OPEN: _blocker.hide()
+	if _close_after_section:
+		_close_after_section = false
+		close_journal()
+
+func _set_map_cutout(enabled: bool) -> void:
+	if _page_surfaces.is_empty(): return
+	var material: ShaderMaterial = _page_surfaces[0].material_override
+	material.set_shader_parameter("map_cutout",enabled)
+
+func _apply_section(show_map: bool) -> void:
+	_map_open = show_map
+	_set_map_cutout(show_map)
+	notebook_pivot.get_node("Reveal/Ink/LeftPage").visible = not show_map
+	notebook_pivot.get_node("Reveal/Ink/RightPage").visible = not show_map
+	_history.visible = not show_map
+	_map_sheet.visible = show_map
+	_notes_tab.set_pressed_no_signal(not show_map)
+	_map_tab.set_pressed_no_signal(show_map)
+	help_panel.hide()
+	_read_elapsed = 0.0
 
 func _set_quest_photo(id: String, title: String, note: String) -> void:
 	var path := ILLUSTRATION_ROOT + id + ".png"
@@ -329,9 +465,9 @@ func _task_line(done: bool, text_value: String) -> String:
 
 func get_hud_summary() -> Dictionary:
 	# Both presentations share the journal's existing story and maintenance rules.
-	if not is_instance_valid(_controller):
-		return {"day": 0, "objective": "", "tasks": [], "empty_label": "НЕТ АКТИВНЫХ ЗАДАЧ"}
-	var source := tasks_label.text
+	if not is_instance_valid(_controller) or not _controller.has_entered_base():
+		return {"day": 1, "objective": "Выяснить что тут произошло", "tasks": [], "title_only": true}
+	var source := str(_live_record.get("tasks", tasks_label.text))
 	# Narrative belongs on the journal page, not in the HUD's action checklist.
 	var description := str(_controller.get_expedition_objective().get("description", ""))
 	if not description.is_empty(): source = source.trim_prefix(description + "\n\n")
@@ -352,7 +488,7 @@ func get_hud_summary() -> Dictionary:
 					continuation = ""
 		if not continuation.is_empty(): pending.append(continuation)
 	return {"day": _controller.day_index,
-		"objective": objective_label.text,
+		"objective": _live_record.get("objective", objective_label.text),
 		"tasks": pending, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ"}
 
 func _select_item(id: StringName) -> void:
@@ -416,6 +552,9 @@ func _refresh_inventory() -> void:
 	replace_button.visible = has_light and charge <= 0.0 and not batteries.is_empty()
 	drop_button.visible = _selected_item != &"" and _selected_item not in [&"pistol_ammo", &"rifle_magazine", &"flame_recipe"]
 	drop_button.disabled = CRAFT_RECIPE.requirements.has(_selected_item) and int(counts.get(_selected_item,0)) <= 0
+	var offer_player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	give_button.visible = offer_player != null and offer_player.handoff.available(_selected_item, true)
+	give_button.disabled = offer_player == null or offer_player.handoff.is_offering()
 	mount_button.visible = hand == &"m4a1" and has_light
 	mount_button.text = "Снять фонарь" if data.get("weapon_light_mounted", false) else "Примотать"
 	mount_button.tooltip_text = "Снять в постоянный инвентарь. Скотч не возвращается." if data.get("weapon_light_mounted", false) else "Закрепить фонарик на M4A1: нужен 1 скотч. Свет включается кнопкой F."
@@ -455,6 +594,13 @@ func _refresh_inventory() -> void:
 		var focused := _ink_viewport.gui_get_focus_owner()
 		if focused == null or not focused.is_visible_in_tree():
 			close_button.grab_focus()
+
+func _offer_selected() -> void:
+	if _phase != PresentationState.OPEN: return
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if player == null or not player.handoff.available(_selected_item, true): return
+	close_journal()
+	player.handoff.request_offer(_selected_item, true)
 
 func _drop_selected() -> void:
 	if _selected_item in [&"pistol_ammo", &"rifle_magazine", &"flame_recipe"]: return

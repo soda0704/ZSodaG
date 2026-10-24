@@ -20,7 +20,10 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures += 1
 
 func settle() -> void:
-	for frame in 6: await physics_frame
+	for frame in 6:
+		# Movement is frozen by this fixture; keep the real presentation updating.
+		if is_instance_valid(player): player.update_character_animation(1.0 / 60.0)
+		await physics_frame
 
 func boot() -> void:
 	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
@@ -104,9 +107,16 @@ func run() -> void:
 	check(not state.main_breaker_on and not breaker.get_node("Wiring/Board").visible, "day-two failure keeps service door shut until E")
 	check(not state.activate_main_breaker_authoritative(1), "unrepaired circuits block main power")
 	var original_camera := player.camera
+	player.pickup_world_item_authoritative(&"flashlight", {"battery_charge": 1.0})
 	player.try_authoritative_interaction()
 	await create_timer(0.55).timeout
 	check(breaker.wiring.active and root.get_camera_3d() == breaker.wiring.camera, "production interaction opens 3D repair camera")
+	var repair_beam := breaker.wiring.get_node("RepairCamera/RepairBeam") as SpotLight3D
+	check(repair_beam.is_visible_in_tree() and is_zero_approx(repair_beam.position.x) and is_zero_approx(repair_beam.position.y), "repair beam follows the exact camera center")
+	check(not player.flashlight.beam.visible and not player.flashlight.spill.visible, "repair suppresses the old off-axis handheld beam")
+	var charge_before := player._battery_charge
+	player.update_authoritative_flashlight_battery(0.5)
+	check(player._battery_charge < charge_before, "centered repair light still consumes the real battery")
 	check(breaker._cover_open and breaker.get_node("Wiring/Board").visible and absf(breaker.cover.rotation.y + 1.95) < 0.05, "E opens the hinged physical cover")
 	player.refresh_crosshair_visibility()
 	Input.action_press("move_forward")
@@ -130,6 +140,26 @@ func run() -> void:
 	check(not breaker.wiring.active and root.get_camera_3d() == original_camera and get_first_node_in_group("wiring_ui") == null, "Escape returns camera and unlocks player")
 	check(not root.get_node("GameMenu").is_menu_open(), "closing repair does not also open pause menu")
 	check(not breaker._cover_open, "leaving service view closes cover")
+	check(not repair_beam.visible and player.flashlight.beam.is_visible_in_tree(), "leaving repair restores the handheld beam")
+	player.apply_held_item_inventory(&"m4a1", {})
+	player.weapon.apply_state(&"m4a1", 12, 0)
+	player.tape_count = 1
+	check(player.perform_inventory_action_authoritative(&"mount_light"), "repair test attaches the real flashlight to M4A1")
+	player.try_authoritative_interaction()
+	await settle()
+	check(repair_beam.is_visible_in_tree() and not player.weapon._mounted_beam.visible, "mounted flashlight also transfers to the centered repair beam")
+	player._flashlight_enabled = false
+	await settle()
+	check(not repair_beam.visible, "repair cannot produce light from a switched-off flashlight")
+	player._flashlight_enabled = true
+	player._battery_charge = 0.0
+	await settle()
+	check(not repair_beam.visible, "repair cannot produce light from an empty battery")
+	player._battery_charge = 0.9
+	await settle()
+	breaker.wiring.close()
+	await settle()
+	check(not repair_beam.visible and player.weapon._mounted_beam.is_visible_in_tree(), "leaving repair restores the mounted beam")
 	player.survival.dead = true
 	check(not state.connect_wire_authoritative(1, 1, 0), "dead player cannot repair")
 	player.survival.dead = false

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="JournalMapFloor" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/journal_map_floor.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/journal/maps/floor_1.svg" id="2"]
+[resource]
+script = ExtResource("1")
+title = "Контроль и связь"
+level_label = "−01"
+elevation = -18.0
+scene_root = NodePath("Floor_Minus1_Control_Security_Blockout")
+plan = ExtResource("2")
+world_rect = Rect2(-68.67500152587891, -34.75302378538652, 74.69267919540857, 69.50568758461631)

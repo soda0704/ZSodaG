@@ -234,16 +234,20 @@ func should_display() -> bool:
 func refresh_state() -> void:
 	var journal := get_node("/root/QuestJournal")
 	view_state = player.get_inventory_snapshot()
+	if player.handoff.pocket_pose() or player.get_node("ItemDrag").is_heavy_carrying(): view_state["held_item"] = &""
+	if player.get_node("ItemDrag").is_heavy_carrying(): view_state["has_flashlight"] = false
 	view_state["health"] = player.survival.health
 	view_state["max_health"] = player.survival.max_health
 	# The game models radiation as a 0–100 exposure gauge, not a measured dose.
 	view_state["radiation"] = player.survival.radiation
 	view_state["quest"] = journal.get_hud_summary()
 	view_state["light_hint"] = _action_hint(&"flashlight")
-	view_state["attack_hint"] = _action_hint(&"weapon_attack")
-	view_state["journal_hint"] = _action_hint(&"journal")
-	view_state["reload_hint"] = _action_hint(&"replace_battery")
-	view_state["reload_action"] = player.get_reload_or_battery_action()
+	view_state["attack_hint"] = "" if player.handoff.is_offering() or player.get_node("ItemDrag").is_heavy_carrying() else _action_hint(&"weapon_attack")
+	view_state["journal_hint"] = get_node("/root/SteamInput").get_action_hint(&"journal")
+	view_state["journal_unread"] = journal.has_unread_entries()
+	view_state["has_journal"] = player.has_journal
+	view_state["reload_hint"] = get_node("/root/SteamInput").get_action_hint(&"replace_battery")
+	view_state["reload_action"] = &"" if player.handoff.is_offering() or player.get_node("ItemDrag").is_heavy_carrying() else player.get_reload_or_battery_action()
 	view_state["battery_action_busy"] = player._battery_action_busy
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
 	view_state["arrival"] = world != null and world.has_method("is_waiting_for_arrival") and world.is_waiting_for_arrival()
@@ -255,7 +259,7 @@ func refresh_state() -> void:
 			_objective_time = 0.0
 			_objective_from_alpha = _objective_alpha
 	_last_objective = objective
-	var equipment := "%s/%s" % [view_state.held_item, view_state.has_flashlight]
+	var equipment := "%s/%s/%s" % [view_state.held_item, view_state.has_flashlight, player.handoff.is_offering() or player.get_node("ItemDrag").is_heavy_carrying()]
 	if not _last_equipment.is_empty() and equipment != _last_equipment:
 		_equipment_flash = 1.0
 		_equipment_pending = equipment_layout(view_state)
@@ -294,7 +298,7 @@ func _action_hint(action: StringName) -> String:
 				return OS.get_keycode_string(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
 			if event is InputEventMouseButton:
 				return {MOUSE_BUTTON_LEFT: "ЛКМ", MOUSE_BUTTON_RIGHT: "ПКМ", MOUSE_BUTTON_MIDDLE: "СКМ"}.get(event.button_index, "Мышь %d" % event.button_index)
-	return str(service.get_action_hint(action)).trim_prefix("[").trim_suffix("]")
+	return str(service.get_action_hint(action)).trim_prefix("[").trim_suffix("]").strip_edges()
 
 func _draw() -> void:
 	if view_state.is_empty() or not is_instance_valid(player):
@@ -393,9 +397,9 @@ func _fit_lines(value: String, width: float, font_size: int, max_lines: int) -> 
 
 func objective_layout(quest: Dictionary) -> Dictionary:
 	var tasks: Array = quest.get("tasks", []).filter(func(task): return not str(task).strip_edges().is_empty())
-	var result := {"rect": Rect2(44, 88, 440, 58), "empty": tasks.is_empty(),
+	var result := {"rect": Rect2(44, 88, 440, 58), "empty": tasks.is_empty() and not bool(quest.get("title_only", false)),
 		"empty_label": str(quest.get("empty_label", "НЕТ АКТИВНЫХ ЗАДАЧ")), "rows": [], "footer": "", "title": ""}
-	if tasks.is_empty():
+	if result.empty:
 		result.rect.size.x = maxf(240, HEADING_FONT.get_string_size(result.empty_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x + 62)
 		return result
 	var title := str(quest.get("objective", "Текущая задача")).strip_edges()
@@ -417,9 +421,7 @@ func objective_layout(quest: Dictionary) -> Dictionary:
 	return result
 
 func _draw_objectives() -> void:
-	# Arrival already has its own lobby card; story objectives begin on the base.
-	if bool(view_state.get("arrival", false)):
-		return
+	# The initial unknown objective also belongs beside the helicopter lobby card.
 	var quest: Dictionary = view_state.quest
 	var day := int(quest.get("day", 0))
 	if day <= 0 or _objective_view.is_empty(): return
@@ -502,7 +504,7 @@ func interaction_layout(source: String) -> Dictionary:
 	# Only explicit actionable hints get a keycap. Informational/blocked hints stay informational.
 	if prompt.begins_with("[") and prompt.contains("]"):
 		var end := prompt.find("]")
-		key = prompt.substr(1, end - 1)
+		key = prompt.substr(1, end - 1).strip_edges()
 		prompt = prompt.substr(end + 1).strip_edges()
 	var key_size := _badge_extent(key, 22) if not key.is_empty() else Vector2.ZERO
 	# Symmetric reserves keep the text centered on the entire frame, independently of the key.
@@ -587,7 +589,9 @@ func _draw_equipment() -> void:
 		if not hint.is_empty():
 			_badge(hint, at + Vector2((CARD_SIZE.x - _badge_extent(hint, 18).x) * 0.5, CARD_BODY_HEIGHT), 18)
 	_draw_alpha = 1.0
+	if not bool(view_state.get("has_journal", false)): return
 	var journal_text := "%s — Журнал" % view_state.journal_hint
+	if bool(view_state.get("journal_unread", false)): journal_text += " · Новая запись"
 	var width := _font.get_string_size(journal_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
 	_text(journal_text, Vector2((_canvas_size.x - width) * 0.5, _canvas_size.y - 56), 22)
 

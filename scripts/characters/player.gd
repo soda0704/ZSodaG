@@ -86,6 +86,7 @@ var _sprint_active := false
 @onready var body_animator: GameCharacterPresentation = %BodyVisual
 @onready var name_label: Label3D = %NameLabel
 @onready var flashlight: PlayerFlashlight = %Flashlight
+@onready var handoff = $ItemHandoff
 @onready var held_seed_packet: Node3D = %HeldSeedPacket
 @onready var held_fuse: Node3D = %HeldFuse
 @onready var held_fuel_can: Node3D = %HeldFuelCan
@@ -138,6 +139,8 @@ var _remote_target_pitch: float = 0.0
 var _remote_crouching: bool = false
 var _remote_grounded: bool = true
 var _journal_phase := 0
+var has_journal := false
+var _journal_map := false
 var _aiming := false
 var _aim_serial_state := false
 var _has_remote_snapshot: bool = false
@@ -163,6 +166,8 @@ var _is_crouching: bool = false
 var _is_sleeping_in_bunk: bool = false
 var _spare_batteries: Array[float] = []
 var _inventory_revision: int = 0
+# Handoffs publish only after both inventories contain the final ownership.
+var _handoff_transaction := false
 var fuel_liters := 20.0
 var _battery_action_busy: bool = false
 var _pad_sprint: bool = false
@@ -232,6 +237,7 @@ func _ready() -> void:
 			mesh.layers = 1 << 19
 			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	name_label.visible = not local_player
+	call_deferred("restore_journal_ownership")
 	refresh_crosshair_visibility()
 	get_node("/root/GameMenu").menu_root.visibility_changed.connect(refresh_crosshair_visibility)
 	interaction_prompt_label.visible = false
@@ -298,7 +304,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("jump"):
 		_jump_serial += 1
 	elif event.is_action_pressed("interact"):
-		if needs_flashlight_shake():
+		if handoff.is_offering():
+			pass
+		elif get_interaction_target() != null and get_interaction_target().has_method("begin_item_handoff"):
+			get_interaction_target().begin_item_handoff()
+		elif needs_flashlight_shake():
 			request_inventory_action(&"shake_flashlight")
 		elif get_interaction_target() != null and get_interaction_target().has_method("begin_lobby_interaction") and get_interaction_target().begin_lobby_interaction():
 			pass
@@ -307,7 +317,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif not $ItemDrag.begin_interaction():
 			_interact_serial += 1
 	elif event.is_action_pressed("drop_item"):
-		_drop_item_serial += 1
+		if not handoff.is_offering() and not $ItemDrag.is_heavy_carrying(): _drop_item_serial += 1
+	elif event.is_action_pressed("offer_item"):
+		if handoff.is_offering(): handoff.request_cancel()
+		else: handoff.request_offer(_held_item_type, false)
 	elif event.is_action_pressed("replace_battery"):
 		request_reload_or_battery()
 	elif event.is_action_pressed("sprint") and get_node("/root/SteamInput").is_controller_event(event):
@@ -528,13 +541,19 @@ func update_character_animation(delta: float) -> void:
 		"crouching": crouching,
 		"yaw": rotation.y,
 		"pitch": head.rotation.x,
-		"held_item": FLASHLIGHT_ITEM if _battery_flashlight_presentation else _held_item_type,
-		"offhand_flashlight": is_offhand_flashlight_drawn() and not _battery_flashlight_presentation,
+		"held_item": NO_ITEM if handoff.pocket_pose() or $ItemDrag.is_heavy_carrying() else FLASHLIGHT_ITEM if _battery_flashlight_presentation else _held_item_type,
+		"offering": handoff.is_offering() or $ItemDrag.is_heavy_carrying(),
+		"heavy_carry": $ItemDrag.is_heavy_carrying(),
+		"heavy_targets": $ItemDrag.heavy_body.hand_targets(owner_peer_id) if $ItemDrag.is_heavy_carrying() else {},
+		"body_transform": get_global_transform_interpolated(),
+		"offer_pocket": handoff.pocket_pose() or $ItemDrag.is_heavy_carrying(),
+		"offhand_flashlight": is_offhand_flashlight_drawn() and not _battery_flashlight_presentation and not $ItemDrag.is_heavy_carrying() and not handoff.pocket_pose(),
 		"journal_phase": _journal_phase,
+		"journal_map": _journal_map,
 		"carrying": is_carrying_corpse(),
 		"driving": is_driving(),
 		"reloading": weapon != null and weapon.reload_left>0.0,
-		"aiming": _aiming
+		"aiming": _aiming and not handoff.is_offering() and not $ItemDrag.is_heavy_carrying()
 	})
 	name_label.visible = not is_local_player() and not _is_sleeping_in_bunk
 	name_label.position.y = lerpf(
@@ -743,7 +762,7 @@ func simulate_movement(
 	elif velocity.y < 0.0:
 		velocity.y = 0.0
 
-	if should_jump and is_on_floor() and not _is_crouching:
+	if should_jump and is_on_floor() and not _is_crouching and not $ItemDrag.is_heavy_carrying():
 		velocity.y = jump_velocity
 
 	var input_direction := Vector3(move_input.x, 0.0, move_input.y)
@@ -755,6 +774,7 @@ func simulate_movement(
 	)
 	if is_carrying_corpse():
 		speed *= corpse_carry_speed_multiplier
+	if $ItemDrag.is_heavy_carrying(): speed = minf(speed, walk_speed * 0.5)
 	var carried_weight := 0.0
 	for item in get_tree().get_nodes_in_group("world_items"):
 		if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.75:
@@ -882,8 +902,17 @@ func refresh_interaction_prompt() -> void:
 			interaction_prompt_label.text = "Двигатель заводится…"
 		return
 
+	if handoff.is_offering():
+		interaction_prompt_label.visible = true
+		var offer_hint: String = get_node("/root/SteamInput").get_action_hint(&"offer_item")
+		interaction_prompt_label.text = "%s %s · %s" % [offer_hint, handoff.title(), "Нажать — отменить" if handoff.pocket_pose() else "Отпустить — убрать"]
+		return
 	if needs_flashlight_shake():
 		interaction_prompt_label.hide()
+		return
+	if $ItemDrag.is_heavy_carrying():
+		interaction_prompt_label.visible = true
+		interaction_prompt_label.text = $ItemDrag.heavy_body.carry_hint()
 		return
 	if $ItemDrag.dragging:
 		interaction_prompt_label.visible = false
@@ -921,11 +950,42 @@ func _is_journal_open() -> bool:
 
 func request_journal_phase(phase: int) -> void:
 	if not is_local_player(): return
+	if phase != 0 and not has_journal: return
+	if phase == 1: handoff.request_cancel()
 	_journal_phase = clampi(phase,0,3)
 	if multiplayer.is_server():
 		_publish_journal_phase(_journal_phase)
 	else:
 		_submit_journal_phase.rpc_id(1,_journal_phase)
+
+func journal_owner_key() -> String:
+	var session := get_tree().get_first_node_in_group("network_gameplay_controller")
+	return str(session._inventory_id(owner_peer_id)) if session != null and session.has_method("_inventory_id") else "offline_%d" % owner_peer_id
+
+func restore_journal_ownership(_snapshot: Dictionary = {}) -> void:
+	var state := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
+	if state == null: return
+	if not state.snapshot_changed.is_connected(restore_journal_ownership): state.snapshot_changed.connect(restore_journal_ownership)
+	if has_journal or not state.maintenance.get("journal_claims", {}).values().has(journal_owner_key()): return
+	has_journal = true
+	if multiplayer.is_server(): _publish_inventory()
+
+func request_journal_map(value: bool) -> void:
+	if not is_local_player() or not has_journal: return
+	_journal_map = value
+	if multiplayer.is_server(): _receive_journal_map.rpc(value)
+	else: _submit_journal_map.rpc_id(1,value)
+
+@rpc("any_peer", "call_remote", "reliable", 2)
+func _submit_journal_map(value: bool) -> void:
+	if not multiplayer.is_server() or multiplayer.get_remote_sender_id() != owner_peer_id or not has_journal or _journal_phase != 2: return
+	var state := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
+	if value and (state == null or not state.has_entered_base()): return
+	_receive_journal_map.rpc(value)
+
+@rpc("authority", "call_local", "reliable", 2)
+func _receive_journal_map(value: bool) -> void:
+	_journal_map = value
 
 func _push_loose_item(item: WorldItemPickup, _movement: Vector3, delta: float) -> void:
 	if not multiplayer.is_server() or item.freeze or item.drag_owner_peer != 0:
@@ -943,7 +1003,7 @@ func _push_loose_item(item: WorldItemPickup, _movement: Vector3, delta: float) -
 func _update_aim_intent() -> void:
 	if is_debug_free_camera_active():
 		return
-	var value:=Input.is_action_pressed("weapon_aim") and _held_item_type in [&"pistol",&"m4a1"] and not survival.dead and not _is_journal_open() and not _is_sleeping_in_bunk and not is_driving()
+	var value: bool = Input.is_action_pressed("weapon_aim") and _held_item_type in [&"pistol",&"m4a1"] and not survival.dead and not _is_journal_open() and not _is_sleeping_in_bunk and not is_driving() and not handoff.is_offering() and not $ItemDrag.is_heavy_carrying()
 	_aiming=value
 	if value==_aim_serial_state: return
 	_aim_serial_state=value
@@ -963,12 +1023,14 @@ func _receive_aim_state(value: bool) -> void:
 @rpc("any_peer","call_remote","reliable",2)
 func _submit_journal_phase(phase: int) -> void:
 	if not multiplayer.is_server() or multiplayer.get_remote_sender_id()!=owner_peer_id: return
+	if phase != 0 and not has_journal: return
 	if survival.dead and phase!=0: return
 	_publish_journal_phase(clampi(phase,0,3))
 
 
 func _publish_journal_phase(phase: int) -> void:
 	_journal_phase = phase
+	if phase == 0: _journal_map = false
 	_refresh_equipment_visuals()
 	_receive_journal_phase.rpc(phase)
 
@@ -976,6 +1038,7 @@ func _publish_journal_phase(phase: int) -> void:
 @rpc("authority","call_remote","reliable",2)
 func _receive_journal_phase(phase: int) -> void:
 	_journal_phase = clampi(phase,0,3)
+	if phase == 0: _journal_map = false
 	_refresh_equipment_visuals()
 
 
@@ -1095,8 +1158,13 @@ func pickup_world_item_authoritative(
 	item_type: StringName,
 	item_state: Dictionary
 ) -> bool:
-	if not multiplayer.is_server() or survival.dead or is_carrying_corpse():
+	if not multiplayer.is_server() or survival.dead or is_carrying_corpse() or $ItemDrag.is_heavy_carrying():
 		return false
+	if item_type == &"journal":
+		if has_journal: return false
+		has_journal = true
+		_publish_inventory()
+		return true
 
 	if item_type == &"pistol_ammo":
 		var amount := int(item_state.get("amount", 12))
@@ -1194,6 +1262,7 @@ func is_offhand_flashlight_drawn() -> bool:
 
 func get_inventory_snapshot() -> Dictionary:
 	return {
+		"has_journal": has_journal,
 		"held_item": _held_item_type,
 		"crafting_parts": crafting_parts.duplicate(),
 		"debug_fly": debug_fly,
@@ -1219,7 +1288,8 @@ func get_inventory_snapshot() -> Dictionary:
 	}
 
 
-func _publish_inventory() -> void:
+func _publish_inventory(force := false) -> void:
+	if _handoff_transaction and not force: return
 	_inventory_revision += 1
 	_receive_equipment.rpc(get_inventory_snapshot())
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -1237,6 +1307,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	if revision < _inventory_revision:
 		return
 	_inventory_revision = revision
+	has_journal = bool(data.get("has_journal", has_journal))
 	debug_fly = bool(data.get("debug_fly", false))
 	debug_across = bool(data.get("debug_across", false))
 	debug_speed_multiplier = clampf(float(data.get("debug_speed_multiplier", 1.0)), 0.1, 20.0)
@@ -1279,6 +1350,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 
 
 func toggle_flashlight_authoritative() -> bool:
+	if $ItemDrag.is_heavy_carrying(): return false
 	if survival.dead or is_carrying_corpse() or is_driving() or _battery_action_busy:
 		return false
 	if not multiplayer.is_server() or not _has_flashlight or _is_sleeping_in_bunk:
@@ -1332,6 +1404,7 @@ func _request_inventory_action(action: StringName) -> void:
 
 
 func _begin_inventory_action(action: StringName) -> void:
+	if handoff.is_offering() or $ItemDrag.is_heavy_carrying(): return
 	if survival.dead:
 		return
 	if action == &"reload_or_battery":
@@ -1383,6 +1456,7 @@ func _play_battery_action() -> void:
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
+	if handoff.is_offering() or $ItemDrag.is_heavy_carrying(): return false
 	if is_driving() or is_carrying_corpse():
 		return false
 	if survival.dead:
@@ -1515,6 +1589,7 @@ func get_held_item_drop_linear_velocity() -> Vector3:
 
 
 func drop_current_item_authoritative() -> bool:
+	if $ItemDrag.is_heavy_carrying(): return false
 	if is_carrying_corpse():
 		return carried_corpse.drop_from_shoulder(owner_peer_id)
 	if survival.dead:
@@ -1532,6 +1607,14 @@ func drop_current_item_at_authoritative(
 	if not multiplayer.is_server() or _held_item_type == NO_ITEM:
 		return false
 
+	handoff.cancel_authoritative()
+	var released := release_held_item_authoritative()
+	spawn_dropped_item_authoritative(released.type, released.state, drop_transform, drop_velocity)
+	return true
+
+
+func release_held_item_authoritative() -> Dictionary:
+	if not multiplayer.is_server() or _held_item_type == NO_ITEM: return {}
 	var dropped_item_type := _held_item_type
 	var dropped_item_state := get_held_item_state()
 	var keep_handheld := is_offhand_flashlight_drawn()
@@ -1548,13 +1631,7 @@ func drop_current_item_at_authoritative(
 		if not _has_flashlight:
 			_flashlight_malfunctioning = false
 	_publish_inventory()
-	spawn_dropped_item_authoritative(
-		dropped_item_type,
-		dropped_item_state,
-		drop_transform,
-		drop_velocity
-	)
-	return true
+	return {"type": dropped_item_type, "state": dropped_item_state}
 
 
 func has_held_item(item_type: StringName) -> bool:
@@ -1564,6 +1641,7 @@ func has_held_item(item_type: StringName) -> bool:
 func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
 	if not multiplayer.is_server():
 		return
+	handoff.cancel_authoritative()
 	drop_current_item_at_authoritative(drop_transform)
 	if crowbar_uses > 0:
 		spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses}, drop_transform, Vector3.ZERO)
@@ -1731,7 +1809,7 @@ func send_snapshot_if_due(delta: float) -> void:
 		_server_last_sequence,
 		get_inventory_snapshot(),
 		Vector3(_sprint_remaining, 1.0 if _sprint_exhausted else 0.0, 1.0 if _sprint_active else 0.0),
-		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"variant":character_variant_id,"aiming":_aiming}
+		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"journal_map":_journal_map,"variant":character_variant_id,"aiming":_aiming}
 	)
 
 
@@ -1754,6 +1832,7 @@ func _receive_authoritative_state(
 ) -> void:
 	_remote_grounded = bool(server_animation.get("grounded",_remote_grounded))
 	_journal_phase = int(server_animation.get("journal_phase",_journal_phase))
+	_journal_map = bool(server_animation.get("journal_map",_journal_map))
 	if not is_local_player(): _aiming=bool(server_animation.get("aiming",false))
 	if server_sprint_state.x >= 0.0:
 		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)
@@ -1864,9 +1943,13 @@ func apply_held_item_inventory(
 	inventory_changed.emit()
 
 
+func is_wiring_view_active() -> bool:
+	return is_local_player() and get_tree().get_first_node_in_group("wiring_ui") != null
+
+
 func _refresh_equipment_visuals() -> void:
 	if not _has_flashlight: _battery_flashlight_presentation = false
-	var journal_equipment_hidden := _journal_phase>0 or (is_local_player() and _is_journal_open())
+	var journal_equipment_hidden: bool = _journal_phase>0 or (is_local_player() and _is_journal_open()) or handoff.pocket_pose() or $ItemDrag.is_heavy_carrying()
 	flashlight.set_battery_charge(_battery_charge, false)
 	var hands_busy := survival.dead or _is_sleeping_in_bunk or is_driving() or is_carrying_corpse() or (weapon.reload_left > 0.0 and is_handheld_flashlight_drawn())
 	flashlight.set_equipped((is_handheld_flashlight_drawn() or _battery_flashlight_presentation) and not journal_equipment_hidden and not hands_busy)
@@ -1877,7 +1960,7 @@ func _refresh_equipment_visuals() -> void:
 	else:
 		if flashlight.is_malfunctioning:
 			flashlight.cancel_malfunction()
-		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted, false)
+		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted and not is_wiring_view_active(), false)
 	held_seed_packet.visible = _held_item_type == SEED_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
 	held_fuse.visible = _held_item_type == FUSE_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
 	held_fuel_can.visible = _held_item_type == FUEL_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
@@ -1924,7 +2007,7 @@ func update_battery_ui() -> void:
 	var shake_hint := $PlayerUI/FlashlightShakeHint
 	shake_hint.visible = is_local_player() and needs_flashlight_shake() and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and not is_debug_free_camera_active()
 	if shake_hint.visible:
-		shake_hint.get_node("Label").text = str(get_node("/root/SteamInput").get_action_hint(&"interact")).trim_prefix("[").trim_suffix("]")
+		shake_hint.get_node("Label").text = str(get_node("/root/SteamInput").get_action_hint(&"interact")).trim_prefix("[").trim_suffix("]").strip_edges()
 	if is_debug_free_camera_active():
 		battery_label.hide()
 		return
