@@ -618,6 +618,7 @@ func save_settings_data() -> bool:
 	return result == OK
 
 func apply_settings_data() -> void:
+	$FPSCounter.set_enabled(bool(_settings_data.get("ShowFPS", false)))
 	if _settings_data.get("GraphicsCalibrationPending", false): $GraphicsQuality.restart_recommendation()
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 	var resolution := parse_resolution(
@@ -836,6 +837,7 @@ func default_settings_data() -> Dictionary:
 		"WindowMode": "fullscreen",
 		"Screen": 0,
 		"VSync": true,
+		"ShowFPS": false,
 		"MasterVolume": 80.0,
 		"MusicVolume": 70.0,
 		"EffectsVolume": 100.0,

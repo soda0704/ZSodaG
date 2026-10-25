@@ -114,6 +114,7 @@ func select_category(index: int) -> void:
 				monitor_ids.append(i)
 			_choice("Screen", "Монитор", monitors, monitor_ids)
 			_toggle("VSync", "Вертикальная синхронизация")
+			_toggle("ShowFPS", "Показывать FPS")
 			_numeric("Brightness", "Яркость", 70, 140, 5, "%", true)
 			_numeric("Gamma", "Гамма", 70, 150, 10, "%", true)
 			_toggle("HDR", "HDR", true, not DisplayServer.window_is_hdr_output_supported())
@@ -286,7 +287,7 @@ func reset_category() -> void:
 	var defaults: Dictionary = _menu.default_settings_data()
 	match category:
 		0:
-			for key in ["Resolution", "WindowMode", "Screen", "VSync"]:
+			for key in ["Resolution", "WindowMode", "Screen", "VSync", "ShowFPS"]:
 				draft[key] = defaults[key]
 			for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
 				draft.Graphics[key] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[key]
