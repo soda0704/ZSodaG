@@ -24,6 +24,7 @@ func run() -> void:
 	root.size = Vector2i(960,540)
 	Engine.max_fps = 60
 	var menu = root.get_node("GameMenu")
+	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
 	menu.force_close_menu()
 	var world = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
 	world.get_node("BaseGameplayController").progress_persistence_enabled = false
@@ -39,10 +40,11 @@ func run() -> void:
 	var indirect = world.get_node("WorldIndirectLighting")
 	var console = root.get_node("DeveloperConsole")
 	var original_draw := root.debug_draw
-	var snapshot := state.get_snapshot()
 	var authored: Environment = world.get_node("SnowExterior/OvercastDayEnvironment").environment
 	var authored_ambient := authored.ambient_light_energy
 	await create_timer(0.45).timeout
+	# Let the entry trigger record the player's teleport before testing commands.
+	var snapshot := state.get_snapshot()
 	await capture("authored")
 	check(lighting.debug_darkness == 1.0, "default keeps authored darkness")
 	console.execute("/fullbright on")

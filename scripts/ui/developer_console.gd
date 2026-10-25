@@ -3,7 +3,7 @@ extends CanvasLayer
 const FlameCommands = preload("res://scripts/ui/developer_flamethrower_commands.gd")
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
-const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off"]
+const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off", "/light_swap", "/light_swap basic", "/light_swap advanced"]
 const INSPECTION_COMMANDS := ["/status", "/plant status", "/plant water", "/item seed_packet"]
 const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
@@ -34,6 +34,7 @@ func _help_text() -> String:
 	lines.append("[url=/freecam]/freecam[/url] — Выйти из тела / вернуться; WASD, мышь, Space/Ctrl, Shift ×3")
 	lines.append("[url=/freecam speed 5]/freecam speed 5[/url] — Скорость камеры (0.1–100 м/с); /freecam speed reset — сброс")
 	lines.append("[url=/fullbright]/fullbright[/url] — Светлый тестовый режим без затемнения; on/off — включить/выключить")
+	lines.append("[url=/light_swap]/light_swap[/url] — Обычное / продвинутое освещение; basic/advanced — выбрать режим")
 	for command in COMMANDS + FlameCommands.COMMANDS:
 		lines.append("[url=%s]%s[/url] — %s" % [command, command, (FlameCommands.description(command) if command in FlameCommands.COMMANDS else COMMAND_DETAILS.get(command, DESCRIPTIONS.get(command.split(" ")[0], "")))])
 	for command in INSPECTION_COMMANDS:
@@ -213,12 +214,24 @@ func _execute_one(line: String) -> String:
 		return _execute_freecam(args)
 	if args[0] == "/fullbright":
 		return _execute_lighting(args)
+	if args[0] == "/light_swap":
+		return _execute_light_swap(args)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
 	if not multiplayer.is_server():
 		_request_command.rpc_id(1, line.left(1024), target_path, target_point)
 		return "Команда отправлена серверу..."
 	return _execute_authoritative(args, state, multiplayer.get_unique_id(), target_path, target_point)
 
+
+func _execute_light_swap(args: PackedStringArray) -> String:
+	if args.size() > 2 or (args.size() == 2 and args[1] not in ["basic", "advanced"]):
+		return "Использование: /light_swap [basic|advanced]."
+	var quality := get_node("/root/GameMenu/GraphicsQuality")
+	if args.size() == 1:
+		quality.toggle_lighting_mode()
+	else:
+		quality.set_advanced_lighting_enabled(args[1] == "advanced")
+	return "Продвинутый режим освещения включён." if quality.advanced_lighting_enabled else "Обычный режим освещения включён."
 
 func _execute_lighting(args: PackedStringArray) -> String:
 	var lighting := get_tree().get_first_node_in_group("world_lighting") as WorldLighting

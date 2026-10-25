@@ -396,9 +396,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_fsynj")
 [node name="Wall" type="Node3D" parent="Visual/Walls_5" unique_id=165856195]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.5, 0, 10)
 
-[node name="WallBandStraight" parent="Visual/Walls_5/Wall" unique_id=1280258117 instance=ExtResource("1_61r1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-
 [node name="WallBandStraight2" parent="Visual/Walls_5/Wall" unique_id=411175711 instance=ExtResource("1_61r1p")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
 
@@ -407,9 +404,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="Wall3" type="Node3D" parent="Visual/Walls_5" unique_id=2043167766]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.5, 0, 10)
-
-[node name="WallBandStraight" parent="Visual/Walls_5/Wall3" unique_id=1060950427 instance=ExtResource("1_61r1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_5/Wall3" unique_id=536389265 instance=ExtResource("1_61r1p")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
@@ -426,9 +420,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.75, 2, 0, 0.24)
 [node name="Wall4" type="Node3D" parent="Visual/Walls_5" unique_id=1712510869]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7.5, 0, 10)
 
-[node name="WallBandStraight" parent="Visual/Walls_5/Wall4" unique_id=460983579 instance=ExtResource("1_61r1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-
 [node name="WallBandStraight2" parent="Visual/Walls_5/Wall4" unique_id=1097780163 instance=ExtResource("1_61r1p")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
 
@@ -437,9 +428,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="Wall2" type="Node3D" parent="Visual/Walls_5" unique_id=99407274]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.5, 0, 10)
-
-[node name="WallBandStraight" parent="Visual/Walls_5/Wall2" unique_id=324318418 instance=ExtResource("1_61r1p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_5/Wall2" unique_id=154442272 instance=ExtResource("1_61r1p")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
@@ -516,7 +504,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_1/Wall" unique_id=117785397 instance=ExtResource("1_61r1p")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.99, 0, 0)
 
 [node name="TopCablesStraight" parent="Visual/Walls_1/Wall" unique_id=1846090547 instance=ExtResource("2_umo7o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
@@ -537,7 +525,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_1/Wall5" unique_id=1660284895 instance=ExtResource("1_61r1p")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.99, 0, 0)
 
 [node name="Wall2" type="Node3D" parent="Visual/Walls_1" unique_id=172331604]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.5, 0, 18)
@@ -546,7 +534,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.5,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_1/Wall2" unique_id=877519475 instance=ExtResource("1_61r1p")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.99, 0, 0)
 
 [node name="TopCablesStraightHanging" parent="Visual/Walls_1/Wall2" unique_id=572855026 instance=ExtResource("4_fe1s4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
@@ -561,7 +549,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="WallBandStraight2" parent="Visual/Walls_1/Wall3" unique_id=129069138 instance=ExtResource("1_61r1p")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.99, 0, 0)
 
 [node name="Walls_4" type="Node3D" parent="Visual" unique_id=930996978]
 

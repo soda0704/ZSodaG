@@ -31,6 +31,7 @@ func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1280, 720)
 	var menu = root.get_node("GameMenu")
+	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
 	await menu.start_standalone_flow()
 	await create_timer(1.0).timeout
 	var session = current_scene

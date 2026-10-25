@@ -53,6 +53,7 @@ func shadow_slots_in_view(level: Node3D, camera: Camera3D) -> int:
 func run() -> void:
 	if DisplayServer.get_name()=="headless": quit(1); return
 	var menu=root.get_node("GameMenu")
+	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
 	menu.force_close_menu()
 	root.mode=Window.MODE_WINDOWED;root.size=Vector2i(960,540)
 	if "--full-hd" in OS.get_cmdline_user_args():root.size=Vector2i(1920,1080)

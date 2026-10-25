@@ -6,6 +6,8 @@ var _render_states:Dictionary={}
 var _data_paths:Dictionary={}
 var _failed_paths:Dictionary={}
 var _debug_disabled := false
+var _quality_enabled := true
+var _last_height := 0.0
 var _loading := false
 var _loading_data: Dictionary = {}
 
@@ -23,6 +25,7 @@ func prepare_loading() -> void:
 func finish_loading(height: float) -> void:
 	if not _loading: return
 	for probe: VoxelGI in get_children():
+		if not _quality_enabled: break
 		var surface_view := height >= -8.0 and probe.global_position.y >= 0.0
 		if surface_view or absf(height - probe.global_position.y) < probe.size.y * 0.5 + 6.0:
 			probe.data = _loading_data.get(probe)
@@ -36,6 +39,13 @@ func finish_loading(height: float) -> void:
 func set_debug_disabled(value: bool) -> void:
 	_debug_disabled = value
 	_render_states.clear()
+
+func set_quality_enabled(enabled: bool) -> void:
+	if _quality_enabled == enabled: return
+	_quality_enabled = enabled
+	_render_states.clear()
+	if is_node_ready() and not Engine.is_editor_hint() and not _loading:
+		update_floor(_last_height)
 
 func _ready() -> void:
 	visibility_changed.connect(func()->void:_render_states.clear())
@@ -58,6 +68,7 @@ func _process(_delta: float) -> void:
 	update_floor(camera.global_position.y)
 
 func update_floor(height:float) -> void:
+	_last_height = height
 	_active_count=0
 	for probe:VoxelGI in get_children():
 		var distance:=absf(height-probe.global_position.y)
@@ -67,12 +78,14 @@ func update_floor(height:float) -> void:
 		if not Engine.is_editor_hint():
 			# Keep only this floor and an approaching neighbouring floor resident.
 			# Hidden instances retain their GPU lighting volumes until data is detached.
-			if surface_view or distance<probe.size.y*0.5+6.0:
+			if not _quality_enabled:
+				if probe.data != null: probe.data = null
+			elif surface_view or distance<probe.size.y*0.5+6.0:
 				if probe.data==null and _data_paths.has(probe) and not _failed_paths.has(probe):
 					probe.data=load(_data_paths[probe]) as VoxelGIData
 					if probe.data==null:_failed_paths[probe]=true
 			elif probe.data!=null:probe.data=null
-		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree() and not _debug_disabled
+		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree() and not _debug_disabled and _quality_enabled
 		if active:_active_count+=1
 		# Backend-only visibility keeps the authored scene and editor undo intact.
 		if _render_states.get(probe,null)!=active:

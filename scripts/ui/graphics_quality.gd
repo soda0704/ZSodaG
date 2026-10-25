@@ -1,5 +1,7 @@
 extends Node
 ## Render budgets change detail, never the authored energy, colour or fog distances.
+const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
+var advanced_lighting_enabled := false
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []
@@ -42,7 +44,7 @@ func _ready() -> void:
 	get_tree().node_added.connect(_schedule_node)
 
 func _schedule_node(node: Node) -> void:
-	if node is WorldEnvironment or node is Camera3D or node is GeometryInstance3D or node is Decal or node is WorldLighting or node is SubViewport or node.name == &"SnowTracks" or node.has_meta("boundary_detail"):
+	if node is WorldEnvironment or node is Camera3D or node is GeometryInstance3D or node is Decal or node is WorldLighting or node is SubViewport or node.get_script() == INDIRECT_LIGHTING_SCRIPT or node.name == &"SnowTracks" or node.has_meta("boundary_detail"):
 		_apply_node_id.call_deferred(node.get_instance_id())
 
 func _apply_node_id(id: int) -> void:
@@ -64,10 +66,29 @@ func apply(data: Dictionary) -> void:
 	viewport.msaa_3d = clampi(int(values.MSAA), 0, 3) as Viewport.MSAA
 	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if values.FXAA else Viewport.SCREEN_SPACE_AA_DISABLED
 	viewport.mesh_lod_threshold = float(values.LOD)
-	viewport.positional_shadow_atlas_size = 2048 if int(values.ShadowQuality) == 1 else 4096
+	_update_shadow_atlas()
 	_update_render_budgets()
 	Engine.max_fps = maxi(0, int(values.FPS))
 	if update_nodes: _visit(get_tree().root)
+
+func set_advanced_lighting_enabled(enabled: bool) -> void:
+	if advanced_lighting_enabled == enabled: return
+	advanced_lighting_enabled = enabled
+	if values.is_empty(): return
+	_update_shadow_atlas()
+	_update_render_budgets()
+	_visit(get_tree().root)
+
+func toggle_lighting_mode() -> bool:
+	set_advanced_lighting_enabled(not advanced_lighting_enabled)
+	return advanced_lighting_enabled
+
+func _lighting_quality(key: String) -> int:
+	if advanced_lighting_enabled: return int(values[key])
+	return 1 if key in ["ShadowQuality", "GIQuality"] else 0
+
+func _update_shadow_atlas() -> void:
+	get_viewport().positional_shadow_atlas_size = 2048 if _lighting_quality("ShadowQuality") == 1 else 4096
 
 func _update_render_budgets() -> void:
 	if _render_update_pending or DisplayServer.get_name() == "headless": return
@@ -79,21 +100,21 @@ func _update_render_budgets() -> void:
 	_render_update_pending = false
 	var signature := _budget_signature()
 	if signature == _applied_budgets: return
-	var shadows := clampi(int(values.ShadowQuality), 1, 3)
+	var shadows := clampi(_lighting_quality("ShadowQuality"), 1, 3)
 	RenderingServer.directional_shadow_atlas_set_size([2048, 4096, 4096][shadows - 1], false)
 	RenderingServer.directional_soft_shadow_filter_set_quality((shadows - 1) as RenderingServer.ShadowQuality)
 	RenderingServer.positional_soft_shadow_filter_set_quality((shadows - 1) as RenderingServer.ShadowQuality)
-	var ao := clampi(int(values.AOQuality), 0, 3)
+	var ao := clampi(_lighting_quality("AOQuality"), 0, 3)
 	RenderingServer.environment_set_ssao_quality(([0, 0, 2, 3][ao]) as RenderingServer.EnvironmentSSAOQuality, ao < 3, 0.5, 2, 30.0, 150.0)
-	var fog := clampi(int(values.FogQuality), 0, 3)
+	var fog := clampi(_lighting_quality("FogQuality"), 0, 3)
 	RenderingServer.environment_set_volumetric_fog_volume_size([64, 64, 96, 128][fog], [48, 48, 64, 64][fog])
-	var gi := clampi(int(values.GIQuality), 1, 3)
+	var gi := clampi(_lighting_quality("GIQuality"), 1, 3)
 	RenderingServer.gi_set_use_half_resolution(gi < 3)
 	RenderingServer.voxel_gi_set_quality((0 if gi == 1 else 1) as RenderingServer.VoxelGIQuality)
 	_applied_budgets = signature
 
 func _budget_signature() -> Array[int]:
-	return [clampi(int(values.ShadowQuality), 1, 3), clampi(int(values.AOQuality), 0, 3), clampi(int(values.FogQuality), 0, 3), clampi(int(values.GIQuality), 1, 3)]
+	return [clampi(_lighting_quality("ShadowQuality"), 1, 3), clampi(_lighting_quality("AOQuality"), 0, 3), clampi(_lighting_quality("FogQuality"), 0, 3), clampi(_lighting_quality("GIQuality"), 1, 3)]
 
 func _visit(node: Node) -> void:
 	apply_node(node)
@@ -112,7 +133,9 @@ func apply_node(node: Node) -> void:
 	# their own unshaded environment; screen-space effects break their data pass.
 	if node.get_viewport() != get_viewport(): return
 	if node is WorldLighting:
-		node.quality_shadow_distance = float(values.ShadowDistance)
+		node.quality_shadow_distance = float(values.ShadowDistance) if advanced_lighting_enabled else minf(float(values.ShadowDistance), 48.0)
+	if node.get_script() == INDIRECT_LIGHTING_SCRIPT:
+		node.set_quality_enabled(advanced_lighting_enabled)
 	if node is WorldEnvironment and node.environment != null:
 		apply_environment(node.environment)
 	if node is Camera3D and node.environment != null:
@@ -138,13 +161,14 @@ func apply_environment(env: Environment) -> void:
 	var gamma := clampi(roundi(float(values.Gamma)/10.0)*10, 70, 150)
 	var correction: Texture = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else null
 	if env.adjustment_color_correction != correction: env.adjustment_color_correction = correction
-	var ao_enabled: bool = authored.ao and int(values.AOQuality) > 0
-	var fog_enabled: bool = authored.fog and int(values.FogQuality) > 0
-	var bloom_enabled: bool = authored.bloom and bool(values.Bloom)
+	var ao_enabled: bool = advanced_lighting_enabled and authored.ao and int(values.AOQuality) > 0
+	var fog_enabled: bool = advanced_lighting_enabled and authored.fog and int(values.FogQuality) > 0
+	var bloom_enabled: bool = advanced_lighting_enabled and authored.bloom and bool(values.Bloom)
 	if env.ssao_enabled != ao_enabled: env.ssao_enabled = ao_enabled
 	if env.volumetric_fog_enabled != fog_enabled: env.volumetric_fog_enabled = fog_enabled
 	if env.glow_enabled != bloom_enabled: env.glow_enabled = bloom_enabled
-	# Distance haze and VoxelGI stay present even on Low; no extra light sources.
+	# Direct lights and distance haze survive both modes. VoxelGI is gated
+	# independently of the saved preset by WorldIndirectLighting.
 	for effect in ["ssil_enabled", "ssr_enabled", "sdfgi_enabled"]:
 		if env.get(effect): env.set(effect, false)
 	# Environment setters update the renderer but do not consistently emit changed.

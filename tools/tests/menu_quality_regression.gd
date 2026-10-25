@@ -11,6 +11,7 @@ func run() -> void:
 	await process_frame
 	var menu = root.get_node("GameMenu")
 	var quality = menu.get_node("GraphicsQuality")
+	quality.set_advanced_lighting_enabled(true)
 	var original: Dictionary = quality.values.duplicate()
 	check(menu._settings_data.GraphicsPresetRevision == quality.PRESET_REVISION, "fresh settings use the current preset revision before their first save")
 	var legacy: Dictionary = quality.LEGACY_HIGH.duplicate()

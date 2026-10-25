@@ -7,6 +7,7 @@ func check(value: bool, label: String):
 func run():
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://audio_graphics_test.cfg")
 	var quality = root.get_node("GameMenu/GraphicsQuality")
+	quality.set_advanced_lighting_enabled(true)
 	var original: Dictionary = quality.values.duplicate()
 	var light := OmniLight3D.new()
 	light.shadow_enabled = true

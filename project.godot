@@ -140,6 +140,10 @@ pause={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_21="Player route blockers"
+
 [network]
 
 steam/app_id=480
@@ -164,7 +168,3 @@ environment/ssao/fadeout_to=150.0
 lights_and_shadows/tighter_shadow_caster_culling=false
 lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=2
 lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=2
-
-[layer_names]
-
-3d_physics/layer_21="Player route blockers"

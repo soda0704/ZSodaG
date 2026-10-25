@@ -27,93 +27,19 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/the_monster.tscn" id="creature_0"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/slasher.tscn" id="creature_1"]
 [ext_resource type="PackedScene" path="res://scenes/characters/monsters/smily.tscn" id="creature_2"]
+[ext_resource type="Script" uid="uid://dfc5sfmap10vx" path="res://scripts/gameplay/base/base_first_entry.gd" id="first_entry"]
 [ext_resource type="PackedScene" uid="uid://cv6w7m25xo5p6" path="res://scenes/objects/crafting/flamethrower_workbench.tscn" id="flame_bench"]
 [ext_resource type="PackedScene" path="res://scenes/objects/crafting/flamethrower_loot_spawns.tscn" id="flame_loot"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_indirect_lighting.tscn" id="indirect_lighting"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_interior_ambience.tscn" id="interior_ambience_audio"]
+[ext_resource type="Resource" path="res://assets/ui/journal/maps/atlas.tres" id="journal_atlas"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/journal_pickup.tscn" id="journal_pickup"]
+[ext_resource type="Script" uid="uid://ync2gsdm7pj" path="res://scripts/gameplay/base/journal_survey.gd" id="journal_survey"]
 [ext_resource type="AudioStream" uid="uid://dhx2h8qr0y5s8" path="res://assets/audio/gameplay/lighting_fault.wav" id="lighting_fault_audio"]
 [ext_resource type="PackedScene" path="res://scenes/objects/medical/medical_corpse.tscn" id="medical_corpse"]
 [ext_resource type="PackedScene" uid="uid://deey53vvvoivh" path="res://scenes/levels/Floor_Minus3_Trials_Observation_Blockout.tscn" id="trials_floor"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
 [ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
-
-[ext_resource type="Script" path="res://scripts/gameplay/base/base_first_entry.gd" id="first_entry"]
-
-[ext_resource type="Script" path="res://scripts/gameplay/base/journal_survey.gd" id="journal_survey"]
-[ext_resource type="Resource" path="res://assets/ui/journal/maps/atlas.tres" id="journal_atlas"]
-
-[ext_resource type="PackedScene" path="res://scenes/objects/items/journal_pickup.tscn" id="journal_pickup"]
-
-[sub_resource type="BoxShape3D" id="first_entry_coverage"]
-size = Vector3(94, 1.2, 80)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anotq"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_42dqf"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxcoy"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rymy6"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jr0g1"]
 resource_local_to_scene = true
@@ -523,18 +449,86 @@ ao_texture = ExtResource("13_uywug")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_i8mvs"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i8mvs"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovb16"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7jnc"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e0867"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("12_re18f")
+metallic = 1.0
+metallic_texture = ExtResource("13_uywug")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("13_uywug")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("14_bvvig")
+ao_enabled = true
+ao_texture = ExtResource("13_uywug")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pekgy"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ovb16"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_fwjs0"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l7jnc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iyn5t"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("11_ac0f5")
-shader_parameter/screen_texture = SubResource("ViewportTexture_ovb16")
-shader_parameter/error_texture = SubResource("ViewportTexture_i8mvs")
+shader_parameter/screen_texture = SubResource("ViewportTexture_fwjs0")
+shader_parameter/error_texture = SubResource("ViewportTexture_pekgy")
 shader_parameter/albedo_texture = ExtResource("12_a28d3")
 shader_parameter/emissive_texture = ExtResource("13_uokct")
 shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
@@ -552,18 +546,18 @@ shader_parameter/scanline_strength = 0.025
 shader_parameter/scanline_count = 488.0
 shader_parameter/sweep_strength = 0.012
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_e0867"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_4avl7"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_pekgy"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_g1ehb"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fwjs0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7hir2"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("11_ac0f5")
-shader_parameter/screen_texture = SubResource("ViewportTexture_pekgy")
-shader_parameter/error_texture = SubResource("ViewportTexture_e0867")
+shader_parameter/screen_texture = SubResource("ViewportTexture_g1ehb")
+shader_parameter/error_texture = SubResource("ViewportTexture_4avl7")
 shader_parameter/albedo_texture = ExtResource("12_a28d3")
 shader_parameter/emissive_texture = ExtResource("13_uokct")
 shader_parameter/metallic_roughness_texture = ExtResource("14_vq7lh")
@@ -589,6 +583,9 @@ size = Vector3(14, 4, 10)
 
 [sub_resource type="BoxShape3D" id="level3_visit_shape"]
 size = Vector3(46.5, 6, 80)
+
+[sub_resource type="BoxShape3D" id="first_entry_coverage"]
+size = Vector3(94, 1.2, 80)
 
 [node name="Base_Blockout_v03" type="Node3D" unique_id=1326099881]
 editor_description = "Сборочная сцена базы. Нулевой и подземные уровни подключаются отдельными сценами; общая шахта лифта остаётся независимой от архитектуры уровней."
@@ -626,22 +623,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.6, -2)
 transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -29, 4.6, -2)
 
 [node name="EquipmentWork" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.135101, 4.0045953, 0)
 
 [node name="Decontamination1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="3"]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -14, 4.6, -2.5)
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -14, 4.3287525, -2.5)
 
 [node name="Decontamination2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.6, 2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.350348, 2.5)
 
 [node name="LivingPassage" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 4.7458, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 4.096034, 0)
 
 [node name="Dining1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.7458, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3.801177, -4)
 
 [node name="Dining2" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="7"]
-transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 15, 4.7458, 4)
+transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, 15, 4.336254, 4)
 
 [node name="Quarters1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 4.7458, -5)
@@ -890,13 +887,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -84.7689, -21)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 4.6, 0)
 
 [node name="EntranceEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 4.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.172798, 4.2782345, 0)
+shadow_enabled = false
 
 [node name="EntranceEscape3" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.6, 0)
 
 [node name="LivingEscape1" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.7458, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.0202727, 0)
 
 [node name="LivingEscape2" parent="WorldLighting/Emergency" parent_id_path=PackedInt32Array(294664761, 718455498) index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4.7458, 5)
@@ -1105,35 +1103,35 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 29.259417, 0.95, -7.3403735)
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1089584292, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_anotq")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 434206091, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_42dqf")
+surface_material_override/0 = SubResource("StandardMaterial3D_342gs")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 508908948, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_xxcoy")
+surface_material_override/0 = SubResource("StandardMaterial3D_aroap")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1038234979, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_rymy6")
+surface_material_override/0 = SubResource("StandardMaterial3D_6ilbv")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1560864668, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
+surface_material_override/0 = SubResource("StandardMaterial3D_np7g8")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 741659768, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_342gs")
+surface_material_override/0 = SubResource("StandardMaterial3D_xyf3k")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1168654016, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_aroap")
+surface_material_override/0 = SubResource("StandardMaterial3D_letuy")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1282445590, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_6ilbv")
+surface_material_override/0 = SubResource("StandardMaterial3D_1j081")
 
 [node name="Center_Hub_Ceiling" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="0" unique_id=1252765990]
 layers = 262145
@@ -1188,19 +1186,19 @@ layers = 262145
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 678873076, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_np7g8")
+surface_material_override/0 = SubResource("StandardMaterial3D_swsu1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner2/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2097697447, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_xyf3k")
+surface_material_override/0 = SubResource("StandardMaterial3D_aha2n")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner3/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 642455516, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_letuy")
+surface_material_override/0 = SubResource("StandardMaterial3D_atyjx")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner4/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1414460990, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_1j081")
+surface_material_override/0 = SubResource("StandardMaterial3D_u8kyu")
 
 [node name="Hub_South_West_Bench_Seat_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Lobby_Blockout/Seating" parent_id_path=PackedInt32Array(2036079911, 1885625984, 53045188) index="0" unique_id=2115296648]
 layers = 262145
@@ -1579,67 +1577,67 @@ layers = 262145
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1089584292, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_swsu1")
+surface_material_override/0 = SubResource("StandardMaterial3D_m0k1b")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1881072077, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_aha2n")
+surface_material_override/0 = SubResource("StandardMaterial3D_jwui2")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 694229342, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_atyjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_d8uil")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 110983853, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_u8kyu")
+surface_material_override/0 = SubResource("StandardMaterial3D_lkixi")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1191008046, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_m0k1b")
+surface_material_override/0 = SubResource("StandardMaterial3D_ey00e")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 418251327, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_jwui2")
+surface_material_override/0 = SubResource("StandardMaterial3D_oeulh")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1134666513, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_d8uil")
+surface_material_override/0 = SubResource("StandardMaterial3D_w4qip")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 48446997, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_lkixi")
+surface_material_override/0 = SubResource("StandardMaterial3D_gx0ar")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1252512262, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_ey00e")
+surface_material_override/0 = SubResource("StandardMaterial3D_3be50")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 2078442381, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_oeulh")
+surface_material_override/0 = SubResource("StandardMaterial3D_1xu0p")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 589110786, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_w4qip")
+surface_material_override/0 = SubResource("StandardMaterial3D_2nlwj")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1141759735, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_gx0ar")
+surface_material_override/0 = SubResource("StandardMaterial3D_eehqw")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1511791008, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_3be50")
+surface_material_override/0 = SubResource("StandardMaterial3D_i8mvs")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1878751790, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_1xu0p")
+surface_material_override/0 = SubResource("StandardMaterial3D_ovb16")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 455803367, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_2nlwj")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7jnc")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1413718245, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_eehqw")
+surface_material_override/0 = SubResource("StandardMaterial3D_e0867")
 
 [node name="Science_Briefing_Table_Blockout" parent="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt/Blockout/Briefing_Room/Furniture" parent_id_path=PackedInt32Array(2036079911, 18727853, 41546770) index="0" unique_id=239457075]
 layers = 262145
@@ -1651,7 +1649,7 @@ layers = 262145
 layers = 262145
 
 [node name="DayTwoTaskTerminal" parent="Floor_0_Base_Blockout" index="8" unique_id=55254735]
-display_material = SubResource("ShaderMaterial_l7jnc")
+display_material = SubResource("ShaderMaterial_iyn5t")
 
 [node name="Floor_Minus1_Control_Security_Blockout" parent="." unique_id=154470757 instance=ExtResource("4_floor_minus1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -18, 0)
@@ -1661,7 +1659,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.393957, -0.13438988, -0.0
 
 [node name="Encryption_Key_Terminal" parent="Floor_Minus1_Control_Security_Blockout/Secure_Data_Vault" parent_id_path=PackedInt32Array(154470757, 525385897) index="8"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -55.3, 0.015, -4.8)
-display_material = SubResource("ShaderMaterial_fwjs0")
+display_material = SubResource("ShaderMaterial_7hir2")
 
 [node name="SecurityDoorTransom" parent="Floor_Minus1_Control_Security_Blockout" index="18"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.525, -5)
@@ -1671,6 +1669,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.525, 5)
 
 [node name="FallenCheckpointJoist" parent="Floor_Minus1_Control_Security_Blockout" index="20"]
 transform = Transform3D(-4.371139e-08, 0, 1, -0.5664488, 0.8240969, -2.4760263e-08, -0.8240969, -0.5664488, -3.6022417e-08, -15.727825, 1.3710403, 0.068071365)
+
+[node name="JoistRouteBlocker" parent="Floor_Minus1_Control_Security_Blockout" index="21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, 0)
 
 [node name="Floor_Minus2_Life_Support_Blockout" parent="." unique_id=902963073 instance=ExtResource("5_floor_minus2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -36, 0)
@@ -1760,33 +1761,32 @@ transform = Transform3D(-4.0977422e-08, 0.3481085, -0.9374543, 1.521631e-08, 0.9
 
 [node name="FlamethrowerLootSpawns" parent="." unique_id=1290716002 instance=ExtResource("flame_loot")]
 
-[connection signal="lighting_fault_started" from="BaseGameplayController" to="BasePowerLightingController/FaultAudio" method="play"]
-
-[node name="BaseFirstEntry" type="Area3D" parent="."]
-position = Vector3(-3, 0.4, 0)
+[node name="BaseFirstEntry" type="Area3D" parent="." unique_id=713110622]
+editor_description = "First-day discovery coverage. Only actual foot contact with Floor_0_Base_Blockout reveals restoration tasks; arrival site and approach bridge do not count."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.4, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("first_entry")
-editor_description = "First-day discovery coverage. Only actual foot contact with Floor_0_Base_Blockout reveals restoration tasks; arrival site and approach bridge do not count."
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BaseFirstEntry"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BaseFirstEntry" unique_id=608104780]
 shape = SubResource("first_entry_coverage")
 
-[node name="JournalSurvey" type="Node" parent="."]
+[node name="JournalSurvey" type="Node" parent="." unique_id=443521011]
 script = ExtResource("journal_survey")
 atlas = ExtResource("journal_atlas")
 
-[node name="JournalPickups" type="Node3D" parent="."]
+[node name="JournalPickups" type="Node3D" parent="." unique_id=2093015158]
 editor_description = "Two personal, non-droppable journals beside the first pistol. Move these instances in the editor; claim keys must remain unique."
-[node name="Journal1" parent="JournalPickups" instance=ExtResource("journal_pickup")]
-position = Vector3(-30.45, 1.0074, 7.05)
-rotation = Vector3(0, -0.15, 0)
-claim_key = "journal_1"
-[node name="Journal2" parent="JournalPickups" instance=ExtResource("journal_pickup")]
-position = Vector3(-30.05, 1.0074, 7.05)
-rotation = Vector3(0, 0.12, 0)
+
+[node name="Journal1" parent="JournalPickups" unique_id=2109626389 instance=ExtResource("journal_pickup")]
+transform = Transform3D(0.9887711, 0, -0.14943814, 0, 1, 0, 0.14943814, 0, 0.9887711, -30.45, 1.0074, 7.05)
+
+[node name="Journal2" parent="JournalPickups" unique_id=1029297855 instance=ExtResource("journal_pickup")]
+transform = Transform3D(0.99280864, 0, 0.119712204, 0, 1, 0, -0.119712204, 0, 0.99280864, -30.05, 1.0074, 7.05)
 claim_key = "journal_2"
+
+[connection signal="lighting_fault_started" from="BaseGameplayController" to="BasePowerLightingController/FaultAudio" method="play"]
 
 [editable path="WorldLighting"]
 [editable path="WorldIndirectLighting"]

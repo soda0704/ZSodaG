@@ -20,6 +20,7 @@ func run():
 	await process_frame
 	var menu=root.get_node("GameMenu")
 	var quality=menu.get_node("GraphicsQuality")
+	quality.set_advanced_lighting_enabled(true)
 	root.mode=Window.MODE_WINDOWED
 	root.size=Vector2i(1280,720)
 	Engine.max_fps=60
@@ -95,7 +96,11 @@ func run():
 	check(menu._current_view==menu.MenuView.MAIN and Input.mouse_mode==Input.MOUSE_MODE_VISIBLE, "settings return to ESC with menu input ownership")
 	menu.close_menu()
 	await settle()
-	check(not menu.is_menu_open() and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED, "Resume returns mouse ownership to the gameplay camera")
+	check(not menu.is_menu_open(), "Resume closes the gameplay menu")
+	if DisplayServer.get_name() == "headless":
+		print("SKIP mouse capture: headless DisplayServer always reports a visible pointer")
+	else:
+		check(Input.mouse_mode==Input.MOUSE_MODE_CAPTURED, "Resume returns mouse ownership to the gameplay camera")
 	# Dynamically attached geometry/lights must join and leave the cached FP membership.
 	var light=OmniLight3D.new()
 	light.light_energy=0
