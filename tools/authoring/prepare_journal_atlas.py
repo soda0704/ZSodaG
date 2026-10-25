@@ -61,7 +61,6 @@ def main():
         svg=['<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="800" height="850" viewBox="0 0 800 850">',
         '<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 H0 V40" fill="none" stroke="#6f796b" stroke-opacity=".13" stroke-width=".7"/></pattern><linearGradient id="paper" x2="1" y2="1"><stop stop-color="#e1d7b9"/><stop offset=".48" stop-color="#f0e7cf"/><stop offset="1" stop-color="#cec3a1"/></linearGradient></defs>',
         '<path d="M10 14 L782 8 L796 828 L18 843 Z" fill="#3b332b" opacity=".12"/><path d="M3 6 L775 0 L788 820 L10 835 Z" fill="#e3e0d5" fill-opacity=".65" stroke="#756b59" stroke-opacity=".42" stroke-width="1"/><path d="M30 45 H758 V754 H30 Z" fill="url(#grid)"/>',
-        '<path d="M265 9 L269 825 M533 7 L537 824 M8 420 L781 414" stroke="#918366" stroke-width="2" opacity=".2"/><path d="M268 9 L272 825 M536 7 L540 824 M8 423 L781 417" stroke="#fff8e4" stroke-width="2" opacity=".45"/>',
         '<path d="M30 60 V35 H80 M720 35 H760 V60 M30 735 V760 H80 M720 760 H760 V735" fill="none" stroke="#7e7056" stroke-width="1"/>',
         '<path d="'+path_of(floor,project)+'" fill="#b4b39c" fill-opacity=".12" stroke="#575c50" stroke-width="2.1" fill-rule="evenodd" stroke-linejoin="round"/>',
         '<path d="'+path_of(walls,project)+'" fill="none" stroke="#38483f" stroke-opacity=".8" stroke-width="1.1" stroke-linecap="round"/>']

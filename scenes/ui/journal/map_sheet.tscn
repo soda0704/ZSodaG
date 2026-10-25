@@ -155,9 +155,9 @@ text = "▲ Вы     △ Напарник
 Посещённые уровни"
 autowrap_mode = 3
 [node name="LoupeButton" type="Button" parent="."]
-offset_left = 1160.0
+offset_left = 555.0
 offset_top = 755.0
-offset_right = 1240.0
+offset_right = 635.0
 offset_bottom = 802.0
 toggle_mode = true
 text = "2х"

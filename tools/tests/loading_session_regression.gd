@@ -32,6 +32,16 @@ func run() -> void:
 	root.size = Vector2i(1280, 720)
 	var menu = root.get_node("GameMenu")
 	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
+	for argument in OS.get_cmdline_user_args():
+		if not argument.begins_with("--without="): continue
+		var quality = menu.get_node("GraphicsQuality")
+		var values: Dictionary = quality.values.duplicate()
+		match argument.trim_prefix("--without="):
+			"ao": values.AOQuality = 0
+			"fog": values.FogQuality = 0
+			"bloom": values.Bloom = false
+		quality.apply(values)
+	Engine.max_fps = 60
 	await menu.start_standalone_flow()
 	await create_timer(1.0).timeout
 	var session = current_scene

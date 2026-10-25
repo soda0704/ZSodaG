@@ -1,5 +1,6 @@
 extends Control
 signal loupe_requested(active: bool)
+signal content_changed
 @export var atlas: JournalAtlas
 @onready var plan: TextureRect = $MapScroll/Plan
 @onready var title: Label = $Title
@@ -14,6 +15,13 @@ var visited: Array = []
 var _buttons: Array[Node] = []
 var _elapsed := 0.0
 var actor: GamePlayer
+
+func get_plan_rect() -> Rect2:
+	# Exclude the TextureRect's aspect-fit padding from the physical sheet.
+	var box := scroll.get_global_rect()
+	var sheet_size := atlas.floors[selected].sheet_size
+	var drawn := sheet_size*minf(box.size.x/sheet_size.x,box.size.y/sheet_size.y)
+	return Rect2(box.position+(box.size-drawn)*.5,drawn)
 
 func _ready() -> void:
 	_buttons = $Levels.get_children()
@@ -30,6 +38,7 @@ func _on_visibility_changed() -> void:
 		if visited.has(level): select_floor(level)
 
 func update_visited(next: Array) -> void:
+	if visited == next: return
 	visited = next.duplicate()
 	select_floor(selected)
 
@@ -59,6 +68,7 @@ func select_floor(index: int) -> void:
 		_buttons[i].disabled = not visited.has(i)
 	_update_markers()
 	loupe_button.disabled = not known
+	content_changed.emit()
 
 func _process(delta: float) -> void:
 	if not is_visible_in_tree(): return
@@ -69,16 +79,21 @@ func _process(delta: float) -> void:
 	_update_markers()
 
 func _update_markers() -> void:
-	marker.hide()
-	mate_marker.hide()
-	if not visited.has(selected): return
+	var previous := [marker.visible,marker.position,marker.rotation,mate_marker.visible,mate_marker.position,mate_marker.rotation]
 	actor = get_tree().get_first_node_in_group("local_player") as GamePlayer
-	if actor == null: return
-	_place(marker, actor)
-	for player in get_tree().get_nodes_in_group("network_players"):
-		if player != actor and player is GamePlayer and not player.survival.dead:
-			_place(mate_marker, player)
-			break
+	var known := visited.has(selected)
+	marker.visible = known and actor != null and level_for(actor.global_position) == selected
+	if marker.visible: _place(marker, actor)
+	var mate: GamePlayer
+	if known:
+		for player in get_tree().get_nodes_in_group("network_players"):
+			if player != actor and player is GamePlayer and not player.survival.dead:
+				mate = player
+				break
+	mate_marker.visible = mate != null and level_for(mate.global_position) == selected
+	if mate_marker.visible: _place(mate_marker,mate)
+	if previous != [marker.visible,marker.position,marker.rotation,mate_marker.visible,mate_marker.position,mate_marker.rotation]:
+		content_changed.emit()
 
 func _place(pin: Polygon2D, player: GamePlayer) -> void:
 	if level_for(player.global_position) != selected: return

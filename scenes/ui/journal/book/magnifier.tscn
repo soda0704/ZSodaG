@@ -30,7 +30,6 @@ render_priority = 0
 shader = ExtResource("1_ttkm7")
 shader_parameter/ink_texture = ExtResource("2_fo26h")
 shader_parameter/focus_atlas = null
-shader_parameter/window_extent = null
 shader_parameter/magnification = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_vhufm"]

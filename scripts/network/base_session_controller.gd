@@ -558,11 +558,17 @@ func _enter_v3_level() -> void:
 	)
 	await get_tree().create_timer(0.8).timeout
 
-	# Threaded IO keeps the existing transition UI and journal hint animating.
-	ResourceLoader.load_threaded_request(V3_LEVEL_PATH)
-	while ResourceLoader.load_threaded_get_status(V3_LEVEL_PATH) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-		await get_tree().process_frame
-	var packed_level := ResourceLoader.load_threaded_get(V3_LEVEL_PATH) as PackedScene
+	var packed_level: PackedScene
+	if DisplayServer.get_name() == "headless":
+		# The dummy renderer's resource RID owners are not thread-safe. Keep
+		# loading serial too: dependencies can create materials and textures.
+		packed_level = load(V3_LEVEL_PATH) as PackedScene
+	else:
+		# Threaded IO keeps the visible transition UI and journal hint animating.
+		ResourceLoader.load_threaded_request(V3_LEVEL_PATH)
+		while ResourceLoader.load_threaded_get_status(V3_LEVEL_PATH) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			await get_tree().process_frame
+		packed_level = ResourceLoader.load_threaded_get(V3_LEVEL_PATH) as PackedScene
 	if packed_level == null:
 		push_error("Could not load V3 level: %s" % V3_LEVEL_PATH)
 		_entered_v3_level = false

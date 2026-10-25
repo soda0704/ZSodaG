@@ -122,7 +122,7 @@ func run() -> void:
 		check(not journal._map_open, "projected physical-page click selects Notes")
 		await page_click(journal._map_tab)
 		await ticks(140)
-		check(journal._map_open, "projected physical-page click opens the folded map")
+		check(journal._map_open, "projected physical-page click opens the pasted map")
 		await page_click(map._buttons[0])
 		check(map.selected==0, "physical-page floor selector responds to projected clicks")
 		player.teleport_authoritative(arrival,0)

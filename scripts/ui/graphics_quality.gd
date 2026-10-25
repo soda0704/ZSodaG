@@ -1,7 +1,8 @@
 extends Node
 ## Render budgets change detail, never the authored energy, colour or fog distances.
 const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
-var advanced_lighting_enabled := false
+# Runtime override only: every launch starts advanced, including fresh installs.
+var advanced_lighting_enabled := true
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []

@@ -7,7 +7,11 @@ var poses := {}
 var checks := 0
 var failures := 0
 
-func _initialize() -> void: run.call_deferred()
+func _initialize() -> void:
+	var prefix := "user://frame_pacing_%d" % OS.get_process_id()
+	ProjectSettings.set_setting("northern_lab/testing/settings_path",prefix + ".json")
+	ProjectSettings.set_setting("northern_lab/testing/controls_path",prefix + "_controls.cfg")
+	run.call_deferred()
 
 func check(ok: bool, label: String) -> void:
 	checks += 1
