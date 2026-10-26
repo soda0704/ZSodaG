@@ -1086,13 +1086,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.25, 0)
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0346718, -0.0141816, 0.018938065)
 
-[node name="West_Hub_Decon_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="2" unique_id=971400324]
+[node name="West_Hub_Decon_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="1" unique_id=971400324]
 transform = Transform3D(0, 0, -1.3333333, 0, 1, 0, 1.3332528, 0, 0, -9.963, 0, 0)
 
-[node name="Science_Briefing_Research_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="16" unique_id=2091425612]
+[node name="Science_Briefing_Research_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="15" unique_id=2091425612]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -18.003)
 
-[node name="Science_Research_Isolation_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="17" unique_id=153211515]
+[node name="Science_Research_Isolation_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="16" unique_id=153211515]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, -22)
 
 [node name="EndDayBunkInteractable01" parent="Floor_0_Base_Blockout/Gameplay" parent_id_path=PackedInt32Array(2036079911, 1475033882) index="4" unique_id=535255200]

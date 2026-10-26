@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bq6r0gmf1m8u3"]
 
+[ext_resource type="Script" path="res://scripts/gameplay/base/generator_fault_discovery.gd" id="generator_discovery"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/living_hermetic_door_visual_blockout.tscn" id="1_vkp5a"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/standard_door_frosted_visual_blockout.tscn" id="4_standard_door_frosted_visual"]
 [ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/medical_hermetic_door_visual_blockout.tscn" id="6_medical_hermetic_door_visual"]
@@ -60,6 +61,9 @@
 
 
 
+
+[sub_resource type="BoxShape3D" id="Shape_generator_discovery"]
+size = Vector3(15.6, 4.8, 9.6)
 
 [sub_resource type="BoxShape3D" id="Shape_acoustic_pedestrian"]
 size = Vector3(1.5, 3.5, 1.5)
@@ -516,6 +520,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00037026405, 0, -0.00301361
 [node name="StorageRoomArt" parent="South_Technical/Art" unique_id=1092511010 instance=ExtResource("36_storage_room_art")]
 
 [node name="GeneratorRoomArt" parent="South_Technical/Art" unique_id=164939900 instance=ExtResource("37_generator_room_art")]
+
+[node name="FaultDiscovery" type="Area3D" parent="South_Technical/Art"]
+position = Vector3(0, 2.5, 23)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("generator_discovery")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="South_Technical/Art/FaultDiscovery"]
+shape = SubResource("Shape_generator_discovery")
 
 [node name="CollisionShape3D" parent="South_Technical/Art/GeneratorRoomArt/ArtCollision/GeneratorBody" parent_id_path=PackedInt32Array(164939900, 138073412) index="0" unique_id=1256917469]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3030727, 0)

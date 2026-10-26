@@ -395,7 +395,7 @@ func _refresh_content() -> void:
 			coop_status_label.text = "Отдыхают: %d/%d" % [_controller.sleeping_peer_ids.size(), _controller.get_connected_player_peer_ids().size()]
 		if _controller.maintenance.get("wires_required", false):
 			objective_label.text = "Авария электроснабжения"
-			tasks_label.text = "Вернуться в генераторную.\nСоединить провода в главном щите.\nПосле ремонта включить щит."
+			tasks_label.text = "Перезапустить работу генератора" if _controller.maintenance.get("generator_fault_discovered", false) else "Проверить что со светом"
 			_quest_card.hide()
 		elif _controller.maintenance.get("alarm", false) and not _controller.main_breaker_on:
 			objective_label.text = "Восстановить питание"
@@ -406,7 +406,7 @@ func _refresh_content() -> void:
 		if recovery.get("picked_up", false):
 			var delivered: Array = recovery.get("delivered", [])
 			tasks_label.text += "\n\n" + _task_line(delivered.has(0), "Отнести тело с моста на медицинскую койку · %d/1" % (1 if delivered.has(0) else 0))
-			tasks_label.text += "\nПроверить на признаки жизни или узнать причину смерти."
+			tasks_label.text += "\n" + _task_line(recovery.get("examined", false), "Обследовать тело (в разработке)")
 	_refresh_inventory()
 	_capture_record()
 	_request_ink_update()

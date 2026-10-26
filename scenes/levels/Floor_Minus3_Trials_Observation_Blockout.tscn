@@ -720,7 +720,7 @@ material = SubResource("Edge")
 transform = Transform3D(-3.6199901e-06, 0, 1, 0, 1, 0, -1, 0, -3.6199901e-06, -10.84, 2.9, -2.35)
 pixel_size = 0.004
 modulate = Color(0.9, 0.51, 0.16, 1)
-text = "03"
+text = "3"
 font_size = 110
 outline_size = 0
 
@@ -730,14 +730,6 @@ pixel_size = 0.003
 modulate = Color(0.83, 0.88, 0.87, 1)
 text = "ИСПЫТАНИЯ / НАБЛЮДЕНИЕ"
 font_size = 34
-outline_size = 0
-
-[node name="ArrivalDirection" type="Label3D" parent="Wayfinding" unique_id=38553129]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.15, -3.05)
-pixel_size = 0.004
-modulate = Color(0.83, 0.88, 0.87, 1)
-text = "03  /  ПУЛЬТОВАЯ  →"
-font_size = 36
 outline_size = 0
 
 [node name="ChamberTitle" type="Label3D" parent="Wayfinding" unique_id=1539172594]
@@ -1571,54 +1563,14 @@ material = SubResource("Lens")
 [node name="Arrival" type="Node3D" parent="LightFixtures" unique_id=379199505]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4.1, 0)
 
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/Arrival" unique_id=647769321]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/Arrival" unique_id=515946903]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
-
 [node name="Approach" type="Node3D" parent="LightFixtures" unique_id=707813580]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.1, 0)
-
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/Approach" unique_id=2093354476]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/Approach" unique_id=643448639]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
 
 [node name="ControlEast" type="Node3D" parent="LightFixtures" unique_id=1074168696]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 4.1, 0)
 
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/ControlEast" unique_id=679610443]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ControlEast" unique_id=1391693023]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
-
 [node name="ControlWest" type="Node3D" parent="LightFixtures" unique_id=1491946770]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 4.1, 0)
-
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/ControlWest" unique_id=702895071]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ControlWest" unique_id=1763506311]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
 
 [node name="ExposureEast" type="Node3D" parent="LightFixtures" unique_id=2029225397]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 5.25, -9)
@@ -1649,80 +1601,20 @@ material = SubResource("LightLens")
 [node name="EastService" type="Node3D" parent="LightFixtures" unique_id=1062216924]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.1, -11)
 
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/EastService" unique_id=919858894]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/EastService" unique_id=2146871111]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
-
 [node name="NorthService" type="Node3D" parent="LightFixtures" unique_id=2023121867]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 4.1, -18)
-
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/NorthService" unique_id=1573665909]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/NorthService" unique_id=644681548]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
 
 [node name="WestServiceNorth" type="Node3D" parent="LightFixtures" unique_id=904258649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 4.1, -10)
 
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/WestServiceNorth" unique_id=1909111915]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/WestServiceNorth" unique_id=664377147]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
-
 [node name="WestServiceSouth" type="Node3D" parent="LightFixtures" unique_id=1236145226]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 4.1, 7)
-
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/WestServiceSouth" unique_id=485910365]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/WestServiceSouth" unique_id=214186691]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
 
 [node name="ObservationA" type="Node3D" parent="LightFixtures" unique_id=1226688813]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 4.1, 9)
 
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/ObservationA" unique_id=923235645]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ObservationA" unique_id=227018211]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
-
 [node name="ObservationB" type="Node3D" parent="LightFixtures" unique_id=1591130277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 4.1, 9)
-
-[node name="Housing" type="CSGBox3D" parent="LightFixtures/ObservationB" unique_id=763378360]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1.45, 0.18, 0.45)
-material = SubResource("Steel")
-
-[node name="Diffuser" type="CSGBox3D" parent="LightFixtures/ObservationB" unique_id=1074108459]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-size = Vector3(1.27, 0.025, 0.31)
-material = SubResource("LightLens")
 
 [node name="ReviewPoints" type="Node3D" parent="." unique_id=633870563]
 editor_description = "Маркеры для проверки проходимости и камер. Не являются дополнительными игровыми спавнами."

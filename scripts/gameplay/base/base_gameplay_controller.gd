@@ -491,6 +491,10 @@ func advance_day_authoritative() -> bool:
 			[]
 	)
 	_age_plant(next, day_index, day_index + 1)
+	var recovery: Dictionary = next.maintenance.get("corpse_recovery", {}).duplicate(true)
+	if recovery.get("picked_up", false):
+		recovery["examined"] = true
+		next.maintenance["corpse_recovery"] = recovery
 	if day_index == 1:
 		var order := [0, 1, 2, 3]
 		order.shuffle()
@@ -498,6 +502,7 @@ func advance_day_authoritative() -> bool:
 		if order == [0, 1, 2, 3]:
 			order = [2, 0, 3, 1]
 		next.maintenance["wires_required"] = true
+		next.maintenance["generator_fault_discovered"] = false
 		next.maintenance["wire_order"] = order
 		next.maintenance["wire_links"] = []
 		next.maintenance["alarm"] = true
