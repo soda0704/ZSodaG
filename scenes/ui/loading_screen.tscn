@@ -37,6 +37,11 @@ script = ExtResource("tip")
 title = "Журнал экспедиции."
 body = "Задачи, найденные записи и ваши вещи — в журнале. Просмотреть — {journal}."
 
+[sub_resource type="Resource" id="tip5"]
+script = ExtResource("tip")
+title = "Жизнь на базе."
+body = "Не забывайте поливать растение"
+
 [sub_resource type="AtlasTexture" id="frame0"]
 atlas = ExtResource("atlas")
 region = Rect2(0, 0, 160, 160)
@@ -362,7 +367,7 @@ process_mode = 3
 theme = ExtResource("theme")
 script = ExtResource("logic")
 videos = Array[VideoStream]([ExtResource("video")])
-tips = Array[ExtResource("tip")]([SubResource("tip0"), SubResource("tip1"), SubResource("tip2"), SubResource("tip3"), SubResource("tip4")])
+tips = Array[ExtResource("tip")]([SubResource("tip0"), SubResource("tip1"), SubResource("tip2"), SubResource("tip3"), SubResource("tip4"), SubResource("tip5")])
 
 [node name="Black" type="ColorRect" parent="."]
 layout_mode = 1

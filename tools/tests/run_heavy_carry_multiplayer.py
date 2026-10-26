@@ -35,7 +35,7 @@ try:
     success = all(p.returncode == 0 for p in processes)
     for side in ("host", "client"):
         text = (output / f"heavy_carry-network-{side}.log").read_text(encoding="utf-8", errors="replace")
-        success &= "HEAVY NETWORK CHECKS" in text and "FAIL " not in text and "SCRIPT ERROR" not in text
+        success &= "HEAVY NETWORK CHECKS" in text and "FAIL " not in text and "ERROR:" not in text
         print(side, text[-1200:])
     raise SystemExit(0 if success else 1)
 finally:

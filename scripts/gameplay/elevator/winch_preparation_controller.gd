@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 
 
 func _can_test() -> bool:
-	return gameplay_state.main_breaker_on and gameplay_state.day_index >= gameplay_state.EXPEDITION_DAY_INDEX and winch.current_floor_index == 0 and winch.state in [winch.ElevatorState.UNPOWERED, winch.ElevatorState.IDLE_OPEN] and winch.door_safety_area.get_overlapping_bodies().filter(func(body): return winch._get_body_peer_id(body) > 0).is_empty()
+	return gameplay_state.is_elevator_powered() and gameplay_state.day_index >= gameplay_state.EXPEDITION_DAY_INDEX and winch.current_floor_index == 0 and winch.state in [winch.ElevatorState.UNPOWERED, winch.ElevatorState.IDLE_OPEN] and winch.door_safety_area.get_overlapping_bodies().filter(func(body): return winch._get_body_peer_id(body) > 0).is_empty()
 
 
 func get_prompt(action: WinchPreparationControl.Action) -> String:
@@ -51,7 +51,7 @@ func get_prompt(action: WinchPreparationControl.Action) -> String:
 	if data.get("tested", false): return ""
 	if data.get("testing", false): return ""
 	if action == WinchPreparationControl.Action.CONSOLE:
-		if not gameplay_state.main_breaker_on: return "Нет основного питания"
+		if not gameplay_state.is_elevator_powered(): return "Нет основного и солнечного питания"
 		if not data.get("inspected", false): return "Осмотреть пульт лебёдки"
 		if not data.get("brake_armed", false): return ""
 		return "Запустить проверку" if _can_test() else ""
@@ -69,7 +69,7 @@ func use_control(control: WinchPreparationControl, peer_id: int, interactor: Nod
 	if data.get("tested", false) or data.get("testing", false): return false
 	match control.action:
 		WinchPreparationControl.Action.CONSOLE:
-			if not gameplay_state.main_breaker_on: return false
+			if not gameplay_state.is_elevator_powered(): return false
 			if not data.get("inspected", false):
 				_commit({"inspected": true})
 			elif data.get("brake_armed", false) and _can_test():
@@ -122,7 +122,7 @@ func _on_snapshot(_snapshot: Dictionary) -> void:
 		test_animation.seek(0.0, true)
 		test_animation.pause()
 		_test_left = 0.0
-	var powered := gameplay_state.main_breaker_on
+	var powered := gameplay_state.is_elevator_powered()
 	var status: StringName = &"off" if not powered else &"ready" if data.get("tested", false) else &"service" if data.get("brake_armed", false) or testing else &"locked"
 	status_animation.play(status)
 	status_animation.advance(0.0)

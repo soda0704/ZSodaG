@@ -37,7 +37,7 @@ func run() -> void:
 		encounter = get_tree().get_first_node_in_group("cave_hive_encounters")
 		check(await wait_until(func(): return encounter.state.get_destroyed_cave_hive_count() == 1),"late join restores first destroyed hive")
 		check(encounter.get_health(1) == 85 and encounter.hives[0].collision_layer == 0,"late join restores partial health and native death pose")
-		encounter.hives[1].apply_weapon_damage(10000)
+		encounter.hives[1].apply_flame_damage(10000)
 		check(encounter.get_health(1) == 85,"direct client damage cannot mutate shared progress")
 		hives_ready.rpc_id(1)
 		return
@@ -47,8 +47,8 @@ func run() -> void:
 	encounter.state.set_process(false)
 	world.players.get_node("1").teleport_authoritative(Vector3(289,-155.25,-5),0)
 	for frame in 8: await get_tree().physics_frame
-	encounter.hives[0].apply_weapon_damage(10000)
-	encounter.hives[1].apply_weapon_damage(35)
+	encounter.hives[0].apply_flame_damage(10000)
+	encounter.hives[1].apply_flame_damage(35)
 	print("HOST_READY_FOR_HIVES_CLIENT")
 	check(await wait_until(func(): return guest_id > 0),"late guest acknowledges partial progress")
 	if guest_id == 0: get_tree().quit(1); return
@@ -61,9 +61,9 @@ func run() -> void:
 	guest.weapon._cooldown = 0
 	for frame in 8: await get_tree().physics_frame
 	shoot_hive.rpc_id(guest_id)
-	check(await wait_until(func(): return encounter.get_health(1) == 50),"native client weapon RPC damages hive through host raycast")
-	encounter.hives[1].apply_weapon_damage(10000)
-	encounter.hives[2].apply_weapon_damage(10000)
+	check(await wait_until(func(): return guest.weapon.rounds == 11) and encounter.get_health(1)==85,"native client pistol RPC spends ammunition without damaging the hive")
+	encounter.hives[1].apply_flame_damage(10000)
+	encounter.hives[2].apply_flame_damage(10000)
 	check(encounter.state.are_cave_hives_destroyed() and not encounter.state.can_end_current_day(),"shared destruction requires actual outdoor exit")
 	check_hives.rpc_id(guest_id)
 	check(await wait_until(func(): return guest_checked),"guest sees final shared count and exit task")

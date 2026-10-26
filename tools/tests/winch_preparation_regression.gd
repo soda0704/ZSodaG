@@ -101,11 +101,15 @@ func run() -> void:
 	state._broadcast_snapshot(snapshot)
 	await settle()
 	check(not state.get_winch_preparation().get("testing",true) and not state.is_winch_prepared(), "power failure aborts test without losing mechanical steps")
-	snapshot = state.get_snapshot(); snapshot.main_breaker_on = true
+	snapshot = state.get_snapshot(); snapshot.elevator_backup_installed = true
 	state._broadcast_snapshot(snapshot)
+	check(not state.main_breaker_on and preparation.service_light.visible,"installed solar reserve powers preparation controls with mains off")
 	await press(console)
 	await create_timer(preparation.test_duration+0.15).timeout
-	check(state.is_winch_prepared() and state.can_end_current_day(), "successful brake test completes real day-six objective")
+	check(state.is_winch_prepared(), "solar-powered brake test completes the winch preparation")
+	snapshot = state.get_snapshot(); snapshot.main_breaker_on = true
+	state._broadcast_snapshot(snapshot)
+	check(state.can_end_current_day(),"normal day-end rules still require the base's main power")
 	check(preparation.get_node("Console/StatusGreen").visible and not preparation.get_node("Console/StatusRed").visible, "green indicator confirms successful test")
 	check(not preparation.winch.is_powered and not preparation.winch.request_floor(1), "prepared cage still waits until day seven")
 	check("отдохнуть" in state.get_expedition_objective().note, "journal sends prepared team back to rest")
@@ -136,7 +140,8 @@ func run() -> void:
 	check(state.load_saved_snapshot().maintenance.winch_preparation.tested, "old day-seven saves retain cave access without replaying new preparation")
 	if "--capture" in OS.get_cmdline_user_args(): await capture()
 	state.progress_persistence_enabled = false
-	base.queue_free(); await process_frame
+	base.queue_free()
+	for frame in 4: await process_frame
 	print("PREPARATION CHECKS ",checks," FAILURES ",failures)
 	quit(1 if failures else 0)
 

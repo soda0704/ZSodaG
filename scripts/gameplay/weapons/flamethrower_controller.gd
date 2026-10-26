@@ -120,7 +120,8 @@ func apply_jet_damage(seconds: float) -> void:
 		# Every target needs its own unobstructed path, even near a doorway edge.
 		var hit:=_ray(origin,center,23)
 		if hit.is_empty() or hit.collider!=target:continue
-		if target is GamePlayer:target.apply_weapon_damage(damage_per_second*seconds,Vector3.ZERO)
+		if target.has_method("apply_flame_damage"):target.apply_flame_damage(damage_per_second*seconds)
+		elif target is GamePlayer:target.apply_weapon_damage(damage_per_second*seconds,Vector3.ZERO)
 		else:target.apply_weapon_damage(damage_per_second*seconds)
 
 func refuel_authoritative() -> bool:

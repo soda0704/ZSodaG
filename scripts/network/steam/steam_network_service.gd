@@ -217,8 +217,10 @@ func leave_session(reason: String = "Left session") -> void:
 		return
 
 	_is_leaving = true
-	set_state(SessionState.LEAVING, reason)
+	# UI observers query multiplayer IDs. Detach a lost transport before
+	# publishing LEAVING, otherwise server_disconnected refreshes a dead peer.
 	reset_current_session(true)
+	set_state(SessionState.LEAVING, reason)
 	_is_leaving = false
 	set_state(SessionState.READY, "Steam online as %s" % local_user_name)
 	session_closed.emit(reason)
@@ -345,11 +347,11 @@ func set_state(next_state: SessionState, message: String) -> void:
 
 
 func reset_current_session(leave_lobby: bool) -> void:
-	if _peer != null:
-		_peer.close()
-		_peer = null
-
+	var previous_peer := _peer
+	_peer = null
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	if previous_peer != null:
+		previous_peer.close()
 
 	if leave_lobby and steam_available and lobby_id > 0:
 		_steam.call("leaveLobby", lobby_id)

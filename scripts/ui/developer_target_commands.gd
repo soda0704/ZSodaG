@@ -3,7 +3,7 @@ extends RefCounted
 static func resolve(node: Node, tree: SceneTree) -> Node:
 	var current := node
 	while current != null:
-		if current.has_method("debug_set_open") or current is InteractiveDoor or current is WorldItemPickup or current.is_in_group("hostile_monsters"):
+		if current.has_method("debug_set_open") or current is WorldItemPickup or current.is_in_group("hostile_monsters"):
 			return current
 		for manager in tree.get_nodes_in_group("base_auto_door_managers"):
 			for door in manager._doors:
@@ -48,8 +48,6 @@ static func execute(args: PackedStringArray, player: GamePlayer, selected: NodeP
 	var opened := args[0] == "/open"
 	if target.has_method("debug_set_open"):
 		target.debug_set_open(opened)
-	elif target is InteractiveDoor:
-		target._apply_network_open.rpc(opened)
 	else:
 		var found := false
 		for manager in tree.get_nodes_in_group("base_auto_door_managers"):

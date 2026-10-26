@@ -57,17 +57,9 @@
 [ext_resource type="PackedScene" uid="uid://ojj5yvkr85ou" path="res://scenes/art/base/exterior/arctic_base_exterior_shell.tscn" id="exterior_shell"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/day_two_terminal.tscn" id="quest_terminal"]
 
-[sub_resource type="BoxShape3D" id="Shape_day1_west_vehicle_gate_blocker"]
-size = Vector3(5.56, 3.55, 0.14)
 
-[sub_resource type="BoxShape3D" id="Shape_day1_west_cold_warm_blocker"]
-size = Vector3(1.952, 2.16, 0.12)
 
-[sub_resource type="BoxShape3D" id="Shape_day1_science_entrance_blocker"]
-size = Vector3(2.38, 2.7, 0.12)
 
-[sub_resource type="BoxShape3D" id="Shape_day1_medical_blocker"]
-size = Vector3(2.4, 2.7, 0.12)
 
 [sub_resource type="BoxShape3D" id="Shape_acoustic_pedestrian"]
 size = Vector3(1.5, 3.5, 1.5)
@@ -313,38 +305,6 @@ editor_description = "Все двери нулевого уровня, их ко
 [node name="AutomaticDoors" type="Node" parent="Doors" unique_id=1013249623]
 editor_description = "Отдельная сцена нулевого уровня базы. Содержит архитектуру, двери, временное освещение, сюжетный blockout и коллизии первого дня. Лифт и подземные уровни принадлежат сборочной сцене Base_Blockout_v03."
 script = ExtResource("23_auto_doors")
-
-[node name="Day1_Door_Collisions" type="Node3D" parent="Doors" unique_id=1527685363]
-editor_description = "Centralized first-day passage blockers. Disable the four CollisionShape3D children after the first sleep when these doors become available. Structural frame collisions remain inside the door scenes."
-visible = false
-
-[node name="West_Vehicle_Exterior_Gate_Blocker" type="StaticBody3D" parent="Doors/Day1_Door_Collisions" unique_id=1042344730]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -38.003, 0, -2.5)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Day1_Door_Collisions/West_Vehicle_Exterior_Gate_Blocker" unique_id=423468759]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82, 0)
-shape = SubResource("Shape_day1_west_vehicle_gate_blocker")
-
-[node name="West_Garage_Cold_Warm_Door_Blocker" type="StaticBody3D" parent="Doors/Day1_Door_Collisions" unique_id=751073775]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 1.753)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Day1_Door_Collisions/West_Garage_Cold_Warm_Door_Blocker" unique_id=1711194171]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08, 0)
-shape = SubResource("Shape_day1_west_cold_warm_blocker")
-
-[node name="Science_Entrance_Door_Blocker" type="StaticBody3D" parent="Doors/Day1_Door_Collisions" unique_id=1327578322]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.003)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Day1_Door_Collisions/Science_Entrance_Door_Blocker" unique_id=649272193]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
-shape = SubResource("Shape_day1_science_entrance_blocker")
-
-[node name="Medical_Hermetic_Door_Blocker" type="StaticBody3D" parent="Doors/Day1_Door_Collisions" unique_id=2119114937]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 1.515)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Day1_Door_Collisions/Medical_Hermetic_Door_Blocker" unique_id=1332069135]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
-shape = SubResource("Shape_day1_medical_blocker")
 
 [node name="West_Hub_Decon_Door_Visual_Prototype" parent="Doors" unique_id=971400324 instance=ExtResource("13_west_hub_decon_door_visual")]
 transform = Transform3D(-6.119594e-08, 0, -1, 0, 1, 0, 1.4, 0, -4.371139e-08, -10, 0, 0)

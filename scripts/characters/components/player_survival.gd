@@ -76,6 +76,12 @@ func reset_fall() -> void:
 	_fall_speed = 0.0
 	_air_time = 0.0
 
+func restore_after_sleep_authoritative() -> void:
+	if not multiplayer.is_server() or dead or not get_parent().is_sleeping_in_bunk():
+		return
+	reset_fall()
+	_sync.rpc(max_health, 0.0, false, "", 0.0, Vector3.ZERO)
+
 func observe_motion(incoming_y: float, grounded: bool, platform_y: float) -> void:
 	if not multiplayer.is_server() or dead:
 		return

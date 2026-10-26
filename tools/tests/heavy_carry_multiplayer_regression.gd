@@ -14,6 +14,18 @@ var workbench_mode := false
 var joist_route_mode := false
 var route_ack := false
 var local_ready := false
+func cleanup_arena() -> void:
+	holding=false
+	set_process(false)
+	# Stop delivery before removing RPC targets from either test process.
+	var transport := multiplayer.multiplayer_peer
+	SteamNetwork.leave_session("Heavy carry test finished")
+	transport.close()
+	var arena := get_tree().root.get_node_or_null("CarryArena")
+	if arena != null: arena.queue_free()
+	for frame in 4: await get_tree().process_frame
+	actors.clear()
+	prop=null
 func check(ok:bool,label:String) -> void:
 	checks+=1
 	if not ok:failures+=1
@@ -126,6 +138,7 @@ func run_host() -> void:
 	finish.rpc_id(guest,failures)
 	await get_tree().create_timer(.25).timeout
 	print("HEAVY NETWORK CHECKS ",checks," FAILURES ",failures)
+	await cleanup_arena()
 	get_tree().quit(1 if failures else 0)
 @rpc("authority","call_remote","reliable")
 func begin_guest() -> void:
@@ -157,4 +170,5 @@ func stop_guest() -> void:
 @rpc("authority","call_remote","reliable")
 func finish(count:int) -> void:
 	print("HEAVY NETWORK CHECKS ",checks," FAILURES ",failures+count)
+	await cleanup_arena()
 	get_tree().quit(1 if failures+count else 0)

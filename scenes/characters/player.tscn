@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/player_audio.tscn" id="player_audio"]
 [ext_resource type="PackedScene" path="res://scenes/characters/item_focus.tscn" id="item_focus"]
 [ext_resource type="PackedScene" path="res://scenes/ui/northern_lab_hud.tscn" id="northern_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/sleep_eyelids.tscn" id="sleep_eyelids"]
 
 
 
@@ -182,3 +183,5 @@ rotation = Vector3(-1.5707963, 0, 0)
 [node name="FlashlightShakeHint" parent="PlayerUI" instance=ExtResource("shake_hint")]
 
 [node name="NorthernLabHUD" parent="PlayerUI" instance=ExtResource("northern_hud")]
+
+[node name="SleepEyelids" parent="PlayerUI" instance=ExtResource("sleep_eyelids")]

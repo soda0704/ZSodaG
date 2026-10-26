@@ -143,6 +143,22 @@ func run() -> void:
 	bunk.network_interact(1, host_actor)
 	check(state.is_peer_sleeping(1) and not state.are_all_connected_players_sleeping(), "coop sleeper waits for actual connected partner")
 	check(bunk.cancel_sleep_authoritative(1, host_actor) and not state.is_peer_sleeping(1), "coop sleeper can get up before partner lies down")
+	host_actor.survival.restore_checkpoint_authoritative({"health":43.0,"radiation":17.0})
+	client_actor.survival.restore_checkpoint_authoritative({"health":61.0,"radiation":32.0})
+	bunk.network_interact(1,host_actor)
+	await get_tree().create_timer(.7).timeout
+	check(state.day_index==2 and host_actor.survival.health==43,"one sleeping peer cannot start recovery before the partner")
+	var guest_bunk: BaseEndDayBunk = level.get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable02")
+	client_actor.teleport_authoritative(guest_bunk.wake_pose.global_position,0)
+	guest_bunk.network_interact(client_id,client_actor)
+	await get_tree().create_timer(.7).timeout
+	verify_phase.rpc_id(client_id,"sleeping")
+	check(await until(func(): return reports.has("sleeping")),"guest closes only its local eyes during shared sleep")
+	check(await until(func(): return state.day_index==3),"five-second shared night advances the day once")
+	check(host_actor.survival.health==host_actor.survival.max_health and client_actor.survival.health==client_actor.survival.max_health and is_zero_approx(host_actor.survival.radiation) and is_zero_approx(client_actor.survival.radiation),"host restores both peers' HP and clears both radiation doses")
+	await get_tree().create_timer(.7).timeout
+	verify_phase.rpc_id(client_id,"morning")
+	check(await until(func(): return reports.has("morning")),"guest receives morning recovery and opens its eyes")
 	finish.rpc_id(client_id, failures)
 	await get_tree().create_timer(0.5).timeout
 	print("TERMINAL COOP CHECKS ", checks, " FAILURES ", failures)
@@ -158,6 +174,14 @@ func verify_phase(phase: String) -> void:
 	elif phase == "delivered":
 		check(state.quest_stage == BaseGameplayController.QuestStage.DELIVERED and hub.key_visual.visible and not vault.key_visual.visible, "guest sees delivered key once")
 		check(hub.ui.get_node("%Progress").text.contains("ПЕРЕДАН"), "guest UI reflects mission completion")
+	elif phase in ["sleeping","morning"]:
+		var local: GamePlayer = get_tree().get_first_node_in_group("local_player")
+		var eyes := local.get_node("PlayerUI/SleepEyelids")
+		if phase=="sleeping":
+			check(local.is_sleeping_in_bunk() and eyes.visible and is_zero_approx(float(eyes.get_node("Cover").material.get_shader_parameter("openness"))),"guest receives bunk state and fully closed eyelids")
+			check(not world.players.get_node("1/PlayerUI/SleepEyelids").visible,"remote sleeper never covers the guest's screen")
+		else:
+			check(not local.is_sleeping_in_bunk() and not eyes.visible and local.survival.health==local.survival.max_health and is_zero_approx(local.survival.radiation),"guest receives healed morning state and clear screen")
 	report.rpc_id(1, phase, failures)
 @rpc("any_peer", "call_remote", "reliable")
 func report(phase: String, client_failures: int) -> void:

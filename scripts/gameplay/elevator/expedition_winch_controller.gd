@@ -37,8 +37,8 @@ func _on_gameplay_state(_snapshot: Dictionary) -> void:
 		if light != null: light.visible = gameplay_state.main_breaker_on
 	if multiplayer.is_server():
 		set_day(gameplay_state.day_index)
-		# The solar fuse supplies the main elevator only.
-		set_powered(gameplay_state.day_index >= gameplay_state.CAVE_DAY_INDEX and gameplay_state.main_breaker_on and gameplay_state.is_winch_prepared())
+		# Share the installed solar reserve with the main elevator.
+		set_powered(gameplay_state.day_index >= gameplay_state.CAVE_DAY_INDEX and gameplay_state.is_elevator_powered() and gameplay_state.is_winch_prepared())
 
 
 func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
@@ -47,7 +47,7 @@ func get_button_prompt(floor_index: int, is_call_button: bool) -> String:
 	if gameplay_state != null and not gameplay_state.is_winch_prepared():
 		return "Подготовьте лебёдку: осмотрите пульт на уровне 5"
 	if not is_powered:
-		return "Лебёдка: нет основного питания"
+		return "Лебёдка: нет основного и солнечного питания"
 	if super.get_button_prompt(floor_index, is_call_button).is_empty():
 		return ""
 	if is_call_button:

@@ -8,7 +8,6 @@ const DOOR_MOVE_TIME := 0.7
 
 var _controller: BaseGameplayController
 var _doors: Array[Dictionary] = []
-var _legacy_blockers: Array[CollisionShape3D] = []
 var _update_left := 0.0
 var _nearby_players: Array[Node] = []
 
@@ -24,9 +23,6 @@ func _process(delta: float) -> void:
 		return
 	_update_left = UPDATE_INTERVAL
 	_refresh_nearby_actors()
-	for legacy_blocker in _legacy_blockers:
-		if is_instance_valid(legacy_blocker) and not legacy_blocker.disabled:
-			legacy_blocker.set_deferred("disabled", true)
 	var powered := _controller != null and _controller.main_breaker_on
 	var expired: Array[String] = []
 	for door in _doors:
@@ -111,15 +107,6 @@ func _setup_doors() -> void:
 		"base_gameplay_controller"
 	) as BaseGameplayController
 	var doors_root := get_parent()
-	var old_blockers := doors_root.get_node_or_null("Day1_Door_Collisions")
-	if old_blockers != null:
-		# Every authored door is now controlled directly by its scene root.
-		old_blockers.process_mode = Node.PROCESS_MODE_DISABLED
-		for shape in old_blockers.find_children("*", "CollisionShape3D", true, false):
-			var legacy_blocker := shape as CollisionShape3D
-			_legacy_blockers.append(legacy_blocker)
-			legacy_blocker.set_deferred("disabled", true)
-
 	for candidate in doors_root.get_children():
 		if not candidate is Node3D:
 			continue

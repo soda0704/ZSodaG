@@ -30,10 +30,12 @@ func seed_expedition() -> void:
 		inventory.players[id]={"held_item":&"", "crafting_parts":parts.duplicate(), "tape_count":2}
 	config.set_value("inventory","checkpoint",inventory)
 	check(ExpeditionSaveStore.write(config,"coop","sleep"),"seed shared crafting expedition")
-func at_bench(actor: GamePlayer,x: float) -> void:
-	actor.teleport_authoritative(Vector3(x,.04,1.2),0)
+func at_bench(actor: GamePlayer,side: float) -> void:
+	var approach: Vector3 = bench.global_position+bench.global_basis.x.normalized()*side*1.6
+	approach.y = .04
+	actor.teleport_authoritative(approach,0)
 	for frame in 4: await get_tree().physics_frame
-	var offset: Vector3=bench.global_position-actor.head.global_position
+	var offset: Vector3=bench.get_interaction_position()-actor.head.global_position
 	actor.rotation.y=atan2(-offset.x,-offset.z)
 	actor.head.rotation.x=atan2(offset.y,Vector2(offset.x,offset.z).length())
 	check(actor.get_interaction_target()==bench,"native table ray for peer "+str(actor.owner_peer_id))
@@ -72,7 +74,7 @@ func run() -> void:
 	if guest_id==0:get_tree().quit(1);return
 	var actor: GamePlayer=world.players.get_node("1")
 	var guest: GamePlayer=world.players.get_node(str(guest_id))
-	await at_bench(actor,-22.5);await at_bench(guest,-21.5)
+	await at_bench(actor,-1);await at_bench(guest,1)
 	actor.try_authoritative_interaction()
 	check(actor.has_held_item(&"flamethrower") and bench.crafted_count()==1,"host E consumes one recipe and awards one item")
 	craft_now.rpc_id(guest_id)
@@ -110,7 +112,7 @@ func craft_ready() -> void:
 @rpc("authority","call_remote","reliable")
 func craft_now() -> void:
 	var actor: GamePlayer=get_tree().get_first_node_in_group("local_player")
-	var offset: Vector3=bench.global_position-actor.head.global_position
+	var offset: Vector3=bench.get_interaction_position()-actor.head.global_position
 	actor.rotation.y=atan2(-offset.x,-offset.z)
 	actor.head.rotation.x=atan2(offset.y,Vector2(offset.x,offset.z).length())
 	interaction_serial+=1;client_input=true

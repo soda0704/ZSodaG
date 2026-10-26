@@ -45,13 +45,6 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 @export_group("Gameplay Nodes")
 @export var world_items_path := NodePath("Gameplay/WorldItems")
 @export var item_spawner_path := NodePath("Gameplay/ItemSpawner")
-@export var power_switch_path := NodePath(
-	"Gameplay/PoweredDoorSystem/DoorPowerSwitch"
-)
-@export var interactive_door_path := NodePath(
-	"Gameplay/PoweredDoorSystem/InteractiveDoor"
-)
-@export var generator_panel_path := NodePath("Gameplay/GeneratorPanel")
 
 @onready var players: Node3D = %Players
 @onready var overview_camera: Camera3D = %OverviewCamera
@@ -62,15 +55,6 @@ const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 @onready var item_spawner: MultiplayerSpawner = get_node_or_null(
 	item_spawner_path
 ) as MultiplayerSpawner
-@onready var power_switch: DoorPowerSwitch = get_node_or_null(
-	power_switch_path
-) as DoorPowerSwitch
-@onready var interactive_door: InteractiveDoor = get_node_or_null(
-	interactive_door_path
-) as InteractiveDoor
-@onready var generator_panel: GeneratorPanel = get_node_or_null(
-	generator_panel_path
-) as GeneratorPanel
 @onready var gameplay_origin: Node3D = get_node_or_null(
 	gameplay_origin_path
 ) as Node3D
@@ -92,6 +76,21 @@ var _standalone_mode: bool = false
 var resume_base_on_start: bool = false
 var _inventory_save_elapsed: float = 0.0
 var _v3_ready_peers: Array[int] = []
+var _transition_player_physics: Dictionary = {}
+
+func _pause_transition_player(player: GamePlayer) -> void:
+	if _transition_player_physics.has(player): return
+	_transition_player_physics[player] = [player.is_physics_processing(),player.survival.is_physics_processing()]
+	player.set_physics_process(false)
+	player.survival.set_physics_process(false)
+
+func _resume_transition_players() -> void:
+	for player in _transition_player_physics:
+		if not is_instance_valid(player): continue
+		var previous: Array = _transition_player_physics[player]
+		player.set_physics_process(previous[0])
+		player.survival.set_physics_process(previous[1])
+	_transition_player_physics.clear()
 
 
 func get_ready_v3_peers() -> Array[int]:
@@ -99,7 +98,7 @@ func get_ready_v3_peers() -> Array[int]:
 
 
 func _process(delta: float) -> void:
-	if multiplayer.is_server() and _v3_items_spawned:
+	if multiplayer.is_server() and _v3_items_spawned and not _v3_transition_in_progress:
 		_inventory_save_elapsed += delta
 		if _inventory_save_elapsed >= 5.0:
 			_inventory_save_elapsed = 0.0
@@ -295,12 +294,6 @@ func _request_gameplay_state() -> void:
 		return
 	for ramp in get_tree().get_nodes_in_group("helicopter_ramps"):
 		ramp.sync_network_state_to_peer(sender_id)
-	if is_instance_valid(power_switch):
-		power_switch.sync_network_state_to_peer(sender_id)
-	if is_instance_valid(interactive_door):
-		interactive_door.sync_network_state_to_peer(sender_id)
-	if is_instance_valid(generator_panel):
-		generator_panel.sync_network_state_to_peer(sender_id)
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -384,6 +377,7 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 	var peer_id := int(spawn_data.get("peer_id", 1))
 	if players.has_node(str(peer_id)):
 		_apply_roster_player_state(players.get_node(str(peer_id)), spawn_data)
+		if _v3_transition_in_progress: _pause_transition_player(players.get_node(str(peer_id)))
 		return
 
 	var player := (
@@ -401,6 +395,7 @@ func _spawn_player(spawn_data: Dictionary) -> void:
 	)
 	players.add_child(player)
 	_apply_roster_player_state(player, spawn_data)
+	if _v3_transition_in_progress: _pause_transition_player(player)
 
 
 func _apply_roster_player_state(player: GamePlayer, spawn_data: Dictionary) -> void:
@@ -518,34 +513,15 @@ func _on_gameplay_started() -> void:
 	_enter_v3_level.rpc()
 
 
-func can_enter_v3_level() -> bool:
-	return (
-		not _entered_v3_level
-		and not _v3_transition_in_progress
-		and is_instance_valid(generator_panel)
-		and generator_panel.is_powered
-		and is_instance_valid(power_switch)
-		and power_switch.is_powered
-		and is_instance_valid(interactive_door)
-		and interactive_door.state == InteractiveDoor.DoorState.OPEN
-	)
-
-
-func request_v3_transition(peer_id: int) -> void:
-	if (
-		not multiplayer.is_server()
-		or not players.has_node(str(peer_id))
-		or not can_enter_v3_level()
-	):
-		return
-	_enter_v3_level.rpc()
-
-
 @rpc("authority", "call_local", "reliable")
 func _enter_v3_level() -> void:
 	if _entered_v3_level or _v3_transition_in_progress:
 		return
 	_v3_transition_in_progress = true
+	# Restored doses, death countdowns and cabin poses must not advance while
+	# the player is still behind the loading cover. Rendering stays active.
+	for player in players.get_children():
+		if player is GamePlayer: _pause_transition_player(player)
 	_entered_v3_level = true
 	if has_node("CabinSound"):
 		if resume_base_on_start:
@@ -573,6 +549,7 @@ func _enter_v3_level() -> void:
 		push_error("Could not load V3 level: %s" % V3_LEVEL_PATH)
 		_entered_v3_level = false
 		_v3_transition_in_progress = false
+		_resume_transition_players()
 		lobby_hud.reveal_transition_cover(transition_id)
 		return
 
@@ -582,6 +559,7 @@ func _enter_v3_level() -> void:
 		push_error("V3 root must use BaseBlockoutRuntime")
 		_entered_v3_level = false
 		_v3_transition_in_progress = false
+		_resume_transition_players()
 		lobby_hud.reveal_transition_cover(transition_id)
 		return
 	v3_level.name = "V3Level"
@@ -663,6 +641,7 @@ func _enter_v3_level() -> void:
 	await lobby_hud.wait_for_transition_ready(transition_id)
 	await lobby_hud.reveal_transition_cover(transition_id)
 	_v3_transition_in_progress = false
+	_resume_transition_players()
 	lobby_hud.refresh()
 
 
@@ -954,12 +933,6 @@ func _on_peer_left(peer_id: int) -> void:
 func _on_peer_joined(peer_id: int) -> void:
 	if not multiplayer.is_server():
 		return
-	if is_instance_valid(power_switch):
-		power_switch.call_deferred("sync_network_state_to_peer", peer_id)
-	if is_instance_valid(interactive_door):
-		interactive_door.call_deferred("sync_network_state_to_peer", peer_id)
-	if is_instance_valid(generator_panel):
-		generator_panel.call_deferred("sync_network_state_to_peer", peer_id)
 	call_deferred("send_player_roster", peer_id)
 
 
@@ -982,11 +955,5 @@ func _on_session_closed(_reason: String) -> void:
 	_base_gameplay_controller = null
 	_v3_elevator_controller = null
 	_player_roster.clear()
-	if is_instance_valid(power_switch):
-		power_switch.apply_power_state(false, true)
-	if is_instance_valid(interactive_door):
-		interactive_door.set_open(false, true)
-	if is_instance_valid(generator_panel):
-		generator_panel.apply_state(false, false, true)
 	overview_camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

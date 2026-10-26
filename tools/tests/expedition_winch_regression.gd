@@ -130,12 +130,20 @@ func run() -> void:
 	check(await until(func(): return winch.current_floor_index == 0 and winch.state == winch.ElevatorState.IDLE_OPEN), "in-cage upper button returns player to level five")
 	check(absf(player.global_position.y + 90.0) < 0.4, "return trip carries player back to level-five deck")
 	var snapshot := state.get_snapshot()
+	snapshot.elevator_backup_installed = true
 	snapshot.main_breaker_on = false
 	state._broadcast_snapshot(snapshot)
-	check(not winch.is_powered and not winch.request_floor(1), "idle winch follows main breaker rather than solar elevator reserve")
+	check(winch.is_powered,"installed solar reserve powers the winch with the main breaker off")
+	check(winch.request_floor(1),"solar reserve accepts an actual departure")
+	check(await until(func(): return winch.current_floor_index==1 and winch.state==winch.ElevatorState.IDLE_OPEN),"solar reserve completes descent with main power off")
+	check(winch.request_floor(0),"solar reserve accepts return from the lower landing")
+	check(await until(func(): return winch.current_floor_index==0 and winch.state==winch.ElevatorState.IDLE_OPEN),"solar reserve returns player to level five")
+	snapshot.elevator_backup_installed = false
+	state._broadcast_snapshot(snapshot)
+	check(not winch.is_powered and not winch.request_floor(1),"without mains or installed solar reserve, winch is unpowered")
 	snapshot.main_breaker_on = true
 	state._broadcast_snapshot(snapshot)
-	check(winch.request_floor(1), "main power restores winch operation")
+	check(winch.request_floor(1), "main power also restores winch operation")
 	check(await until(func(): return winch.state == winch.ElevatorState.MOVING), "power-cut regression begins actual movement")
 	snapshot.main_breaker_on = false
 	state._broadcast_snapshot(snapshot)

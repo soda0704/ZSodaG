@@ -2,7 +2,11 @@ extends SceneTree
 var failures := 0
 var checks := 0
 func _initialize() -> void:
-	ProjectSettings.set_setting(ExpeditionSaveStore.ROOT_SETTING, "user://expedition_resume_%d" % OS.get_process_id())
+	var prefix := "user://expedition_resume_%d" % OS.get_process_id()
+	ProjectSettings.set_setting(ExpeditionSaveStore.ROOT_SETTING,prefix)
+	ProjectSettings.set_setting("northern_lab/testing/settings_path",prefix+"/settings.json")
+	ProjectSettings.set_setting("northern_lab/testing/controls_path",prefix+"/controls.cfg")
+	ProjectSettings.set_setting("northern_lab/testing/legacy_save_paths",{})
 	run.call_deferred()
 func check(ok: bool, label: String) -> void:
 	checks += 1
@@ -19,6 +23,7 @@ func exit_world(menu: Node) -> void:
 	menu.return_to_main_menu()
 	while menu._transition_in_progress: await process_frame
 func run() -> void:
+	Engine.max_fps = 60
 	var menu := root.get_node("GameMenu")
 	await menu.start_standalone_flow(false)
 	var world := current_scene
@@ -78,11 +83,13 @@ func run() -> void:
 	check(world.capture_inventory_checkpoint().pickups.size() == count, "resume does not duplicate world loot")
 	check(ExpeditionSaveStore.history("solo").size() == 1, "manual save preserved initial checkpoint")
 	# Use the existing sleep consensus, not a fabricated save-kind call.
-	player.teleport_authoritative(world.get_node("V3Level").get_day_start_transform(0).origin, 0)
-	check(state.set_end_day_ready_authoritative(1, true) and state.set_peer_sleeping_authoritative(1, true), "existing day-three sleep consensus")
-	await create_timer(1.3).timeout
+	var bunk: BaseEndDayBunk = world.get_node("V3Level/Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
+	player.teleport_authoritative(bunk.wake_pose.global_position,0)
+	bunk.network_sleep_interact(1,player)
+	check(state.is_peer_sleeping(1) and player.is_sleeping_in_bunk(), "existing day-three bunk starts real sleep consensus")
+	await create_timer(5.3).timeout
 	check(state.day_index == 4, "existing sleep advances the expedition")
-	check(ExpeditionSaveStore.summary("solo").kind == "sleep", "sleep saves after waking into new day")
+	check(ExpeditionSaveStore.history("solo").any(func(point): return point.kind=="sleep" and point.day_index==4), "sleep records a morning checkpoint even if periodic saving follows")
 	var morning: Transform3D = world.get_node("V3Level").get_day_start_transform(0)
 	check(player.global_position.distance_to(morning.origin) < 0.01 and not player.is_sleeping_in_bunk(), "morning save contains awake safe spawn")
 	state.progress_persistence_enabled = false
@@ -93,7 +100,7 @@ func run() -> void:
 	await settle()
 	state = world.get_node("V3Level/BaseGameplayController")
 	check(state.day_index == 4 and player.global_position.distance_to(morning.origin) < 0.1, "sleep checkpoint resumes at correct morning")
-	check(player.survival.health == 63, "sleep does not heal saved health implicitly")
+	check(player.survival.health == player.survival.max_health and is_zero_approx(player.survival.radiation), "completed sleep saves restored health and cleared radiation")
 	# Persist death countdown; relaunching cannot heal a dying player for free.
 	player.survival.dead = true
 	player.survival.health = 0

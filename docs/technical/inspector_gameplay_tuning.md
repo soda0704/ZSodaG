@@ -11,7 +11,8 @@
 | Объект | Сцена или ресурс | Основные параметры |
 | --- | --- | --- |
 | Игрок | `scenes/characters/player.tscn` | Movement, бег/отдых, Interaction Reach, батарея, перенос тела |
-| Здоровье | PlayerSurvival внутри Player | HP, падение, респавн и радиация |
+| Здоровье | `scripts/characters/components/player_survival.gd`; `Survival` создаётся в runtime | Стартовые HP, падение, респавн и радиация — в коде; Remote Inspector показывает текущий экземпляр |
+| Ночь | BaseDayProgressionController в базе | `sleep_duration` — 5 секунд; экран век и клипы — `scenes/ui/sleep_eyelids.tscn` |
 | Оружие | `scenes/characters/weapon_controller.tscn` | Pistol/M4A1/Knife balance, Audio, Bullet marks |
 | Монстры | `scenes/characters/monsters/` и `assets/config/monsters/` | Behavior, Perception, Combat, Navigation |
 | Pickup | `scenes/objects/items/`, `scenes/objects/equipment/` | Item State, подбор, перенос, дальность, сопротивление |

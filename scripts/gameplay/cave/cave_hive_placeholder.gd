@@ -30,6 +30,10 @@ func apply_snapshot(active: bool, health: float) -> void:
 		else:
 			_standing_pose()
 
-func apply_weapon_damage(amount: float) -> void:
-	# Weapons already validate ownership, ammunition and their ray on the host.
+func apply_weapon_damage(_amount: float) -> void:
+	# Retain the weapon-hit contract so bullets stop at this collider.
+	# Only the host's validated flame jet may damage the hive.
+	pass
+
+func apply_flame_damage(amount: float) -> void:
 	get_parent().damage_hive(hive_index, amount)

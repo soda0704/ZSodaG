@@ -18,6 +18,7 @@ def main():
     parser.add_argument("--hives", action="store_true", help="test cave hive progress, late join and client weapon damage")
     parser.add_argument("--crafting", action="store_true", help="test two-player flamethrower assembly, part migration and resume")
     parser.add_argument("--flame", action="store_true", help="test continuous jet, guest damage, ownership, fuel and trigger timeout")
+    parser.add_argument("--medical", action="store_true", help="test late-join corpse carry, carrier disconnect and recovery")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
@@ -63,6 +64,11 @@ def main():
         driver = "run_flamethrower_fire_multiplayer.gd"
         ready_marker = "HOST_READY_FOR_CRAFT_CLIENT"
         result_marker = "CRAFT COOP CHECKS"
+    if options.medical:
+        label = "medical"
+        driver = "run_medical_corpse_multiplayer.gd"
+        ready_marker = "HOST_READY_MEDICAL_CLIENT"
+        result_marker = "MEDICAL COOP CHECKS"
     project = Path(__file__).resolve().parents[2]
     output = project / "tools/.local"
     output.mkdir(exist_ok=True)

@@ -2,16 +2,14 @@ class_name BaseDayProgressionController
 extends Node
 
 @export var gameplay_controller_path := NodePath("../BaseGameplayController")
-@export var day_one_collision_root_path := NodePath(
-	"../Floor_0_Base_Blockout/Doors/Day1_Door_Collisions"
-)
 @export var elevator_controller_path := NodePath(
 	"../Elevator_Functional_Blockout"
 )
+@export_range(1.0, 30.0, 0.1) var sleep_duration := 5.0
 
 var _gameplay_controller: BaseGameplayController
-var _day_one_collision_root: Node3D
 var _elevator_controller: FunctionalElevatorController
+var _sleep_transition_serial := 0
 
 
 func _ready() -> void:
@@ -22,9 +20,6 @@ func _bind_runtime() -> void:
 	_gameplay_controller = get_node_or_null(
 		gameplay_controller_path
 	) as BaseGameplayController
-	_day_one_collision_root = get_node_or_null(
-		day_one_collision_root_path
-	) as Node3D
 	_elevator_controller = get_node_or_null(
 		elevator_controller_path
 	) as FunctionalElevatorController
@@ -46,6 +41,9 @@ func _bind_runtime() -> void:
 
 func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 	_apply_elevator_power()
+	if not _gameplay_controller.are_all_connected_players_sleeping():
+		# Leaving/re-entering a bunk must start a complete new night.
+		_sleep_transition_serial += 1
 
 
 func _apply_elevator_power() -> void:
@@ -59,7 +57,11 @@ func _apply_elevator_power() -> void:
 func _on_end_day_consensus_reached(completed_day_index: int) -> void:
 	if not multiplayer.is_server() or _gameplay_controller == null:
 		return
-	await get_tree().create_timer(1.1).timeout
+	_sleep_transition_serial += 1
+	var serial := _sleep_transition_serial
+	await get_tree().create_timer(sleep_duration).timeout
+	if not is_instance_valid(_gameplay_controller) or not is_inside_tree() or serial != _sleep_transition_serial:
+		return
 	if (
 		_gameplay_controller.day_index != completed_day_index
 		or not _gameplay_controller.are_all_connected_players_sleeping()
@@ -75,17 +77,6 @@ func _on_day_changed(next_day_index: int) -> void:
 
 
 func _apply_day(next_day_index: int) -> void:
-	if _day_one_collision_root != null:
-		for child in _day_one_collision_root.find_children(
-			"*",
-			"CollisionShape3D",
-			true,
-			false
-		):
-			(child as CollisionShape3D).set_deferred(
-				"disabled",
-				true
-			)
 	if multiplayer.is_server() and _elevator_controller != null:
 		_elevator_controller.set_day(next_day_index)
 
@@ -101,6 +92,8 @@ func _wake_players_for_new_day() -> void:
 		if player == null or not player.has_method("leave_bunk_sleep_authoritative"):
 			continue
 		var player_slot := _gameplay_controller.get_player_slot(peer_id)
+		if player is GamePlayer:
+			player.survival.restore_after_sleep_authoritative()
 		player.call(
 			"leave_bunk_sleep_authoritative",
 			level_root.call("get_day_start_transform", player_slot)

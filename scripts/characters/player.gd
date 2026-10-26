@@ -1114,6 +1114,8 @@ func _receive_bunk_sleep_state(
 	target_transform: Transform3D
 ) -> void:
 	_is_sleeping_in_bunk = is_sleeping
+	if is_local_player():
+		$PlayerUI/SleepEyelids.set_sleeping(is_sleeping)
 	global_position = target_transform.origin
 	rotation.y = target_transform.basis.get_euler().y
 	_remote_target_position = position
