@@ -59,7 +59,7 @@ func press_e_at_bed(player:GamePlayer,bed:Node3D):
 func run():
  ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,SAVE)
  DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE))
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base)
  root.get_node("GameMenu").force_close_menu()
  await settle(90)
@@ -134,7 +134,7 @@ func run():
  check(state.maintenance.get("corpse_recovery",{}).get("picked_up",false),"pickup creates journal objective")
  var journal=root.get_node("QuestJournal")
  journal._refresh_content()
- check(journal.tasks_label.text.contains("признаки жизни"),"journal records examination note on pickup")
+ check(journal.tasks_label.text.contains("Обследовать тело (в разработке)"),"journal records the current prototype examination task on pickup")
  var audio=player.get_node("PlayerAudio")
  player._sprint_exhausted=false
  audio._process(0.5)
@@ -200,13 +200,13 @@ func run():
  next_day.day_index=4
  state._broadcast_snapshot(next_day)
  journal._refresh_content()
- check(journal.tasks_label.text.contains("признаки жизни"),"examination note survives day transition")
+ check(journal.tasks_label.text.contains("Обследовать тело (в разработке)"),"prototype examination task survives day transition")
  state.save_progress_authoritative()
  var saved=state.load_saved_snapshot()
  check(saved.maintenance.corpse_recovery.bodies["0"].poses.size()==17 and saved.maintenance.corpse_recovery.bodies["1"].mode==MedicalCorpse.Mode.GROUND,"checkpoint includes each full physical pose and bed")
  base.queue_free()
  await settle()
- base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base)
  await settle(12)
  corpses=get_nodes_in_group("medical_corpses")
@@ -219,7 +219,7 @@ func run():
  maintenance.corpse_recovery.bodies["0"].bed_path=NodePath("Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/MedicalBedB")
  config.set_value("base","maintenance",maintenance)
  config.save(SAVE)
- base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base)
  await settle(12)
  var restored:MedicalCorpse=get_nodes_in_group("medical_corpses")[0]

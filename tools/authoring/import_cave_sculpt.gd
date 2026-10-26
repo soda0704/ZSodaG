@@ -9,7 +9,7 @@ func run():
 	root.get_node("GameMenu/GraphicsQuality").set_process(false)
 	DirAccess.make_dir_recursive_absolute(OUT)
 	var manifest:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(SOURCE+"manifest.json"))
-	var cave:Node3D=load("res://scenes/levels/Cave_Day7.tscn").instantiate()
+	var cave:Node3D=load("res://scenes/levels/cave_day7.tscn").instantiate()
 	root.add_child(cave)
 	for child in cave.get_children():
 		if child.name in ["AuthoredRoute","ReviewPoints","CaveArrival","Lair","ExitBeforeScreen","ExitThreshold"]:continue
@@ -43,7 +43,7 @@ func run():
 	cave.set_meta("sculpt_grid_m",manifest.step)
 	cave.set_meta("triangle_count",manifest.triangles)
 	var scene:=PackedScene.new();assert(scene.pack(cave)==OK)
-	var destination:String="res://tools/.local/cave-reference/Cave_Sculpt_Study.tscn" if manifest.sample else "res://scenes/levels/Cave_Day7.tscn"
+	var destination:String="res://tools/.local/cave-reference/Cave_Sculpt_Study.tscn" if manifest.sample else "res://scenes/levels/cave_day7.tscn"
 	assert(ResourceSaver.save(scene,destination)==OK)
 	print("IMPORTED_SCULPT ",manifest.tiles.size()," tiles; ",manifest.triangles," triangles; ",destination)
 	quit()

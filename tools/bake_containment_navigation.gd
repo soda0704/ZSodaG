@@ -5,7 +5,7 @@ func _initialize() -> void:
  ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://navigation_authoring_only.cfg")
  run.call_deferred()
 func run() -> void:
- var base:Node3D=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var base:Node3D=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base);current_scene=base
  var state:BaseGameplayController=base.get_node("BaseGameplayController")
  state.progress_persistence_enabled=false

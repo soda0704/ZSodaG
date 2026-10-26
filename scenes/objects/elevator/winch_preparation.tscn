@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/gameplay/elevator/winch_preparation_controller.gd" id="controller"]
 [ext_resource type="Script" path="res://scripts/gameplay/elevator/winch_preparation_control.gd" id="control"]
-[ext_resource type="FontFile" path="res://assets/fonts/hud/RobotoCondensed.ttf" id="font"]
+[ext_resource type="FontFile" path="res://assets/fonts/hud/roboto_condensed.ttf" id="font"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/elevator_door.ogg" id="mechanical"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/elevator_move.ogg" id="test_audio"]
 

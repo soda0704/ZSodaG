@@ -6,7 +6,7 @@
 [node name="ColumnAstra" type="Node3D" unique_id=500959704]
 editor_description = "Column_Astra — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Column_Astra"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Astra.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/column_astra.gltf"
 metadata/library_category = "columns"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1636028473]

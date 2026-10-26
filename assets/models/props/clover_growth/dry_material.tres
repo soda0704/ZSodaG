@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/props/clover_growth/textures/AM226_007_Trifolium_Albedo_alpha.png" id="1_cw0mw"]
+[ext_resource type="Texture2D" path="res://assets/models/props/clover_growth/textures/am226_007_trifolium_albedo_alpha.png" id="1_cw0mw"]
 
 [resource]
 transparency = 2

@@ -9,9 +9,9 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate.tscn" id="7_bd65r"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_center_plate_curve.tscn" id="8_naj1b"]
 [ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="9_naj1b"]
-[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="11_vs3tt"]
-[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="12_fa6jk"]
-[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="13_a32q8"]
+[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_base_color_clear.png" id="11_vs3tt"]
+[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_orm_clear.png" id="12_fa6jk"]
+[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_normal_clear.png" id="13_a32q8"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="13_vs3tt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vs3tt"]

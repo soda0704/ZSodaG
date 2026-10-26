@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/crafting/flamethrower_source/textures/standardSurface2_baseColor.png" id="1_gps0o"]
-[ext_resource type="Texture2D" path="res://assets/models/crafting/flamethrower_source/textures/standardSurface2_metallicRoughness.png" id="2_ijboo"]
+[ext_resource type="Texture2D" path="res://assets/models/crafting/flamethrower_source/textures/standard_surface2_base_color.png" id="1_gps0o"]
+[ext_resource type="Texture2D" path="res://assets/models/crafting/flamethrower_source/textures/standard_surface2_metallic_roughness.png" id="2_ijboo"]
 
 [resource]
 resource_name = "standardSurface2"

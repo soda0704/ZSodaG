@@ -4,7 +4,7 @@ var report := {"physical_gaps": [], "backface_gaps": []}
 func _initialize() -> void:
 	run.call_deferred()
 func run() -> void:
-	var cave: Node3D = load("res://scenes/levels/Cave_Day7.tscn").instantiate()
+	var cave: Node3D = load("res://scenes/levels/cave_day7.tscn").instantiate()
 	cave.get_node("HiveEncounter").set_script(null)
 	root.add_child(cave)
 	for frame in 3: await physics_frame

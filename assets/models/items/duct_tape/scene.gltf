@@ -182,13 +182,13 @@
   ],
   "images": [
     {
-      "uri": "textures/DuctTape_MATERIAL_baseColor.png"
+      "uri": "textures/duct_tape_material_base_color.png"
     },
     {
-      "uri": "textures/DuctTape_MATERIAL_metallicRoughness.png"
+      "uri": "textures/duct_tape_material_metallic_roughness.png"
     },
     {
-      "uri": "textures/DuctTape_MATERIAL_normal.png"
+      "uri": "textures/duct_tape_material_normal.png"
     }
   ],
   "materials": [

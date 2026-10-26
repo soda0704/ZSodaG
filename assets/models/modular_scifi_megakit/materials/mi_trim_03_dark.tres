@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://b8c5xku5dbhrh"]
 
-[ext_resource type="Texture2D" uid="uid://cktrqjtidqq8g" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_03_Cables.png" id="1_fqrl1"]
-[ext_resource type="Texture2D" uid="uid://dai75u7nonux0" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_03_ORM.png" id="2_njjqe"]
-[ext_resource type="Texture2D" uid="uid://ckh7tmbdmj7b4" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_03_Normal.png" id="3_mxa8v"]
+[ext_resource type="Texture2D" uid="uid://cktrqjtidqq8g" path="res://assets/models/modular_scifi_megakit/textures/t_trim_03_cables.png" id="1_fqrl1"]
+[ext_resource type="Texture2D" uid="uid://dvwbfwdhmacum" path="res://assets/models/modular_scifi_megakit/textures/t_trim_03_orm.png" id="2_njjqe"]
+[ext_resource type="Texture2D" uid="uid://ckh7tmbdmj7b4" path="res://assets/models/modular_scifi_megakit/textures/t_trim_03_normal.png" id="3_mxa8v"]
 
 [resource]
 resource_name = "MI_Trim_03_Dark"

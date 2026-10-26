@@ -6,7 +6,7 @@
 [node name="PropVentSmall" type="Node3D" unique_id=1127789127]
 editor_description = "Prop_Vent_Small — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Vent_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_vent_small.gltf"
 metadata/library_category = "props"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1326386373]

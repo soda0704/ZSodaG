@@ -6,7 +6,7 @@
 [node name="WallAstraStraightWindow" type="Node3D" unique_id=303840016]
 editor_description = "WallAstra_Straight_Window — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "WallAstra_Straight_Window"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Straight_Window.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/wall_astra_straight_window.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1195054653]

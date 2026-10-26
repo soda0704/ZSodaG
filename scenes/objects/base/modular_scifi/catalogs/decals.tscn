@@ -37,7 +37,7 @@ editor_description = "Library preview. Drag individual scenes from the category 
 editor_description = "Decal_0 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0, 0)
 metadata/quaternius_source_model = "Decal_0"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_0.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_0.gltf"
 metadata/library_category = "decals"
 
 [node name="Label0" type="Label3D" parent="." unique_id=1733960901]
@@ -52,7 +52,7 @@ font_size = 40
 editor_description = "Decal_1 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 metadata/quaternius_source_model = "Decal_1"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_1.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_1.gltf"
 metadata/library_category = "decals"
 
 [node name="Label1" type="Label3D" parent="." unique_id=585897502]
@@ -67,7 +67,7 @@ font_size = 40
 editor_description = "Decal_2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
 metadata/quaternius_source_model = "Decal_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_2.gltf"
 metadata/library_category = "decals"
 
 [node name="Label2" type="Label3D" parent="." unique_id=1211688582]
@@ -82,7 +82,7 @@ font_size = 40
 editor_description = "Decal_3 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
 metadata/quaternius_source_model = "Decal_3"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_3.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_3.gltf"
 metadata/library_category = "decals"
 
 [node name="Label3" type="Label3D" parent="." unique_id=1341193238]
@@ -97,7 +97,7 @@ font_size = 40
 editor_description = "Decal_4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
 metadata/quaternius_source_model = "Decal_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_4.gltf"
 metadata/library_category = "decals"
 
 [node name="Label4" type="Label3D" parent="." unique_id=635673710]
@@ -112,7 +112,7 @@ font_size = 40
 editor_description = "Decal_5 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3841858e-07, 0, -12)
 metadata/quaternius_source_model = "Decal_5"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_5.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_5.gltf"
 metadata/library_category = "decals"
 
 [node name="Label5" type="Label3D" parent="." unique_id=422891006]
@@ -127,7 +127,7 @@ font_size = 40
 editor_description = "Decal_6 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
 metadata/quaternius_source_model = "Decal_6"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_6.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_6.gltf"
 metadata/library_category = "decals"
 
 [node name="Label6" type="Label3D" parent="." unique_id=677077063]
@@ -142,7 +142,7 @@ font_size = 40
 editor_description = "Decal_7 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -12.000001)
 metadata/quaternius_source_model = "Decal_7"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_7.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_7.gltf"
 metadata/library_category = "decals"
 
 [node name="Label7" type="Label3D" parent="." unique_id=1110748787]
@@ -157,7 +157,7 @@ font_size = 40
 editor_description = "Decal_8 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -12)
 metadata/quaternius_source_model = "Decal_8"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_8.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_8.gltf"
 metadata/library_category = "decals"
 
 [node name="Label8" type="Label3D" parent="." unique_id=886903588]
@@ -172,7 +172,7 @@ font_size = 40
 editor_description = "Decal_9 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -12)
 metadata/quaternius_source_model = "Decal_9"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_9.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_9.gltf"
 metadata/library_category = "decals"
 
 [node name="Label9" type="Label3D" parent="." unique_id=1530336079]
@@ -187,7 +187,7 @@ font_size = 40
 editor_description = "Decal_A — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -24)
 metadata/quaternius_source_model = "Decal_A"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_A.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_a.gltf"
 metadata/library_category = "decals"
 
 [node name="Label10" type="Label3D" parent="." unique_id=306332193]
@@ -202,7 +202,7 @@ font_size = 40
 editor_description = "Decal_Dashes — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -24)
 metadata/quaternius_source_model = "Decal_Dashes"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Dashes.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_dashes.gltf"
 metadata/library_category = "decals"
 
 [node name="Label11" type="Label3D" parent="." unique_id=1857740656]
@@ -217,7 +217,7 @@ font_size = 40
 editor_description = "Decal_K — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -24)
 metadata/quaternius_source_model = "Decal_K"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_K.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_k.gltf"
 metadata/library_category = "decals"
 
 [node name="Label12" type="Label3D" parent="." unique_id=1073855731]
@@ -232,7 +232,7 @@ font_size = 40
 editor_description = "Decal_Line_90 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.036034, 0, -24.963993)
 metadata/quaternius_source_model = "Decal_Line_90"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_90.gltf"
 metadata/library_category = "decals"
 
 [node name="Label13" type="Label3D" parent="." unique_id=1077124886]
@@ -247,7 +247,7 @@ font_size = 40
 editor_description = "Decal_Line_90_Round — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.036, 0, -24.964)
 metadata/quaternius_source_model = "Decal_Line_90_Round"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_90_round.gltf"
 metadata/library_category = "decals"
 
 [node name="Label14" type="Label3D" parent="." unique_id=1991146379]
@@ -262,7 +262,7 @@ font_size = 40
 editor_description = "Decal_Line_90_Round_Large — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4640005, 0, -37.464)
 metadata/quaternius_source_model = "Decal_Line_90_Round_Large"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round_Large.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_90_round_large.gltf"
 metadata/library_category = "decals"
 
 [node name="Label15" type="Label3D" parent="." unique_id=1841733338]
@@ -277,7 +277,7 @@ font_size = 40
 editor_description = "Decal_Line_Bend1_L — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -36)
 metadata/quaternius_source_model = "Decal_Line_Bend1_L"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_L.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_bend1_l.gltf"
 metadata/library_category = "decals"
 
 [node name="Label16" type="Label3D" parent="." unique_id=1989377160]
@@ -292,7 +292,7 @@ font_size = 40
 editor_description = "Decal_Line_Bend1_R — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -36)
 metadata/quaternius_source_model = "Decal_Line_Bend1_R"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_R.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_bend1_r.gltf"
 metadata/library_category = "decals"
 
 [node name="Label17" type="Label3D" parent="." unique_id=12347424]
@@ -307,7 +307,7 @@ font_size = 40
 editor_description = "Decal_Line_Bend2_L — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, -36)
 metadata/quaternius_source_model = "Decal_Line_Bend2_L"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_L.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_bend2_l.gltf"
 metadata/library_category = "decals"
 
 [node name="Label18" type="Label3D" parent="." unique_id=1131983639]
@@ -322,7 +322,7 @@ font_size = 40
 editor_description = "Decal_Line_Bend2_R — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5, 0, -36)
 metadata/quaternius_source_model = "Decal_Line_Bend2_R"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend2_R.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_bend2_r.gltf"
 metadata/library_category = "decals"
 
 [node name="Label19" type="Label3D" parent="." unique_id=1857588583]
@@ -337,7 +337,7 @@ font_size = 40
 editor_description = "Decal_Line_Straight — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
 metadata/quaternius_source_model = "Decal_Line_Straight"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Straight.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_straight.gltf"
 metadata/library_category = "decals"
 
 [node name="Label20" type="Label3D" parent="." unique_id=1567822334]
@@ -352,7 +352,7 @@ font_size = 40
 editor_description = "Decal_Logo — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0198345, 0, -47.922375)
 metadata/quaternius_source_model = "Decal_Logo"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_logo.gltf"
 metadata/library_category = "decals"
 
 [node name="Label21" type="Label3D" parent="." unique_id=409453310]
@@ -367,7 +367,7 @@ font_size = 40
 editor_description = "Decal_Logo_Letters — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.00131, 0, -48.004436)
 metadata/quaternius_source_model = "Decal_Logo_Letters"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Letters.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_logo_letters.gltf"
 metadata/library_category = "decals"
 
 [node name="Label22" type="Label3D" parent="." unique_id=1683300233]
@@ -382,7 +382,7 @@ font_size = 40
 editor_description = "Decal_Logo_Small — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -48)
 metadata/quaternius_source_model = "Decal_Logo_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_logo_small.gltf"
 metadata/library_category = "decals"
 
 [node name="Label23" type="Label3D" parent="." unique_id=2009212896]
@@ -397,7 +397,7 @@ font_size = 40
 editor_description = "Decal_Sign — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -48)
 metadata/quaternius_source_model = "Decal_Sign"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Sign.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_sign.gltf"
 metadata/library_category = "decals"
 
 [node name="Label24" type="Label3D" parent="." unique_id=587819363]
@@ -412,7 +412,7 @@ font_size = 40
 editor_description = "Decal_V — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
 metadata/quaternius_source_model = "Decal_V"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_V.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_v.gltf"
 metadata/library_category = "decals"
 
 [node name="Label25" type="Label3D" parent="." unique_id=937521779]
@@ -427,7 +427,7 @@ font_size = 40
 editor_description = "Decal_X — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -60)
 metadata/quaternius_source_model = "Decal_X"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_X.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_x.gltf"
 metadata/library_category = "decals"
 
 [node name="Label26" type="Label3D" parent="." unique_id=1468463076]
@@ -442,7 +442,7 @@ font_size = 40
 editor_description = "Decal_XSign — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -60)
 metadata/quaternius_source_model = "Decal_XSign"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_XSign.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_x_sign.gltf"
 metadata/library_category = "decals"
 
 [node name="Label27" type="Label3D" parent="." unique_id=1850214522]
@@ -457,7 +457,7 @@ font_size = 40
 editor_description = "Decal_Z — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -60)
 metadata/quaternius_source_model = "Decal_Z"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Z.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_z.gltf"
 metadata/library_category = "decals"
 
 [node name="Label28" type="Label3D" parent="." unique_id=2138365432]

@@ -5,7 +5,7 @@ func _initialize() -> void:
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, "user://journal_plan_authoring.cfg")
 	run.call_deferred()
 func run() -> void:
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	for frame in 12: await physics_frame
 	var plans: Array = []

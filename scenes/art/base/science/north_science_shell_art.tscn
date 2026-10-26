@@ -15,9 +15,9 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_large_straight.tscn" id="13_m5db7"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_plastic_corner_outer.tscn" id="14_fvb31"]
 [ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="15_ylb0m"]
-[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="16_64ewl"]
-[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="17_ohb0b"]
-[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="18_t17eb"]
+[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_base_color_clear.png" id="16_64ewl"]
+[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_orm_clear.png" id="17_ohb0b"]
+[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_normal_clear.png" id="18_t17eb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5rh7d"]
 resource_local_to_scene = true

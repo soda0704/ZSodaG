@@ -26,7 +26,7 @@ Esc и повторное открытие сохраняют черновик �
 
 - Разметка и стили: `scenes/ui/tester_feedback.tscn`, общий `menu_theme.tres`.
 - Адрес и timeout: **`assets/config/tester_feedback.tres`** в Inspector. `endpoint` — `https://northernlab-feedback.denserbinlol.workers.dev/reports`; сервис подключён 13 октября 2026 года к закрытому `soda0704/NorthernLab-feedback`, ветке `main`. Windows-сборка пересобрана с этим адресом. ZIP сохраняется перед отправкой и остаётся доступен при сбое.
-- Однократное подключение: [инструкция сервиса](../../tools/feedback_service/README.md).
+- Однократное подключение: [инструкция сервиса](../../tools/feedback_service/readme.md).
 
 Используются штатные [HTTPRequest](https://docs.godotengine.org/en/stable/classes/class_httprequest.html), [ZIPPacker](https://docs.godotengine.org/en/stable/classes/class_zippacker.html), [GitHub Issues API](https://docs.github.com/en/rest/issues/issues), [Contents API](https://docs.github.com/en/rest/repos/contents). Снимок берётся после [отрисовки Viewport](https://docs.godotengine.org/en/stable/classes/class_viewport.html).
 

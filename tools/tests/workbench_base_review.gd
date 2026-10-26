@@ -9,7 +9,7 @@ func check(ok: bool, message: String) -> void:
 	if not ok: failures += 1
 func run() -> void:
 	Engine.max_fps = 60
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	for frame in 120: await physics_frame

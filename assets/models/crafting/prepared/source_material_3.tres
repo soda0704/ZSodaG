@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/crafting/hardware_source/textures/material_0_baseColor.png" id="1_dw6i6"]
+[ext_resource type="Texture2D" path="res://assets/models/crafting/hardware_source/textures/material_0_base_color.png" id="1_dw6i6"]
 
 [resource]
 resource_name = "material_0"

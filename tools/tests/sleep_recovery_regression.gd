@@ -27,7 +27,7 @@ func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1280,720)
 	DirAccess.make_dir_recursive_absolute(output)
-	var base: Node3D = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base: Node3D = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	for frame in 25: await physics_frame

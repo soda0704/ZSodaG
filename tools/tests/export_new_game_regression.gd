@@ -39,7 +39,7 @@ func run() -> void:
 	if not check(FileAccess.file_exists("res://project.binary"), "test uses the exported package"):
 		finish()
 		return
-	var font = load("res://assets/fonts/hud/RobotoCondensed.ttf")
+	var font = load("res://assets/fonts/hud/roboto_condensed.ttf")
 	check(font is Font and font.get_string_size("СОСТОЯНИЕ 92").x > 0, "packaged HUD font renders Cyrillic and numbers")
 	var theme = load("res://scenes/ui/northern_lab_hud_theme.tres")
 	check(theme is Theme and theme.default_font != null, "helicopter HUD theme loads its font")

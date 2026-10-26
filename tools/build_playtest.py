@@ -83,7 +83,7 @@ def main() -> None:
     marker = payload / ".audited.json"
     if not marker.exists() or json.loads(marker.read_text())["exe_sha256"] != digest(exe):
         raise RuntimeError("Payload was not audited or its executable changed")
-    shutil.copy2(ROOT / "tools/distribution/START_HERE.txt", payload / "START_HERE.txt")
+    shutil.copy2(ROOT / "tools/distribution/start_here.txt", payload / "start_here.txt")
     licenses = payload / "Licenses"
     for base in (ROOT / "assets", ROOT / "addons"):
         for source in base.rglob("*"):
@@ -91,12 +91,12 @@ def main() -> None:
                 dest = licenses / source.relative_to(ROOT)
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, dest)
-    shutil.copy2(ROOT / "assets/models/crafting/README.md", licenses / "Crafting-Attribution.md")
-    godot_license = ROOT / "tools/distribution/Godot-LICENSE.txt"
+    shutil.copy2(ROOT / "assets/models/crafting/readme.md", licenses / "Crafting-Attribution.md")
+    godot_license = ROOT / "tools/distribution/godot_license.txt"
     if not godot_license.exists():
         raise RuntimeError("Godot license text is required")
     shutil.copy2(godot_license, licenses / godot_license.name)
-    shutil.copy2(ROOT / "tools/distribution/Godot-COPYRIGHT.txt", licenses / "Godot-COPYRIGHT.txt")
+    shutil.copy2(ROOT / "tools/distribution/godot_copyright.txt", licenses / "godot_copyright.txt")
     identity = (ROOT / "network_build.cfg").read_text(encoding="utf-8")
     info = {"product": "NorthernLab Playtest", "version": version, "date": stamp, "platform": "Windows 10/11 x64", "configuration": "release", "steam_app_id": 480, "network_identity": re.search(r'identity="([^"]+)"', identity)[1], "files": {p.relative_to(payload).as_posix(): digest(p) for p in sorted(payload.rglob("*")) if p.is_file() and p.name not in ("BUILD_INFO.json", ".audited.json")}}
     (payload / "BUILD_INFO.json").write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")

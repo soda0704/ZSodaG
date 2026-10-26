@@ -283,13 +283,13 @@
       "componentType": 5126,
       "count": 2400,
       "max": [
-        92.53176879882813,
+        92.53176879882812,
         -125.26990509033203,
         4.775925159454346
       ],
       "min": [
         -92.5317611694336,
-        -152.62246704101563,
+        -152.62246704101562,
         -16.682830810546875
       ],
       "type": "VEC3"
@@ -440,7 +440,7 @@
       "min": [
         -21.211572647094727,
         122.26878356933594,
-        -20.576736450195313
+        -20.576736450195312
       ],
       "type": "VEC3"
     },
@@ -675,7 +675,7 @@
       "componentType": 5126,
       "count": 1004,
       "max": [
-        0.9980850219726563,
+        0.9980850219726562,
         0.991940975189209,
         0.9997245669364929
       ],
@@ -763,7 +763,7 @@
         -0.318427711725235,
         0.0,
         -36.157615661621094,
-        -160.01516723632813,
+        -160.01516723632812,
         -15.45572566986084,
         1.0
       ],
@@ -1414,7 +1414,7 @@
       "max": [
         -0.006864607334136963,
         3.492194175720215,
-        -2.5033950805664063e-06
+        -2.5033950805664062e-06
       ],
       "min": [
         -0.006872653961181641,
@@ -2983,7 +2983,7 @@
       "min": [
         0.0016533136367797852,
         2.2817294597625732,
-        1.0728836059570313e-06
+        1.0728836059570312e-06
       ],
       "type": "VEC3"
     },
@@ -3594,7 +3594,7 @@
         1.0
       ],
       "min": [
-        -2.9802322387695313e-08,
+        -2.9802322387695312e-08,
         -3.259629011154175e-09,
         -2.60770320892334e-08,
         1.0
@@ -3718,7 +3718,7 @@
       ],
       "min": [
         0.0343780517578125,
-        3.2630386352539063,
+        3.2630386352539062,
         -6.9141387939453125e-06
       ],
       "type": "VEC3"
@@ -3809,7 +3809,7 @@
         1.1883854866027832
       ],
       "min": [
-        2.7743911743164063,
+        2.7743911743164062,
         2.743903875350952,
         1.1883738040924072
       ],
@@ -4540,7 +4540,7 @@
       "componentType": 5126,
       "count": 160,
       "max": [
-        1.2253494262695313,
+        1.2253494262695312,
         10.522436141967773,
         -0.046527862548828125
       ],
@@ -4634,7 +4634,7 @@
       "max": [
         0.005278587341308594,
         2.19273042678833,
-        -3.4570693969726563e-06
+        -3.4570693969726562e-06
       ],
       "min": [
         0.005277901887893677,
@@ -5737,11 +5737,11 @@
       "count": 168,
       "max": [
         2.086162567138672e-07,
-        12.012039184570313,
+        12.012039184570312,
         -8.195638656616211e-08
       ],
       "min": [
-        2.9802322387695313e-08,
+        2.9802322387695312e-08,
         12.012035369873047,
         -1.4156103134155273e-07
       ],
@@ -6105,7 +6105,7 @@
       "count": 164,
       "max": [
         1.6391277313232422e-06,
-        15.351028442382813,
+        15.351028442382812,
         3.5762786865234375e-07
       ],
       "min": [
@@ -9442,73 +9442,73 @@
   ],
   "images": [
     {
-      "uri": "textures/ShoulderPads_baseColor.png"
+      "uri": "textures/shoulder_pads_base_color.png"
     },
     {
-      "uri": "textures/ShoulderPads_metallicRoughness.png"
+      "uri": "textures/shoulder_pads_metallic_roughness.png"
     },
     {
-      "uri": "textures/ShoulderPads_normal.png"
+      "uri": "textures/shoulder_pads_normal.png"
     },
     {
-      "uri": "textures/jumpsuit_baseColor.png"
+      "uri": "textures/jumpsuit_base_color.png"
     },
     {
-      "uri": "textures/jumpsuit_metallicRoughness.png"
+      "uri": "textures/jumpsuit_metallic_roughness.png"
     },
     {
       "uri": "textures/jumpsuit_normal.png"
     },
     {
-      "uri": "textures/Headphones_baseColor.jpeg"
+      "uri": "textures/headphones_base_color.jpeg"
     },
     {
-      "uri": "textures/Headphones_metallicRoughness.png"
+      "uri": "textures/headphones_metallic_roughness.png"
     },
     {
-      "uri": "textures/Headphones_normal.png"
+      "uri": "textures/headphones_normal.png"
     },
     {
-      "uri": "textures/gloves_baseColor.png"
+      "uri": "textures/gloves_base_color.png"
     },
     {
-      "uri": "textures/gloves_metallicRoughness.png"
+      "uri": "textures/gloves_metallic_roughness.png"
     },
     {
       "uri": "textures/gloves_normal.png"
     },
     {
-      "uri": "textures/plate_baseColor.jpeg"
+      "uri": "textures/plate_base_color.jpeg"
     },
     {
-      "uri": "textures/plate_metallicRoughness.png"
+      "uri": "textures/plate_metallic_roughness.png"
     },
     {
       "uri": "textures/plate_normal.png"
     },
     {
-      "uri": "textures/Head_baseColor.png"
+      "uri": "textures/head_base_color.png"
     },
     {
-      "uri": "textures/Head_metallicRoughness.png"
+      "uri": "textures/head_metallic_roughness.png"
     },
     {
-      "uri": "textures/Head_normal.png"
+      "uri": "textures/head_normal.png"
     },
     {
-      "uri": "textures/material_baseColor.png"
+      "uri": "textures/material_base_color.png"
     },
     {
-      "uri": "textures/material_metallicRoughness.png"
+      "uri": "textures/material_metallic_roughness.png"
     },
     {
       "uri": "textures/material_normal.png"
     },
     {
-      "uri": "textures/boots_baseColor.png"
+      "uri": "textures/boots_base_color.png"
     },
     {
-      "uri": "textures/boots_metallicRoughness.png"
+      "uri": "textures/boots_metallic_roughness.png"
     },
     {
       "uri": "textures/boots_normal.png"
@@ -10173,7 +10173,7 @@
       ],
       "translation": [
         2.220446049250313e-16,
-        23.997451782226563,
+        23.997451782226562,
         8.881784197001252e-16
       ]
     },
@@ -10470,7 +10470,7 @@
       "translation": [
         0.0,
         2.1176204681396484,
-        -5.3290705182007514e-15
+        -5.329070518200751e-15
       ]
     },
     {
@@ -10572,7 +10572,7 @@
       "translation": [
         -1.7763568394002505e-15,
         2.560281753540039,
-        5.3290705182007514e-15
+        5.329070518200751e-15
       ]
     },
     {
@@ -10888,7 +10888,7 @@
         0.9999997615814209
       ],
       "translation": [
-        2.7743911743164063,
+        2.7743911743164062,
         2.743903875350952,
         1.1883854866027832
       ]
@@ -10938,7 +10938,7 @@
       ],
       "name": "mixamorig:RightHandThumb4_038",
       "rotation": [
-        -2.9802322387695313e-08,
+        -2.9802322387695312e-08,
         8.847565347025466e-09,
         -1.3969839507410597e-08,
         1.0

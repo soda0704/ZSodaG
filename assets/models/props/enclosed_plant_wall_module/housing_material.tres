@@ -1,11 +1,11 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_BaseColor.tga.png" id="albedo"]
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Normal.tga.png" id="normal"]
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Metallic.tga.png" id="metallic"]
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Roughness.tga.png" id="roughness"]
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_AmbientOcclus.png" id="ao"]
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Enclosed_Plant_Wall_Module_A_Emissive.tga.png" id="emission"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_base_color.tga.png" id="albedo"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_normal.tga.png" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_metallic.tga.png" id="metallic"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_roughness.tga.png" id="roughness"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_ambient_occlus.png" id="ao"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/enclosed_plant_wall_module_a_emissive.tga.png" id="emission"]
 
 [resource]
 resource_name = "PlantContainer_Housing"

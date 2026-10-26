@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/gameplay/elevator/elevator_floor_button.gd" id="button"]
 [ext_resource type="PackedScene" path="res://scenes/objects/elevator/winch_safety_gate.tscn" id="gate"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/winch_gears_loop.ogg" id="motor"]
-[ext_resource type="FontFile" path="res://assets/fonts/hud/RobotoCondensed.ttf" id="font"]
+[ext_resource type="FontFile" path="res://assets/fonts/hud/roboto_condensed.ttf" id="font"]
 
 [sub_resource type="StandardMaterial3D" id="steel"]
 albedo_color = Color(0.15, 0.19, 0.2, 1)

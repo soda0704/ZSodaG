@@ -7,7 +7,7 @@ func check(ok:bool,message:String):
 func run():
  var world=load("res://scenes/levels/snow_exterior.tscn").instantiate()
  root.add_child(world)
- var cave=load("res://scenes/levels/Cave_Day7.tscn").instantiate();root.add_child(cave)
+ var cave=load("res://scenes/levels/cave_day7.tscn").instantiate();root.add_child(cave)
  var camera=Camera3D.new()
  camera.position=Vector3(300,100,0)
  root.add_child(camera)

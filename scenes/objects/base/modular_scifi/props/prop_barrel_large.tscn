@@ -6,7 +6,7 @@
 [node name="PropBarrelLarge" type="Node3D" unique_id=230025355]
 editor_description = "Prop_Barrel_Large — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Barrel_Large"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Barrel_Large.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_barrel_large.gltf"
 metadata/library_category = "props"
 
 [node name="Visual" type="Node3D" parent="." unique_id=596012645]

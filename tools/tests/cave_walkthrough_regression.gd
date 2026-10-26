@@ -6,7 +6,7 @@ func check(ok:bool,message:String):
 	if not ok:failures.append(message)
 func run():
 	Engine.time_scale=12;Engine.max_physics_steps_per_frame=32;Engine.max_fps=120
-	var base:BaseBlockoutRuntime=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate();root.add_child(base)
+	var base:BaseBlockoutRuntime=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base)
 	root.get_node("GameMenu").force_close_menu()
 	for frame in 12:await physics_frame
 	var state:BaseGameplayController=base.get_node("BaseGameplayController");state.set_process(false)

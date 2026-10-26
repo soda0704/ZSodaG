@@ -1,1 +1,350 @@
-{"asset": {"generator": "Khronos glTF Blender I/O v5.1.18", "version": "2.0"}, "scene": 0, "scenes": [{"name": "Scene", "nodes": [0]}], "nodes": [{"mesh": 0, "name": "concrete_joist_2"}], "materials": [{"doubleSided": true, "name": "Volume14", "normalTexture": {"index": 0}, "pbrMetallicRoughness": {"baseColorTexture": {"index": 1}, "metallicRoughnessTexture": {"index": 2}}}, {"doubleSided": true, "name": "roxory_ok", "normalTexture": {"index": 3}, "occlusionTexture": {"index": 4}, "pbrMetallicRoughness": {"baseColorTexture": {"index": 5}, "metallicFactor": 0.2678709924221039, "metallicRoughnessTexture": {"index": 4}}}], "meshes": [{"name": "slab2_Volume14_0.002", "primitives": [{"attributes": {"POSITION": 0, "NORMAL": 1, "TEXCOORD_0": 2, "TEXCOORD_1": 3, "TEXCOORD_2": 4, "TEXCOORD_3": 5}, "indices": 6, "material": 0}, {"attributes": {"POSITION": 7, "NORMAL": 8, "TEXCOORD_0": 9, "TEXCOORD_1": 10, "TEXCOORD_2": 11, "TEXCOORD_3": 12}, "indices": 13, "material": 1}]}], "textures": [{"sampler": 0, "source": 0}, {"sampler": 0, "source": 1}, {"sampler": 0, "source": 2}, {"sampler": 0, "source": 3}, {"sampler": 0, "source": 4}, {"sampler": 0, "source": 5}], "images": [{"mimeType": "image/png", "name": "Volume14_normal2", "uri": "textures/concrete_joist_1_Volume14_normal2.png"}, {"mimeType": "image/jpeg", "name": "Volume14_albedo", "uri": "textures/concrete_joist_1_Volume14_albedo.jpg"}, {"mimeType": "image/png", "name": "Volume14_metallic-Volume14_roughness", "uri": "textures/concrete_joist_1_Volume14_metallic-Volume14_roughness.png"}, {"mimeType": "image/png", "name": "DefaultMaterial_Normal_OpenGL", "uri": "textures/concrete_joist_1_DefaultMaterial_Normal_OpenGL.png"}, {"mimeType": "image/png", "name": "DefaultMaterial_Mixed_AO-DefaultMaterial_Roughness", "uri": "textures/concrete_joist_1_DefaultMaterial_Mixed_AO-DefaultMaterial_Roughness.png"}, {"mimeType": "image/png", "name": "DefaultMaterial_Base_color", "uri": "textures/concrete_joist_1_DefaultMaterial_Base_color.png"}], "accessors": [{"bufferView": 0, "componentType": 5126, "count": 13392, "max": [2.3772475719451904, 0.6643683314323425, 0.1885012686252594], "min": [-2.460932731628418, -0.0002206793869845569, -0.19673842191696167], "type": "VEC3"}, {"bufferView": 1, "componentType": 5126, "count": 13392, "type": "VEC3"}, {"bufferView": 2, "componentType": 5126, "count": 13392, "type": "VEC2"}, {"bufferView": 3, "componentType": 5126, "count": 13392, "type": "VEC2"}, {"bufferView": 4, "componentType": 5126, "count": 13392, "type": "VEC2"}, {"bufferView": 5, "componentType": 5126, "count": 13392, "type": "VEC2"}, {"bufferView": 6, "componentType": 5123, "count": 40212, "type": "SCALAR"}, {"bufferView": 7, "componentType": 5126, "count": 6263, "max": [2.8001270294189453, 0.6439304947853088, 0.2046782523393631], "min": [-2.8002336025238037, 0.01340821199119091, -0.20358988642692566], "type": "VEC3"}, {"bufferView": 8, "componentType": 5126, "count": 6263, "type": "VEC3"}, {"bufferView": 9, "componentType": 5126, "count": 6263, "type": "VEC2"}, {"bufferView": 10, "componentType": 5126, "count": 6263, "type": "VEC2"}, {"bufferView": 11, "componentType": 5126, "count": 6263, "type": "VEC2"}, {"bufferView": 12, "componentType": 5126, "count": 6263, "type": "VEC2"}, {"bufferView": 13, "componentType": 5123, "count": 16395, "type": "SCALAR"}], "bufferViews": [{"buffer": 0, "byteLength": 160704, "byteOffset": 0, "target": 34962}, {"buffer": 0, "byteLength": 160704, "byteOffset": 160704, "target": 34962}, {"buffer": 0, "byteLength": 107136, "byteOffset": 321408, "target": 34962}, {"buffer": 0, "byteLength": 107136, "byteOffset": 428544, "target": 34962}, {"buffer": 0, "byteLength": 107136, "byteOffset": 535680, "target": 34962}, {"buffer": 0, "byteLength": 107136, "byteOffset": 642816, "target": 34962}, {"buffer": 0, "byteLength": 80424, "byteOffset": 749952, "target": 34963}, {"buffer": 0, "byteLength": 75156, "byteOffset": 830376, "target": 34962}, {"buffer": 0, "byteLength": 75156, "byteOffset": 905532, "target": 34962}, {"buffer": 0, "byteLength": 50104, "byteOffset": 980688, "target": 34962}, {"buffer": 0, "byteLength": 50104, "byteOffset": 1030792, "target": 34962}, {"buffer": 0, "byteLength": 50104, "byteOffset": 1080896, "target": 34962}, {"buffer": 0, "byteLength": 50104, "byteOffset": 1131000, "target": 34962}, {"buffer": 0, "byteLength": 32790, "byteOffset": 1181104, "target": 34963}], "samplers": [{"magFilter": 9729, "minFilter": 9987}], "buffers": [{"byteLength": 1213896, "uri": "concrete_joist_2.bin"}]}
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v5.1.18",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "concrete_joist_2"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Volume14",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "roxory_ok",
+      "normalTexture": {
+        "index": 3
+      },
+      "occlusionTexture": {
+        "index": 4
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 5
+        },
+        "metallicFactor": 0.2678709924221039,
+        "metallicRoughnessTexture": {
+          "index": 4
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "slab2_Volume14_0.002",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2,
+            "TEXCOORD_1": 3,
+            "TEXCOORD_2": 4,
+            "TEXCOORD_3": 5
+          },
+          "indices": 6,
+          "material": 0
+        },
+        {
+          "attributes": {
+            "POSITION": 7,
+            "NORMAL": 8,
+            "TEXCOORD_0": 9,
+            "TEXCOORD_1": 10,
+            "TEXCOORD_2": 11,
+            "TEXCOORD_3": 12
+          },
+          "indices": 13,
+          "material": 1
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/png",
+      "name": "Volume14_normal2",
+      "uri": "textures/concrete_joist_1_volume14_normal2.png"
+    },
+    {
+      "mimeType": "image/jpeg",
+      "name": "Volume14_albedo",
+      "uri": "textures/concrete_joist_1_volume14_albedo.jpg"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "Volume14_metallic-Volume14_roughness",
+      "uri": "textures/concrete_joist_1_volume14_metallic_volume14_roughness.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "DefaultMaterial_Normal_OpenGL",
+      "uri": "textures/concrete_joist_1_default_material_normal_open_gl.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "DefaultMaterial_Mixed_AO-DefaultMaterial_Roughness",
+      "uri": "textures/concrete_joist_1_default_material_mixed_ao_default_material_roughness.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "DefaultMaterial_Base_color",
+      "uri": "textures/concrete_joist_1_default_material_base_color.png"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 13392,
+      "max": [
+        2.3772475719451904,
+        0.6643683314323425,
+        0.1885012686252594
+      ],
+      "min": [
+        -2.460932731628418,
+        -0.0002206793869845569,
+        -0.19673842191696167
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 13392,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 13392,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 13392,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 13392,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 13392,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5123,
+      "count": 40212,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5126,
+      "count": 6263,
+      "max": [
+        2.8001270294189453,
+        0.6439304947853088,
+        0.2046782523393631
+      ],
+      "min": [
+        -2.8002336025238037,
+        0.01340821199119091,
+        -0.20358988642692566
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 8,
+      "componentType": 5126,
+      "count": 6263,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 9,
+      "componentType": 5126,
+      "count": 6263,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 10,
+      "componentType": 5126,
+      "count": 6263,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 11,
+      "componentType": 5126,
+      "count": 6263,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 12,
+      "componentType": 5126,
+      "count": 6263,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 13,
+      "componentType": 5123,
+      "count": 16395,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 160704,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 160704,
+      "byteOffset": 160704,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 107136,
+      "byteOffset": 321408,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 107136,
+      "byteOffset": 428544,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 107136,
+      "byteOffset": 535680,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 107136,
+      "byteOffset": 642816,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 80424,
+      "byteOffset": 749952,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 75156,
+      "byteOffset": 830376,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 75156,
+      "byteOffset": 905532,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 50104,
+      "byteOffset": 980688,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 50104,
+      "byteOffset": 1030792,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 50104,
+      "byteOffset": 1080896,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 50104,
+      "byteOffset": 1131000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 32790,
+      "byteOffset": 1181104,
+      "target": 34963
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1213896,
+      "uri": "concrete_joist_2.bin"
+    }
+  ]
+}

@@ -9,13 +9,13 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures.append(label)
 func settle() -> void:
 	await create_timer(0.7).timeout
-func write(day: int) -> void:
+func write(day: int, scope: String = "solo") -> void:
 	var config := ConfigFile.new()
 	config.set_value("save", "version", 1)
 	config.set_value("base", "day_index", day)
 	config.set_value("base", "main_breaker_on", true)
 	config.set_value("inventory", "checkpoint", {"players": {}})
-	ExpeditionSaveStore.write(config, "solo", "manual")
+	ExpeditionSaveStore.write(config, scope, "manual")
 func run() -> void:
 	var menu := root.get_node("GameMenu")
 	ExpeditionSaveStore.select("solo", 2)
@@ -40,7 +40,7 @@ func run() -> void:
 	check(main.current_view == "character" and main.selector != null, "new game goes directly to character selection after confirmation")
 	check(ExpeditionSaveStore.summary("solo").day_index == 3, "preview and confirmation have not destroyed the save")
 	main._show_home()
-	check(main.shell.content.get_child(0).get_node("Navigation/Feedback") is Button, "feedback retained in main menu")
+	check(main.get_node("FeedbackCorner") is Button, "feedback retained in main menu")
 	check(menu.main_panel.get_node("Save") is Button and menu.main_panel.get_node("Feedback") is Button, "manual save and feedback retained in ESC")
 	menu.main_panel.refresh()
 	check(menu.main_panel.get_node("Save").disabled, "manual save cannot run outside an expedition")
@@ -52,5 +52,18 @@ func run() -> void:
 	check(main.current_view == "home" and main.continue_game_button.disabled, "delete returns home without silently switching to another expedition")
 	ExpeditionSaveStore.select("solo", 3)
 	check(ExpeditionSaveStore.summary("solo").day_index == 1, "other existing save files survive UI simplification")
+	ExpeditionSaveStore.select("coop", 1)
+	write(6, "coop")
+	var available: bool = root.get_node("SteamNetwork").steam_available
+	root.get_node("SteamNetwork").steam_available = true
+	menu.start_host_flow()
+	check(menu.dialog.get_node("Center/Panel/Content/Message").text.contains("день 6"), "coop continue confirmation displays saved campaign day")
+	menu.dialog.dismiss()
+	root.get_node("SteamNetwork").steam_available = available
+	await settle()
+	menu.force_close_menu()
+	current_scene = null
+	main.queue_free()
+	for frame in 4: await process_frame
 	print("EXPEDITION MENU RESULT ", failures)
 	quit(0 if failures.is_empty() else 1)

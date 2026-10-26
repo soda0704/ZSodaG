@@ -208,22 +208,22 @@
   ],
   "images": [
     {
-      "uri": "textures/aiStandardSurface1SG_baseColor.png"
+      "uri": "textures/ai_standard_surface1_sg_base_color.png"
     },
     {
-      "uri": "textures/aiStandardSurface1SG_metallicRoughness.png"
+      "uri": "textures/ai_standard_surface1_sg_metallic_roughness.png"
     },
     {
-      "uri": "textures/aiStandardSurface2SG_baseColor.png"
+      "uri": "textures/ai_standard_surface2_sg_base_color.png"
     },
     {
-      "uri": "textures/aiStandardSurface2SG_metallicRoughness.png"
+      "uri": "textures/ai_standard_surface2_sg_metallic_roughness.png"
     },
     {
-      "uri": "textures/aiStandardSurface3SG_baseColor.png"
+      "uri": "textures/ai_standard_surface3_sg_base_color.png"
     },
     {
-      "uri": "textures/aiStandardSurface3SG_metallicRoughness.png"
+      "uri": "textures/ai_standard_surface3_sg_metallic_roughness.png"
     }
   ],
   "materials": [

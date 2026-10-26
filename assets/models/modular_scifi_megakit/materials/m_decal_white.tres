@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://dmykxbl1k8uqe"]
 
-[ext_resource type="Texture2D" uid="uid://cko8qhj21jrer" path="res://assets/models/modular_scifi_megakit/textures/T_Decals.png" id="1_3yqid"]
+[ext_resource type="Texture2D" uid="uid://rhn8vwf8o4k6" path="res://assets/models/modular_scifi_megakit/textures/t_decals.png" id="1_3yqid"]
 
 [resource]
 resource_name = "M_Decal_White"

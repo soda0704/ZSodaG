@@ -178,13 +178,13 @@
   ],
   "images": [
     {
-      "uri": "textures/Leavs_baseColor.png"
+      "uri": "textures/leavs_base_color.png"
     },
     {
-      "uri": "textures/Trank_baseColor.png"
+      "uri": "textures/trank_base_color.png"
     },
     {
-      "uri": "textures/Trank_normal.png"
+      "uri": "textures/trank_normal.png"
     }
   ],
   "materials": [

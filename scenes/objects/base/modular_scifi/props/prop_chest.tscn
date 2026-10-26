@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/props/Prop_Chest.gltf" id="1_d1cfw"]
+[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/props/prop_chest.gltf" id="1_d1cfw"]
 
 [node name="PropChest" type="Node3D" unique_id=715921623]
 editor_description = "Prop_Chest — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Chest"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Chest.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_chest.gltf"
 metadata/library_category = "props"
 metadata/available_animations = Array[String](["Chest_Close", "Chest_Idle_Closed", "Chest_Idle_Open", "Chest_Open"])
 

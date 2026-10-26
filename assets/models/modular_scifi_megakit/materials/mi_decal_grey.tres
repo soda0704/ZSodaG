@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_Decals.png" id="1_qgqgw"]
+[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/t_decals.png" id="1_qgqgw"]
 
 [resource]
 resource_name = "MI_Decal_Grey"

@@ -39,7 +39,7 @@ editor_description = "Library preview. Drag individual scenes from the category 
 [node name="Platform3Plates" type="Node3D" parent="." unique_id=697293358 instance=ExtResource("1_sy4ah")]
 editor_description = "Platform_3Plates — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Platform_3Plates"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_3Plates.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_3_plates.gltf"
 metadata/library_category = "floors"
 
 [node name="Label0" type="Label3D" parent="." unique_id=849889745]
@@ -54,7 +54,7 @@ font_size = 40
 editor_description = "Platform_CenterPlate — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4.3445525e-07, -2.3841858e-07)
 metadata/quaternius_source_model = "Platform_CenterPlate"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_center_plate.gltf"
 metadata/library_category = "floors"
 
 [node name="Label1" type="Label3D" parent="." unique_id=511602597]
@@ -69,7 +69,7 @@ font_size = 40
 editor_description = "Platform_CenterPlate_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4.3445525e-07, 9.536743e-07)
 metadata/quaternius_source_model = "Platform_CenterPlate_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_CenterPlate_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_center_plate_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label2" type="Label3D" parent="." unique_id=953711428]
@@ -84,7 +84,7 @@ font_size = 40
 editor_description = "Platform_DarkPlates — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
 metadata/quaternius_source_model = "Platform_DarkPlates"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_dark_plates.gltf"
 metadata/library_category = "floors"
 
 [node name="Label3" type="Label3D" parent="." unique_id=1318984906]
@@ -99,7 +99,7 @@ font_size = 40
 editor_description = "Platform_DarkPlates_Curves — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 2.3841858e-06)
 metadata/quaternius_source_model = "Platform_DarkPlates_Curves"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_DarkPlates_Curves.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_dark_plates_curves.gltf"
 metadata/library_category = "floors"
 
 [node name="Label4" type="Label3D" parent="." unique_id=1433740815]
@@ -114,7 +114,7 @@ font_size = 40
 editor_description = "Platform_Metal — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
 metadata/quaternius_source_model = "Platform_Metal"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_metal.gltf"
 metadata/library_category = "floors"
 
 [node name="Label5" type="Label3D" parent="." unique_id=633261486]
@@ -129,7 +129,7 @@ font_size = 40
 editor_description = "Platform_Metal2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
 metadata/quaternius_source_model = "Platform_Metal2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_metal2.gltf"
 metadata/library_category = "floors"
 
 [node name="Label6" type="Label3D" parent="." unique_id=1249913118]
@@ -144,7 +144,7 @@ font_size = 40
 editor_description = "Platform_Metal2_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999998, 0, -11.999997)
 metadata/quaternius_source_model = "Platform_Metal2_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal2_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_metal2_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label7" type="Label3D" parent="." unique_id=97856161]
@@ -159,7 +159,7 @@ font_size = 40
 editor_description = "Platform_Metal_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 0, -11.999997)
 metadata/quaternius_source_model = "Platform_Metal_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Metal_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_metal_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label8" type="Label3D" parent="." unique_id=125990318]
@@ -174,7 +174,7 @@ font_size = 40
 editor_description = "Platform_Rails_2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -0.0029671788, -12.989298)
 metadata/quaternius_source_model = "Platform_Rails_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_rails_2.gltf"
 metadata/library_category = "floors"
 
 [node name="Label9" type="Label3D" parent="." unique_id=784796849]
@@ -189,7 +189,7 @@ font_size = 40
 editor_description = "Platform_Rails_4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0029672384, -26.000265)
 metadata/quaternius_source_model = "Platform_Rails_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_rails_4.gltf"
 metadata/library_category = "floors"
 
 [node name="Label10" type="Label3D" parent="." unique_id=688223334]
@@ -204,7 +204,7 @@ font_size = 40
 editor_description = "Platform_Rails_4Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.0029672384, -26.000265)
 metadata/quaternius_source_model = "Platform_Rails_4Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_rails_4_wide.gltf"
 metadata/library_category = "floors"
 
 [node name="Label11" type="Label3D" parent="." unique_id=1607706303]
@@ -219,7 +219,7 @@ font_size = 40
 editor_description = "Platform_Rails_4WideTall — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -26.964365)
 metadata/quaternius_source_model = "Platform_Rails_4WideTall"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Rails_4WideTall.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_rails_4_wide_tall.gltf"
 metadata/library_category = "floors"
 
 [node name="Label12" type="Label3D" parent="." unique_id=558099087]
@@ -234,7 +234,7 @@ font_size = 40
 editor_description = "Platform_Ramp_2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.000074, 0, -25)
 metadata/quaternius_source_model = "Platform_Ramp_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_ramp_2.gltf"
 metadata/library_category = "floors"
 
 [node name="Label13" type="Label3D" parent="." unique_id=1640779283]
@@ -249,7 +249,7 @@ font_size = 40
 editor_description = "Platform_Ramp_2Short — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.000072, 0, -24.75)
 metadata/quaternius_source_model = "Platform_Ramp_2Short"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_2Short.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_ramp_2_short.gltf"
 metadata/library_category = "floors"
 
 [node name="Label14" type="Label3D" parent="." unique_id=1752387792]
@@ -264,7 +264,7 @@ font_size = 40
 editor_description = "Platform_Ramp_4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -38)
 metadata/quaternius_source_model = "Platform_Ramp_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_ramp_4.gltf"
 metadata/library_category = "floors"
 
 [node name="Label15" type="Label3D" parent="." unique_id=250273455]
@@ -279,7 +279,7 @@ font_size = 40
 editor_description = "Platform_Ramp_4Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.3841858e-07, -38)
 metadata/quaternius_source_model = "Platform_Ramp_4Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Ramp_4Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_ramp_4_wide.gltf"
 metadata/library_category = "floors"
 
 [node name="Label16" type="Label3D" parent="." unique_id=812774614]
@@ -294,7 +294,7 @@ font_size = 40
 editor_description = "Platform_Round1 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.028622543, -36)
 metadata/quaternius_source_model = "Platform_Round1"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Round1.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_round1.gltf"
 metadata/library_category = "floors"
 
 [node name="Label17" type="Label3D" parent="." unique_id=1029703410]
@@ -309,7 +309,7 @@ font_size = 40
 editor_description = "Platform_Simple — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -36)
 metadata/quaternius_source_model = "Platform_Simple"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_simple.gltf"
 metadata/library_category = "floors"
 
 [node name="Label18" type="Label3D" parent="." unique_id=1960250127]
@@ -324,7 +324,7 @@ font_size = 40
 editor_description = "Platform_Simple2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -36)
 metadata/quaternius_source_model = "Platform_Simple2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_simple2.gltf"
 metadata/library_category = "floors"
 
 [node name="Label19" type="Label3D" parent="." unique_id=710822437]
@@ -339,7 +339,7 @@ font_size = 40
 editor_description = "Platform_Simple2_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1920929e-06, 0, -47.999996)
 metadata/quaternius_source_model = "Platform_Simple2_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_simple2_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label20" type="Label3D" parent="." unique_id=493982678]
@@ -354,7 +354,7 @@ font_size = 40
 editor_description = "Platform_Simple_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.999999, 0, -47.999996)
 metadata/quaternius_source_model = "Platform_Simple_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_simple_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label21" type="Label3D" parent="." unique_id=514316108]
@@ -369,7 +369,7 @@ font_size = 40
 editor_description = "Platform_Squares — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -48)
 metadata/quaternius_source_model = "Platform_Squares"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_squares.gltf"
 metadata/library_category = "floors"
 
 [node name="Label22" type="Label3D" parent="." unique_id=2123192451]
@@ -384,7 +384,7 @@ font_size = 40
 editor_description = "Platform_Squares_Curve — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.999998, 0, -47.999996)
 metadata/quaternius_source_model = "Platform_Squares_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_squares_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Label23" type="Label3D" parent="." unique_id=605261629]
@@ -399,7 +399,7 @@ font_size = 40
 editor_description = "Platform_Stairs_2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.000072, 0.008557856, -49.036354)
 metadata/quaternius_source_model = "Platform_Stairs_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_stairs_2.gltf"
 metadata/library_category = "floors"
 
 [node name="Label24" type="Label3D" parent="." unique_id=405857673]
@@ -414,7 +414,7 @@ font_size = 40
 editor_description = "Platform_Stairs_4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008157849, -62.041355)
 metadata/quaternius_source_model = "Platform_Stairs_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_stairs_4.gltf"
 metadata/library_category = "floors"
 
 [node name="Label25" type="Label3D" parent="." unique_id=2030303834]
@@ -429,7 +429,7 @@ font_size = 40
 editor_description = "Platform_Stairs_4Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.008157849, -62.041355)
 metadata/quaternius_source_model = "Platform_Stairs_4Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_stairs_4_wide.gltf"
 metadata/library_category = "floors"
 
 [node name="Label26" type="Label3D" parent="." unique_id=1477683385]
@@ -444,7 +444,7 @@ font_size = 40
 editor_description = "Platform_Stairs_4WideTall — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.008157849, -63.041355)
 metadata/quaternius_source_model = "Platform_Stairs_4WideTall"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Stairs_4WideTall.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_stairs_4_wide_tall.gltf"
 metadata/library_category = "floors"
 
 [node name="Label27" type="Label3D" parent="." unique_id=363279931]
@@ -459,7 +459,7 @@ font_size = 40
 editor_description = "Platform_Window_Thin — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.41330624, -60)
 metadata/quaternius_source_model = "Platform_Window_Thin"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Window_Thin.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_window_thin.gltf"
 metadata/library_category = "floors"
 
 [node name="Label28" type="Label3D" parent="." unique_id=1346288871]
@@ -474,7 +474,7 @@ font_size = 40
 editor_description = "Platform_Window_Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.41330698, -60)
 metadata/quaternius_source_model = "Platform_Window_Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Window_Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_window_wide.gltf"
 metadata/library_category = "floors"
 
 [node name="Label29" type="Label3D" parent="." unique_id=265621580]
@@ -489,7 +489,7 @@ font_size = 40
 editor_description = "Platform_X — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -72)
 metadata/quaternius_source_model = "Platform_X"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_X.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_x.gltf"
 metadata/library_category = "floors"
 
 [node name="Label30" type="Label3D" parent="." unique_id=801631838]

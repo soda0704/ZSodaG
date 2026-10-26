@@ -1,7 +1,7 @@
 extends SceneTree
 ## Offline environment authoring. Saves native meshes/scenes; never runs in game.
 const OUT := "res://assets/environments/cave/geology_v2/"
-const SCENE := "res://scenes/levels/Cave_Day7.tscn"
+const SCENE := "res://scenes/levels/cave_day7.tscn"
 const ENTRY := Vector3(-33.5,-162,-21)
 var world: Node3D
 var route: Curve3D

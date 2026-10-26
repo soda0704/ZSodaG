@@ -58,7 +58,7 @@ func run() -> void:
 	root.size = size
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	DirAccess.make_dir_recursive_absolute(output)
-	var base: Node3D = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base: Node3D = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await frames(20)

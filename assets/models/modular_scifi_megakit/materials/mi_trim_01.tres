@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://2ocapcs4ng7c"]
 
-[ext_resource type="Texture2D" uid="uid://etmfxbw4wsoy" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_01_BaseColor_Red.png" id="1_qqq5p"]
-[ext_resource type="Texture2D" uid="uid://b00i1pa567rg1" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_01_ORM.png" id="2_veudl"]
-[ext_resource type="Texture2D" uid="uid://cvaikvslw65fc" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_01_Normal.png" id="3_la2wt"]
+[ext_resource type="Texture2D" uid="uid://etmfxbw4wsoy" path="res://assets/models/modular_scifi_megakit/textures/t_trim_01_base_color_red.png" id="1_qqq5p"]
+[ext_resource type="Texture2D" uid="uid://cd48nbisf5kd0" path="res://assets/models/modular_scifi_megakit/textures/t_trim_01_orm.png" id="2_veudl"]
+[ext_resource type="Texture2D" uid="uid://1ll3bdoaivna" path="res://assets/models/modular_scifi_megakit/textures/t_trim_01_normal.png" id="3_la2wt"]
 
 [resource]
 resource_name = "MI_Trim_01"

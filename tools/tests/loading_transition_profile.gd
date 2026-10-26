@@ -24,9 +24,9 @@ func run() -> void:
 	await create_timer(1).timeout
 	phase = "resources"
 	var before := Time.get_ticks_usec()
-	ResourceLoader.load_threaded_request("res://scenes/levels/Base_Blockout_v03.tscn")
-	while ResourceLoader.load_threaded_get_status("res://scenes/levels/Base_Blockout_v03.tscn")==ResourceLoader.THREAD_LOAD_IN_PROGRESS: await process_frame
-	var packed: PackedScene = ResourceLoader.load_threaded_get("res://scenes/levels/Base_Blockout_v03.tscn")
+	ResourceLoader.load_threaded_request("res://scenes/levels/base_blockout_v03.tscn")
+	while ResourceLoader.load_threaded_get_status("res://scenes/levels/base_blockout_v03.tscn")==ResourceLoader.THREAD_LOAD_IN_PROGRESS: await process_frame
+	var packed: PackedScene = ResourceLoader.load_threaded_get("res://scenes/levels/base_blockout_v03.tscn")
 	print("LOAD RESOURCES MS ",(Time.get_ticks_usec()-before)/1000.0)
 	phase = "instantiate"
 	before = Time.get_ticks_usec()

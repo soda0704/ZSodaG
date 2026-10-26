@@ -595,7 +595,7 @@
   ],
   "images": [
     {
-      "uri": "textures/Dial_baseColor.png"
+      "uri": "textures/dial_base_color.png"
     }
   ],
   "materials": [

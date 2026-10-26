@@ -120,7 +120,7 @@
       "max": [
         0.0,
         0.0,
-        2.9802322387695313e-08
+        2.9802322387695312e-08
       ],
       "min": [
         -5.960464477539063e-08,
@@ -154,7 +154,7 @@
       "max": [
         0.0,
         0.0,
-        2.9802322387695313e-08
+        2.9802322387695312e-08
       ],
       "min": [
         -5.960464477539063e-08,
@@ -188,7 +188,7 @@
       "max": [
         0.0,
         0.0,
-        2.9802322387695313e-08
+        2.9802322387695312e-08
       ],
       "min": [
         -5.960464477539063e-08,
@@ -222,7 +222,7 @@
       "max": [
         0.0,
         0.0,
-        2.9802322387695313e-08
+        2.9802322387695312e-08
       ],
       "min": [
         -5.960464477539063e-08,
@@ -3743,7 +3743,7 @@
       "min": [
         -2.2817403078079224e-08,
         0.04172000288963318,
-        -2.9802322387695313e-08
+        -2.9802322387695312e-08
       ],
       "type": "VEC3"
     },
@@ -4810,13 +4810,13 @@
       "max": [
         0.005313908215612173,
         0.15546149015426636,
-        0.041637472808361053,
+        0.04163747280836105,
         0.9869497418403625
       ],
       "min": [
         0.0053138998337090015,
         0.15546146035194397,
-        0.041637472808361053,
+        0.04163747280836105,
         0.9869497418403625
       ],
       "type": "VEC4"
@@ -5914,7 +5914,7 @@
       "max": [
         -0.02380906045436859,
         0.0017394626047462225,
-        0.0048222607001662254,
+        0.004822260700166225,
         0.9997034072875977
       ],
       "min": [
@@ -6319,7 +6319,7 @@
       "min": [
         -4.377216100692749e-08,
         0.027263924479484558,
-        -2.9802322387695313e-08
+        -2.9802322387695312e-08
       ],
       "type": "VEC3"
     },
@@ -6774,7 +6774,7 @@
       "max": [
         2.60770320892334e-08,
         0.34303444623947144,
-        2.9802322387695313e-08
+        2.9802322387695312e-08
       ],
       "min": [
         -3.725290298461914e-08,
@@ -9049,7 +9049,7 @@
       "min": [
         -4.0978193283081055e-08,
         0.0360383540391922,
-        -2.9802322387695313e-08
+        -2.9802322387695312e-08
       ],
       "type": "VEC3"
     },
@@ -9231,7 +9231,7 @@
         7.729977369308472e-08
       ],
       "min": [
-        -2.9802322387695313e-08,
+        -2.9802322387695312e-08,
         0.07870016247034073,
         -4.842877388000488e-08
       ],
@@ -13534,61 +13534,61 @@
   ],
   "images": [
     {
-      "uri": "textures/Mil_Suit_R5_Head_baseColor.png"
+      "uri": "textures/mil_suit_r5_head_base_color.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_Head_metallicRoughness.png"
+      "uri": "textures/mil_suit_r5_head_metallic_roughness.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_Head_normal.png"
+      "uri": "textures/mil_suit_r5_head_normal.png"
     },
     {
-      "uri": "textures/Mil_Suit_Pads__R5_baseColor.png"
+      "uri": "textures/mil_suit_pads__r5_base_color.png"
     },
     {
-      "uri": "textures/Mil_Suit_Pads__R5_normal.png"
+      "uri": "textures/mil_suit_pads__r5_normal.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_Puches_baseColor.jpeg"
+      "uri": "textures/mil_suit_r5_puches_base_color.jpeg"
     },
     {
-      "uri": "textures/Mil_Suit_R5_Puches_metallicRoughness.png"
+      "uri": "textures/mil_suit_r5_puches_metallic_roughness.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_Puches_normal.png"
+      "uri": "textures/mil_suit_r5_puches_normal.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5__Plate_baseColor.jpeg"
+      "uri": "textures/mil_suit_r5__plate_base_color.jpeg"
     },
     {
-      "uri": "textures/Mil_Suit_R5__Plate_metallicRoughness.png"
+      "uri": "textures/mil_suit_r5__plate_metallic_roughness.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5__Plate_normal.png"
+      "uri": "textures/mil_suit_r5__plate_normal.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_baseColor.png"
+      "uri": "textures/mil_suit_r5_base_color.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_metallicRoughness.png"
+      "uri": "textures/mil_suit_r5_metallic_roughness.png"
     },
     {
-      "uri": "textures/Mil_Suit_R5_normal.png"
+      "uri": "textures/mil_suit_r5_normal.png"
     },
     {
-      "uri": "textures/GreenCap_baseColor.png"
+      "uri": "textures/green_cap_base_color.png"
     },
     {
-      "uri": "textures/GreenCap_normal.png"
+      "uri": "textures/green_cap_normal.png"
     },
     {
-      "uri": "textures/HeadphonesT_baseColor.jpeg"
+      "uri": "textures/headphones_t_base_color.jpeg"
     },
     {
-      "uri": "textures/HeadphonesT_metallicRoughness.png"
+      "uri": "textures/headphones_t_metallic_roughness.png"
     },
     {
-      "uri": "textures/HeadphonesT_normal.png"
+      "uri": "textures/headphones_t_normal.png"
     }
   ],
   "materials": [
@@ -15420,7 +15420,7 @@
       "translation": [
         -1.0477378964424133e-07,
         0.037595294415950775,
-        -2.9802322387695313e-08
+        -2.9802322387695312e-08
       ]
     },
     {
@@ -16028,7 +16028,7 @@
         1.0
       ],
       "translation": [
-        -2.9802322387695313e-08,
+        -2.9802322387695312e-08,
         0.07870013266801834,
         -4.6566128730773926e-09
       ]

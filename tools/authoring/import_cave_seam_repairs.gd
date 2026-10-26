@@ -4,7 +4,7 @@ func _initialize() -> void:
 	run.call_deferred()
 func run() -> void:
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tools/authoring/cave_shell_repairs.json"))
-	var cave: Node3D = load("res://scenes/levels/Cave_Day7.tscn").instantiate()
+	var cave: Node3D = load("res://scenes/levels/cave_day7.tscn").instantiate()
 	if cave.has_node("GeologySeamRepairs"):
 		push_error("Repairs already exist; edit the saved mesh rather than duplicating it")
 		quit(1)
@@ -62,7 +62,7 @@ func run() -> void:
 	cave.set_meta("triangle_count", int(cave.get_meta("triangle_count", 0)) + int(data.triangles))
 	var packed := PackedScene.new()
 	assert(packed.pack(cave) == OK)
-	assert(ResourceSaver.save(packed, "res://scenes/levels/Cave_Day7.tscn") == OK)
+	assert(ResourceSaver.save(packed, "res://scenes/levels/cave_day7.tscn") == OK)
 	cave.free()
 	print("SAVED CAVE SEAM REPAIRS ", data.holes.size(), " holes; ", data.triangles, " triangles")
 	quit()

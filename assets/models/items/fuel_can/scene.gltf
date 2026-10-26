@@ -167,10 +167,10 @@
   ],
   "images": [
     {
-      "uri": "textures/fuel_can_baseColor.png"
+      "uri": "textures/fuel_can_base_color.png"
     },
     {
-      "uri": "textures/fuel_can_metallicRoughness.png"
+      "uri": "textures/fuel_can_metallic_roughness.png"
     },
     {
       "uri": "textures/fuel_can_normal.png"

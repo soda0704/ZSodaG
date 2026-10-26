@@ -11,11 +11,11 @@ const FRAME_WIDTH := 1.0
 const PANEL := Color(0.035, 0.05, 0.057, 0.48)
 const BODY_FONT := preload("res://assets/fonts/hud/body.tres")
 const HEADING_FONT := preload("res://assets/fonts/hud/heading.tres")
-const LIGHT_ICON := preload("res://assets/ui/northern_lab_hud/Bonus/flashlight_icon_4x.png")
-const PISTOL_ICON := preload("res://assets/ui/northern_lab_hud/Bonus/pistol_icon_4x.png")
-const MARKER := preload("res://assets/ui/northern_lab_hud/Bonus/teammate_world_marker_4x.png")
-const HEALTH_ART := preload("res://assets/ui/northern_lab_hud/PNG_4x/07_health_radiation.png")
-const BATTERY_ART := preload("res://assets/ui/northern_lab_hud/PNG_4x/11_flashlight_charge.png")
+const LIGHT_ICON := preload("res://assets/ui/northern_lab_hud/bonus/flashlight_icon_4x.png")
+const PISTOL_ICON := preload("res://assets/ui/northern_lab_hud/bonus/pistol_icon_4x.png")
+const MARKER := preload("res://assets/ui/northern_lab_hud/bonus/teammate_world_marker_4x.png")
+const HEALTH_ART := preload("res://assets/ui/northern_lab_hud/png_4x/07_health_radiation.png")
+const BATTERY_ART := preload("res://assets/ui/northern_lab_hud/png_4x/11_flashlight_charge.png")
 const CARD_SIZE := Vector2(178, 108)
 const CARD_FRAME_PADDING := 8.0
 const CARD_GAP := 12.0 + CARD_FRAME_PADDING * 2.0
@@ -492,7 +492,8 @@ func _draw_teammate() -> void:
 	var world_point := teammate.global_position + Vector3(0, 2.3, 0)
 	# World anchors stay registered to the target, independently of panel inertia.
 	draw_set_transform(Vector2.ZERO)
-	if not player.camera.is_position_behind(world_point):
+	var camera_point := player.camera.get_camera_transform().affine_inverse() * world_point
+	if camera_point.z < -player.camera.near:
 		var screen_point := player.camera.unproject_position(world_point)
 		if get_viewport_rect().grow(-30).has_point(screen_point):
 			draw_texture_rect(MARKER, Rect2(screen_point / _layout_scale - Vector2(16, 16), Vector2(32, 32)), false, _ink(WHITE))

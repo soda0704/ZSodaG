@@ -5,7 +5,7 @@
 [node name="DecalLogoLetters" type="Node3D" unique_id=159696038]
 editor_description = "Decal_Logo_Letters — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Decal_Logo_Letters"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Logo_Letters.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_logo_letters.gltf"
 metadata/library_category = "decals"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1219120843]

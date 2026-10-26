@@ -16,7 +16,7 @@ TEXT_TYPES = {'.gd', '.tscn', '.tres', '.godot', '.cfg', '.py', '.ps1', '.cs', '
 
 def audit(root=ROOT):
     texts = {}
-    for folder in ('scripts', 'scenes', 'tools', 'addons'):
+    for folder in ('scripts', 'scenes', 'tools', 'addons', 'assets/config'):
         for directory, subdirs, files in os.walk(root / folder):
             subdirs[:] = [name for name in subdirs if name not in {'.local', '__pycache__', 'node_modules'}]
             for name in files:

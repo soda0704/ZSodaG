@@ -122,13 +122,13 @@
   ],
   "images": [
     {
-      "uri": "textures/IDKey_Lanyard_baseColor.png"
+      "uri": "textures/id_key_lanyard_base_color.png"
     },
     {
-      "uri": "textures/IDKey_Lanyard_metallicRoughness.png"
+      "uri": "textures/id_key_lanyard_metallic_roughness.png"
     },
     {
-      "uri": "textures/IDKey_Lanyard_normal.png"
+      "uri": "textures/id_key_lanyard_normal.png"
     }
   ],
   "materials": [

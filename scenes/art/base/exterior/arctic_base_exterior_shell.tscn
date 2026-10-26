@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ojj5yvkr85ou"]
 
-[ext_resource type="PackedScene" uid="uid://dqrjbf0rkbo2h" path="res://assets/models/architecture/arctic_base_exterior/ArcticBase_ExteriorShell.glb" id="1_shell"]
+[ext_resource type="PackedScene" uid="uid://dqrjbf0rkbo2h" path="res://assets/models/architecture/arctic_base_exterior/arctic_base_exterior_shell.glb" id="1_shell"]
 
 [node name="ArcticBase_ExteriorShell" type="Node3D" unique_id=823052525]
 editor_description = "Measured exterior-only shell. Disable this node to compare with the original base. No scripts or collision."

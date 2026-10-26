@@ -6,7 +6,7 @@
 [node name="WallAstraCornerSquareInner" type="Node3D" unique_id=2139476944]
 editor_description = "WallAstra_Corner_Square_Inner — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "WallAstra_Corner_Square_Inner"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallAstra_Corner_Square_Inner.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/wall_astra_corner_square_inner.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=654460862]

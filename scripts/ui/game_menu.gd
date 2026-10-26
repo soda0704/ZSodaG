@@ -435,7 +435,7 @@ func start_host_flow() -> void:
 	if not has_save:
 		_begin_host_session(false)
 		return
-	confirm("Кооперативная экспедиция", "Продолжить сохранённую экспедицию или начать новую? Одиночный прогресс хранится отдельно.", [
+	confirm("Кооперативная экспедиция", "Сохранённая экспедиция · день %d.\nПродолжить или начать новую? Одиночный прогресс хранится отдельно." % int(summary.get("day_index", 1)), [
 		{"label": "Продолжить", "disabled": summary.is_empty(), "action": _begin_host_session.bind(true)},
 		{"label": "Новая экспедиция", "action": _confirm_new_coop_game},
 	])

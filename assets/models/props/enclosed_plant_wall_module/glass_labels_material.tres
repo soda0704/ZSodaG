@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/Plane_DefaultMaterial_BaseColor.tga_alpha.png" id="labels"]
+[ext_resource type="Texture2D" path="res://assets/models/props/enclosed_plant_wall_module/textures/plane_default_material_base_color.tga_alpha.png" id="labels"]
 
 [resource]
 resource_name = "PlantContainer_GlassLabels"

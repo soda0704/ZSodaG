@@ -15,7 +15,7 @@ editor_description = "Library preview. Drag individual scenes from the category 
 editor_description = "Door_DarkMetal — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0528605, 0, 0)
 metadata/quaternius_source_model = "Door_DarkMetal"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_DarkMetal.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_dark_metal.gltf"
 metadata/library_category = "doors"
 
 [node name="Label0" type="Label3D" parent="." unique_id=214846689]
@@ -30,7 +30,7 @@ font_size = 40
 editor_description = "Door_Frame_A — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.999999, 0.118961215, 0)
 metadata/quaternius_source_model = "Door_Frame_A"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Frame_A.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_frame_a.gltf"
 metadata/library_category = "doors"
 
 [node name="Label1" type="Label3D" parent="." unique_id=167834579]
@@ -45,7 +45,7 @@ font_size = 40
 editor_description = "Door_Frame_Square — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.013425212, 0)
 metadata/quaternius_source_model = "Door_Frame_Square"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Frame_Square.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_frame_square.gltf"
 metadata/library_category = "doors"
 
 [node name="Label2" type="Label3D" parent="." unique_id=2085619254]
@@ -60,7 +60,7 @@ font_size = 40
 editor_description = "Door_Frame_SquareTall — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.013425212, 0)
 metadata/quaternius_source_model = "Door_Frame_SquareTall"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Frame_SquareTall.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_frame_square_tall.gltf"
 metadata/library_category = "doors"
 
 [node name="Label3" type="Label3D" parent="." unique_id=290435895]
@@ -75,7 +75,7 @@ font_size = 40
 editor_description = "Door_Frame_Square_Blocked — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
 metadata/quaternius_source_model = "Door_Frame_Square_Blocked"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Frame_Square_Blocked.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_frame_square_blocked.gltf"
 metadata/library_category = "doors"
 
 [node name="Label4" type="Label3D" parent="." unique_id=1797548749]
@@ -90,7 +90,7 @@ font_size = 40
 editor_description = "Door_Metal — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0528605, 0, -12.050801)
 metadata/quaternius_source_model = "Door_Metal"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Metal.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_metal.gltf"
 metadata/library_category = "doors"
 
 [node name="Label5" type="Label3D" parent="." unique_id=127911619]
@@ -105,7 +105,7 @@ font_size = 40
 editor_description = "Door_Simple — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.05286, 0, -12.068165)
 metadata/quaternius_source_model = "Door_Simple"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Door_Simple.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/door_simple.gltf"
 metadata/library_category = "doors"
 
 [node name="Label6" type="Label3D" parent="." unique_id=2075906767]

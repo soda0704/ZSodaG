@@ -26,7 +26,7 @@ func run() -> void:
  var style:StyleBoxFlat=selector.option.get_theme_stylebox("normal")
  check(style.bg_color.a>0.9 and style.bg_color.get_luminance()<0.04,"character dropdown has its own opaque dark backdrop")
  main.queue_free();await process_frame
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
  var state:BaseGameplayController=base.get_node("BaseGameplayController");state.progress_persistence_enabled=false;state.set_process(false)
  for i in 8:await physics_frame
  var world:WorldLighting=base.get_node("WorldLighting")

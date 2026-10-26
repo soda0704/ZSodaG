@@ -16,7 +16,7 @@ const FLOORS := ["Floor_0_Base_Blockout","Floor_Minus1_Control_Security_Blockout
 func _initialize() -> void: run.call_deferred()
 
 func floor_transform(floor_name:String) -> Transform3D:
-	var scene:=FileAccess.get_file_as_string("res://scenes/levels/Base_Blockout_v03.tscn")
+	var scene:=FileAccess.get_file_as_string("res://scenes/levels/base_blockout_v03.tscn")
 	var expression:=RegEx.new()
 	expression.compile('(?m)^\\[node name="'+floor_name+'" parent="\\."[^\\n]*\\]\\r?\\ntransform = ([^\\r\\n]+)')
 	var found:=expression.search(scene)

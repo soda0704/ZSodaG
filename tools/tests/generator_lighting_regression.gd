@@ -14,7 +14,7 @@ func run() -> void:
 	var world := Node3D.new()
 	root.add_child(world)
 	current_scene = world
-	world.add_child(load("res://scenes/levels/Floor_0_Base_Blockout.tscn").instantiate())
+	world.add_child(load("res://scenes/levels/floor_0_base_blockout.tscn").instantiate())
 	var exterior := Node3D.new()
 	exterior.name = "SnowExterior"
 	var environment := WorldEnvironment.new()

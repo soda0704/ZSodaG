@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/SolarPanel_baseColor.png" id="1_xilpd"]
-[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/SolarPanel_metallicRoughness.png" id="2_d8c4q"]
-[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/SolarPanel_normal.png" id="3_vxq80"]
+[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/solar_panel_base_color.png" id="1_xilpd"]
+[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/solar_panel_metallic_roughness.png" id="2_d8c4q"]
+[ext_resource type="Texture2D" path="res://assets/models/elevator_backup/solar_panel/textures/solar_panel_normal.png" id="3_vxq80"]
 
 [resource]
 resource_name = "Solar cells subtle local readability"

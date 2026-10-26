@@ -55,7 +55,7 @@ func _ready() -> void:
 @rpc("authority","call_local","reliable")
 func configure(id:int) -> void:
 	guest=id
-	var arena=load("res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn" if joist_route_mode else "res://tools/tests/fixtures/character_test_arena.tscn").instantiate()
+	var arena=load("res://scenes/levels/floor_minus1_control_security_blockout.tscn" if joist_route_mode else "res://tools/tests/fixtures/character_test_arena.tscn").instantiate()
 	arena.name="CarryArena"
 	get_tree().root.add_child(arena)
 	if joist_route_mode:

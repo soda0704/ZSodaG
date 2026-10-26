@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_PaddedWall_BaseColor.png" id="1_nawrq"]
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_PaddedWall_ORM.png" id="2_iwyks"]
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_PaddedWall_Normal.png" id="3_1e63x"]
+[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/t_padded_wall_base_color.png" id="1_nawrq"]
+[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/t_padded_wall_orm.png" id="2_iwyks"]
+[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/t_padded_wall_normal.png" id="3_1e63x"]
 
 [resource]
 resource_name = "MI_PaddedWall"

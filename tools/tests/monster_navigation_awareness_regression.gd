@@ -69,7 +69,7 @@ func follow_route(route: Dictionary, shift: Vector3) -> void:
 		await physics_frame
 	check(closest < 1.0, "native agent rounds real containment walls at vertical offset %.0f (closest %.2f)" % [shift.y, closest])
 func run() -> void:
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base); current_scene = base
 	await settle()
 	var state: BaseGameplayController = base.get_node("BaseGameplayController")

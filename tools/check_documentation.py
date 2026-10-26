@@ -1,7 +1,7 @@
 """Validate first-party Markdown links, file references and basic structure.
 
 Run from the repository root: python tools/check_documentation.py
-Only reads README.md and docs/**/*.md. Does not inspect third-party licenses.
+Only reads readme.md and docs/**/*.md. Does not inspect third-party licenses.
 """
 import re
 import sys
@@ -60,13 +60,13 @@ def check(path):
 
 
 def main():
-    documents = [ROOT / "README.md", *sorted((ROOT / "docs").rglob("*.md"))]
+    documents = [ROOT / "readme.md", *sorted((ROOT / "docs").rglob("*.md"))]
     failures = 0
     for path in documents:
         for error in check(path):
             failures += 1
             print(f"FAIL {path.relative_to(ROOT).as_posix()}: {error}")
-    index = ROOT / "docs/README.md"
+    index = ROOT / "docs/readme.md"
     if index.exists():
         linked = {
             match.group(1).split("#", 1)[0]
@@ -78,7 +78,7 @@ def main():
             relative = path.relative_to(ROOT / "docs").as_posix()
             if relative not in linked:
                 failures += 1
-                print(f"FAIL docs/README.md: document not listed: {relative}")
+                print(f"FAIL docs/readme.md: document not listed: {relative}")
     print(f"Documents: {len(documents)}; errors: {failures}")
     return 1 if failures else 0
 

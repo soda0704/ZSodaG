@@ -62,7 +62,7 @@ func shoot(hive: Node3D) -> void:
 	check(encounter.get_health(hive.hive_index)<before,"real host flame jet damages the hive")
 
 func run() -> void:
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base); current_scene = base
 	await settle()
 	root.get_node("GameMenu").force_close_menu()

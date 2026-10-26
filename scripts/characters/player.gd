@@ -1305,7 +1305,9 @@ func _publish_inventory(force := false) -> void:
 	_inventory_revision += 1
 	_receive_equipment.rpc(get_inventory_snapshot())
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("save_inventory_checkpoint"):
+	if world != null and world.has_method("queue_inventory_checkpoint"):
+		world.call("queue_inventory_checkpoint")
+	elif world != null and world.has_method("save_inventory_checkpoint"):
 		world.call_deferred("save_inventory_checkpoint")
 
 

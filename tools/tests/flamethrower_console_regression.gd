@@ -1,6 +1,6 @@
 extends "res://tools/tests/flamethrower_crafting_regression.gd"
 func run() -> void:
- base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
+ base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
  await settle();root.get_node("GameMenu").force_close_menu()
  state=base.get_node("BaseGameplayController");state.set_process(false)
  player=get_first_node_in_group("local_player");player.set_physics_process(false);player.survival.set_physics_process(false)

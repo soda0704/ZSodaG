@@ -122,10 +122,10 @@
   ],
   "images": [
     {
-      "uri": "textures/default_baseColor.jpeg"
+      "uri": "textures/default_base_color.jpeg"
     },
     {
-      "uri": "textures/default_metallicRoughness.png"
+      "uri": "textures/default_metallic_roughness.png"
     },
     {
       "uri": "textures/default_normal.png"

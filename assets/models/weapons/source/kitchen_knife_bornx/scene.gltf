@@ -366,13 +366,13 @@
   ],
   "images": [
     {
-      "uri": "textures/Material_baseColor.jpeg"
+      "uri": "textures/material_base_color.jpeg"
     },
     {
-      "uri": "textures/Material_metallicRoughness.png"
+      "uri": "textures/material_metallic_roughness.png"
     },
     {
-      "uri": "textures/Material_normal.jpeg"
+      "uri": "textures/material_normal.jpeg"
     }
   ],
   "materials": [

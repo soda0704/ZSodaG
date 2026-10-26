@@ -6,7 +6,7 @@
 [node name="ShortWallBand2CornerInner" type="Node3D" unique_id=1633420123]
 editor_description = "ShortWall_Band2_Corner_Inner — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "ShortWall_Band2_Corner_Inner"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Band2_Corner_Inner.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/short_wall_band2_corner_inner.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=2069085763]

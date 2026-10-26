@@ -6,12 +6,12 @@
       "count": 949,
       "max": [
         166.48138427734375,
-        168.81900024414063,
+        168.81900024414062,
         -1.2118500471115112
       ],
       "min": [
         -169.5749969482422,
-        -168.81900024414063,
+        -168.81900024414062,
         -1443.6500244140625
       ],
       "type": "VEC3"
@@ -182,16 +182,16 @@
   ],
   "images": [
     {
-      "uri": "textures/M_Flashlight_V01_baseColor.png"
+      "uri": "textures/m_flashlight_v01_base_color.png"
     },
     {
-      "uri": "textures/M_Flashlight_V01_metallicRoughness.png"
+      "uri": "textures/m_flashlight_v01_metallic_roughness.png"
     },
     {
-      "uri": "textures/M_Flashlight_V01_emissive.png"
+      "uri": "textures/m_flashlight_v01_emissive.png"
     },
     {
-      "uri": "textures/M_Flashlight_V01_normal.png"
+      "uri": "textures/m_flashlight_v01_normal.png"
     }
   ],
   "materials": [

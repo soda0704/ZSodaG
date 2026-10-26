@@ -106,7 +106,7 @@ function Initialize-GitLfsAssets {
     if (-not $gitCommand) {
         throw (
             "Git was not found. Install Git for Windows with Git LFS, " +
-            "then run NorthernLab.cmd again."
+            "then run northern_lab.cmd again."
         )
     }
 
@@ -554,15 +554,15 @@ function Invoke-DevelopmentBuild {
                 -Destination (Join-Path $stagingDirectory "game_actions_480.vdf") `
                 -Force
 
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_LICENSE.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/attribution.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_license.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/attribution.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
 
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "SNOWMOBILE_CREDITS.md") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CORPSE_CREDITS.md") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "JOURNAL_CREDITS.md") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/ATTRIBUTION.md") -Destination (Join-Path $stagingDirectory "CHARACTER_CREDITS.md") -Force
-            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/ITEM_MODEL_CREDITS.md") -Destination (Join-Path $stagingDirectory "ITEM_MODEL_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/snowmobile_ski_patrol/attribution.md") -Destination (Join-Path $stagingDirectory "SNOWMOBILE_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/lewis_corpse/attribution.md") -Destination (Join-Path $stagingDirectory "CORPSE_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/leather_journal/attribution.md") -Destination (Join-Path $stagingDirectory "JOURNAL_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/characters/attribution.md") -Destination (Join-Path $stagingDirectory "CHARACTER_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/item_model_credits.md") -Destination (Join-Path $stagingDirectory "item_model_credits.md") -Force
 
             $revision = "unavailable"
             $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue

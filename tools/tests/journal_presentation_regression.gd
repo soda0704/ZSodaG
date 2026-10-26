@@ -32,7 +32,7 @@ func run():
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,SAVE)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE))
 	var input:=root.get_node("SteamInput"); input.set_process(false); input.set_process_input(false); input.native_input_available=false
-	var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate(); root.add_child(base)
+	var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate(); root.add_child(base)
 	root.get_node("GameMenu").force_close_menu(); await delay(.4)
 	for frame in 30: await process_frame
 	player=get_first_node_in_group("local_player"); journal=root.get_node("QuestJournal")

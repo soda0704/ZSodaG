@@ -8,7 +8,7 @@ ASSETS = ROOT / 'assets/models/modular_scifi_megakit'
 
 
 def import_library(archive: Path) -> None:
-    seed = (ASSETS/'models/walls/WallAstra_Straight.gltf.import').read_text(encoding='utf-8')
+    seed = (ASSETS/'models/walls/wall_astra_straight.gltf.import').read_text(encoding='utf-8')
     records = []
     added = 0
     with ZipFile(archive) as bundle:
@@ -60,8 +60,8 @@ def import_library(archive: Path) -> None:
             if relative.stem.startswith('Door_'):
                 category = 'doors'
             records.append({'name':relative.stem,'source':source,'path':target.relative_to(ROOT).as_posix(),'category':category,'animated':bool(data.get('skins') or data.get('animations'))})
-        extra = prefix+'OBJ/Props/Prop_Fan_Small_Propeller.obj'
-        target = ASSETS/'models/props/Prop_Fan_Small_Propeller.obj'
+        extra = prefix+'OBJ/Props/prop_fan_small_propeller.obj'
+        target = ASSETS/'models/props/prop_fan_small_propeller.obj'
         if not target.exists():
             target.write_bytes(bundle.read(extra))
             added += 1

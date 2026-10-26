@@ -22,7 +22,7 @@ func rock_view_blocked(space: PhysicsDirectSpaceState3D, ray: PhysicsRayQueryPar
 	beam.collision_mask = ray.collision_mask; beam.exclude = ray.exclude
 	return space.cast_motion(beam)[0] < 1.0
 func run() -> void:
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base); current_scene = base
 	await settle()
 	var state: BaseGameplayController = base.get_node("BaseGameplayController")

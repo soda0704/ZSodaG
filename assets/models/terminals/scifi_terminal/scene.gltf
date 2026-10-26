@@ -422,16 +422,16 @@
   ],
   "images": [
     {
-      "uri": "textures/Material_baseColor.png"
+      "uri": "textures/material_base_color.png"
     },
     {
-      "uri": "textures/Material_metallicRoughness.png"
+      "uri": "textures/material_metallic_roughness.png"
     },
     {
-      "uri": "textures/Material_emissive.png"
+      "uri": "textures/material_emissive.png"
     },
     {
-      "uri": "textures/Material_normal.png"
+      "uri": "textures/material_normal.png"
     }
   ],
   "materials": [

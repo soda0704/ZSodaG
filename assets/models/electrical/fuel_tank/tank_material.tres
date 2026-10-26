@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_baseColor.jpeg" id="albedo"]
-[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_metallicRoughness.png" id="orm"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_base_color.jpeg" id="albedo"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_metallic_roughness.png" id="orm"]
 [ext_resource type="Texture2D" path="res://assets/models/electrical/fuel_tank/textures/default_normal.png" id="normal"]
 
 [resource]

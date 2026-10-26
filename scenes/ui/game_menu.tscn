@@ -11,10 +11,12 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/tester_feedback.tscn" id="feedback"]
 [ext_resource type="PackedScene" path="res://scenes/ui/loading_render_warmup.tscn" id="render_warmup"]
 [ext_resource type="PackedScene" path="res://scenes/ui/fps_counter.tscn" id="fps_counter"]
+[ext_resource type="PackedScene" path="res://scenes/ui/save_notification.tscn" id="save_notification"]
 [node name="GameMenu" type="CanvasLayer"]
 layer = 100
 script = ExtResource("1")
 [node name="LoadingRenderWarmup" parent="." instance=ExtResource("render_warmup")]
+[node name="SaveNotification" parent="." instance=ExtResource("save_notification")]
 [node name="MenuRoot" type="Control" parent="."]
 theme = ExtResource("menu_theme")
 visible = false

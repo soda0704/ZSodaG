@@ -22,7 +22,7 @@ func park(monster:Node3D,point:Vector3,player:GamePlayer):
 func run():
  ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,SAVE)
  DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE))
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base)
  await settle(90)
  var state:BaseGameplayController=base.get_node("BaseGameplayController")

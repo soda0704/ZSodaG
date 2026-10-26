@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small.gltf" id="1_j1ps7"]
+[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/props/prop_fan_small.gltf" id="1_j1ps7"]
 
 [node name="PropFanSmall" type="Node3D" unique_id=143956633]
 editor_description = "Prop_Fan_Small — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Fan_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_fan_small.gltf"
 metadata/library_category = "props"
 metadata/available_animations = Array[String](["Fan_Idle"])
 

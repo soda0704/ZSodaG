@@ -30,4 +30,4 @@ Inspector задаёт расстояние, контактный допуск, 
 
 Проверки: `snow_expansion_test.gd`, `landscape_grounding_test.gd`, `world_boundary_regression.gd`, `south_forest_cliff_regression.gd`, `snow_track_heading_regression.gd` в `tools/tests`. Проверки MultiMesh и внешний вид требуют графического рендерера.
 
-Лицензия исходного горного рельефа: `assets/environments/snow/mountain_source_LICENSE.txt`. Модель площадки и её атрибуция: `assets/models/environment/heliport/license.txt`. При передаче или экспорте сохраняйте эти файлы. См. [обрыв](east_cliff_revision.md) и [подготовку ресурсов](art_pipeline.md).
+Лицензия исходного горного рельефа: `assets/environments/snow/mountain_source_license.txt`. Модель площадки и её атрибуция: `assets/models/environment/heliport/license.txt`. При передаче или экспорте сохраняйте эти файлы. См. [обрыв](east_cliff_revision.md) и [подготовку ресурсов](art_pipeline.md).

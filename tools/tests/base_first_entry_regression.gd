@@ -15,7 +15,7 @@ func ticks(count: int = 12) -> void:
 	await process_frame
 func run() -> void:
 	Engine.max_fps = 60
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await ticks(90)

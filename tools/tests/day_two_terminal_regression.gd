@@ -31,7 +31,7 @@ func screenshot(label: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://tools/.local/terminal-" + label + ".png")
 func boot() -> void:
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await settle()

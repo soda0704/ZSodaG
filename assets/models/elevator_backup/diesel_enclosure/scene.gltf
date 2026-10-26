@@ -474,7 +474,7 @@
         1.0
       ],
       "min": [
-        -0.6946487426757813,
+        -0.6946487426757812,
         -0.9187842607498169,
         0.3947601914405823
       ],
@@ -947,16 +947,16 @@
   ],
   "images": [
     {
-      "uri": "textures/Material_39_baseColor.png"
+      "uri": "textures/material_39_base_color.png"
     },
     {
-      "uri": "textures/Material_39_metallicRoughness.png"
+      "uri": "textures/material_39_metallic_roughness.png"
     },
     {
-      "uri": "textures/Material_39_emissive.png"
+      "uri": "textures/material_39_emissive.png"
     },
     {
-      "uri": "textures/Material_39_normal.png"
+      "uri": "textures/material_39_normal.png"
     }
   ],
   "materials": [

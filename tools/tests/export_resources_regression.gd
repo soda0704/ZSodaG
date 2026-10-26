@@ -26,9 +26,9 @@ func run() -> void:
 	for path in manifest.roots:
 		if load(path) == null: unloadable.append(path)
 	check(unloadable.is_empty(), "all %d export roots load with their dependencies: %s" % [manifest.roots.size(), unloadable])
-	for path in ["res://assets/models/weapons/pistol.glb", "res://assets/characters/tactical_a/scene.gltf", "res://scenes/tests", "res://tools", "res://Blender", "res://assets/models/modular_scifi_megakit/models"]:
+	for path in ["res://assets/models/weapons/pistol.glb", "res://assets/characters/tactical_a/scene.gltf", "res://scenes/tests", "res://tools", "res://blender", "res://assets/models/modular_scifi_megakit/models"]:
 		check(not ResourceLoader.exists(path) and not DirAccess.dir_exists_absolute(path), "unused/source content is absent: " + path)
-	for path in ["res://network_build.cfg", "res://game_actions_480.vdf", "res://assets/models/ITEM_MODEL_CREDITS.md"]:
+	for path in ["res://network_build.cfg", "res://game_actions_480.vdf", "res://assets/models/item_model_credits.md"]:
 		check(FileAccess.file_exists(path), "runtime configuration or attribution is packaged: " + path)
 	print("EXPORT RESOURCES RESULT ", failures)
 	quit(0 if failures.is_empty() else 1)

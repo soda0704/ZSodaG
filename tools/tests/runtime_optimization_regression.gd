@@ -16,7 +16,7 @@ func check(ok:bool,label:String):
  if not ok:failures+=1
  print("PASS " if ok else "FAIL ",label)
 func run():
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
  for i in 8:await physics_frame
  var state=base.get_node("BaseGameplayController");state.progress_persistence_enabled=false;state.set_process(false)
  var terminal=base.get_node("Floor_0_Base_Blockout/DayTwoTaskTerminal")

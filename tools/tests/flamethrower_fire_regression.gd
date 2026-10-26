@@ -27,7 +27,7 @@ func burst(seconds: float) -> void:
 		var dt:=minf(.1,left);left-=dt
 		flame.set_trigger_authoritative(true);flame.step_authoritative(dt)
 func run() -> void:
-	base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
+	base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
 	for frame in 5:await physics_frame
 	root.get_node("GameMenu").force_close_menu()
 	state=base.get_node("BaseGameplayController");state.set_process(false)

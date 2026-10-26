@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/T_Trim_02_BaseColor_Red.png" id="1_bpsty"]
+[ext_resource type="Texture2D" path="res://assets/models/modular_scifi_megakit/textures/t_trim_02_base_color_red.png" id="1_bpsty"]
 
 [resource]
 resource_name = "MI_Trim_02"

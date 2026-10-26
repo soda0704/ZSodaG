@@ -11,7 +11,7 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures += 1
 
 func run() -> void:
-	var level: Node3D = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var level: Node3D = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	level.network_runtime_managed = true
 	var lighting: WorldLighting = level.get_node("WorldLighting")
 	var red := true

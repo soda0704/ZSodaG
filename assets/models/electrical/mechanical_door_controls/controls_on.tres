@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3]
-[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/MechDoorCtrl_baseColor.jpeg" id="base"]
-[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/MechDoorCtrl_normal.jpeg" id="normal"]
-[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/MechDoorCtrl_metallicRoughness.png" id="metal"]
-[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/MechDoorCtrl_emissive.jpeg" id="emissive"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/mech_door_ctrl_base_color.jpeg" id="base"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/mech_door_ctrl_normal.jpeg" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/mech_door_ctrl_metallic_roughness.png" id="metal"]
+[ext_resource type="Texture2D" path="res://assets/models/electrical/mechanical_door_controls/textures/mech_door_ctrl_emissive.jpeg" id="emissive"]
 [resource]
 albedo_texture = ExtResource("base")
 metallic = 1.0

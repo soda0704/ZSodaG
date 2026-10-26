@@ -592,28 +592,28 @@
   ],
   "images": [
     {
-      "uri": "textures/SnowmobileBODY_baseColor.png"
+      "uri": "textures/snowmobile_body_base_color.png"
     },
     {
-      "uri": "textures/SnowmobileBODY_metallicRoughness.png"
+      "uri": "textures/snowmobile_body_metallic_roughness.png"
     },
     {
-      "uri": "textures/base_material_baseColor.png"
+      "uri": "textures/base_material_base_color.png"
     },
     {
-      "uri": "textures/TRACKS_baseColor.png"
+      "uri": "textures/tracks_base_color.png"
     },
     {
-      "uri": "textures/Plastic_metallicRoughness.png"
+      "uri": "textures/plastic_metallic_roughness.png"
     },
     {
-      "uri": "textures/Glass_metallicRoughness.png"
+      "uri": "textures/glass_metallic_roughness.png"
     },
     {
-      "uri": "textures/Handlebars_baseColor.jpeg"
+      "uri": "textures/handlebars_base_color.jpeg"
     },
     {
-      "uri": "textures/Handlebars_metallicRoughness.png"
+      "uri": "textures/handlebars_metallic_roughness.png"
     }
   ],
   "materials": [

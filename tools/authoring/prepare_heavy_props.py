@@ -132,9 +132,9 @@ for index,(name,parts) in enumerate(sorted(groups.items())):finish("concrete_joi
 objs=load(ROOT/"tools/.local/heavy-props-source/workbench/model.gltf")
 repair_download_materials(ROOT/"tools/.local/heavy-props-source/workbench/textures")
 finish("powered_workbench",objs,2.4,ratio=1)
-objs=load(ROOT/"Blender/East_Living/CommonRoom/sofa_grey_fabric.glb")
+objs=load(ROOT/"blender/east_living/common_room/sofa_grey_fabric.glb")
 finish("sofa",objs,2.5,turn=True,ratio=.35)
-objs=load(ROOT/"Blender/East_Living/CommonRoom/old_bench.glb")
+objs=load(ROOT/"blender/east_living/common_room/old_bench.glb")
 finish("bench",objs,3.2,turn=True,ratio=1)
 # Keep one copy of identical material maps across both joists. glTF references
 # the shared textures directly, avoiding embedded+extracted duplicate images.

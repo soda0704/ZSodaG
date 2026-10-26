@@ -32,7 +32,7 @@ func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1600,1000)
 	DirAccess.make_dir_recursive_absolute(capture_dir)
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await ticks(70)

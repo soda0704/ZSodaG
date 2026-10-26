@@ -6,7 +6,7 @@
 [node name="WallBandCornerRoundInner" type="Node3D" unique_id=682569971]
 editor_description = "WallBand_Corner_Round_Inner — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "WallBand_Corner_Round_Inner"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/WallBand_Corner_Round_Inner.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/wall_band_corner_round_inner.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=951297291]

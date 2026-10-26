@@ -448,7 +448,7 @@ func _on_lobby_joined(
 		str(_steam.call("getLobbyData", lobby_id, "network_version")),
 		str(_steam.call("getLobbyData", lobby_id, "build_identity"))
 	):
-		fail_session("Несовместимая сборка. Оба игрока должны обновить проект и пересобрать игру через NorthernLab.cmd.")
+		fail_session("Несовместимая сборка. Оба игрока должны обновить проект и пересобрать игру через northern_lab.cmd.")
 		return
 	lobby_entered.emit(lobby_id, is_host)
 	lobby_members_changed.emit(get_lobby_members())

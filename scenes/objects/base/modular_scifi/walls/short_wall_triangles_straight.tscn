@@ -6,7 +6,7 @@
 [node name="ShortWallTrianglesStraight" type="Node3D" unique_id=920567135]
 editor_description = "ShortWall_Triangles_Straight — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "ShortWall_Triangles_Straight"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Straight.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/short_wall_triangles_straight.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=980880661]

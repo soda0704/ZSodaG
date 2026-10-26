@@ -118,7 +118,7 @@ func run() -> void:
 	check(table.grips.size() == 1 and absf(table.position.y) < .12, "partner release returns the remaining solo carrier to floor dragging")
 	actors[0].get_node("ItemDrag").cancel()
 	# Real fitted door + the existing automatic/pry manager, without other floors.
-	var floor_zero = load("res://scenes/levels/Floor_0_Base_Blockout.tscn").instantiate()
+	var floor_zero = load("res://scenes/levels/floor_0_base_blockout.tscn").instantiate()
 	var doors = floor_zero.get_node("Doors")
 	floor_zero.remove_child(doors)
 	floor_zero.free()

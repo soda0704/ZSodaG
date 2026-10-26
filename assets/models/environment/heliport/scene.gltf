@@ -274,12 +274,12 @@
       "max": [
         999.14892578125,
         3.078556537628174,
-        997.1773071289063
+        997.1773071289062
       ],
       "min": [
         -999.14892578125,
         0.0,
-        -997.1773071289063
+        -997.1773071289062
       ],
       "type": "VEC3"
     },
@@ -407,37 +407,37 @@
   ],
   "images": [
     {
-      "uri": "textures/material_baseColor.png"
+      "uri": "textures/material_base_color.png"
     },
     {
-      "uri": "textures/material_metallicRoughness.png"
+      "uri": "textures/material_metallic_roughness.png"
     },
     {
       "uri": "textures/material_normal.png"
     },
     {
-      "uri": "textures/material_1_baseColor.png"
+      "uri": "textures/material_1_base_color.png"
     },
     {
-      "uri": "textures/material_1_metallicRoughness.png"
+      "uri": "textures/material_1_metallic_roughness.png"
     },
     {
       "uri": "textures/material_1_normal.png"
     },
     {
-      "uri": "textures/material_2_baseColor.png"
+      "uri": "textures/material_2_base_color.png"
     },
     {
-      "uri": "textures/material_2_metallicRoughness.png"
+      "uri": "textures/material_2_metallic_roughness.png"
     },
     {
       "uri": "textures/material_2_normal.png"
     },
     {
-      "uri": "textures/material_3_baseColor.png"
+      "uri": "textures/material_3_base_color.png"
     },
     {
-      "uri": "textures/material_3_metallicRoughness.png"
+      "uri": "textures/material_3_metallic_roughness.png"
     },
     {
       "uri": "textures/material_3_normal.png"

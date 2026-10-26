@@ -1,5 +1,5 @@
 extends SceneTree
-const LEVEL = preload("res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn")
+const LEVEL = preload("res://scenes/levels/floor_minus1_control_security_blockout.tscn")
 const ROUTE_LAYER := 1048576
 var failures := 0
 var checks := 0

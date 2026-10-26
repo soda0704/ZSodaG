@@ -6,7 +6,7 @@
 [node name="ShortWallTrianglesCornerOuter" type="Node3D" unique_id=1351027116]
 editor_description = "ShortWall_Triangles_Corner_Outer — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "ShortWall_Triangles_Corner_Outer"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/ShortWall_Triangles_Corner_Outer.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/short_wall_triangles_corner_outer.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=593721268]

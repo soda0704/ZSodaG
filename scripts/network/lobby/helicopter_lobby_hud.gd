@@ -80,12 +80,6 @@ func _on_gameplay_started() -> void:
 	refresh()
 
 
-func play_flight_transition() -> void:
-	var transition_id := show_transition_cover("ПОДЛЁТ К БАЗЕ...")
-	await get_tree().create_timer(0.45).timeout
-	reveal_transition_cover(transition_id)
-
-
 func show_transition_cover(message: String) -> int:
 	_transition_generation += 1
 	if is_instance_valid(_transition_tween):

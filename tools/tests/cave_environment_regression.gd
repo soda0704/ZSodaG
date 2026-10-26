@@ -9,7 +9,7 @@ func run():
 	root.get_node("GameMenu/GraphicsQuality").set_process(false)
 	var camera:=Camera3D.new();root.add_child(camera);camera.current=true
 	var world:=Node3D.new();root.add_child(world)
-	var cave=load("res://scenes/levels/Cave_Day7.tscn").instantiate();world.add_child(cave)
+	var cave=load("res://scenes/levels/cave_day7.tscn").instantiate();world.add_child(cave)
 	var snow=load("res://scenes/levels/snow_exterior.tscn").instantiate();snow.set_script(null);world.add_child(snow)
 	snow.get_node("Terrain3D").collision_mode=Terrain3DCollision.FULL_GAME
 	for frame in 6:await physics_frame

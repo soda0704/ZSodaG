@@ -197,16 +197,16 @@
   ],
   "images": [
     {
-      "uri": "textures/MechDoorCtrl_baseColor.jpeg"
+      "uri": "textures/mech_door_ctrl_base_color.jpeg"
     },
     {
-      "uri": "textures/MechDoorCtrl_metallicRoughness.png"
+      "uri": "textures/mech_door_ctrl_metallic_roughness.png"
     },
     {
-      "uri": "textures/MechDoorCtrl_emissive.jpeg"
+      "uri": "textures/mech_door_ctrl_emissive.jpeg"
     },
     {
-      "uri": "textures/MechDoorCtrl_normal.jpeg"
+      "uri": "textures/mech_door_ctrl_normal.jpeg"
     }
   ],
   "materials": [

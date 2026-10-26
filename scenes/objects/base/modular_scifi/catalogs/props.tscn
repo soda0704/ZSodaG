@@ -37,7 +37,7 @@ editor_description = "Library preview. Drag individual scenes from the category 
 editor_description = "Prop_AccessPoint — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9604645e-08, -1.1117718, 0.009164929)
 metadata/quaternius_source_model = "Prop_AccessPoint"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_AccessPoint.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_access_point.gltf"
 metadata/library_category = "props"
 
 [node name="Label0" type="Label3D" parent="." unique_id=1406495479]
@@ -52,7 +52,7 @@ font_size = 40
 editor_description = "Prop_Barrel_Large — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.008179725, 0)
 metadata/quaternius_source_model = "Prop_Barrel_Large"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Barrel_Large.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_barrel_large.gltf"
 metadata/library_category = "props"
 
 [node name="Label1" type="Label3D" parent="." unique_id=2047057840]
@@ -67,7 +67,7 @@ font_size = 40
 editor_description = "Prop_Cable_1 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.979382, 0.01830253, -0.24840993)
 metadata/quaternius_source_model = "Prop_Cable_1"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Cable_1.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_cable_1.gltf"
 metadata/library_category = "props"
 
 [node name="Label2" type="Label3D" parent="." unique_id=258434284]
@@ -82,7 +82,7 @@ font_size = 40
 editor_description = "Prop_Cable_3 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.372395, 0.013042437, -0.03996706)
 metadata/quaternius_source_model = "Prop_Cable_3"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Cable_3.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_cable_3.gltf"
 metadata/library_category = "props"
 
 [node name="Label3" type="Label3D" parent="." unique_id=2079864333]
@@ -97,7 +97,7 @@ font_size = 40
 editor_description = "Prop_Chest — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -0.0032356798, -0.012021184)
 metadata/quaternius_source_model = "Prop_Chest"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Chest.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_chest.gltf"
 metadata/library_category = "props"
 metadata/available_animations = Array[String](["Chest_Close", "Chest_Idle_Closed", "Chest_Idle_Open", "Chest_Open"])
 
@@ -113,7 +113,7 @@ font_size = 40
 editor_description = "Prop_Clamp — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.081038415, 0.00440094, -11.989918)
 metadata/quaternius_source_model = "Prop_Clamp"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Clamp.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_clamp.gltf"
 metadata/library_category = "props"
 
 [node name="Label5" type="Label3D" parent="." unique_id=476321890]
@@ -128,7 +128,7 @@ font_size = 40
 editor_description = "Prop_Computer — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.0011917204, -12.065)
 metadata/quaternius_source_model = "Prop_Computer"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Computer.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_computer.gltf"
 metadata/library_category = "props"
 
 [node name="Label6" type="Label3D" parent="." unique_id=2027587613]
@@ -143,7 +143,7 @@ font_size = 40
 editor_description = "Prop_Crate3 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.5, -12)
 metadata/quaternius_source_model = "Prop_Crate3"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Crate3.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_crate3.gltf"
 metadata/library_category = "props"
 
 [node name="Label7" type="Label3D" parent="." unique_id=1790577049]
@@ -158,7 +158,7 @@ font_size = 40
 editor_description = "Prop_Crate4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.56043476, -12)
 metadata/quaternius_source_model = "Prop_Crate4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Crate4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_crate4.gltf"
 metadata/library_category = "props"
 
 [node name="Label8" type="Label3D" parent="." unique_id=1542322301]
@@ -173,7 +173,7 @@ font_size = 40
 editor_description = "Prop_Fan_Small — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.054996673, -12)
 metadata/quaternius_source_model = "Prop_Fan_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_fan_small.gltf"
 metadata/library_category = "props"
 metadata/available_animations = Array[String](["Fan_Idle"])
 
@@ -189,7 +189,7 @@ font_size = 40
 editor_description = "Prop_Fan_Small_Propeller — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.364418e-07, 0.054997, -24)
 metadata/quaternius_source_model = "Prop_Fan_Small_Propeller"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Fan_Small_Propeller.obj"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_fan_small_propeller.obj"
 metadata/library_category = "props"
 
 [node name="Label10" type="Label3D" parent="." unique_id=1180688691]
@@ -204,7 +204,7 @@ font_size = 40
 editor_description = "Prop_ItemHolder — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0468855, 0.0040887445, -24.02707)
 metadata/quaternius_source_model = "Prop_ItemHolder"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_ItemHolder.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_item_holder.gltf"
 metadata/library_category = "props"
 
 [node name="Label11" type="Label3D" parent="." unique_id=1340600558]
@@ -219,7 +219,7 @@ font_size = 40
 editor_description = "Prop_Light_Corner — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.158445, 0.14768468, -21.89085)
 metadata/quaternius_source_model = "Prop_Light_Corner"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Corner.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_light_corner.gltf"
 metadata/library_category = "props"
 
 [node name="Label12" type="Label3D" parent="." unique_id=977596523]
@@ -234,7 +234,7 @@ font_size = 40
 editor_description = "Prop_Light_Floor — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.0012871493, -24)
 metadata/quaternius_source_model = "Prop_Light_Floor"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Floor.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_light_floor.gltf"
 metadata/library_category = "props"
 
 [node name="Label13" type="Label3D" parent="." unique_id=1392532605]
@@ -249,7 +249,7 @@ font_size = 40
 editor_description = "Prop_Light_Small — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.430428, 0.14768012, -24)
 metadata/quaternius_source_model = "Prop_Light_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_light_small.gltf"
 metadata/library_category = "props"
 
 [node name="Label14" type="Label3D" parent="." unique_id=1630770932]
@@ -264,7 +264,7 @@ font_size = 40
 editor_description = "Prop_Light_Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66012216, 0.14768012, -36)
 metadata/quaternius_source_model = "Prop_Light_Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_light_wide.gltf"
 metadata/library_category = "props"
 
 [node name="Label15" type="Label3D" parent="." unique_id=268876614]
@@ -279,7 +279,7 @@ font_size = 40
 editor_description = "Prop_PipeHolder — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.005346, -0.0077525526, -36)
 metadata/quaternius_source_model = "Prop_PipeHolder"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_PipeHolder.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_pipe_holder.gltf"
 metadata/library_category = "props"
 
 [node name="Label16" type="Label3D" parent="." unique_id=623891639]
@@ -294,7 +294,7 @@ font_size = 40
 editor_description = "Prop_Rail_2 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.00238, -5.9604645e-08, -35)
 metadata/quaternius_source_model = "Prop_Rail_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_2.gltf"
 metadata/library_category = "props"
 
 [node name="Label17" type="Label3D" parent="." unique_id=1366891836]
@@ -309,7 +309,7 @@ font_size = 40
 editor_description = "Prop_Rail_3 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.00238, -5.9604645e-08, -34.506424)
 metadata/quaternius_source_model = "Prop_Rail_3"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_3.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_3.gltf"
 metadata/library_category = "props"
 
 [node name="Label18" type="Label3D" parent="." unique_id=1277229257]
@@ -324,7 +324,7 @@ font_size = 40
 editor_description = "Prop_Rail_4 — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.99899, -5.9604645e-08, -34)
 metadata/quaternius_source_model = "Prop_Rail_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_4.gltf"
 metadata/library_category = "props"
 
 [node name="Label19" type="Label3D" parent="." unique_id=1449866005]
@@ -339,7 +339,7 @@ font_size = 40
 editor_description = "Prop_Rail_Incline_Long_L — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09607799, -0.0029671192, -50.000267)
 metadata/quaternius_source_model = "Prop_Rail_Incline_Long_L"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_L.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_incline_long_l.gltf"
 metadata/library_category = "props"
 
 [node name="Label20" type="Label3D" parent="." unique_id=72712622]
@@ -354,7 +354,7 @@ font_size = 40
 editor_description = "Prop_Rail_Incline_Long_R — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.903922, -0.0029672384, -50.000267)
 metadata/quaternius_source_model = "Prop_Rail_Incline_Long_R"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Long_R.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_incline_long_r.gltf"
 metadata/library_category = "props"
 
 [node name="Label21" type="Label3D" parent="." unique_id=275634654]
@@ -369,7 +369,7 @@ font_size = 40
 editor_description = "Prop_Rail_Incline_Short_L — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.098974, -0.0029671192, -48.9893)
 metadata/quaternius_source_model = "Prop_Rail_Incline_Short_L"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_L.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_incline_short_l.gltf"
 metadata/library_category = "props"
 
 [node name="Label22" type="Label3D" parent="." unique_id=1746029754]
@@ -384,7 +384,7 @@ font_size = 40
 editor_description = "Prop_Rail_Incline_Short_R — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.901026, 0.3209411, -49.006138)
 metadata/quaternius_source_model = "Prop_Rail_Incline_Short_R"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Incline_Short_R.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_incline_short_r.gltf"
 metadata/library_category = "props"
 
 [node name="Label23" type="Label3D" parent="." unique_id=396582217]
@@ -399,7 +399,7 @@ font_size = 40
 editor_description = "Prop_Rail_Round_Big — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.964752, -5.820766e-08, -45.994797)
 metadata/quaternius_source_model = "Prop_Rail_Round_Big"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Big.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_round_big.gltf"
 metadata/library_category = "props"
 
 [node name="Label24" type="Label3D" parent="." unique_id=1025264822]
@@ -414,7 +414,7 @@ font_size = 40
 editor_description = "Prop_Rail_Round_Small — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0309727, -5.6810677e-08, -58.953266)
 metadata/quaternius_source_model = "Prop_Rail_Round_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_Round_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_round_small.gltf"
 metadata/library_category = "props"
 
 [node name="Label25" type="Label3D" parent="." unique_id=1097445932]
@@ -429,7 +429,7 @@ font_size = 40
 editor_description = "Prop_Vent_Big — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.06878673, -59.993034)
 metadata/quaternius_source_model = "Prop_Vent_Big"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Big.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_vent_big.gltf"
 metadata/library_category = "props"
 
 [node name="Label26" type="Label3D" parent="." unique_id=1096677704]
@@ -444,7 +444,7 @@ font_size = 40
 editor_description = "Prop_Vent_Small — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.5100138e-08, -60)
 metadata/quaternius_source_model = "Prop_Vent_Small"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Small.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_vent_small.gltf"
 metadata/library_category = "props"
 
 [node name="Label27" type="Label3D" parent="." unique_id=354889849]
@@ -459,7 +459,7 @@ font_size = 40
 editor_description = "Prop_Vent_Wide — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.000004, 0, -60.01338)
 metadata/quaternius_source_model = "Prop_Vent_Wide"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Wide.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_vent_wide.gltf"
 metadata/library_category = "props"
 
 [node name="Label28" type="Label3D" parent="." unique_id=314097270]

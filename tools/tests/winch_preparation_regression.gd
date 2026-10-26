@@ -33,7 +33,7 @@ func press(control: WinchPreparationControl) -> void:
 	player.try_authoritative_interaction()
 
 func run() -> void:
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base); current_scene = base
 	await settle()
 	state = base.get_node("BaseGameplayController")

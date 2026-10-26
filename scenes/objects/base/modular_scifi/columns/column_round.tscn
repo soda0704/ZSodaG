@@ -6,7 +6,7 @@
 [node name="ColumnRound" type="Node3D" unique_id=47813399]
 editor_description = "Column_Round — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Column_Round"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_Round.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/column_round.gltf"
 metadata/library_category = "columns"
 
 [node name="Visual" type="Node3D" parent="." unique_id=87617603]

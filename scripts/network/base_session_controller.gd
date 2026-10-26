@@ -28,7 +28,7 @@ const ITEM_SCENES := {
 	&"battery": preload("res://scenes/objects/items/battery_pickup.tscn"),
 	&"fuel_can": preload("res://scenes/objects/items/fuel_can_pickup.tscn"),
 }
-const V3_LEVEL_PATH := "res://scenes/levels/Base_Blockout_v03.tscn"
+const V3_LEVEL_PATH := "res://scenes/levels/base_blockout_v03.tscn"
 const DEFAULT_GAMEPLAY_SPAWN_POSITIONS := [
 	Vector3(-2.5, 0.05, 4.0),
 	Vector3(2.5, 0.05, 4.0),
@@ -75,6 +75,7 @@ var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
 var resume_base_on_start: bool = false
 var _inventory_save_elapsed: float = 0.0
+var _inventory_checkpoint_pending := false
 var _v3_ready_peers: Array[int] = []
 var _transition_player_physics: Dictionary = {}
 
@@ -108,6 +109,19 @@ func _process(delta: float) -> void:
 func save_inventory_checkpoint(periodic: bool = false) -> void:
 	if multiplayer.is_server() and _v3_items_spawned and is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.save_progress_authoritative(periodic)
+
+
+func queue_inventory_checkpoint() -> void:
+	if not multiplayer.is_server() or _inventory_checkpoint_pending:
+		return
+	_inventory_checkpoint_pending = true
+	_flush_inventory_checkpoint.call_deferred()
+
+
+func _flush_inventory_checkpoint() -> void:
+	if not _inventory_checkpoint_pending: return
+	_inventory_checkpoint_pending = false
+	save_inventory_checkpoint()
 
 
 func _inventory_id(peer_id: int) -> String:
@@ -937,6 +951,7 @@ func _on_peer_joined(peer_id: int) -> void:
 
 
 func _on_session_closed(_reason: String) -> void:
+	_inventory_checkpoint_pending = false
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.progress_persistence_enabled = false
 	_v3_ready_peers.clear()

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ch5em6a8lc1vj"]
 
 [ext_resource type="PackedScene" uid="uid://xq0svllwlmjc" path="res://scenes/objects/base/modular_scifi/ceilings/ceiling_squares.tscn" id="1_pum0e"]
-[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_BaseColor_clear.png" id="2_858v1"]
-[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_ORM_clear.png" id="3_1lw76"]
-[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/T_Trim_02_Normal_clear.png" id="4_m6dos"]
+[ext_resource type="Texture2D" uid="uid://dfwi27uv8y0mp" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_base_color_clear.png" id="2_858v1"]
+[ext_resource type="Texture2D" uid="uid://o6aaqp4y1ubu" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_orm_clear.png" id="3_1lw76"]
+[ext_resource type="Texture2D" uid="uid://donhjvu2mptv3" path="res://assets/models/modular_scifi_megakit/textures/flat/t_trim_02_normal_clear.png" id="4_m6dos"]
 [ext_resource type="PackedScene" uid="uid://bxlb5ktay3rfx" path="res://scenes/objects/base/modular_scifi/floors/platform_squares.tscn" id="5_858v1"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/bottom_metal_straight.tscn" id="6_1lw76"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_window.tscn" id="7_873xm"]

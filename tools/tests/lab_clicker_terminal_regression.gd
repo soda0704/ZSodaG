@@ -49,7 +49,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(1440, 900))
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await settle()

@@ -26,7 +26,7 @@ func run() -> void:
 	var menu = root.get_node("GameMenu")
 	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
 	menu.force_close_menu()
-	var world = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var world = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	world.get_node("BaseGameplayController").progress_persistence_enabled = false
 	root.add_child(world)
 	await settle()

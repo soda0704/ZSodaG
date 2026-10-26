@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/furniture/bed/Bed_bed_low_parts_Bed_AlbedoTransparency.png" id="1_qjfjv"]
-[ext_resource type="Texture2D" path="res://assets/models/furniture/bed/Bed_bed_low_parts_Bed_Normal.png" id="2_4iwnw"]
+[ext_resource type="Texture2D" path="res://assets/models/furniture/bed/bed_bed_low_parts_bed_albedo_transparency.png" id="1_qjfjv"]
+[ext_resource type="Texture2D" path="res://assets/models/furniture/bed/bed_bed_low_parts_bed_normal.png" id="2_4iwnw"]
 
 [resource]
 resource_name = "Bed matte fabric and painted frame"

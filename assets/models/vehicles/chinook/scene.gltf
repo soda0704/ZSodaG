@@ -189,7 +189,7 @@
       "min": [
         5.949444770812988,
         0.4514523446559906,
-        1.4140396118164063
+        1.4140396118164062
       ],
       "type": "VEC3"
     },
@@ -279,7 +279,7 @@
       "min": [
         5.949444770812988,
         -1.047858476638794,
-        1.4140396118164063
+        1.4140396118164062
       ],
       "type": "VEC3"
     },
@@ -724,7 +724,7 @@
       "max": [
         3.039508819580078,
         0.40295732021331787,
-        1.0043411254882813
+        1.0043411254882812
       ],
       "min": [
         2.8703160285949707,
@@ -1588,14 +1588,14 @@
       "componentType": 5126,
       "count": 26,
       "max": [
-        0.19248983263969421,
+        0.1924898326396942,
         -5.509664058685303,
         2.7379984855651855
       ],
       "min": [
         -0.15887290239334106,
         -5.851076126098633,
-        2.4434280395507813
+        2.4434280395507812
       ],
       "type": "VEC3"
     },
@@ -1692,34 +1692,34 @@
   ],
   "images": [
     {
-      "uri": "textures/Chinook_Exterior_baseColor.png"
+      "uri": "textures/chinook_exterior_base_color.png"
     },
     {
-      "uri": "textures/Chinook_Exterior_metallicRoughness.png"
+      "uri": "textures/chinook_exterior_metallic_roughness.png"
     },
     {
-      "uri": "textures/Chinook_Exterior_normal.png"
+      "uri": "textures/chinook_exterior_normal.png"
     },
     {
-      "uri": "textures/Chinook_Exterior_specularf0.png"
+      "uri": "textures/chinook_exterior_specularf0.png"
     },
     {
-      "uri": "textures/Chinook_Interior_baseColor.png"
+      "uri": "textures/chinook_interior_base_color.png"
     },
     {
-      "uri": "textures/Chinook_InteriorAlpha_metallicRoughness.png"
+      "uri": "textures/chinook_interior_alpha_metallic_roughness.png"
     },
     {
-      "uri": "textures/Chinook_InteriorAlpha_normal.png"
+      "uri": "textures/chinook_interior_alpha_normal.png"
     },
     {
-      "uri": "textures/Chinook_InteriorAlpha_specularf0.png"
+      "uri": "textures/chinook_interior_alpha_specularf0.png"
     },
     {
-      "uri": "textures/Chinook_Interior_baseColor.png"
+      "uri": "textures/chinook_interior_base_color.png"
     },
     {
-      "uri": "textures/Chinook_Interior_metallicRoughness.png"
+      "uri": "textures/chinook_interior_metallic_roughness.png"
     }
   ],
   "materials": [

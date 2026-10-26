@@ -6,7 +6,7 @@
 [node name="ColumnMetalSupportCurve" type="Node3D" unique_id=1208743495]
 editor_description = "Column_MetalSupport_Curve — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Column_MetalSupport_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/Column_MetalSupport_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/columns/column_metal_support_curve.gltf"
 metadata/library_category = "columns"
 
 [node name="Visual" type="Node3D" parent="." unique_id=942072391]

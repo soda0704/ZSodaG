@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/crafting/cola_source/textures/Material.001_baseColor.png" id="1_gonqo"]
+[ext_resource type="Texture2D" path="res://assets/models/crafting/cola_source/textures/material.001_base_color.png" id="1_gonqo"]
 
 [resource]
 resource_name = "Material.001"

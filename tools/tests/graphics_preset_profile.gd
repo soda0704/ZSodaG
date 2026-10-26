@@ -25,7 +25,7 @@ func run():
 	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(2560,1440)
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	var level = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var level = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	level.network_runtime_managed = true
 	root.add_child(level)
 	current_scene = level

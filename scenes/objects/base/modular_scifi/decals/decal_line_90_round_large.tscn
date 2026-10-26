@@ -5,7 +5,7 @@
 [node name="DecalLine90RoundLarge" type="Node3D" unique_id=1476740897]
 editor_description = "Decal_Line_90_Round_Large — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Decal_Line_90_Round_Large"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_90_Round_Large.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_90_round_large.gltf"
 metadata/library_category = "decals"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1756197933]

@@ -125,13 +125,13 @@
   ],
   "images": [
     {
-      "uri": "textures/SolarPanel_baseColor.png"
+      "uri": "textures/solar_panel_base_color.png"
     },
     {
-      "uri": "textures/SolarPanel_metallicRoughness.png"
+      "uri": "textures/solar_panel_metallic_roughness.png"
     },
     {
-      "uri": "textures/SolarPanel_normal.png"
+      "uri": "textures/solar_panel_normal.png"
     }
   ],
   "materials": [

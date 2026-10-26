@@ -1,11 +1,11 @@
 [gd_scene format=4]
 
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_BaseColor.png" id="1_jsf3a"]
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_ORM.png" id="2_rgvyf"]
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_Normal.png" id="3_2fqfv"]
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_BaseColor.png" id="4_xksbc"]
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_ORM.png" id="5_5xu6n"]
-[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_Normal.png" id="6_3fark"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_base_color.png" id="1_jsf3a"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_orm.png" id="2_rgvyf"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_frame_normal.png" id="3_2fqfv"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_base_color.png" id="4_xksbc"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_orm.png" id="5_5xu6n"]
+[ext_resource type="Texture2D" path="res://assets/models/doors/living_hermetic_door/living_hermetic_door_doors_normal.png" id="6_3fark"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/door.ogg" id="sound_DoorAudio"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_js4nq"]

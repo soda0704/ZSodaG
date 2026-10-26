@@ -5,7 +5,7 @@
 [node name="DecalLineBend1L" type="Node3D" unique_id=965381326]
 editor_description = "Decal_Line_Bend1_L — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Decal_Line_Bend1_L"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_Line_Bend1_L.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_line_bend1_l.gltf"
 metadata/library_category = "decals"
 
 [node name="Visual" type="Node3D" parent="." unique_id=559638602]

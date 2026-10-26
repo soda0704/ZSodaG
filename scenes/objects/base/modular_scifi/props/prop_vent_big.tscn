@@ -6,7 +6,7 @@
 [node name="PropVentBig" type="Node3D" unique_id=32648651]
 editor_description = "Prop_Vent_Big — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Vent_Big"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Vent_Big.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_vent_big.gltf"
 metadata/library_category = "props"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1291528236]

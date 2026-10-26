@@ -85,7 +85,7 @@ func run() -> void:
 	bench.queue_free()
 	controller.queue_free()
 	await process_frame
-	var floor:Node3D=load("res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn").instantiate()
+	var floor:Node3D=load("res://scenes/levels/floor_minus1_control_security_blockout.tscn").instantiate()
 	arena.add_child(floor)
 	camera.position=Vector3(-10,1.65,.1)
 	camera.look_at(Vector3(-16,.8,0))

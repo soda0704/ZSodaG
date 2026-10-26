@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/aliens/Alien_Oculichrysalis.gltf" id="1_am3v1"]
+[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/aliens/alien_oculichrysalis.gltf" id="1_am3v1"]
 
 [node name="AlienOculichrysalis" type="Node3D" unique_id=798433856]
 editor_description = "Alien_Oculichrysalis — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Alien_Oculichrysalis"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Oculichrysalis.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/alien_oculichrysalis.gltf"
 metadata/library_category = "aliens"
 metadata/available_animations = Array[String](["Alien_Idle"])
 

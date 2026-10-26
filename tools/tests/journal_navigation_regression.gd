@@ -44,7 +44,7 @@ func run() -> void:
 	service.set_process(false)
 	service.set_process_input(false)
 	service.native_input_available = false
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	current_scene = base
 	await ticks(75)

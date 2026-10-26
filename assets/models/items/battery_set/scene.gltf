@@ -1048,31 +1048,31 @@
   ],
   "images": [
     {
-      "uri": "textures/Amazan_baseColor.png"
+      "uri": "textures/amazan_base_color.png"
     },
     {
-      "uri": "textures/Ikae_baseColor.png"
+      "uri": "textures/ikae_base_color.png"
     },
     {
-      "uri": "textures/Amazan_2_baseColor.png"
+      "uri": "textures/amazan_2_base_color.png"
     },
     {
-      "uri": "textures/Ansfrau_baseColor.png"
+      "uri": "textures/ansfrau_base_color.png"
     },
     {
-      "uri": "textures/Misusubi_baseColor.png"
+      "uri": "textures/misusubi_base_color.png"
     },
     {
-      "uri": "textures/Blender_baseColor.png"
+      "uri": "textures/blender_base_color.png"
     },
     {
-      "uri": "textures/Batria_baseColor.png"
+      "uri": "textures/batria_base_color.png"
     },
     {
-      "uri": "textures/Varita_baseColor.png"
+      "uri": "textures/varita_base_color.png"
     },
     {
-      "uri": "textures/Varita_2_baseColor.png"
+      "uri": "textures/varita_2_base_color.png"
     }
   ],
   "materials": [

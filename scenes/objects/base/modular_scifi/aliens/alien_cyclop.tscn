@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/aliens/Alien_Cyclop.gltf" id="1_tpq2o"]
+[ext_resource type="PackedScene" path="res://assets/models/modular_scifi_megakit/models/aliens/alien_cyclop.gltf" id="1_tpq2o"]
 
 [node name="AlienCyclop" type="Node3D" unique_id=314222483]
 editor_description = "Alien_Cyclop — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Alien_Cyclop"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Cyclop.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/alien_cyclop.gltf"
 metadata/library_category = "aliens"
 metadata/available_animations = Array[String](["Alien_Idle"])
 

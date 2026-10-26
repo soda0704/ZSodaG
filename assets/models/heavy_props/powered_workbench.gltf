@@ -1,1 +1,216 @@
-{"asset": {"generator": "Khronos glTF Blender I/O v5.1.18", "version": "2.0"}, "scene": 0, "scenes": [{"name": "Scene", "nodes": [0]}], "nodes": [{"mesh": 0, "name": "powered_workbench"}], "materials": [{"alphaMode": "BLEND", "doubleSided": true, "emissiveFactor": [1, 1, 1], "emissiveTexture": {"index": 0}, "name": "M_Workbench", "normalTexture": {"index": 1}, "pbrMetallicRoughness": {"baseColorTexture": {"index": 2}, "metallicRoughnessTexture": {"index": 3}}}], "meshes": [{"name": "workbench_LP_M_Workbench_0", "primitives": [{"attributes": {"POSITION": 0, "NORMAL": 1, "TEXCOORD_0": 2, "TEXCOORD_1": 3, "TEXCOORD_2": 4, "TEXCOORD_3": 5}, "indices": 6, "material": 0}]}], "textures": [{"sampler": 0, "source": 0}, {"sampler": 0, "source": 1}, {"sampler": 0, "source": 2}, {"sampler": 0, "source": 3}], "images": [{"mimeType": "image/png", "name": "T_Workbench_Emit", "uri": "textures/powered_workbench_T_Workbench_Emit.png"}, {"mimeType": "image/png", "name": "T_workbench_norm", "uri": "textures/powered_workbench_T_workbench_norm.png"}, {"mimeType": "image/png", "name": "T_workbench_diff", "uri": "textures/powered_workbench_T_workbench_diff.png"}, {"mimeType": "image/png", "name": "T_Workbench_Metal-T_Workbench_Rough", "uri": "textures/powered_workbench_T_Workbench_Metal-T_Workbench_Rough.png"}], "accessors": [{"bufferView": 0, "componentType": 5126, "count": 1000, "max": [1.2000000476837158, 2.8759572505950928, 0.780749499797821], "min": [-1.2000000476837158, 0, -0.780749499797821], "type": "VEC3"}, {"bufferView": 1, "componentType": 5126, "count": 1000, "type": "VEC3"}, {"bufferView": 2, "componentType": 5126, "count": 1000, "type": "VEC2"}, {"bufferView": 3, "componentType": 5126, "count": 1000, "type": "VEC2"}, {"bufferView": 4, "componentType": 5126, "count": 1000, "type": "VEC2"}, {"bufferView": 5, "componentType": 5126, "count": 1000, "type": "VEC2"}, {"bufferView": 6, "componentType": 5123, "count": 2226, "type": "SCALAR"}], "bufferViews": [{"buffer": 0, "byteLength": 12000, "byteOffset": 0, "target": 34962}, {"buffer": 0, "byteLength": 12000, "byteOffset": 12000, "target": 34962}, {"buffer": 0, "byteLength": 8000, "byteOffset": 24000, "target": 34962}, {"buffer": 0, "byteLength": 8000, "byteOffset": 32000, "target": 34962}, {"buffer": 0, "byteLength": 8000, "byteOffset": 40000, "target": 34962}, {"buffer": 0, "byteLength": 8000, "byteOffset": 48000, "target": 34962}, {"buffer": 0, "byteLength": 4452, "byteOffset": 56000, "target": 34963}], "samplers": [{"magFilter": 9729, "minFilter": 9987}], "buffers": [{"byteLength": 60452, "uri": "powered_workbench.bin"}]}
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v5.1.18",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "powered_workbench"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "M_Workbench",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "workbench_LP_M_Workbench_0",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2,
+            "TEXCOORD_1": 3,
+            "TEXCOORD_2": 4,
+            "TEXCOORD_3": 5
+          },
+          "indices": 6,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/png",
+      "name": "T_Workbench_Emit",
+      "uri": "textures/powered_workbench_t_workbench_emit.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "T_workbench_norm",
+      "uri": "textures/powered_workbench_t_workbench_norm.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "T_workbench_diff",
+      "uri": "textures/powered_workbench_t_workbench_diff.png"
+    },
+    {
+      "mimeType": "image/png",
+      "name": "T_Workbench_Metal-T_Workbench_Rough",
+      "uri": "textures/powered_workbench_t_workbench_metal_t_workbench_rough.png"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 1000,
+      "max": [
+        1.2000000476837158,
+        2.8759572505950928,
+        0.780749499797821
+      ],
+      "min": [
+        -1.2000000476837158,
+        0,
+        -0.780749499797821
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1000,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 1000,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 1000,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 1000,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 1000,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5123,
+      "count": 2226,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 12000,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12000,
+      "byteOffset": 12000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8000,
+      "byteOffset": 24000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8000,
+      "byteOffset": 32000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8000,
+      "byteOffset": 40000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8000,
+      "byteOffset": 48000,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4452,
+      "byteOffset": 56000,
+      "target": 34963
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 60452,
+      "uri": "powered_workbench.bin"
+    }
+  ]
+}

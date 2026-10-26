@@ -9,7 +9,7 @@ func run() -> void:
  var input_service = root.get_node("SteamInput")
  input_service.set_process(false)
  input_service.native_input_available = false
- var level = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var level = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(level)
  level.get_node("RuntimePlayers").queue_free()
  var camera = Camera3D.new()

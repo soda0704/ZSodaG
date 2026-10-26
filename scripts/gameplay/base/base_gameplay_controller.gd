@@ -11,6 +11,8 @@ signal lighting_fault_started()
 signal end_day_ready_changed(ready_peer_ids: Array[int])
 signal sleeping_state_changed(sleeping_peer_ids: Array[int])
 signal end_day_consensus_reached(day_index: int)
+signal save_notice_started(kind: String)
+signal save_notice_finished(kind: String, succeeded: bool)
 
 enum BasePhase {
 	ARRIVAL,
@@ -144,26 +146,6 @@ func get_snapshot() -> Dictionary:
 		end_day_ready_peer_ids,
 		sleeping_peer_ids
 	)
-
-
-func deliver_fuel_authoritative(peer_id: int) -> bool:
-	if not _can_mutate_for_peer(peer_id) or fuel_delivered:
-		return false
-	fuel_liters = 20.0
-	var next_phase := phase
-	if phase == BasePhase.ARRIVAL:
-		next_phase = BasePhase.RESTORING_POWER
-	_broadcast_snapshot(
-		_make_snapshot(
-			day_index,
-			next_phase,
-			true,
-			main_breaker_on,
-			end_day_ready_peer_ids,
-			sleeping_peer_ids
-		)
-	)
-	return true
 
 
 func activate_main_breaker_authoritative(peer_id: int) -> bool:
@@ -547,6 +529,9 @@ func save_progress_authoritative(periodic: bool = false, kind: String = "progres
 		return false
 	if periodic and Time.get_ticks_msec() - _last_checkpoint_msec < 5000:
 		return true
+	var show_notice := not periodic and kind in ["manual", "sleep"]
+	if show_notice:
+		_receive_save_notice.rpc(kind, false, false)
 	var config := ConfigFile.new()
 	var snapshot := _make_persistent_snapshot()
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -561,9 +546,20 @@ func save_progress_authoritative(periodic: bool = false, kind: String = "progres
 		config.set_value("base", str(key), snapshot[key])
 	if not ExpeditionSaveStore.write(config, save_scope, kind):
 		push_warning("Could not save expedition progress")
+		if show_notice:
+			_receive_save_notice.rpc(kind, true, false)
 		return false
 	_last_checkpoint_msec = Time.get_ticks_msec()
+	if show_notice:
+		_receive_save_notice.rpc(kind, true, true)
 	return true
+
+
+@rpc("authority", "call_local", "reliable")
+func _receive_save_notice(kind: String, finished: bool, succeeded: bool) -> void:
+	if kind not in ["manual", "sleep"]: return
+	if finished: save_notice_finished.emit(kind, succeeded)
+	else: save_notice_started.emit(kind)
 
 
 func save_story_checkpoint_authoritative(label: String) -> bool:

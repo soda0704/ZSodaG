@@ -8,7 +8,7 @@ func check(ok:bool,label:String) -> void:
 	print("PASS " if ok else "FAIL ",label)
 func run() -> void:
 	root.get_node("GameMenu").force_close_menu()
-	var level:Node3D=load("res://scenes/levels/Floor_Minus1_Control_Security_Blockout.tscn").instantiate()
+	var level:Node3D=load("res://scenes/levels/floor_minus1_control_security_blockout.tscn").instantiate()
 	root.add_child(level)
 	for frame in 90:await physics_frame
 	# Isolate beam clearance from the now-correct initially closed level doors.

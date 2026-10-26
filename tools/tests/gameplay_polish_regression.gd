@@ -13,7 +13,7 @@ func settle() -> void:
  for i in 8: await physics_frame
 func run() -> void:
  Engine.max_fps=120
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base);current_scene=base
  var state:BaseGameplayController=base.get_node("BaseGameplayController")
  state.progress_persistence_enabled=false;state.set_process(false)

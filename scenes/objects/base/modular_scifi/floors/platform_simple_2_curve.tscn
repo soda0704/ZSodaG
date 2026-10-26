@@ -6,7 +6,7 @@
 [node name="PlatformSimple2Curve" type="Node3D" unique_id=581156625]
 editor_description = "Platform_Simple2_Curve — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Platform_Simple2_Curve"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Simple2_Curve.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_simple2_curve.gltf"
 metadata/library_category = "floors"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1758618649]

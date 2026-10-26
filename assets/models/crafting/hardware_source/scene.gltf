@@ -11,7 +11,7 @@
       ],
       "min": [
         -57.4837532043457,
-        -92.17056274414063,
+        -92.17056274414062,
         7.365173816680908
       ],
       "type": "VEC3"
@@ -96,7 +96,7 @@
   ],
   "images": [
     {
-      "uri": "textures/material_0_baseColor.png"
+      "uri": "textures/material_0_base_color.png"
     }
   ],
   "materials": [

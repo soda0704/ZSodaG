@@ -2,7 +2,7 @@
 [ext_resource type="Script" path="res://scripts/gameplay/items/world_item_pickup.gd" id="item"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/seed_packet_model.tscn" id="model"]
 [sub_resource type="BoxShape3D" id="shape"]
-size = Vector3(0.082, 0.13, 0.012)
+size = Vector3(0.082, 0.13, 0.04)
 [node name="SeedPacketPickup" type="RigidBody3D"]
 collision_layer = 4
 collision_mask = 1

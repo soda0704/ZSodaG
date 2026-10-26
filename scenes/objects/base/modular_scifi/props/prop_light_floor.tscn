@@ -6,7 +6,7 @@
 [node name="PropLightFloor" type="Node3D" unique_id=1927104993]
 editor_description = "Prop_Light_Floor — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Light_Floor"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Light_Floor.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_light_floor.gltf"
 metadata/library_category = "props"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1392226310]

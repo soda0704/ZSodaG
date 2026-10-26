@@ -6,7 +6,7 @@
 [node name="PropRail4" type="Node3D" unique_id=843722218]
 editor_description = "Prop_Rail_4 — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Prop_Rail_4"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/Prop_Rail_4.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/props/prop_rail_4.gltf"
 metadata/library_category = "props"
 
 [node name="Visual" type="Node3D" parent="." unique_id=434527341]

@@ -160,7 +160,7 @@ func run() -> void:
 	main.queue_free()
 	current_scene = null
 	await process_frame
-	var world = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var world = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	world.get_node("BaseGameplayController").progress_persistence_enabled = false
 	root.add_child(world)
 	current_scene = world

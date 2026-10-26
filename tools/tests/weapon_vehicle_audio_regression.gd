@@ -6,7 +6,7 @@ func check(value:bool,label:String):
  if not value: failures.append(label)
 func run():
  ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://weapon_vehicle_audio_test.cfg")
- var base=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+ var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
  root.add_child(base)
  root.get_node("GameMenu").force_close_menu()
  await process_frame

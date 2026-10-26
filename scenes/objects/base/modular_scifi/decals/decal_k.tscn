@@ -5,7 +5,7 @@
 [node name="DecalK" type="Node3D" unique_id=1928509652]
 editor_description = "Decal_K — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "Decal_K"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/Decal_K.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/decals/decal_k.gltf"
 metadata/library_category = "decals"
 
 [node name="Visual" type="Node3D" parent="." unique_id=1026605769]

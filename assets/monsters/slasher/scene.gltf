@@ -105,7 +105,7 @@
         0.0,
         119.78253936767578,
         94.39501190185547,
-        140.92239379882813,
+        140.92239379882812,
         1.0
       ],
       "min": [
@@ -171,12 +171,12 @@
       "count": 121,
       "max": [
         1.0658141036401503e-14,
-        9.519668579101563,
+        9.519668579101562,
         2.1819205284118652
       ],
       "min": [
         -1.0658141036401503e-14,
-        9.519668579101563,
+        9.519668579101562,
         2.1819205284118652
       ],
       "type": "VEC3"
@@ -1544,7 +1544,7 @@
       "count": 122,
       "max": [
         20.708660125732422,
-        95.79641723632813,
+        95.79641723632812,
         -0.24440240859985352
       ],
       "min": [
@@ -2235,13 +2235,13 @@
   ],
   "images": [
     {
-      "uri": "textures/Scene_-_Root_baseColor.png"
+      "uri": "textures/scene___root_base_color.png"
     },
     {
-      "uri": "textures/Scene_-_Root_metallicRoughness.png"
+      "uri": "textures/scene___root_metallic_roughness.png"
     },
     {
-      "uri": "textures/Scene_-_Root_normal.png"
+      "uri": "textures/scene___root_normal.png"
     }
   ],
   "materials": [
@@ -2481,7 +2481,7 @@
       "name": "mixamorig:Head_06",
       "translation": [
         0.0,
-        9.519668579101563,
+        9.519668579101562,
         2.1819205284118652
       ]
     },
@@ -2489,7 +2489,7 @@
       "name": "mixamorig:HeadTop_End_07",
       "translation": [
         0.0,
-        19.917007446289063,
+        19.917007446289062,
         4.565004348754883
       ]
     },

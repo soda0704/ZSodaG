@@ -12,7 +12,7 @@ func check(value: bool, label: String) -> void:
 
 func run() -> void:
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, "user://sprint_boost_test.cfg")
-	var base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	root.get_node("GameMenu").force_close_menu()
 	await process_frame

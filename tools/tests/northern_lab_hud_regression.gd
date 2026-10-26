@@ -99,7 +99,7 @@ func review_helicopter() -> void:
 func review_base() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1920, 1080)
-	var base: Node3D = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var base: Node3D = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	state = base.get_node("BaseGameplayController")
 	state.progress_persistence_enabled = false
 	root.add_child(base)

@@ -21,7 +21,7 @@ func walk_to(target: Vector3, seconds: float):
 		player.velocity = direction.normalized()*4 + Vector3.DOWN*3
 		player.move_and_slide()
 func run():
-	world = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	world = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(world)
 	root.get_node("GameMenu").force_close_menu()
 	await create_timer(2).timeout

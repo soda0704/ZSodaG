@@ -1,7 +1,7 @@
 extends SceneTree
 ## LOCAL, OFFLINE art pass. Saves editor-visible rock instances and edits only
 ## the failed external lip. Does not regenerate or straighten the cave route.
-const SCENE := "res://scenes/levels/Cave_Day7.tscn"
+const SCENE := "res://scenes/levels/cave_day7.tscn"
 const OUT := "res://assets/environments/cave/rocks/"
 const BACKUP := "res://tools/.local/cave-reference/sculpt_before_local/"
 var cave:Node3D

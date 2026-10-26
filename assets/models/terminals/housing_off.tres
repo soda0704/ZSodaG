@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_baseColor.png" id="base"]
-[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_metallicRoughness.png" id="metal"]
-[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/Material_normal.png" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/material_base_color.png" id="base"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/material_metallic_roughness.png" id="metal"]
+[ext_resource type="Texture2D" path="res://assets/models/terminals/scifi_terminal/textures/material_normal.png" id="normal"]
 
 [resource]
 albedo_texture = ExtResource("base")

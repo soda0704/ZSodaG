@@ -90,7 +90,7 @@ func run() -> void:
 				var point: Vector3 = arrays[Mesh.ARRAY_VERTEX][vertex]
 				if point.y < 0.08: soles.append({"arrays": arrays, "vertex": vertex, "side": 0 if point.x < 0 else 1})
 			if body.mesh.surface_get_material(surface).resource_name == "Mil_Suit_R5_Eyes": eyes = arrays
-			if body.mesh.surface_get_material(surface).resource_path.ends_with("Object_101_0.tres"): knee_shells = arrays
+			if body.mesh.surface_get_material(surface).resource_path.ends_with("object_101_0.tres"): knee_shells = arrays
 		check(actual_vertices == expected_vertices and actual_indices == expected_indices, "variant %d retains every source mesh including rigid parts (with the documented glove transfer)" % variant)
 		if variant == 1:
 			var original: MeshInstance3D = sources.b.filter(func(mesh): return mesh.skin == null)[0]

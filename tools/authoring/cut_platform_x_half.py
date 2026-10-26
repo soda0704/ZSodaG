@@ -11,7 +11,7 @@ FOLDER = ROOT / "assets/models/modular_scifi_megakit/models/platforms"
 
 
 def main():
-    source = FOLDER / "Platform_X.gltf"
+    source = FOLDER / "platform_x.gltf"
     model = json.loads(source.read_text(encoding="utf-8"))
     binary = (FOLDER / model["buffers"][0]["uri"]).read_bytes()
     primitive = model["meshes"][0]["primitives"][0]
@@ -58,8 +58,8 @@ def main():
         if "min" in accessor:
             accessor["min"] = [min(v[axis] for v in values) for axis in range(len(values[0]))]
             accessor["max"] = [max(v[axis] for v in values) for axis in range(len(values[0]))]
-    result["buffers"] = [{"byteLength": len(output), "uri": "Platform_X_Half.bin"}]
-    target = FOLDER / "Platform_X_Half.gltf"
+    result["buffers"] = [{"byteLength": len(output), "uri": "platform_x_half.bin"}]
+    target = FOLDER / "platform_x_half.gltf"
     target.with_suffix(".bin").write_bytes(output)
     target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     settings = target.with_suffix(".gltf.import")

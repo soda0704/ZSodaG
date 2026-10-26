@@ -6,7 +6,7 @@
 [node name="BottomSimpleCornerSquareOuter2" type="Node3D" unique_id=932936675]
 editor_description = "BottomSimple_Corner_Square_Outer_2 — Quaternius, CC0. Original scale and modular pivot."
 metadata/quaternius_source_model = "BottomSimple_Corner_Square_Outer_2"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/BottomSimple_Corner_Square_Outer_2.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/walls/bottom_simple_corner_square_outer_2.gltf"
 metadata/library_category = "walls"
 
 [node name="Visual" type="Node3D" parent="." unique_id=967428875]

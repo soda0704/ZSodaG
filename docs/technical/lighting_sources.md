@@ -33,7 +33,7 @@
 
 ## Основное освещение базы
 
-Сборочная сцена — `scenes/levels/Base_Blockout_v03.tscn`. Размещение ламп — `scenes/levels/world_lighting.tscn`.
+Сборочная сцена — `scenes/levels/base_blockout_v03.tscn`. Размещение ламп — `scenes/levels/world_lighting.tscn`.
 
 | Узел | Что делает | Управление |
 | --- | --- | --- |

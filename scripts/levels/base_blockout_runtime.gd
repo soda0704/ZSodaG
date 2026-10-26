@@ -155,10 +155,6 @@ func _arrival_marker(index: int) -> Marker3D:
 	return markers.get_child(index % markers.get_child_count()) as Marker3D
 
 
-func get_fuel_can_spawn_transform() -> Transform3D:
-	return get_fuel_can_spawn_transforms()[0]
-
-
 func get_seed_packet_spawn_transform() -> Transform3D:
 	return (get_node(seed_packet_spawn_path) as Marker3D).global_transform
 

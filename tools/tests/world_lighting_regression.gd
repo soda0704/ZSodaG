@@ -60,7 +60,7 @@ func run() -> void:
 	Engine.max_fps=60
 	if "--no-vsync" in OS.get_cmdline_user_args():DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
-	var level:BaseBlockoutRuntime=load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	var level:BaseBlockoutRuntime=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	level.network_runtime_managed=true
 	root.add_child(level)
 	var state:BaseGameplayController=level.get_node("BaseGameplayController")

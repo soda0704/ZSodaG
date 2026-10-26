@@ -11,7 +11,7 @@ editor_description = "Library preview. Drag individual scenes from the category 
 editor_description = "Alien_Cyclop — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0906438, -0.032642424)
 metadata/quaternius_source_model = "Alien_Cyclop"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Cyclop.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/alien_cyclop.gltf"
 metadata/library_category = "aliens"
 metadata/available_animations = Array[String](["Alien_Idle"])
 
@@ -27,7 +27,7 @@ font_size = 40
 editor_description = "Alien_Oculichrysalis — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8716927, 0.008370012)
 metadata/quaternius_source_model = "Alien_Oculichrysalis"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Oculichrysalis.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/alien_oculichrysalis.gltf"
 metadata/library_category = "aliens"
 metadata/available_animations = Array[String](["Alien_Idle"])
 
@@ -43,7 +43,7 @@ font_size = 40
 editor_description = "Alien_Scolitex — Quaternius, CC0. Original scale and modular pivot."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.081656, -0.8470614)
 metadata/quaternius_source_model = "Alien_Scolitex"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/Alien_Scolitex.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/aliens/alien_scolitex.gltf"
 metadata/library_category = "aliens"
 metadata/available_animations = Array[String](["Alien_Idle"])
 

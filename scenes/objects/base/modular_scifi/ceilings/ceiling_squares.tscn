@@ -6,7 +6,7 @@
 [node name="CeilingSquares" type="Node3D" unique_id=1089584292]
 editor_description = "Ceiling variant of Platform_Squares. Visible underside at Y=0; thickness above it."
 metadata/quaternius_source_model = "Platform_Squares"
-metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/Platform_Squares.gltf"
+metadata/source_path = "res://assets/models/modular_scifi_megakit/models/platforms/platform_squares.gltf"
 metadata/library_category = "ceilings"
 
 [node name="Visual" type="Node3D" parent="." unique_id=817142463]

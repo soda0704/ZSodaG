@@ -116,7 +116,7 @@
       "count": 1560,
       "max": [
         0.39773106575012207,
-        3.2658462524414063,
+        3.2658462524414062,
         13.867871284484863
       ],
       "min": [
@@ -565,7 +565,7 @@
       "max": [
         4.654299736022949,
         8.312372207641602,
-        -20.223648071289063
+        -20.223648071289062
       ],
       "min": [
         -4.654299259185791,
@@ -2189,7 +2189,7 @@
       "max": [
         3.8069088459014893,
         0.03014218807220459,
-        -9.595535278320313
+        -9.595535278320312
       ],
       "min": [
         -3.8069100379943848,
@@ -2501,7 +2501,7 @@
       "componentType": 5126,
       "count": 132,
       "max": [
-        0.9966506958007813,
+        0.9966506958007812,
         0.5295977592468262
       ],
       "min": [
@@ -3960,16 +3960,16 @@
   ],
   "images": [
     {
-      "uri": "textures/standardSurface2_baseColor.png"
+      "uri": "textures/standard_surface2_base_color.png"
     },
     {
-      "uri": "textures/standardSurface2_metallicRoughness.png"
+      "uri": "textures/standard_surface2_metallic_roughness.png"
     },
     {
-      "uri": "textures/standardSurface3_baseColor.png"
+      "uri": "textures/standard_surface3_base_color.png"
     },
     {
-      "uri": "textures/standardSurface3_metallicRoughness.png"
+      "uri": "textures/standard_surface3_metallic_roughness.png"
     }
   ],
   "materials": [

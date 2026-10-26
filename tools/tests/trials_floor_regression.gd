@@ -68,7 +68,7 @@ func run() -> void:
 	if DisplayServer.get_name() != "headless":
 		root.mode = Window.MODE_WINDOWED
 		root.size = Vector2i(1280, 720)
-	base = load("res://scenes/levels/Base_Blockout_v03.tscn").instantiate()
+	base = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(base)
 	root.get_node("GameMenu").force_close_menu()
 	await settle(12)

@@ -1,7 +1,7 @@
 extends SceneTree
 ## One-time upgrade of the user's edited workbench. Does not regenerate the base.
 const BENCH := "res://scenes/objects/crafting/flamethrower_workbench.tscn"
-const BASE := "res://scenes/levels/Base_Blockout_v03.tscn"
+const BASE := "res://scenes/levels/base_blockout_v03.tscn"
 func _initialize() -> void: run.call_deferred()
 func owned(root_node: Node, child: Node) -> void:
 	child.owner = root_node
