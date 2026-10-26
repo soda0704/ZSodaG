@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/top_simple_straight.tscn" id="8_x5og4"]
 [ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square_tall.tscn" id="9_x5og4"]
 [ext_resource type="PackedScene" uid="uid://cnjfr0fcvqr50" path="res://scenes/objects/base/modular_scifi/walls/wall_astra_straight_flat.tscn" id="10_qdm44"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_metal_support.tscn" id="11_d8tv3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/short_wall_metal_2_straight.tscn" id="11_fokv3"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/walls/wall_window_straight.tscn" id="11_jx6ta"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdm44"]
 resource_local_to_scene = true
@@ -283,23 +286,6 @@ ao_texture = ExtResource("3_1lw76")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07cs8"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("2_858v1")
-metallic = 1.0
-metallic_texture = ExtResource("3_1lw76")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("3_1lw76")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("4_m6dos")
-ao_enabled = true
-ao_texture = ExtResource("3_1lw76")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8o5g"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
@@ -335,23 +321,6 @@ texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qf8do"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("2_858v1")
-metallic = 1.0
-metallic_texture = ExtResource("3_1lw76")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("3_1lw76")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("4_m6dos")
-ao_enabled = true
-ao_texture = ExtResource("3_1lw76")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5d16"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
 cull_mode = 2
@@ -419,7 +388,92 @@ ao_texture = ExtResource("3_1lw76")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07cs8"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("2_858v1")
+metallic = 1.0
+metallic_texture = ExtResource("3_1lw76")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_1lw76")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m6dos")
+ao_enabled = true
+ao_texture = ExtResource("3_1lw76")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5d16"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("2_858v1")
+metallic = 1.0
+metallic_texture = ExtResource("3_1lw76")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_1lw76")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m6dos")
+ao_enabled = true
+ao_texture = ExtResource("3_1lw76")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6sgxh"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("2_858v1")
+metallic = 1.0
+metallic_texture = ExtResource("3_1lw76")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_1lw76")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m6dos")
+ao_enabled = true
+ao_texture = ExtResource("3_1lw76")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hntkr"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("2_858v1")
+metallic = 1.0
+metallic_texture = ExtResource("3_1lw76")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_1lw76")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m6dos")
+ao_enabled = true
+ao_texture = ExtResource("3_1lw76")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ljha4"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("2_858v1")
+metallic = 1.0
+metallic_texture = ExtResource("3_1lw76")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_1lw76")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m6dos")
+ao_enabled = true
+ao_texture = ExtResource("3_1lw76")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72t0s"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
 cull_mode = 2
@@ -505,10 +559,25 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 
 [node name="TopSimpleStraight" parent="Visual/Wall" unique_id=1562250650 instance=ExtResource("8_x5og4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
+[node name="WallAstraStraightFlat" parent="Visual/Wall" unique_id=1456797421 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0000005, -0.2, -7.995001)
+
+[node name="WallAstraStraightFlat2" parent="Visual/Wall" unique_id=1479135588 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -1, -1.9999994, -0.2, -7.995001)
+
+[node name="TopSimpleStraight2" parent="Visual/Wall" unique_id=553546056 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1.1, 0, 0, 0, 1, 2.0000005, -0.5, -7.995001)
+
 [node name="Door" type="Node3D" parent="Visual" unique_id=812293713]
 
 [node name="DoorFrameSquareTall" parent="Visual/Door" unique_id=1238789026 instance=ExtResource("9_x5og4")]
-transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 2.4, -32, 0, 1.8)
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 2.4, -32, 0, 1.6)
+
+[node name="DoorFrameSquareTall2" parent="Visual/Door" unique_id=550253865 instance=ExtResource("9_x5og4")]
+transform = Transform3D(-2.6226834e-08, 0, 1, 0, 0.6, 0, -0.6, 0, -4.371139e-08, -26, 0, 4.5)
+
+[node name="DoorFrameSquareTall3" parent="Visual/Door" unique_id=1072509688 instance=ExtResource("9_x5og4")]
+transform = Transform3D(-2.6226834e-08, 0, 1, 0, 0.6, 0, -0.6, 0, -4.371139e-08, -18, 0, -3.5)
 
 [node name="TopSimpleStraight2" parent="Visual/Door" unique_id=1083227256 instance=ExtResource("8_x5og4")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1.1, 0, -1, 0, -4.371139e-08, -32.005, -0.5, -0.4)
@@ -612,12 +681,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 5.5, -6)
 [node name="Mesh0" parent="Visual/Ceiling/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(984042596, 817142463) index="0" unique_id=1234897938]
 surface_material_override/0 = SubResource("StandardMaterial3D_6h670")
 
-[node name="CeilingSquares17" parent="Visual/Ceiling" unique_id=688433936 instance=ExtResource("1_pum0e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 5.5, 6)
-
-[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares17/Visual" parent_id_path=PackedInt32Array(688433936, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_07cs8")
-
 [node name="CeilingSquares18" parent="Visual/Ceiling" unique_id=923611911 instance=ExtResource("1_pum0e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 5.5, 2)
 
@@ -635,12 +698,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 5.5, -6)
 
 [node name="Mesh0" parent="Visual/Ceiling/CeilingSquares20/Visual" parent_id_path=PackedInt32Array(1322684562, 817142463) index="0" unique_id=1234897938]
 surface_material_override/0 = SubResource("StandardMaterial3D_qf8do")
-
-[node name="CeilingSquares21" parent="Visual/Ceiling" unique_id=1893536460 instance=ExtResource("1_pum0e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 5.5, 6)
-
-[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares21/Visual" parent_id_path=PackedInt32Array(1893536460, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_x5d16")
 
 [node name="CeilingSquares22" parent="Visual/Ceiling" unique_id=180206629 instance=ExtResource("1_pum0e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 5.5, 2)
@@ -660,11 +717,41 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 5.5, -6)
 [node name="Mesh0" parent="Visual/Ceiling/CeilingSquares24/Visual" parent_id_path=PackedInt32Array(1581470748, 817142463) index="0" unique_id=1234897938]
 surface_material_override/0 = SubResource("StandardMaterial3D_nxyqk")
 
-[node name="CeilingSquares25" parent="Visual/Ceiling" unique_id=1440486863 instance=ExtResource("1_pum0e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.5, 6)
+[node name="CeilingSquares29" parent="Visual/Ceiling" unique_id=885151821 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 3.5, 3.6)
 
-[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares25/Visual" parent_id_path=PackedInt32Array(1440486863, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares29/Visual" parent_id_path=PackedInt32Array(885151821, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_07cs8")
+
+[node name="CeilingSquares30" parent="Visual/Ceiling" unique_id=567258608 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 3.5, 7.6)
+
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares30/Visual" parent_id_path=PackedInt32Array(567258608, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_x5d16")
+
+[node name="CeilingSquares31" parent="Visual/Ceiling" unique_id=1485321902 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.5, 3.6)
+
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares31/Visual" parent_id_path=PackedInt32Array(1485321902, 817142463) index="0" unique_id=1234897938]
 surface_material_override/0 = SubResource("StandardMaterial3D_6sgxh")
+
+[node name="CeilingSquares32" parent="Visual/Ceiling" unique_id=272313792 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.5, 7.6)
+
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares32/Visual" parent_id_path=PackedInt32Array(272313792, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_hntkr")
+
+[node name="CeilingSquares33" parent="Visual/Ceiling" unique_id=1091926245 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3.5, 3.6)
+
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares33/Visual" parent_id_path=PackedInt32Array(1091926245, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_ljha4")
+
+[node name="CeilingSquares34" parent="Visual/Ceiling" unique_id=1800978726 instance=ExtResource("1_pum0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3.5, 7.6)
+
+[node name="Mesh0" parent="Visual/Ceiling/CeilingSquares34/Visual" parent_id_path=PackedInt32Array(1800978726, 817142463) index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_72t0s")
 
 [node name="CeilingSquares26" parent="Visual/Ceiling" unique_id=1898526030 instance=ExtResource("1_pum0e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 5.5, 2)
@@ -786,7 +873,7 @@ use_collision = true
 size = Vector3(0.3, 5.5, 1.75)
 
 [node name="Entrance_West_Wall_South_Outer_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1752512182]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 2.75, 5.875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.999825, 2.75, 5.875961)
 use_collision = true
 size = Vector3(0.3, 5.5, 4.25)
 
@@ -816,33 +903,33 @@ use_collision = true
 size = Vector3(0.3, 2.5, 1.5)
 
 [node name="Garage_Equipment_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1202411475]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, -3)
-use_collision = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, -2.0023584)
+visible = false
 size = Vector3(0.3, 5.5, 10)
 
 [node name="Garage_Equipment_South_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1410546067]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, 6.5)
-use_collision = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2.75, 7.4976416)
+visible = false
 size = Vector3(0.3, 5.5, 3)
 
 [node name="Garage_Equipment_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1538600450]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 4.25, 3.5)
-use_collision = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 4.25, 4.4976416)
+visible = false
 size = Vector3(0.3, 2.5, 3)
 
 [node name="Equipment_Decon_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1715646049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.75, -6.5)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 3)
 
 [node name="Equipment_Decon_South_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=867094865]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.75, 3)
-use_collision = true
+visible = false
 size = Vector3(0.3, 5.5, 10)
 
 [node name="Equipment_Decon_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=549763911]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 4.25, -3.5)
-use_collision = true
+visible = false
 size = Vector3(0.3, 2.5, 3)
 
 [node name="Garage_Vestibule_North_Wall" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1572197477]
@@ -852,17 +939,17 @@ size = Vector3(3, 3, 0.3)
 
 [node name="Garage_Vestibule_East_Wall_North_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=2031459426]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1.5, 2.927185)
-use_collision = true
+visible = false
 size = Vector3(0.3, 3, 2.64563)
 
 [node name="Garage_Vestibule_East_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1935793922]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.7, 5)
-use_collision = true
+visible = false
 size = Vector3(0.3, 0.6, 1.5175781)
 
 [node name="Garage_Vestibule_East_Wall_South_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1325461270]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 1.5, 6.9434743)
-use_collision = true
+visible = false
 size = Vector3(0.3, 3, 2.3641357)
 
 [node name="Garage_Cold_Warm_Divider_West_Segment" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1148497336]
@@ -877,7 +964,7 @@ size = Vector3(4.8, 3, 0.3)
 
 [node name="Garage_Warm_Zone_Ceiling" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=2034455778]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3.15, 4.898486)
-use_collision = true
+visible = false
 size = Vector3(12.3, 0.3, 6.5030274)
 
 [node name="Garage_Cold_Warm_Door_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=848219555]
@@ -885,29 +972,148 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2.7, 1.75)
 visible = false
 size = Vector3(2.4, 0.6, 0.3)
 
-[node name="BottomMetalStraight2" parent="." unique_id=1054206616 instance=ExtResource("6_1lw76")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -32, 0.01, 3)
+[node name="Decon_East_Exit_Header" type="CSGBox3D" parent="Blockout/Shared_Structure" unique_id=1177776950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3.75, 0)
+use_collision = true
+size = Vector3(0.3, 2.5, 4)
 
 [node name="BottomMetalStraight5" parent="." unique_id=799695392 instance=ExtResource("6_1lw76")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -28, 0.01, 3)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -28, 0, 3)
 
 [node name="BottomMetalStraight3" parent="." unique_id=663364944 instance=ExtResource("6_1lw76")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -36, 0.01, 3)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -36, 0, 3)
 
 [node name="BottomMetalStraight4" parent="." unique_id=1161337799 instance=ExtResource("6_1lw76")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.6, 0.01, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.6, 0, 3)
 
-[node name="Wall" type="Node3D" parent="." unique_id=1982828585]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -36, -0.2, 1.6)
+[node name="Wall" type="Node3D" parent="." unique_id=262075909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 1.1)
 
-[node name="WallAstraStraightFlat" parent="Wall" unique_id=1456797421 instance=ExtResource("10_qdm44")]
+[node name="WallAstraStraightFlat" parent="Wall" unique_id=416960156 instance=ExtResource("10_qdm44")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="WallAstraStraightFlat2" parent="Wall" unique_id=1479135588 instance=ExtResource("10_qdm44")]
+[node name="WallAstraStraightFlat2" parent="Wall" unique_id=915128010 instance=ExtResource("10_qdm44")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
 
-[node name="TopSimpleStraight2" parent="Wall" unique_id=553546056 instance=ExtResource("8_x5og4")]
-transform = Transform3D(1, 0, 0, 0, 1.1, 0, 0, 0, 1, 2, -0.3, 0)
+[node name="WallAstraStraightFlat3" parent="Wall" unique_id=52295056 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6.8)
+
+[node name="WallAstraStraightFlat4" parent="Wall" unique_id=403128877 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 6.8)
+
+[node name="TopSimpleStraight" parent="Wall" unique_id=792219142 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="TopSimpleStraight2" parent="Wall" unique_id=176055767 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="TopSimpleStraight3" parent="Wall" unique_id=2060746025 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, 7.6)
+
+[node name="Wall2" type="Node3D" parent="." unique_id=1776104995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -2.9)
+
+[node name="WallAstraStraightFlat" parent="Wall2" unique_id=2000843472 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="WallAstraStraightFlat2" parent="Wall2" unique_id=1403801055 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+
+[node name="TopSimpleStraight" parent="Wall2" unique_id=1322667188 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Wall3" type="Node3D" parent="." unique_id=685474487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -6.9)
+
+[node name="WallAstraStraightFlat" parent="Wall3" unique_id=753096456 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="WallAstraStraightFlat2" parent="Wall3" unique_id=1381259244 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+
+[node name="TopSimpleStraight" parent="Wall3" unique_id=264036442 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Wall4" type="Node3D" parent="." unique_id=346902857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -6.9)
+
+[node name="WallAstraStraightFlat" parent="Wall4" unique_id=1516202157 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="WallAstraStraightFlat2" parent="Wall4" unique_id=1765896544 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 0)
+
+[node name="WallAstraStraightFlat3" parent="Wall4" unique_id=1401340269 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6.8)
+
+[node name="WallAstraStraightFlat4" parent="Wall4" unique_id=1244051542 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 6.8)
+
+[node name="WallAstraStraightFlat5" parent="Wall4" unique_id=675038865 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6.8)
+
+[node name="WallAstraStraightFlat6" parent="Wall4" unique_id=903101672 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 6.8)
+
+[node name="WallAstraStraightFlat7" parent="Wall4" unique_id=1795326311 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10.8)
+
+[node name="WallAstraStraightFlat8" parent="Wall4" unique_id=1674432679 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 10.8)
+
+[node name="WallAstraStraightFlat9" parent="Wall4" unique_id=2049414359 instance=ExtResource("10_qdm44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 14.8)
+
+[node name="WallAstraStraightFlat10" parent="Wall4" unique_id=499444927 instance=ExtResource("10_qdm44")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 14.8)
+
+[node name="TopSimpleStraight" parent="Wall4" unique_id=103271556 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="TopSimpleStraight2" parent="Wall4" unique_id=289346250 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="TopSimpleStraight3" parent="Wall4" unique_id=85904281 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
+
+[node name="TopSimpleStraight4" parent="Wall4" unique_id=628465005 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 12)
+
+[node name="TopSimpleStraight5" parent="Wall4" unique_id=1324101849 instance=ExtResource("8_x5og4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 2, 0, 15.6)
+
+[node name="Wall5" type="Node3D" parent="." unique_id=1911547385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.05, 0, 0)
+
+[node name="ColumnMetalSupport" parent="Wall5" unique_id=1556911759 instance=ExtResource("11_d8tv3")]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 2.88, 5)
+
+[node name="ShortWallMetal2Straight" parent="Wall5" unique_id=293900493 instance=ExtResource("11_fokv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79, 3, 3.6)
+
+[node name="ShortWallMetal2Straight2" parent="Wall5" unique_id=1501664848 instance=ExtResource("11_fokv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79, 3, 7.6)
+
+[node name="ShortWallMetal2Straight3" parent="Wall5" unique_id=746120433 instance=ExtResource("11_fokv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 3, 3.6)
+
+[node name="ShortWallMetal2Straight4" parent="Wall5" unique_id=1099213921 instance=ExtResource("11_fokv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 3, 7.6)
+
+[node name="WallWindowStraight" parent="Wall5" unique_id=1749569838 instance=ExtResource("11_jx6ta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 2.2, 0, 2.85)
+
+[node name="WallWindowStraight2" parent="Wall5" unique_id=974880187 instance=ExtResource("11_jx6ta")]
+transform = Transform3D(-1, 0, -6.119594e-08, 0, 1, 0, 8.742278e-08, 0, -0.7, -2.205, 0, 2.85)
+
+[node name="Wall6" type="Node3D" parent="." unique_id=658819854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.05, 0, 4.3)
+
+[node name="WallWindowStraight" parent="Wall6" unique_id=618989937 instance=ExtResource("11_jx6ta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.7, 2.2, 0, 2.85)
+
+[node name="WallWindowStraight2" parent="Wall6" unique_id=2140719963 instance=ExtResource("11_jx6ta")]
+transform = Transform3D(-1, 0, -6.119594e-08, 0, 1, 0, 8.742278e-08, 0, -0.7, -2.205, 0, 2.85)
 
 [editable path="Visual/Ceiling/CeilingSquares"]
 [editable path="Visual/Ceiling/CeilingSquares4"]
@@ -925,15 +1131,18 @@ transform = Transform3D(1, 0, 0, 0, 1.1, 0, 0, 0, 1, 2, -0.3, 0)
 [editable path="Visual/Ceiling/CeilingSquares14"]
 [editable path="Visual/Ceiling/CeilingSquares15"]
 [editable path="Visual/Ceiling/CeilingSquares16"]
-[editable path="Visual/Ceiling/CeilingSquares17"]
 [editable path="Visual/Ceiling/CeilingSquares18"]
 [editable path="Visual/Ceiling/CeilingSquares19"]
 [editable path="Visual/Ceiling/CeilingSquares20"]
-[editable path="Visual/Ceiling/CeilingSquares21"]
 [editable path="Visual/Ceiling/CeilingSquares22"]
 [editable path="Visual/Ceiling/CeilingSquares23"]
 [editable path="Visual/Ceiling/CeilingSquares24"]
-[editable path="Visual/Ceiling/CeilingSquares25"]
+[editable path="Visual/Ceiling/CeilingSquares29"]
+[editable path="Visual/Ceiling/CeilingSquares30"]
+[editable path="Visual/Ceiling/CeilingSquares31"]
+[editable path="Visual/Ceiling/CeilingSquares32"]
+[editable path="Visual/Ceiling/CeilingSquares33"]
+[editable path="Visual/Ceiling/CeilingSquares34"]
 [editable path="Visual/Ceiling/CeilingSquares26"]
 [editable path="Visual/Ceiling/CeilingSquares27"]
 [editable path="Visual/Ceiling/CeilingSquares28"]

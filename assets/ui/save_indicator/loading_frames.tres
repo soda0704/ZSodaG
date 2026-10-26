@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" load_steps=182 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://bli5rxhjkcorr"]
 
-[ext_resource type="Texture2D" path="res://assets/ui/save_indicator/loading_atlas.png" id="atlas"]
+[ext_resource type="Texture2D" uid="uid://ogsw07ku28p6" path="res://assets/ui/save_indicator/loading_atlas.png" id="atlas"]
 
 [sub_resource type="AtlasTexture" id="frame_0"]
 atlas = ExtResource("atlas")
@@ -724,185 +724,548 @@ region = Rect2(1408, 1792, 128, 128)
 
 [resource]
 animations = [{
-"frames": [{"duration": 1.0, "texture": SubResource("frame_0")},
-{"duration": 1.0, "texture": SubResource("frame_1")},
-{"duration": 1.0, "texture": SubResource("frame_2")},
-{"duration": 1.0, "texture": SubResource("frame_3")},
-{"duration": 1.0, "texture": SubResource("frame_4")},
-{"duration": 1.0, "texture": SubResource("frame_5")},
-{"duration": 1.0, "texture": SubResource("frame_6")},
-{"duration": 1.0, "texture": SubResource("frame_7")},
-{"duration": 1.0, "texture": SubResource("frame_8")},
-{"duration": 1.0, "texture": SubResource("frame_9")},
-{"duration": 1.0, "texture": SubResource("frame_10")},
-{"duration": 1.0, "texture": SubResource("frame_11")},
-{"duration": 1.0, "texture": SubResource("frame_12")},
-{"duration": 1.0, "texture": SubResource("frame_13")},
-{"duration": 1.0, "texture": SubResource("frame_14")},
-{"duration": 1.0, "texture": SubResource("frame_15")},
-{"duration": 1.0, "texture": SubResource("frame_16")},
-{"duration": 1.0, "texture": SubResource("frame_17")},
-{"duration": 1.0, "texture": SubResource("frame_18")},
-{"duration": 1.0, "texture": SubResource("frame_19")},
-{"duration": 1.0, "texture": SubResource("frame_20")},
-{"duration": 1.0, "texture": SubResource("frame_21")},
-{"duration": 1.0, "texture": SubResource("frame_22")},
-{"duration": 1.0, "texture": SubResource("frame_23")},
-{"duration": 1.0, "texture": SubResource("frame_24")},
-{"duration": 1.0, "texture": SubResource("frame_25")},
-{"duration": 1.0, "texture": SubResource("frame_26")},
-{"duration": 1.0, "texture": SubResource("frame_27")},
-{"duration": 1.0, "texture": SubResource("frame_28")},
-{"duration": 1.0, "texture": SubResource("frame_29")},
-{"duration": 1.0, "texture": SubResource("frame_30")},
-{"duration": 1.0, "texture": SubResource("frame_31")},
-{"duration": 1.0, "texture": SubResource("frame_32")},
-{"duration": 1.0, "texture": SubResource("frame_33")},
-{"duration": 1.0, "texture": SubResource("frame_34")},
-{"duration": 1.0, "texture": SubResource("frame_35")},
-{"duration": 1.0, "texture": SubResource("frame_36")},
-{"duration": 1.0, "texture": SubResource("frame_37")},
-{"duration": 1.0, "texture": SubResource("frame_38")},
-{"duration": 1.0, "texture": SubResource("frame_39")},
-{"duration": 1.0, "texture": SubResource("frame_40")},
-{"duration": 1.0, "texture": SubResource("frame_41")},
-{"duration": 1.0, "texture": SubResource("frame_42")},
-{"duration": 1.0, "texture": SubResource("frame_43")},
-{"duration": 1.0, "texture": SubResource("frame_44")},
-{"duration": 1.0, "texture": SubResource("frame_45")},
-{"duration": 1.0, "texture": SubResource("frame_46")},
-{"duration": 1.0, "texture": SubResource("frame_47")},
-{"duration": 1.0, "texture": SubResource("frame_48")},
-{"duration": 1.0, "texture": SubResource("frame_49")},
-{"duration": 1.0, "texture": SubResource("frame_50")},
-{"duration": 1.0, "texture": SubResource("frame_51")},
-{"duration": 1.0, "texture": SubResource("frame_52")},
-{"duration": 1.0, "texture": SubResource("frame_53")},
-{"duration": 1.0, "texture": SubResource("frame_54")},
-{"duration": 1.0, "texture": SubResource("frame_55")},
-{"duration": 1.0, "texture": SubResource("frame_56")},
-{"duration": 1.0, "texture": SubResource("frame_57")},
-{"duration": 1.0, "texture": SubResource("frame_58")},
-{"duration": 1.0, "texture": SubResource("frame_59")},
-{"duration": 1.0, "texture": SubResource("frame_60")},
-{"duration": 1.0, "texture": SubResource("frame_61")},
-{"duration": 1.0, "texture": SubResource("frame_62")},
-{"duration": 1.0, "texture": SubResource("frame_63")},
-{"duration": 1.0, "texture": SubResource("frame_64")},
-{"duration": 1.0, "texture": SubResource("frame_65")},
-{"duration": 1.0, "texture": SubResource("frame_66")},
-{"duration": 1.0, "texture": SubResource("frame_67")},
-{"duration": 1.0, "texture": SubResource("frame_68")},
-{"duration": 1.0, "texture": SubResource("frame_69")},
-{"duration": 1.0, "texture": SubResource("frame_70")},
-{"duration": 1.0, "texture": SubResource("frame_71")},
-{"duration": 1.0, "texture": SubResource("frame_72")},
-{"duration": 1.0, "texture": SubResource("frame_73")},
-{"duration": 1.0, "texture": SubResource("frame_74")},
-{"duration": 1.0, "texture": SubResource("frame_75")},
-{"duration": 1.0, "texture": SubResource("frame_76")},
-{"duration": 1.0, "texture": SubResource("frame_77")},
-{"duration": 1.0, "texture": SubResource("frame_78")},
-{"duration": 1.0, "texture": SubResource("frame_79")},
-{"duration": 1.0, "texture": SubResource("frame_80")},
-{"duration": 1.0, "texture": SubResource("frame_81")},
-{"duration": 1.0, "texture": SubResource("frame_82")},
-{"duration": 1.0, "texture": SubResource("frame_83")},
-{"duration": 1.0, "texture": SubResource("frame_84")},
-{"duration": 1.0, "texture": SubResource("frame_85")},
-{"duration": 1.0, "texture": SubResource("frame_86")},
-{"duration": 1.0, "texture": SubResource("frame_87")},
-{"duration": 1.0, "texture": SubResource("frame_88")},
-{"duration": 1.0, "texture": SubResource("frame_89")},
-{"duration": 1.0, "texture": SubResource("frame_90")},
-{"duration": 1.0, "texture": SubResource("frame_91")},
-{"duration": 1.0, "texture": SubResource("frame_92")},
-{"duration": 1.0, "texture": SubResource("frame_93")},
-{"duration": 1.0, "texture": SubResource("frame_94")},
-{"duration": 1.0, "texture": SubResource("frame_95")},
-{"duration": 1.0, "texture": SubResource("frame_96")},
-{"duration": 1.0, "texture": SubResource("frame_97")},
-{"duration": 1.0, "texture": SubResource("frame_98")},
-{"duration": 1.0, "texture": SubResource("frame_99")},
-{"duration": 1.0, "texture": SubResource("frame_100")},
-{"duration": 1.0, "texture": SubResource("frame_101")},
-{"duration": 1.0, "texture": SubResource("frame_102")},
-{"duration": 1.0, "texture": SubResource("frame_103")},
-{"duration": 1.0, "texture": SubResource("frame_104")},
-{"duration": 1.0, "texture": SubResource("frame_105")},
-{"duration": 1.0, "texture": SubResource("frame_106")},
-{"duration": 1.0, "texture": SubResource("frame_107")},
-{"duration": 1.0, "texture": SubResource("frame_108")},
-{"duration": 1.0, "texture": SubResource("frame_109")},
-{"duration": 1.0, "texture": SubResource("frame_110")},
-{"duration": 1.0, "texture": SubResource("frame_111")},
-{"duration": 1.0, "texture": SubResource("frame_112")},
-{"duration": 1.0, "texture": SubResource("frame_113")},
-{"duration": 1.0, "texture": SubResource("frame_114")},
-{"duration": 1.0, "texture": SubResource("frame_115")},
-{"duration": 1.0, "texture": SubResource("frame_116")},
-{"duration": 1.0, "texture": SubResource("frame_117")},
-{"duration": 1.0, "texture": SubResource("frame_118")},
-{"duration": 1.0, "texture": SubResource("frame_119")},
-{"duration": 1.0, "texture": SubResource("frame_120")},
-{"duration": 1.0, "texture": SubResource("frame_121")},
-{"duration": 1.0, "texture": SubResource("frame_122")},
-{"duration": 1.0, "texture": SubResource("frame_123")},
-{"duration": 1.0, "texture": SubResource("frame_124")},
-{"duration": 1.0, "texture": SubResource("frame_125")},
-{"duration": 1.0, "texture": SubResource("frame_126")},
-{"duration": 1.0, "texture": SubResource("frame_127")},
-{"duration": 1.0, "texture": SubResource("frame_128")},
-{"duration": 1.0, "texture": SubResource("frame_129")},
-{"duration": 1.0, "texture": SubResource("frame_130")},
-{"duration": 1.0, "texture": SubResource("frame_131")},
-{"duration": 1.0, "texture": SubResource("frame_132")},
-{"duration": 1.0, "texture": SubResource("frame_133")},
-{"duration": 1.0, "texture": SubResource("frame_134")},
-{"duration": 1.0, "texture": SubResource("frame_135")},
-{"duration": 1.0, "texture": SubResource("frame_136")},
-{"duration": 1.0, "texture": SubResource("frame_137")},
-{"duration": 1.0, "texture": SubResource("frame_138")},
-{"duration": 1.0, "texture": SubResource("frame_139")},
-{"duration": 1.0, "texture": SubResource("frame_140")},
-{"duration": 1.0, "texture": SubResource("frame_141")},
-{"duration": 1.0, "texture": SubResource("frame_142")},
-{"duration": 1.0, "texture": SubResource("frame_143")},
-{"duration": 1.0, "texture": SubResource("frame_144")},
-{"duration": 1.0, "texture": SubResource("frame_145")},
-{"duration": 1.0, "texture": SubResource("frame_146")},
-{"duration": 1.0, "texture": SubResource("frame_147")},
-{"duration": 1.0, "texture": SubResource("frame_148")},
-{"duration": 1.0, "texture": SubResource("frame_149")},
-{"duration": 1.0, "texture": SubResource("frame_150")},
-{"duration": 1.0, "texture": SubResource("frame_151")},
-{"duration": 1.0, "texture": SubResource("frame_152")},
-{"duration": 1.0, "texture": SubResource("frame_153")},
-{"duration": 1.0, "texture": SubResource("frame_154")},
-{"duration": 1.0, "texture": SubResource("frame_155")},
-{"duration": 1.0, "texture": SubResource("frame_156")},
-{"duration": 1.0, "texture": SubResource("frame_157")},
-{"duration": 1.0, "texture": SubResource("frame_158")},
-{"duration": 1.0, "texture": SubResource("frame_159")},
-{"duration": 1.0, "texture": SubResource("frame_160")},
-{"duration": 1.0, "texture": SubResource("frame_161")},
-{"duration": 1.0, "texture": SubResource("frame_162")},
-{"duration": 1.0, "texture": SubResource("frame_163")},
-{"duration": 1.0, "texture": SubResource("frame_164")},
-{"duration": 1.0, "texture": SubResource("frame_165")},
-{"duration": 1.0, "texture": SubResource("frame_166")},
-{"duration": 1.0, "texture": SubResource("frame_167")},
-{"duration": 1.0, "texture": SubResource("frame_168")},
-{"duration": 1.0, "texture": SubResource("frame_169")},
-{"duration": 1.0, "texture": SubResource("frame_170")},
-{"duration": 1.0, "texture": SubResource("frame_171")},
-{"duration": 1.0, "texture": SubResource("frame_172")},
-{"duration": 1.0, "texture": SubResource("frame_173")},
-{"duration": 1.0, "texture": SubResource("frame_174")},
-{"duration": 1.0, "texture": SubResource("frame_175")},
-{"duration": 1.0, "texture": SubResource("frame_176")},
-{"duration": 1.0, "texture": SubResource("frame_177")},
-{"duration": 1.0, "texture": SubResource("frame_178")},
-{"duration": 1.0, "texture": SubResource("frame_179")}],
-"loop": true, "name": &"save", "speed": 30.0
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("frame_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_12")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_13")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_14")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_15")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_16")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_17")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_18")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_19")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_20")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_21")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_22")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_23")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_24")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_25")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_26")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_27")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_28")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_29")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_30")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_31")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_32")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_33")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_34")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_35")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_36")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_37")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_38")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_39")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_40")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_41")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_42")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_43")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_44")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_45")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_46")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_47")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_48")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_49")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_50")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_51")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_52")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_53")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_54")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_55")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_56")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_57")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_58")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_59")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_60")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_61")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_62")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_63")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_64")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_65")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_66")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_67")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_68")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_69")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_70")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_71")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_72")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_73")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_74")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_75")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_76")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_77")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_78")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_79")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_80")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_81")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_82")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_83")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_84")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_85")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_86")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_87")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_88")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_89")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_90")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_91")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_92")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_93")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_94")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_95")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_96")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_97")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_98")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_99")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_100")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_101")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_102")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_103")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_104")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_105")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_106")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_107")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_108")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_109")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_110")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_111")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_112")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_113")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_114")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_115")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_116")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_117")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_118")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_119")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_120")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_121")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_122")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_123")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_124")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_125")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_126")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_127")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_128")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_129")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_130")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_131")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_132")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_133")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_134")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_135")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_136")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_137")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_138")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_139")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_140")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_141")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_142")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_143")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_144")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_145")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_146")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_147")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_148")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_149")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_150")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_151")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_152")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_153")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_154")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_155")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_156")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_157")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_158")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_159")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_160")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_161")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_162")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_163")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_164")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_165")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_166")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_167")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_168")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_169")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_170")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_171")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_172")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_173")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_174")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_175")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_176")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_177")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_178")
+}, {
+"duration": 1.0,
+"texture": SubResource("frame_179")
+}],
+"loop": 1,
+"name": &"save",
+"speed": 30.0
 }]

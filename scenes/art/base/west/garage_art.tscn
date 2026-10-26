@@ -78,11 +78,6 @@ size = Vector3(4, 1, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 1.8, 7.7)
 size = Vector3(4, 1.6, 0.1)
 
-[node name="Garage_Warm_Battery_Station_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=747060389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.24, 1.2, 6.3)
-size = Vector3(0.18, 2.4, 1.2)
-material = SubResource("StandardMaterial3D_hub_arrival")
-
 [node name="Garage_Warm_Supply_Cabinet_Blockout" type="CSGBox3D" parent="Blockout/Garage/Warm_Zone/Workstations" unique_id=211157489]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.45, 1.2, 6.5)
 use_collision = true
