@@ -11,11 +11,11 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures += 1
 
 func run() -> void:
-	var parent := ProjectSettings.globalize_path("res://") if OS.has_feature("editor") \
+	var parent := ProjectSettings.globalize_path("res://") if OS.has_feature("editor") and FileAccess.file_exists("res://project.godot") \
 		else OS.get_executable_path().get_base_dir()
 	var expected := parent.path_join("saves/expeditions")
 	check(ExpeditionSaveStore.default_root() == expected, "save root belongs to project/editor or exported executable")
-	check(expected.is_absolute_path(), "save location is independent of launch working directory")
+	check(ExpeditionSaveStore.default_root().is_absolute_path(), "save location is independent of launch working directory")
 	check(ExpeditionSaveStore.directory("solo") == expected.path_join("solo_1"), "default solo slot uses local saves folder")
 	check(ExpeditionSaveStore.directory("coop") == expected.path_join("coop_1"), "default coop slot uses local saves folder")
 	# Exercise the real local filesystem without touching ordinary expedition slots.

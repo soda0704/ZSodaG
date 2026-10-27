@@ -18,7 +18,9 @@ static func select(scope: String, number: int) -> void:
 
 static func default_root() -> String:
 	# In the editor the executable belongs to Godot, not to this project.
-	var base_dir := ProjectSettings.globalize_path("res://") if OS.has_feature("editor") \
+	# An editor binary running --main-pack has no physical res:// directory.
+	var project_dir := ProjectSettings.globalize_path("res://")
+	var base_dir := project_dir if OS.has_feature("editor") and project_dir.is_absolute_path() \
 		else OS.get_executable_path().get_base_dir()
 	return base_dir.path_join(DEFAULT_ROOT)
 

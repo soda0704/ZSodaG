@@ -108,13 +108,25 @@ def path_rewriter(plan):
     return lambda value: expression.sub(lambda m: substitutions[m[0]], value)
 
 
-def rewrite_gltf(data, old, new, mapping):
+def rewrite_embedded_images(data, old, new, mapping):
     for image in data.get('images', []):
         if 'bufferView' in image and image.get('name'):
             extracted = str(PurePosixPath(old).parent / (PurePosixPath(old).stem + '_' + image['name']))
-            if extracted in mapping:
+            candidates = [extracted] if extracted in mapping else []
+            if not PurePosixPath(image['name']).suffix:
+                extensions = {'image/jpeg': ['.jpg', '.jpeg'], 'image/png': ['.png'],
+                              'image/webp': ['.webp']}.get(image.get('mimeType'), [])
+                candidates += [extracted + ext for ext in extensions if extracted + ext in mapping]
+            if len(candidates) > 1:
+                raise RuntimeError('Ambiguous extracted image: ' + extracted)
+            if candidates:
                 prefix = PurePosixPath(new).stem + '_'
-                image['name'] = PurePosixPath(mapping[extracted]).name.removeprefix(prefix)
+                image['name'] = PurePosixPath(mapping[candidates[0]]).name.removeprefix(prefix)
+    return data
+
+
+def rewrite_gltf(data, old, new, mapping):
+    rewrite_embedded_images(data, old, new, mapping)
     for group in ("images", "buffers"):
         for entry in data.get(group, []):
             uri = entry.get("uri", "")

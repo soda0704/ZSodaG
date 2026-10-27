@@ -1581,5 +1581,91 @@
     "missing_buffer": "common_room_art0.bin",
     "runtime_export": false,
     "missing_before_migration": true
+  },
+  "completion_verification": {
+    "date": "2026-10-27",
+    "script_integrity": {
+      "scripts": 144,
+      "scenes": 516,
+      "bindings": 229,
+      "connections": 1,
+      "failures": 0
+    },
+    "cooperative_process_restart_checks": 58,
+    "gltf_glb_geometry_checked": 253,
+    "gltf_glb_geometry_failures": 0,
+    "naming_violations": 0,
+    "documentation_errors": 0,
+    "export_dependencies": 1501,
+    "package_suites": {
+      "export_resources_regression": {
+        "checks": 12,
+        "passed": true
+      },
+      "export_new_game_regression": {
+        "checks": 16,
+        "passed": true
+      },
+      "controls_binding_regression": {
+        "checks": 44,
+        "passed": true
+      },
+      "save_location_regression": {
+        "checks": 16,
+        "passed": true
+      },
+      "expedition_save_slots_regression": {
+        "checks": 53,
+        "passed": true
+      },
+      "console_sleep_regression": {
+        "checks": 29,
+        "passed": true
+      },
+      "checkpoint_write_coalescing_regression": {
+        "checks": 13,
+        "passed": true
+      },
+      "expedition_menu_regression": {
+        "checks": 18,
+        "passed": true
+      },
+      "expedition_resume_regression": {
+        "checks": 22,
+        "passed": true
+      },
+      "plant_watering_regression": {
+        "checks": 33,
+        "passed": true
+      },
+      "elevator_reliability_regression": {
+        "checks": 30,
+        "passed": true
+      },
+      "medical_corpse_recovery_regression": {
+        "checks": 40,
+        "passed": true
+      },
+      "gameplay_polish_regression": {
+        "checks": 20,
+        "passed": true
+      },
+      "menu_export_render_regression": {
+        "checks": 46,
+        "passed": true
+      },
+      "northern_lab_hud_regression": {
+        "checks": 146,
+        "passed": true
+      }
+    },
+    "resolved_verification_failures": [
+      {
+        "suite": "save_location_regression",
+        "issue": "editor binary opening a pack returned an empty physical res:// path; fixed with absolute project-directory guard"
+      }
+    ],
+    "save_location": "saves/expeditions beside the game executable; physical project directory when running source in the editor",
+    "embedded_knife_texture_duplicates_removed": 2
   }
 }

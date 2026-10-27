@@ -48,6 +48,10 @@ def check(path):
             errors.append(f"missing link target: {target}")
     for value in CODE.findall(body):
         value = value.removeprefix("res://")
+        # Generated screenshots/logs/manifests need not exist in a fresh checkout.
+        # Markdown links still require an actual target, including local outputs.
+        if value.startswith("tools/.local/"):
+            continue
         if not value.startswith(LOCAL_PREFIXES) or any(c in value for c in ("*", "{", "}", " ")):
             continue
         if value.endswith("/") or Path(value).suffix in FILE_EXTENSIONS:

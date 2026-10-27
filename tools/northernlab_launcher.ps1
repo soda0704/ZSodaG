@@ -531,6 +531,9 @@ function Invoke-DevelopmentBuild {
             Invoke-GodotBuildStep @stepCallbacks -Name "import" -TimeoutSeconds 600 -Arguments @(
                 "--headless", "--editor", "--path", "`"$projectRoot`"", "--import"
             )
+            Invoke-GodotBuildStep @stepCallbacks -Name "loading_plan" -TimeoutSeconds 120 -Arguments @(
+                "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/prepare_level_loading.gd"
+            )
             Invoke-GodotBuildStep @stepCallbacks -Name "identity" -TimeoutSeconds 120 -Arguments @(
                 "--headless", "--path", "`"$projectRoot`"", "--script", "res://tools/write_build_identity.gd"
             )

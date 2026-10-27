@@ -28,6 +28,10 @@ func select(path: String) -> void:
 func visit(path: String) -> void:
 	if visited.has(path): return
 	visited[path] = true
+	# Windows may resolve the wrong case locally while the exported pack cannot.
+	if path != path.to_lower() or path.contains(" "):
+		failures.append("Export resource violates lowercase/no-space naming: " + path)
+		return
 	if not ResourceLoader.exists(path):
 		failures.append("Missing export resource: " + path)
 		return

@@ -62,6 +62,27 @@ func run() -> void:
 	check(state.day_index == 1, "arrival does not advance the campaign")
 	for path in ["Floor_0_Base_Blockout", "Floor_Minus1_Control_Security_Blockout", "Floor_Minus2_Life_Support_Blockout", "Floor_Minus3_Trials_Observation_Blockout", "Floor_Minus4_Biocontainment_Blockout", "Floor_Minus5_Expedition_Shaft_Blockout", "Cave_Day7"]:
 		check(level.get_node(path).is_inside_tree(), "floor remains attached: " + path)
+	var terrain: Terrain3D = level.get_node("SnowExterior/Terrain3D")
+	check(terrain.data.get_region_locations().size() == 48, "all 48 authored terrain regions loaded")
+	check(terrain.collision_mode == Terrain3DCollision.FULL_GAME, "full-world terrain collision retained")
+	var supported := 0
+	var sampled := 0
+	for location: Vector2i in terrain.data.get_region_locations():
+		var size := terrain.region_size * terrain.vertex_spacing
+		var point := Vector3((location.x + 0.5) * size, 0.0, (location.y + 0.5) * size)
+		var height := terrain.data.get_height(point)
+		if not is_finite(height): continue
+		sampled += 1
+		var query := PhysicsRayQueryParameters3D.create(Vector3(point.x, height + 0.7, point.z), Vector3(point.x, height - 0.7, point.z), terrain.collision_layer)
+		var hit := terrain.get_world_3d().direct_space_state.intersect_ray(query)
+		if not hit.is_empty() and absf(hit.position.y - height) < 0.05: supported += 1
+	check(sampled == 48 and supported == sampled, "terrain raycasts across all distant regions: %d/%d" % [supported, sampled])
+	check(level.process_mode != Node.PROCESS_MODE_DISABLED, "world processing restored before reveal")
+	var active_bodies := true
+	for object: CollisionObject3D in level.find_children("*", "CollisionObject3D", true, false):
+		if object is StaticBody3D and object.collision_layer != 0:
+			active_bodies = active_bodies and PhysicsServer3D.body_get_space(object.get_rid()).is_valid()
+	check(active_bodies, "static physics bodies attached after staged loading")
 	frames.sort()
 	print("TRANSITION FRAME MS p50 ", frames[frames.size()/2], " p99 ", frames[mini(frames.size()-1, int(frames.size()*.99))], " max ", frames.back())
 	current_scene = null

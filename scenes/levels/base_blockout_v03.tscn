@@ -58,464 +58,32 @@ ao_texture = ExtResource("13_uywug")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_342gs"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aroap"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ilbv"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_np7g8"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyf3k"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_letuy"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1j081"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swsu1"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aha2n"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_atyjx"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8kyu"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0k1b"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwui2"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d8uil"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkixi"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ey00e"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oeulh"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w4qip"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gx0ar"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3be50"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1xu0p"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nlwj"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eehqw"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i8mvs"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovb16"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7jnc"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e0867"]
-resource_local_to_scene = true
-resource_name = "MI_Trim_02_Floor_Clear"
-cull_mode = 2
-albedo_texture = ExtResource("12_re18f")
-metallic = 1.0
-metallic_texture = ExtResource("13_uywug")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("13_uywug")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("14_bvvig")
-ao_enabled = true
-ao_texture = ExtResource("13_uywug")
-texture_filter = 5
-metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_pekgy"]
 viewport_path = NodePath("ErrorViewport")
@@ -1119,31 +687,31 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 434206091, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_342gs")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 508908948, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_aroap")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1038234979, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_6ilbv")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1560864668, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_np7g8")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 741659768, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_xyf3k")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1168654016, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_letuy")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1282445590, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_1j081")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Center_Hub_Ceiling" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="0" unique_id=1252765990]
 layers = 262145
@@ -1198,19 +766,19 @@ layers = 262145
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 678873076, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_swsu1")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner2/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2097697447, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_aha2n")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner3/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 642455516, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_atyjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner4/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1414460990, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_u8kyu")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Hub_South_West_Bench_Seat_Blockout" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubArt/Blockout/Hub_Lobby_Blockout/Seating" parent_id_path=PackedInt32Array(2036079911, 1885625984, 53045188) index="0" unique_id=2115296648]
 layers = 262145
@@ -1592,67 +1160,67 @@ layers = 262145
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1089584292, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_m0k1b")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1881072077, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_jwui2")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 694229342, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_d8uil")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 110983853, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_lkixi")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1191008046, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_ey00e")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 418251327, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_oeulh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1134666513, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_w4qip")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 48446997, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_gx0ar")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1252512262, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_3be50")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 2078442381, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_1xu0p")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 589110786, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_2nlwj")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1141759735, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_eehqw")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1511791008, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_i8mvs")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1878751790, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_ovb16")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 455803367, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_l7jnc")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1413718245, 817142463) index="0" unique_id=1234897938]
 layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_e0867")
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
 [node name="Science_Briefing_Table_Blockout" parent="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt/Blockout/Briefing_Room/Furniture" parent_id_path=PackedInt32Array(2036079911, 18727853, 41546770) index="0" unique_id=239457075]
 layers = 262145

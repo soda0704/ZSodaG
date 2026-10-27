@@ -557,13 +557,53 @@ func _enter_v3_level() -> void:
 	v3_level.network_runtime_managed = true
 	var indirect := v3_level.get_node("WorldIndirectLighting")
 	indirect.prepare_loading()
+	var exterior := v3_level.get_node("SnowExterior")
+	exterior.prepare_loading()
+	var level_process_mode := v3_level.process_mode
+	var collision_modes: Array[Dictionary] = []
+	for object: CollisionObject3D in v3_level.find_children("*", "CollisionObject3D", true, false):
+		collision_modes.append({"object": object, "mode": object.disable_mode})
+		object.disable_mode = CollisionObject3D.DISABLE_MODE_REMOVE if object is StaticBody3D else CollisionObject3D.DISABLE_MODE_KEEP_ACTIVE
+	v3_level.process_mode = Node.PROCESS_MODE_DISABLED
 	_v3_flashlight_transform = v3_level.standalone_flashlight_transform
 	# The staging sky belongs to the cabin, not the loaded expedition.
 	for path in ["ArrivalEnvironment", "ArrivalSun"]:
 		var node := get_node_or_null(path)
 		if node != null:
 			node.free()
+	construction.trace("enter_begin")
 	add_child(v3_level)
+	construction.trace("enter_end")
+	# The terrain is assembled under the cover. Keep authored physics objects
+	# still until the full-world collision exists; disabling _physics_process
+	# alone does not stop RigidBody3D simulation.
+	var loading_bodies: Array[Dictionary] = []
+	for body: RigidBody3D in v3_level.find_children("*", "RigidBody3D", true, false):
+		loading_bodies.append({"body": body, "freeze": body.freeze,
+			"linear": body.linear_velocity, "angular": body.angular_velocity,
+			"sleeping": body.sleeping})
+		body.freeze = true
+	await get_tree().process_frame
+	construction.trace("terrain_begin")
+	if not await exterior.finish_loading():
+		GameMenu.return_to_main_menu.call_deferred("Не удалось загрузить рельеф базы.", false)
+		return
+	construction.trace("terrain_end")
+	await construction.finish_loading(get_tree())
+	construction.trace("collision_end")
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	v3_level.process_mode = level_process_mode
+	for entry in collision_modes:
+		var object: CollisionObject3D = entry.object
+		if is_instance_valid(object): object.disable_mode = entry.mode
+	for entry in loading_bodies:
+		var body: RigidBody3D = entry.body
+		if not is_instance_valid(body): continue
+		body.freeze = entry.freeze
+		body.linear_velocity = entry.linear
+		body.angular_velocity = entry.angular
+		body.sleeping = entry.sleeping
 	if multiplayer.is_server():
 		_v3_fuel_can_transforms = v3_level.get_fuel_can_spawn_transforms()
 		_v3_fuel_can_transform = _v3_fuel_can_transforms[0]
