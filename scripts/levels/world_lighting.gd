@@ -49,7 +49,7 @@ func _ready() -> void:
 	add_to_group("world_lighting")
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
-	_tag_exterior(get_parent().get_node("SnowExterior"))
+	refresh_exterior_layers()
 	var arrival := get_parent().get_node_or_null("ArrivalSite")
 	if arrival != null:
 		_tag_shadow_casters(arrival)
@@ -135,6 +135,11 @@ func _advance_emergency(delta: float) -> void:
 	var wave := 0.5 + 0.5 * cos(_emergency_phase * TAU)
 	emergency_intensity = lerpf(EMERGENCY_MIN_INTENSITY, 1.0, wave * wave)
 	emergency_intensity_changed.emit(emergency_intensity)
+
+func refresh_exterior_layers() -> void:
+	# A staged Terrain3D enters after _ready. Its native rendering instances
+	# must receive the same sunlight membership as a directly loaded scene.
+	_tag_exterior(get_parent().get_node("SnowExterior"))
 
 func _tag_exterior(node: Node) -> void:
 	if node is GeometryInstance3D: node.layers |= EXTERIOR_LAYER

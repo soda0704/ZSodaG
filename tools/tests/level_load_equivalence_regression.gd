@@ -21,6 +21,9 @@ func normalize(value: Variant, root_node: Node, depth := 0) -> Variant:
 		if resources.has(value):
 			return resources[value]
 		var data: Dictionary = {"class": value.get_class()}
+		if value is ViewportTexture:
+			var local_scene: Node = value.get_local_scene()
+			data["local_scene"] = node_path(root_node, local_scene) if local_scene != null else "unbound"
 		resources[value] = "cycle"
 		for prop in value.get_property_list():
 			if (

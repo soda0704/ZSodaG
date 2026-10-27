@@ -4,7 +4,6 @@ const Plan = preload("res://scripts/network/level_load_plan.gd")
 var chunks: Dictionary = {}
 var signatures: Dictionary = {}
 
-
 var skeletons: Dictionary = {}
 var staged_csg: Dictionary = {}
 var collisions_ready := false
@@ -15,6 +14,7 @@ var restore_started := false
 static func trace(label: String) -> void:
 	if ProjectSettings.get_setting("northern_lab/testing/loading_trace", false):
 		print("LOAD_PHASE ", label, " ", Time.get_ticks_usec())
+
 
 func instantiate(packed: PackedScene, tree: SceneTree) -> Node:
 	var plan: Resource = load(Plan.PLAN_PATH) if ResourceLoader.exists(Plan.PLAN_PATH) else null
@@ -35,28 +35,56 @@ func instantiate(packed: PackedScene, tree: SceneTree) -> Node:
 	return instance
 
 
-func clone_local(value: Variant, copies: Dictionary) -> Variant:
+func clone_local(value: Variant, copies: Dictionary, current: Variant = null) -> Variant:
 	if value is Resource:
 		if not value.resource_local_to_scene:
 			return value
-		if not copies.has(value):
-			copies[value] = value.duplicate()
-		return copies[value]
+		if copies.has(value):
+			return copies[value]
+		# PackedScene already initialized scene-local resources, including the
+		# owning scene of nested ViewportTextures. Synchronize their authored
+		# overrides without replacing that native instance with an unbound copy.
+		var target: Resource = (
+			current
+			if (
+				current is Resource
+				and current != value
+				and current.resource_local_to_scene
+				and current.get_class() == value.get_class()
+			)
+			else value.duplicate()
+		)
+		copies[value] = target
+		for property in value.get_property_list():
+			if (
+				not property.usage & PROPERTY_USAGE_STORAGE
+				or property.name in ["resource_path", "resource_local_to_scene"]
+			):
+				continue
+			var previous: Variant = target.get(property.name)
+			var updated: Variant = clone_local(value.get(property.name), copies, previous)
+			if previous != updated:
+				target.set(property.name, updated)
+		return target
 	if value is Array:
 		var result = value.duplicate()
 		for i in result.size():
-			result[i] = clone_local(result[i], copies)
+			result[i] = clone_local(
+				result[i], copies, current[i] if current is Array and i < current.size() else null
+			)
 		return result
 	if value is Dictionary:
 		var result = value.duplicate()
 		for k in result:
-			result[k] = clone_local(result[k], copies)
+			result[k] = clone_local(
+				result[k], copies, current.get(k) if current is Dictionary else null
+			)
 		return result
 	return value
 
 
 func assign(node: Node, key: String, value: Variant, copies: Dictionary) -> void:
-	value = clone_local(value, copies)
+	value = clone_local(value, copies, node.get(key))
 	if value is NodePath:
 		for info in node.get_property_list():
 			if info.name == key and info.type == TYPE_OBJECT:
@@ -86,7 +114,13 @@ func collect_csg(instance: Node, path: String) -> void:
 
 func construct(packed: PackedScene, tree: SceneTree) -> Node:
 	var path = packed.resource_path
-	if skeletons.has(path) and signatures.get(path, "") != Plan.signature(packed, chunks.get(path, PackedStringArray())):
+	if (
+		skeletons.has(path)
+		and (
+			signatures.get(path, "")
+			!= Plan.signature(packed, chunks.get(path, PackedStringArray()))
+		)
+	):
 		push_warning("Stale loading plan; using original scene: " + path)
 		skeletons.erase(path)
 	if not skeletons.has(path):

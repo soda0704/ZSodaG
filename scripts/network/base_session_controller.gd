@@ -588,6 +588,7 @@ func _enter_v3_level() -> void:
 	if not await exterior.finish_loading():
 		GameMenu.return_to_main_menu.call_deferred("Не удалось загрузить рельеф базы.", false)
 		return
+	v3_level.get_node("WorldLighting").refresh_exterior_layers()
 	construction.trace("terrain_end")
 	await construction.finish_loading(get_tree())
 	construction.trace("collision_end")

@@ -83,6 +83,27 @@ func run() -> void:
 		if object is StaticBody3D and object.collision_layer != 0:
 			active_bodies = active_bodies and PhysicsServer3D.body_get_space(object.get_rid()).is_valid()
 	check(active_bodies, "static physics bodies attached after staged loading")
+	var lighting := level.get_node("WorldLighting")
+	check((terrain.render_layers & lighting.get_node("OvercastSun").light_cull_mask) != 0, "late-attached terrain receives authored sunlight")
+	var terminals := [level.get_node("Floor_0_Base_Blockout/DayTwoTaskTerminal"), level.get_node("Floor_Minus1_Control_Security_Blockout/Secure_Data_Vault/Encryption_Key_Terminal")]
+	check(terminals[0]._screen_material != terminals[1]._screen_material, "terminal materials remain independent after staged loading")
+	var powered_snapshot: Dictionary = state.get_snapshot()
+	powered_snapshot.main_breaker_on = true
+	powered_snapshot.fuel_delivered = true
+	powered_snapshot.fuel_liters = 20.0
+	state._broadcast_snapshot(powered_snapshot)
+	for frame in 4: await process_frame
+	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
+	for terminal in terminals:
+		for binding in [["screen_texture", "ScreenViewport"], ["error_texture", "ErrorViewport"]]:
+			var texture: Texture2D = terminal._screen_material.get_shader_parameter(binding[0])
+			var owns_texture: bool = texture is ViewportTexture and texture.get_local_scene() == terminal
+			check(owns_texture, "%s %s bound to its owning terminal" % [terminal.name, binding[0]])
+			if owns_texture and DisplayServer.get_name() != "headless":
+				var actual := texture.get_image()
+				var expected: Image = terminal.get_node(binding[1]).get_texture().get_image()
+				check(actual != null and expected != null and actual.get_data() == expected.get_data(), "%s %s samples its actual rendered UI" % [terminal.name, binding[0]])
+	if "--capture" in OS.get_cmdline_user_args(): await capture_visuals(level, terminals[0])
 	frames.sort()
 	print("TRANSITION FRAME MS p50 ", frames[frames.size()/2], " p99 ", frames[mini(frames.size()-1, int(frames.size()*.99))], " max ", frames.back())
 	current_scene = null
@@ -90,3 +111,28 @@ func run() -> void:
 	for frame in 3: await process_frame
 	print("RESULT FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
+
+
+func capture_visuals(level: Node3D, terminal: DayTwoTerminal) -> void:
+	if DisplayServer.get_name() == "headless": return
+	var output := "user://loading_visual_review"
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--output="): output = argument.trim_prefix("--output=")
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output))
+	var player := get_first_node_in_group("local_player") as GamePlayer
+	player.set_physics_process(false)
+	player.survival.set_physics_process(false)
+	var facing := terminal.screen.global_basis.z
+	facing.y = 0.0
+	player.teleport_authoritative(terminal.global_position + facing.normalized() * 2.0, terminal.global_rotation.y)
+	player.camera.look_at(terminal.screen.global_position)
+	for frame in 20: await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output.path_join("terminal.png"))
+	var outside := Vector3(-70.0, 0.0, 70.0)
+	outside.y = level.get_node("SnowExterior/Terrain3D").data.get_height(outside) + 0.1
+	player.teleport_authoritative(outside, 0.0)
+	player.camera.look_at(Vector3(0.0, 3.0, 0.0))
+	for frame in 20: await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output.path_join("forest.png"))
