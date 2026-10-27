@@ -28,7 +28,7 @@ def main():
     app = work / "app"
     userdata = work / "userdata"
     userdata.mkdir(parents=True)
-    save = userdata / "Godot/app_userdata/NorthernLab/smoke-save-marker.txt"
+    save = app / "saves/expeditions/smoke-save-marker.txt"
     save.parent.mkdir(parents=True)
     save.write_text("preserve this progress", encoding="utf-8")
     subprocess.run([str(options.installer.resolve()), "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/NOICONS", "/TASKS=", f"/DIR={app}", f"/LOG={work / 'install.log'}"], check=True, timeout=180)
@@ -50,8 +50,8 @@ def main():
     while (app / "NorthernLab.exe").exists() and time.monotonic() < deadline:
         time.sleep(.2)
     if (app / "NorthernLab.exe").exists() or save.read_text(encoding="utf-8") != "preserve this progress":
-        raise RuntimeError("Uninstall did not remove game or changed external progress")
-    print("PASS uninstall removes game and preserves external progress", flush=True)
+        raise RuntimeError("Uninstall did not remove game or changed local progress")
+    print("PASS uninstall removes game and preserves local saves folder", flush=True)
     print("Installer smoke logs:", work)
 
 

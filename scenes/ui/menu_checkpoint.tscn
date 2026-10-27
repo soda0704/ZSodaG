@@ -1,75 +1,94 @@
-[gd_scene format=3]
-[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_myg13"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/ui/checkpoint_page.gd" id="page"]
+[ext_resource type="PackedScene" path="res://scenes/ui/checkpoint_entry.tscn" id="entry"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="button"]
 
-[node name="CheckpointPage" type="VBoxContainer" unique_id=366359794]
-theme = ExtResource("menu_theme")
+[node name="CheckpointPage" type="VBoxContainer"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/separation = 16
+theme = ExtResource("theme")
+theme_override_constants/separation = 12
+script = ExtResource("page")
 
-[node name="@Label@101" type="Label" parent="." unique_id=506437471]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+size_flags_vertical = 3
+theme_override_constants/margin_right = 72
+
+[node name="Center" type="CenterContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="Margin/Center"]
+custom_minimum_size = Vector2(960, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Mode" type="Label" parent="Margin/Center/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.68, 0.66, 1)
 theme_override_font_sizes/font_size = 17
-text = "СОХРАНЁННАЯ ЭКСПЕДИЦИЯ"
-vertical_alignment = 1
+text = "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ"
 
-[node name="@Label@102" type="Label" parent="." unique_id=424722333]
+[node name="Title" type="Label" parent="Margin/Center/Content"]
+layout_mode = 2
 theme_type_variation = &"MenuTitle"
-layout_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
-theme_override_font_sizes/font_size = 33
-text = "ПРОДОЛЖИТЬ ИГРУ"
-vertical_alignment = 1
-
-[node name="@Control@103" type="Control" parent="." unique_id=1986650880]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Day" type="Label" parent="." unique_id=467931878]
-theme_type_variation = &"MenuTitle"
-layout_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
-theme_override_font_sizes/font_size = 36
-text = "ДЕНЬ 1"
-vertical_alignment = 1
-
-[node name="Power" type="Label" parent="." unique_id=1679055979]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
-theme_override_font_sizes/font_size = 20
-text = "Питание отключено"
-vertical_alignment = 1
-
-[node name="@Control@106" type="Control" parent="." unique_id=488581092]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Continue" type="Button" parent="." unique_id=1496712878]
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 42
 text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
-alignment = 0
-script = ExtResource("1_myg13")
 
-[node name="Delete" type="Button" parent="." unique_id=2130234072]
-custom_minimum_size = Vector2(0, 54)
+[node name="Gap" type="Control" parent="Margin/Center/Content"]
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 18
-text = "УДАЛИТЬ СОХРАНЕНИЕ"
-alignment = 0
-script = ExtResource("1_myg13")
+mouse_filter = 2
 
-[node name="Status" type="Label" parent="." unique_id=2093517194]
+[node name="Manual" parent="Margin/Center/Content" instance=ExtResource("entry")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+
+[node name="Morning" parent="Margin/Center/Content" instance=ExtResource("entry")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PreviousMorning" parent="Margin/Center/Content" instance=ExtResource("entry")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ActionGap" type="Control" parent="Margin/Center/Content"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Actions" type="VBoxContainer" parent="Margin/Center/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Continue" type="Button" parent="Margin/Center/Content/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 58)
+theme_type_variation = &"MenuAction"
+theme_override_font_sizes/font_size = 22
+text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
+script = ExtResource("button")
+
+[node name="Delete" type="Button" parent="Margin/Center/Content/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 38)
 theme_override_font_sizes/font_size = 18
-vertical_alignment = 1
+theme_override_colors/font_color = Color(0.67, 0.56, 0.5, 1)
+text = "УДАЛИТЬ ЭКСПЕДИЦИЮ"
+alignment = 0
+script = ExtResource("button")
+
+[node name="Status" type="Label" parent="."]
+visible = false
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.79, 0.63, 0.54, 1)
+autowrap_mode = 3

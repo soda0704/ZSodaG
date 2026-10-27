@@ -111,8 +111,6 @@ func release_grip(peer_id: int) -> void:
 	grips.erase(peer_id)
 	_publish_grips()
 	sync_physics_state()
-	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null: world.call_deferred("save_inventory_checkpoint")
 
 func _publish_grips() -> void:
 	var owners: Array[int] = []

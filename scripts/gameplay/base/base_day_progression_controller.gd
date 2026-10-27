@@ -65,11 +65,45 @@ func _on_end_day_consensus_reached(completed_day_index: int) -> void:
 	if (
 		_gameplay_controller.day_index != completed_day_index
 		or not _gameplay_controller.are_all_connected_players_sleeping()
-		or not _gameplay_controller.advance_day_authoritative()
 	):
 		return
+	_finish_night()
+
+
+func _finish_night(debug_skip_requirements: bool = false) -> bool:
+	if not _gameplay_controller.advance_day_authoritative(debug_skip_requirements): return false
 	_wake_players_for_new_day()
-	_gameplay_controller.save_progress_authoritative(false, "sleep", "Утро дня %d" % _gameplay_controller.day_index)
+	return _gameplay_controller.save_progress_authoritative(false, "sleep", "Утро дня %d" % _gameplay_controller.day_index, debug_skip_requirements)
+
+
+func debug_sleep_authoritative() -> String:
+	if not multiplayer.is_server() or _gameplay_controller == null:
+		return "Сон выполняется хостом после загрузки базы."
+	if _gameplay_controller.day_index >= BaseGameplayController.MAX_DAY_INDEX:
+		return "Достигнут последний доступный день."
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and (not world._v3_items_spawned or world._v3_transition_in_progress):
+		return "Дождитесь окончания загрузки базы."
+	var level := get_parent()
+	if not level.has_method("get_day_start_transform"):
+		return "В этой сцене не назначены точки пробуждения."
+	var players: Array[GamePlayer] = []
+	for peer in _gameplay_controller.get_connected_player_peer_ids():
+		var player := _gameplay_controller.get_player_node(peer) as GamePlayer
+		if player == null: return "Дождитесь появления всех игроков."
+		if player.survival.dead or player.is_driving() or player.is_carrying_corpse() or player.get_node("ItemDrag").is_heavy_carrying():
+			return "Все игроки должны быть живы, выйти из транспорта и отпустить переносимые тела и тяжёлые предметы."
+		players.append(player)
+	if players.is_empty(): return "Нет игроков для перехода к утру."
+	# Cancel any pending bunk timer; this command completes exactly one night now.
+	_sleep_transition_serial += 1
+	for player in players:
+		player.enter_bunk_sleep_authoritative(level.get_day_start_transform(_gameplay_controller.get_player_slot(player.owner_peer_id)))
+	var saved := _finish_night(true)
+	var day := _gameplay_controller.day_index
+	if not _gameplay_controller.progress_persistence_enabled:
+		return "Наступило утро дня %d. Запись отключена в тестовом режиме (F6)." % day
+	return "Наступило утро дня %d. Утренний автосейв записан." % day if saved else "Наступило утро дня %d, но записать автосейв не удалось. Предыдущая запись сохранена." % day
 
 
 func _on_day_changed(next_day_index: int) -> void:

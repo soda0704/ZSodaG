@@ -53,7 +53,7 @@ func run() -> void:
 		for player in order: pickup.network_interact(player.owner_peer_id, player)
 		check(order[0].has_held_item(&"fuse") and not order[1].has_held_item(&"fuse"), "same-frame fuse contention has one winner; guest first=%s" % guest_first)
 		check(pickup._collected, "winning pickup is consumed before the next request")
-		world.save_inventory_checkpoint()
+		world._base_gameplay_controller.inventory_checkpoint = world.capture_inventory_checkpoint()
 		var checkpoint: Dictionary = world._base_gameplay_controller.inventory_checkpoint
 		var owners := 0
 		for equipment: Dictionary in checkpoint.players.values():
@@ -114,7 +114,7 @@ func run() -> void:
 	close_guest.rpc_id(guest_id, failures)
 	check(await wait_until(func(): return not world.players.has_node(str(guest_id))), "real connection loss runs production departure cleanup")
 	check(rejected_stale_accept, "late acceptance cannot take an item after departure cleanup")
-	world.save_inventory_checkpoint()
+	world._base_gameplay_controller.inventory_checkpoint = world.capture_inventory_checkpoint()
 	var saved: Dictionary = world._base_gameplay_controller.inventory_checkpoint
 	var cans: Array = saved.pickups.filter(func(data): return data.item_type == &"fuel_can" and data.item_state.get("fuel_liters", 0.0) == 5.5)
 	check(cans.size() == 1 and saved.players["test:guest"].held_item == &"", "interrupted offer saves one dropped can and no duplicate account ownership")

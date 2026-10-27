@@ -32,7 +32,8 @@ $testEnvironment = @{
     NORTHERNLAB_EXPORT_CAPTURE_DIR = $captures
 }
 $tests = @('export_resources_regression', 'export_new_game_regression', 'controls_binding_regression',
-    'expedition_save_slots_regression', 'expedition_resume_regression', 'plant_watering_regression',
+    'save_location_regression', 'expedition_save_slots_regression', 'console_sleep_regression', 'checkpoint_write_coalescing_regression',
+    'expedition_menu_regression', 'expedition_resume_regression', 'plant_watering_regression',
     'elevator_reliability_regression', 'medical_corpse_recovery_regression', 'gameplay_polish_regression')
 if ($Graphical) { $tests = @('menu_export_render_regression', 'northern_lab_hud_regression', 'export_new_game_regression') }
 if ($Only.Count) {

@@ -183,7 +183,6 @@ func debug_reset() -> void:
 	# Resetting the encounter must not repair an already triggered power fault.
 	_commit(data)
 	_reset_actors.rpc()
-	state.save_progress_authoritative()
 
 func debug_spawn(model_index: int, count: int, center: Vector3, forward: Vector3, at_point: bool = false) -> int:
 	if not multiplayer.is_server() or model_index not in range(3) or count <= 0:

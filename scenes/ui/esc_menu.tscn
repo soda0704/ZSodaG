@@ -113,6 +113,13 @@ size_flags_horizontal = 0
 text = "СОХРАНИТЬ ЭКСПЕДИЦИЮ"
 script = ExtResource("2_1apln")
 
+[node name="SaveHint" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
+theme_override_font_sizes/font_size = 17
+text = "Одна ручная запись на игровой день. После сна она удаляется."
+autowrap_mode = 3
+
 [node name="@Control@27" type="Control" parent="." unique_id=1549282395]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2

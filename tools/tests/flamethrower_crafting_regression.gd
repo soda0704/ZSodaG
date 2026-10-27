@@ -120,6 +120,7 @@ func run() -> void:
 	for type in RECIPE.pickup_scenes: player.pickup_world_item_authoritative(type,{})
 	var extras := player.crafting_parts.duplicate()
 	check(not bench.craft_authoritative(player) and player.crafting_parts==extras,"global two-item limit does not consume excess parts")
+	check(state.save_progress_authoritative(false, "manual"), "explicit save records completed crafting")
 	var saved := state.load_saved_snapshot()
 	check(int(saved.maintenance.flamethrower_crafting.crafted)==2,"global assembly count persists in expedition state")
 	# Both character variants have native equipment instances and support-hand markers.

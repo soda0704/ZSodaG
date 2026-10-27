@@ -7,7 +7,8 @@ var read_fingerprint := ""
 var _path := ""
 
 func bind_campaign(identity: String) -> void:
-	var directory := str(ProjectSettings.get_setting(ROOT_SETTING, "user://journal_reading"))
+	var directory := str(ProjectSettings.get_setting(ROOT_SETTING,
+		ExpeditionSaveStore.default_root().get_base_dir().path_join("journal_reading")))
 	_path = directory.path_join(identity.sha256_text() + ".cfg")
 	entries = []
 	read_fingerprint = ""

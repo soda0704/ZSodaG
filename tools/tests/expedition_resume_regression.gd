@@ -59,7 +59,7 @@ func run() -> void:
 	check(state.save_progress_authoritative(false, "manual"), "manual save includes complete expedition")
 	menu.open_menu(menu.MenuView.MAIN)
 	menu.main_panel.get_node("Save").pressed.emit()
-	check(ExpeditionSaveStore.summary("solo").kind == "manual" and menu.feedback_label.text == "Экспедиция сохранена.", "authored ESC button saves through existing controller")
+	check(ExpeditionSaveStore.summary("solo").kind == "manual" and menu.feedback_label.text.contains("уже использована"), "authored ESC button rejects a second manual save")
 	menu.force_close_menu()
 	var saved := ExpeditionSaveStore.read("solo")
 	var checkpoint: Dictionary = saved.config.get_value("inventory", "checkpoint")
@@ -81,7 +81,7 @@ func run() -> void:
 	check(elevator.current_floor_index == 2 and elevator.state == FunctionalElevatorController.ElevatorState.IDLE_OPEN, "moving elevator resumes parked at saved departure floor")
 	check(elevator.cabin.to_local(player.global_position).distance_to(Vector3(0, 0.1, 0)) < 0.02, "owner resumes safely in parked cabin")
 	check(world.capture_inventory_checkpoint().pickups.size() == count, "resume does not duplicate world loot")
-	check(ExpeditionSaveStore.history("solo").size() == 1, "manual save preserved initial checkpoint")
+	check(ExpeditionSaveStore.checkpoints("solo")[1].is_empty(), "debug day jump does not invent an unrecorded morning")
 	# Use the existing sleep consensus, not a fabricated save-kind call.
 	var bunk: BaseEndDayBunk = world.get_node("V3Level/Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
 	player.teleport_authoritative(bunk.wake_pose.global_position,0)
@@ -89,7 +89,7 @@ func run() -> void:
 	check(state.is_peer_sleeping(1) and player.is_sleeping_in_bunk(), "existing day-three bunk starts real sleep consensus")
 	await create_timer(5.3).timeout
 	check(state.day_index == 4, "existing sleep advances the expedition")
-	check(ExpeditionSaveStore.history("solo").any(func(point): return point.kind=="sleep" and point.day_index==4), "sleep records a morning checkpoint even if periodic saving follows")
+	check(ExpeditionSaveStore.history("solo").any(func(point): return point.kind=="sleep" and point.day_index==4), "sleep records the current morning checkpoint")
 	var morning: Transform3D = world.get_node("V3Level").get_day_start_transform(0)
 	check(player.global_position.distance_to(morning.origin) < 0.01 and not player.is_sleeping_in_bunk(), "morning save contains awake safe spawn")
 	state.progress_persistence_enabled = false
@@ -113,18 +113,8 @@ func run() -> void:
 	world = current_scene
 	player = freeze(world)
 	check(player.survival.dead and player.survival.health == 0 and player.survival.respawn_remaining > 2.0, "resume restores death and remaining respawn timer")
-	var files := ExpeditionSaveStore._files("solo")
-	var next_number := int(files[0].trim_prefix("commit_").trim_suffix(".cfg")) + 1
-	var blocked := ExpeditionSaveStore.directory("solo").path_join("commit_%012d.cfg.tmp" % next_number)
-	DirAccess.make_dir_absolute(ProjectSettings.globalize_path(blocked))
-	var before_exit: Node = current_scene
-	menu.return_to_main_menu()
-	check(current_scene == before_exit and menu.dialog != null, "save failure keeps session open for explicit exit choice")
-	check(not menu._transition_in_progress, "failed exit save does not enter transition")
-	menu.dialog.dismiss()
-	await create_timer(0.25).timeout
-	DirAccess.remove_absolute(ProjectSettings.globalize_path(blocked))
-	world._base_gameplay_controller.progress_persistence_enabled = false
+	var saved_path: String = ExpeditionSaveStore.read("solo").path
 	await exit_world(menu)
+	check(ExpeditionSaveStore.read("solo").path == saved_path, "exit preserves the existing save without writing")
 	print("RESUME CHECKS ", checks, " FAILURES ", failures)
 	quit(1 if failures else 0)

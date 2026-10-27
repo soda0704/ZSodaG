@@ -5,7 +5,7 @@ const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
 const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off", "/light_swap", "/light_swap basic", "/light_swap advanced"]
 const INSPECTION_COMMANDS := ["/status", "/plant status", "/plant water", "/item seed_packet"]
-const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
+const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/sleep", "/next day", "/last day", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
 @onready var entry: LineEdit = $Panel/Box/Entry
@@ -27,7 +27,7 @@ var _completion_caret := -1
 
 const DESCRIPTIONS := {"/bed": "Телепорт к своей кровати", "/cave": "Пещера: вход, логово или выход", "/help": "Справка", "/clear": "Очистить", "/target": "ID цели", "/open": "Открыть цель", "/close": "Закрыть цель", "/kill": "Убить цель", "/fly": "Полёт", "/across": "Сквозь стены", "/speed": "Скорость ходьбы и полёта (0.1–20 или reset)", "/god": "Бессмертие", "/heal": "Восстановить здоровье", "/where": "Координаты", "/level": "Телепорт", "/day": "День", "/ammo": "Патроны и магазины", "/weapon": "Оружие", "/tape": "Скотч", "/crowbar": "Монтировка", "/flashlight": "Фонарик", "/fuel": "Канистра", "/item": "Предмет в точке прицела", "/spawn": "Монстр в точке прицела", "/monsters": "Сюжетные монстры", "/despawn": "Удалить тестовых монстров", "/wiring": "Авария проводки", "/lightfault": "Сбой освещения", "/testroom": "Тестовая комната", "/outside": "Улица"}
 
-const COMMAND_DETAILS := {"/bed": "Переместиться к своей кровати без сна и смены дня", "/cave entry": "Дно природной шахты", "/cave lair": "Логово перед каменной ширмой", "/cave exit": "Выход в нижнюю долину", "/level 0": "Телепортироваться: выход из лифта на поверхности", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: испытания и наблюдение", "/level 4": "Телепортироваться: биосдерживание", "/level 5": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/day 5": "Переключить сюжет на день 5", "/day 6": "Переключить сюжет на день 6", "/day 7": "Переключить сюжет на день 7 (нижняя шахта)", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
+const COMMAND_DETAILS := {"/sleep": "Пропустить ночь: следующий день, пробуждение и утренний автосейв", "/next day": "Следующий день без сохранения (как /day N)", "/last day": "Предыдущий день без сохранения (как /day N)", "/bed": "Переместиться к своей кровати без сна и смены дня", "/cave entry": "Дно природной шахты", "/cave lair": "Логово перед каменной ширмой", "/cave exit": "Выход в нижнюю долину", "/level 0": "Телепортироваться: выход из лифта на поверхности", "/level 1": "Телепортироваться: управление и охрана", "/level 2": "Телепортироваться: жизнеобеспечение", "/level 3": "Телепортироваться: испытания и наблюдение", "/level 4": "Телепортироваться: биосдерживание", "/level 5": "Телепортироваться: экспедиционная шахта", "/day 1": "Переключить сюжет на день 1", "/day 2": "Переключить сюжет на день 2", "/day 3": "Переключить сюжет на день 3", "/day 4": "Переключить сюжет на день 4", "/day 5": "Переключить сюжет на день 5", "/day 6": "Переключить сюжет на день 6", "/day 7": "Переключить сюжет на день 7 (нижняя шахта)", "/item tape": "Создать скотч в точке прицела", "/item crowbar": "Создать монтировку в точке прицела", "/item fuel_can": "Создать канистру в точке прицела", "/item flashlight": "Создать фонарик в точке прицела", "/item battery": "Создать батарейку в точке прицела", "/item fuse": "Создать предохранитель в точке прицела", "/item pistol": "Создать пистолет в точке прицела", "/item m4a1": "Создать автомат M4A1 в точке прицела", "/item kitchen_knife": "Создать кухонный нож в точке прицела", "/item pistol_ammo": "Создать патроны для пистолета в точке прицела", "/item rifle_magazine": "Создать магазин M4A1 в точке прицела", "/weapon pistol": "Выдать пистолет", "/weapon m4a1": "Выдать автомат M4A1", "/weapon kitchen_knife": "Выдать кухонный нож", "/fuel full": "Выдать полную канистру бензина", "/fuel empty": "Выдать пустую канистру", "/spawn tail": "Создать хвостатого в точке прицела", "/spawn slasher": "Создать зомби в точке прицела", "/spawn smily": "Создать смайли в точке прицела", "/monsters reset": "Восстановить сюжетных монстров", "/monsters kill": "Убить всех сюжетных монстров"}
 
 func _help_text() -> String:
 	var lines: PackedStringArray = []
@@ -298,7 +298,7 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 			player = session.players.get_node_or_null(str(peer_id)) as GamePlayer
 	if player == null:
 		return "Игрок, вызвавший команду, не найден."
-	if state == null and args[0] in ["/outside", "/testroom", "/bed", "/level", "/cave", "/day", "/wiring", "/lightfault", "/spawn", "/monsters", "/despawn"]:
+	if state == null and args[0] in ["/outside", "/testroom", "/bed", "/level", "/cave", "/day", "/sleep", "/next", "/last", "/wiring", "/lightfault", "/spawn", "/monsters", "/despawn"]:
 		return "Эта команда доступна после посадки: база ещё не загружена."
 	var encounter := get_tree().get_first_node_in_group("containment_encounter")
 	if args[0] in ["/target", "/open", "/close", "/kill", "/item"]:
@@ -411,13 +411,26 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 				return "Пещера в этой сцене недоступна."
 			player.teleport_authoritative(marker.global_position, -PI / 2)
 			return "Пещера: %s. /level 5 — вернуться к лебёдке. День и задания не изменены." % destination
-		"/day":
-			if args.size() != 2 or not args[1].is_valid_int() or int(args[1]) not in range(1, BaseGameplayController.MAX_DAY_INDEX + 1):
-				return "Использование: /day 1..999"
-			state.debug_set_day_authoritative(int(args[1]))
-			if int(args[1]) < 3 and encounter != null:
+		"/sleep":
+			if args.size() != 1: return "Использование: /sleep"
+			var progression := state.get_parent().get_node_or_null("BaseDayProgressionController") as BaseDayProgressionController
+			if progression == null: return "Контроллер сна не найден."
+			return progression.debug_sleep_authoritative()
+		"/day", "/next", "/last":
+			var day: int
+			if args[0] == "/day":
+				if args.size() != 2 or not args[1].is_valid_int() or int(args[1]) not in range(1, BaseGameplayController.MAX_DAY_INDEX + 1):
+					return "Использование: /day 1..999"
+				day = int(args[1])
+			else:
+				if args.size() != 2 or args[1] != "day": return "Использование: %s day" % args[0]
+				day = state.day_index + (1 if args[0] == "/next" else -1)
+				if day < 1: return "Уже первый день."
+				if day > BaseGameplayController.MAX_DAY_INDEX: return "Достигнут последний доступный день."
+			if not state.debug_set_day_authoritative(day): return "Не удалось изменить день."
+			if day < 3 and encounter != null:
 				encounter.debug_reset()
-			return "День изменён и сохранён."
+			return "День изменён на %d без сохранения. /sleep — перейти к следующему утру с автосейвом." % day
 		"/ammo":
 			player.pickup_world_item_authoritative(&"pistol_ammo", {"amount": 120})
 			for index in 5:

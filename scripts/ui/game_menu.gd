@@ -98,9 +98,10 @@ func quit_with_save(save_before_exit: bool = true) -> void:
 		return
 	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
 	if save_before_exit and base != null and multiplayer.is_server() and base.progress_persistence_enabled:
-		if not base.save_progress_authoritative():
-			confirm("Не удалось сохранить", "Последняя запись сохранена, но новые изменения не записались. Остаться в игре или выйти без них?", [{"label": "Выйти без сохранения", "action": quit_with_save.bind(false)}])
-			return
+		var message := "При выходе игра не сохраняется. Прогресс после последней ручной или утренней записи будет потерян."
+		if SteamNetwork.has_active_session(): message += " Сессия закроется для обоих игроков."
+		confirm("Выйти из игры?", message, [{"label": "Выйти", "action": quit_with_save.bind(false)}])
+		return
 	_quitting = true
 	_finish_quit.call_deferred()
 
@@ -435,6 +436,10 @@ func start_host_flow() -> void:
 	if not has_save:
 		_begin_host_session(false)
 		return
+	var scene := get_tree().current_scene
+	if scene is NorthernLabMainMenu:
+		scene._show_checkpoint("coop")
+		return
 	confirm("Кооперативная экспедиция", "Сохранённая экспедиция · день %d.\nПродолжить или начать новую? Одиночный прогресс хранится отдельно." % int(summary.get("day_index", 1)), [
 		{"label": "Продолжить", "disabled": summary.is_empty(), "action": _begin_host_session.bind(true)},
 		{"label": "Новая экспедиция", "action": _confirm_new_coop_game},
@@ -515,7 +520,10 @@ func _on_leave_lobby_pressed() -> void:
 	confirm("Покинуть экспедицию?", "Текущая сессия будет закрыта.", [{"label": "Покинуть", "action": return_to_main_menu.bind("Вы покинули экспедицию.")}])
 
 func _on_return_to_main_menu_pressed() -> void:
-	confirm("Вернуться в главное меню?", "Прогресс будет сохранён по правилам экспедиции. Текущая сессия будет закрыта.", [{"label": "Главное меню", "action": return_to_main_menu.bind("Возврат из экспедиции.")}])
+	var message := "При выходе игра не сохраняется. Прогресс после последней ручной или утренней записи будет потерян."
+	if SteamNetwork.has_active_session():
+		message += " Сессия закроется для обоих игроков." if multiplayer.is_server() else " Вы отключитесь от хоста; экспедиция у него продолжится."
+	confirm("Вернуться в главное меню?", message, [{"label": "Главное меню", "action": return_to_main_menu.bind("Возврат из экспедиции.")}])
 
 func refresh_network_ui() -> void:
 	main_panel.refresh()
@@ -764,14 +772,9 @@ func ensure_network_scene() -> bool:
 	await get_tree().scene_changed
 	return true
 
-func return_to_main_menu(reason: String = "", save_before_exit: bool = true) -> void:
+func return_to_main_menu(reason: String = "", _save_before_exit: bool = true) -> void:
 	if _transition_in_progress:
 		return
-	var base := get_tree().get_first_node_in_group("base_gameplay_controller") as BaseGameplayController
-	if save_before_exit and base != null and multiplayer.is_server() and base.progress_persistence_enabled:
-		if not base.save_progress_authoritative():
-			confirm("Не удалось сохранить", "Новые изменения не записались. Предыдущая запись сохранена. Остаться в игре или закрыть сессию?", [{"label": "Выйти без сохранения", "action": return_to_main_menu.bind(reason, false)}])
-			return
 	_transition_in_progress = true
 	menu_root.visible = false
 	get_tree().paused = false
@@ -787,7 +790,12 @@ func manual_save() -> void:
 	if base == null or not multiplayer.is_server():
 		feedback_label.text = "Сохранение доступно хосту на базе."
 		return
+	if not base.can_manual_save():
+		feedback_label.text = "Ручная запись уже использована сегодня. Следующая — после сна." if base.manual_save_day == base.day_index else "Сейчас сохранить нельзя. Дождитесь окончания перехода."
+		main_panel.refresh()
+		return
 	feedback_label.text = "Экспедиция сохранена." if base.save_progress_authoritative(false, "manual") else "Не удалось сохранить экспедицию. Предыдущая запись сохранена."
+	main_panel.refresh()
 
 func _finish_return_to_main_menu(reason: String) -> void:
 	var current_scene := get_tree().current_scene

@@ -321,9 +321,7 @@ func _command(peer: int, sequence: int, id: StringName, event_id: int = 0) -> vo
 	var data := _controller.clicker.capture_runtime()
 	_command_reply(id, accepted, amount, data)
 	for ready_peer in _controller.clicker_ready_peers(): _command_reply.rpc_id(ready_peer, id, accepted, amount, data)
-	# Purchases use the same durable world save; clicks/autoproduction use its
-	# existing periodic checkpoint, never a disk write or full snapshot per click.
-	if accepted and id not in [&"click", &"quest", &"quest_begin", &"quest_cancel"]: _controller.save_progress_authoritative()
+	# Terminal progress is captured only by manual saves and morning checkpoints.
 
 @rpc("authority", "call_local", "reliable")
 func _command_reply(id: StringName, accepted: bool, amount: float, data: Dictionary) -> void:

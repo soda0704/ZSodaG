@@ -33,9 +33,8 @@ func exercise_equipment(guest: GamePlayer) -> void:
 	check(not guest.weapon.flame.emitting,"expired input lease stops a silent or disconnected client")
 	verify_client_fire.rpc_id(guest_id)
 	check(await wait_until(func():return fire_ack),"guest receives final fuel and stopped effect state")
-	world.save_inventory_checkpoint()
-	var saved: Dictionary=ExpeditionSaveStore.read("coop").config.get_value("inventory","checkpoint",{})
-	check(float(saved.players["test:guest"].flame_fuel_liters)<guest.weapon.flame.capacity_liters and not saved.players["test:guest"].flame_active,"production save keeps spent fuel and a stopped trigger")
+	var saved: Dictionary=world.capture_inventory_checkpoint()
+	check(float(saved.players["test:guest"].flame_fuel_liters)<guest.weapon.flame.capacity_liters and not saved.players["test:guest"].flame_active,"snapshot for the next explicit save keeps spent fuel and a stopped trigger")
 @rpc("authority","call_remote","reliable")
 func start_client_fire() -> void:
 	var actor: GamePlayer=get_tree().get_first_node_in_group("local_player")

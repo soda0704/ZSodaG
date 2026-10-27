@@ -57,7 +57,6 @@ func craft_authoritative(actor: GamePlayer) -> bool:
 	snapshot.maintenance["flamethrower_crafting"] = {"crafted": crafted_count()+1}
 	state._broadcast_snapshot(snapshot,false)
 	actor.pickup_world_item_authoritative(&"flamethrower",{})
-	state.save_progress_authoritative()
 	return true
 
 @rpc("authority","call_local","reliable")

@@ -37,6 +37,11 @@ def digest(path: Path) -> str:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def distributable_files(payload: Path) -> list[Path]:
+    return [p for p in sorted(payload.rglob("*"))
+            if p.is_file() and p.relative_to(payload).parts[0].lower() != "saves"]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--godot", type=Path, default=ROOT / "tools/.local/godotsteam-editor/godot.exe")
@@ -98,14 +103,14 @@ def main() -> None:
     shutil.copy2(godot_license, licenses / godot_license.name)
     shutil.copy2(ROOT / "tools/distribution/godot_copyright.txt", licenses / "godot_copyright.txt")
     identity = (ROOT / "network_build.cfg").read_text(encoding="utf-8")
-    info = {"product": "NorthernLab Playtest", "version": version, "date": stamp, "platform": "Windows 10/11 x64", "configuration": "release", "steam_app_id": 480, "network_identity": re.search(r'identity="([^"]+)"', identity)[1], "files": {p.relative_to(payload).as_posix(): digest(p) for p in sorted(payload.rglob("*")) if p.is_file() and p.name not in ("BUILD_INFO.json", ".audited.json")}}
+    info = {"product": "NorthernLab Playtest", "version": version, "date": stamp, "platform": "Windows 10/11 x64", "configuration": "release", "steam_app_id": 480, "network_identity": re.search(r'identity="([^"]+)"', identity)[1], "files": {p.relative_to(payload).as_posix(): digest(p) for p in distributable_files(payload) if p.name not in ("BUILD_INFO.json", ".audited.json")}}
     (payload / "BUILD_INFO.json").write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")
     run([str(args.iscc.resolve()), f"/DGameVersion={version}", f"/DPackageName={name}", f"/DPayloadDir={payload}", f"/DOutputDir={output}", str(ROOT / "tools/distribution/playtest.iss")], "installer", 600)
     archive = output / f"{name}-Portable.zip"
     print("portable", flush=True)
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as target:
-        for source in sorted(payload.rglob("*")):
-            if source.is_file() and source.name != ".audited.json":
+        for source in distributable_files(payload):
+            if source.name != ".audited.json":
                 target.write(source, Path("NorthernLab Playtest") / source.relative_to(payload))
     files = [output / f"{name}-Setup.exe", archive]
     (output / f"{name}-SHA256.txt").write_text("".join(f"{digest(p)}  {p.name}\n" for p in files), encoding="utf-8")

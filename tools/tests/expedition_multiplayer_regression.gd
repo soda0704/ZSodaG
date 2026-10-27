@@ -57,6 +57,7 @@ func run() -> void:
 	else:
 		# A client must not read or alter this unrelated local expedition.
 		ExpeditionSaveStore.select("coop", 1)
+		ExpeditionSaveStore.clear("coop")
 		seed_expedition()
 	var peer := ENetMultiplayerPeer.new()
 	check((peer.create_server(port, 1, 4) if host else peer.create_client("127.0.0.1", port, 4)) == OK, "create real ENet transport")
@@ -81,6 +82,18 @@ func run() -> void:
 			check(actor.survival.health == (67.0 if actor.owner_peer_id == 1 else 42.0), "host restored health for peer %d" % actor.owner_peer_id)
 		check(world._base_gameplay_controller.save_progress_authoritative(false, "manual"), "host saves joined team")
 		var state: BaseGameplayController = world._base_gameplay_controller
+		check(not state.save_progress_authoritative(false, "manual"), "host cannot spend a second team manual save today")
+		var manual_path: String = ExpeditionSaveStore.read("coop").path
+		await get_tree().create_timer(5.3).timeout
+		check(ExpeditionSaveStore.read("coop").path == manual_path, "live two-player session does not autosave every five seconds")
+		for index in actors.size():
+			var bunk: BaseEndDayBunk = state.get_parent().get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable%02d" % (index + 1))
+			actors[index].teleport_authoritative(bunk.wake_pose.global_position, 0)
+			bunk.network_sleep_interact(actors[index].owner_peer_id, actors[index])
+		check(await wait_until(func(): return state.day_index == 4), "both players complete a real shared night")
+		var mornings := ExpeditionSaveStore.checkpoints("coop")
+		check(mornings[0].is_empty() and mornings[1].day_index == 4 and mornings[2].day_index == 3, "shared morning expires manual and retains exactly days four and three")
+		check(state.can_manual_save() and state.save_progress_authoritative(false, "manual"), "next morning grants one new team manual save")
 		var snapshot := state.get_snapshot()
 		snapshot.day_index = 4
 		snapshot.maintenance = {}
@@ -96,6 +109,14 @@ func run() -> void:
 			state._broadcast_snapshot(snapshot)
 			check_campaign_phase.rpc(day)
 			check(await wait_until(func(): return phase_reported_day == day), "guest validates campaign day %d" % day)
+		var guest: GamePlayer = actors.filter(func(actor): return actor.owner_peer_id != 1)[0]
+		ask_console_sleep.rpc_id(guest.owner_peer_id)
+		check(await wait_until(func(): return state.day_index == 8), "guest console sleep is executed by the host")
+		var console_save := ExpeditionSaveStore.read("coop")
+		check(int(console_save.config.get_value("base", "day_index", 0)) == 8 and str(console_save.config.get_value("save", "kind", "")) == "sleep", "guest console command creates the shared morning file only on host")
+		check(state.manual_save_day == 0 and state.can_manual_save(), "console night resets shared daily save allowance")
+		verify_console_sleep.rpc_id(guest.owner_peer_id)
+		check(await wait_until(func(): return phase_reported_day == 8), "guest verifies debug morning and recovery")
 		finish.rpc(failures)
 		await get_tree().create_timer(0.5).timeout
 		print("COOP SAVE CHECKS ", checks, " FAILURES ", failures)
@@ -130,6 +151,11 @@ func check_campaign_phase(day: int) -> void:
 	var state: BaseGameplayController = world._base_gameplay_controller
 	check(await wait_until(func(): return state.day_index == day), "guest receives day %d without clamping" % day)
 	check(state.containment.get("trials", false), "guest retains shared trials completion on day %d" % day)
+	if day == 4:
+		check(state.manual_save_day == 4, "guest receives the host's consumed daily save allowance")
+		var menu := get_tree().root.get_node("GameMenu")
+		menu.main_panel.refresh()
+		check(menu.main_panel.get_node("Save").disabled and menu.main_panel.get_node("SaveHint").text.contains("использована"), "guest UI shows the shared used allowance")
 	# Elevator snapshots deliberately apply on the next physics tick.
 	check(await wait_until(func(): return world._v3_elevator_controller.unlocked_floor_index == mini(day - 1, 5)), "guest sees one new floor per day, capped at shaft")
 	var encounter = state.get_parent().get_node("ContainmentEncounter")
@@ -155,3 +181,18 @@ func finish(host_failures: int) -> void:
 	check(ExpeditionSaveStore.read("coop").path == local_path, "disconnect preserves unrelated local save")
 	print("COOP SAVE CHECKS ", checks, " FAILURES ", failures)
 	get_tree().quit(1 if failures else 0)
+
+@rpc("authority", "call_remote", "reliable")
+func ask_console_sleep() -> void:
+	var result: String = get_tree().root.get_node("DeveloperConsole").execute("/sleep")
+	check(result.contains("серверу"), "guest sleep request uses the existing server command route")
+
+@rpc("authority", "call_remote", "reliable")
+func verify_console_sleep() -> void:
+	var state: BaseGameplayController = world._base_gameplay_controller
+	var actor: GamePlayer = get_tree().get_first_node_in_group("local_player")
+	check(await wait_until(func(): return state.day_index == 8 and not actor.is_sleeping_in_bunk() and actor.survival.health == actor.survival.max_health), "guest receives next day and awake healed player")
+	check(state.manual_save_day == 0, "guest receives refreshed shared manual allowance")
+	check(get_tree().root.get_node("GameMenu/SaveNotification").visible, "guest sees console morning save notification")
+	campaign_phase_checked.rpc_id(1, 8, failures)
+	failures = 0

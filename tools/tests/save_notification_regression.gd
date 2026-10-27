@@ -41,8 +41,7 @@ func run() -> void:
 	var notice := menu.get_node("SaveNotification")
 	notice._bind_controller()
 	state.save_notice_started.connect(func(kind): notices.append(kind))
-	state._last_checkpoint_msec = -5001
-	check(state.save_progress_authoritative(true), "background five-second save succeeds")
+	check(not state.save_progress_authoritative(true), "background five-second save is rejected")
 	check(not notice.visible and notices.is_empty(), "periodic saves stay silent")
 	state.save_progress_authoritative(false, "progress")
 	check(not notice.visible and notices.is_empty(), "ordinary gameplay commits stay silent too")
@@ -60,6 +59,7 @@ func run() -> void:
 	check(not notice.visible, "confirmation disappears automatically")
 	var original_path: String = ProjectSettings.get_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING)
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, original_path + "/missing/fail.cfg")
+	state.debug_set_day_authoritative(2)
 	menu.manual_save()
 	await create_timer(.8).timeout
 	check(notice.title.text == "Не удалось сохранить игру", "failed real write cannot display a success message")

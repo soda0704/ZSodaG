@@ -84,17 +84,12 @@ func run():
  journal._refresh_content()
  check(journal.tasks_label.text.contains("Зачистить уровень") and not journal.tasks_label.text.contains("3/3"),"journal uses clearance objective without monster count")
  state.save_progress_authoritative()
- var last:int=state._last_checkpoint_msec
+ var last=FileAccess.get_file_as_string(SAVE)
  var before:float=state.fuel_liters
  state._process(5.0)
- check(state.fuel_liters<before and state._last_checkpoint_msec==last,"fuel replication does not write a second regular checkpoint")
- state.save_progress_authoritative(true)
- check(state._last_checkpoint_msec==last,"regular save skips recent important checkpoint")
- state._last_checkpoint_msec-=6000
- state.save_progress_authoritative(true)
- var config=ConfigFile.new()
- config.load(SAVE)
- check(absf(float(config.get_value("base","fuel_liters"))-state.fuel_liters)<0.001,"single periodic checkpoint includes current fuel")
+ check(state.fuel_liters<before and FileAccess.get_file_as_string(SAVE)==last,"fuel replication does not write the world")
+ check(not state.save_progress_authoritative(true),"periodic checkpoint requests are disabled")
+ check(FileAccess.get_file_as_string(SAVE)==last,"rejected periodic write preserves the manual save")
  check(state.set_end_day_ready_authoritative(1,true) and state.set_peer_sleeping_authoritative(1,true),"containment day permits normal sleep consensus")
  check(state.advance_day_authoritative(),"sleep after containment advances to shaft day")
  check(state.day_index==6 and elevator.unlocked_floor_index==5,"day 6 opens expedition shaft level 5")

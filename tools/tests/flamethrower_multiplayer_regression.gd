@@ -68,7 +68,7 @@ func run() -> void:
 	check(await wait_until(func():return world._v3_items_spawned),"host resumes production scene")
 	bench=get_tree().get_first_node_in_group("flamethrower_workbenches");bench.state.set_process(false)
 	check(world.world_items.get_child_count()==18,"old checkpoint migrates two part sets exactly once")
-	check(int(ExpeditionSaveStore.read("coop").config.get_value("inventory","checkpoint",{}).get("flamethrower_parts_layout_version",0))==1,"migration version is immediately persisted")
+	check(int(ExpeditionSaveStore.read("coop").config.get_value("inventory","checkpoint",{}).get("flamethrower_parts_layout_version",0))==0,"layout preparation does not automatically write to disk")
 	print("HOST_READY_FOR_CRAFT_CLIENT")
 	check(await wait_until(func():return guest_id>0),"late guest acknowledges restored components")
 	if guest_id==0:get_tree().quit(1);return
@@ -90,7 +90,7 @@ func run() -> void:
 	pickup.network_interact(1,actor)
 	for frame in 3:await get_tree().process_frame
 	check(world.world_items.get_child_count()==17,"collecting a component removes its physical pickup before save")
-	world.save_inventory_checkpoint()
+	check(bench.state.save_progress_authoritative(false, "manual"), "explicit team save captures assembled equipment")
 	var saved: Dictionary=ExpeditionSaveStore.read("coop").config.get_value("inventory","checkpoint",{})
 	check(saved.players["test:host"].held_item==&"flamethrower" and saved.players["test:guest"].held_item==&"flamethrower","both players finished equipment persists by account")
 	check(int(saved.players["test:guest"].crafting_parts.get(&"flame_valve",0))==1,"guest remaining components persist")

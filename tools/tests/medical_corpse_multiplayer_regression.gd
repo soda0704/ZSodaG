@@ -72,7 +72,7 @@ func run() -> void:
 	check(corpse.ragdoll.bodies.all(func(body): return is_instance_valid(body) and not body.freeze),"body returns to ordinary ground physics after disconnect")
 	check(await lift(actor),"remaining player can recover the body after partner disconnects")
 	actor.drop_current_item_authoritative()
-	world.save_inventory_checkpoint()
+	check(corpse.state.save_progress_authoritative(false, "manual"), "explicit save captures released corpse")
 	var snapshot: Dictionary=corpse.state.load_saved_snapshot()
 	check(int(snapshot.maintenance.corpse_recovery.bodies[str(corpse.corpse_id)].mode)==MedicalCorpse.Mode.GROUND,"checkpoint keeps the released body without a stale carrier")
 	print("MEDICAL COOP CHECKS ",checks," FAILURES ",failures)

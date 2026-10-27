@@ -124,7 +124,6 @@ func network_interact(peer: int, player: Node) -> void:
 		fuel_liters += added
 		player.fuel_liters -= added
 		player._publish_inventory()
-		_save()
 	elif driver_peer == 0 and not player.is_driving():
 		driver_peer = peer
 		_engine_powered = false
@@ -173,7 +172,6 @@ func exit_driver() -> bool:
 	_ignition_left = 0.0
 	_input_boost = false
 	_sync_time = 1.0
-	_save()
 	return true
 
 @rpc("authority", "call_remote", "reliable")
@@ -319,10 +317,6 @@ func _receive_state(pose: Transform3D, fuel: float, peer: int, speed: float = 0.
 			previous.vehicle = null
 			previous.collision_shape.set_deferred("disabled", not previous.is_local_player())
 	driver_peer = peer
-
-func _save() -> void:
-	if _state != null:
-		_state.save_progress_authoritative()
 
 func _update_engine_audio(delta: float) -> void:
 	var running := driver_peer != 0 and fuel_liters > 0.0

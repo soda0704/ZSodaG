@@ -14,6 +14,7 @@ var current_view := "home"
 var _transition_in_progress := false
 var _character_flow := "solo"
 var _last_focus: Control
+var _checkpoint_scope := "solo"
 
 func _ready() -> void:
 	ExpeditionSaveStore.select_existing("solo")
@@ -77,12 +78,7 @@ func _navigate(callback: Callable) -> void:
 	shell.transition(callback)
 
 func _on_single_player_pressed() -> void:
-	_navigate(func():
-		if BaseGameplayController.has_progress_save_file():
-			GameMenu.confirm("Новая экспедиция", "После начала новой игры одиночное сохранение будет заменено.", [{"label": "Выбрать персонажа", "action": show_character.bind("solo")}])
-		else:
-			show_character("solo")
-	)
+	_navigate(show_character.bind("solo"))
 
 func show_character(flow: String = "solo") -> void:
 	current_view = "character"
@@ -105,18 +101,47 @@ func _confirm_character() -> void:
 	else:
 		_start_solo(false)
 
-func _show_checkpoint() -> void:
+func _show_checkpoint(scope: String = "solo") -> void:
+	_checkpoint_scope = scope
+	BaseGameplayController.save_scope = scope
 	current_view = "checkpoint"
 	var page := _page("res://scenes/ui/menu_checkpoint.tscn")
-	var summary := BaseGameplayController.get_saved_progress_summary()
-	page.get_node("Day").text = "ДЕНЬ %d" % int(summary.get("day_index", 1))
-	page.get_node("Power").text = "Питание включено" if bool(summary.get("main_breaker_on", false)) else "Питание отключено"
-	page.get_node("Continue").pressed.connect(_start_solo.bind(true))
-	page.get_node("Delete").pressed.connect(func(): GameMenu.confirm("Удалить сохранение?", "Одиночный прогресс будет удалён.", [{"label": "Удалить", "action": _delete_save}]))
+	var current := ExpeditionSaveStore.read(scope)
+	var summary := ExpeditionSaveStore.summary(scope, current)
+	var points := ExpeditionSaveStore.checkpoints(scope)
+	var latest_name := str(current.get("path", "")).get_file()
+	var used := not current.is_empty() and int(current.config.get_value("base", "manual_save_day", 0)) == int(summary.get("day_index", 1))
+	page.call("configure", scope, summary, points, latest_name, used)
+	page.call("animate_in")
+	page.connect("continue_requested", func(name: String): _choose_checkpoint(scope, name))
+	if scope == "coop":
+		page.get_node("%Delete").text = "НОВАЯ ЭКСПЕДИЦИЯ"
+		page.get_node("%Delete").pressed.connect(GameMenu._confirm_new_coop_game)
+	else:
+		page.get_node("%Delete").pressed.connect(func(): GameMenu.confirm("Удалить экспедицию?", "Все три записи этой экспедиции будут удалены.", [{"label": "Удалить", "action": _delete_save}]))
+	page.get_node("%Continue").grab_focus()
+
+func _resume_expedition(scope: String) -> void:
+	if scope == "coop": GameMenu._begin_host_session(true)
+	else: _start_solo(true)
+
+func _choose_checkpoint(scope: String, name: String) -> void:
+	var current := ExpeditionSaveStore.read(scope)
+	if str(current.get("path", "")).get_file() == name:
+		_resume_expedition(scope)
+		return
+	GameMenu.confirm("Вернуться к этому утру?", "Более поздний прогресс и ручная запись будут удалены. Использованная ручная запись этого дня повторно не выдаётся.", [{"label": "Загрузить утро", "action": _load_checkpoint.bind(scope, name)}])
+
+func _load_checkpoint(scope: String, name: String) -> void:
+	if not ExpeditionSaveStore.rollback(scope, name):
+		show_status("Не удалось загрузить запись. Текущий прогресс сохранён.")
+		return
+	_resume_expedition(scope)
 
 func _delete_save() -> void:
 	if BaseGameplayController.delete_progress_save():
-		_show_home()
+		if _checkpoint_scope == "coop": _show_coop()
+		else: _show_home()
 	else:
 		show_status("Не удалось удалить сохранение.")
 
@@ -181,11 +206,12 @@ func set_overlay_visible(value: bool) -> void:
 func show_status(message: String) -> void:
 	if status_label != null:
 		status_label.text = message
+		status_label.visible = not message.is_empty()
 
 func back() -> void:
 	if shell.busy or _transition_in_progress:
 		return
-	_navigate(_show_coop if current_view == "character" and _character_flow == "coop" else _show_home)
+	_navigate(_show_coop if (current_view == "character" and _character_flow == "coop") or (current_view == "checkpoint" and _checkpoint_scope == "coop") else _show_home)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if GameMenu.is_menu_open() or event.is_echo():

@@ -1,11 +1,11 @@
 class_name ExpeditionSaveStore
 extends RefCounted
-## Immutable commits: publishing one verified file commits both progress and history.
+## One daily manual save and the mornings of the current and previous day.
 const MAX_DAY_INDEX := 999
 const SLOT_COUNT := 3
 const HISTORY_LIMIT := 2
 const ROOT_SETTING := "northern_lab/testing/save_slots_root"
-const DEFAULT_ROOT := "user://expeditions"
+const DEFAULT_ROOT := "saves/expeditions"
 const TEST_PATH_SETTING := "northern_lab/testing/base_save_path"
 const LEGACY_PATHS_SETTING := "northern_lab/testing/legacy_save_paths"
 static var selected_slots: Dictionary = {"solo": 1, "coop": 1}
@@ -16,8 +16,14 @@ static func slot(scope: String) -> int:
 static func select(scope: String, number: int) -> void:
 	selected_slots[scope] = clampi(number, 1, SLOT_COUNT)
 
+static func default_root() -> String:
+	# In the editor the executable belongs to Godot, not to this project.
+	var base_dir := ProjectSettings.globalize_path("res://") if OS.has_feature("editor") \
+		else OS.get_executable_path().get_base_dir()
+	return base_dir.path_join(DEFAULT_ROOT)
+
 static func directory(scope: String) -> String:
-	return str(ProjectSettings.get_setting(ROOT_SETTING, DEFAULT_ROOT)).path_join(
+	return str(ProjectSettings.get_setting(ROOT_SETTING, default_root())).path_join(
 		"%s_%d" % ["coop" if scope == "coop" else "solo", slot(scope)])
 
 static func test_path() -> String:
@@ -88,30 +94,71 @@ static func _migrate_legacy(scope: String) -> void:
 	if config.load(legacy) == OK and _valid(config):
 		_commit(config, scope, {}, "migration")
 
-static func write(config: ConfigFile, scope: String, kind: String = "progress") -> bool:
-	if not _valid(config):
+static func write(config: ConfigFile, scope: String, kind: String = "manual", debug_replace_future: bool = false) -> bool:
+	if not _valid(config) or kind not in ["manual", "start", "sleep"]:
 		return false
+	if debug_replace_future and kind != "sleep": return false
 	if not test_path().is_empty():
+		var previous := read(scope)
+		if not _prepare_write(config, previous, kind, debug_replace_future): return false
 		return _publish(config.encode_to_text(), test_path())
-	return _commit(config, scope, read(scope), kind)
+	return _commit(config, scope, read(scope), kind, debug_replace_future)
 
-static func _commit(config: ConfigFile, scope: String, previous: Dictionary, kind: String) -> bool:
+static func _prepare_write(config: ConfigFile, previous: Dictionary, kind: String, debug_replace_future: bool = false) -> bool:
+	var day := int(config.get_value("base", "day_index", 1))
+	if config.has_section_key("save", "discard_future"): config.erase_section_key("save", "discard_future")
+	if kind == "manual":
+		if not previous.is_empty() and int(previous.config.get_value("base", "manual_save_day", 0)) == day:
+			return false
+		config.set_value("base", "manual_save_day", day)
+	elif kind in ["start", "sleep", "migration"]:
+		if not previous.is_empty():
+			if kind == "start": return false
+			if int(previous.config.get_value("base", "day_index", 1)) >= day:
+				if not debug_replace_future or kind != "sleep": return false
+				config.set_value("save", "discard_future", true)
+		config.set_value("base", "manual_save_day", 0)
+	config.set_value("save", "saved_at", int(Time.get_unix_time_from_system()))
+	config.set_value("save", "kind", kind)
+	return true
+
+static func _morning_names(scope: String, data: Dictionary, day: int) -> Array[String]:
+	var result: Array[String] = []
+	var days: Array[int] = []
+	var candidates: Array = [data.get("anchor", "")] + data.get("history", [])
+	if not data.is_empty() and str(data.config.get_value("save", "kind", "")) in ["start", "sleep", "migration"]:
+		candidates.push_front(str(data.get("path", "")).get_file())
+	for candidate in candidates:
+		var name := str(candidate)
+		if name.is_empty() or name.get_file() != name: continue
+		var point := _read_file(directory(scope).path_join(name))
+		if point.is_empty(): continue
+		if str(point.config.get_value("save", "kind", "")) not in ["sleep", "start", "migration"]: continue
+		var point_day := int(point.config.get_value("base", "day_index", 0))
+		if point_day in [day, day - 1] and not days.has(point_day):
+			result.append(name)
+			days.append(point_day)
+	return result
+
+static func _commit(config: ConfigFile, scope: String, previous: Dictionary, kind: String, debug_replace_future: bool = false) -> bool:
+	if not _prepare_write(config, previous, kind, debug_replace_future): return false
 	var dir := directory(scope)
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir)) != OK:
 		return false
 	var files := _files(scope)
 	var serial := int(files[0].trim_prefix("commit_").trim_suffix(".cfg")) + 1 if not files.is_empty() else 1
 	var name := "commit_%012d.cfg" % serial
-	var history: Array = previous.get("history", []).duplicate()
-	var anchor := str(previous.get("anchor", ""))
-	if not anchor.is_empty() and not history.has(anchor):
-		history.push_front(anchor)
-	while history.size() > HISTORY_LIMIT:
-		history.pop_back()
-	if kind in ["sleep", "event", "start"]:
-		anchor = name
-	config.set_value("save", "saved_at", int(Time.get_unix_time_from_system()))
-	config.set_value("save", "kind", kind)
+	var day := int(config.get_value("base", "day_index", 1))
+	var history := _morning_names(scope, previous, day)
+	if kind in ["sleep", "start", "migration"]:
+		history = history.filter(func(morning): return int(_read_file(dir.path_join(morning)).config.get_value("base", "day_index", 0)) == day - 1)
+		history.push_front(name)
+	while history.size() > HISTORY_LIMIT: history.pop_back()
+	var anchor := ""
+	for morning in history:
+		if morning == name or int(_read_file(dir.path_join(morning)).config.get_value("base", "day_index", 0)) == day:
+			anchor = morning
+			break
 	var payload := config.encode_to_text()
 	var envelope := ConfigFile.new()
 	envelope.set_value("storage", "version", 1)
@@ -144,8 +191,14 @@ static func _publish(text: String, path: String) -> bool:
 static func _prune(scope: String) -> void:
 	var files := _files(scope)
 	var keep: Array[String] = []
-	# Retain two valid commits for recovery, plus their bounded histories.
+	var latest := _read_file(directory(scope).path_join(files[0])) if not files.is_empty() else {}
+	var restoring := not latest.is_empty() and (str(latest.config.get_value("save", "kind", "")) == "restore" or bool(latest.config.get_value("save", "discard_future", false)))
+	# An abandoned future must not become the recovery fallback after a rollback.
+	if restoring:
+		keep.append(files[0])
+	# Otherwise retain two valid commits for recovery, plus their bounded histories.
 	for name in files:
+		if restoring: break
 		var data := _read_file(directory(scope).path_join(name))
 		if data.is_empty():
 			continue
@@ -180,7 +233,9 @@ static func summary(scope: String, data: Dictionary = {}) -> Dictionary:
 static func history(scope: String) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	var current := read(scope)
-	for name in current.get("history", []):
+	if current.is_empty(): return result
+	var day := int(current.config.get_value("base", "day_index", 1))
+	for name in _morning_names(scope, current, day):
 		if str(name).get_file() != str(name):
 			continue
 		var data := _read_file(directory(scope).path_join(str(name)))
@@ -188,6 +243,19 @@ static func history(scope: String) -> Array[Dictionary]:
 			var item := summary(scope, data)
 			item["name"] = str(name)
 			result.append(item)
+	return result
+
+static func checkpoints(scope: String) -> Array[Dictionary]:
+	var current := read(scope)
+	var result: Array[Dictionary] = [{}, {}, {}]
+	if current.is_empty(): return result
+	var day := int(current.config.get_value("base", "day_index", 1))
+	if str(current.config.get_value("save", "kind", "")) == "manual":
+		result[0] = summary(scope, current)
+		result[0]["name"] = str(current.path).get_file()
+	for point in history(scope):
+		if int(point.day_index) == day: result[1] = point
+		elif int(point.day_index) == day - 1: result[2] = point
 	return result
 
 static func rollback(scope: String, name: String) -> bool:
@@ -198,9 +266,15 @@ static func rollback(scope: String, name: String) -> bool:
 	var point := _read_file(directory(scope).path_join(name))
 	if point.is_empty():
 		return false
-	# Discard the future branch, preserving only older available checkpoints.
-	var older := points.slice(points.find(name) + 1)
-	return _commit(point.config, scope, {"history": older, "anchor": ""}, "rollback")
+	# Replaying this morning does not refund a manual save already used today.
+	var day := int(point.config.get_value("base", "day_index", 1))
+	if int(current.config.get_value("base", "manual_save_day", 0)) == day:
+		point.config.set_value("base", "manual_save_day", day)
+	# Only the two currently offered mornings may survive the branch change.
+	# Old envelopes can reference technical backups that are no longer selectable.
+	var branch := {"config": point.config, "path": point.path,
+		"history": current.get("history", []), "anchor": name}
+	return _commit(point.config, scope, branch, "restore")
 
 static func clear(scope: String) -> bool:
 	if not test_path().is_empty():

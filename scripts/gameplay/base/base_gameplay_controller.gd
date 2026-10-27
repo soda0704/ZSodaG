@@ -39,7 +39,7 @@ const TRIALS_DAY_INDEX := 4
 const CONTAINMENT_DAY_INDEX := 5
 const EXPEDITION_DAY_INDEX := 6
 const CAVE_DAY_INDEX := 7
-var _last_checkpoint_msec := -5000
+var manual_save_day := 0
 
 var day_index: int = FIRST_DAY
 var phase: BasePhase = BasePhase.ARRIVAL
@@ -456,12 +456,11 @@ func reset_day_one_authoritative() -> bool:
 	return true
 
 
-func advance_day_authoritative() -> bool:
+func advance_day_authoritative(debug_skip_requirements: bool = false) -> bool:
 	if (
 		not multiplayer.is_server()
-		or not are_all_connected_players_sleeping()
 		or day_index >= MAX_DAY_INDEX
-		or not can_end_current_day()
+		or (not debug_skip_requirements and (not are_all_connected_players_sleeping() or not can_end_current_day()))
 	):
 		return false
 	var next := _make_snapshot(
@@ -472,6 +471,7 @@ func advance_day_authoritative() -> bool:
 			[],
 			[]
 	)
+	next.manual_save_day = 0
 	_age_plant(next, day_index, day_index + 1)
 	var recovery: Dictionary = next.maintenance.get("corpse_recovery", {}).duplicate(true)
 	if recovery.get("picked_up", false):
@@ -524,12 +524,19 @@ func debug_set_day_authoritative(next_day: int) -> bool:
 	return true
 
 
-func save_progress_authoritative(periodic: bool = false, kind: String = "progress", label: String = "") -> bool:
+func can_manual_save() -> bool:
+	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
+	if world != null and (not world._v3_items_spawned or world._v3_transition_in_progress): return false
+	return progress_persistence_enabled and _owns_saved_progress and multiplayer.is_server() \
+		and manual_save_day != day_index and phase != BasePhase.ENDING_DAY
+
+
+func save_progress_authoritative(periodic: bool = false, kind: String = "manual", label: String = "", debug_replace_future: bool = false) -> bool:
 	if not progress_persistence_enabled or not _owns_saved_progress or not multiplayer.is_server():
 		return false
-	if periodic and Time.get_ticks_msec() - _last_checkpoint_msec < 5000:
-		return true
-	var show_notice := not periodic and kind in ["manual", "sleep"]
+	if periodic or kind not in ["manual", "sleep", "start"]: return false
+	if kind == "manual" and not can_manual_save(): return false
+	var show_notice := kind in ["manual", "sleep"]
 	if show_notice:
 		_receive_save_notice.rpc(kind, false, false)
 	var config := ConfigFile.new()
@@ -544,12 +551,13 @@ func save_progress_authoritative(periodic: bool = false, kind: String = "progres
 	config.set_value("save", "label", label)
 	for key in snapshot:
 		config.set_value("base", str(key), snapshot[key])
-	if not ExpeditionSaveStore.write(config, save_scope, kind):
+	if not ExpeditionSaveStore.write(config, save_scope, kind, debug_replace_future):
 		push_warning("Could not save expedition progress")
 		if show_notice:
 			_receive_save_notice.rpc(kind, true, false)
 		return false
-	_last_checkpoint_msec = Time.get_ticks_msec()
+	manual_save_day = int(config.get_value("base", "manual_save_day", 0))
+	_broadcast_snapshot(get_snapshot())
 	if show_notice:
 		_receive_save_notice.rpc(kind, true, true)
 	return true
@@ -560,11 +568,6 @@ func _receive_save_notice(kind: String, finished: bool, succeeded: bool) -> void
 	if kind not in ["manual", "sleep"]: return
 	if finished: save_notice_finished.emit(kind, succeeded)
 	else: save_notice_started.emit(kind)
-
-
-func save_story_checkpoint_authoritative(label: String) -> bool:
-	# Future story triggers call this BEFORE applying a consequential event.
-	return save_progress_authoritative(false, "event", label)
 
 
 func load_saved_snapshot() -> Dictionary:
@@ -593,6 +596,7 @@ func load_saved_snapshot() -> Dictionary:
 		[]
 	)
 	snapshot["quest_stage"] = int(config.get_value("base", "quest_stage", 0))
+	snapshot["manual_save_day"] = int(config.get_value("base", "manual_save_day", 0))
 	snapshot["fuel_liters"] = float(config.get_value("base", "fuel_liters", 20.0 if saved_fuel else 0.0))
 	snapshot["containment"] = config.get_value("base", "containment", {})
 	snapshot["maintenance"] = config.get_value("base", "maintenance", {})
@@ -696,6 +700,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	var previous_sleeping := sleeping_peer_ids.duplicate()
 
 	day_index = clampi(int(snapshot.get("day_index", FIRST_DAY)), FIRST_DAY, MAX_DAY_INDEX)
+	manual_save_day = int(snapshot.get("manual_save_day", 0))
 	phase = clampi(
 		int(snapshot.get("phase", BasePhase.ARRIVAL)),
 		BasePhase.ARRIVAL,
@@ -752,8 +757,6 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	var new_wiring_fault := not previous_wiring_fault and bool(maintenance.get("wires_required", false))
 	if not force_signals and not applying_initial_snapshot and (new_lighting_fault or new_wiring_fault):
 		lighting_fault_started.emit()
-	if multiplayer.is_server() and persist:
-		save_progress_authoritative()
 
 
 func _make_snapshot(
@@ -766,6 +769,7 @@ func _make_snapshot(
 ) -> Dictionary:
 	return {
 		"day_index": clampi(next_day_index, FIRST_DAY, MAX_DAY_INDEX),
+		"manual_save_day": manual_save_day,
 		"phase": int(next_phase),
 		"fuel_delivered": next_fuel_delivered,
 		"fuel_liters": fuel_liters if next_fuel_delivered else 0.0,

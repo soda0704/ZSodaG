@@ -125,6 +125,7 @@ func run() -> void:
 	await settle()
 	check(cycles == cycles_before and not state.water_plant_authoritative(1), "repeated and duplicate interactions cannot replay daily watering")
 	check(button.get_interaction_hint_for(player) == "Сегодня уже полито", "used button reports shared daily limit")
+	check(state.save_progress_authoritative(false, "manual"), "explicit manual save captures watering")
 	check(state.load_saved_snapshot().plant_last_watered_day == 1, "watering included in host progress save")
 	var off := state.get_snapshot()
 	off.main_breaker_on = false
@@ -144,6 +145,7 @@ func run() -> void:
 	await visit()
 	check(state.water_plant_authoritative(1), "new game day permits exactly one new watering")
 	check(state.plant_last_watered_day == 2 and not state.water_plant_authoritative(1), "second day shares the same repeat guard")
+	check(state.save_progress_authoritative(false, "manual"), "next day permits its own explicit save")
 	var saved: ConfigFile = ExpeditionSaveStore.read("solo").config
 	check(int(saved.get_value("base", "plant_last_watered_day", 0)) == 2, "daily state participates in ordinary expedition save format")
 	saved.erase_section_key("base", "plant_last_watered_day")

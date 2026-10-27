@@ -20,8 +20,6 @@ func _physics_process(_delta: float) -> void:
 	if bool(prop.item_state.get("obstruction_cleared", false)) or moved or turn >= deg_to_rad(clearance_angle_degrees):
 		prop.item_state["obstruction_cleared"] = true
 		_set_cleared.rpc(true)
-		var session := get_tree().get_first_node_in_group("network_gameplay_controller")
-		if session != null: session.call_deferred("save_inventory_checkpoint")
 
 @rpc("authority", "call_local", "reliable", 2)
 func _set_cleared(value: bool) -> void:

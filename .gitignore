@@ -3,6 +3,7 @@
 
 export.cfg
 /build/
+/saves/
 
 *.tmp
 *.log

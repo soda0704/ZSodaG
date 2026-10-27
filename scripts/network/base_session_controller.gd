@@ -74,9 +74,8 @@ var _base_gameplay_controller: BaseGameplayController
 var _v3_elevator_controller: FunctionalElevatorController
 var _standalone_mode: bool = false
 var resume_base_on_start: bool = false
-var _inventory_save_elapsed: float = 0.0
-var _inventory_checkpoint_pending := false
 var _v3_ready_peers: Array[int] = []
+var _peer_inventory_ids: Dictionary = {}
 var _transition_player_physics: Dictionary = {}
 
 func _pause_transition_player(player: GamePlayer) -> void:
@@ -98,34 +97,12 @@ func get_ready_v3_peers() -> Array[int]:
 	return _v3_ready_peers.duplicate()
 
 
-func _process(delta: float) -> void:
-	if multiplayer.is_server() and _v3_items_spawned and not _v3_transition_in_progress:
-		_inventory_save_elapsed += delta
-		if _inventory_save_elapsed >= 5.0:
-			_inventory_save_elapsed = 0.0
-			save_inventory_checkpoint(true)
-
-
-func save_inventory_checkpoint(periodic: bool = false) -> void:
-	if multiplayer.is_server() and _v3_items_spawned and is_instance_valid(_base_gameplay_controller):
-		_base_gameplay_controller.save_progress_authoritative(periodic)
-
-
-func queue_inventory_checkpoint() -> void:
-	if not multiplayer.is_server() or _inventory_checkpoint_pending:
-		return
-	_inventory_checkpoint_pending = true
-	_flush_inventory_checkpoint.call_deferred()
-
-
-func _flush_inventory_checkpoint() -> void:
-	if not _inventory_checkpoint_pending: return
-	_inventory_checkpoint_pending = false
-	save_inventory_checkpoint()
-
-
 func _inventory_id(peer_id: int) -> String:
-	return "solo" if _standalone_mode and peer_id == multiplayer.get_unique_id() else SteamNetwork.get_peer_inventory_id(peer_id)
+	if _standalone_mode and peer_id == multiplayer.get_unique_id(): return "solo"
+	# Steam may no longer resolve a disconnected peer while its equipment is dropped.
+	if not _peer_inventory_ids.has(peer_id):
+		_peer_inventory_ids[peer_id] = SteamNetwork.get_peer_inventory_id(peer_id)
+	return str(_peer_inventory_ids[peer_id])
 
 
 func capture_inventory_checkpoint() -> Dictionary:
@@ -732,8 +709,6 @@ func spawn_v3_world_items() -> void:
 				else:
 					restored = _migrate_prop_transform(StringName(data.item_type), restored)
 			spawn_world_item(StringName(data.item_type), world_items.global_transform.affine_inverse() * restored, data.item_state)
-		if migrate_props or migrate_backup or migrate_craft:
-			save_inventory_checkpoint()
 		return
 	if not _base_gameplay_controller.plant_seed_planted:
 		var level := get_node("V3Level") as BaseBlockoutRuntime
@@ -760,8 +735,6 @@ func spawn_v3_world_items() -> void:
 		spawn_world_item(GamePlayer.BATTERY_ITEM, cell_transform, {"charge_amount": 1.0})
 	if not _base_gameplay_controller.fuel_delivered:
 		spawn_world_item(GamePlayer.FUEL_ITEM, local_fuel_transform, {})
-	if migrate_backup:
-		save_inventory_checkpoint()
 	_base_gameplay_controller.save_progress_authoritative(false, "start", "Начало экспедиции")
 
 
@@ -939,8 +912,11 @@ func _on_peer_left(peer_id: int) -> void:
 		and departing_player.has_method("drop_current_item_authoritative")
 	):
 		departing_player.call("drop_all_items_at_authoritative", departing_player.call("get_held_item_drop_transform"))
-	save_inventory_checkpoint()
+	# Keep departed equipment in memory for reconnects; only explicit saves write it.
+	if is_instance_valid(_base_gameplay_controller):
+		_base_gameplay_controller.inventory_checkpoint = capture_inventory_checkpoint()
 	_player_roster.erase(peer_id)
+	_peer_inventory_ids.erase(peer_id)
 	_despawn_player.rpc(peer_id)
 
 
@@ -951,7 +927,7 @@ func _on_peer_joined(peer_id: int) -> void:
 
 
 func _on_session_closed(_reason: String) -> void:
-	_inventory_checkpoint_pending = false
+	_peer_inventory_ids.clear()
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.progress_persistence_enabled = false
 	_v3_ready_peers.clear()

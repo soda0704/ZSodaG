@@ -75,7 +75,15 @@ func run() -> void:
 		if read_back:
 			check(await wait_until(func(): return world.players.get_child_count() == 1), "guest actually disconnects while host remains in expedition")
 			var state: BaseGameplayController = world._base_gameplay_controller
-			check(state.save_progress_authoritative(false, "manual"), "host can save after guest departure")
+			var before_departure: String = ExpeditionSaveStore.read("coop").path
+			check(not state.save_progress_authoritative(false, "manual"), "restarting and guest departure cannot refund today's manual save")
+			check(ExpeditionSaveStore.read("coop").path == before_departure, "guest departure never writes the world to disk")
+			check(StringName(state.inventory_checkpoint.players["test:guest"].held_item) == &"", "guest reconnect state remembers empty hands in host memory")
+			var bunk: BaseEndDayBunk = state.get_parent().get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
+			var actor: GamePlayer = world.players.get_node("1")
+			actor.teleport_authoritative(bunk.wake_pose.global_position, 0)
+			bunk.network_sleep_interact(1, actor)
+			check(await wait_until(func(): return state.day_index == 4), "host's next completed sleep records dropped guest equipment")
 			var disk := ExpeditionSaveStore.read("coop")
 			var checkpoint: Dictionary = disk.config.get_value("inventory", "checkpoint")
 			check(StringName(checkpoint.players["test:guest"].held_item) == &"", "departed account saves empty hands instead of retaining a duplicate can")

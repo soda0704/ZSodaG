@@ -1304,11 +1304,6 @@ func _publish_inventory(force := false) -> void:
 	if _handoff_transaction and not force: return
 	_inventory_revision += 1
 	_receive_equipment.rpc(get_inventory_snapshot())
-	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-	if world != null and world.has_method("queue_inventory_checkpoint"):
-		world.call("queue_inventory_checkpoint")
-	elif world != null and world.has_method("save_inventory_checkpoint"):
-		world.call_deferred("save_inventory_checkpoint")
 
 
 @rpc("authority", "call_local", "reliable", 2)
