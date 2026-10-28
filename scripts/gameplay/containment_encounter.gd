@@ -1,14 +1,26 @@
 extends Node3D
 
-const CREATURE_SCENES := [preload("res://scenes/characters/monsters/the_monster.tscn"), preload("res://scenes/characters/monsters/slasher.tscn"), preload("res://scenes/characters/monsters/smily.tscn")]
+const CREATURE_SCENES := [
+	preload("res://scenes/characters/monsters/the_monster.tscn"),
+	preload("res://scenes/characters/monsters/slasher.tscn"),
+	preload("res://scenes/characters/monsters/smily.tscn"),
+	preload("res://scenes/characters/monsters/head.tscn"),
+	preload("res://scenes/characters/monsters/involuntary_evolution.tscn")
+]
 @export var state_path := NodePath("../BaseGameplayController")
 @export var navigation_level_path := NodePath("../Floor_Minus4_Biocontainment_Blockout")
-@export var level_two_zone_path := NodePath("../Floor_Minus2_Life_Support_Blockout/InvestigationZone")
-@export var level_three_zone_path := NodePath("../Floor_Minus4_Biocontainment_Blockout/InvestigationZone")
-@export var shaft_zone_path := NodePath("../Floor_Minus5_Expedition_Shaft_Blockout/InvestigationZone")
+@export
+var level_two_zone_path := NodePath("../Floor_Minus2_Life_Support_Blockout/InvestigationZone")
+@export
+var level_three_zone_path := NodePath("../Floor_Minus4_Biocontainment_Blockout/InvestigationZone")
+@export
+var shaft_zone_path := NodePath("../Floor_Minus5_Expedition_Shaft_Blockout/InvestigationZone")
 @export var cave_exit_zone_path := NodePath("../Cave_Day7/ExitZone")
-@export var trials_zone_path := NodePath("../Floor_Minus3_Trials_Observation_Blockout/InvestigationZone")
-@export var entry_zone_path := NodePath("../Elevator_Functional_Blockout/Landings/Floor_4/ContainmentEntryZone")
+@export
+var trials_zone_path := NodePath("../Floor_Minus3_Trials_Observation_Blockout/InvestigationZone")
+@export var entry_zone_path := NodePath(
+	"../Elevator_Functional_Blockout/Landings/Floor_4/ContainmentEntryZone"
+)
 @export var cave_visit_zone_path := NodePath("../Cave_Day7/CaveArrival/ShaftVisitZone")
 @export var monster_spawn_paths: Array[NodePath] = []
 var state: BaseGameplayController
@@ -16,6 +28,7 @@ var _zones: Array[Area3D] = []
 var navigation_ready: bool = false
 var region: NavigationRegion3D
 var _spawn_serial := 0
+
 
 func _ready() -> void:
 	add_to_group("containment_encounter")
@@ -36,10 +49,15 @@ func _ready() -> void:
 		var monster := get_node("Monster%d" % index)
 		monster.encounter = self
 		monster.global_transform = marker.global_transform
-		monster._home = monster.global_position
-		monster._patrol_goal = monster._home
+		monster.set_home_transform(marker.global_transform)
 		monster._target_position = monster.position
-	_zones = [get_node_or_null(level_two_zone_path) as Area3D, get_node_or_null(level_three_zone_path) as Area3D, get_node_or_null(trials_zone_path) as Area3D, get_node_or_null(shaft_zone_path) as Area3D, get_node_or_null(cave_exit_zone_path) as Area3D]
+	_zones = [
+		get_node_or_null(level_two_zone_path) as Area3D,
+		get_node_or_null(level_three_zone_path) as Area3D,
+		get_node_or_null(trials_zone_path) as Area3D,
+		get_node_or_null(shaft_zone_path) as Area3D,
+		get_node_or_null(cave_exit_zone_path) as Area3D
+	]
 	_zones.append(get_node_or_null(entry_zone_path) as Area3D)
 	_zones.append(get_node_or_null(cave_visit_zone_path) as Area3D)
 	for index in _zones.size():
@@ -52,33 +70,62 @@ func _ready() -> void:
 	_on_state({})
 	_check_current_zones.call_deferred()
 
+
 func _prepare_navigation() -> void:
 	region = $NavigationRegion
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-	if not is_inside_tree(): return
-	navigation_ready = region.navigation_mesh != null and region.navigation_mesh.get_polygon_count() > 0
+	if not is_inside_tree():
+		return
+	navigation_ready = (
+		region.navigation_mesh != null and region.navigation_mesh.get_polygon_count() > 0
+	)
+
 
 func _on_zone_entered(body: Node3D, index: int) -> void:
 	if not multiplayer.is_server() or state == null or not body is GamePlayer:
 		return
-	var required_day: int = [state.LEVEL_TWO_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.TRIALS_DAY_INDEX, state.EXPEDITION_DAY_INDEX, state.CAVE_DAY_INDEX, state.CONTAINMENT_DAY_INDEX, state.CAVE_DAY_INDEX][index]
-	var key: String = ["level2", "level3", "trials", "shaft", "cave_exited", "level3", "cave_visited"][index]
-	if key == "cave_exited" and not state.are_cave_hives_destroyed(): return
-	var valid_day: bool = state.day_index >= required_day if key in ["cave_exited", "cave_visited"] else state.day_index == required_day
-	if not valid_day or body.survival.dead or body.is_sleeping_in_bunk() or not state._can_mutate_for_peer(body.owner_peer_id) or state.containment.get(key, false):
+	var required_day: int = [
+		state.LEVEL_TWO_DAY_INDEX,
+		state.CONTAINMENT_DAY_INDEX,
+		state.TRIALS_DAY_INDEX,
+		state.EXPEDITION_DAY_INDEX,
+		state.CAVE_DAY_INDEX,
+		state.CONTAINMENT_DAY_INDEX,
+		state.CAVE_DAY_INDEX
+	][index]
+	var key: String = [
+		"level2", "level3", "trials", "shaft", "cave_exited", "level3", "cave_visited"
+	][index]
+	if key == "cave_exited" and not state.are_cave_hives_destroyed():
+		return
+	var valid_day: bool = (
+		state.day_index >= required_day
+		if key in ["cave_exited", "cave_visited"]
+		else state.day_index == required_day
+	)
+	if (
+		not valid_day
+		or body.survival.dead
+		or body.is_sleeping_in_bunk()
+		or not state._can_mutate_for_peer(body.owner_peer_id)
+		or state.containment.get(key, false)
+	):
 		return
 	var data := state.containment.duplicate(true)
 	data[key] = true
 	_commit(data)
 
+
 func _check_current_zones() -> void:
 	# A deferred zone check can outlive its level during checkpoint continuation.
-	if not is_inside_tree() or is_queued_for_deletion() or not multiplayer.is_server(): return
+	if not is_inside_tree() or is_queued_for_deletion() or not multiplayer.is_server():
+		return
 	for index in _zones.size():
 		if _zones[index] != null:
 			for body in _zones[index].get_overlapping_bodies():
 				_on_zone_entered(body, index)
+
 
 func get_ready_peers() -> Array[int]:
 	var world := get_tree().get_first_node_in_group("network_gameplay_controller")
@@ -87,7 +134,13 @@ func get_ready_peers() -> Array[int]:
 		peers.assign(world.get_ready_v3_peers())
 	return peers
 
-func closest_player(point: Vector3, accepts: Callable = Callable(), search_distance:float = 40.0, vertical_distance:float = 3.5) -> Node3D:
+
+func closest_player(
+	point: Vector3,
+	accepts: Callable = Callable(),
+	search_distance: float = 40.0,
+	vertical_distance: float = 3.5
+) -> Node3D:
 	var best: Node3D
 	var distance := search_distance
 	for peer in state.get_connected_player_peer_ids():
@@ -95,7 +148,12 @@ func closest_player(point: Vector3, accepts: Callable = Callable(), search_dista
 		if not player_node is Node3D:
 			continue
 		var player := player_node as Node3D
-		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or absf(player.global_position.y - point.y) > vertical_distance:
+		if (
+			player == null
+			or player.survival.dead
+			or player.is_sleeping_in_bunk()
+			or absf(player.global_position.y - point.y) > vertical_distance
+		):
 			continue
 		var candidate := point.distance_to(player.global_position)
 		if candidate < distance and (not accepts.is_valid() or accepts.call(player)):
@@ -103,17 +161,26 @@ func closest_player(point: Vector3, accepts: Callable = Callable(), search_dista
 			best = player
 	return best
 
+
 func get_start_health() -> Array:
 	var values: Array = []
 	for index in 3:
 		values.append(get_node("Monster%d" % index).ai_profile.max_health)
 	return values
 
+
 func get_monster_health(index: int) -> float:
 	return float(state.containment.get("health", get_start_health())[index])
 
+
 func damage_monster(index: int, amount: float) -> void:
-	if not multiplayer.is_server() or amount <= 0.0:
+	if (
+		not multiplayer.is_server()
+		or not is_finite(amount)
+		or amount <= 0.0
+		or index not in range(3)
+		or state.containment.get("monster_outcomes", {}).has(str(index))
+	):
 		return
 	var data: Dictionary = state.containment.duplicate(true)
 	var health: Array = data.get("health", get_start_health()).duplicate()
@@ -123,15 +190,56 @@ func damage_monster(index: int, amount: float) -> void:
 	data.health = health
 	if health[index] == 0.0:
 		var bodies: Dictionary = data.get("bodies", {}).duplicate(true)
-		bodies[str(index)] = {"transform": get_node("Monster%d" % index).global_transform, "settled": false}
+		bodies[str(index)] = {
+			"transform": get_node("Monster%d" % index).global_transform, "settled": false
+		}
 		data.bodies = bodies
-	if health.all(func(hp): return hp <= 0.0) and not data.get("resolved", false):
+	if _all_monsters_resolved(data) and not data.get("resolved", false):
 		data.fault = true
 		data.reset_armed = false
 	_commit(data)
 
+
+func _all_monsters_resolved(data: Dictionary) -> bool:
+	var health: Array = data.get("health", get_start_health())
+	var outcomes: Dictionary = data.get("monster_outcomes", {})
+	for index in 3:
+		if float(health[index]) > 0.0 and not outcomes.has(str(index)):
+			return false
+	return true
+
+
+func resolve_monster(index: int, reason: String, hide_actor: bool = true) -> bool:
+	if (
+		not multiplayer.is_server()
+		or index not in range(3)
+		or reason.strip_edges().is_empty()
+		or get_monster_health(index) <= 0.0
+	):
+		return false
+	var data: Dictionary = state.containment.duplicate(true)
+	var outcomes: Dictionary = data.get("monster_outcomes", {}).duplicate(true)
+	if outcomes.has(str(index)):
+		return false
+	outcomes[str(index)] = {
+		"reason": reason.substr(0, 128),
+		"hidden": hide_actor,
+		"transform": get_node("Monster%d" % index).global_transform
+	}
+	data.monster_outcomes = outcomes
+	if _all_monsters_resolved(data) and not data.get("resolved", false):
+		data.fault = true
+		data.reset_armed = false
+	_commit(data)
+	return true
+
+
 func cycle_breaker(peer: int) -> bool:
-	if not multiplayer.is_server() or not state._can_mutate_for_peer(peer) or not state.containment.get("fault", false):
+	if (
+		not multiplayer.is_server()
+		or not state._can_mutate_for_peer(peer)
+		or not state.containment.get("fault", false)
+	):
 		return false
 	var data: Dictionary = state.containment.duplicate(true)
 	var snapshot: Dictionary = state.get_snapshot()
@@ -149,17 +257,25 @@ func cycle_breaker(peer: int) -> bool:
 	state._broadcast_snapshot(snapshot)
 	return true
 
+
 func _commit(data: Dictionary) -> void:
 	var snapshot: Dictionary = state.get_snapshot()
 	snapshot.containment = data
 	state._broadcast_snapshot(snapshot)
 
+
 func save_body(index: int, pose: Transform3D, settled: bool, ragdoll: Array = []) -> void:
 	var data: Dictionary = state.containment.duplicate(true)
 	var bodies: Dictionary = data.get("bodies", {}).duplicate(true)
-	bodies[str(index)] = {"transform": pose, "settled": settled, "ragdoll": ragdoll}
+	bodies[str(index)] = {
+		"transform": pose,
+		"settled": settled,
+		"ragdoll": ragdoll,
+		"rig_id": get_node("Monster%d" % index).get_ragdoll_signature()
+	}
 	data.bodies = bodies
 	_commit(data)
+
 
 func capture_bodies() -> Dictionary:
 	var bodies := {}
@@ -167,12 +283,21 @@ func capture_bodies() -> Dictionary:
 		var monster = get_node_or_null("Monster%d" % index)
 		if monster == null:
 			continue
+		if monster.is_encounter_resolved():
+			continue
 		if not monster._restored:
 			if state.containment.get("bodies", {}).has(str(index)):
 				bodies[str(index)] = state.containment.bodies[str(index)].duplicate(true)
 			continue
-		bodies[str(index)] = {"transform": monster.corpse.global_transform if monster.corpse != null else monster.global_transform, "settled": monster._corpse_saved, "ragdoll": monster.ragdoll.capture() if monster.ragdoll != null else []}
+		bodies[str(index)] = {
+			"transform":
+			monster.corpse.global_transform if monster.corpse != null else monster.global_transform,
+			"settled": monster._corpse_saved,
+			"ragdoll": monster.ragdoll.capture() if monster.ragdoll != null else [],
+			"rig_id": monster.get_ragdoll_signature()
+		}
 	return bodies
+
 
 func debug_reset() -> void:
 	if not multiplayer.is_server():
@@ -180,23 +305,47 @@ func debug_reset() -> void:
 	var data: Dictionary = state.containment.duplicate(true)
 	data.health = get_start_health()
 	data.bodies = {}
+	data.monster_outcomes = {}
 	# Resetting the encounter must not repair an already triggered power fault.
 	_commit(data)
 	_reset_actors.rpc()
 
-func debug_spawn(model_index: int, count: int, center: Vector3, forward: Vector3, at_point: bool = false) -> int:
-	if not multiplayer.is_server() or model_index not in range(3) or count <= 0:
+
+func debug_spawn(
+	model_index: int, count: int, center: Vector3, forward: Vector3, at_point: bool = false
+) -> int:
+	if (
+		not multiplayer.is_server()
+		or model_index not in range(CREATURE_SCENES.size())
+		or count <= 0
+	):
 		return 0
 	var first_serial := _spawn_serial
 	_spawn_serial += count
 	_spawn_debug_batch.rpc(model_index, count, first_serial, center, forward, at_point)
 	return count
 
+
 @rpc("authority", "call_local", "reliable")
-func _spawn_debug_batch(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3, at_point: bool = false) -> void:
+func _spawn_debug_batch(
+	model_index: int,
+	count: int,
+	first_serial: int,
+	center: Vector3,
+	forward: Vector3,
+	at_point: bool = false
+) -> void:
 	_spawn_debug_batch_async(model_index, count, first_serial, center, forward, at_point)
 
-func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, center: Vector3, forward: Vector3, at_point: bool = false) -> void:
+
+func _spawn_debug_batch_async(
+	model_index: int,
+	count: int,
+	first_serial: int,
+	center: Vector3,
+	forward: Vector3,
+	at_point: bool = false
+) -> void:
 	var side := forward.cross(Vector3.UP).normalized()
 	for offset_index in count:
 		var serial := first_serial + offset_index
@@ -210,17 +359,17 @@ func _spawn_debug_batch_async(model_index: int, count: int, first_serial: int, c
 		var monster = CREATURE_SCENES[model_index].instantiate()
 		monster.name = "DebugMonster%d" % serial
 		monster.monster_id = model_index
-		monster.model_id = ["the_monster", "slasher", "smily"][model_index]
+		monster.model_id = ["the_monster", "slasher", "smily", "head", "involuntary_evolution"][model_index]
 		monster.encounter = self
 		monster.debug_spawned = true
 		add_child(monster)
 		monster.global_position = spawn_point
 		monster.look_at(spawn_point - forward if at_point else center, Vector3.UP)
-		monster._home = spawn_point
-		monster._patrol_goal = spawn_point
+		monster.set_home_transform(monster.global_transform)
 		monster._target_position = monster.position
 		if offset_index % 25 == 24:
 			await get_tree().process_frame
+
 
 func debug_clear_spawned() -> int:
 	if not multiplayer.is_server():
@@ -228,6 +377,7 @@ func debug_clear_spawned() -> int:
 	var count := get_tree().get_nodes_in_group("debug_spawned_monsters").size()
 	_clear_debug_spawned.rpc()
 	return count
+
 
 @rpc("authority", "call_local", "reliable")
 func _clear_debug_spawned() -> void:
@@ -237,10 +387,12 @@ func _clear_debug_spawned() -> void:
 				monster.corpse.queue_free()
 			monster.queue_free()
 
+
 @rpc("authority", "call_local", "reliable")
 func _reset_actors() -> void:
 	for index in 3:
 		get_node("Monster%d" % index).reset_enemy()
+
 
 func _on_state(_snapshot: Dictionary) -> void:
 	# Story creatures belong to the separate containment day; debug spawns are independent.
@@ -248,7 +400,25 @@ func _on_state(_snapshot: Dictionary) -> void:
 	for index in 3:
 		var monster := get_node_or_null("Monster%d" % index) as CharacterBody3D
 		if monster != null:
-			monster.visible = active
+			var outcome: Dictionary = state.containment.get("monster_outcomes", {}).get(
+				str(index), {}
+			)
+			if not outcome.is_empty():
+				if outcome.has("transform"):
+					monster.global_transform = outcome.transform
+					monster._target_position = monster.position
+				monster._apply_resolution(
+					str(outcome.get("reason", "scripted")), bool(outcome.get("hidden", true))
+				)
+			elif monster.is_encounter_resolved():
+				monster.reset_enemy()
+			monster.visible = (
+				active and (outcome.is_empty() or not bool(outcome.get("hidden", true)))
+			)
 			monster.set_physics_process(active)
-			monster.collision_layer = 2 if active and get_monster_health(index) > 0.0 else 0
+			monster.collision_layer = (
+				monster._living_collision_layer
+				if active and get_monster_health(index) > 0.0 and outcome.is_empty()
+				else 0
+			)
 	_check_current_zones.call_deferred()

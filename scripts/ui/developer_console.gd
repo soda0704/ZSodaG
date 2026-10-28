@@ -5,7 +5,7 @@ const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
 const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off", "/light_swap", "/light_swap basic", "/light_swap advanced"]
 const INSPECTION_COMMANDS := ["/status", "/plant status", "/plant water", "/item seed_packet"]
-const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/sleep", "/next day", "/last day", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
+const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/sleep", "/next day", "/last day", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/spawn head", "/spawn evolution", "/monsters status", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
 @onready var output: RichTextLabel = $Panel/Box/Output
 @onready var entry: LineEdit = $Panel/Box/Entry
@@ -441,8 +441,13 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 				return "Использование: /weapon pistol|m4a1|kitchen_knife|flamethrower"
 			return "Оружие выдано." if player.pickup_world_item_authoritative(StringName(args[1]), {}) else "Не удалось взять оружие."
 		"/monsters":
-			if encounter == null or args.size() != 2 or args[1] not in ["reset", "kill"]:
-				return "Использование: /monsters reset|kill"
+			if encounter == null or args.size() != 2 or args[1] not in ["reset", "kill", "status"]:
+				return "Использование: /monsters reset|kill|status"
+			if args[1] == "status":
+				var rows: PackedStringArray = []
+				for creature in get_tree().get_nodes_in_group("hostile_monsters"):
+					if creature.has_method("get_ai_debug_state"): rows.append(str(creature.name) + ": " + str(creature.get_ai_debug_state()))
+				return "\n".join(rows) if not rows.is_empty() else "Активных существ нет."
 			if args[1] == "reset":
 				encounter.debug_reset()
 			else:
@@ -451,10 +456,10 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 			return "Готово. Состояние монстров сохранено."
 		"/spawn":
 			if encounter == null or args.size() < 2:
-				return "Использование: /spawn tail|slasher|smily [число]"
-			var aliases := {"tail": 0, "хвостатый": 0, "slasher": 1, "слэшер": 1, "smily": 2, "четвероногий": 2}
+				return "Использование: /spawn tail|slasher|smily|head|evolution [число]"
+			var aliases := {"tail": 0, "хвостатый": 0, "slasher": 1, "слэшер": 1, "smily": 2, "четвероногий": 2, "head": 3, "голова": 3, "evolution": 4, "involuntary_evolution": 4}
 			if not aliases.has(args[1]):
-				return "Типы: tail, slasher, smily"
+				return "Типы: tail, slasher, smily, head, evolution"
 			var count := 1
 			if args.size() >= 3:
 				if not args[2].is_valid_int() or int(args[2]) <= 0:

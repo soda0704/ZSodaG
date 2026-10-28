@@ -20,11 +20,17 @@ def main():
     parser.add_argument("--flame", action="store_true", help="test continuous jet, guest damage, ownership, fuel and trigger timeout")
     parser.add_argument("--medical", action="store_true", help="test late-join corpse carry, carrier disconnect and recovery")
     parser.add_argument("--contention", action="store_true", help="test competing pickup/bed requests and departure during handoff")
+    parser.add_argument("--monsters", action="store_true", help="test creature scenarios, late join, new models and authority")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
     ready_marker = "HOST_READY_FOR_TERMINAL_CLIENT" if options.terminal else "HOST_READY_FOR_RESUME_CLIENT"
     result_marker = "TERMINAL COOP CHECKS" if options.terminal else "COOP SAVE CHECKS"
+    if options.monsters:
+        label = "monsters"
+        driver = "run_monster_scenarios_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_MONSTER_CLIENT"
+        result_marker = "MONSTER COOP CHECKS"
     if options.wiring:
         label = "wiring"
         driver = "run_wiring_multiplayer.gd"

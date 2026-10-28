@@ -18,6 +18,10 @@ func park(monster:Node3D,point:Vector3,player:GamePlayer):
  monster._windup=0.0
  monster._attack_left=0.0
  monster._retreat_left=0.0
+ monster._recovery_left=0.0
+ monster._stun_left=0.0
+ monster._candidate_target=null
+ monster._candidate_exposure=0.0
  player.global_position=point+Vector3(0,0,-4)
 func run():
  ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,SAVE)

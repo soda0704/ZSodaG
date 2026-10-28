@@ -1,0 +1,27 @@
+{
+  "uid": "8247d788d8e6403f8fc71d2709ff5c7b",
+  "name": "Head",
+  "author": "Shedmon",
+  "source_url": "https://sketchfab.com/3d-models/head-8247d788d8e6403f8fc71d2709ff5c7b",
+  "project": "https://github.com/seryi882/sketchfab-downloader-extension",
+  "format": "glb+gltf+osgjs",
+  "geometry_count": 1,
+  "textures_downloaded": 5,
+  "textures_skipped": false,
+  "textures_embedded_in_glb": 4,
+  "files": [
+    "Head.glb",
+    "model.gltf",
+    "model.bin",
+    "textures/Head_Metallic.png",
+    "textures/Head_Normal_OpenGL.png",
+    "textures/Head_Mixed_AO.png",
+    "textures/Head_Base_color.png",
+    "file.osgjs",
+    "model_file.bin",
+    "model_file_wireframe.bin",
+    "textures/Head_Roughness.png",
+    "README.txt"
+  ],
+  "note": "Open .glb (textures packed inside when enabled) or model.gltf. See README.txt."
+}

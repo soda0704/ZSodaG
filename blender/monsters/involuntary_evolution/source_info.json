@@ -1,0 +1,27 @@
+{
+  "uid": "1322b3294c04428aa05cabd2ba802179",
+  "name": "Involuntary Evolution 2",
+  "author": "KoteGromuga",
+  "source_url": "https://sketchfab.com/3d-models/involuntary-evolution-2-1322b3294c04428aa05cabd2ba802179",
+  "project": "https://github.com/seryi882/sketchfab-downloader-extension",
+  "format": "glb+gltf+osgjs",
+  "geometry_count": 1,
+  "textures_downloaded": 5,
+  "textures_skipped": false,
+  "textures_embedded_in_glb": 3,
+  "files": [
+    "Involuntary_Evolution_2.glb",
+    "model.gltf",
+    "model.bin",
+    "textures/SecondInvoluntaryEvolution2_normal.tga.png",
+    "textures/SecondInvoluntaryEvolution2_diffuse.tga.png",
+    "textures/SecondInvoluntaryEvolution2_ao.tga.png",
+    "file.osgjs",
+    "model_file.bin",
+    "model_file_wireframe.bin",
+    "textures/SecondInvoluntaryEvolution2_gloss.tga.png",
+    "textures/SecondInvoluntaryEvolution2_specular.tga.png",
+    "README.txt"
+  ],
+  "note": "Open .glb (textures packed inside when enabled) or model.gltf. See README.txt."
+}

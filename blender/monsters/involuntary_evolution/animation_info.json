@@ -1,0 +1,24 @@
+{
+  "height": 2.35,
+  "walk_duration": 0.9,
+  "stride": 0.65,
+  "stance_fraction": 0.7,
+  "reference_speed": 1.0317460317460319,
+  "bones": [
+    "root",
+    "body",
+    "neck_1",
+    "neck_2",
+    "neck_3",
+    "skull",
+    "left_upper",
+    "left_lower",
+    "left_tip",
+    "right_upper",
+    "right_lower",
+    "right_tip",
+    "back_upper",
+    "back_lower",
+    "back_tip"
+  ]
+}

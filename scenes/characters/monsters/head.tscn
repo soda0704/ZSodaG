@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/hostile_monster.gd" id="logic"]
+[ext_resource type="Script" path="res://scripts/gameplay/monster_visual.gd" id="visual"]
+[ext_resource type="PackedScene" path="res://assets/monsters/head/head.glb" id="model"]
+[ext_resource type="Resource" path="res://assets/config/monsters/head.tres" id="profile"]
+[ext_resource type="PackedScene" path="res://scenes/objects/monster_audio.tscn" id="audio"]
+[ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/head.tscn" id="ragdoll"]
+
+[sub_resource type="CapsuleShape3D" id="body"]
+radius = 0.28
+height = 1.05
+
+[node name="head" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("logic")
+model_id = "head"
+ai_profile = ExtResource("profile")
+ragdoll_scene = ExtResource("ragdoll")
+eye_height = 0.8190000000000001
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.525, 0)
+shape = SubResource("body")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.35
+
+[node name="Visual" type="Node3D" parent="."]
+rotation = Vector3(0, 3.1415927, 0)
+script = ExtResource("visual")
+idle_animation = &"idle"
+walk_animation = &"walk"
+attack_animation = &"attack"
+prototype_motion = false
+walk_reference_speed = 2.235294117647059
+
+[node name="Model" parent="Visual" instance=ExtResource("model")]
+
+[node name="MonsterAudio" parent="." instance=ExtResource("audio")]
+position = Vector3(0, 0.525, 0)

@@ -1,0 +1,244 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/skeletal_ragdoll.gd" id="1_n8qqd"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pft26"]
+radius = 0.26
+height = 0.52
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8qctn"]
+radius = 0.04887208
+height = 0.3054505
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n4j84"]
+radius = 0.0645774
+height = 0.40360874
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1l5dy"]
+radius = 0.085
+height = 0.6246599
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_heq10"]
+radius = 0.14
+height = 0.28
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fo66v"]
+radius = 0.085
+height = 0.8556282
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_knari"]
+radius = 0.08100568
+height = 0.5062855
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qv4l1"]
+radius = 0.085
+height = 0.72256494
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8qwp7"]
+radius = 0.084743366
+height = 0.52964604
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rm2r6"]
+radius = 0.085
+height = 0.5957347
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f1lbb"]
+radius = 0.074554674
+height = 0.4659667
+
+[node name="Ragdoll" type="Node3D" unique_id=1341293875]
+script = ExtResource("1_n8qqd")
+exclude_self_collision = true
+
+[node name="Body0" type="RigidBody3D" parent="." unique_id=1628312553]
+collision_layer = 8
+mass = 12.0
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "body"
+metadata/end_bone = "neck_1"
+
+[node name="@CollisionShape3D@353" type="CollisionShape3D" parent="Body0" unique_id=851791021]
+shape = SubResource("CapsuleShape3D_pft26")
+
+[node name="Body1" type="RigidBody3D" parent="." unique_id=166903021]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "neck_1"
+metadata/end_bone = "neck_2"
+
+[node name="@CollisionShape3D@354" type="CollisionShape3D" parent="Body1" unique_id=1058048902]
+shape = SubResource("CapsuleShape3D_8qctn")
+
+[node name="Joint1" type="ConeTwistJoint3D" parent="." unique_id=780895655]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body1")
+
+[node name="Body2" type="RigidBody3D" parent="." unique_id=343144039]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "neck_2"
+metadata/end_bone = "neck_3"
+
+[node name="@CollisionShape3D@355" type="CollisionShape3D" parent="Body2" unique_id=247832155]
+shape = SubResource("CapsuleShape3D_n4j84")
+
+[node name="Joint2" type="ConeTwistJoint3D" parent="." unique_id=732476336]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body1")
+metadata/child_body = NodePath("Body2")
+
+[node name="Body3" type="RigidBody3D" parent="." unique_id=678153142]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "neck_3"
+metadata/end_bone = "skull"
+
+[node name="@CollisionShape3D@356" type="CollisionShape3D" parent="Body3" unique_id=563971006]
+shape = SubResource("CapsuleShape3D_1l5dy")
+
+[node name="Joint3" type="ConeTwistJoint3D" parent="." unique_id=47579544]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body2")
+metadata/child_body = NodePath("Body3")
+
+[node name="Body4" type="RigidBody3D" parent="." unique_id=2096949420]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "skull"
+metadata/end_bone = ""
+
+[node name="@CollisionShape3D@357" type="CollisionShape3D" parent="Body4" unique_id=159178798]
+shape = SubResource("CapsuleShape3D_heq10")
+
+[node name="Joint4" type="ConeTwistJoint3D" parent="." unique_id=289273915]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body3")
+metadata/child_body = NodePath("Body4")
+
+[node name="Body5" type="RigidBody3D" parent="." unique_id=1520954799]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "left_upper"
+metadata/end_bone = "left_lower"
+
+[node name="@CollisionShape3D@358" type="CollisionShape3D" parent="Body5" unique_id=176312667]
+shape = SubResource("CapsuleShape3D_fo66v")
+
+[node name="Joint5" type="ConeTwistJoint3D" parent="." unique_id=389929502]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body5")
+
+[node name="Body6" type="RigidBody3D" parent="." unique_id=196178029]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "left_lower"
+metadata/end_bone = "left_tip"
+
+[node name="@CollisionShape3D@359" type="CollisionShape3D" parent="Body6" unique_id=1758416027]
+shape = SubResource("CapsuleShape3D_knari")
+
+[node name="Joint6" type="ConeTwistJoint3D" parent="." unique_id=741939145]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body5")
+metadata/child_body = NodePath("Body6")
+
+[node name="Body7" type="RigidBody3D" parent="." unique_id=247441813]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "right_upper"
+metadata/end_bone = "right_lower"
+
+[node name="@CollisionShape3D@360" type="CollisionShape3D" parent="Body7" unique_id=1326295186]
+shape = SubResource("CapsuleShape3D_qv4l1")
+
+[node name="Joint7" type="ConeTwistJoint3D" parent="." unique_id=938384828]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body7")
+
+[node name="Body8" type="RigidBody3D" parent="." unique_id=615498761]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "right_lower"
+metadata/end_bone = "right_tip"
+
+[node name="@CollisionShape3D@361" type="CollisionShape3D" parent="Body8" unique_id=1470440421]
+shape = SubResource("CapsuleShape3D_8qwp7")
+
+[node name="Joint8" type="ConeTwistJoint3D" parent="." unique_id=811080618]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body7")
+metadata/child_body = NodePath("Body8")
+
+[node name="Body9" type="RigidBody3D" parent="." unique_id=1615076466]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "back_upper"
+metadata/end_bone = "back_lower"
+
+[node name="@CollisionShape3D@362" type="CollisionShape3D" parent="Body9" unique_id=1355419418]
+shape = SubResource("CapsuleShape3D_rm2r6")
+
+[node name="Joint9" type="ConeTwistJoint3D" parent="." unique_id=1313393186]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body0")
+metadata/child_body = NodePath("Body9")
+
+[node name="Body10" type="RigidBody3D" parent="." unique_id=597635375]
+collision_layer = 8
+mass = 1.5
+freeze = true
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 2.0
+metadata/bone = "back_lower"
+metadata/end_bone = "back_tip"
+
+[node name="@CollisionShape3D@363" type="CollisionShape3D" parent="Body10" unique_id=1868177388]
+shape = SubResource("CapsuleShape3D_f1lbb")
+
+[node name="Joint10" type="ConeTwistJoint3D" parent="." unique_id=2040764429]
+twist_span = 0.38397244
+metadata/parent_body = NodePath("Body9")
+metadata/child_body = NodePath("Body10")

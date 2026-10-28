@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/gameplay/hostile_monster.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/gameplay/monster_visual.gd" id="2"]
 [ext_resource type="PackedScene" path="res://assets/monsters/smily/scene.gltf" id="3"]
 [ext_resource type="Resource" path="res://assets/config/monsters/smily.tres" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/objects/monster_audio.tscn" id="5"]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/smily.tscn" id="ragdoll"]
 
 [sub_resource type="CapsuleShape3D" id="capsule"]
 radius = 0.4
@@ -17,6 +19,7 @@ script = ExtResource("1")
 monster_id = 2
 model_id = "smily"
 ai_profile = ExtResource("4")
+ragdoll_scene = ExtResource("ragdoll")
 eye_height = 0.75
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
