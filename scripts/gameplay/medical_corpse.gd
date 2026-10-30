@@ -38,6 +38,11 @@ func _ready() -> void:
  process_physics_priority = 25
  state = get_tree().get_first_node_in_group("base_gameplay_controller")
  await get_tree().physics_frame
+ # The staged loader freezes bodies while floor collisions are assembled.
+ # Awaited _ready continuations still run on a disabled scene: do not let
+ # ragdoll.initialize() release that freeze before the loader enables it.
+ while not can_process():
+  await get_tree().process_frame
  var rig: Skeleton3D = $Model.find_children("*", "Skeleton3D", true, false)[0]
  ragdoll.initialize(rig, multiplayer.is_server())
  var root_pose := ragdoll.root_body.global_transform

@@ -78,6 +78,8 @@ func run():
 	check(actor.is_bunk_busy() and not actor.is_sleeping_in_bunk(),"getting up blocks controls without pretending the player is still asleep")
 	await create_timer(.5).timeout
 	check(actor.get_node("BunkSleep").eye_openness>.4 and actor.is_bunk_busy(),"waking opens the eyes before standing finishes")
+	check(actor.body_animator.global_position.distance_to(bunk.sleep_pose.global_position)<.1,"first part of getting up keeps the body on the mattress instead of sliding towards the feet")
+	check(actor.body_animator.global_basis.z.dot(bunk.sleep_pose.global_basis.z)>.95,"body keeps bed orientation while rising into its seated pose")
 	await capture("waking")
 	await capture("getting_up",bunk)
 	await create_timer(1.0).timeout
