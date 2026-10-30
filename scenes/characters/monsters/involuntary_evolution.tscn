@@ -23,7 +23,7 @@ ragdoll_scene = ExtResource("ragdoll")
 eye_height = 1.8330000000000002
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(-0.15, 1.95, -0.4)
+position = Vector3(-0.15, 1.175, -0.4)
 shape = SubResource("body")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

@@ -1357,7 +1357,7 @@ ai_profile = ExtResource("head_patrol_profile")
 patrol_point_paths = Array[NodePath]([NodePath("../../PatrolRoutes/Head/central_east"), NodePath("../../PatrolRoutes/Head/surveillance"), NodePath("../../PatrolRoutes/Head/central_north_east"), NodePath("../../PatrolRoutes/Head/incident_gallery"), NodePath("../../PatrolRoutes/Head/central_north"), NodePath("../../PatrolRoutes/Head/data_vault"), NodePath("../../PatrolRoutes/Head/central_west"), NodePath("../../PatrolRoutes/Head/command_center"), NodePath("../../PatrolRoutes/Head/central_west_return"), NodePath("../../PatrolRoutes/Head/access_systems"), NodePath("../../PatrolRoutes/Head/central_south_west"), NodePath("../../PatrolRoutes/Head/response_gallery"), NodePath("../../PatrolRoutes/Head/central_south"), NodePath("../../PatrolRoutes/Head/emergency_room"), NodePath("../../PatrolRoutes/Head/central_east_return")])
 
 [node name="Monster4" parent="ContainmentEncounter" instance=ExtResource("creature_evolution")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -71.95, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -53.95, -13.5)
 monster_id = 4
 ai_profile = ExtResource("evolution_patrol_profile")
 patrol_point_paths = Array[NodePath]([NodePath("../../PatrolRoutes/Evolution/lab_south_west"), NodePath("../../PatrolRoutes/Evolution/lab_north_west"), NodePath("../../PatrolRoutes/Evolution/lab_north_east"), NodePath("../../PatrolRoutes/Evolution/lab_south_east")])

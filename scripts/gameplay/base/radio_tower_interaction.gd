@@ -69,7 +69,7 @@ func network_interact(peer: int, _actor: Node) -> void:
 
 func refresh(_snapshot: Dictionary) -> void:
 	if role == "note":
-		$Text.text = "СЛУЖЕБНАЯ ЗАПИСКА\nРадиовышка — доступ: %s\nЗапасной электромодуль:\nэтаж испытаний, у компьютера.\nЗамена — в верхнем электрощите." % state.maintenance.get("radio_pin","••••")
+		$Text.text = "ЗАПИСКА СВЯЗИСТА\nСвязь пропала: замените модуль\nв электрощите наверху радиовышки.\nКод ограждения: %s\nЗапасной модуль — уровень 3,\nу компьютера наблюдения." % state.maintenance.get("radio_pin","••••")
 	elif role == "module":
 		var collected: bool = state.maintenance.get("radio_module",false) or state.maintenance.get("radio_repaired",false)
 		visible = not collected

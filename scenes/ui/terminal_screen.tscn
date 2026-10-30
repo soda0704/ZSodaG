@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/encryption_key_extract.wav" id="key_extract_audio"]
+
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
 [ext_resource type="Script" path="res://scripts/ui/terminal_screen.gd" id="logic"]
 
@@ -179,3 +181,8 @@ offset_left = 40.0
 offset_top = 52.0
 offset_right = 984.0
 offset_bottom = 472.0
+
+[node name="ExtractionAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("key_extract_audio")
+volume_db = -10.0
+bus = &"Effects"

@@ -55,7 +55,7 @@ func run() -> void:
 	await create_timer(.65).timeout
 	check(notice.title.text == "Игра сохранена" and not notice.icon.visible, "successful disk write transitions to confirmation")
 	await capture("saved")
-	await create_timer(2.5).timeout
+	await create_timer(notice.RESULT_TIME + .1).timeout
 	check(not notice.visible, "confirmation disappears automatically")
 	var original_path: String = ProjectSettings.get_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING)
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, original_path + "/missing/fail.cfg")
@@ -66,7 +66,7 @@ func run() -> void:
 	check(FileAccess.file_exists(original_path), "write failure preserves previous save")
 	await capture("failed")
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, original_path)
-	await create_timer(2.5).timeout
+	await create_timer(notice.RESULT_TIME + .1).timeout
 	var snapshot := state.get_snapshot()
 	snapshot.day_index = 3
 	snapshot.phase = BaseGameplayController.BasePhase.ACTIVE_DAY
@@ -82,6 +82,8 @@ func run() -> void:
 	await create_timer(.5).timeout
 	bunk.cancel_sleep_authoritative(1, actor)
 	check(not notices.has("sleep"), "cancelled sleep does not pretend to save a morning checkpoint")
+	# Re-entry is intentionally blocked while the native get-up clip plays.
+	await create_timer(1.5).timeout
 	actor.teleport_authoritative(bunk.wake_pose.global_position, 0)
 	bunk.network_sleep_interact(1, actor)
 	await create_timer(5.25).timeout

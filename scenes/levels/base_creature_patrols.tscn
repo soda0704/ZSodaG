@@ -81,16 +81,16 @@ position = Vector3(-17, -17.95, 4.5)
 [node name="Evolution" type="Node3D" parent="."]
 
 [node name="lab_south_west" type="Marker3D" parent="Evolution"]
-position = Vector3(-22, -71.95, -12)
+position = Vector3(-35, -53.95, -13.5)
 
 [node name="lab_north_west" type="Marker3D" parent="Evolution"]
-position = Vector3(-22, -71.95, -17.8)
+position = Vector3(-35, -53.95, -6.5)
 
 [node name="lab_north_east" type="Marker3D" parent="Evolution"]
-position = Vector3(-16, -71.95, -17.8)
+position = Vector3(-25, -53.95, -6.5)
 
 [node name="lab_south_east" type="Marker3D" parent="Evolution"]
-position = Vector3(-16, -71.95, -12)
+position = Vector3(-25, -53.95, -13.5)
 
 [node name="VaultDeskClearance" type="NavigationLink3D" parent="."]
 navigation_layers = 3

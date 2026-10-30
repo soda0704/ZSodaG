@@ -70,7 +70,7 @@ func run() -> void:
 	var cave := encounter.get_parent()
 	guest.teleport_authoritative(cave.get_node("ExitThreshold").global_position,0)
 	check(await wait_until(func(): return encounter.state.containment.get("cave_exited",false)),"guest entering outdoor area completes authoritative route")
-	check(encounter.state.load_saved_snapshot().containment.get("cave_exited",false),"host saves shared outdoor completion")
+	check(encounter.state.save_progress_authoritative(false,"manual","Hive coop regression") and encounter.state.load_saved_snapshot().containment.get("cave_exited",false),"host explicitly saves shared outdoor completion")
 	finish_hives.rpc_id(guest_id,failures)
 	await get_tree().create_timer(0.4).timeout
 	print("HIVES COOP CHECKS ",checks," FAILURES ",failures)

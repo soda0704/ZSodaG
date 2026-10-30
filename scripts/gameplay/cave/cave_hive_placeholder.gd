@@ -19,7 +19,7 @@ func _standing_pose() -> void:
 	visual.death_time = 0.0
 
 func apply_snapshot(active: bool, health: float) -> void:
-	visible = active
+	visible = true
 	collision_layer = 2 if active and health > 0.0 else 0
 	var destroyed := health <= 0.0
 	if destroyed != _destroyed:

@@ -1,7 +1,7 @@
 extends CanvasLayer
 ## Readable feedback for explicit saves only; background commits stay silent.
 const MIN_SAVING_TIME := 0.7
-const RESULT_TIME := 2.4
+const RESULT_TIME := 4.0
 @onready var icon: AnimatedSprite2D = $Notice/Row/Icon/Animation
 @onready var title: Label = $Notice/Row/Text/Title
 @onready var detail: Label = $Notice/Row/Text/Detail

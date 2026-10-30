@@ -6,12 +6,10 @@ static func ensure(state: Node) -> void:
 		state.maintenance["radio_pin"] = "%04d" % randi_range(0,9999)
 
 static func tasks(state: Node) -> String:
-	if state.day_index < 2: return ""
+	if state.day_index < 2 or not state.maintenance.get("radio_note_read", false): return ""
 	var data: Dictionary = state.maintenance
 	if data.get("radio_repaired",false): return "Радиовышка: электромодуль заменён."
 	var text := "Радиовышка — восстановить связь\n"
-	if not data.get("radio_note_read",false):
-		return text + "Найти служебную записку в комнате с ключом на уровне 1."
 	text += "Код ограждения: %s\n" % data.get("radio_pin","••••")
 	if not data.get("radio_unlocked",false): text += "Открыть кодовый замок у вышки.\n"
 	text += "Подняться к верхнему электрощиту и заменить модуль."

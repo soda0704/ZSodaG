@@ -67,6 +67,7 @@ func _commit(data: Dictionary) -> void:
 
 func _on_snapshot(_snapshot: Dictionary) -> void:
 	for index in hives.size():
+		# The chamber exists before its story day; only discovery/damage are gated.
 		hives[index].apply_snapshot(state.day_index >= state.CAVE_DAY_INDEX, get_health(index))
 	_check_current_players.call_deferred()
 

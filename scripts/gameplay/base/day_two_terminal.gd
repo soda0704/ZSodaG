@@ -214,6 +214,7 @@ func refresh_app_display() -> void:
 
 func close_terminal() -> void:
 	if not active: return
+	ui._cancel_quest_hold()
 	active = false
 	remove_from_group("terminal_ui")
 	if multiplayer.is_server():

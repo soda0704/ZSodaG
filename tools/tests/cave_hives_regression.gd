@@ -76,7 +76,8 @@ func run() -> void:
 	data.day_index = 6; data.main_breaker_on = true; data.fuel_delivered = true; data.fuel_liters = 40
 	data.containment = {}; state._broadcast_snapshot(data)
 	encounter.get_node("Hive0").apply_weapon_damage(1000)
-	check(encounter.get_health(0) == encounter.starting_health and not encounter.get_node("Hive0").visible, "earlier days hide hives and reject damage")
+	encounter.get_node("Hive0").apply_flame_damage(1000)
+	check(encounter.get_health(0) == encounter.starting_health and encounter.hives.all(func(hive): return hive.visible and hive.collision_layer == 0), "earlier days show all three hives without enabling damage or story collisions")
 	state.debug_set_day_authoritative(7)
 	await visit(base.get_node("Cave_Day7/CaveArrival").global_position)
 	check(state.containment.get("cave_visited",false) and not state.can_end_current_day(), "arrival starts cave exploration and cannot finish day seven")
@@ -101,6 +102,7 @@ func run() -> void:
 	encounter.damage_hive(-1,1000); encounter.damage_hive(0,-5); encounter.damage_hive(0,NAN)
 	check(encounter.get_health(0) == encounter.starting_health, "invalid index, negative damage and NaN are rejected")
 	await shoot(encounter.hives[0])
+	check(state.save_progress_authoritative(false,"manual","Hive regression"), "partial damage is recorded by an explicit manual save")
 	var saved := state.load_saved_snapshot()
 	check(saved.containment.cave_hive_health[0] == encounter.get_health(0), "partial weapon damage persists through existing save path")
 	state._apply_snapshot(saved,true,false)
@@ -122,7 +124,7 @@ func run() -> void:
 	check(not journal.tasks_label.text.contains("отдохнуть"), "cave route does not tell player to return to bed")
 	await visit(base.get_node("Cave_Day7/ExitThreshold").global_position)
 	check(state.containment.get("cave_exited",false) and state.can_end_current_day(), "real living-player exit completes the route after destruction")
-	check(state.load_saved_snapshot().containment.get("cave_exited",false), "outdoor completion is persisted")
+	check(not state.load_saved_snapshot().containment.get("cave_exited",false), "outdoor completion does not overwrite the earlier manual save automatically")
 	var completed := state.get_snapshot()
 	data = completed.duplicate(true); data.containment = {"cave_visited":true,"cave_exited":true}
 	state._broadcast_snapshot(data)

@@ -10,6 +10,7 @@ var app_open := false
 var _quest_hold := 0.0
 var _quest_holding := false
 var terminal: Node
+@onready var extraction_audio: AudioStreamPlayer = $ExtractionAudio
 
 func _ready() -> void:
 	$Overlay/Tabs/Expedition.pressed.connect(func(): request_app(false))
@@ -21,7 +22,10 @@ func _ready() -> void:
 		if terminal != null and terminal.is_key_terminal and not $Overlay/QuestAction.disabled:
 			_quest_hold = 0.0
 			_quest_holding = true
-			terminal.request_clicker_action(&"quest_begin"))
+			if terminal.request_clicker_action(&"quest_begin"):
+				extraction_audio.play()
+			else:
+				_quest_holding = false)
 	$Overlay/QuestAction.button_up.connect(_cancel_quest_hold)
 
 func bind(controller: BaseGameplayController, source: Node) -> void:
@@ -54,6 +58,7 @@ func refresh_access() -> void:
 	$Overlay/LabClicker.refresh()
 
 func _cancel_quest_hold() -> void:
+	extraction_audio.stop()
 	if _quest_holding and terminal != null: terminal.request_clicker_action(&"quest_cancel")
 	_quest_holding = false
 	_quest_hold = 0.0
@@ -67,5 +72,6 @@ func _process(delta: float) -> void:
 			_quest_hold += delta
 			if _quest_hold >= 1.35:
 				_quest_holding = false
+				extraction_audio.stop()
 				quest_requested.emit()
 	$Overlay/QuestAction.text = ("УДЕРЖИВАЙТЕ / ИЗВЛЕЧЬ PASS KEY  %d%%" % mini(100, int(_quest_hold / 1.35 * 100.0))) if terminal.is_key_terminal else "PASS KEY / ВЗАИМОДЕЙСТВОВАТЬ"
