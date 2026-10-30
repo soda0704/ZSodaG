@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/item_focus.tscn" id="item_focus"]
 [ext_resource type="PackedScene" path="res://scenes/ui/northern_lab_hud.tscn" id="northern_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/sleep_eyelids.tscn" id="sleep_eyelids"]
+[ext_resource type="PackedScene" path="res://scenes/characters/camera_post_process.tscn" id="camera_post_process"]
 
 
 
@@ -115,6 +116,8 @@ visible = false
 
 [node name="PlayerUI" type="CanvasLayer" parent="." unique_id=388878152]
 layer = 5
+
+[node name="CameraPostProcess" parent="PlayerUI" instance=ExtResource("camera_post_process")]
 
 [node name="Crosshair" type="CenterContainer" parent="PlayerUI" unique_id=1070768269]
 unique_name_in_owner = true
