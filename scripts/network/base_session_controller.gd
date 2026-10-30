@@ -130,7 +130,7 @@ func capture_inventory_checkpoint() -> Dictionary:
 		cargo_data["item_state"] = pickup.item_state.duplicate(true)
 		pickups.append(cargo_data)
 	var heavy_props := capture_heavy_prop_checkpoint()
-	return {"players": equipment, "participants": participants, "pickups": pickups, "heavy_props": heavy_props, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1, "flamethrower_parts_layout_version": 1}
+	return {"players": equipment, "participants": participants, "pickups": pickups, "heavy_props": heavy_props, "weapon_layout_version": 1, "fuel_layout_version": 1, "tools_layout_version": 1, "discoverable_layout_version": 2, "tape_layout_version": 1, "prop_layout_version": 1, "elevator_backup_layout_version": 1, "flamethrower_parts_layout_version": 1, "base_supply_layout_version": 1}
 
 
 func capture_heavy_prop_checkpoint() -> Dictionary:
@@ -701,6 +701,9 @@ func spawn_v3_world_items() -> void:
 	):
 		return
 	_v3_items_spawned = true
+	if int(_base_gameplay_controller.inventory_checkpoint.get("base_supply_layout_version", 0)) < 1:
+		for loot: Dictionary in get_node("V3Level").get_supply_loot():
+			spawn_world_item(loot.type, world_items.global_transform.affine_inverse() * loot.transform, loot.state)
 	restore_heavy_prop_checkpoint(_base_gameplay_controller.inventory_checkpoint.get("heavy_props", {}))
 	var migrate_craft := int(_base_gameplay_controller.inventory_checkpoint.get("flamethrower_parts_layout_version", 0)) < 1
 	if migrate_craft:

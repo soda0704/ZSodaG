@@ -76,6 +76,8 @@ enum Behavior { PURSUER, SKIRMISHER, TERRITORIAL }
 @export_group("Navigation agent")
 @export_flags_3d_navigation var navigation_layers := 1
 @export_range(0.05, 2.0) var path_desired_distance := 0.35
+## Subtracted from baked path Y so the agent follows at its authored foot pivot.
+@export_range(-3.0, 3.0, 0.05) var path_height_offset := 0.0
 ## Match the authored collision capsule, not the visual model's height or scale.
 @export_range(0.05, 3.0) var avoidance_radius := 0.4
 ## RVO uses the native NavigationAgent3D. Enable only where crowd avoidance is needed.

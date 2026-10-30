@@ -1,0 +1,98 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="NavigationMesh" path="res://assets/navigation/security_patrol.tres" id="security_nav"]
+
+[node name="PatrolRoutes" type="Node3D"]
+
+[node name="SecurityNavigation" type="NavigationRegion3D" parent="."]
+navigation_layers = 3
+navigation_mesh = ExtResource("security_nav")
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="central_east" type="Marker3D" parent="Head"]
+position = Vector3(-17, -17.95, 0)
+
+[node name="surveillance" type="Marker3D" parent="Head"]
+position = Vector3(-19.5, -17.95, -10)
+
+[node name="central_north_east" type="Marker3D" parent="Head"]
+position = Vector3(-22, -17.95, -4.5)
+
+[node name="incident_gallery" type="Marker3D" parent="Head"]
+position = Vector3(-32.5, -17.95, -9)
+
+[node name="central_north" type="Marker3D" parent="Head"]
+position = Vector3(-36, -17.95, -4.5)
+
+[node name="data_vault" type="Marker3D" parent="Head"]
+position = Vector3(-49, -17.95, -9)
+
+[node name="central_west" type="Marker3D" parent="Head"]
+position = Vector3(-49, -17.95, 0)
+
+[node name="command_center" type="Marker3D" parent="Head"]
+position = Vector3(-61, -17.95, -3.5)
+
+[node name="central_west_return" type="Marker3D" parent="Head"]
+position = Vector3(-49, -17.95, 0)
+
+[node name="access_systems" type="Marker3D" parent="Head"]
+position = Vector3(-46.5, -17.95, 9)
+
+[node name="central_south_west" type="Marker3D" parent="Head"]
+position = Vector3(-40, -17.95, 4.5)
+
+[node name="response_gallery" type="Marker3D" parent="Head"]
+position = Vector3(-32.5, -17.95, 9)
+
+[node name="central_south" type="Marker3D" parent="Head"]
+position = Vector3(-26, -17.95, 4.5)
+
+[node name="emergency_room" type="Marker3D" parent="Head"]
+position = Vector3(-19.5, -17.95, 9)
+
+[node name="central_east_return" type="Marker3D" parent="Head"]
+position = Vector3(-17, -17.95, 0)
+
+[node name="HeadUnpowered" type="Node3D" parent="."]
+
+[node name="south_center" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-31.5, -17.95, 4.5)
+
+[node name="south_west" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-47, -17.95, 4.5)
+
+[node name="west_turn" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-49, -17.95, 0)
+
+[node name="north_west" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-47, -17.95, -4.5)
+
+[node name="north_east" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-17, -17.95, -4.5)
+
+[node name="east_turn" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-16, -17.95, 0)
+
+[node name="south_east" type="Marker3D" parent="HeadUnpowered"]
+position = Vector3(-17, -17.95, 4.5)
+
+[node name="Evolution" type="Node3D" parent="."]
+
+[node name="lab_south_west" type="Marker3D" parent="Evolution"]
+position = Vector3(-22, -71.95, -12)
+
+[node name="lab_north_west" type="Marker3D" parent="Evolution"]
+position = Vector3(-22, -71.95, -17.8)
+
+[node name="lab_north_east" type="Marker3D" parent="Evolution"]
+position = Vector3(-16, -71.95, -17.8)
+
+[node name="lab_south_east" type="Marker3D" parent="Evolution"]
+position = Vector3(-16, -71.95, -12)
+
+[node name="VaultDeskClearance" type="NavigationLink3D" parent="."]
+navigation_layers = 3
+start_position = Vector3(-46.5, -17.5, -6.8)
+end_position = Vector3(-49, -17.5, -7.2)

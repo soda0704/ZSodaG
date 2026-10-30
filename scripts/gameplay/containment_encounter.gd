@@ -23,6 +23,15 @@ var trials_zone_path := NodePath("../Floor_Minus3_Trials_Observation_Blockout/In
 )
 @export var cave_visit_zone_path := NodePath("../Cave_Day7/CaveArrival/ShaftVisitZone")
 @export var monster_spawn_paths: Array[NodePath] = []
+## Additional authored actors share persistence/networking, but never gate day-five clearance.
+@export var patrol_creature_paths: Array[NodePath] = []
+@export_group("Powered patrol route")
+@export var power_patrol_actor_path: NodePath
+@export var powered_patrol_route_path: NodePath
+@export var unpowered_patrol_route_path: NodePath
+@export var powered_patrol_pause := Vector2(0.4, 1.0)
+@export var unpowered_patrol_pause := Vector2(2.0, 4.0)
+var _patrol_power_state = null
 var state: BaseGameplayController
 var _zones: Array[Area3D] = []
 var navigation_ready: bool = false
@@ -50,6 +59,15 @@ func _ready() -> void:
 		monster.encounter = self
 		monster.global_transform = marker.global_transform
 		monster.set_home_transform(marker.global_transform)
+		monster._target_position = monster.position
+	for offset in patrol_creature_paths.size():
+		var monster := get_node_or_null(patrol_creature_paths[offset])
+		if monster == null:
+			push_error("ContainmentEncounter: missing authored patrol creature")
+			continue
+		monster.monster_id = 3 + offset
+		monster.encounter = self
+		monster.set_home_transform(monster.global_transform)
 		monster._target_position = monster.position
 	_zones = [
 		get_node_or_null(level_two_zone_path) as Area3D,
@@ -170,6 +188,8 @@ func get_start_health() -> Array:
 
 
 func get_monster_health(index: int) -> float:
+	if index >= 3 and index < 3 + patrol_creature_paths.size():
+		return float(state.containment.get("patrol_health", {}).get(str(index), get_node("Monster%d" % index).ai_profile.max_health))
 	return float(state.containment.get("health", get_start_health())[index])
 
 
@@ -178,23 +198,29 @@ func damage_monster(index: int, amount: float) -> void:
 		not multiplayer.is_server()
 		or not is_finite(amount)
 		or amount <= 0.0
-		or index not in range(3)
+		or index not in range(3 + patrol_creature_paths.size())
 		or state.containment.get("monster_outcomes", {}).has(str(index))
 	):
 		return
 	var data: Dictionary = state.containment.duplicate(true)
-	var health: Array = data.get("health", get_start_health()).duplicate()
-	if health[index] <= 0.0:
+	if get_monster_health(index) <= 0.0:
 		return
-	health[index] = maxf(0.0, float(health[index]) - amount)
-	data.health = health
-	if health[index] == 0.0:
+	var remaining := maxf(0.0, get_monster_health(index) - amount)
+	if index < 3:
+		var health: Array = data.get("health", get_start_health()).duplicate()
+		health[index] = remaining
+		data.health = health
+	else:
+		var health: Dictionary = data.get("patrol_health", {}).duplicate()
+		health[str(index)] = remaining
+		data.patrol_health = health
+	if remaining == 0.0:
 		var bodies: Dictionary = data.get("bodies", {}).duplicate(true)
 		bodies[str(index)] = {
 			"transform": get_node("Monster%d" % index).global_transform, "settled": false
 		}
 		data.bodies = bodies
-	if _all_monsters_resolved(data) and not data.get("resolved", false):
+	if index < 3 and _all_monsters_resolved(data) and not data.get("resolved", false):
 		data.fault = true
 		data.reset_armed = false
 	_commit(data)
@@ -212,7 +238,7 @@ func _all_monsters_resolved(data: Dictionary) -> bool:
 func resolve_monster(index: int, reason: String, hide_actor: bool = true) -> bool:
 	if (
 		not multiplayer.is_server()
-		or index not in range(3)
+		or index not in range(3 + patrol_creature_paths.size())
 		or reason.strip_edges().is_empty()
 		or get_monster_health(index) <= 0.0
 	):
@@ -227,7 +253,7 @@ func resolve_monster(index: int, reason: String, hide_actor: bool = true) -> boo
 		"transform": get_node("Monster%d" % index).global_transform
 	}
 	data.monster_outcomes = outcomes
-	if _all_monsters_resolved(data) and not data.get("resolved", false):
+	if index < 3 and _all_monsters_resolved(data) and not data.get("resolved", false):
 		data.fault = true
 		data.reset_armed = false
 	_commit(data)
@@ -279,7 +305,7 @@ func save_body(index: int, pose: Transform3D, settled: bool, ragdoll: Array = []
 
 func capture_bodies() -> Dictionary:
 	var bodies := {}
-	for index in 3:
+	for index in 3 + patrol_creature_paths.size():
 		var monster = get_node_or_null("Monster%d" % index)
 		if monster == null:
 			continue
@@ -304,6 +330,7 @@ func debug_reset() -> void:
 		return
 	var data: Dictionary = state.containment.duplicate(true)
 	data.health = get_start_health()
+	data.patrol_health = {}
 	data.bodies = {}
 	data.monster_outcomes = {}
 	# Resetting the encounter must not repair an already triggered power fault.
@@ -390,16 +417,26 @@ func _clear_debug_spawned() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _reset_actors() -> void:
-	for index in 3:
+	for index in 3 + patrol_creature_paths.size():
 		get_node("Monster%d" % index).reset_enemy()
 
 
 func _on_state(_snapshot: Dictionary) -> void:
+	if multiplayer.is_server() and not power_patrol_actor_path.is_empty() and _patrol_power_state != state.main_breaker_on:
+		_patrol_power_state = state.main_breaker_on
+		var actor := get_node_or_null(power_patrol_actor_path)
+		var route := get_node_or_null(powered_patrol_route_path if state.main_breaker_on else unpowered_patrol_route_path)
+		if actor != null and route != null:
+			var points: Array[Node3D] = []
+			for marker in route.get_children():
+				if marker is Marker3D: points.append(marker)
+			actor.set_patrol_route(points, powered_patrol_pause if state.main_breaker_on else unpowered_patrol_pause)
 	# Story creatures belong to the separate containment day; debug spawns are independent.
 	var active := state.day_index >= state.CONTAINMENT_DAY_INDEX
-	for index in 3:
+	for index in 3 + patrol_creature_paths.size():
 		var monster := get_node_or_null("Monster%d" % index) as CharacterBody3D
 		if monster != null:
+			var actor_active := active or index >= 3
 			var outcome: Dictionary = state.containment.get("monster_outcomes", {}).get(
 				str(index), {}
 			)
@@ -413,12 +450,12 @@ func _on_state(_snapshot: Dictionary) -> void:
 			elif monster.is_encounter_resolved():
 				monster.reset_enemy()
 			monster.visible = (
-				active and (outcome.is_empty() or not bool(outcome.get("hidden", true)))
+				actor_active and (outcome.is_empty() or not bool(outcome.get("hidden", true)))
 			)
-			monster.set_physics_process(active)
+			monster.set_physics_process(actor_active)
 			monster.collision_layer = (
 				monster._living_collision_layer
-				if active and get_monster_health(index) > 0.0 and outcome.is_empty()
+				if actor_active and get_monster_health(index) > 0.0 and outcome.is_empty()
 				else 0
 			)
 	_check_current_zones.call_deferred()

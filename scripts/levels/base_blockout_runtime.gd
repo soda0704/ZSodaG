@@ -41,6 +41,15 @@ const FLASHLIGHT_PICKUP_SCENE := preload(
 const FUEL_PICKUP_SCENE := preload(
 	"res://scenes/objects/items/fuel_can_pickup.tscn"
 )
+const SUPPLY_PICKUP_SCENES := {
+	&"fuel_can": FUEL_PICKUP_SCENE,
+	&"flashlight": FLASHLIGHT_PICKUP_SCENE,
+	&"battery": preload("res://scenes/objects/items/battery_pickup.tscn"),
+	&"pistol": preload("res://scenes/objects/items/pistol_pickup.tscn"),
+	&"m4a1": preload("res://scenes/objects/items/m4a1_pickup.tscn"),
+	&"pistol_ammo": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+	&"rifle_magazine": preload("res://scenes/objects/items/weapon_pickup.tscn"),
+}
 
 @export var player_spawn_positions := PackedVector3Array([
 	Vector3(-39.5, 0.05, 2.5),
@@ -186,6 +195,12 @@ func get_day_start_transform(player_slot: int) -> Transform3D:
 
 
 func spawn_standalone_gameplay() -> void:
+	var supplies := get_supply_loot()
+	for index in supplies.size():
+		var loot := supplies[index]
+		var item := (SUPPLY_PICKUP_SCENES[loot.type] as PackedScene).instantiate() as WorldItemPickup
+		item.setup_spawn({"pickup_name": "SupplyLoot%d" % index, "item_type": loot.type, "item_state": loot.state, "transform": loot.transform})
+		add_child(item)
 	var recipe = preload("res://assets/config/flamethrower_recipe.tres")
 	if not has_node("CraftLoot0"):
 		var craft_loot := get_flamethrower_loot()
@@ -264,4 +279,12 @@ func get_flamethrower_loot() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for marker: Marker3D in $FlamethrowerLootSpawns.get_children():
 		result.append({"type": StringName(marker.get_meta("item_type")), "transform": marker.global_transform, "state": {}})
+	return result
+
+
+## Authored editor markers; the session owns spawning and persistence.
+func get_supply_loot() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for marker: Marker3D in $BaseSupplySpawns.get_children():
+		result.append({"type": StringName(marker.get_meta("item_type")), "transform": marker.global_transform, "state": marker.get_meta("item_state", {}).duplicate(true)})
 	return result

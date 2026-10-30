@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[node name="BaseSupplySpawns" type="Node3D"]
+
+[node name="garage_reserve_can" type="Marker3D" parent="."]
+position = Vector3(-30.9, 0.35, 6.0)
+rotation = Vector3(0, 0.3, 0)
+metadata/item_type = &"fuel_can"
+metadata/item_state = {"fuel_liters": 20.0}
+
+[node name="equipment_reserve_can" type="Marker3D" parent="."]
+position = Vector3(-23.7, 0.35, 6.0)
+rotation = Vector3(0, -0.5, 0)
+metadata/item_type = &"fuel_can"
+metadata/item_state = {"fuel_liters": 20.0}
+
+[node name="garage_pistol" type="Marker3D" parent="."]
+position = Vector3(-28.45, 1.04, 7.15)
+rotation = Vector3(0, 0.35, 1.5707963267948966)
+metadata/item_type = &"pistol"
+metadata/item_state = {"rounds": 12}
+
+[node name="equipment_rifle" type="Marker3D" parent="."]
+position = Vector3(-25.25, 0.96, -3.65)
+rotation = Vector3(0, 0.1, 1.5707963267948966)
+metadata/item_type = &"m4a1"
+metadata/item_state = {"rounds": 30}
+
+[node name="garage_flashlight" type="Marker3D" parent="."]
+position = Vector3(-30.65, 1.04, 7.15)
+rotation = Vector3(0, -0.4, 0)
+metadata/item_type = &"flashlight"
+metadata/item_state = {"battery_charge": 1.0}
+
+[node name="equipment_flashlight" type="Marker3D" parent="."]
+position = Vector3(-25.1, 0.96, -6.3)
+rotation = Vector3(0, 0.3, 0)
+metadata/item_type = &"flashlight"
+metadata/item_state = {"battery_charge": 1.0}
+
+[node name="garage_ammo" type="Marker3D" parent="."]
+position = Vector3(-28.15, 1.06, 7.1)
+rotation = Vector3(0, 0.3, 0)
+metadata/item_type = &"pistol_ammo"
+metadata/item_state = {"amount": 24}
+
+[node name="equipment_magazine" type="Marker3D" parent="."]
+position = Vector3(-25.55, 1.0, -6.2)
+rotation = Vector3(1.5707963267948966, 0.3, 0)
+metadata/item_type = &"rifle_magazine"
+metadata/item_state = {"rounds": 30}
+
+[node name="storage_magazine" type="Marker3D" parent="."]
+position = Vector3(2.2, 1.13, 17.2)
+rotation = Vector3(1.5707963267948966, -0.5, 0)
+metadata/item_type = &"rifle_magazine"
+metadata/item_state = {"rounds": 30}
+
+[node name="storage_ammo" type="Marker3D" parent="."]
+position = Vector3(2.65, 1.13, 10.85)
+rotation = Vector3(0, 0.7, 0)
+metadata/item_type = &"pistol_ammo"
+metadata/item_state = {"amount": 12}
+
+[node name="bunks_ammo" type="Marker3D" parent="."]
+position = Vector3(32.55, 1.35, -2.1)
+rotation = Vector3(0, 0.25, 0)
+metadata/item_type = &"pistol_ammo"
+metadata/item_state = {"amount": 12}
+
+[node name="garage_battery" type="Marker3D" parent="."]
+position = Vector3(-30.2, 1.05, 7.18)
+rotation = Vector3(0, 0.6, 0)
+metadata/item_type = &"battery"
+metadata/item_state = {"charge_amount": 1.0}
+
+[node name="equipment_battery" type="Marker3D" parent="."]
+position = Vector3(-25.1, 0.98, -6.8)
+rotation = Vector3(0, -0.3, 0)
+metadata/item_type = &"battery"
+metadata/item_state = {"charge_amount": 1.0}
+
+[node name="common_battery" type="Marker3D" parent="."]
+position = Vector3(14.4, 0.75, 4.8)
+rotation = Vector3(0, 0.5, 0)
+metadata/item_type = &"battery"
+metadata/item_state = {"charge_amount": 1.0}
+
+[node name="medical_battery" type="Marker3D" parent="."]
+position = Vector3(26.2, 1.05, 7.2)
+rotation = Vector3(0, -0.6, 0)
+metadata/item_type = &"battery"
+metadata/item_state = {"charge_amount": 1.0}
+
+[node name="research_battery" type="Marker3D" parent="."]
+position = Vector3(3.65, 1.06, -22.55)
+rotation = Vector3(0, 0.5, 0)
+metadata/item_type = &"battery"
+metadata/item_state = {"charge_amount": 1.0}

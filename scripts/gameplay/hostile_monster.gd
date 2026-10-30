@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export_group("Creature")
-@export_range(0, 2) var monster_id: int = 0
+@export_range(0, 4) var monster_id: int = 0
 @export_storage var model_id: String = "the_monster"
 @export var ai_profile: MonsterAIProfile
 @export_range(0.1, 3.0) var eye_height := 1.45
@@ -97,6 +97,7 @@ var _resolution_hidden := true
 var _patrol_markers: Array[Node3D] = []
 var _patrol_index := -1
 var _patrol_direction := 1
+var _patrol_pause_override := Vector2(-1.0, -1.0)
 var _home_transform := Transform3D.IDENTITY
 var _living_collision_layer := 2
 var _corpse_attempted := false
@@ -328,10 +329,11 @@ func _move_towards(point: Vector3, speed: float, stop: float, delta: float) -> v
 		if from.is_finite() and goal.is_finite():
 			_path_time -= delta
 			if (
-				_path_time <= 0.0
-				or not _navigation_goal.is_finite()
-				or _navigation_goal.distance_to(goal) > 1.0
+				not _navigation_goal.is_finite()
+				or (_path_time <= 0.0 and _navigation_goal.distance_to(goal) > 0.25)
 			):
+				# Reassigning an unchanged target resets native path/link progress.
+				# Moving targets are refreshed at the configured interval instead.
 				_path_time = ai_profile.path_update_interval
 				_navigation_goal = goal
 				agent.target_position = goal
@@ -371,7 +373,7 @@ func _wander_point(center: Vector3, radius: float) -> Vector3:
 			if absf(goal.y - global_position.y) > ai_profile.vertical_awareness:
 				continue
 			var path := NavigationServer3D.map_get_path(
-				agent.get_navigation_map(), from, goal, true
+				agent.get_navigation_map(), from, goal, true, ai_profile.navigation_layers
 			)
 			if (
 				not path.is_empty()
@@ -515,18 +517,14 @@ func _update_behavior(delta: float) -> void:
 		if global_position.distance_to(_home) <= ai_profile.patrol_stop_distance:
 			_returning_home = false
 			_patrol_goal = _home
-			_patrol_left = randf_range(
-				ai_profile.patrol_interval_min, ai_profile.patrol_interval_max
-			)
+			_patrol_left = _patrol_delay()
 	else:
 		_set_awareness(AwarenessState.PATROL)
 		if global_position.distance_to(_patrol_goal) <= ai_profile.patrol_stop_distance:
 			_patrol_left -= delta
 			if _patrol_left <= 0.0:
 				_patrol_goal = _next_patrol_goal()
-				_patrol_left = randf_range(
-					ai_profile.patrol_interval_min, ai_profile.patrol_interval_max
-				)
+				_patrol_left = _patrol_delay()
 		_move_towards(_patrol_goal, ai_profile.patrol_speed, ai_profile.patrol_stop_distance, delta)
 
 
@@ -996,6 +994,7 @@ func configure_navigation() -> void:
 		return
 	agent.navigation_layers = ai_profile.navigation_layers
 	agent.path_desired_distance = ai_profile.path_desired_distance
+	agent.path_height_offset = ai_profile.path_height_offset
 	agent.radius = ai_profile.avoidance_radius
 	agent.neighbor_distance = ai_profile.neighbor_distance
 	agent.max_neighbors = ai_profile.max_neighbors
@@ -1037,6 +1036,25 @@ func _next_patrol_goal() -> Vector3:
 		if is_instance_valid(marker):
 			return marker.global_position
 	return global_position
+
+
+func _patrol_delay() -> float:
+	return randf_range(_patrol_pause_override.x, _patrol_pause_override.y) if _patrol_pause_override.x >= 0.0 else randf_range(ai_profile.patrol_interval_min, ai_profile.patrol_interval_max)
+
+
+## Route changes do not cancel an ongoing chase; only the idle patrol is replaced.
+func set_patrol_route(points: Array[Node3D], pauses := Vector2(-1.0, -1.0)) -> bool:
+	if not multiplayer.is_server():
+		return false
+	_patrol_markers = points.duplicate()
+	_patrol_index = -1
+	_patrol_direction = 1
+	_patrol_pause_override = pauses
+	_patrol_goal = global_position
+	_patrol_left = 0.0
+	_path_time = 0.0
+	_navigation_goal = Vector3.INF
+	return true
 
 
 ## Host-only scenario hooks. No player RPC can invoke these methods.

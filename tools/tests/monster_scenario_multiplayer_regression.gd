@@ -47,6 +47,8 @@ func run() -> void:
 		var encounter = world._base_gameplay_controller.get_parent().get_node(
 			"ContainmentEncounter"
 		)
+		encounter.get_node("Monster3").apply_weapon_damage(7.0)
+		check(encounter.get_monster_health(3) == 78.0, "authored patrol health uses authoritative encounter state")
 		check(
 			encounter.get_node("Monster0").resolve_without_kill("escaped"),
 			"host resolves creature before guest joins"
@@ -110,13 +112,15 @@ func run() -> void:
 			),
 			"late join restores nonlethal resolution"
 		)
+		check(
+			(encounter.get_node("Monster3").visible and encounter.get_node("Monster4").visible
+			and encounter.get_monster_health(3) == 78.0),
+			"late join receives both authored patrols and their current health"
+		)
 		ack_monsters.rpc_id(1, 1)
 		check(
 			await wait_until(
-				func():
-					return (
-						encounter.has_node("DebugMonster0") and encounter.has_node("DebugMonster1")
-					)
+				func(): return encounter.has_node("DebugMonster0") and encounter.has_node("DebugMonster1")
 			),
 			"guest receives head and evolution spawn RPCs"
 		)
@@ -153,11 +157,7 @@ func run() -> void:
 		ack_monsters.rpc_id(1, 4)
 		check(
 			await wait_until(
-				func():
-					return (
-						not encounter.has_node("DebugMonster0")
-						and not encounter.has_node("DebugMonster1")
-					)
+				func(): return not encounter.has_node("DebugMonster0") and not encounter.has_node("DebugMonster1")
 			),
 			"guest cleanup completes"
 		)

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MonsterAIProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/monster_ai_profile.gd" id="profile"]
+
+[resource]
+script = ExtResource("profile")
+behavior = 2
+max_health = 240.0
+chase_speed = 2.0
+patrol_speed = 0.75
+sight_distance = 26.0
+field_of_view = 110.0
+attack_distance = 1.7
+attack_reach = 2.2
+stop_distance = 1.2
+attack_damage = 28.0
+attack_windup = 1.0
+attack_cooldown = 2.6
+attack_recovery = 0.55
+acceleration = 5.0
+sight_confirmation_time = 0.35
+avoidance_radius = 0.55
+
+patrol_interval_min = 0.1
+patrol_interval_max = 0.3
+territory_radius = 12.0
+weapon_damage_enabled = true

@@ -323,6 +323,13 @@ func run() -> void:
 		"visible resolved actor restores its final position rather than spawn marker"
 	)
 	state.progress_persistence_enabled = false
+	var repair := state.get_snapshot()
+	repair.containment.reset_armed = true
+	state._broadcast_snapshot(repair)
+	encounter.get_node("Monster3").apply_environment_damage(1.0)
+	check(state.containment.get("reset_armed", false), "patrol damage cannot disarm the original encounter breaker repair")
+	encounter.get_node("Monster4").resolve_without_kill("withdrawn")
+	check(state.containment.get("reset_armed", false), "patrol resolution cannot restart the original encounter power fault")
 	base.queue_free()
 	await frames(4)
 	print("MONSTER SCENARIO CHECKS ", checks, " FAILURES ", failures)

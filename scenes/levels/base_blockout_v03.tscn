@@ -41,6 +41,13 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/world_atmosphere.tscn" id="world_atmosphere"]
 [ext_resource type="PackedScene" uid="uid://bqxa31sswn4t" path="res://scenes/levels/world_lighting.tscn" id="world_lighting"]
 
+[ext_resource type="PackedScene" path="res://scenes/levels/base_creature_patrols.tscn" id="patrol_routes"]
+[ext_resource type="PackedScene" path="res://scenes/objects/items/base_supply_spawns.tscn" id="base_supplies"]
+[ext_resource type="PackedScene" path="res://scenes/characters/monsters/head.tscn" id="creature_head"]
+[ext_resource type="PackedScene" path="res://scenes/characters/monsters/involuntary_evolution.tscn" id="creature_evolution"]
+[ext_resource type="Resource" path="res://assets/config/monsters/head_security_patrol.tres" id="head_patrol_profile"]
+[ext_resource type="Resource" path="res://assets/config/monsters/evolution_lab_patrol.tres" id="evolution_patrol_profile"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jr0g1"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
@@ -1329,6 +1336,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 2.1, -17)
 [node name="ContainmentEncounter" type="Node3D" parent="." unique_id=121495875]
 script = ExtResource("containment_logic")
 monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Tail"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Slasher"), NodePath("../Floor_Minus4_Biocontainment_Blockout/MonsterSpawns/Smily")])
+patrol_creature_paths = Array[NodePath]([NodePath("Monster3"), NodePath("Monster4")])
+power_patrol_actor_path = NodePath("Monster3")
+powered_patrol_route_path = NodePath("../PatrolRoutes/Head")
+unpowered_patrol_route_path = NodePath("../PatrolRoutes/HeadUnpowered")
 
 [node name="Monster0" parent="ContainmentEncounter" unique_id=1287020314 instance=ExtResource("creature_0")]
 
@@ -1338,6 +1349,18 @@ monster_spawn_paths = Array[NodePath]([NodePath("../Floor_Minus4_Biocontainment_
 
 [node name="NavigationRegion" type="NavigationRegion3D" parent="ContainmentEncounter" unique_id=109421315]
 navigation_mesh = ExtResource("containment_nav")
+
+[node name="Monster3" parent="ContainmentEncounter" instance=ExtResource("creature_head")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, -17.95, 4.5)
+monster_id = 3
+ai_profile = ExtResource("head_patrol_profile")
+patrol_point_paths = Array[NodePath]([NodePath("../../PatrolRoutes/Head/central_east"), NodePath("../../PatrolRoutes/Head/surveillance"), NodePath("../../PatrolRoutes/Head/central_north_east"), NodePath("../../PatrolRoutes/Head/incident_gallery"), NodePath("../../PatrolRoutes/Head/central_north"), NodePath("../../PatrolRoutes/Head/data_vault"), NodePath("../../PatrolRoutes/Head/central_west"), NodePath("../../PatrolRoutes/Head/command_center"), NodePath("../../PatrolRoutes/Head/central_west_return"), NodePath("../../PatrolRoutes/Head/access_systems"), NodePath("../../PatrolRoutes/Head/central_south_west"), NodePath("../../PatrolRoutes/Head/response_gallery"), NodePath("../../PatrolRoutes/Head/central_south"), NodePath("../../PatrolRoutes/Head/emergency_room"), NodePath("../../PatrolRoutes/Head/central_east_return")])
+
+[node name="Monster4" parent="ContainmentEncounter" instance=ExtResource("creature_evolution")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -71.95, -12)
+monster_id = 4
+ai_profile = ExtResource("evolution_patrol_profile")
+patrol_point_paths = Array[NodePath]([NodePath("../../PatrolRoutes/Evolution/lab_south_west"), NodePath("../../PatrolRoutes/Evolution/lab_north_west"), NodePath("../../PatrolRoutes/Evolution/lab_north_east"), NodePath("../../PatrolRoutes/Evolution/lab_south_east")])
 
 [node name="FlamethrowerWorkbench" parent="." unique_id=414687789 instance=ExtResource("flame_bench")]
 transform = Transform3D(-4.0977422e-08, 0.3481085, -0.9374543, 1.521631e-08, 0.9374543, 0.3481085, 1, -5.5473945e-15, -4.371139e-08, -19.22666, 0.17815366, -3.4006557)
@@ -1415,3 +1438,9 @@ claim_key = "journal_2"
 [editable path="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt"]
 [editable path="Floor_Minus1_Control_Security_Blockout"]
 [editable path="Floor_Minus5_Expedition_Shaft_Blockout"]
+
+
+
+[node name="PatrolRoutes" parent="." instance=ExtResource("patrol_routes")]
+
+[node name="BaseSupplySpawns" parent="." instance=ExtResource("base_supplies")]
