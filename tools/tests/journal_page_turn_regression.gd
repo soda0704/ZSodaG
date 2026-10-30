@@ -193,6 +193,7 @@ func run() -> void:
 	print("SHADOW IMAGE DELTA ",shadow_delta)
 	check(shadow_delta>.0003,"contact shadow changes the rendered pixels around the insert")
 	var edge_contrast := 0.0
+	var edge_brightness := 0.0
 	var camera: Camera3D = actor.body_animator.first_person.view_camera
 	var sheet: Node3D = inserts.get_node("MapSheet")
 	for index in 10:
@@ -200,8 +201,13 @@ func run() -> void:
 		var screen := Vector2i(camera.unproject_position(at)*Vector2(root.size)/camera.get_viewport().get_visible_rect().size)
 		var difference := unshaded.get_pixelv(screen)-shaded.get_pixelv(screen)
 		edge_contrast += (difference.r+difference.g+difference.b)/30.0
+		var paper := unshaded.get_pixelv(screen)
+		edge_brightness += (paper.r+paper.g+paper.b)/30.0
 	print("FREE EDGE SHADOW CONTRAST ",edge_contrast)
-	check(edge_contrast>.035,"free-edge shadow is visibly darker than the book paper")
+	# Lit paper can be dim: compare shade with its actual receiving surface.
+	var relative_contrast := edge_contrast / maxf(edge_brightness,.001)
+	print("FREE EDGE RELATIVE SHADOW CONTRAST ",relative_contrast)
+	check(relative_contrast>.12,"free-edge shadow is visibly darker than the book paper")
 	shadow.show()
 	actor.body_animator.first_person.set_process(true)
 	check(journal._map_sheet.loupe_button.get_global_rect().end.x<700,"magnifier button is on the left page")

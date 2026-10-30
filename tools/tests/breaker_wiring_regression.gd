@@ -87,6 +87,7 @@ func run() -> void:
 	state._process(2.0)
 	check(is_equal_approx(state.fuel_liters, before_off), "manual shutdown stops generator consumption")
 	check(not base.get_node("BasePowerLightingController").is_standard_powered and not base.get_node("Elevator_Functional_Blockout").is_powered, "manual shutdown reaches lights and lift without reserve")
+	check(state.save_progress_authoritative(false, "manual", "Breaker regression"), "explicit daily save records manual shutdown")
 	check(not state.load_saved_snapshot().main_breaker_on, "manual off state is saved")
 	var reserve_snapshot := state.get_snapshot()
 	reserve_snapshot.elevator_backup_installed = true
@@ -117,6 +118,8 @@ func run() -> void:
 	var charge_before := player._battery_charge
 	player.update_authoritative_flashlight_battery(0.5)
 	check(player._battery_charge < charge_before, "centered repair light still consumes the real battery")
+	var cover_deadline := Time.get_ticks_msec() + 1500
+	while breaker.cover_animation.is_playing() and Time.get_ticks_msec() < cover_deadline: await process_frame
 	check(breaker._cover_open and breaker.get_node("Wiring/Board").visible and absf(breaker.cover.rotation.y + 1.95) < 0.05, "E opens the hinged physical cover")
 	player.refresh_crosshair_visibility()
 	Input.action_press("move_forward")
@@ -129,6 +132,13 @@ func run() -> void:
 	check(state.maintenance.wire_links.is_empty() and breaker.wiring.selected == 0, "wrong terminal preserves plug and makes no progress")
 	await click(breaker.wiring.get_node("Board/Output2"))
 	check(state.maintenance.wire_links == [0], "real mouse interaction confirms only the correct circuit")
+	var seat: AnimationPlayer = breaker.wiring.get_node("Board/Output2/SeatAnimation")
+	var tip: Node3D = breaker.wiring.get_node("Board/Output2/InsertionTip")
+	seat.play(&"seat"); seat.seek(0, true); seat.advance(.08)
+	check(tip.visible and tip.position.z > .02 and tip.position.z < .12, "native connection clip moves the physical plug into the socket")
+	await screenshot("connector-seating")
+	seat.advance(.3)
+	check(not tip.visible, "connection clip leaves no overlapping temporary plug")
 	check(not state.connect_wire_authoritative(1, 0, 2), "duplicate connection rejected")
 	check(not state.connect_wire_authoritative(2, 1, 0) and not state.connect_wire_authoritative(1, 4, 0), "unregistered peer and invalid row rejected")
 	await screenshot("repair-partial")
@@ -188,6 +198,7 @@ func run() -> void:
 	await boot()
 	check(state.maintenance.wire_links == [0] and state.maintenance.wires_required and not breaker.wiring.active, "continue restores partial circuits without reopening camera")
 	check(not breaker.cover_animation.is_playing(), "continue applies cover pose without replaying animation")
+	check(not breaker.wiring.connector_audio.playing and not breaker.wiring.get_node("Board/Output2/SeatAnimation").is_playing() and not breaker.wiring.get_node("Board/Output2/InsertionTip").visible, "continue never replays connection audio or plug movement")
 	check(not breaker._cover_open and not breaker.get_node("Wiring/Board").visible, "continue restores a closed door until a new interaction")
 	player.try_authoritative_interaction()
 	await create_timer(0.45).timeout

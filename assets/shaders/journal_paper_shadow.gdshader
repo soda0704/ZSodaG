@@ -6,7 +6,8 @@ void fragment() {
 	vec2 edge = abs(UV - vec2(0.5)) - vec2(0.5 - softness);
 	float distance_to_edge = length(max(edge, vec2(0.0))) + min(max(edge.x, edge.y), 0.0);
 	float coverage = 1.0 - smoothstep(-softness, softness, distance_to_edge);
-	ALBEDO = vec3(0.09, 0.07, 0.05);
+	// Alpha darkens the receiving paper; the overlay must add no light in darkness.
+	ALBEDO = vec3(0.0);
 	// The glued edge stays in contact; the raised free edge casts more shade.
 	ALPHA = opacity * coverage * mix(0.35, 1.0, UV.x);
 }

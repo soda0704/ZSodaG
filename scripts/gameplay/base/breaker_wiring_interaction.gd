@@ -210,9 +210,12 @@ func refresh(_snapshot: Dictionary) -> void:
 			animator.play(&"RESET")
 			animator.advance(0)
 			animator.stop()
-		if _initialized and complete and not _previous_links.has(i):
+		if _initialized and not controller.applying_initial_snapshot and complete and not _previous_links.has(i):
 			connector_audio.play()
 			(_outputs[destination].get_node("SeatAnimation") as AnimationPlayer).play(&"seat")
+		elif not complete or controller.applying_initial_snapshot:
+			(_outputs[destination].get_node("SeatAnimation") as AnimationPlayer).stop()
+			_outputs[destination].get_node("InsertionTip").hide()
 	_previous_links = links.duplicate()
 	_initialized = true
 	status.text = "ЦЕПИ ВОССТАНОВЛЕНЫ" if links.size() == 4 else "ОБЕСТОЧЕНО / %d ИЗ 4 ЦЕПЕЙ" % links.size()

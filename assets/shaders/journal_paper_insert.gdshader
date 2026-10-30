@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled;
+render_mode cull_disabled;
 uniform sampler2D ink_texture : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D back_ink_texture : source_color, filter_linear_mipmap_anisotropic;
 uniform bool printed_back = false;

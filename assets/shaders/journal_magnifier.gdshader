@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_prepass_alpha;
+render_mode cull_disabled, depth_prepass_alpha;
 uniform sampler2D ink_texture : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D paper_texture : source_color, filter_linear_mipmap_anisotropic;
 uniform vec4 paper_rect = vec4(-0.03, -0.03, 1.06, 1.06);

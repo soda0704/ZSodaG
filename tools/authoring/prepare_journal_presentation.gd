@@ -88,7 +88,7 @@ func paper(label: String, parent: Node3D, z: float, left_page: bool, shade: floa
 	material.albedo_color = Color(shade,shade,shade)
 	material.roughness = 0.95
 	# The paper image already contains its shading; retain the same color as the UI.
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 	material.cull_mode = BaseMaterial3D.CULL_BACK
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	var mesh := surface.commit()
@@ -126,7 +126,7 @@ func binding() -> void:
 	surface.generate_normals()
 	var material := StandardMaterial3D.new()
 	material.albedo_texture = load("res://assets/ui/journal/journal.png")
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.roughness = 0.95
 	var mesh := surface.commit()
@@ -202,7 +202,7 @@ func run() -> void:
 				if material is StandardMaterial3D:
 					material.roughness = maxf(material.roughness,0.78)
 					material.metallic = 0.0
-					if source_mesh.name == "Object_2": material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+					if source_mesh.name == "Object_2": material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 				var mesh := surface.commit()
 				mesh.surface_set_material(0,material)
 				var label := str(source_mesh.name)+("Cover" if moving else "Body")

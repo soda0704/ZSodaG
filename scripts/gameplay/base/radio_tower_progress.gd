@@ -8,14 +8,14 @@ static func ensure(state: Node) -> void:
 static func tasks(state: Node) -> String:
 	if state.day_index < 2 or not state.maintenance.get("radio_note_read", false): return ""
 	var data: Dictionary = state.maintenance
-	if data.get("radio_repaired",false): return "Радиовышка: электромодуль заменён."
-	var text := "Радиовышка — восстановить связь\n"
-	text += "Код ограждения: %s\n" % data.get("radio_pin","••••")
-	if not data.get("radio_unlocked",false): text += "Открыть кодовый замок у вышки.\n"
-	text += "Подняться к верхнему электрощиту и заменить модуль."
-	if data.get("radio_module",false): text += "\nЗапасной электромодуль у команды."
-	else: text += "\nЗапасной электромодуль — возле компьютера на этаже испытаний (−3)."
-	return text
+	if data.get("radio_repaired",false): return "✓  Радиовышка: электромодуль заменён."
+	var tasks: PackedStringArray = []
+	if not data.get("radio_unlocked",false):
+		tasks.append("○  Открыть ограждение радиовышки · код %s" % data.get("radio_pin","••••"))
+	if not data.get("radio_module",false):
+		tasks.append("○  Взять электромодуль у компьютера наблюдения на уровне 3")
+	tasks.append("○  Подняться на радиовышку и заменить модуль в верхнем электрощите")
+	return "\n".join(tasks)
 
 static func act(state: Node, action: StringName, peer: int, target: Node, code := "") -> bool:
 	if not state.multiplayer.is_server() or state.day_index < 2: return false

@@ -11,6 +11,7 @@ var waking := false
 var pose_time := 0.0
 var _source_head := Transform3D.IDENTITY
 var _source_body := Transform3D.IDENTITY
+var _camera_start_offset := Vector3.ZERO
 var _from_pose := 1.25
 var _from_openness := 0.0
 
@@ -24,6 +25,7 @@ func begin(sleeping: bool, source_head: Transform3D, source_body: Transform3D) -
 	active=true;waking=not sleeping
 	animation.play(&"lie_down" if sleeping else &"get_up")
 	animation.advance(0)
+	_camera_start_offset=_source_head.origin-(_source_body*camera_pose.transform).origin
 	# The camera keeps its preceding world pose even though the collision root moves.
 	_apply_pose()
 
@@ -36,12 +38,17 @@ func _process(_delta: float) -> void:
 func _apply_pose() -> void:
 	progress=clampf(progress,0.0,1.0);alignment=clampf(alignment,0.0,1.0);eye_openness=clampf(eye_openness,0.0,1.0)
 	pose_time=lerpf(_from_pose,2.5 if _from_pose>=1.24 else 0.0,progress) if waking else progress*1.25
-	# WakePose is beside the mattress. Keep the seated part in bed space;
-	# moving its origin towards WakePose immediately slides the lying body.
-	var body_pose:=_source_body.interpolate_with(player.global_transform,smoothstep(.55,1.0,progress) if waking else alignment)
-	var target:Transform3D=(body_pose if waking else player.global_transform)*camera_pose.transform
-	# A ceiling-facing camera is at Euler's singularity: interpolate bases.
-	player.head.global_transform=Transform3D(_source_head.basis.slerp(target.basis,alignment),_source_head.origin.lerp(target.origin,alignment))
+	var body_pose:=_source_body.interpolate_with(player.global_transform,alignment)
+	# Keep the original body motion and view rotation. Only camera position
+	# follows the head marker in body space instead of the relocated root.
+	var target:=player.global_transform*camera_pose.transform
+	var from_angles:=_source_head.basis.get_euler();var to_angles:=target.basis.get_euler()
+	var yaw_weight:=smoothstep(.58,1.0,progress) if waking else smoothstep(0.0,.30,progress)
+	var angles:=Vector3(lerp_angle(from_angles.x,to_angles.x,alignment),lerp_angle(from_angles.y,to_angles.y,yaw_weight),lerp_angle(from_angles.z,to_angles.z,alignment))
+	var camera_origin:=(body_pose*camera_pose.transform).origin+_camera_start_offset*(1.0-alignment)
+	if waking and _from_pose<1.24:
+		camera_origin=_source_head.origin.lerp(target.origin,alignment)
+	player.head.global_transform=Transform3D(Basis.from_euler(angles),camera_origin)
 	player.body_animator.global_transform=body_pose
 	if player.is_local_player():
 		var openness:=maxf(eye_openness,_from_openness*(1.0-smoothstep(0.0,.6,progress))) if waking else eye_openness

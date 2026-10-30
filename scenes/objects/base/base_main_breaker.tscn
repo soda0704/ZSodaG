@@ -344,6 +344,26 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1.15, 1.15, 1.15), Vector3(1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("InsertionTip:position")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.09, 0.22),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.12), Vector3(0, 0, 0.06), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("InsertionTip:visible")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.22),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="cover_lib"]
 _data = {&"open": SubResource("cover_open")}
@@ -535,8 +555,8 @@ loose_meshes = Array[Mesh]([ExtResource("loose0"), ExtResource("loose1"), ExtRes
 route_meshes = Array[Mesh]([ExtResource("route00"), ExtResource("route01"), ExtResource("route02"), ExtResource("route03"), ExtResource("route10"), ExtResource("route11"), ExtResource("route12"), ExtResource("route13"), ExtResource("route20"), ExtResource("route21"), ExtResource("route22"), ExtResource("route23"), ExtResource("route30"), ExtResource("route31"), ExtResource("route32"), ExtResource("route33")])
 
 [node name="RepairCamera" type="Camera3D" parent="Wiring"]
-position = Vector3(0, 0.06, -1.50)
-rotation = Vector3(0, 3.1415927, 0)
+position = Vector3(-0.18, 0.06, -1.65)
+rotation = Vector3(-0.03736, 3.25397, 0)
 cull_mask = 393215
 fov = 56.0
 near = 0.015
@@ -694,6 +714,11 @@ mesh = SubResource("socket_body")
 [node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output0"]
 libraries = {&"": SubResource("seat_lib")}
 
+[node name="InsertionTip" type="MeshInstance3D" parent="Wiring/Board/Output0"]
+visible = false
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
 [node name="Cable1" type="MeshInstance3D" parent="Wiring/Board"]
 mesh = ExtResource("loose1")
 material_override = SubResource("wire1_idle")
@@ -781,6 +806,11 @@ mesh = SubResource("socket_body")
 
 [node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output1"]
 libraries = {&"": SubResource("seat_lib")}
+
+[node name="InsertionTip" type="MeshInstance3D" parent="Wiring/Board/Output1"]
+visible = false
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
 
 [node name="Cable2" type="MeshInstance3D" parent="Wiring/Board"]
 mesh = ExtResource("loose2")
@@ -870,6 +900,11 @@ mesh = SubResource("socket_body")
 [node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output2"]
 libraries = {&"": SubResource("seat_lib")}
 
+[node name="InsertionTip" type="MeshInstance3D" parent="Wiring/Board/Output2"]
+visible = false
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
+
 [node name="Cable3" type="MeshInstance3D" parent="Wiring/Board"]
 mesh = ExtResource("loose3")
 material_override = SubResource("wire3_idle")
@@ -957,6 +992,11 @@ mesh = SubResource("socket_body")
 
 [node name="SeatAnimation" type="AnimationPlayer" parent="Wiring/Board/Output3"]
 libraries = {&"": SubResource("seat_lib")}
+
+[node name="InsertionTip" type="MeshInstance3D" parent="Wiring/Board/Output3"]
+visible = false
+rotation = Vector3(1.5707964, 0, 0)
+mesh = SubResource("plug_mesh")
 
 [node name="InputTerminalPad0" type="MeshInstance3D" parent="Wiring/Board"]
 position = Vector3(-0.285, 0.3, 0.015)

@@ -61,6 +61,16 @@ func run() -> void:
 	state._broadcast_snapshot(snapshot)
 	check(journal.tasks_label.text.contains("Обследовать тело (в разработке)"), "body inspection is explicitly marked in development")
 	check(not state.maintenance.corpse_recovery.get("examined", false), "delivery alone does not finish inspection")
+	check(journal.get_hud_summary().tasks.any(func(task): return str(task).contains("своей койке")), "delivered day-two key gives a concrete rest instruction")
+	var radio := state.get_snapshot()
+	radio.maintenance.merge({"radio_note_read":true,"radio_pin":"3141","radio_unlocked":false,"radio_module":false,"radio_repaired":false},true)
+	state._broadcast_snapshot(radio); journal._refresh_content()
+	var radio_tasks: Array = journal.get_hud_summary().tasks.filter(func(task): return str(task).contains("радиовышк") or str(task).contains("электромодуль"))
+	check(radio_tasks.size() == 3 and radio_tasks[0].contains("3141") and not radio_tasks[0].contains("Подняться"), "radio gate, spare and repair are separate actionable HUD rows")
+	radio.maintenance.radio_repaired = true
+	state._broadcast_snapshot(radio); journal._refresh_content()
+	check(not journal.get_hud_summary().tasks.any(func(task): return str(task).contains("Радиовышка:") or str(task).contains("радиовышк")), "completed radio repair no longer appears among pending objectives")
+	check(journal.tasks_label.text.contains("✓  Радиовышка:"), "journal retains completed radio history")
 	var bunk: BaseEndDayBunk = base.get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
 	actor.teleport_authoritative(bunk.wake_pose.global_position, 0)
 	bunk.network_sleep_interact(1, actor)
@@ -68,6 +78,7 @@ func run() -> void:
 	await create_timer(.6).timeout
 	bunk.cancel_sleep_authoritative(1, actor)
 	check(not state.maintenance.corpse_recovery.get("examined", false), "cancelled sleep leaves inspection pending")
+	await create_timer(1.5).timeout
 	actor.teleport_authoritative(bunk.wake_pose.global_position, 0)
 	bunk.network_sleep_interact(1, actor)
 	await create_timer(5.5).timeout

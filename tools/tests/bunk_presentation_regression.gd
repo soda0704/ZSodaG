@@ -4,6 +4,7 @@ var failures:=0
 var actors:Array[GamePlayer]=[]
 var output:="res://tools/.local/bunk-review"
 var base:Node3D
+var camera_max_distance:={"lie_down":0.0,"get_up":0.0}
 func _initialize():
 	var prefix:="user://bunk_motion_%d"%OS.get_process_id()
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,prefix+".cfg")
@@ -13,12 +14,26 @@ func _initialize():
 	run.call_deferred()
 func _process(delta:float):
 	for actor in actors:
-		if is_instance_valid(actor):actor.update_character_animation(delta)
+		if not is_instance_valid(actor):continue
+		actor.update_character_animation(delta)
+		var presentation:=actor.get_node("BunkSleep")
+		if presentation.active and presentation.progress>.05 and presentation.progress<.98 and (not presentation.waking or presentation._from_pose>=1.24):
+			var phase:="get_up" if presentation.waking else "lie_down"
+			var sk:Skeleton3D=actor.body_animator.skeleton
+			var head:=sk.to_global(sk.get_bone_global_pose(sk.find_bone("Head")).origin)
+			camera_max_distance[phase]=maxf(camera_max_distance[phase],actor.camera.global_position.distance_to(head))
 	return false
 func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures+=1
 	print("PASS " if ok else "FAIL ",label)
+func camera_near_head(person:GamePlayer) -> bool:
+	var sk:Skeleton3D=person.body_animator.skeleton
+	var head:=sk.to_global(sk.get_bone_global_pose(sk.find_bone("Head")).origin)
+	var foot:=sk.to_global(sk.get_bone_global_pose(sk.find_bone("LeftFoot")).origin)
+	var distance:=person.camera.global_position.distance_to(head)
+	print("BUNK CAMERA variant ",person.character_variant_id," head distance ",distance," foot distance ",person.camera.global_position.distance_to(foot))
+	return distance<.35 and distance<person.camera.global_position.distance_to(foot)
 func capture(label:String,bunk:BaseEndDayBunk=null):
 	if DisplayServer.get_name()=="headless":return
 	if bunk==null:
@@ -74,12 +89,12 @@ func run():
 		var head:=sk.global_transform*sk.get_bone_global_pose(sk.find_bone("Head")).origin
 		var foot:=sk.global_transform*sk.get_bone_global_pose(sk.find_bone("LeftFoot")).origin
 		check(absf(head.y-foot.y)<.45,"variant %d lies horizontally on its own mattress"%person.character_variant_id)
+		check(camera_near_head(person),"variant %d sleeping camera is beside the actual head, not the feet"%person.character_variant_id)
 	check(bunk.cancel_sleep_authoritative(1,actor),"sleep cancellation starts an animated exit from the bed")
 	check(actor.is_bunk_busy() and not actor.is_sleeping_in_bunk(),"getting up blocks controls without pretending the player is still asleep")
 	await create_timer(.5).timeout
 	check(actor.get_node("BunkSleep").eye_openness>.4 and actor.is_bunk_busy(),"waking opens the eyes before standing finishes")
-	check(actor.body_animator.global_position.distance_to(bunk.sleep_pose.global_position)<.1,"first part of getting up keeps the body on the mattress instead of sliding towards the feet")
-	check(actor.body_animator.global_basis.z.dot(bunk.sleep_pose.global_basis.z)>.95,"body keeps bed orientation while rising into its seated pose")
+	check(camera_near_head(actor),"getting-up camera stays beside the animated head with original body motion")
 	await capture("waking")
 	await capture("getting_up",bunk)
 	await create_timer(1.0).timeout
@@ -88,6 +103,8 @@ func run():
 	var standing_sk:Skeleton3D=actor.body_animator.skeleton
 	check((standing_sk.global_transform*standing_sk.get_bone_global_pose(standing_sk.find_bone("Head")).origin).y-actor.global_position.y>1.1,"releasing the bed blend keeps the body standing without a prone-frame snap")
 	guest.leave_bunk_sleep_authoritative(bunk2.wake_pose.global_transform)
+	await create_timer(.5).timeout
+	check(camera_near_head(guest),"second variant gets up with camera at its head")
 	# Real state changes drive the UI; repeated snapshots and load do not.
 	var off:=state.get_snapshot();off.main_breaker_on=false;state._broadcast_snapshot(off)
 	await create_timer(.2).timeout
@@ -111,6 +128,9 @@ func run():
 	check(actor.head.global_position.distance_to(interrupted_head)<.01 and absf(float(actor.get_node("PlayerUI/SleepEyelids/Cover").material.get_shader_parameter("openness"))-interrupted_openness)<.01,"early cancellation preserves camera and eyelid continuity")
 	await create_timer(1.5).timeout
 	check(not actor.is_bunk_busy(),"early cancellation finishes with working controls")
+	print("BUNK CAMERA MAX DISTANCE ",camera_max_distance)
+	for phase in camera_max_distance:
+		check(camera_max_distance[phase]<.35,"%s keeps the camera beside the head throughout both character animations"%phase)
 	actors.clear();current_scene=null;base.queue_free()
 	for i in 4:await process_frame
 	print("BUNK PRESENTATION CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

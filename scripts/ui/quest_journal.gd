@@ -370,10 +370,12 @@ func _refresh_content() -> void:
 			var stage := int(_controller.quest_stage)
 			objective_label.text = "Ключ шифрования"
 			tasks_label.text = "\n".join([_task_line(stage >= 3, "Найти ключ на уровне 1"), _task_line(stage >= 4, "Передать ключ в хабе")])
+			if stage >= 4 and _controller.can_end_current_day():
+				tasks_label.text += "\n" + _task_line(_controller.are_all_connected_players_sleeping(), "Вернуться на базу и отдохнуть на своей койке")
 			_set_quest_photo("key", "Ключ шифрования", "У команды · ×1" if stage == 3 else "Передан на базу" if stage == 4 else "Хранилище данных · 1")
 		elif day == _controller.LEVEL_TWO_DAY_INDEX:
 			objective_label.text = "Обследовать уровень 2"
-			tasks_label.text = _task_line(_controller.containment.get("level2", false), "Обследовать уровень 2")
+			tasks_label.text = _task_line(_controller.containment.get("level2", false), "Осмотреть помещение жизнеобеспечения на уровне 2")
 			if _controller.containment.get("level2", false):
 				tasks_label.text += "\n\nВернуться на базу и отдохнуть."
 		elif day == _controller.TRIALS_DAY_INDEX:

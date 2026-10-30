@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_prepass_alpha;
+render_mode cull_disabled, depth_prepass_alpha;
 uniform sampler2D ink_texture : source_color, filter_linear_mipmap_anisotropic;
 uniform float atlas_offset = 0.0;
 uniform bool map_cutout = false;
