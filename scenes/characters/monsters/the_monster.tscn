@@ -8,6 +8,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/the_monster.tscn" id="ragdoll"]
 
+[ext_resource type="Resource" path="res://assets/config/monsters/audio/the_monster.tres" id="audio_profile"]
+
 [sub_resource type="CapsuleShape3D" id="capsule"]
 radius = 0.4
 height = 1.9
@@ -42,3 +44,4 @@ position = Vector3(0.05489678571428571, 0.08547642857142858, 3.060289285714285)
 scale = Vector3(0.8933324999999999, 0.8933324999999999, 0.8933324999999999)
 
 [node name="MonsterAudio" parent="." instance=ExtResource("5")]
+profile = ExtResource("audio_profile")

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="MonsterAudioProfile" format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/monster_audio_profile.gd" id="profile"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_ambient_0.wav" id="ambient0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_ambient_1.wav" id="ambient1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_alert.wav" id="alert0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_search.wav" id="search0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_windup.wav" id="windup0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_strike.wav" id="strike0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/tail_miss.wav" id="miss0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_floor_step_0.wav" id="floor_steps0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_floor_step_1.wav" id="floor_steps1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_floor_step_2.wav" id="floor_steps2"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_metal_step_0.wav" id="metal_steps0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_metal_step_1.wav" id="metal_steps1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_metal_step_2.wav" id="metal_steps2"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_snow_step_0.wav" id="snow_steps0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_snow_step_1.wav" id="snow_steps1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/monsters/evolution_snow_step_2.wav" id="snow_steps2"]
+
+[resource]
+script = ExtResource("profile")
+ambient = Array[AudioStream]([ExtResource("ambient0"), ExtResource("ambient1")])
+alert = Array[AudioStream]([ExtResource("alert0")])
+search = Array[AudioStream]([ExtResource("search0")])
+windup = Array[AudioStream]([ExtResource("windup0")])
+strike = Array[AudioStream]([ExtResource("strike0")])
+miss = Array[AudioStream]([ExtResource("miss0")])
+floor_steps = Array[AudioStream]([ExtResource("floor_steps0"), ExtResource("floor_steps1"), ExtResource("floor_steps2")])
+metal_steps = Array[AudioStream]([ExtResource("metal_steps0"), ExtResource("metal_steps1"), ExtResource("metal_steps2")])
+snow_steps = Array[AudioStream]([ExtResource("snow_steps0"), ExtResource("snow_steps1"), ExtResource("snow_steps2")])
+voice_volume_db = -18.0
+cue_volume_db = -13.0
+step_volume_db = -20.0
+voice_distance = 32.0
+pitch_range = Vector2(0.95, 1.02)
+fallback_stride = 1.1
+animation_contacts = false

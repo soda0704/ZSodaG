@@ -1,0 +1,99 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/radio_keypad.gd" id="script"]
+[node name="Keypad" type="CanvasLayer"]
+layer = 30
+script = ExtResource("script")
+[node name="Shade" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+[node name="Center" type="CenterContainer" parent="Shade"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+[node name="Panel" type="PanelContainer" parent="Shade/Center"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+[node name="Content" type="VBoxContainer" parent="Shade/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+[node name="Title" type="Label" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+text = "РАДИОВЫШКА · ДОСТУП"
+horizontal_alignment = 1
+[node name="Code" type="LineEdit" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+alignment = 1
+max_length = 4
+placeholder_text = "••••"
+virtual_keyboard_type = 2
+[node name="Status" type="Label" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Четырёхзначный код"
+[node name="Digits" type="GridContainer" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+columns = 3
+[node name="Digit0" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+[node name="Digit1" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+[node name="Digit2" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+[node name="Digit3" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+[node name="Digit4" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "5"
+[node name="Digit5" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "6"
+[node name="Digit6" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7"
+[node name="Digit7" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8"
+[node name="Digit8" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9"
+[node name="Digit9" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+[node name="Digit10" type="Button" parent="Shade/Center/Panel/Content/Digits"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⌫"
+[node name="Confirm" type="Button" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+text = "Открыть"
+[node name="Close" type="Button" parent="Shade/Center/Panel/Content"]
+layout_mode = 2
+text = "Закрыть"

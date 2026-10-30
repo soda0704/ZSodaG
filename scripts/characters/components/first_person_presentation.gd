@@ -214,6 +214,9 @@ func _process(delta: float) -> void:
 		Basis.from_euler(_angle.limit_length(deg_to_rad(2.0))),
 		_offset.limit_length(0.025)
 	)
+	if context.get("climbing",false):
+		var body_frame: Transform3D=context.get("body_transform",Transform3D.IDENTITY)
+		global_transform=Transform3D(body_frame.basis,_view_frame.origin)
 	_heavy_alignment = move_toward(_heavy_alignment, 1.0 if context.get("heavy_carry", false) else 0.0, animation_delta * 8.0)
 	if _heavy_alignment > 0.0:
 		# World furniture stays in the gameplay world. Match its projection and
@@ -237,6 +240,8 @@ func _process(delta: float) -> void:
 	tree.set("parameters/OffhandAim/blend_position", 0.0)
 	update_offer_tree(tree, context, animation_delta)
 	update_loupe_pose(tree,model,book_phase)
+	tree.set("parameters/LadderBlend/blend_amount",1.0 if context.get("climbing",false) else 0.0)
+	if context.get("climbing",false): tree.set("parameters/LadderTime/seek_request",float(context.get("climb_phase",0)))
 	tree.advance(animation_delta)
 	update_grips(model,kind,book_phase,context.get("reloading",false),delta,offhand,context.get("held_item",&""),context.get("heavy_targets",{}))
 	_align_weapon_sights()
@@ -406,9 +411,9 @@ func cancel_action() -> void:
 func _refresh_visibility() -> void:
 	var book_weight: float = tree.get("parameters/BookBlend/blend_amount")
 	var offer_visible: bool = tree.tree_root.has_node("OfferBlend") and float(tree.get("parameters/OfferBlend/blend_amount")) > 0.001
-	model.visible = not _disabled and (kind != "Relaxed" or _empty_elapsed < 0.32 or _journal_phase > 0 or book_weight > 0.01 or context.get("offering", false) or offer_visible) and not context.get("driving", false) and not context.get("sleeping", false)
+	model.visible = not _disabled and (kind != "Relaxed" or _empty_elapsed < 0.32 or _journal_phase > 0 or book_weight > 0.01 or context.get("offering", false) or offer_visible or context.get("climbing",false)) and not context.get("driving", false) and not context.get("sleeping", false)
 	var draw_view := model.visible and camera.current and not _external_view
-	var world_hands: bool = draw_view and context.get("heavy_carry", false)
+	var world_hands: bool = draw_view and (context.get("heavy_carry", false) or context.get("climbing",false))
 	if world_hands != _hands_in_world:
 		_hands_in_world = world_hands
 		# Carrying hands share depth with furniture, so its seat can hide palms

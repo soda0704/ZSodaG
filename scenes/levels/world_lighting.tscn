@@ -3,10 +3,17 @@
 [ext_resource type="Script" uid="uid://dig0dvw45fnxo" path="res://scripts/levels/world_lighting.gd" id="controller"]
 [ext_resource type="Environment" path="res://assets/environments/debug_visibility.tres" id="debug_visibility"]
 [ext_resource type="Script" path="res://scripts/levels/hub_light_fixtures.gd" id="hub_fixtures"]
+[ext_resource type="PackedScene" path="res://scenes/objects/medical_fault_lamp.tscn" id="medical_fault"]
 
 [node name="WorldLighting" type="Node3D" unique_id=43938933]
 script = ExtResource("controller")
 debug_visibility_profile = ExtResource("debug_visibility")
+
+[node name="MedicalFaultLamp" parent="." instance=ExtResource("medical_fault")]
+position = Vector3(24, 4.9, 5.5)
+lamp_path = NodePath("../Standard/Medical1")
+fixture_path = NodePath("../../Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting/Medical_Primary_Exam_Fixture_Blockout")
+power_controller_path = NodePath("../../BasePowerLightingController")
 
 [node name="OvercastSun" type="DirectionalLight3D" parent="." unique_id=1849345055]
 transform = Transform3D(0.8480481, 0.3545852, -0.39380676, 0, 0.7431448, 0.6691306, 0.52991927, -0.56745493, 0.63022256, 0, 0, 0)

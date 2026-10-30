@@ -58,6 +58,7 @@ func run() -> void:
 	var disk: ConfigFile = ExpeditionSaveStore.read("solo").config
 	check(disk.get_value("inventory", "checkpoint").participants.solo.survival.health == actor.survival.max_health, "actual disk snapshot contains healed player")
 	# Complete an already pending real night once, cancelling its delayed timer.
+	await create_timer(1.5).timeout
 	console.execute("/day 3")
 	snapshot = state.get_snapshot()
 	snapshot.elevator_backup_installed = true

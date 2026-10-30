@@ -1,5 +1,6 @@
 extends "res://tools/tests/expedition_multiplayer_regression.gd"
 ## Competing requests and a real disconnect, using the production session.
+var morning_verified := false
 var guest_id := 0
 var request_pending := false
 var rejected_stale_accept := false
@@ -104,6 +105,33 @@ func run() -> void:
 	check(await wait_until(func(): return second.mode == MedicalCorpse.Mode.DELIVERED), "other carrier can finish placement after reservation is released")
 	actor.survival.dead = false
 	actor.survival.health = 100
+	for player in [actor,guest]: clean(player)
+	var base=world._base_gameplay_controller.get_parent()
+	var state=world._base_gameplay_controller
+	var night:Dictionary=state.get_snapshot();night.day_index=3;night.phase=BaseGameplayController.BasePhase.ACTIVE_DAY;night.main_breaker_on=true;night.fuel_delivered=true;night.fuel_liters=30.;night.containment={"level2":true};night.maintenance.erase("wires_required");night.sleeping_peer_ids=[];night.end_day_ready_peer_ids=[]
+	state._broadcast_snapshot(night)
+	var bunk1=base.get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable01")
+	var bunk2=base.get_node("Floor_0_Base_Blockout/Gameplay/EndDayBunkInteractable02")
+	actor.teleport_authoritative(bunk1.wake_pose.global_position,0);guest.teleport_authoritative(bunk2.wake_pose.global_position,0)
+	actor.survival.health=43;actor.survival.radiation=17;guest.survival.health=61;guest.survival.radiation=24
+	bunk1.network_sleep_interact(1,actor)
+	await get_tree().create_timer(.3).timeout
+	check(actor.is_sleeping_in_bunk() and not guest.is_sleeping_in_bunk() and state.day_index==3,"first sleeper waits for awake teammate without advancing")
+	bunk2.network_sleep_interact(guest_id,guest)
+	await get_tree().create_timer(.3).timeout
+	check(bunk2.cancel_sleep_authoritative(guest_id,guest),"guest can cancel a jointly started night")
+	await get_tree().create_timer(.3).timeout
+	check(actor.is_sleeping_in_bunk() and not guest.is_sleeping_in_bunk() and actor.survival.health==43,"guest cancellation keeps host waiting without granting recovery")
+	await get_tree().create_timer(1.5).timeout
+	guest.teleport_authoritative(bunk2.wake_pose.global_position,0)
+	bunk2.network_sleep_interact(guest_id,guest)
+	check(await wait_until(func():return state.day_index==4),"new joint night advances exactly once")
+	await get_tree().create_timer(1.5).timeout
+	check(not actor.is_sleeping_in_bunk() and not guest.is_sleeping_in_bunk() and actor.survival.health==100 and guest.survival.health==100 and actor.survival.radiation==0 and guest.survival.radiation==0,"both peers wake and recover only after successful night")
+	check(actor.global_position.distance_to(guest.global_position)>.78,"prepared waking poses cannot put both players in the same place")
+	await get_tree().create_timer(.8).timeout
+	verify_morning.rpc_id(guest_id)
+	check(await wait_until(func():return morning_verified),"guest confirms local eyes, health and restored collision")
 	clean(guest)
 	guest.pickup_world_item_authoritative(&"fuel_can", {"fuel_liters": 5.5})
 	check(guest.handoff.start_authoritative(&"fuel_can", false), "departing guest starts a real held-item offer")
@@ -165,3 +193,12 @@ func close_guest(count: int) -> void:
 	for frame in 4: await get_tree().process_frame
 	print("CONTENTION COOP CHECKS ", checks, " FAILURES ", failures)
 	get_tree().quit(1 if failures else 0)
+
+@rpc("authority","call_remote","reliable")
+func verify_morning() -> void:
+	var actor:GamePlayer=get_tree().get_first_node_in_group("local_player")
+	check(not actor.is_sleeping_in_bunk() and not actor.get_node("PlayerUI/SleepEyelids").visible and not actor.collision_shape.disabled and actor.survival.health==100,"guest's own presentation and control state wake correctly")
+	morning_confirmed.rpc_id(1)
+@rpc("any_peer","call_remote","reliable")
+func morning_confirmed() -> void:
+	if host and multiplayer.get_remote_sender_id()==guest_id:morning_verified=true

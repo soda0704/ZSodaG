@@ -1,0 +1,27 @@
+{
+  "height": 55.69954,
+  "deck_height": 52.65954,
+  "ladder_bottom": [
+    0,
+    0.15,
+    0.05
+  ],
+  "ladder_top": [
+    0,
+    52.80954,
+    0.05
+  ],
+  "top_exit": [
+    0,
+    52.71954,
+    1.25
+  ],
+  "bottom_exit": [
+    0,
+    0.12,
+    1.3
+  ],
+  "original_mast_height": 16.1689,
+  "sections": 16,
+  "source_archive": "radio_communications_tower.zip"
+}

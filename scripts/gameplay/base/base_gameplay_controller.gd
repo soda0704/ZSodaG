@@ -715,6 +715,7 @@ func _apply_snapshot(snapshot: Dictionary, force_signals: bool = false, persist:
 	quest_stage = clampi(int(snapshot.get("quest_stage", 0)), 0, 4) as QuestStage
 	containment = (snapshot.get("containment", {}) as Dictionary).duplicate(true)
 	maintenance = (snapshot.get("maintenance", {}) as Dictionary).duplicate(true)
+	RadioTowerProgress.ensure(self)
 	var clicker_data: Variant = snapshot.get("lab_clicker", {})
 	clicker.restore(clicker_data if clicker_data is Dictionary else {})
 	clicker_changed.emit()

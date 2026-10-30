@@ -23,7 +23,7 @@ func pocket_pose() -> bool:
 	return mode == POCKET
 
 func usable(player: GamePlayer, journal_allowed := false) -> bool:
-	return is_instance_valid(player) and not player.is_queued_for_deletion() and not player._handoff_transaction and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving() and not player.is_carrying_corpse() and not player.corpse_action_busy and not player.is_debug_free_camera_active() and not player._battery_action_busy and player.weapon.reload_left <= 0 and not player.get_node("ItemDrag").dragging and not player.get_node("ItemDrag").is_heavy_carrying() and (journal_allowed or player._journal_phase == 0)
+	return is_instance_valid(player) and not player.is_queued_for_deletion() and not player._handoff_transaction and not player.survival.dead and not player.is_bunk_busy() and not player.is_climbing() and not player.is_driving() and not player.is_carrying_corpse() and not player.corpse_action_busy and not player.is_debug_free_camera_active() and not player._battery_action_busy and player.weapon.reload_left <= 0 and not player.get_node("ItemDrag").dragging and not player.get_node("ItemDrag").is_heavy_carrying() and (journal_allowed or player._journal_phase == 0)
 
 func available(type: StringName, from_pocket: bool) -> bool:
 	if not from_pocket: return type != &"" and actor._held_item_type == type

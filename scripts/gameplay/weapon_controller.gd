@@ -115,7 +115,7 @@ func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
 		_cooldown = maxf(0.0, _cooldown - delta)
 		if reload_left > 0.0:
-			if player.survival.dead or player.is_sleeping_in_bunk() or kind != _reload_kind:
+			if player.survival.dead or player.is_bunk_busy() or kind != _reload_kind:
 				reload_left = 0.0
 				_cancel_animation()
 			else:
@@ -123,7 +123,7 @@ func _physics_process(delta: float) -> void:
 				if reload_left == 0.0:
 					_commit_reload()
 					_notify_inventory()
-	var active: bool = (TYPES.has(kind) or kind == &"flamethrower") and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving()
+	var active: bool = (TYPES.has(kind) or kind == &"flamethrower") and not player.survival.dead and not player.is_bunk_busy() and not player.is_driving() and not player.is_climbing()
 	var presentation_active: bool = active and player._journal_phase == 0 and not player._battery_flashlight_presentation and not player.handoff.pocket_pose() and not player.get_node("ItemDrag").is_heavy_carrying()
 	for model_id in _models: _models[model_id].visible = presentation_active and model_id == kind
 	_mounted_lamp.visible = presentation_active and player.weapon_light_mounted
@@ -179,9 +179,9 @@ func _request(action: StringName) -> void:
 func perform_action(action: StringName) -> bool:
 	var player := get_parent()
 	if player.handoff.is_offering() or player.get_node("ItemDrag").is_heavy_carrying(): return false
-	if player.is_driving() or player.is_carrying_corpse():
+	if player.is_driving() or player.is_carrying_corpse() or player.is_climbing():
 		return false
-	if not multiplayer.is_server() or player.survival.dead or player.is_sleeping_in_bunk() or not TYPES.has(kind):
+	if not multiplayer.is_server() or player.survival.dead or player.is_bunk_busy() or not TYPES.has(kind):
 		return false
 	if player._battery_action_busy:
 		return false

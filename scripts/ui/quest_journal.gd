@@ -125,7 +125,7 @@ func _process(delta: float) -> void:
 			_refresh_inventory()
 	if is_journal_open():
 		var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
-		if player == null or player.survival.dead or player.is_sleeping_in_bunk() or (get_node("/root/GameMenu").is_menu_open() and not get_node("/root/GameMenu").is_capturing_feedback_screenshot()):
+		if player == null or player.survival.dead or player.is_climbing() or player.is_bunk_busy() or (get_node("/root/GameMenu").is_menu_open() and not get_node("/root/GameMenu").is_capturing_feedback_screenshot()):
 			force_close()
 
 func _mount_light() -> void:
@@ -167,7 +167,7 @@ func open_journal() -> void:
 	if _phase in [PresentationState.OPEN, PresentationState.OPENING]: return
 	if get_tree().get_first_node_in_group("wiring_ui") != null or get_tree().get_first_node_in_group("terminal_ui") != null: return
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
-	if player == null or player.survival.dead or player.is_debug_free_camera_active() or get_node("/root/GameMenu").is_menu_open() or player.is_sleeping_in_bunk(): return
+	if player == null or player.survival.dead or player.is_climbing() or player.is_debug_free_camera_active() or get_node("/root/GameMenu").is_menu_open() or player.is_bunk_busy(): return
 	if not player.has_journal: return
 	_bind_controller()
 	_history_day = -1
@@ -402,6 +402,8 @@ func _refresh_content() -> void:
 			tasks_label.text += "\n\nПитание отключено. Проверить топливо\nв генераторной и включить главный щит."
 		elif not _controller.main_breaker_on and day > 1:
 			tasks_label.text += "\n\nПитание отключено. Вернуться\nв генераторную и проверить главный щит."
+		var radio_tasks := RadioTowerProgress.tasks(_controller)
+		if not radio_tasks.is_empty(): tasks_label.text += "\n\n" + radio_tasks
 		var recovery: Dictionary = _controller.maintenance.get("corpse_recovery", {})
 		if recovery.get("picked_up", false):
 			var delivered: Array = recovery.get("delivered", [])

@@ -25,6 +25,7 @@ func run():
 		for i in 32:
 			var direction:=Vector2(cos(i*TAU/32),sin(i*TAU/32))
 			var point:Vector2=direction/maxf(absf(direction.x),absf(direction.y))*radius
+			if is_finite(terrain.data.get_height(Vector3(point.x,0,point.y))): continue
 			var hit:Dictionary=world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(point.x,600,point.y),Vector3(point.x,-250,point.y),1<<19))
 			if hit.is_empty():
 				# Jolt can reject a ray exactly on a shared triangle edge.
@@ -49,15 +50,15 @@ func run():
 			columns[p.x]=int(columns.get(p.x,0))+1
 			var terrain_height: float=terrain.data.get_height(p)
 			var hit: Dictionary=world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(p.x,1000,p.z),Vector3(p.x,-250,p.z),1<<19))
-			if is_finite(terrain_height) and maxf(absf(p.x),absf(p.z))<=510.0: hit={"position":Vector3(p.x,terrain_height,p.z)}
+			if is_finite(terrain_height) and (hit.is_empty() or terrain_height>float(hit.position.y)): hit={"position":Vector3(p.x,terrain_height,p.z)}
 			if hit.is_empty():
 				errors+=1
 				print("MISSING GROUND ",p)
 				continue
 			var ground: float=hit.position.y
-			var deviation:=absf(p.y-ground-0.18)
+			var deviation:=absf(p.y+forest.multimesh.mesh.get_aabb().position.y*t.basis.y.length()-ground)
 			worst=maxf(worst,deviation)
-			if deviation>0.3: errors+=1
+			if deviation>0.16: errors+=1
 			count+=1
 	var largest_column:=0
 	for amount in columns.values(): largest_column=maxi(largest_column,int(amount))

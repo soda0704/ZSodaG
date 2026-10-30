@@ -50,3 +50,11 @@ Monster0/1/2 в `ContainmentEncounter` — экземпляры готовых �
 
 
 Контур предмета при наведении: `Highlight Category` на WorldItemPickup; цвета и прозрачность — ресурсы `pickup_focus_common.tres`, `pickup_focus_story.tres`, `pickup_focus_special.tres` в `assets/effects`. Размах прицела — SphereShape3D в `scenes/characters/item_focus.tscn`. См. [предметы](item_system.md#контур-при-наведении).
+
+## Звук существ
+
+У дочернего `MonsterAudio` назначается `MonsterAudioProfile` из `assets/config/monsters/audio`. В нём отдельно редактируются ambient/alert/search/windup/strike/miss, громкость, pitch, паузы, задержка подтверждения потери цели, наборы шагов для пола/металла/снега, дальность и приглушение препятствиями. Это параметры представления: слух и правила атаки остаются в AI Profile.
+
+Для готового walk-клипа включите `animation_contacts` и задайте нормализованные фазы касания: у головы 0/0,5, у трёхногой Эволюции 0/⅓/⅔. Одновременные лапы считаются одним контактом. `walk_reference_speed` находится на MonsterVisual; AnimationPlayer готовых циклов использует физический такт. Для модели без такого клипа выключите `animation_contacts` и настройте `fallback_stride`. Положение MonsterAudio задаёт источник голоса; шаги расположены у земли. Новую модель и клипы подключают через редактор, не через изменения ИИ.
+
+Подробнее: [звук и акустика](audio_mix.md#звуки-существ).

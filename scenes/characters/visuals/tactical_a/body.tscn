@@ -22,6 +22,13 @@
 [ext_resource type="AnimationLibrary" path="res://scenes/characters/visuals/tactical_a/body_offhand.tres" id="offhand_clips"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_a/body_offhand_socket.tscn" id="offhand_socket"]
 
+[ext_resource type="AnimationLibrary" path="res://assets/animations/ladder/a_body_library.res" id="ladder_library"]
+[ext_resource type="AnimationNodeBlendTree" path="res://assets/animations/ladder/a_body_graph.res" id="ladder_graph"]
+
+
+[ext_resource type="AnimationLibrary" path="res://assets/animations/bunk/a_body_library.res" id="bunk_library"]
+[ext_resource type="AnimationNodeBlendTree" path="res://assets/animations/bunk/a_body_graph.res" id="bunk_graph"]
+
 [sub_resource type="Skin" id="Skin_5ur2a"]
 bind_count = 79
 bind/0/name = &""
@@ -72945,9 +72952,11 @@ libraries/handoff = ExtResource("18_oo5wk")
 libraries/heavy = SubResource("AnimationLibrary_tnnho")
 libraries/loupe = SubResource("AnimationLibrary_7dfvd")
 libraries/offhand = ExtResource("offhand_clips")
+libraries/ladder = ExtResource("ladder_library")
+libraries/bunk = ExtResource("bunk_library")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1842896289]
-tree_root = SubResource("AnimationNodeBlendTree_ovsru")
+tree_root = ExtResource("bunk_graph")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Movement/CarryPickup/ActionTime/seek_request = -1.0
 parameters/Movement/CarryPlace/ActionTime/seek_request = -1.0

@@ -19,6 +19,8 @@
 
 [ext_resource type="Script" path="res://scripts/gameplay/items/heavy_prop_route_blocker.gd" id="joist_route"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/base/radio_access_note.tscn" id="radio_note"]
+
 [sub_resource type="BoxShape3D" id="joist_route_shape"]
 size = Vector3(0.12, 5.6, 4.6)
 
@@ -74,6 +76,7 @@ roughness = 0.58
 albedo_color = Color(0.16, 0.18, 0.2, 1)
 metallic = 0.08
 roughness = 0.8
+
 
 [node name="Floor_Minus1_Control_Security_Blockout" type="Node3D" unique_id=1893479038]
 editor_description = "Level 1 control and security level. After the compact elevator checkpoint, circulation splits into north and south branches around a protected network core, then rejoins before the faceted command center. No living, medical, scientific, generator, garage or ordinary storage functions are repeated from Floor 0."
@@ -1663,3 +1666,7 @@ prop_path = NodePath("../FallenCheckpointJoist")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="JoistRouteBlocker"]
 shape = SubResource("joist_route_shape")
+
+[node name="RadioAccessNote" parent="Secure_Data_Vault" instance=ExtResource("radio_note")]
+position = Vector3(-55.6, 1.5, -3.7)
+rotation = Vector3(0, 1.5707963, 0)

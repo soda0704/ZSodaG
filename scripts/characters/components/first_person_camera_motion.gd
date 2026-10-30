@@ -41,6 +41,11 @@ func add_look_impulse(mouse_delta: Vector2) -> void:
 		max_tilt
 	)
 
+func reset_motion() -> void:
+	_bob_phase=0.0
+	_turn_rotation=Vector3.ZERO
+	position=_rest_position;rotation=_rest_rotation
+
 
 func update_motion(
 	delta: float,

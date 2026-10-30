@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="door"]
 [ext_resource type="Script" uid="uid://b3tkdcgwou2lb" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="door_manager"]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/items/radio_module.tscn" id="radio_module"]
+
 [sub_resource type="StandardMaterial3D" id="Floor"]
 albedo_color = Color(0.19, 0.225, 0.24, 1)
 metallic = 0.25
@@ -69,6 +71,7 @@ roughness = 0.78
 albedo_color = Color(0.7, 0.78, 0.75, 1)
 metallic = 0.15
 roughness = 0.42
+
 
 [node name="Floor_Minus3_Trials_Observation_Blockout" type="Node3D" unique_id=1568802259]
 editor_description = "Уровень 3: испытания и наблюдение. Исследуемый blockout: пультовая с обзорным стеклом, экспозиционная камера, две комнаты наблюдения, кольцевой технический обход. Вся геометрия, реквизит и маркировка редактируются здесь. Сюжетное испытание пока не реализовано. Свет: WorldLighting/Standard/Trials*."
@@ -1645,3 +1648,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.1, 7)
 
 [node name="ObservationB" type="Marker3D" parent="ReviewPoints" unique_id=1976721066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0.1, 7)
+
+[node name="RadioModule" parent="Props/ObservationConsole1" instance=ExtResource("radio_module")]
+position = Vector3(-0.75, 1.07, 0.2)

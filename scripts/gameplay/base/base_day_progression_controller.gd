@@ -10,6 +10,28 @@ extends Node
 var _gameplay_controller: BaseGameplayController
 var _elevator_controller: FunctionalElevatorController
 var _sleep_transition_serial := 0
+var _aborting_sleep := false
+var _prepared_wake_poses := {}
+var _sleep_check_elapsed := 0.0
+
+func _process(delta: float) -> void:
+	_sleep_check_elapsed+=delta
+	if _sleep_check_elapsed<.2 or not multiplayer.is_server() or _gameplay_controller==null: return
+	_sleep_check_elapsed=0.0
+	for peer in _gameplay_controller.sleeping_peer_ids:
+		var player := _gameplay_controller.get_player_node(peer) as GamePlayer
+		if player!=null and player.survival.dead:
+			_abort_night();break
+
+func _abort_night() -> void:
+	if _aborting_sleep or not multiplayer.is_server(): return
+	_aborting_sleep=true;_sleep_transition_serial+=1
+	for bunk in get_tree().get_nodes_in_group("end_day_bunks"):
+		if get_parent().is_ancestor_of(bunk):
+			var peer := _gameplay_controller.get_peer_for_player_slot(bunk.assigned_player_slot)
+			var player := _gameplay_controller.get_player_node(peer)
+			if player!=null: bunk.cancel_sleep_authoritative(peer,player)
+	_aborting_sleep=false
 
 
 func _ready() -> void:
@@ -41,6 +63,7 @@ func _bind_runtime() -> void:
 
 func _on_snapshot_changed(_snapshot: Dictionary) -> void:
 	_apply_elevator_power()
+	if not _gameplay_controller.sleeping_peer_ids.is_empty() and not _gameplay_controller.can_end_current_day(): _abort_night()
 	if not _gameplay_controller.are_all_connected_players_sleeping():
 		# Leaving/re-entering a bunk must start a complete new night.
 		_sleep_transition_serial += 1
@@ -71,6 +94,16 @@ func _on_end_day_consensus_reached(completed_day_index: int) -> void:
 
 
 func _finish_night(debug_skip_requirements: bool = false) -> bool:
+	_prepared_wake_poses.clear()
+	for peer in _gameplay_controller.get_connected_player_peer_ids():
+		var player := _gameplay_controller.get_player_node(peer) as GamePlayer
+		if player==null or player.survival.dead or not player.is_sleeping_in_bunk():
+			_abort_night();return false
+		var reserved: Array=[]
+		for previous_pose: Transform3D in _prepared_wake_poses.values(): reserved.append(previous_pose.origin)
+		var pose: Variant=player.clear_wake_pose(get_parent().get_day_start_transform(_gameplay_controller.get_player_slot(peer)),reserved)
+		if pose==null: _abort_night();return false
+		_prepared_wake_poses[peer]=pose
 	if not _gameplay_controller.advance_day_authoritative(debug_skip_requirements): return false
 	_wake_players_for_new_day()
 	return _gameplay_controller.save_progress_authoritative(false, "sleep", "Утро дня %d" % _gameplay_controller.day_index, debug_skip_requirements)
@@ -130,5 +163,5 @@ func _wake_players_for_new_day() -> void:
 			player.survival.restore_after_sleep_authoritative()
 		player.call(
 			"leave_bunk_sleep_authoritative",
-			level_root.call("get_day_start_transform", player_slot)
+			_prepared_wake_poses.get(peer_id,level_root.call("get_day_start_transform", player_slot))
 		)

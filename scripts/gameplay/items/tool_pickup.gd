@@ -8,9 +8,13 @@ func _ready() -> void:
 	add_child(preload("res://scripts/gameplay/tool_models.gd").build(item_type))
 	if use_authored_collision: return
 	var box := BoxShape3D.new()
-	box.size = Vector3(0.16, 0.06, 0.16) if item_type == &"tape" else Vector3(0.06, 0.12, 0.72)
+	box.size = fitted_collision_bounds().size
 	$CollisionShape3D.shape = box
 
 func get_interaction_prompt() -> String:
 	if not pickup_enabled: return ""
 	return "Скотч" if item_type == &"tape" else "Монтировка"
+
+func fitted_collision_bounds() -> AABB:
+	var size := Vector3(.16,.06,.16) if item_type==&"tape" else Vector3(.06,.12,.72)
+	return AABB(-size*.5,size)

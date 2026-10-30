@@ -24,6 +24,7 @@ var _noise_elapsed := 0.0
 var _volume := CapsuleShape3D.new()
 
 func can_emit() -> bool:
+	if actor.is_climbing(): return false
 	if actor.handoff.is_offering() or actor.get_node("ItemDrag").is_heavy_carrying(): return false
 	return actor.has_held_item(&"flamethrower") and not actor.survival.dead and not actor.is_sleeping_in_bunk() and not actor.is_driving() and not actor.is_carrying_corpse() and actor._journal_phase==0 and not actor._battery_action_busy and fuel_liters>0.00001
 

@@ -114,6 +114,9 @@ func capture_inventory_checkpoint() -> Dictionary:
 		if player is GamePlayer and not player.is_queued_for_deletion():
 			equipment[_inventory_id(int(player.owner_peer_id))] = player.get_inventory_snapshot()
 			var pose: Transform3D = player.global_transform
+			# A checkpoint must never resume as a falling character halfway up a mast.
+			# The active climbing mode is transient; save the ladder's safe lower landing.
+			if player.is_climbing(): pose.origin = player.get_node("LadderClimb").route.bottom_exit.global_position
 			var cabin_data := _capture_cabin_pose(pose) if not player.is_sleeping_in_bunk() and not player.is_driving() else {"transform": pose, "in_cabin": false, "cabin_id": ""}
 			if player.is_sleeping_in_bunk():
 				cabin_data.transform = get_node("V3Level").get_day_start_transform(get_peer_spawn_index(player.owner_peer_id))

@@ -33,6 +33,9 @@
 [ext_resource type="AnimationLibrary" path="res://scenes/characters/visuals/tactical_a/first_person_offhand.tres" id="offhand_clips"]
 [ext_resource type="PackedScene" path="res://scenes/characters/visuals/tactical_a/first_person_offhand_socket.tscn" id="offhand_socket"]
 
+[ext_resource type="AnimationLibrary" path="res://assets/animations/ladder/a_fp_library.res" id="ladder_library"]
+[ext_resource type="AnimationNodeBlendTree" path="res://assets/animations/ladder/a_fp_graph.res" id="ladder_graph"]
+
 [sub_resource type="Skin" id="Skin_hwyvj"]
 bind_count = 79
 bind/0/name = &""
@@ -32986,9 +32989,10 @@ libraries/handoff = ExtResource("18_bsc36")
 libraries/heavy = SubResource("AnimationLibrary_qct2v")
 libraries/loupe = SubResource("AnimationLibrary_rvp7n")
 libraries/offhand = ExtResource("offhand_clips")
+libraries/ladder = ExtResource("ladder_library")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=98070525]
-tree_root = SubResource("AnimationNodeBlendTree_dp06d")
+tree_root = ExtResource("ladder_graph")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Rifle/blend_position = 0.0
 parameters/Pistol/blend_position = 0.0

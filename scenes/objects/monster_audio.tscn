@@ -3,10 +3,46 @@
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/tail.ogg" id="v0"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/slasher.ogg" id="v1"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/smily.ogg" id="v2"]
+[sub_resource type="AudioStreamPolyphonic" id="movement_polyphony"]
+polyphony = 4
+
 [node name="VoiceAudio" type="AudioStreamPlayer3D"]
 script = ExtResource("1")
 voices = Array[AudioStream]([ExtResource("v0"), ExtResource("v1"), ExtResource("v2")])
-volume_db = -14.0
+bus = &"Effects"
+volume_db = -17.0
 max_distance = 32.0
 unit_size = 4.0
 position = Vector3(0, 1, 0)
+
+[node name="MuffledVoice" type="AudioStreamPlayer3D" parent="."]
+bus = &"MonsterMuffled"
+volume_db = -80.0
+max_distance = 32.0
+unit_size = 3.0
+
+[node name="Movement" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+volume_db = -80.0
+max_distance = 32.0
+unit_size = 3.0
+stream = SubResource("movement_polyphony")
+
+[node name="MuffledMovement" type="AudioStreamPlayer3D" parent="."]
+bus = &"MonsterMuffled"
+volume_db = -80.0
+max_distance = 32.0
+unit_size = 3.0
+stream = SubResource("movement_polyphony")
+
+[node name="Action" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"
+volume_db = -80.0
+max_distance = 32.0
+unit_size = 3.0
+
+[node name="MuffledAction" type="AudioStreamPlayer3D" parent="."]
+bus = &"MonsterMuffled"
+volume_db = -80.0
+max_distance = 32.0
+unit_size = 3.0

@@ -21,11 +21,23 @@ def main():
     parser.add_argument("--medical", action="store_true", help="test late-join corpse carry, carrier disconnect and recovery")
     parser.add_argument("--contention", action="store_true", help="test competing pickup/bed requests and departure during handoff")
     parser.add_argument("--monsters", action="store_true", help="test creature scenarios, late join, new models and authority")
+    parser.add_argument("--monster-audio", action="store_true", help="test creature sound RPCs, cancellation and independent listeners")
+    parser.add_argument("--radio", action="store_true", help="test tower code, shared module and ladder snapshots")
     options = parser.parse_args()
     label = "terminal" if options.terminal else "expedition"
     driver = "run_terminal_multiplayer.gd" if options.terminal else "run_expedition_multiplayer.gd"
     ready_marker = "HOST_READY_FOR_TERMINAL_CLIENT" if options.terminal else "HOST_READY_FOR_RESUME_CLIENT"
     result_marker = "TERMINAL COOP CHECKS" if options.terminal else "COOP SAVE CHECKS"
+    if options.radio:
+        label = "radio_tower"
+        driver = "run_radio_tower_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_RADIO_CLIENT"
+        result_marker = "RADIO COOP CHECKS"
+    if options.monster_audio:
+        label = "monster_audio"
+        driver = "run_monster_audio_multiplayer.gd"
+        ready_marker = "HOST_READY_FOR_MONSTER_AUDIO_CLIENT"
+        result_marker = "MONSTER AUDIO COOP CHECKS"
     if options.monsters:
         label = "monsters"
         driver = "run_monster_scenarios_multiplayer.gd"

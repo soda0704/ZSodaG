@@ -49,6 +49,9 @@ func setup(id: String, _height: float = 2.1) -> void:
 		if not players.is_empty():
 			animator = players[0]
 	if animator != null:
+		# Authored gait and contact audio share the movement clock, including catch-up ticks.
+		if not walk_animation.is_empty():
+			animator.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS
 		for clip in animator.get_animation_list():
 			if clip != &"RESET":
 				animation_name = clip

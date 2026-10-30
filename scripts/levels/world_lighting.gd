@@ -23,6 +23,7 @@ var _debug_viewports: Dictionary = {}
 var _lamps: Array[Light3D] = []
 var _resident_lamps: Array[Light3D] = []
 var _energies: Dictionary = {}
+var _modulations: Dictionary = {}
 var _levels: Dictionary = {}
 var _lamp_enabled: Dictionary = {}
 var _pool_visibility: Dictionary = {}
@@ -117,6 +118,12 @@ func set_lamp_enabled(lamp: Light3D, enabled: bool) -> void:
 		_pool_visibility[lamp] = false
 		_setting_lamp_visibility = false
 
+func set_lamp_modulation(lamp: Light3D, intensity: float) -> void:
+	# Fault effects multiply the pool's energy; they never fight its visibility/budget.
+	if not _energies.has(lamp): return
+	_modulations[lamp] = clampf(intensity, 0.0, 1.0)
+	lamp.light_energy = float(_energies[lamp]) * float(_levels[lamp]) * float(_modulations[lamp]) * (emergency_intensity if _emergency_lamps.has(lamp) else 1.0)
+
 func _unregister_lamp(lamp: Light3D) -> void:
 	if not _energies.has(lamp): return
 	lamp.visibility_changed.disconnect(_on_lamp_visibility_changed.bind(lamp))
@@ -125,7 +132,7 @@ func _unregister_lamp(lamp: Light3D) -> void:
 	lamp.visible = bool(_lamp_enabled[lamp])
 	_lamps.erase(lamp)
 	_resident_lamps.erase(lamp)
-	for cache in [_energies, _levels, _lamp_enabled, _pool_visibility, _emergency_lamps]:
+	for cache in [_energies, _modulations, _levels, _lamp_enabled, _pool_visibility, _emergency_lamps]:
 		cache.erase(lamp)
 
 func _advance_emergency(delta: float) -> void:
@@ -338,6 +345,7 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 		_pool_visibility[lamp] = lamp.visible
 		_setting_lamp_visibility = false
 		var energy := float(_energies[lamp]) * level
+		energy *= float(_modulations.get(lamp, 1.0))
 		if _emergency_lamps.has(lamp): energy *= emergency_intensity
 		if not is_equal_approx(lamp.light_energy,energy):lamp.light_energy=energy
 

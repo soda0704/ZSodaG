@@ -54,15 +54,15 @@ func run() -> void:
 	actor.survival.radiation = 27.0
 	actor.teleport_authoritative(bunk.wake_pose.global_position,0)
 	bunk.network_sleep_interact(1,actor)
-	check(actor.is_sleeping_in_bunk() and eyes.visible,"actual bunk starts local eyelid animation")
+	check(actor.is_sleeping_in_bunk() and actor.get_node("BunkSleep").active,"actual bunk starts native lying-down motion")
 	await create_timer(.2).timeout
 	await capture("closing")
-	await create_timer(.5).timeout
+	await create_timer(1.15).timeout
 	check(is_zero_approx(float(eyes.get_node("Cover").material.get_shader_parameter("openness"))),"eyes close fully during the night")
 	await capture("closed")
 	check(state.day_index==3 and actor.survival.health==43 and actor.survival.radiation==27,"early sleep neither skips the timer nor grants recovery")
 	check(bunk.cancel_sleep_authoritative(1,actor),"sleep can be cancelled")
-	await create_timer(.6).timeout
+	await create_timer(1.5).timeout
 	check(not eyes.visible and actor.survival.health==43 and actor.survival.radiation==27,"cancellation reopens eyes without healing or clearing radiation")
 	actor.teleport_authoritative(bunk.wake_pose.global_position,0)
 	var started := Time.get_ticks_msec()
@@ -76,8 +76,32 @@ func run() -> void:
 	check(actor.survival.health==actor.survival.max_health and is_zero_approx(actor.survival.radiation),"successful night restores full HP and clears accumulated radiation")
 	await create_timer(.15).timeout
 	await capture("opening")
-	await create_timer(.5).timeout
+	await create_timer(1.4).timeout
 	check(not eyes.visible,"eyelid presentation finishes after waking")
+	# Re-enter the real bunk, then invalidate its lighting prerequisite mid-night.
+	var outage := state.get_snapshot();outage.day_index=3;outage.phase=BaseGameplayController.BasePhase.ACTIVE_DAY;outage.main_breaker_on=true;outage.fuel_delivered=true;outage.fuel_liters=30.;outage.containment={"level2":true};outage.maintenance.erase("wires_required");outage.end_day_ready_peer_ids=[];outage.sleeping_peer_ids=[]
+	state._broadcast_snapshot(outage)
+	actor.survival.health=51;actor.survival.radiation=17
+	actor.teleport_authoritative(bunk.wake_pose.global_position,0)
+	actor._server_jump_serial=10;actor._server_consumed_jump_serial=0
+	actor._is_crouching=true;actor.update_crouch_state(1.,true)
+	actor.camera.add_look_impulse(Vector2(200,80))
+	bunk.network_sleep_interact(1,actor)
+	check(actor.is_sleeping_in_bunk(),"actual bunk starts another night after successful recovery")
+	await create_timer(.2).timeout
+	var blocker:=StaticBody3D.new();var collision:=CollisionShape3D.new();var shape:=BoxShape3D.new();shape.size=Vector3(1.,1.8,1.);collision.shape=shape;blocker.add_child(collision);base.add_child(blocker);blocker.global_position=bunk.wake_pose.global_position+Vector3.UP*.9
+	for i in 3:await physics_frame
+	var failure := state.get_snapshot();failure.main_breaker_on=false
+	state._broadcast_snapshot(failure)
+	await create_timer(1.5).timeout
+	check(not actor.is_sleeping_in_bunk() and not eyes.visible,"power failure aborts sleep and opens eyes without manual escape")
+	check(state.day_index==3 and actor.survival.health==51 and actor.survival.radiation==17,"aborted night neither advances day nor grants recovery")
+	check(Vector2(actor.global_position.x-bunk.wake_pose.global_position.x,actor.global_position.z-bunk.wake_pose.global_position.z).length()>.8,"wake chooses a free floor position around an obstructed marker")
+	check(is_equal_approx(actor.collision_shape.shape.height,actor.standing_height) and not actor.collision_shape.disabled,"wake restores full standing collider after crouched entry")
+	check(actor._server_consumed_jump_serial==10 and actor.camera._turn_rotation.is_zero_approx(),"queued jump and camera roll cannot carry over into waking")
+	await create_timer(4.5).timeout
+	check(state.day_index==3,"aborted sleep timer cannot finish a stale night later")
+	blocker.queue_free()
 	var loading = load("res://scenes/ui/loading_screen.tscn").instantiate()
 	check(loading.tips.any(func(tip): return tip.body=="Не забывайте поливать растение"),"plant watering reminder is in the existing loading tips")
 	loading.free()

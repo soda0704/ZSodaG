@@ -229,7 +229,7 @@ func _update_equipment_motion(delta: float) -> void:
 func should_display() -> bool:
 	return player.is_local_player() and not player.survival.dead \
 		and not player.is_debug_free_camera_active() and not player._is_journal_open() \
-		and not player.is_sleeping_in_bunk() and not get_node("/root/GameMenu").is_menu_open()
+		and not player.is_bunk_busy() and not get_node("/root/GameMenu").is_menu_open()
 
 func refresh_state() -> void:
 	var journal := get_node("/root/QuestJournal")

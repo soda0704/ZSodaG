@@ -3,6 +3,11 @@ extends CanvasLayer
 @onready var animation: AnimationPlayer = $AnimationPlayer
 var _sleeping := false
 
+func set_openness(value: float) -> void:
+	animation.stop()
+	$Cover.material.set_shader_parameter("openness",clampf(value,0.0,1.0))
+	visible=value<0.999
+
 func _ready() -> void:
 	hide()
 	animation.animation_finished.connect(func(clip: StringName):

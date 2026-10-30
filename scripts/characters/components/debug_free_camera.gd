@@ -66,7 +66,7 @@ func _look(amount: Vector2) -> void:
 
 
 func _process(delta: float) -> void:
-	if player.survival.dead or player.is_sleeping_in_bunk():
+	if player.survival.dead or player.is_bunk_busy():
 		set_enabled(false)
 		return
 	player.crosshair.hide()

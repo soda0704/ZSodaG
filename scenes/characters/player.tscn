@@ -23,6 +23,9 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/flashlight_shake_hint.tscn" id="shake_hint"]
 [ext_resource type="Script" path="res://scripts/characters/components/item_handoff.gd" id="handoff"]
 
+[ext_resource type="Script" path="res://scripts/characters/components/player_ladder_climb.gd" id="ladder"]
+[ext_resource type="PackedScene" path="res://scenes/characters/bunk_sleep.tscn" id="bunk_sleep"]
+
 [sub_resource type="SphereShape3D" id="HandoffTargetShape"]
 radius = 0.3
 
@@ -185,3 +188,8 @@ rotation = Vector3(-1.5707963, 0, 0)
 [node name="NorthernLabHUD" parent="PlayerUI" instance=ExtResource("northern_hud")]
 
 [node name="SleepEyelids" parent="PlayerUI" instance=ExtResource("sleep_eyelids")]
+
+[node name="BunkSleep" parent="." instance=ExtResource("bunk_sleep")]
+
+[node name="LadderClimb" type="Node" parent="."]
+script = ExtResource("ladder")

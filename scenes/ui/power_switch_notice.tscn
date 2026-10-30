@@ -1,0 +1,67 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/power_switch_notice.gd" id="script"]
+[ext_resource type="SpriteFrames" path="res://assets/ui/power_switch/switch_frames.tres" id="frames"]
+[ext_resource type="Font" path="res://assets/fonts/hud/body.tres" id="font"]
+
+[sub_resource type="Animation" id="notice"]
+resource_name = "notice"
+length = 2.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.16, 2.1, 2.6), "transitions": PackedFloat32Array(1, 1, 1, 1), "update": 0, "values": [Color(1,1,1,0), Color(1,1,1,1), Color(1,1,1,1), Color(1,1,1,0)]}
+
+[sub_resource type="AnimationLibrary" id="clips"]
+_data = {&"notice": SubResource("notice")}
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+bg_color = Color(0.035,0.05,0.057,0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.63,0.72,0.73,0.26)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+
+[node name="PowerSwitchNotice" type="Control"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -352.0
+offset_top = 42.0
+offset_right = -32.0
+offset_bottom = 140.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("script")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Icon" type="AnimatedSprite2D" parent="Panel"]
+position = Vector2(47,49)
+scale = Vector2(0.34,0.34)
+sprite_frames = ExtResource("frames")
+animation = &"on"
+
+[node name="Title" type="Label" parent="Panel"]
+offset_left = 88.0
+offset_top = 34.0
+offset_right = 309.0
+offset_bottom = 66.0
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.94,0.94,0.91,1)
+text = "Питание включено"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("clips")}

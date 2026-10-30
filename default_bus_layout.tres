@@ -1,5 +1,9 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://bne75bye6k1pq"]
 
+[sub_resource type="AudioEffectLowPassFilter" id="monster_wall_filter"]
+cutoff_hz = 1400.0
+db = 1
+
 [sub_resource type="AudioEffectReverb" id="room"]
 room_size = 0.35
 damping = 0.65
@@ -78,3 +82,11 @@ bus/9/volume_db = 0.0
 bus/9/send = &"Ambience"
 bus/9/effect/0/effect = SubResource("muffled_weather")
 bus/9/effect/0/enabled = true
+bus/10/name = &"MonsterMuffled"
+bus/10/solo = false
+bus/10/mute = false
+bus/10/bypass_fx = false
+bus/10/volume_db = 0.0
+bus/10/send = &"Effects"
+bus/10/effect/0/effect = SubResource("monster_wall_filter")
+bus/10/effect/0/enabled = true

@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/monster_audio.tscn" id="audio"]
 [ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/involuntary_evolution.tscn" id="ragdoll"]
 
+[ext_resource type="Resource" path="res://assets/config/monsters/audio/involuntary_evolution.tres" id="audio_profile"]
+
 [sub_resource type="CapsuleShape3D" id="body"]
 radius = 0.55
 height = 2.35
@@ -21,7 +23,7 @@ ragdoll_scene = ExtResource("ragdoll")
 eye_height = 1.8330000000000002
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(0, 1.175, 0)
+position = Vector3(-0.15, 1.95, -0.4)
 shape = SubResource("body")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -39,4 +41,5 @@ walk_reference_speed = 1.0317460317460319
 [node name="Model" parent="Visual" instance=ExtResource("model")]
 
 [node name="MonsterAudio" parent="." instance=ExtResource("audio")]
+profile = ExtResource("audio_profile")
 position = Vector3(0, 1.175, 0)

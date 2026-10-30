@@ -47,6 +47,8 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 
 func network_sleep_interact(peer_id: int, interactor: Node) -> void:
 	if not multiplayer.is_server() or not interactor is GamePlayer or interactor.owner_peer_id != peer_id or interactor.survival.dead or interactor.is_carrying_corpse() or interactor.is_driving(): return
+	if interactor.get_node("BunkSleep").waking: return
+	if interactor.is_climbing() or interactor._battery_action_busy or interactor.weapon.reload_left>0 or interactor.get_node("ItemDrag").is_heavy_carrying(): return
 	var controller := _get_controller()
 	if controller == null or controller.get_player_node(peer_id) != interactor or controller.get_player_slot(peer_id) != assigned_player_slot or controller.is_peer_sleeping(peer_id) or not controller.can_end_current_day(): return
 	if interactor.global_position.distance_to(global_position) > 3.0: return
@@ -67,8 +69,10 @@ func cancel_sleep_authoritative(peer_id: int, interactor: Node) -> bool:
 	):
 		return false
 	# Move clear before restoring the bed collision and cancelling the sleep vote.
+	var clear: Variant=interactor.clear_wake_pose(wake_pose.global_transform)
+	if clear==null: return false
 	if interactor.has_method("leave_bunk_sleep_authoritative"):
-		interactor.call("leave_bunk_sleep_authoritative", wake_pose.global_transform)
+		interactor.call("leave_bunk_sleep_authoritative", clear)
 	controller.set_peer_sleeping_authoritative(peer_id, false)
 	controller.set_end_day_ready_authoritative(peer_id, false)
 	return true

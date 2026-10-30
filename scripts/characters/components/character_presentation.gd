@@ -119,7 +119,10 @@ func update_context(delta: float, context: Dictionary) -> void:
 	if moving or absf(difference)>deg_to_rad(variant.idle_turn_limit_degrees):
 		_facing_yaw = lerp_angle(_facing_yaw,view_yaw,1-exp(-variant.body_turn_speed*delta))
 	# Facing is a root orientation; all limb motion comes from animation assets.
-	rotation.y = angle_difference(get_parent().rotation.y,_facing_yaw)
+	if get_parent().get_node("BunkSleep").active:
+		_facing_yaw=get_parent().rotation.y
+	else:
+		rotation.y = angle_difference(get_parent().rotation.y,_facing_yaw)
 	var limited_pitch:=clampf(float(context.get("pitch",0)),-0.62,0.62)
 	var limited_yaw:=clampf(angle_difference(_facing_yaw,view_yaw),-0.52,0.52)
 	model.get_node("LookTarget").global_position = get_parent().head.global_position+global_basis*Basis.from_euler(Vector3(limited_pitch,limited_yaw,0))*Vector3(0,0,-4)
@@ -141,6 +144,7 @@ func update_context(delta: float, context: Dictionary) -> void:
 	var inserts := model.get_node_or_null("Journal/FrontCoverPivot/Inserts")
 	if inserts != null: inserts.sync_world(bool(context.get("journal_map",false)), journal,bool(context.get("journal_loupe",false)))
 	if _sleeping: state = "Sleep"
+	elif context.get("bunk_busy",false): state = "Stand"
 	elif context.get("driving",false): state = "Vehicle"
 	elif not _corpse_action.is_empty(): state = _corpse_action
 	elif journal > 0:
@@ -194,18 +198,23 @@ func update_context(delta: float, context: Dictionary) -> void:
 		tree.set("parameters/OffhandAim/blend_position", limited_pitch * 0.70)
 		GameFirstPersonPresentation.update_offer_tree(tree, context, delta)
 		GameFirstPersonPresentation.update_loupe_pose(tree,model,journal)
+		tree.set("parameters/LadderBlend/blend_amount",1.0 if context.get("climbing",false) else 0.0)
+		if context.get("climbing",false): tree.set("parameters/LadderTime/seek_request",float(context.get("climb_phase",0)))
+		var bunk := get_parent().get_node("BunkSleep")
+		tree.set("parameters/BunkBlend/blend_amount",1.0 if bunk.active else 0.0)
+		if bunk.active: tree.set("parameters/BunkTime/seek_request",bunk.pose_time)
 		tree.advance(delta * (float(context.get("journal_animation_speed",1.6)) if journal in [1,3] else 1.0))
 		GameFirstPersonPresentation.update_grips(model,equipment,journal,context.get("reloading",false),delta,offhand,kind,context.get("heavy_targets",{}))
 	if first_person!=null:
-		var fp_context:=context.duplicate(); fp_context["sleeping"]=_sleeping
+		var fp_context:=context.duplicate(); fp_context["sleeping"]=_sleeping or context.get("bunk_busy",false)
 		first_person.update_context(fp_context)
-		_sync_world_items(kind, 1 if context.get("offer_pocket", false) else journal)
+		_sync_world_items(kind, 1 if context.get("offer_pocket", false) or context.get("bunk_busy",false) else journal)
 	_previous_grounded = grounded
 	_update_floor_offset(grounded and not _sleeping and not context.get("driving", false))
 	_journal_phase = journal
 	_sampled = true
 	for modifier in skeleton.get_children():
-		if modifier is LookAtModifier3D: modifier.active = not _sleeping and (not context.get("heavy_carry",false) or modifier.name != "Spine2Look")
+		if modifier is LookAtModifier3D: modifier.active = not context.get("bunk_busy",false) and not _sleeping and (not context.get("heavy_carry",false) or modifier.name != "Spine2Look")
 	if not equipment.is_empty(): _equipment_kind = equipment
 
 func _update_floor_offset(grounded: bool) -> void:
@@ -289,6 +298,7 @@ func freeze_for_ragdoll() -> void:
 	skeleton.force_update_all_bone_transforms()
 
 func restore_after_respawn() -> void:
+	get_parent().get_node("BunkSleep").cancel()
 	_dead = false
 	_corpse_action = ""
 	_sleeping = false

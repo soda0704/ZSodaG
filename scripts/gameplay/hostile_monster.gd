@@ -16,6 +16,7 @@ signal target_spotted(target: Node3D)
 signal target_lost(last_position: Vector3)
 signal attack_started(target: Node3D, duration: float)
 signal attack_finished(target: Node3D, landed: bool)
+signal attack_cancelled()
 signal navigation_blocked(destination: Vector3, attempts: int)
 signal health_changed(current: float, maximum: float)
 signal encounter_resolved(reason: String)
@@ -982,6 +983,7 @@ func _stop_motion() -> void:
 
 func _cancel_attack() -> void:
 	if _windup > 0.0:
+		attack_cancelled.emit()
 		attack_finished.emit(_victim if is_instance_valid(_victim) else null, false)
 	_windup = 0.0
 	_victim = null

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/faulty_lamp_audio.gd" id="script"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/medical_fault/medical_fault_loop.wav" id="audio"]
+[ext_resource type="Animation" path="res://assets/audio/gameplay/medical_fault/medical_fault_flicker.tres" id="flicker"]
+
+[sub_resource type="AnimationLibrary" id="library"]
+_data = {&"fault": ExtResource("flicker")}
+
+[node name="MedicalFaultLamp" type="AudioStreamPlayer3D"]
+stream = ExtResource("audio")
+volume_db = -80.0
+unit_size = 4.0
+max_distance = 13.0
+bus = &"Machinery"
+script = ExtResource("script")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("library")}

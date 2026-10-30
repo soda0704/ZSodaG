@@ -37,6 +37,7 @@ func pickups(type: StringName) -> Array:
 
 func collect(item: WorldItemPickup) -> bool:
 	actor.teleport_authoritative(item.global_position + Vector3(0, .1, 1), 0)
+	for frame in 3: await physics_frame
 	item.network_interact(1, actor)
 	await process_frame
 	return actor.has_held_item(item.item_type) if is_instance_valid(item) else actor._held_item_type != &""
@@ -75,8 +76,10 @@ func run() -> void:
 	for index in TYPES.size():
 		var type: StringName = TYPES[index]
 		check(await collect(selected[type]), "original item can be picked up: " + str(type))
-		actor.teleport_authoritative(Vector3(6.7, .1, 22), -PI / 2)
+		# Stay in front of the breaker's housing, outside its solid collision.
+		actor.teleport_authoritative(Vector3(6.0, .1, 22), -PI / 2)
 		actor.head.rotation.x = -1.0
+		for frame in 3: await physics_frame
 		check(actor.drop_current_item_authoritative(), "ordinary G drop next to generator-room wall: " + str(type))
 		await create_timer(1.2).timeout
 		var remaining := pickups(type)
@@ -99,6 +102,10 @@ func run() -> void:
 			root.get_texture().get_image().save_png("res://tools/.local/critical-seed-after-drop.png")
 		check(await collect(item), "dropped item can be picked up again: " + str(type))
 		actor.camera.rotation = Vector3.ZERO
+		# Carry the item into the cabin before dropping it. Drop placement now
+		# sweeps the real path from the actor instead of teleporting through walls.
+		actor.teleport_authoritative(elevator.cabin.to_global(Vector3(0, .1, .8)), 0)
+		for frame in 3: await physics_frame
 		var cargo_pose := Transform3D(Basis.IDENTITY, elevator.cabin.to_global(Vector3(-.7 + index * .7, 1, 0)))
 		check(actor.drop_current_item_at_authoritative(cargo_pose), "put existing item onto native cabin floor: " + str(type))
 		await process_frame

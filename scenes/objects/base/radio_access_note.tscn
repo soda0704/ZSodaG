@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/radio_tower_interaction.gd" id="1_8dand"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6gs8b"]
+size = Vector3(0.52, 0.36, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vs3l6"]
+albedo_color = Color(0.72, 0.72, 0.6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2v1xk"]
+material = SubResource("StandardMaterial3D_vs3l6")
+size = Vector3(0.52, 0.36, 0.012)
+
+[node name="RadioAccessNote" type="StaticBody3D" unique_id=1120092358]
+collision_layer = 5
+script = ExtResource("1_8dand")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1945049191]
+shape = SubResource("BoxShape3D_6gs8b")
+
+[node name="Paper" type="MeshInstance3D" parent="." unique_id=890913251]
+mesh = SubResource("BoxMesh_2v1xk")
+
+[node name="Text" type="Label3D" parent="." unique_id=2026821096]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.009)
+pixel_size = 0.00085
+modulate = Color(0.08, 0.1, 0.1, 1)
+font_size = 30
+outline_size = 0

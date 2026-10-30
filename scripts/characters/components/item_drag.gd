@@ -19,7 +19,7 @@ func is_heavy_carrying() -> bool:
 	return is_instance_valid(heavy_body)
 
 func begin_interaction() -> bool:
-	if player.is_driving() or player.is_carrying_corpse():
+	if (player.is_driving() or player.is_climbing()) or player.is_carrying_corpse():
 		return false
 	var target := player.get_interaction_target()
 	while target != null and not target is WorldItemPickup:
@@ -35,7 +35,7 @@ func begin_interaction() -> bool:
 
 func _physics_process(delta: float) -> void:
 	if player.is_local_player() and not pending.is_empty():
-		var allowed := Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not player.survival.dead and not player.is_driving() and not player.is_sleeping_in_bunk() and not player._is_journal_open()
+		var allowed := Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not player.survival.dead and not (player.is_driving() or player.is_climbing()) and not player.is_bunk_busy() and not player._is_journal_open()
 		if not allowed or not Input.is_action_pressed("interact"):
 			if allowed and not dragging:
 				if multiplayer.is_server():
@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 					_request_hold.rpc_id(1, pending, _gesture, Vector2(player.rotation.y, player.head.rotation.x))
 	if multiplayer.is_server() and is_instance_valid(body):
 		if body is HeavyCarryProp: return
-		if Time.get_ticks_msec() - last_hold > 400 or player.survival.dead or player.is_driving() or player.is_carrying_corpse() or player.is_sleeping_in_bunk() or body._collected or body.global_position.distance_to(player.head.global_position) > 4.5:
+		if Time.get_ticks_msec() - last_hold > 400 or player.survival.dead or (player.is_driving() or player.is_climbing()) or player.is_carrying_corpse() or player.is_bunk_busy() or body._collected or body.global_position.distance_to(player.head.global_position) > 4.5:
 			_release()
 			return
 		var origin := player.head.global_position
@@ -77,7 +77,7 @@ func cancel() -> void:
 		_request_release.rpc_id(1, _gesture)
 
 func _valid_item(path: NodePath) -> WorldItemPickup:
-	if path.is_empty() or player.survival.dead or player.is_driving() or player.is_carrying_corpse() or player.is_sleeping_in_bunk():
+	if path.is_empty() or player.survival.dead or (player.is_driving() or player.is_climbing()) or player.is_carrying_corpse() or player.is_bunk_busy():
 		return null
 	var item := get_node_or_null(path) as WorldItemPickup
 	if is_heavy_carrying() and not item is HeavyCarryProp: return null

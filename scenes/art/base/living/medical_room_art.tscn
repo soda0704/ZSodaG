@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Material" path="res://scenes/art/base/living/living_blockout_material.tres" id="1_living_blockout_material"]
 [ext_resource type="Script" path="res://scripts/gameplay/medical_corpse_bed.gd" id="2_bed"]
 [ext_resource type="Script" path="res://scripts/gameplay/items/pickup_interaction_area.gd" id="3_interaction"]
+[ext_resource type="Material" path="res://assets/materials/medical_fault_lens.tres" id="fault_lens"]
 
 [sub_resource type="BoxShape3D" id="bed_interaction"]
 size = Vector3(2.4, 1.4, 1.3)
@@ -32,7 +33,8 @@ material = ExtResource("1_living_blockout_material")
 [node name="Medical_Primary_Exam_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Lighting" unique_id=317373001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5.42, 5.5)
 size = Vector3(2.4, 0.12, 0.7)
-material = ExtResource("1_living_blockout_material")
+material = ExtResource("fault_lens")
+metadata/dynamic_emission = true
 
 [node name="Medical_Secondary_Exam_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Medical_Room/Lighting" unique_id=746192460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5.42, 5.5)

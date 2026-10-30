@@ -165,6 +165,5 @@ lights_and_shadows/positional_shadow/atlas_16_bits=false
 global_illumination/gi/use_half_resolution=true
 environment/ssao/fadeout_from=30.0
 environment/ssao/fadeout_to=150.0
-lights_and_shadows/tighter_shadow_caster_culling=true
 lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=2
 lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=2

@@ -218,6 +218,21 @@ func get_interaction_prompt() -> String:
 func interact(interactor: Node) -> void:
 	network_interact(multiplayer.get_unique_id(), interactor)
 
+func visible_to(player: GamePlayer) -> bool:
+	var samples: Array[Vector3]=[get_interaction_position()]
+	for shape: CollisionShape3D in find_children("*","CollisionShape3D",true,false):
+		if shape.disabled or shape.shape==null or shape.get_parent() is Area3D: continue
+		var bounds := shape.shape.get_debug_mesh().get_aabb()
+		for direction in [Vector3.ZERO,Vector3.UP,Vector3.DOWN,Vector3.LEFT,Vector3.RIGHT,Vector3.FORWARD,Vector3.BACK]:
+			samples.append(shape.global_transform*(bounds.get_center()+bounds.size*direction*.32))
+		break
+	for point in samples:
+		var ray := PhysicsRayQueryParameters3D.create(player.camera.global_position,point,5,[player.get_rid()])
+		ray.collide_with_areas=true
+		var hit := get_world_3d().direct_space_state.intersect_ray(ray)
+		if hit.is_empty() or hit.collider==self or is_ancestor_of(hit.collider): return true
+	return false
+
 
 func network_interact(peer_id: int, interactor: Node) -> void:
 	if (
@@ -232,6 +247,7 @@ func network_interact(peer_id: int, interactor: Node) -> void:
 	):
 		return
 
+	if not interactor is GamePlayer or not visible_to(interactor): return
 	var offered := item_state.duplicate(true)
 	var remaining := 0
 	if item_type == &"pistol_ammo":

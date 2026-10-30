@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/monster_audio.tscn" id="audio"]
 [ext_resource type="PackedScene" path="res://scenes/characters/ragdolls/head.tscn" id="ragdoll"]
 
+[ext_resource type="Resource" path="res://assets/config/monsters/audio/head.tres" id="audio_profile"]
+
 [sub_resource type="CapsuleShape3D" id="body"]
 radius = 0.28
 height = 1.05
@@ -39,4 +41,5 @@ walk_reference_speed = 2.235294117647059
 [node name="Model" parent="Visual" instance=ExtResource("model")]
 
 [node name="MonsterAudio" parent="." instance=ExtResource("audio")]
+profile = ExtResource("audio_profile")
 position = Vector3(0, 0.525, 0)

@@ -1,0 +1,14 @@
+{
+  "source_name": "03148.mp3",
+  "source_sha256": "9805ee68359bbf893b5ff8550d1b7246d1cb2530a45e44869c26784cf9bd521e",
+  "duration": 84.77021875,
+  "sample_rate": 32000,
+  "crossfade_seconds": 0.18,
+  "boundary_offset_seconds": 18.66290625,
+  "rms": 0.07303182988018075,
+  "peak": 0.6,
+  "seam_delta": 3.367899615448811e-05,
+  "intensity_min": 0.12000000000146503,
+  "intensity_max": 0.9999999999988387,
+  "animation_keys": 5088
+}
