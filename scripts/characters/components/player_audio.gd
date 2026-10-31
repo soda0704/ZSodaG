@@ -4,6 +4,11 @@ extends Node3D
 @export var recovery_volume_db := -20.0
 @export var recovery_seconds := 12.0
 @onready var recovery: AudioStreamPlayer = $RecoveryBreathing
+@export_group("Radiation")
+@export var radiation_volume_db := -18.0
+@export_range(0.01, 3.0) var radiation_fade_in_seconds := 0.35
+@export_range(0.01, 3.0) var radiation_fade_out_seconds := 0.5
+@onready var radiation_audio: AudioStreamPlayer = $Radiation
 @export var long_breath: AudioStream
 var _was_exhausted := false
 var _recovery_left := 0.0
@@ -13,6 +18,12 @@ func _process(delta: float) -> void:
 	if player == null:
 		return
 	update_breathing(delta, player._sprint_active, player.is_local_player() and not player.survival.dead and not player.is_sleeping_in_bunk() and not player.is_driving(), player._sprint_exhausted)
+	var receiving := player.is_local_player() and player.survival.get_radiation_exposure() > 0.0
+	update_radiation_audio(delta, receiving)
+
+func update_radiation_audio(delta: float, receiving: bool) -> void:
+	var target := db_to_linear(radiation_volume_db) if receiving else 0.0
+	AudioFade.apply(radiation_audio, target, delta, radiation_fade_in_seconds if receiving else radiation_fade_out_seconds)
 
 func update_breathing(delta: float, running: bool, audible: bool, exhausted: bool = false) -> void:
 	if not audible:

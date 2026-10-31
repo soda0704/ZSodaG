@@ -26,10 +26,12 @@ func mix_presence(delta: float, inside: bool) -> void:
 	# Resume the same recording after a complete fade, rather than restarting it.
 	stream_paused = is_zero_approx(_blend)
 
-func _process(delta: float) -> void:
+func listener_inside() -> bool:
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
-	var inside := false
 	if is_instance_valid(player) and player.is_inside_tree():
 		var point := player.camera.global_position
-		inside = contains_point(point) and (_base_root.to_local(point).y < -8.0 or (_acoustics != null and _acoustics.is_inside))
-	mix_presence(delta, inside)
+		return contains_point(point) and (_base_root.to_local(point).y < -8.0 or (_acoustics != null and _acoustics.is_inside))
+	return false
+
+func _process(delta: float) -> void:
+	mix_presence(delta, listener_inside())

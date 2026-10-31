@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/interface_audio.gd" id="script"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/cam_7_hover.mp3" id="hover"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/cam_8_press.mp3" id="click"]
+
+[node name="InterfaceAudio" type="Node"]
+process_mode = 3
+script = ExtResource("script")
+
+[node name="Hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("hover")
+volume_db = -10.0
+bus = &"UI"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("click")
+volume_db = -10.0
+max_polyphony = 4
+bus = &"UI"

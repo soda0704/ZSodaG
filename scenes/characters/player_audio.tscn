@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/battery_insert.ogg" id="battery_insert"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/flashlight_on.ogg" id="flashlight_on"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/flashlight_off.ogg" id="flashlight_off"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/radiation_geiger.wav" id="radiation"]
 
 [node name="PlayerAudio" type="Node3D"]
 script = ExtResource("logic")
@@ -14,6 +15,11 @@ long_breath = ExtResource("breath_long")
 
 [node name="RecoveryBreathing" type="AudioStreamPlayer" parent="."]
 bus = &"Breathing"
+volume_db = -80.0
+
+[node name="Radiation" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("radiation")
+bus = &"Effects"
 volume_db = -80.0
 
 [node name="Pickup" type="AudioStreamPlayer3D" parent="."]

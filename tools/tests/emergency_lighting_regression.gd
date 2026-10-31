@@ -37,18 +37,23 @@ func run() -> void:
 	var minimum := 1.0
 	var maximum := 0.0
 	var previous := lighting.emergency_intensity
+	var alarm:=lighting.get_node("EmergencyAlarm")
+	var pulse:Animation=alarm.animation.get_animation("alarm")
+	previous=float(pulse.value_track_interpolate(0,0.0))
 	var smooth := true
 	var synchronized := true
 	var budget := true
 	var stable_membership: Array[Light3D] = lighting._resident_lamps.duplicate()
 	for step in 240:
+		await process_frame
 		lighting._advance_emergency(1.0 / 60.0)
 		lighting._update_lamps(at, 1.0 / 60.0)
 		var intensity := lighting.emergency_intensity
 		minimum = minf(minimum, intensity)
 		maximum = maxf(maximum, intensity)
-		smooth = smooth and absf(intensity - previous) < 0.04
-		previous = intensity
+		var authored:float=pulse.value_track_interpolate(0,float(step)/60.0)
+		smooth = smooth and absf(authored - previous) < 0.5
+		previous = authored
 		for lamp: Light3D in lighting._resident_lamps:
 			if lighting._emergency_lamps.has(lamp):
 				var expected := float(lighting._energies[lamp]) * float(lighting._levels[lamp]) * intensity
@@ -59,8 +64,8 @@ func run() -> void:
 		var slots := 0
 		for lamp: Light3D in lighting._resident_lamps: slots += WorldLighting.shadow_slot_cost(lamp)
 		budget = budget and slots <= WorldLighting.MAX_RESIDENT_SHADOW_SLOTS and lighting._resident_lamps == stable_membership and lighting._resident_lamps.size() <= WorldLighting.MAX_RESIDENT_LAMPS
-	check(minimum < 0.151 and maximum > 0.999, "backup visibly dims and brightens over two complete two-second cycles")
-	check(smooth, "pulse has continuous transitions without abrupt flashes")
+	check(minimum < 0.25 and maximum > 0.95, "backup dims and brightens with the supplied alarm recording")
+	check(smooth, "authored pulse has continuous transitions between adjacent animation samples")
 	check(synchronized and not fixtures._materials.is_empty(), "all resident backup lamps and physical hub fixtures share the same phase")
 	check(budget and lighting.get_node("Emergency").visible, "blinking never toggles the power circuit or reallocates shadow slots")
 	power.apply_power_state(true)

@@ -36,21 +36,6 @@ editor_description = "Исходная CSG-геометрия. Отключит�
 
 [node name="Lighting" type="Node3D" parent="Blockout/Generator_Room" unique_id=878083088]
 
-[node name="Generator_Main_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Lighting" unique_id=1000517381]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 5.44, 22)
-size = Vector3(3.8, 0.12, 0.5)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Generator_Service_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Lighting" unique_id=1048715911]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 5.44, 22)
-size = Vector3(1.8, 0.12, 0.45)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Generator_Distribution_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Lighting" unique_id=1019144051]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 5.44, 22.5)
-size = Vector3(1.5, 0.12, 0.45)
-material = SubResource("StandardMaterial3D_hub_technical")
-
 [node name="Power_Generation" type="Node3D" parent="Blockout/Generator_Room" unique_id=864722428]
 
 [node name="Technical_Main_Generator_Blockout" parent="Blockout/Generator_Room/Power_Generation" unique_id=104224388 instance=ExtResource("generator_model")]
@@ -116,11 +101,6 @@ size = Vector3(1, 1, 3.2)
 [node name="Technical_West_Tool_Panel_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Maintenance" unique_id=213408786]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.8, 1.8, 22)
 size = Vector3(0.1, 1.6, 2.6)
-material = SubResource("StandardMaterial3D_hub_technical")
-
-[node name="Technical_West_Bench_Task_Light_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Maintenance" unique_id=704206087]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.525, 2.8, 22)
-size = Vector3(0.45, 0.18, 2.2)
 material = SubResource("StandardMaterial3D_hub_technical")
 
 [node name="Technical_West_Bench_Vice_Blockout" type="CSGBox3D" parent="Blockout/Generator_Room/Maintenance" unique_id=1742299650]

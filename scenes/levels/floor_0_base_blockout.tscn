@@ -448,10 +448,6 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, 
 
 [node name="Fixtures" type="Node3D" parent="West_Entrance/West_Connector" unique_id=2109798769]
 
-[node name="West_Connector_Ceiling_Light_Fixture_Blockout" type="CSGBox3D" parent="West_Entrance/West_Connector/Fixtures" unique_id=272316757]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 5.42, 0)
-size = Vector3(1.2, 0.12, 1.6)
-
 [node name="West_Connector_To_Decon_Sign_Blockout" type="CSGBox3D" parent="West_Entrance/West_Connector/Fixtures" unique_id=1642795010]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.82, 3.55, 0)
 size = Vector3(0.08, 0.5, 1.6)
@@ -540,15 +536,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.133062, 2, -3.4)
 [node name="Living_Entry_Emergency_Cabinet_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(1966171001, 1922948352) index="1" unique_id=497668423]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.16473, 1.5732363, 3.4)
 
-[node name="Living_Common_Route_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="0" unique_id=860429950]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.967832, 0)
-
-[node name="Living_Common_Dining_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="1" unique_id=644360143]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.967832, -4.3)
-
-[node name="Living_Common_Lounge_Light_Fixture_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1966171001, 340796148) index="2" unique_id=1892644356]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 4.967832, 4.8)
-
 [node name="Living_Galley_Counter_Blockout" parent="East_Living/Art/CommonRoomArt/Blockout/Common_Room/Galley" parent_id_path=PackedInt32Array(1966171001, 28311841) index="0" unique_id=2104828362]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8, 0.5, -7.60212)
 
@@ -566,25 +553,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4, 2, 8.07348)
 
 [node name="ProtectedCorridorArt" parent="East_Living/Art" unique_id=1745588499 instance=ExtResource("26_protected_corridor_art")]
 
-[node name="Protected_Corridor_West_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="0" unique_id=1731667600]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.264219, 0)
-
-[node name="Protected_Corridor_Center_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="1" unique_id=600415743]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5.264219, 0)
-
-[node name="Protected_Corridor_East_Light_Fixture_Blockout" parent="East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(1745588499, 1521649361) index="2" unique_id=2137573571]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5.264219, 0)
-
 [node name="SleepingQuartersArt" parent="East_Living/Art" unique_id=444106472 instance=ExtResource("27_sleeping_quarters_art")]
-
-[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="0" unique_id=2015799014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 5.264219, -3.1)
-
-[node name="Sleeping_West_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="1" unique_id=2077793610]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 5.264219, -6.3)
-
-[node name="Sleeping_East_Ceiling_Fixture_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(444106472, 89667043) index="2" unique_id=1743020272]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 5.264219, -6.3)
 
 [node name="Living_Sleeping_Personal_Drop_Station_Blockout" parent="East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(444106472, 1255146447) index="3" unique_id=1480372271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.61701, 0.65, -2.1102347)
@@ -597,15 +566,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.892265, 1.65, -1.521517)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.892265, 1.75, -1.6015172)
 
 [node name="MedicalRoomArt" parent="East_Living/Art" unique_id=486055313 instance=ExtResource("28_medical_room_art")]
-
-[node name="Medical_Entry_Ceiling_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="0" unique_id=1748871228]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 5.264219, 2.8)
-
-[node name="Medical_Primary_Exam_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="1" unique_id=317373001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5.264219, 5.5)
-
-[node name="Medical_Secondary_Exam_Fixture_Blockout" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(486055313, 2045055413) index="2" unique_id=746192460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5.264219, 5.5)
 
 [node name="RestPose" parent="East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Examination/Medical_Exam_Bed_Blockout" parent_id_path=PackedInt32Array(486055313, 394816500) index="0"]
 transform = Transform3D(7.54979e-08, -1, 7.54979e-08, 0, 7.54979e-08, 1, -1, -7.54979e-08, 5.6999333e-15, 0, 0.68, 0)

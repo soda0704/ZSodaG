@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://1ud48u76ij5o"]
 
 [ext_resource type="Script" uid="uid://cqf56frchbgyk" path="res://scripts/levels/base_blockout_runtime.gd" id="1_runtime"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/emergency_alarm.tscn" id="emergency_alarm"]
 [ext_resource type="PackedScene" uid="uid://g28tvglroke0" path="res://scenes/objects/elevator/elevator_functional_blockout.tscn" id="2_elevator"]
 [ext_resource type="PackedScene" uid="uid://bq6r0gmf1m8u3" path="res://scenes/levels/floor_0_base_blockout.tscn" id="3_floor_0"]
 [ext_resource type="PackedScene" uid="uid://bbuu44pf3d8rd" path="res://scenes/levels/floor_minus1_control_security_blockout.tscn" id="4_floor_minus1"]
@@ -188,7 +189,9 @@ outdoor_ambient = 0.13
 indoor_ambient = 0.035
 lower_exterior_bounds = NodePath("../SnowExterior/LowerValleyOutdoorRegion/LowerValleyOutdoorBounds")
 
-[node name="OvercastSun" parent="WorldLighting" index="0" unique_id=1849345055]
+[node name="EmergencyAlarm" parent="WorldLighting" instance=ExtResource("emergency_alarm")]
+
+[node name="OvercastSun" parent="WorldLighting" index="1" unique_id=1849345055]
 transform = Transform3D(0.8480481, 0.35458526, -0.3938068, 0, 0.74314487, 0.6691306, 0.52991927, -0.567455, 0.63022256, -43.710815, 604.7393, 20.342651)
 
 [node name="EntranceWork1" parent="WorldLighting/Standard" parent_id_path=PackedInt32Array(294664761, 1377672619) index="0"]
@@ -835,25 +838,10 @@ transform = Transform3D(-2.0216214e-07, 5.299733e-18, -1, -0.013166388, 1.021797
 [node name="ElevatorBackupSolarPanel2" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="5" unique_id=199684900]
 transform = Transform3D(-1.9011684e-07, -1.1221413e-15, -1, 0.010703877, 1.0120827, -1.4944204e-09, 1.1668798, -0.009283912, -1.6291382e-07, -39.258385, 0.37677887, 5.280569)
 
-[node name="West_Connector_Ceiling_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="0" unique_id=272316757]
-layers = 262145
-
 [node name="West_Connector_To_Decon_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="1" unique_id=1642795010]
 layers = 262145
 
 [node name="West_Connector_To_Hub_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="2" unique_id=1923530864]
-layers = 262145
-
-[node name="Generator_Main_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="0" unique_id=1000517381]
-transform = Transform3D(0.9401929, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4.580528, 22.288485)
-layers = 262145
-
-[node name="Generator_Service_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="1" unique_id=1048715911]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 4.580528, 22)
-layers = 262145
-
-[node name="Generator_Distribution_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 164939900, 878083088) index="2" unique_id=1019144051]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 4.580528, 22.5)
 layers = 262145
 
 [node name="Technical_Generator_Exhaust_A_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="1" unique_id=533548068]
@@ -886,10 +874,7 @@ layers = 262145
 [node name="Technical_West_Tool_Panel_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="1" unique_id=213408786]
 layers = 262145
 
-[node name="Technical_West_Bench_Task_Light_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="2" unique_id=704206087]
-layers = 262145
-
-[node name="Technical_West_Bench_Vice_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="3" unique_id=1742299650]
+[node name="Technical_West_Bench_Vice_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance" parent_id_path=PackedInt32Array(2036079911, 164939900, 1446594310) index="2" unique_id=1742299650]
 layers = 262145
 
 [node name="Technical_Day1_Open_Tool_Case_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Maintenance/Technical_Missing_Tools_Blockout" parent_id_path=PackedInt32Array(2036079911, 164939900, 41785786) index="0" unique_id=1120092255]
@@ -923,18 +908,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.02, -2)
 layers = 262145
 
 [node name="Living_Entry_Emergency_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Entry_Buffer" parent_id_path=PackedInt32Array(2036079911, 1966171001, 1922948352) index="1" unique_id=497668423]
-layers = 262145
-
-[node name="Living_Common_Route_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="0" unique_id=860429950]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 4.6930737, 0)
-layers = 262145
-
-[node name="Living_Common_Dining_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="1" unique_id=644360143]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4.6930737, -4.3)
-layers = 262145
-
-[node name="Living_Common_Lounge_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1966171001, 340796148) index="2" unique_id=1892644356]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 4.6930737, 4.8)
 layers = 262145
 
 [node name="Living_Common_Table_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/CommonRoomArt/Blockout/Common_Room/Dining" parent_id_path=PackedInt32Array(2036079911, 1966171001, 580244709) index="0" unique_id=1789619648]
@@ -985,30 +958,6 @@ layers = 262145
 [node name="Protected_Corridor_East_Emergency_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Wall_Protection" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1183479358) index="2" unique_id=345063936]
 layers = 262145
 
-[node name="Protected_Corridor_West_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="0" unique_id=1731667600]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4.9894605, 0)
-layers = 262145
-
-[node name="Protected_Corridor_Center_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="1" unique_id=600415743]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 4.9894605, 0)
-layers = 262145
-
-[node name="Protected_Corridor_East_Light_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/ProtectedCorridorArt/Blockout/Protected_Corridor/Ceiling_Fixtures" parent_id_path=PackedInt32Array(2036079911, 1745588499, 1521649361) index="2" unique_id=2137573571]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 4.9894605, 0)
-layers = 262145
-
-[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="0" unique_id=2015799014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 4.9894605, -3.1)
-layers = 262145
-
-[node name="Sleeping_West_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="1" unique_id=2077793610]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 4.9894605, -6.3)
-layers = 262145
-
-[node name="Sleeping_East_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Lighting" parent_id_path=PackedInt32Array(2036079911, 444106472, 89667043) index="2" unique_id=1743020272]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 4.9894605, -6.3)
-layers = 262145
-
 [node name="Living_Sleeping_Locker_Bank_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Storage" parent_id_path=PackedInt32Array(2036079911, 444106472, 1255146447) index="0" unique_id=1865695137]
 layers = 262145
 
@@ -1040,18 +989,6 @@ layers = 262145
 layers = 262145
 
 [node name="Living_Sleeping_Occupancy_Panel_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/SleepingQuartersArt/Blockout/Sleeping_Quarters/Furniture" parent_id_path=PackedInt32Array(2036079911, 444106472, 685862148) index="3" unique_id=500202012]
-layers = 262145
-
-[node name="Medical_Entry_Ceiling_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="0" unique_id=1748871228]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 4.9894605, 2.8)
-layers = 262145
-
-[node name="Medical_Primary_Exam_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="1" unique_id=317373001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 4.9894605, 5.5)
-layers = 262145
-
-[node name="Medical_Secondary_Exam_Fixture_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting" parent_id_path=PackedInt32Array(2036079911, 486055313, 2045055413) index="2" unique_id=746192460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 4.9894605, 5.5)
 layers = 262145
 
 [node name="Medical_Supply_Cabinet_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Storage" parent_id_path=PackedInt32Array(2036079911, 486055313, 1123662087) index="0" unique_id=742560410]

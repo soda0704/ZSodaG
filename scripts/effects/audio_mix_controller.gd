@@ -23,12 +23,14 @@ func _route_id(id: int) -> void:
 
 func apply_settings(data: Dictionary) -> void:
 	for key in VOLUME_BUSES:
-		var bus := AudioServer.get_bus_index(VOLUME_BUSES[key])
-		if bus < 0:
-			continue
-		var percent := clampf(float(data.get(key, 100.0)), 0.0, 100.0)
-		AudioServer.set_bus_mute(bus, percent <= 0.0)
-		AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(percent / 100.0, 0.0001)))
+		var buses: Array = [VOLUME_BUSES[key]]
+		if key == "EffectsVolume": buses.append("UI")
+		for name in buses:
+			var bus := AudioServer.get_bus_index(name)
+			if bus < 0: continue
+			var percent := clampf(float(data.get(key, 100.0)), 0.0, 100.0)
+			AudioServer.set_bus_mute(bus, percent <= 0.0)
+			AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(percent / 100.0, 0.0001)))
 	room_amount = clampf(float(data.get("RoomReverb", 50.0)) / 100.0, 0.0, 1.0)
 
 func update_acoustics(delta: float, indoor: float) -> void:

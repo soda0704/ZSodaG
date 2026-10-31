@@ -153,16 +153,6 @@ material = SubResource("Material_warning")
 
 [node name="Temporary_Lighting" type="Node3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=214106054]
 
-[node name="Ceiling_Light_North" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Temporary_Lighting" unique_id=806293679]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.02, -1.15)
-size = Vector3(1.6, 0.04, 0.45)
-material = SubResource("Material_screen")
-
-[node name="Ceiling_Light_South" type="CSGBox3D" parent="Approved_Stage_01_Elevator_Arrival/Temporary_Lighting" unique_id=42707392]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.02, 1.15)
-size = Vector3(1.6, 0.04, 0.45)
-material = SubResource("Material_screen")
-
 [node name="Future_Shared_Sanitation_Connection" type="Marker3D" parent="Approved_Stage_01_Elevator_Arrival" unique_id=595830088]
 editor_description = "Approved forward connection point. The shared bidirectional sanitation block will be built here only after the elevator arrival is reviewed."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.65, 0, 0)
@@ -292,11 +282,6 @@ material = SubResource("Material_dark")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0.02, 0)
 size = Vector3(5.2, 0.04, 0.16)
 material = SubResource("Material_warning")
-
-[node name="Sanitation_Ceiling_Light" type="CSGBox3D" parent="Stage_02_Shared_Sanitation_Room_Blockout" unique_id=876417324]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4.02, 0)
-size = Vector3(2.4, 0.04, 0.65)
-material = SubResource("Material_screen")
 
 [node name="Stage_03_Glass_Observation_Corridor_Blockout" type="Node3D" parent="." unique_id=1129681558]
 editor_description = "L-shaped observation corridor that breaks the direct sightline from the elevator. Three sealed sample bays are visible through glass on the inside of the turn. The corridor is mostly intact; only the final bay shows an early warning state."
@@ -504,16 +489,6 @@ material = SubResource("Material_screen")
 [node name="Observation_Floor_Guide_North" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=1731985069]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.02, -5.1)
 size = Vector3(0.14, 0.04, 8.8)
-material = SubResource("Material_screen")
-
-[node name="Observation_Light_South" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=417492238]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -2.6)
-size = Vector3(0.7, 0.04, 1.4)
-material = SubResource("Material_screen")
-
-[node name="Observation_Light_North" type="CSGBox3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=1485215189]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -7.4)
-size = Vector3(0.7, 0.04, 1.4)
 material = SubResource("Material_screen")
 
 [node name="Future_Central_Lab_Connection" type="Marker3D" parent="Stage_03_Glass_Observation_Corridor_Blockout" unique_id=434280344]
@@ -763,21 +738,6 @@ material = SubResource("Material_screen")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.65, 0.02, -16)
 size = Vector3(0.14, 0.04, 4.55)
 material = SubResource("Material_screen")
-
-[node name="Central_Ceiling_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=637367363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4.02, -16)
-size = Vector3(4.6, 0.04, 4.6)
-material = SubResource("Material_screen")
-
-[node name="West_Branch_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1367945504]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.55, 4.02, -16.5)
-size = Vector3(1.2, 0.04, 0.6)
-material = SubResource("Material_screen")
-
-[node name="East_Branch_Warning_Light" type="CSGBox3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1337823883]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.45, 4.02, -14)
-size = Vector3(1.2, 0.04, 0.6)
-material = SubResource("Material_warning")
 
 [node name="Future_West_Capsule_Storage_Connection" type="Marker3D" parent="Stage_04_Central_Experimental_Laboratory_Blockout" unique_id=1670267402]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.15, 0, -16.5)
@@ -1055,16 +1015,6 @@ material = SubResource("Material_screen")
 [node name="Connector_Guide" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=476103103]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 0.02, -16.5)
 size = Vector3(2.5, 0.04, 0.14)
-material = SubResource("Material_screen")
-
-[node name="Vault_Light_South" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1404267179]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.02, -14.6)
-size = Vector3(1.6, 0.04, 0.6)
-material = SubResource("Material_screen")
-
-[node name="Vault_Light_North" type="CSGBox3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=682930805]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.02, -19.4)
-size = Vector3(1.6, 0.04, 0.6)
 material = SubResource("Material_screen")
 
 [node name="Future_Damaged_Containment_Connection" type="Marker3D" parent="Stage_05_Cold_Capsule_Storage_Vault_Blockout" unique_id=1873568778]
@@ -1434,16 +1384,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2, -1.15, -29.02)
 size = Vector3(1.15, 0.62, 0.06)
 material = SubResource("Material_screen")
 
-[node name="Upper_West_Light" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1009018005]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.2, 4.02, -27)
-size = Vector3(0.65, 0.04, 2.2)
-material = SubResource("Material_screen")
-
-[node name="Upper_East_Warning_Light" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=104964384]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.8, 4.02, -27)
-size = Vector3(0.65, 0.04, 2.2)
-material = SubResource("Material_warning")
-
 [node name="Lower_Floor_Guide" type="CSGBox3D" parent="Stage_06_Damaged_Multilevel_Containment_Blockout" unique_id=1107641444]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.7, -2.38, -27.5)
 size = Vector3(3.8, 0.04, 0.14)
@@ -1648,21 +1588,6 @@ material = SubResource("Material_screen")
 [node name="North_Route_Guide" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=1435566862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.6, 0.02, -24.1)
 size = Vector3(0.14, 0.04, 6.7)
-material = SubResource("Material_warning")
-
-[node name="Control_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=2100734656]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -16.8)
-size = Vector3(2.4, 0.04, 0.65)
-material = SubResource("Material_screen")
-
-[node name="Divider_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=77382672]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -20.25)
-size = Vector3(2.4, 0.04, 0.65)
-material = SubResource("Material_screen")
-
-[node name="Incident_Ceiling_Light" type="CSGBox3D" parent="Stage_07_East_Monitoring_And_Incident_Gallery_Blockout/Route_And_Ceiling_Fixtures" unique_id=844714294]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.02, -24.25)
-size = Vector3(2.4, 0.04, 0.65)
 material = SubResource("Material_warning")
 
 [node name="Floor_Lighting_Blockout" type="Node3D" parent="." unique_id=670894966]

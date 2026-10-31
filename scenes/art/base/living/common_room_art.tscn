@@ -43,19 +43,6 @@ material = ExtResource("1_living_blockout_material")
 
 [node name="Ceiling_Fixtures" type="Node3D" parent="Blockout/Common_Room" unique_id=340796148]
 
-[node name="Living_Common_Route_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=860429950]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5.1236134, 0)
-size = Vector3(2.2, 0.12, 0.8)
-material = ExtResource("1_living_blockout_material")
-
-[node name="Living_Common_Dining_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=644360143]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 5.1236134, -4.3)
-size = Vector3(2.4, 0.12, 1)
-
-[node name="Living_Common_Lounge_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Ceiling_Fixtures" unique_id=1892644356]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 5.1236134, 4.8)
-size = Vector3(2.4, 0.12, 1)
-
 [node name="Dining" type="Node3D" parent="Blockout/Common_Room" unique_id=580244709]
 
 [node name="Living_Common_Table_Blockout" type="CSGBox3D" parent="Blockout/Common_Room/Dining" unique_id=1789619648]

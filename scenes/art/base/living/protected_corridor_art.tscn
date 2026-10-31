@@ -35,16 +35,3 @@ size = Vector3(0.3, 1.8, 1.2)
 material = ExtResource("1_living_blockout_material")
 
 [node name="Ceiling_Fixtures" type="Node3D" parent="Blockout/Protected_Corridor" unique_id=1521649361]
-
-[node name="Protected_Corridor_West_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=1731667600]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.42, 0)
-size = Vector3(2, 0.12, 0.9)
-
-[node name="Protected_Corridor_Center_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=600415743]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5.42, 0)
-size = Vector3(2, 0.12, 0.9)
-material = ExtResource("1_living_blockout_material")
-
-[node name="Protected_Corridor_East_Light_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Protected_Corridor/Ceiling_Fixtures" unique_id=2137573571]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 5.42, 0)
-size = Vector3(2, 0.12, 0.9)

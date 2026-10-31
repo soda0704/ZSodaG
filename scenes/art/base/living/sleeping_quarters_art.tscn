@@ -20,21 +20,6 @@ editor_description = "Исходная CSG-геометрия спальни. О
 
 [node name="Lighting" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=89667043]
 
-[node name="Sleeping_Entry_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=2015799014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 5.42, -3.1)
-size = Vector3(2.2, 0.12, 0.45)
-material = ExtResource("1_living_blockout_material")
-
-[node name="Sleeping_West_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=2077793610]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 5.42, -6.3)
-size = Vector3(2.2, 0.12, 0.35)
-material = ExtResource("1_living_blockout_material")
-
-[node name="Sleeping_East_Ceiling_Fixture_Blockout" type="CSGBox3D" parent="Blockout/Sleeping_Quarters/Lighting" unique_id=1743020272]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 5.42, -6.3)
-size = Vector3(3.6, 0.12, 0.35)
-material = ExtResource("1_living_blockout_material")
-
 [node name="Beds" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=540570192]
 
 [node name="Storage" type="Node3D" parent="Blockout/Sleeping_Quarters" unique_id=1255146447]

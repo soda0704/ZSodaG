@@ -76,6 +76,14 @@ func reset_fall() -> void:
 	_fall_speed = 0.0
 	_air_time = 0.0
 
+func get_radiation_exposure() -> float:
+	var player := get_parent()
+	if dead or player.is_sleeping_in_bunk(): return 0.0
+	var exposure := 0.0
+	for zone in get_tree().get_nodes_in_group("radiation_zones"):
+		exposure += float(zone.intensity_at(player.global_position))
+	return exposure
+
 func restore_after_sleep_authoritative() -> void:
 	if not multiplayer.is_server() or dead or not get_parent().is_sleeping_in_bunk():
 		return
@@ -115,9 +123,7 @@ func _physics_process(delta: float) -> void:
 					damage(max_health, "Падение в шахту")
 			else:
 				_air_time = 0.0
-			var exposure := 0.0
-			for zone in get_tree().get_nodes_in_group("radiation_zones"):
-				exposure += float(zone.intensity_at(player.global_position))
+			var exposure := get_radiation_exposure()
 			radiation = clampf(radiation + (exposure * radiation_gain_per_second if exposure > 0.0 else -radiation_recovery_per_second) * delta, 0.0, 100.0)
 			if radiation > radiation_damage_threshold:
 				damage((radiation - radiation_damage_threshold) * radiation_damage_scale * delta, "Радиационное поражение")

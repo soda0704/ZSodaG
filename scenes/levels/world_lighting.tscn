@@ -12,7 +12,7 @@ debug_visibility_profile = ExtResource("debug_visibility")
 [node name="MedicalFaultLamp" parent="." instance=ExtResource("medical_fault")]
 position = Vector3(24, 4.9, 5.5)
 lamp_path = NodePath("../Standard/Medical1")
-fixture_path = NodePath("../../Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Lighting/Medical_Primary_Exam_Fixture_Blockout")
+fixture_path = NodePath("")
 power_controller_path = NodePath("../../BasePowerLightingController")
 
 [node name="OvercastSun" type="DirectionalLight3D" parent="." unique_id=1849345055]

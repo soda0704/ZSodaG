@@ -70,6 +70,7 @@ _data = {&"press": SubResource("press")}
 _data = {&"idle": SubResource("idle")}
 
 [node name="LabClicker" type="Control"]
+metadata/ui_click_sound = false
 offset_left = 0.0
 offset_top = 0.0
 offset_right = 944.0

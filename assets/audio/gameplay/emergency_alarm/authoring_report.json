@@ -1,0 +1,15 @@
+{
+	"channels": 1,
+	"envelope_rms_high": 0.18709075024459,
+	"envelope_rms_low": 0.024146259869459,
+	"frames": 274748,
+	"intensity_max": 0.996320122833855,
+	"intensity_min": 0.17403512489239,
+	"keys": 312,
+	"mean_original_lr_difference": 0.0762109452327168,
+	"peak": 0.686901807785034,
+	"rate": 44100,
+	"rms": 0.102446813908338,
+	"seconds": 6.23011337868481,
+	"source_sha256": "8afb1d631b34fb85c41dc044d36b7ba11c5752048773063064c40aa656753a05"
+}

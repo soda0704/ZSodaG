@@ -138,9 +138,13 @@ func _unregister_lamp(lamp: Light3D) -> void:
 func _advance_emergency(delta: float) -> void:
 	# One clock for every backup source and the existing fixture materials.
 	# Modulate energy, never circuit visibility or the shadow residency budget.
-	_emergency_phase = fposmod(_emergency_phase + delta / EMERGENCY_PERIOD, 1.0)
-	var wave := 0.5 + 0.5 * cos(_emergency_phase * TAU)
-	emergency_intensity = lerpf(EMERGENCY_MIN_INTENSITY, 1.0, wave * wave)
+	var alarm := get_node_or_null("EmergencyAlarm")
+	if alarm != null:
+		emergency_intensity = alarm.advance_emergency(delta)
+	else:
+		_emergency_phase = fposmod(_emergency_phase + delta / EMERGENCY_PERIOD, 1.0)
+		var wave := 0.5 + 0.5 * cos(_emergency_phase * TAU)
+		emergency_intensity = lerpf(EMERGENCY_MIN_INTENSITY, 1.0, wave * wave)
 	emergency_intensity_changed.emit(emergency_intensity)
 
 func refresh_exterior_layers() -> void:

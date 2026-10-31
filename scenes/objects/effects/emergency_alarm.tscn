@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/emergency_alarm.gd" id="script"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/emergency_alarm/emergency_alarm_mono.wav" id="sound"]
+[ext_resource type="Animation" path="res://assets/audio/gameplay/emergency_alarm/emergency_alarm_pulse.tres" id="pulse"]
+
+[sub_resource type="AnimationLibrary" id="library"]
+_data = {&"alarm": ExtResource("pulse")}
+
+[node name="EmergencyAlarm" type="AudioStreamPlayer"]
+stream = ExtResource("sound")
+volume_db = -100.0
+bus = &"Machinery"
+script = ExtResource("script")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("library")}

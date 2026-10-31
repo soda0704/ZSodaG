@@ -32,7 +32,7 @@ func run() -> void:
 	camera.position = Vector3(24,1.7,5.5); camera.make_current()
 	await frames()
 	check(lamp._lamp == lighting.get_node("Standard/Medical1") and lamp._power == power, "fault belongs to the primary medical lamp and actual lighting circuit")
-	check(lamp._material != null and lamp._material.resource_path.is_empty(), "existing fixture uses an isolated lens material")
+	check(lamp._material == null and lamp.fixture_path.is_empty(), "removed CSG lamp placeholder leaves no stale fixture material or NodePath")
 	check(lamp.bus == &"Machinery" and lamp.max_distance == 13.0 and lamp.running_volume_db <= -12.0, "quiet positional source uses existing machinery controls and bounded range")
 	var stream := lamp.stream as AudioStreamWAV
 	var clip: Animation = lamp._animation.get_animation(&"fault")
@@ -41,7 +41,7 @@ func run() -> void:
 	var data := stream.data
 	var seam := absf(float(data.decode_s16(0)-data.decode_s16(data.size()-2))/32768.0)
 	check(seam < .0002, "edited PCM seam has no abrupt amplitude jump")
-	check(not lamp.playing and lamp.intensity == 0 and lamp._material.emission_energy_multiplier == 0, "unpowered room starts with a silent dark faulty fixture")
+	check(not lamp.playing and lamp.intensity == 0, "unpowered room starts with a silent dark faulty lamp")
 	power.apply_power_state(true)
 	await create_timer(.25).timeout
 	check(lamp.playing and lamp.volume_db >= -12.1, "restored power starts the authored recording with a short fade")
@@ -62,7 +62,6 @@ func run() -> void:
 	lamp._animation.seek(dark_time,true)
 	lighting._update_lamps(camera.position,.05)
 	check(full_energy > .5 and lamp._lamp.light_energy < full_energy*.16, "fault multiplier survives normal light-pool updates")
-	check(is_equal_approx(lamp._material.emission_energy_multiplier,lamp.emission_energy*lamp.intensity), "visible lens dims with the same contact failure as room illumination")
 	check(is_equal_approx(stable.light_energy,stable_energy), "second medical source is unaffected")
 	check(lighting._resident_lamps.size() <= WorldLighting.MAX_RESIDENT_LAMPS, "flicker does not allocate lights or bypass atlas residency budget")
 	var capture := AudioEffectCapture.new()
@@ -88,14 +87,14 @@ func run() -> void:
 	state.containment["fault"] = true
 	state.snapshot_changed.emit(state.get_snapshot())
 	await create_timer(.2).timeout
-	check(not power.is_standard_powered and not lamp.playing and lamp.intensity == 0 and lamp._material.emission_energy_multiplier == 0, "containment outage silences the faulty lamp even with the breaker on")
+	check(not power.is_standard_powered and not lamp.playing and lamp.intensity == 0, "containment outage silences the faulty lamp even with the breaker on")
 	state.containment["fault"] = false
 	state.snapshot_changed.emit(state.get_snapshot())
 	await create_timer(.2).timeout
 	check(lamp.playing and lamp.intensity > 0, "restoring circuit after snapshot resumes sound and light")
 	power.apply_power_state(false)
 	await create_timer(.2).timeout
-	check(not lamp.playing and lamp._gain == 0 and lamp.intensity == 0, "normal power loss fades sound out and extinguishes lens")
+	check(not lamp.playing and lamp._gain == 0 and lamp.intensity == 0, "normal power loss fades sound out and extinguishes the light")
 	power.apply_power_state(true); await frames(1)
 	power.apply_power_state(false); await frames(1)
 	power.apply_power_state(true); await create_timer(.15).timeout
