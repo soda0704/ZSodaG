@@ -523,9 +523,11 @@ func _enter_v3_level() -> void:
 		else:
 			$CabinSound/FadePlayer.play("arrival")
 	GameMenu.force_close_menu()
+	preload("res://scripts/network/level_load_job.gd").trace("cover_begin")
 	var transition_id := lobby_hud.show_transition_cover(
 		"ПОСАДКА У БАЗЫ..."
 	)
+	preload("res://scripts/network/level_load_job.gd").trace("cover_end")
 	await get_tree().create_timer(0.8).timeout
 
 	var packed_level: PackedScene
@@ -535,7 +537,9 @@ func _enter_v3_level() -> void:
 		packed_level = load(V3_LEVEL_PATH) as PackedScene
 	else:
 		# Threaded IO keeps the visible transition UI and journal hint animating.
+		preload("res://scripts/network/level_load_job.gd").trace("request_begin")
 		ResourceLoader.load_threaded_request(V3_LEVEL_PATH)
+		preload("res://scripts/network/level_load_job.gd").trace("request_end")
 		while ResourceLoader.load_threaded_get_status(V3_LEVEL_PATH) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			await get_tree().process_frame
 		packed_level = ResourceLoader.load_threaded_get(V3_LEVEL_PATH) as PackedScene
@@ -548,7 +552,9 @@ func _enter_v3_level() -> void:
 		return
 
 	var construction := preload("res://scripts/network/level_load_job.gd").new()
+	construction.trace("construct_begin")
 	var v3_level := await construction.instantiate(packed_level, get_tree()) as BaseBlockoutRuntime
+	construction.trace("construct_end")
 	if v3_level == null:
 		push_error("V3 root must use BaseBlockoutRuntime")
 		_entered_v3_level = false

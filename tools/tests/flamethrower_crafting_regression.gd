@@ -98,10 +98,10 @@ func run() -> void:
 	outage.main_breaker_on=false
 	state._broadcast_snapshot(outage)
 	check(not bench.craft_authoritative(player) and player.crafting_parts==parts_before_outage,"unpowered workbench cannot consume parts or craft")
-	check(not bench.get_node("WorkbenchVisual").material_override.emission_enabled,"native workbench animation turns indicators off without power")
+	check(is_zero_approx(bench.get_node("WorkbenchVisual").material_override.emission_energy_multiplier),"native workbench animation turns indicators off without power")
 	outage.main_breaker_on=true
 	state._broadcast_snapshot(outage)
-	check(bench.get_node("WorkbenchVisual").material_override.emission_enabled,"native workbench animation restores powered indicators")
+	check(is_equal_approx(bench.get_node("WorkbenchVisual").material_override.emission_energy_multiplier,1.0),"native workbench animation restores powered indicators")
 	var crafting_drag = player.get_node("ItemDrag")
 	check(crafting_drag.begin_interaction(),"E tap captures the movable powered workbench")
 	crafting_drag._pickup(bench.get_path())
