@@ -15,6 +15,38 @@ func check(ok:bool,label:String) -> void:
 func set_power(state:BaseGameplayController,on:bool,fault:bool=false) -> void:
 	var snapshot:=state.get_snapshot();snapshot.main_breaker_on=on;snapshot.fuel_delivered=true;snapshot.fuel_liters=30.0;snapshot.containment["fault"]=fault
 	state._broadcast_snapshot(snapshot)
+
+func capture_phase(lighting:WorldLighting,alarm:AudioStreamPlayer,time:float,label:String) -> Image:
+	# Start at the requested position before pausing; seek on a stopped player
+	# is discarded when advance_emergency starts it after a power transition.
+	alarm.stream_paused=false
+	alarm.play(time)
+	await process_frame
+	alarm.stream_paused=true
+	for frame in 24:
+		lighting._process(1.0/60.0)
+		# Freeze the authored light phase for an apples-to-apples image pair.
+		# Audio/renderer warm-up can advance a newly started stream by a frame.
+		if not alarm.power.is_standard_powered:
+			alarm.animation.seek(time,true)
+			lighting.emergency_intensity=alarm.intensity
+			lighting.emergency_intensity_changed.emit(alarm.intensity)
+			lighting._update_lamps(lighting.get_viewport().get_camera_3d().global_position,1.0/60.0)
+		await process_frame
+	await RenderingServer.frame_post_draw
+	var picture:=root.get_texture().get_image()
+	picture.save_png("res://tools/.local/feedback-fixes-2026-10-30/emergency-darkness-"+label+".png")
+	print("DARKNESS CAPTURE ",label," phase=",lighting.emergency_intensity)
+	return picture
+
+func world_red_level(picture:Image) -> float:
+	# Interior geometry; exclude HUD, compass, status and the lower hand overlay.
+	# Measure the alarm's red channel so white indicators do not mask its contrast.
+	var total:=0.0;var count:=0
+	for y in range(180,550,4):
+		for x in range(330,1200,4):
+			total+=picture.get_pixel(x,y).r;count+=1
+	return total/count
 func run() -> void:
 	Engine.max_fps=60;root.size=Vector2i(1280,720)
 	var base:Node3D=load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
@@ -50,15 +82,54 @@ func run() -> void:
 	lighting._advance_emergency(.5)
 	check(absf(alarm.volume_db-alarm.alarm_volume_db)<.01,"alarm reaches its configured level inside the base")
 	var synced:=true
-	for position in [.2,1.2,2.4,4.8,6.1]:
+	for position in [.2,.65,1.25,1.95,3.2,4.45,6.1]:
 		alarm.seek(position)
-		await process_frame
+		for frame in 3:await process_frame
+		var clock_before:float=alarm.get_playback_position()+AudioServer.get_time_since_last_mix()-AudioServer.get_output_latency()
 		lighting._advance_emergency(.016)
 		var clock:float=alarm.get_playback_position()+AudioServer.get_time_since_last_mix()-AudioServer.get_output_latency()
 		var pulse:Animation=alarm.animation.get_animation("alarm")
+		var expected_before:float=pulse.value_track_interpolate(0,fposmod(maxf(0,clock_before),alarm.stream.get_length()))
 		var expected:float=pulse.value_track_interpolate(0,fposmod(maxf(0,clock),alarm.stream.get_length()))
-		synced=synced and absf(lighting.emergency_intensity-expected)<.04
+		var matched:bool=lighting.emergency_intensity>=minf(expected_before,expected)-.01 and lighting.emergency_intensity<=maxf(expected_before,expected)+.01
+		if not matched:print("SYNC SAMPLE time=",clock_before,"..",clock," range=",expected_before,"..",expected," actual=",lighting.emergency_intensity," alarm=",alarm.intensity," animation_position=",alarm.animation.current_animation_position," standard=",alarm.power.is_standard_powered," emergency=",lighting.get_node("Emergency").visible)
+		synced=synced and matched
 	check(synced,"red light intensity follows the authored envelope at actual audible playback time")
+	var envelope:Animation=alarm.animation.get_animation("alarm")
+	var dark_time:float=-1.0;var bright_time:float=-1.0
+	var longest_dark:=0.0;var dark_run:=0.0
+	for step in ceili(envelope.length*100):
+		var value:float=envelope.value_track_interpolate(0,float(step)/100.0)
+		if value==0.0:
+			dark_time=float(step)/100.0;dark_run+=.01;longest_dark=maxf(longest_dark,dark_run)
+		else:dark_run=0.0
+		if value==1.0:bright_time=float(step)/100.0
+	check(longest_dark>=.2 and bright_time>=0.0,"alarm envelope includes sustained complete blackouts and full-brightness bursts")
+	alarm.stream_paused=true
+	var fixtures:Node=lighting.get_node("HubFixtures")
+	var blackouts:=true;var bursts:=true
+	for advanced in [false,true]:
+		root.get_node("GameMenu/GraphicsQuality").set_advanced_lighting_enabled(advanced)
+		alarm.animation.seek(maxf(0.0,dark_time),true)
+		lighting.emergency_intensity=alarm.intensity
+		lighting.emergency_intensity_changed.emit(alarm.intensity)
+		lighting._update_lamps(actor.camera.global_position,1.0)
+		blackouts=blackouts and alarm.intensity==0.0 and lighting.get_node("Emergency").visible and not fixtures._materials.is_empty()
+		for lamp:Light3D in lighting.get_node("Emergency").get_children():
+			blackouts=blackouts and lamp.light_energy==0.0
+		for entry in fixtures._materials:
+			blackouts=blackouts and entry.material.emission_energy_multiplier==0.0
+		alarm.animation.seek(maxf(0.0,bright_time),true)
+		lighting.emergency_intensity=alarm.intensity
+		lighting.emergency_intensity_changed.emit(alarm.intensity)
+		lighting._update_lamps(actor.camera.global_position,1.0)
+		var energy:=0.0
+		for lamp:Light3D in lighting.get_node("Emergency").get_children():energy+=lamp.light_energy
+		bursts=bursts and alarm.intensity==1.0 and energy>0.0
+		for entry in fixtures._materials:bursts=bursts and entry.material.emission_energy_multiplier>0.0
+	check(blackouts,"all 49 emergency lights and hub fixture emission reach exact zero in both light quality modes")
+	check(bursts,"alarm bursts restore emergency light and fixture emission in both light quality modes")
+	alarm.stream_paused=false
 	alarm.seek(1.0);await process_frame;lighting._advance_emergency(.016)
 	var before:float=alarm.get_playback_position()
 	set_power(state,false);await create_timer(.12).timeout;lighting._advance_emergency(.016)
@@ -91,17 +162,29 @@ func run() -> void:
 			var value:float=pulse.track_get_key_value(0,index)
 			if value>peak:peak=value;peak_time=pulse.track_get_key_time(0,index)
 			if value<dim:dim=value;dim_time=pulse.track_get_key_time(0,index)
-		alarm.stream_paused=true
-		for sample in [{"name":"bright","time":peak_time},{"name":"dim","time":dim_time}]:
-			alarm.animation.seek(sample.time,true)
-			lighting.emergency_intensity=alarm.intensity
-			lighting.emergency_intensity_changed.emit(alarm.intensity)
-			for frame in 8:
-				lighting._update_lamps(actor.camera.global_position,1.0/60.0)
-				await process_frame
-			await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://tools/.local/feedback-fixes-2026-10-30/emergency-alarm-"+sample.name+".png")
-			print("EMERGENCY FRAME ",sample.name," time ",sample.time," intensity ",alarm.intensity)
+		for advanced in [false,true]:
+			var mode:="advanced" if advanced else "basic"
+			quality.set_advanced_lighting_enabled(advanced)
+			var bright:=world_red_level(await capture_phase(lighting,alarm,peak_time,mode+"-bright"))
+			var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
+			print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
+			check(dark<.03 and bright>dark*1.4,"interior is nearly invisible between visible alarm bursts in "+mode+" mode")
+			check(actor.camera.environment.ambient_light_energy==0.0 and lighting.sample_view_light(actor.camera).get_luminance()==0.0,"power outage removes ambient and artificial hand fill in "+mode+" mode")
+			if advanced:
+				actor.flashlight.malfunction_enabled=false
+				actor.pickup_world_item_authoritative(&"flashlight",{"battery_charge":1.0})
+				actor.update_character_animation(1.0/60.0)
+				var torch:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-flashlight"))
+				print("DARKNESS FLASHLIGHT luminance=",torch," beam=",actor.flashlight.beam.is_visible_in_tree())
+				check(actor.flashlight.beam.is_visible_in_tree() and torch>dark+.01,"player flashlight still illuminates the actual room during an alarm pause")
+				actor.toggle_flashlight_authoritative()
+			set_power(state,true)
+			var normal:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-normal"))
+			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.indoor_ambient) and normal>dark+.02,"restoring power returns normal interior visibility in "+mode+" mode")
+			set_power(state,false)
+		actor.teleport_authoritative(Vector3(180,60,180),0)
+		await capture_phase(lighting,alarm,dim_time,"exterior")
+		check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.outdoor_ambient),"base power outage preserves outdoor ambient light")
 		alarm.stop()
 	current_scene=null;base.queue_free()
 	for frame in 6:await process_frame

@@ -2,7 +2,7 @@ extends AudioStreamPlayer
 ## Audio output is the single clock for the existing red lights and fixtures.
 @export var alarm_volume_db := -15.0
 @export_range(.02,2.0) var presence_fade_seconds := .35
-@export_range(0.0,1.0) var intensity := .15
+@export_range(0.0,1.0) var intensity := 0.0
 @onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var power: BasePowerLightingController = get_node("../../BasePowerLightingController")
 @onready var presence: AudioStreamPlayer = get_node("../../BaseInteriorAmbience")

@@ -691,102 +691,102 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 23.802559, 0.95, -7.3403735)
 [node name="EndDayBunkInteractable02" parent="Floor_0_Base_Blockout/Gameplay" parent_id_path=PackedInt32Array(2036079911, 1475033882) index="5" unique_id=1642140790]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 29.259417, 0.95, -7.3403735)
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1089584292, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 434206091, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 508908948, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1038234979, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1560864668, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 741659768, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1168654016, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1282445590, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Center_Hub_Ceiling" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="0" unique_id=1252765990]
+[node name="Center_Hub_Ceiling" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Ceilings" index="0" unique_id=1252765990]
 layers = 262145
 
-[node name="Hub_West_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="1" unique_id=1694606142]
+[node name="Hub_West_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="1" unique_id=1694606142]
 layers = 262145
 
-[node name="Hub_East_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="2" unique_id=818620652]
+[node name="Hub_East_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="2" unique_id=818620652]
 layers = 262145
 
-[node name="Hub_North_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="3" unique_id=1901629405]
+[node name="Hub_North_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="3" unique_id=1901629405]
 layers = 262145
 
-[node name="Hub_South_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="4" unique_id=80954051]
+[node name="Hub_South_Entrance_Header" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="4" unique_id=80954051]
 layers = 262145
 
-[node name="West_Wall_North" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="5" unique_id=2129590779]
+[node name="West_Wall_North" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="5" unique_id=2129590779]
 layers = 262145
 
-[node name="West_Wall_South" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="6" unique_id=846094120]
+[node name="West_Wall_South" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="6" unique_id=846094120]
 layers = 262145
 
-[node name="South_Wall_West" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="7" unique_id=2089236269]
+[node name="South_Wall_West" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="7" unique_id=2089236269]
 layers = 262145
 
-[node name="South_Wall_East" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="8" unique_id=1741145531]
+[node name="South_Wall_East" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="8" unique_id=1741145531]
 layers = 262145
 
-[node name="East_Wall_South" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="9" unique_id=1533936718]
+[node name="East_Wall_South" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="9" unique_id=1533936718]
 layers = 262145
 
-[node name="East_Wall_North" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="10" unique_id=1165890296]
+[node name="East_Wall_North" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="10" unique_id=1165890296]
 layers = 262145
 
-[node name="North_Wall_West" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="11" unique_id=1128176748]
+[node name="North_Wall_West" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="11" unique_id=1128176748]
 layers = 262145
 
-[node name="North_Wall_East" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="12" unique_id=1636747159]
+[node name="North_Wall_East" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="12" unique_id=1636747159]
 layers = 262145
 
-[node name="Hub_North_West_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="13" unique_id=27345338]
+[node name="Hub_North_West_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="13" unique_id=27345338]
 layers = 262145
 
-[node name="Hub_North_East_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="14" unique_id=447345957]
+[node name="Hub_North_East_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="14" unique_id=447345957]
 layers = 262145
 
-[node name="Hub_South_East_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="15" unique_id=1290763656]
+[node name="Hub_South_East_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="15" unique_id=1290763656]
 layers = 262145
 
-[node name="Hub_South_West_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2058203053) index="16" unique_id=1453434918]
+[node name="Hub_South_West_Diagonal_Wall" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Blockout/Shared_Structure/Walls" index="16" unique_id=1453434918]
 layers = 262145
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 678873076, 817142463) index="0" unique_id=1234897938]
-layers = 262145
-surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
-
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner2/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 2097697447, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner/CeilingSquares3/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner3/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 642455516, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner2/CeilingSquares3/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Top_corner4/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1512879314, 1414460990, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner3/CeilingSquares3/Visual" index="0" unique_id=1234897938]
+layers = 262145
+surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
+
+[node name="Mesh0" parent="Floor_0_Base_Blockout/Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner4/CeilingSquares3/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
@@ -837,12 +837,6 @@ transform = Transform3D(-2.0216214e-07, 5.299733e-18, -1, -0.013166388, 1.021797
 
 [node name="ElevatorBackupSolarPanel2" parent="Floor_0_Base_Blockout/West_Entrance/Art" parent_id_path=PackedInt32Array(2036079911, 24531142) index="5" unique_id=199684900]
 transform = Transform3D(-1.9011684e-07, -1.1221413e-15, -1, 0.010703877, 1.0120827, -1.4944204e-09, 1.1668798, -0.009283912, -1.6291382e-07, -39.258385, 0.37677887, 5.280569)
-
-[node name="West_Connector_To_Decon_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="1" unique_id=1642795010]
-layers = 262145
-
-[node name="West_Connector_To_Hub_Sign_Blockout" parent="Floor_0_Base_Blockout/West_Entrance/West_Connector/Fixtures" parent_id_path=PackedInt32Array(2036079911, 2109798769) index="2" unique_id=1923530864]
-layers = 262145
 
 [node name="Technical_Generator_Exhaust_A_Blockout" parent="Floor_0_Base_Blockout/South_Technical/Art/GeneratorRoomArt/Blockout/Generator_Room/Power_Generation" parent_id_path=PackedInt32Array(2036079911, 164939900, 864722428) index="1" unique_id=533548068]
 layers = 262145
@@ -1049,41 +1043,41 @@ layers = 262145
 [node name="Medical_Clinical_Waste_Blockout" parent="Floor_0_Base_Blockout/East_Living/Art/MedicalRoomArt/Blockout/Medical_Room/Safety" parent_id_path=PackedInt32Array(2036079911, 486055313, 2119476294) index="3" unique_id=1205701124]
 layers = 262145
 
-[node name="North_Science_Floor" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="0" unique_id=960449371]
+[node name="North_Science_Floor" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Floors" index="0" unique_id=960449371]
 layers = 262145
 
-[node name="Science_North_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="1" unique_id=172815269]
+[node name="Science_North_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="1" unique_id=172815269]
 layers = 262145
 
-[node name="Science_West_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="2" unique_id=1685869136]
+[node name="Science_West_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="2" unique_id=1685869136]
 layers = 262145
 
-[node name="Science_East_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="3" unique_id=1678130274]
+[node name="Science_East_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="3" unique_id=1678130274]
 layers = 262145
 
-[node name="Science_South_Wall_West_Segment" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="4" unique_id=576547217]
+[node name="Science_South_Wall_West_Segment" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="4" unique_id=576547217]
 layers = 262145
 
-[node name="Science_South_Wall_East_Segment" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="5" unique_id=1880298033]
+[node name="Science_South_Wall_East_Segment" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="5" unique_id=1880298033]
 layers = 262145
 
-[node name="Science_South_Entrance_Header" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="6" unique_id=472491049]
+[node name="Science_South_Entrance_Header" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="6" unique_id=472491049]
 layers = 262145
 
-[node name="North_Science_Ceiling" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="7" unique_id=859413323]
+[node name="North_Science_Ceiling" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Ceilings" index="7" unique_id=859413323]
 layers = 262145
 
-[node name="Research_Isolation_South_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="8" unique_id=1531000802]
+[node name="Research_Isolation_South_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="8" unique_id=1531000802]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -19.230347)
 layers = 262145
 size = Vector3(0.3, 5.5, 2.5)
 
-[node name="Research_Isolation_North_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="9" unique_id=42250115]
+[node name="Research_Isolation_North_Wall" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="9" unique_id=42250115]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -24.758875)
 layers = 262145
 size = Vector3(0.3, 5.5, 2.45)
 
-[node name="Research_Isolation_Door_Header" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1117987767) index="10" unique_id=672176943]
+[node name="Research_Isolation_Door_Header" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Blockout/Shared_Structure/Walls" index="10" unique_id=672176943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, -22.005981)
 layers = 262145
 size = Vector3(0.3, 2.5, 3.0617676)
@@ -1102,67 +1096,67 @@ size = Vector3(2.5, 5.5, 0.3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.25, -18)
 layers = 262145
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1089584292, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1881072077, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 694229342, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares3/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 110983853, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares4/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1191008046, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares5/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 418251327, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares6/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1134666513, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares7/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 48446997, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares8/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1252512262, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares9/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 2078442381, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares10/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 589110786, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares11/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1141759735, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares12/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1511791008, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares13/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1878751790, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares14/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 455803367, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares15/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
-[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Ceilings/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(2036079911, 1430531381, 1413718245, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Floor_0_Base_Blockout/North_Science/Art/NorthScienceShellArt/Visual/Ceilings/CeilingSquares16/Visual" index="0" unique_id=1234897938]
 layers = 262145
 surface_material_override/0 = SubResource("StandardMaterial3D_jr0g1")
 
@@ -1375,8 +1369,6 @@ claim_key = "journal_2"
 [editable path="Floor_0_Base_Blockout/North_Science/Art/BriefingRoomArt"]
 [editable path="Floor_Minus1_Control_Security_Blockout"]
 [editable path="Floor_Minus5_Expedition_Shaft_Blockout"]
-
-
 
 [node name="PatrolRoutes" parent="." instance=ExtResource("patrol_routes")]
 

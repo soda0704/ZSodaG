@@ -237,19 +237,21 @@ material = SubResource("Material_structure")
 [node name="Elevator_Landing_Connector" type="Node3D" parent="Structure" unique_id=486097435]
 editor_description = "One-metre structural sleeve joining Level 1 directly to the elevator portal. The integrated floor continues beneath it to the cabin threshold; no separate landing platform is used."
 
-[node name="North_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=1377608075]
+[node name="Walls" type="Node3D" parent="Structure/Elevator_Landing_Connector"]
+
+[node name="North_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector/Walls" unique_id=1377608075]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.7, -3.25)
 use_collision = true
 size = Vector3(1, 5.4, 0.3)
 material = SubResource("Material_structure")
 
-[node name="South_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=127655340]
+[node name="South_Wall" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector/Walls" unique_id=127655340]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.7, 3.25)
 use_collision = true
 size = Vector3(1, 5.4, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Header" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector" unique_id=326414633]
+[node name="Header" type="CSGBox3D" parent="Structure/Elevator_Landing_Connector/Walls" unique_id=326414633]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 4.7, 0)
 use_collision = true
 size = Vector3(1, 1.4, 6.5)
@@ -258,7 +260,9 @@ material = SubResource("Material_structure")
 [node name="Elevator_Checkpoint" type="Node3D" parent="." unique_id=240114576]
 editor_description = "Compact controlled arrival zone. Players leave the short landing, pass two side clearance kiosks and immediately see the illuminated command display at the far end of the control spine."
 
-[node name="Lobby_North_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=299077891]
+[node name="Walls" type="Node3D" parent="Elevator_Checkpoint"]
+
+[node name="Lobby_North_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=299077891]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.65, 2.7, -5)
 use_collision = true
 size = Vector3(2.7, 5.4, 0.3)
@@ -282,7 +286,7 @@ use_collision = true
 size = Vector3(1.6, 1.1, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Observation_Window_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=2005335358]
+[node name="Observation_Window_Header" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=2005335358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 4.35, -5)
 use_collision = true
 size = Vector3(1.6, 2.1, 0.3)
@@ -294,43 +298,43 @@ use_collision = true
 size = Vector3(1.6, 2.2, 0.08)
 material = SubResource("Material_security_glass")
 
-[node name="Lobby_North_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=407123610]
+[node name="Lobby_North_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=407123610]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.35, -5)
 use_collision = true
 size = Vector3(2.6, 2.1, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Lobby_South_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1812938111]
+[node name="Lobby_South_Wall_West" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=1812938111]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.65, 2.7, 5)
 use_collision = true
 size = Vector3(2.7, 5.4, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Lobby_South_Wall_East" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1903184775]
+[node name="Lobby_South_Wall_East" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=1903184775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35, 2.7, 5)
 use_collision = true
 size = Vector3(2.7, 5.4, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Lobby_South_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1114070996]
+[node name="Lobby_South_Door_Header" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=1114070996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4.35, 5)
 use_collision = true
 size = Vector3(2.6, 2.1, 0.3)
 material = SubResource("Material_structure")
 
-[node name="Lobby_West_Wall_North" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=204354903]
+[node name="Lobby_West_Wall_North" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=204354903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, -3.6)
 use_collision = true
 size = Vector3(0.3, 5.4, 2.8)
 material = SubResource("Material_structure")
 
-[node name="Lobby_West_Wall_South" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=1837976983]
+[node name="Lobby_West_Wall_South" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=1837976983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.7, 3.6)
 use_collision = true
 size = Vector3(0.3, 5.4, 2.8)
 material = SubResource("Material_structure")
 
-[node name="Lobby_West_Header" type="CSGBox3D" parent="Elevator_Checkpoint" unique_id=468348148]
+[node name="Lobby_West_Header" type="CSGBox3D" parent="Elevator_Checkpoint/Walls" unique_id=468348148]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4.35, 0)
 use_collision = true
 size = Vector3(0.3, 2.1, 4.4)
@@ -466,7 +470,9 @@ use_collision = true
 size = Vector3(18, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=636661960]
+[node name="Walls" type="Node3D" parent="Protected_Network_Core"]
+
+[node name="North_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=636661960]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.65, -2.7)
 use_collision = true
 size = Vector3(18, 1.5, 0.3)
@@ -484,7 +490,7 @@ use_collision = true
 size = Vector3(18, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=146998003]
+[node name="South_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=146998003]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.65, 2.7)
 use_collision = true
 size = Vector3(18, 1.5, 0.3)
@@ -502,7 +508,7 @@ use_collision = true
 size = Vector3(4.826, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="East_North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=2132987929]
+[node name="East_North_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=2132987929]
 transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -24, 4.65, -1.35)
 use_collision = true
 size = Vector3(4.826, 1.5, 0.3)
@@ -520,7 +526,7 @@ use_collision = true
 size = Vector3(4.826, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="East_South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=394031153]
+[node name="East_South_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=394031153]
 transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -24, 4.65, 1.35)
 use_collision = true
 size = Vector3(4.826, 1.5, 0.3)
@@ -538,7 +544,7 @@ use_collision = true
 size = Vector3(4.826, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="West_North_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=971463344]
+[node name="West_North_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=971463344]
 transform = Transform3D(0.828, 0, 0.559, 0, 1, 0, -0.559, 0, 0.828, -46, 4.65, -1.35)
 use_collision = true
 size = Vector3(4.826, 1.5, 0.3)
@@ -556,7 +562,7 @@ use_collision = true
 size = Vector3(4.826, 2.8, 0.12)
 material = SubResource("Material_security_glass")
 
-[node name="West_South_Header" type="CSGBox3D" parent="Protected_Network_Core" unique_id=1714107610]
+[node name="West_South_Header" type="CSGBox3D" parent="Protected_Network_Core/Walls" unique_id=1714107610]
 transform = Transform3D(0.828, 0, -0.559, 0, 1, 0, 0.559, 0, 0.828, -46, 4.65, 1.35)
 use_collision = true
 size = Vector3(4.826, 1.5, 0.3)
@@ -1331,25 +1337,27 @@ material = SubResource("Material_screen")
 [node name="Command_Center" type="Node3D" parent="." unique_id=1685767426]
 editor_description = "Faceted primary focal room of Level 1. The protected core hides the room from the elevator; the west status wall is revealed only after the north and south branches rejoin."
 
-[node name="Entrance_North_Wall" type="CSGBox3D" parent="Command_Center" unique_id=2125453854]
+[node name="Walls" type="Node3D" parent="Command_Center"]
+
+[node name="Entrance_North_Wall" type="CSGBox3D" parent="Command_Center/Walls" unique_id=2125453854]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, -4.1)
 use_collision = true
 size = Vector3(0.3, 5.4, 3.8)
 material = SubResource("Material_structure")
 
-[node name="Entrance_South_Wall" type="CSGBox3D" parent="Command_Center" unique_id=1868241444]
+[node name="Entrance_South_Wall" type="CSGBox3D" parent="Command_Center/Walls" unique_id=1868241444]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 2.7, 4.1)
 use_collision = true
 size = Vector3(0.3, 5.4, 3.8)
 material = SubResource("Material_structure")
 
-[node name="Entrance_Header" type="CSGBox3D" parent="Command_Center" unique_id=396313795]
+[node name="Entrance_Header" type="CSGBox3D" parent="Command_Center/Walls" unique_id=396313795]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 4.35, 0)
 use_collision = true
 size = Vector3(0.3, 2.1, 4.4)
 material = SubResource("Material_structure")
 
-[node name="Primary_Status_Wall" type="CSGBox3D" parent="Command_Center" unique_id=1208177720]
+[node name="Primary_Status_Wall" type="CSGBox3D" parent="Command_Center/Walls" unique_id=1208177720]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.79, 2.7, 0)
 size = Vector3(0.12, 2.6, 7.6)
 material = SubResource("Material_operations")
@@ -1512,42 +1520,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0.028, 0)
 size = Vector3(0.22, 0.035, 4.4)
 material = SubResource("Material_warning")
 
-[node name="Lobby_Ceiling_Spine" type="CSGBox3D" parent="Visual_Identity" unique_id=1873810623]
+[node name="Ceilings" type="Node3D" parent="Visual_Identity"]
+
+[node name="Lobby_Ceiling_Spine" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1873810623]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5.34, 0)
 size = Vector3(7, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="North_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1390293486]
+[node name="North_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1390293486]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.34, -4.4)
 size = Vector3(22, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="North_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1030332084]
+[node name="North_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1030332084]
 transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -20, 5.34, -2.2)
 size = Vector3(9.13, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="North_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1048237417]
+[node name="North_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1048237417]
 transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -50, 5.34, -2.2)
 size = Vector3(9.13, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="South_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=2050566490]
+[node name="South_Branch_Mid_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=2050566490]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.34, 4.4)
 size = Vector3(22, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="South_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1330503729]
+[node name="South_Branch_East_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1330503729]
 transform = Transform3D(0.876, 0, 0.482, 0, 1, 0, -0.482, 0, 0.876, -20, 5.34, 2.2)
 size = Vector3(9.13, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="South_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity" unique_id=1999123730]
+[node name="South_Branch_West_Ceiling" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1999123730]
 transform = Transform3D(0.876, 0, -0.482, 0, 1, 0, 0.482, 0, 0.876, -50, 5.34, 2.2)
 size = Vector3(9.13, 0.12, 0.34)
 material = SubResource("Material_screen")
 
-[node name="Command_Ceiling_Focus" type="CSGBox3D" parent="Visual_Identity" unique_id=1185707004]
+[node name="Command_Ceiling_Focus" type="CSGBox3D" parent="Visual_Identity/Ceilings" unique_id=1185707004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.5, 5.26, 0)
 size = Vector3(9, 0.08, 4.5)
 material = SubResource("Material_screen")

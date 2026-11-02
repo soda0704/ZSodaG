@@ -52,10 +52,13 @@ func run() -> void:
 			var target:=lerpf(.15,1.0,pow(level,.7))
 			intensity=lerpf(intensity,target,1.0-exp(-.02/(.025 if target>intensity else .12)))
 			if cycle==1:
-				animation.track_insert_key(track,float(index*window)/rate,intensity)
-				minimum=minf(minimum,intensity);maximum=maxf(maximum,intensity)
+				# Reject the recording's quiet bed: real blackouts between alarm bursts.
+				var pulse := smoothstep(.4,.9,intensity)
+				animation.track_insert_key(track,float(index*window)/rate,pulse)
+				minimum=minf(minimum,pulse);maximum=maxf(maximum,pulse)
 	ResourceSaver.save(animation,OUTPUT+"emergency_alarm_pulse.tres")
 	var report:={"source_sha256":FileAccess.get_sha256(source),"channels":1,"rate":rate,"frames":samples.size(),"seconds":animation.length,"peak":peak,"rms":sqrt(power/samples.size()),"mean_original_lr_difference":stereo_difference/samples.size(),"envelope_rms_low":low,"envelope_rms_high":high,"intensity_min":minimum,"intensity_max":maximum,"keys":animation.track_get_key_count(track)}
+	report["light_envelope_remap"]={"input_off":.4,"input_full":.9,"function":"smoothstep"}
 	var file:=FileAccess.open(OUTPUT+"authoring_report.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("EMERGENCY ALARM AUTHORED ",JSON.stringify(report))

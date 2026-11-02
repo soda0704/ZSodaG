@@ -14,6 +14,7 @@ const EMERGENCY_MIN_INTENSITY := 0.15
 signal emergency_intensity_changed(intensity: float)
 @export var outdoor_ambient := 0.12
 @export var indoor_ambient := 0.025
+@export var emergency_indoor_ambient := 0.0
 @export_group("Exterior below the base")
 @export var lower_exterior_bounds: CollisionShape3D
 @export_group("Debug visibility")
@@ -44,9 +45,11 @@ var quality_shadow_distance := 96.0
 var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
 var _editor_visibility:Dictionary={}
+var _power: BasePowerLightingController
 
 func _ready() -> void:
 	if Engine.is_editor_hint():return
+	_power = get_parent().get_node_or_null("BasePowerLightingController") as BasePowerLightingController
 	add_to_group("world_lighting")
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
@@ -208,7 +211,7 @@ func _process(delta: float) -> void:
 	var at := camera.get_global_transform_interpolated().origin
 	var environment_changed := false
 	_indoor_mix = move_toward(_indoor_mix, 1.0 if is_covered(at, _exclude_body(camera)) else 0.0, delta * 4.0)
-	var ambient := lerpf(outdoor_ambient, indoor_ambient, _indoor_mix)
+	var ambient := lerpf(outdoor_ambient, _indoor_ambient_energy(), _indoor_mix)
 	if debug_visibility_profile != null:
 		ambient = lerpf(debug_visibility_profile.ambient_light_energy, ambient, debug_darkness)
 		var color := debug_visibility_profile.ambient_light_color.lerp(source_environment().ambient_light_color, debug_darkness)
@@ -247,6 +250,10 @@ func _process(delta: float) -> void:
 
 func source_environment() -> Environment:
 	return get_parent().get_node("SnowExterior/OvercastDayEnvironment").environment
+
+func _indoor_ambient_energy() -> float:
+	# A power outage must leave the alarm bursts and player lights meaningful.
+	return emergency_indoor_ambient if is_instance_valid(_power) and not _power.is_standard_powered else indoor_ambient
 
 func set_debug_darkness(value: float) -> void:
 	debug_darkness = clampf(value, 0.0, 1.0)
@@ -355,7 +362,8 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 
 func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
-	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, 0.12, _indoor_mix)
+	var indoor_fill := .12 * clampf(_indoor_ambient_energy() / maxf(indoor_ambient, .0001), 0.0, 1.0)
+	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, indoor_fill, _indoor_mix)
 	var exclude := _exclude_body(camera)
 	var sources: Array[Light3D] = _resident_lamps.duplicate()
 	for mobile in get_tree().get_nodes_in_group("mobile_interior_lights"):

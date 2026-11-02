@@ -55,31 +55,37 @@ editor_description = "Compact controlled arrival. The elevator opens directly in
 
 [node name="Structure" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival" unique_id=1141929092]
 
-[node name="Arrival_Floor" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=99444617]
+[node name="Floors" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure"]
+
+[node name="Arrival_Floor" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure/Floors" unique_id=99444617]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, -0.15, 0)
 use_collision = true
 size = Vector3(6.5, 0.3, 7)
 material = SubResource("Material_floor")
 
-[node name="Arrival_Ceiling" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=376185793]
+[node name="Ceilings" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure"]
+
+[node name="Arrival_Ceiling" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure/Ceilings" unique_id=376185793]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 4.6, 0)
 use_collision = true
 size = Vector3(6.5, 0.3, 7)
 material = SubResource("Material_concrete")
 
-[node name="North_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=1132077753]
+[node name="Walls" type="Node3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure"]
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure/Walls" unique_id=1132077753]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 2.3, -3.5)
 use_collision = true
 size = Vector3(6.5, 4.6, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="South_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=1592722256]
+[node name="South_Wall" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure/Walls" unique_id=1592722256]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.25, 2.3, 3.5)
 use_collision = true
 size = Vector3(6.5, 4.6, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="Elevator_Interface_Header" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure" unique_id=2137321319]
+[node name="Elevator_Interface_Header" type="CSGBox3D" parent="Stage_01_Elevator_Expedition_Arrival/Structure/Walls" unique_id=2137321319]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 4.05, -0.022583008)
 use_collision = true
 size = Vector3(0.3, 1.1, 7.1882324)
@@ -136,61 +142,67 @@ editor_description = "Shared expedition checkpoint with separate outbound equipm
 
 [node name="Structure" type="Node3D" parent="Stage_02_Expedition_Checkpoint" unique_id=90000801]
 
-[node name="Checkpoint_Floor" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=759448469]
+[node name="Floors" type="Node3D" parent="Stage_02_Expedition_Checkpoint/Structure"]
+
+[node name="Checkpoint_Floor" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Floors" unique_id=759448469]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, -0.15, 0)
 use_collision = true
 size = Vector3(7, 0.3, 8)
 material = SubResource("Material_floor")
 
-[node name="Checkpoint_Ceiling" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=251512214]
+[node name="Ceilings" type="Node3D" parent="Stage_02_Expedition_Checkpoint/Structure"]
+
+[node name="Checkpoint_Ceiling" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Ceilings" unique_id=251512214]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 4.6, 0)
 use_collision = true
 size = Vector3(7, 0.3, 8)
 material = SubResource("Material_concrete")
 
-[node name="North_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1423132491]
+[node name="Walls" type="Node3D" parent="Stage_02_Expedition_Checkpoint/Structure"]
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=1423132491]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2.3, -4)
 use_collision = true
 size = Vector3(7, 4.6, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="South_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1807232950]
+[node name="South_Wall" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=1807232950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2.3, 4)
 use_collision = true
 size = Vector3(7, 4.6, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=415851525]
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=415851525]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.3, -2.6)
 use_collision = true
 size = Vector3(0.3, 4.6, 2.8)
 material = SubResource("Material_concrete")
 
-[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1682681990]
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=1682681990]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.3, 2.6)
 use_collision = true
 size = Vector3(0.3, 4.6, 2.8)
 material = SubResource("Material_concrete")
 
-[node name="East_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1816257021]
+[node name="East_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=1816257021]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 4.05, 0)
 use_collision = true
 size = Vector3(0.3, 1.1, 2.4)
 material = SubResource("Material_steel")
 
-[node name="West_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=2086428484]
+[node name="West_Wall_North_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=2086428484]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 2.3, -3.75)
 use_collision = true
 size = Vector3(0.3, 4.6, 0.5)
 material = SubResource("Material_concrete")
 
-[node name="West_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=1527425673]
+[node name="West_Wall_South_Segment" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=1527425673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 2.3, 2.5)
 use_collision = true
 size = Vector3(0.3, 4.6, 3)
 material = SubResource("Material_concrete")
 
-[node name="Cargo_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure" unique_id=22630667]
+[node name="Cargo_Opening_Header" type="CSGBox3D" parent="Stage_02_Expedition_Checkpoint/Structure/Walls" unique_id=22630667]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 4.05, -1.25)
 use_collision = true
 size = Vector3(0.3, 1.1, 4.5)
@@ -274,25 +286,31 @@ editor_description = "Mixed expedition route sized for a compact battery-electri
 
 [node name="Structure" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach" unique_id=1887657140]
 
-[node name="Cargo_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=727624982]
+[node name="Floors" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach/Structure"]
+
+[node name="Cargo_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure/Floors" unique_id=727624982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -0.15, -1.5)
 use_collision = true
 size = Vector3(9, 0.3, 5)
 material = SubResource("Material_floor")
 
-[node name="Cargo_Ceiling" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=2126878829]
+[node name="Ceilings" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach/Structure"]
+
+[node name="Cargo_Ceiling" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure/Ceilings" unique_id=2126878829]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4.8, -1.5)
 use_collision = true
 size = Vector3(9, 0.3, 5)
 material = SubResource("Material_concrete")
 
-[node name="North_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=70940926]
+[node name="Walls" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach/Structure"]
+
+[node name="North_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure/Walls" unique_id=70940926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.4, -4)
 use_collision = true
 size = Vector3(9, 4.8, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="South_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure" unique_id=1791114367]
+[node name="South_Wall" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Structure/Walls" unique_id=1791114367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 2.4, 1)
 use_collision = true
 size = Vector3(9, 4.8, 0.3)
@@ -311,7 +329,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.025, -1.2)
 size = Vector3(8.5, 0.05, 0.14)
 material = SubResource("Material_hazard")
 
-[node name="Protected_Walkway_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes" unique_id=1474469377]
+[node name="Floors" type="Node3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes"]
+
+[node name="Protected_Walkway_Floor" type="CSGBox3D" parent="Stage_03_Cargo_Transfer_Approach/Cargo_And_Pedestrian_Lanes/Floors" unique_id=1474469377]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.02, 0.027880825)
 size = Vector3(9, 0.04, 1.5442383)
 material = SubResource("Material_concrete")
@@ -412,61 +432,67 @@ editor_description = "Intermediate cargo-dispatch hall. A battery-electric tug e
 
 [node name="Structure" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control" unique_id=2079462774]
 
-[node name="Dispatch_Floor" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=471088226]
+[node name="Floors" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure"]
+
+[node name="Dispatch_Floor" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Floors" unique_id=471088226]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, -0.15, -2)
 use_collision = true
 size = Vector3(11.5, 0.3, 10)
 material = SubResource("Material_floor")
 
-[node name="Dispatch_Ceiling" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=464380563]
+[node name="Ceilings" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure"]
+
+[node name="Dispatch_Ceiling" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Ceilings" unique_id=464380563]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 6.2, -2)
 use_collision = true
 size = Vector3(11.5, 0.3, 10)
 material = SubResource("Material_concrete")
 
-[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=675858077]
+[node name="Walls" type="Node3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure"]
+
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=675858077]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 3.1, -5.5)
 use_collision = true
 size = Vector3(0.3, 6.2, 3)
 material = SubResource("Material_concrete")
 
-[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=881835205]
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=881835205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 3.1, 2)
 use_collision = true
 size = Vector3(0.3, 6.2, 2)
 material = SubResource("Material_concrete")
 
-[node name="Cargo_Approach_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=759304848]
+[node name="Cargo_Approach_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=759304848]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 5.5, -1.5)
 use_collision = true
 size = Vector3(0.3, 1.4, 5)
 material = SubResource("Material_steel")
 
-[node name="South_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1829192559]
+[node name="South_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=1829192559]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.25, 3.1, 3)
 use_collision = true
 size = Vector3(11.5, 6.2, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="West_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1028015250]
+[node name="West_Wall" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=1028015250]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 3.1, -2)
 use_collision = true
 size = Vector3(0.3, 6.2, 10)
 material = SubResource("Material_concrete")
 
-[node name="North_Wall_West_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=813410676]
+[node name="North_Wall_West_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=813410676]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 3.1, -7)
 use_collision = true
 size = Vector3(2, 6.2, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="North_Wall_East_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=1388560430]
+[node name="North_Wall_East_Segment" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=1388560430]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.75, 3.1, -7)
 use_collision = true
 size = Vector3(6.5, 6.2, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="Winch_Route_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure" unique_id=154226690]
+[node name="Winch_Route_Header" type="CSGBox3D" parent="Stage_04_Cargo_Dispatch_And_Expedition_Control/Structure/Walls" unique_id=154226690]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 5.2, -7)
 use_collision = true
 size = Vector3(3, 2, 0.3)
@@ -615,25 +641,31 @@ editor_description = "Primary Level 5 shaft station. The cage and head sheave oc
 
 [node name="Rock_Lined_Connector" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1296355643]
 
-[node name="Connector_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=1364927748]
+[node name="Floors" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector"]
+
+[node name="Connector_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Floors" unique_id=1364927748]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -9.5)
 use_collision = true
 size = Vector3(3, 0.3, 5)
 material = SubResource("Material_floor")
 
-[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=1602681314]
+[node name="Ceilings" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector"]
+
+[node name="Connector_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Ceilings" unique_id=1602681314]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 4.8, -9.5)
 use_collision = true
 size = Vector3(3, 0.3, 5)
 material = SubResource("Material_rock")
 
-[node name="Connector_West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=198110085]
+[node name="Walls" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector"]
+
+[node name="Connector_West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Walls" unique_id=198110085]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 2.4, -9.5)
 use_collision = true
 size = Vector3(0.3, 4.8, 5)
 material = SubResource("Material_rock")
 
-[node name="Connector_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector" unique_id=759008291]
+[node name="Connector_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Rock_Lined_Connector/Walls" unique_id=759008291]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 2.4, -9.5)
 use_collision = true
 size = Vector3(0.3, 4.8, 5)
@@ -678,79 +710,85 @@ material = SubResource("Material_steel")
 
 [node name="Hall_Structure" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=520766238]
 
-[node name="South_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=760841242]
+[node name="Floors" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure"]
+
+[node name="South_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Floors" unique_id=760841242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -15)
 use_collision = true
 size = Vector3(17, 0.3, 6)
 material = SubResource("Material_floor")
 
-[node name="North_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=619975082]
+[node name="North_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Floors" unique_id=619975082]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -0.15, -26)
 use_collision = true
 size = Vector3(17, 0.3, 4)
 material = SubResource("Material_floor")
 
-[node name="West_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1957516147]
+[node name="West_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Floors" unique_id=1957516147]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.25, -0.15, -21)
 use_collision = true
 size = Vector3(5.5, 0.3, 6)
 material = SubResource("Material_floor")
 
-[node name="East_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1009947897]
+[node name="East_Floor_Slab" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Floors" unique_id=1009947897]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.75, -0.15, -21)
 use_collision = true
 size = Vector3(5.5, 0.3, 6)
 material = SubResource("Material_floor")
 
-[node name="Hall_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1637295536]
+[node name="Ceilings" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure"]
+
+[node name="Hall_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Ceilings" unique_id=1637295536]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 9.5, -20)
 use_collision = true
 size = Vector3(17, 0.4, 16)
 material = SubResource("Material_rock")
 
-[node name="South_Wall_West_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=175863055]
+[node name="Walls" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure"]
+
+[node name="South_Wall_West_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=175863055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 4.75, -12)
 use_collision = true
 size = Vector3(7, 9.5, 0.3)
 material = SubResource("Material_rock")
 
-[node name="South_Wall_East_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1355149000]
+[node name="South_Wall_East_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=1355149000]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.5, 4.75, -12)
 use_collision = true
 size = Vector3(7, 9.5, 0.3)
 material = SubResource("Material_rock")
 
-[node name="Connector_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1931354314]
+[node name="Connector_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=1931354314]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, 7.15, -12)
 use_collision = true
 size = Vector3(3, 4.7, 0.3)
 material = SubResource("Material_steel")
 
-[node name="North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1747107193]
+[node name="North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=1747107193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.40496, 4.75, -28)
 use_collision = true
 size = Vector3(17, 9.5, 0.3)
 material = SubResource("Material_rock")
 
-[node name="West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1667895722]
+[node name="West_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=1667895722]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56, 4.75, -20)
 use_collision = true
 size = Vector3(0.3, 9.5, 16)
 material = SubResource("Material_rock")
 
-[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=1920580594]
+[node name="East_Wall_South_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=1920580594]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 4.75, -15)
 use_collision = true
 size = Vector3(0.3, 9.5, 6)
 material = SubResource("Material_rock")
 
-[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=414045956]
+[node name="East_Wall_North_Segment" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=414045956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 4.75, -26)
 use_collision = true
 size = Vector3(0.3, 9.5, 4)
 material = SubResource("Material_rock")
 
-[node name="Machine_Room_Opening_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure" unique_id=826215226]
+[node name="Machine_Room_Opening_Header" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hall_Structure/Walls" unique_id=826215226]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 7.5683103, -21)
 use_collision = true
 size = Vector3(0.3, 3.863379, 6)
@@ -759,31 +797,37 @@ material = SubResource("Material_steel")
 [node name="Hoist_Machine_Room" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall" unique_id=1097119036]
 editor_description = "Separate fire-resistant room for the floor-mounted winding drum, electric drive, service brake and redundant emergency brake."
 
-[node name="Machine_Room_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=136644504]
+[node name="Floors" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room"]
+
+[node name="Machine_Room_Floor" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Floors" unique_id=136644504]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, -0.15, -21)
 use_collision = true
 size = Vector3(12, 0.3, 10)
 material = SubResource("Material_floor")
 
-[node name="Machine_Room_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1801546389]
+[node name="Ceilings" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room"]
+
+[node name="Machine_Room_Ceiling" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Ceilings" unique_id=1801546389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.07251, 5.621073, -21)
 use_collision = true
 size = Vector3(12.14502, 0.3, 10)
 material = SubResource("Material_concrete")
 
-[node name="Machine_Room_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1771566902]
+[node name="Walls" type="Node3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room"]
+
+[node name="Machine_Room_East_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Walls" unique_id=1771566902]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3.1, -21)
 use_collision = true
 size = Vector3(0.3, 6.2, 10)
 material = SubResource("Material_concrete")
 
-[node name="Machine_Room_North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1860649677]
+[node name="Machine_Room_North_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Walls" unique_id=1860649677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 3.1, -26)
 use_collision = true
 size = Vector3(12, 6.2, 0.3)
 material = SubResource("Material_concrete")
 
-[node name="Machine_Room_South_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room" unique_id=1178870726]
+[node name="Machine_Room_South_Wall" type="CSGBox3D" parent="Stage_05_Primary_Winch_And_Shaft_Hall/Hoist_Machine_Room/Walls" unique_id=1178870726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 3.1, -16)
 use_collision = true
 size = Vector3(12, 6.2, 0.3)
@@ -1339,25 +1383,27 @@ editor_description = "Only the engineered upper collar remains here. Natural roc
 [node name="Upper_Landing_Collar" type="Node3D" parent="Winch_Shaft_Blockout" unique_id=1996546146]
 editor_description = "Short engineered collar around the first 3 m of the shaft. This is the last clearly human-built structure visible during the descent."
 
-[node name="North_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=549592649]
+[node name="Walls" type="Node3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar"]
+
+[node name="North_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar/Walls" unique_id=549592649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -1.6661004, -24.214684)
 use_collision = true
 size = Vector3(6.7, 3, 0.35)
 material = SubResource("Material_concrete")
 
-[node name="South_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=1472681703]
+[node name="South_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar/Walls" unique_id=1472681703]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5, -1.6661004, -17.802692)
 use_collision = true
 size = Vector3(6.7, 3, 0.35)
 material = SubResource("Material_concrete")
 
-[node name="West_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=302249305]
+[node name="West_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar/Walls" unique_id=302249305]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.762104, -1.6661004, -21)
 use_collision = true
 size = Vector3(0.35, 3, 6)
 material = SubResource("Material_concrete")
 
-[node name="East_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar" unique_id=635715229]
+[node name="East_Collar_Wall" type="CSGBox3D" parent="Winch_Shaft_Blockout/Upper_Landing_Collar/Walls" unique_id=635715229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.226856, -1.6661004, -21)
 use_collision = true
 size = Vector3(0.35, 3, 6)
@@ -1390,8 +1436,8 @@ metadata/unpowered_open = true
 position = Vector3(-47.5, 2.1, -17)
 collision_layer = 0
 collision_mask = 2
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InvestigationZone"]
 shape = SubResource("ShaftInvestigationShape")
-
 
 [node name="WinchPreparation" parent="Stage_05_Primary_Winch_And_Shaft_Hall" instance=ExtResource("winch_preparation")]

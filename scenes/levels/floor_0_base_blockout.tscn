@@ -30,7 +30,6 @@
 [ext_resource type="PackedScene" path="res://scenes/art/base/living/medical_room_art.tscn" id="28_medical_room_art"]
 [ext_resource type="PackedScene" uid="uid://b0a22emw3fmda" path="res://scenes/art/base/center/center_hub_shell_art.tscn" id="29_center_hub_shell_art"]
 [ext_resource type="PackedScene" uid="uid://bryvl180tngg1" path="res://scenes/art/base/center/center_hub_art.tscn" id="30_center_hub_art"]
-[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/columns/column_metal_support.tscn" id="31_ips7n"]
 [ext_resource type="PackedScene" uid="uid://ch5em6a8lc1vj" path="res://scenes/art/base/west/west_entrance_shell_art.tscn" id="31_west_entrance_shell_art"]
 [ext_resource type="PackedScene" uid="uid://dcjasmmegftoi" path="res://scenes/art/base/west/garage_art.tscn" id="32_garage_art"]
 [ext_resource type="PackedScene" uid="uid://ew2abe5f348n" path="res://scenes/art/base/west/equipment_room_art.tscn" id="33_equipment_room_art"]
@@ -62,6 +61,23 @@
 [sub_resource type="BoxShape3D" id="Shape_acoustic_pedestrian"]
 size = Vector3(1.5, 3.5, 1.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qoiy7"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ips7n"]
 resource_local_to_scene = true
 resource_name = "MI_Trim_02_Floor_Clear"
@@ -79,63 +95,191 @@ ao_texture = ExtResource("27_crxxs")
 texture_filter = 5
 metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sdb8v"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hc112"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmbbg"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obq8r"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4hsnf"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dgc83"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3rgo"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ualow"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wb77v"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ylh5p"]
+resource_local_to_scene = true
+resource_name = "MI_Trim_02_Floor_Clear"
+cull_mode = 2
+albedo_texture = ExtResource("26_bij03")
+metallic = 1.0
+metallic_texture = ExtResource("27_crxxs")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("27_crxxs")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("28_8phyr")
+ao_enabled = true
+ao_texture = ExtResource("27_crxxs")
+texture_filter = 5
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="BoxShape3D" id="Shape_generator_discovery"]
-size = Vector3(15.6, 4.8, 9.6)
+size = Vector3(15.6, 4.8, 7.8877687)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_j7vrh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ytj7u"]
 viewport_path = NodePath("ErrorViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_2qwmn"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5uq2r"]
 viewport_path = NodePath("ScreenViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4cod"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sly1"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("47_pyx6f")
-shader_parameter/screen_texture = SubResource("ViewportTexture_2qwmn")
-shader_parameter/error_texture = SubResource("ViewportTexture_j7vrh")
+shader_parameter/screen_texture = SubResource("ViewportTexture_5uq2r")
+shader_parameter/error_texture = SubResource("ViewportTexture_ytj7u")
 shader_parameter/albedo_texture = ExtResource("48_xl840")
 shader_parameter/emissive_texture = ExtResource("49_0j0ey")
 shader_parameter/metallic_roughness_texture = ExtResource("50_j45sq")
@@ -163,7 +307,8 @@ editor_description = "Отдельная сцена нулевого уровн�
 script = ExtResource("23_auto_doors")
 
 [node name="West_Hub_Decon_Door_Visual_Prototype" parent="Doors" unique_id=971400324 instance=ExtResource("13_west_hub_decon_door_visual")]
-transform = Transform3D(-6.119594e-08, 0, -1, 0, 1, 0, 1.4, 0, -4.371139e-08, -10, 0, 0)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -10, 0, 0)
+visible = false
 
 [node name="West_Decon_Equipment_Door_Visual_Prototype" parent="Doors" unique_id=415856069 instance=ExtResource("14_west_decon_equipment_door_visual")]
 editor_description = "Decon to Equipment airlock. Closed without main power; follows ordinary powered automation until first crowbar use, then permanently manual. Excluded from the initially open generator route."
@@ -174,7 +319,7 @@ metadata/unpowered_open = false
 transform = Transform3D(-3.9558806e-08, 0, -1, 0, 0.905, 0, 0.905, 0, -4.371139e-08, -26.003, 0, 4.5)
 
 [node name="West_Garage_Cold_Warm_Door_Visual_Prototype" parent="Doors" unique_id=106393883 instance=ExtResource("16_west_cold_warm_door_visual")]
-transform = Transform3D(0.8133333, 0, 0, 0, 0.8, 0, 0, 0, 1, -32, 0, 1.753)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, 1.753)
 
 [node name="West_Pedestrian_Inner_Door_Visual_Prototype" parent="Doors" unique_id=474262819 instance=ExtResource("17_west_pedestrian_inner_door_visual")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -35.05, 0, 5)
@@ -262,41 +407,41 @@ editor_description = "Визуальные сцены центрального �
 
 [node name="CenterHubShellArt" parent="Center_Hub/Art" unique_id=1512879314 instance=ExtResource("29_center_hub_shell_art")]
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1512879314, 1089584292, 817142463) index="0" unique_id=1234897938]
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_qoiy7")
+
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares2/Visual" index="0" unique_id=1234897938]
 surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1512879314, 434206091, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_sdb8v")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1512879314, 508908948, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares2/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_hc112")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1512879314, 1038234979, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_dmbbg")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1512879314, 1560864668, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares2/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_obq8r")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1512879314, 741659768, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_4hsnf")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1512879314, 1168654016, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares2/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_dgc83")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1512879314, 1282445590, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner/CeilingSquares3/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_g3rgo")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Top_corner/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1512879314, 678873076, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner2/CeilingSquares3/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_ualow")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Top_corner2/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1512879314, 2097697447, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner3/CeilingSquares3/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_wb77v")
 
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Top_corner3/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1512879314, 642455516, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Top_corner4/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1512879314, 1414460990, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
+[node name="Mesh0" parent="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner4/CeilingSquares3/Visual" index="0" unique_id=1234897938]
+surface_material_override/0 = SubResource("StandardMaterial3D_ylh5p")
 
 [node name="CenterHubArt" parent="Center_Hub/Art" unique_id=1885625984 instance=ExtResource("30_center_hub_art")]
 
@@ -319,105 +464,6 @@ editor_description = "Визуальные сцены западной вход�
 
 [node name="WestEntranceShellArt" parent="West_Entrance/Art" unique_id=1803274328 instance=ExtResource("31_west_entrance_shell_art")]
 
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares/Visual" parent_id_path=PackedInt32Array(1803274328, 1089584292, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares4/Visual" parent_id_path=PackedInt32Array(1803274328, 240002631, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares2/Visual" parent_id_path=PackedInt32Array(1803274328, 48742943, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares3/Visual" parent_id_path=PackedInt32Array(1803274328, 8677497, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares5/Visual" parent_id_path=PackedInt32Array(1803274328, 1499318382, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares6/Visual" parent_id_path=PackedInt32Array(1803274328, 1134113973, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares7/Visual" parent_id_path=PackedInt32Array(1803274328, 321132590, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares8/Visual" parent_id_path=PackedInt32Array(1803274328, 2019851072, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares9/Visual" parent_id_path=PackedInt32Array(1803274328, 1326073279, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares10/Visual" parent_id_path=PackedInt32Array(1803274328, 896145693, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares11/Visual" parent_id_path=PackedInt32Array(1803274328, 506650365, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares12/Visual" parent_id_path=PackedInt32Array(1803274328, 516902419, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares13/Visual" parent_id_path=PackedInt32Array(1803274328, 1862875959, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares14/Visual" parent_id_path=PackedInt32Array(1803274328, 916679245, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares15/Visual" parent_id_path=PackedInt32Array(1803274328, 1271363197, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares16/Visual" parent_id_path=PackedInt32Array(1803274328, 984042596, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares18/Visual" parent_id_path=PackedInt32Array(1803274328, 923611911, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares19/Visual" parent_id_path=PackedInt32Array(1803274328, 310998836, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares20/Visual" parent_id_path=PackedInt32Array(1803274328, 1322684562, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares22/Visual" parent_id_path=PackedInt32Array(1803274328, 180206629, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares23/Visual" parent_id_path=PackedInt32Array(1803274328, 1405791658, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares24/Visual" parent_id_path=PackedInt32Array(1803274328, 1581470748, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares29/Visual" parent_id_path=PackedInt32Array(1803274328, 885151821, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares30/Visual" parent_id_path=PackedInt32Array(1803274328, 567258608, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares31/Visual" parent_id_path=PackedInt32Array(1803274328, 1485321902, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares32/Visual" parent_id_path=PackedInt32Array(1803274328, 272313792, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares33/Visual" parent_id_path=PackedInt32Array(1803274328, 1091926245, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares34/Visual" parent_id_path=PackedInt32Array(1803274328, 1800978726, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares26/Visual" parent_id_path=PackedInt32Array(1803274328, 1898526030, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares27/Visual" parent_id_path=PackedInt32Array(1803274328, 147301172, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="Mesh0" parent="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares28/Visual" parent_id_path=PackedInt32Array(1803274328, 837476057, 817142463) index="0" unique_id=1234897938]
-surface_material_override/0 = SubResource("StandardMaterial3D_ips7n")
-
-[node name="ColumnMetalSupport" parent="West_Entrance/Art/WestEntranceShellArt/Wall5" parent_id_path=PackedInt32Array(1803274328, 1911547385) index="0" unique_id=1556911759]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 0.4, -0.2, 2.88, 5)
-
-[node name="ColumnMetalSupport2" parent="West_Entrance/Art/WestEntranceShellArt/Wall5" parent_id_path=PackedInt32Array(1803274328, 1911547385) index="1" unique_id=1495537166 instance=ExtResource("31_ips7n")]
-transform = Transform3D(-3.9558806e-08, -1, 0, 0.905, -4.371139e-08, 0, 0, 0, 0.4, 0.21, 2.88, 5)
-
 [node name="ElevatorBackupSolarPanel" parent="West_Entrance/Art" unique_id=1302269298 instance=ExtResource("backup_solar")]
 transform = Transform3D(-1.6292068e-07, 0, -1, 0.079828344, 0.99680865, -1.3005687e-08, 0.99680865, -0.079828344, -1.6240074e-07, -39.527596, 0.4175081, 6.959621)
 
@@ -434,27 +480,25 @@ transform = Transform3D(-1.6292068e-07, -8.869097e-16, -1, 0.03661924, 0.9993293
 
 [node name="Structure" type="Node3D" parent="West_Entrance/West_Connector" unique_id=1716901486]
 
-[node name="PlatformX" parent="West_Entrance/West_Connector/Structure" unique_id=170018911 instance=ExtResource("38_crxxs")]
+[node name="Floors" type="Node3D" parent="West_Entrance/West_Connector/Structure"]
+
+[node name="PlatformX" parent="West_Entrance/West_Connector/Structure/Floors" unique_id=170018911 instance=ExtResource("38_crxxs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="PlatformXHalf" parent="West_Entrance/West_Connector/Structure" unique_id=359547380 instance=ExtResource("36_8phyr")]
+[node name="Walls" type="Node3D" parent="West_Entrance/West_Connector/Structure"]
+
+[node name="PlatformXHalf" parent="West_Entrance/West_Connector/Structure/Walls" unique_id=359547380 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -8, 2, -2)
 
-[node name="PlatformXHalf3" parent="West_Entrance/West_Connector/Structure" unique_id=101624293 instance=ExtResource("36_8phyr")]
+[node name="Ceilings" type="Node3D" parent="West_Entrance/West_Connector/Structure"]
+
+[node name="PlatformXHalf3" parent="West_Entrance/West_Connector/Structure/Ceilings" unique_id=101624293 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -8, 4, 0)
 
-[node name="PlatformXHalf2" parent="West_Entrance/West_Connector/Structure" unique_id=1955161818 instance=ExtResource("36_8phyr")]
+[node name="PlatformXHalf2" parent="West_Entrance/West_Connector/Structure/Walls" unique_id=1955161818 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, 2, 2)
 
 [node name="Fixtures" type="Node3D" parent="West_Entrance/West_Connector" unique_id=2109798769]
-
-[node name="West_Connector_To_Decon_Sign_Blockout" type="CSGBox3D" parent="West_Entrance/West_Connector/Fixtures" unique_id=1642795010]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.82, 3.55, 0)
-size = Vector3(0.08, 0.5, 1.6)
-
-[node name="West_Connector_To_Hub_Sign_Blockout" type="CSGBox3D" parent="West_Entrance/West_Connector/Fixtures" unique_id=1923530864]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.18, 3.55, 0)
-size = Vector3(0.08, 0.5, 1.6)
 
 [node name="South_Technical" type="Node3D" parent="." unique_id=1411462588]
 
@@ -488,6 +532,7 @@ monitorable = false
 script = ExtResource("generator_discovery")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="South_Technical/Art/FaultDiscovery" unique_id=553723567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85611534)
 shape = SubResource("Shape_generator_discovery")
 
 [node name="South_Connector" type="Node3D" parent="South_Technical" unique_id=48029810]
@@ -497,16 +542,22 @@ shape = SubResource("Shape_generator_discovery")
 [node name="Structure" type="Node3D" parent="South_Technical/South_Connector" unique_id=351315906]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="PlatformX" parent="South_Technical/South_Connector/Structure" unique_id=1856460926 instance=ExtResource("38_crxxs")]
+[node name="Floors" type="Node3D" parent="South_Technical/South_Connector/Structure"]
+
+[node name="PlatformX" parent="South_Technical/South_Connector/Structure/Floors" unique_id=1856460926 instance=ExtResource("38_crxxs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="PlatformXHalf" parent="South_Technical/South_Connector/Structure" unique_id=1966556096 instance=ExtResource("36_8phyr")]
+[node name="Walls" type="Node3D" parent="South_Technical/South_Connector/Structure"]
+
+[node name="PlatformXHalf" parent="South_Technical/South_Connector/Structure/Walls" unique_id=1966556096 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -8, 2, -2)
 
-[node name="PlatformXHalf3" parent="South_Technical/South_Connector/Structure" unique_id=807478824 instance=ExtResource("36_8phyr")]
+[node name="Ceilings" type="Node3D" parent="South_Technical/South_Connector/Structure"]
+
+[node name="PlatformXHalf3" parent="South_Technical/South_Connector/Structure/Ceilings" unique_id=807478824 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -8, 4, 0)
 
-[node name="PlatformXHalf2" parent="South_Technical/South_Connector/Structure" unique_id=771105831 instance=ExtResource("36_8phyr")]
+[node name="PlatformXHalf2" parent="South_Technical/South_Connector/Structure/Walls" unique_id=771105831 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, 2, 2)
 
 [node name="East_Living" type="Node3D" parent="." unique_id=1928987753]
@@ -589,16 +640,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 5.264219, 5.5)
 [node name="Structure" type="Node3D" parent="East_Living/East_Connector" unique_id=1515824902]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="PlatformX" parent="East_Living/East_Connector/Structure" unique_id=1718659743 instance=ExtResource("38_crxxs")]
+[node name="Floors" type="Node3D" parent="East_Living/East_Connector/Structure"]
+
+[node name="PlatformX" parent="East_Living/East_Connector/Structure/Floors" unique_id=1718659743 instance=ExtResource("38_crxxs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="PlatformXHalf" parent="East_Living/East_Connector/Structure" unique_id=131673946 instance=ExtResource("36_8phyr")]
+[node name="Walls" type="Node3D" parent="East_Living/East_Connector/Structure"]
+
+[node name="PlatformXHalf" parent="East_Living/East_Connector/Structure/Walls" unique_id=131673946 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -8, 2, -2)
 
-[node name="PlatformXHalf3" parent="East_Living/East_Connector/Structure" unique_id=1063522188 instance=ExtResource("36_8phyr")]
+[node name="Ceilings" type="Node3D" parent="East_Living/East_Connector/Structure"]
+
+[node name="PlatformXHalf3" parent="East_Living/East_Connector/Structure/Ceilings" unique_id=1063522188 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -8, 4, 0)
 
-[node name="PlatformXHalf2" parent="East_Living/East_Connector/Structure" unique_id=1319402316 instance=ExtResource("36_8phyr")]
+[node name="PlatformXHalf2" parent="East_Living/East_Connector/Structure/Walls" unique_id=1319402316 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, 2, 2)
 
 [node name="North_Science" type="Node3D" parent="." unique_id=1616181831]
@@ -620,73 +677,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0012532473, 0, 0.0031781197
 [node name="Structure" type="Node3D" parent="North_Science/North_Connector" unique_id=1725455640]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="PlatformX" parent="North_Science/North_Connector/Structure" unique_id=195484796 instance=ExtResource("38_crxxs")]
+[node name="Floors" type="Node3D" parent="North_Science/North_Connector/Structure"]
+
+[node name="PlatformX" parent="North_Science/North_Connector/Structure/Floors" unique_id=195484796 instance=ExtResource("38_crxxs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="PlatformXHalf" parent="North_Science/North_Connector/Structure" unique_id=1300047619 instance=ExtResource("36_8phyr")]
+[node name="Walls" type="Node3D" parent="North_Science/North_Connector/Structure"]
+
+[node name="PlatformXHalf" parent="North_Science/North_Connector/Structure/Walls" unique_id=1300047619 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -8, 2, -2)
 
-[node name="PlatformXHalf3" parent="North_Science/North_Connector/Structure" unique_id=1398943755 instance=ExtResource("36_8phyr")]
+[node name="Ceilings" type="Node3D" parent="North_Science/North_Connector/Structure"]
+
+[node name="PlatformXHalf3" parent="North_Science/North_Connector/Structure/Ceilings" unique_id=1398943755 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -8, 4, 0)
 
-[node name="PlatformXHalf2" parent="North_Science/North_Connector/Structure" unique_id=415950960 instance=ExtResource("36_8phyr")]
+[node name="PlatformXHalf2" parent="North_Science/North_Connector/Structure/Walls" unique_id=415950960 instance=ExtResource("36_8phyr")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -8, 2, 2)
 
 [node name="BloodDressing" parent="." unique_id=270346482 instance=ExtResource("blood_dressing")]
 
 [node name="DayTwoTaskTerminal" parent="." unique_id=55254735 instance=ExtResource("quest_terminal")]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 6.5, 0.015, -6.5)
-display_material = SubResource("ShaderMaterial_s4cod")
+display_material = SubResource("ShaderMaterial_5sly1")
 
 [node name="ArcticBase_ExteriorShell" parent="." unique_id=1692178500 instance=ExtResource("exterior_shell")]
 
 [editable path="Doors/PedestrianWindPassage"]
 [editable path="Center_Hub/Art/CenterHubShellArt"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner/CeilingSquares2"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner2/CeilingSquares2"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner3/CeilingSquares2"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Corner4/CeilingSquares2"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Top_corner/CeilingSquares3"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Top_corner2/CeilingSquares3"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Top_corner3/CeilingSquares3"]
-[editable path="Center_Hub/Art/CenterHubShellArt/Top_corner4/CeilingSquares3"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner/CeilingSquares2"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner2/CeilingSquares2"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner3/CeilingSquares2"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Corner4/CeilingSquares2"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner/CeilingSquares3"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner2/CeilingSquares3"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner3/CeilingSquares3"]
+[editable path="Center_Hub/Art/CenterHubShellArt/Visual/Walls/Top_corner4/CeilingSquares3"]
 [editable path="Center_Hub/Art/CenterHubArt"]
-[editable path="West_Entrance/Art/WestEntranceShellArt"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares4"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares2"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares3"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares5"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares6"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares7"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares8"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares9"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares10"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares11"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares12"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares13"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares14"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares15"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares16"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares18"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares19"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares20"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares22"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares23"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares24"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares29"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares30"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares31"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares32"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares33"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares34"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares26"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares27"]
-[editable path="West_Entrance/Art/WestEntranceShellArt/Visual/Ceiling/CeilingSquares28"]
 [editable path="South_Technical/Art/GeneratorRoomArt"]
 [editable path="East_Living/Art/CommonRoomArt"]
 [editable path="East_Living/Art/ProtectedCorridorArt"]

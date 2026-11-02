@@ -80,13 +80,17 @@ editor_description = "Уровень 3: испытания и наблюдени
 
 [node name="Arrival" type="Node3D" parent="Structure" unique_id=456320648]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/Arrival" unique_id=1558156699]
+[node name="Floors" type="Node3D" parent="Structure/Arrival"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Arrival/Floors" unique_id=1558156699]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.075, -0.18, 0)
 use_collision = true
 size = Vector3(7.85, 0.36, 6.4)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/Arrival" unique_id=354995982]
+[node name="Ceilings" type="Node3D" parent="Structure/Arrival"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Arrival/Ceilings" unique_id=354995982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.075, 4.52, 0)
 use_collision = true
 size = Vector3(7.85, 0.24, 6.4)
@@ -94,13 +98,17 @@ material = SubResource("Ceiling")
 
 [node name="Approach" type="Node3D" parent="Structure" unique_id=1629718474]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/Approach" unique_id=1497847251]
+[node name="Floors" type="Node3D" parent="Structure/Approach"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Approach/Floors" unique_id=1497847251]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, -0.18, 0)
 use_collision = true
 size = Vector3(11, 0.36, 6.4)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/Approach" unique_id=1348580542]
+[node name="Ceilings" type="Node3D" parent="Structure/Approach"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Approach/Ceilings" unique_id=1348580542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 4.52, 0)
 use_collision = true
 size = Vector3(11, 0.24, 6.4)
@@ -108,13 +116,17 @@ material = SubResource("Ceiling")
 
 [node name="Control" type="Node3D" parent="Structure" unique_id=1038846025]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/Control" unique_id=439439694]
+[node name="Floors" type="Node3D" parent="Structure/Control"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Control/Floors" unique_id=439439694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -0.18, 0)
 use_collision = true
 size = Vector3(16, 0.36, 8)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/Control" unique_id=1956511021]
+[node name="Ceilings" type="Node3D" parent="Structure/Control"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Control/Ceilings" unique_id=1956511021]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 4.52, 0)
 use_collision = true
 size = Vector3(16, 0.24, 8)
@@ -122,13 +134,17 @@ material = SubResource("Ceiling")
 
 [node name="Exposure" type="Node3D" parent="Structure" unique_id=1210626811]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/Exposure" unique_id=848728318]
+[node name="Floors" type="Node3D" parent="Structure/Exposure"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Exposure/Floors" unique_id=848728318]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -0.18, -10)
 use_collision = true
 size = Vector3(16, 0.36, 12)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/Exposure" unique_id=1405002984]
+[node name="Ceilings" type="Node3D" parent="Structure/Exposure"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Exposure/Ceilings" unique_id=1405002984]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 5.72, -10)
 use_collision = true
 size = Vector3(16, 0.24, 12)
@@ -136,13 +152,17 @@ material = SubResource("Ceiling")
 
 [node name="EastAccess" type="Node3D" parent="Structure" unique_id=1714509818]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/EastAccess" unique_id=1593118010]
+[node name="Floors" type="Node3D" parent="Structure/EastAccess"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/EastAccess/Floors" unique_id=1593118010]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -0.18, -9.6)
 use_collision = true
 size = Vector3(4, 0.36, 12.8)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/EastAccess" unique_id=467570614]
+[node name="Ceilings" type="Node3D" parent="Structure/EastAccess"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/EastAccess/Ceilings" unique_id=467570614]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4.52, -9.6)
 use_collision = true
 size = Vector3(4, 0.24, 12.8)
@@ -150,13 +170,17 @@ material = SubResource("Ceiling")
 
 [node name="NorthService" type="Node3D" parent="Structure" unique_id=291403399]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/NorthService" unique_id=1853526051]
+[node name="Floors" type="Node3D" parent="Structure/NorthService"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/NorthService/Floors" unique_id=1853526051]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, -0.18, -18)
 use_collision = true
 size = Vector3(26, 0.36, 4)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/NorthService" unique_id=1141267217]
+[node name="Ceilings" type="Node3D" parent="Structure/NorthService"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/NorthService/Ceilings" unique_id=1141267217]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 4.52, -18)
 use_collision = true
 size = Vector3(26, 0.24, 4)
@@ -164,13 +188,17 @@ material = SubResource("Ceiling")
 
 [node name="WestService" type="Node3D" parent="Structure" unique_id=1397033224]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/WestService" unique_id=1096046337]
+[node name="Floors" type="Node3D" parent="Structure/WestService"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/WestService/Floors" unique_id=1096046337]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -0.18, -1)
 use_collision = true
 size = Vector3(6, 0.36, 30)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/WestService" unique_id=1209501854]
+[node name="Ceilings" type="Node3D" parent="Structure/WestService"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/WestService/Ceilings" unique_id=1209501854]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 4.52, -1)
 use_collision = true
 size = Vector3(6, 0.24, 30)
@@ -178,13 +206,17 @@ material = SubResource("Ceiling")
 
 [node name="Observation" type="Node3D" parent="Structure" unique_id=984202636]
 
-[node name="Floor" type="CSGBox3D" parent="Structure/Observation" unique_id=409109054]
+[node name="Floors" type="Node3D" parent="Structure/Observation"]
+
+[node name="Floor" type="CSGBox3D" parent="Structure/Observation/Floors" unique_id=409109054]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -0.18, 9)
 use_collision = true
 size = Vector3(16, 0.36, 10)
 material = SubResource("Floor")
 
-[node name="Ceiling" type="CSGBox3D" parent="Structure/Observation" unique_id=1681139751]
+[node name="Ceilings" type="Node3D" parent="Structure/Observation"]
+
+[node name="Ceiling" type="CSGBox3D" parent="Structure/Observation/Ceilings" unique_id=1681139751]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 4.52, 9)
 use_collision = true
 size = Vector3(16, 0.24, 10)
