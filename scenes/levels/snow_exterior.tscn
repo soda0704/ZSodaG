@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" path="res://scenes/art/environment/cliff_valley.tscn" id="21_dosv5"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/base/radio_tower.tscn" id="radio_tower"]
+[ext_resource type="PackedScene" path="res://scenes/objects/effects/local_blizzard.tscn" id="local_blizzard"]
 
 [sub_resource type="Gradient" id="Gradient_64ytg"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -3362,6 +3363,8 @@ size = Vector3(1190, 200, 1480)
 
 [node name="SnowExterior" type="Node3D" unique_id=2140896342]
 script = ExtResource("1_g7pg2")
+
+[node name="Blizzard" parent="." instance=ExtResource("local_blizzard")]
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=1023634340]
 data_directory = "res://assets/environments/snow/expanded_terrain"

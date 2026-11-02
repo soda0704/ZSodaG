@@ -18,6 +18,7 @@ var _previous := Vector3.ZERO
 var _last_roof_probe := Vector3.ZERO
 var _portals: Array[Node] = []
 var _storm_volumes: Array[Node] = []
+var _blizzard: Node
 
 func _ready() -> void:
 	add_to_group("exterior_acoustics")
@@ -25,6 +26,7 @@ func _ready() -> void:
 
 func _bind() -> void:
 	_portals = get_tree().get_nodes_in_group("acoustic_portals")
+	_blizzard = get_tree().get_first_node_in_group("local_blizzard")
 	var sources := get_node_or_null(storm_sources_path)
 	if sources != null:
 		_storm_volumes = sources.find_children("StormHaze_*", "FogVolume", true, false)
@@ -61,7 +63,7 @@ func update_listener(point: Vector3, delta: float, reset: bool = false) -> void:
 	outside_blend = move_toward(outside_blend, 0.0 if is_inside else 1.0, delta / maxf(fade_seconds, 0.01))
 
 func storm_intensity(point: Vector3) -> float:
-	var intensity := 0.0
+	var intensity: float = _blizzard.local_storm_intensity() if is_instance_valid(_blizzard) else 0.0
 	for volume in _storm_volumes:
 		var local: Vector3 = volume.to_local(point)
 		var size: Vector3 = volume.size * 0.5

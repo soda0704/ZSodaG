@@ -39,6 +39,9 @@ var _outdoor_fog_density := 0.0
 var _outdoor_fog_sky_affect := 0.0
 var _outdoor_volume_density := 0.0
 var _outdoor_volume_length := 160.0
+var _outdoor_fog_begin := 150.0
+var _outdoor_fog_end := 450.0
+var _blizzard: Node
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
 var quality_shadow_distance := 96.0
@@ -50,6 +53,7 @@ var _power: BasePowerLightingController
 func _ready() -> void:
 	if Engine.is_editor_hint():return
 	_power = get_parent().get_node_or_null("BasePowerLightingController") as BasePowerLightingController
+	_blizzard = get_parent().get_node_or_null("SnowExterior/Blizzard")
 	add_to_group("world_lighting")
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
@@ -206,11 +210,15 @@ func _process(delta: float) -> void:
 		_outdoor_fog_sky_affect = source.fog_sky_affect
 		_outdoor_volume_density = source.volumetric_fog_density
 		_outdoor_volume_length = source.volumetric_fog_length
+		_outdoor_fog_begin = source.fog_depth_begin
+		_outdoor_fog_end = source.fog_depth_end
 		_camera.environment = _camera_environment
 		get_node("/root/GameMenu/GraphicsQuality").apply_environment(_camera_environment)
 	var at := camera.get_global_transform_interpolated().origin
 	var environment_changed := false
-	_indoor_mix = move_toward(_indoor_mix, 1.0 if is_covered(at, _exclude_body(camera)) else 0.0, delta * 4.0)
+	var sheltered := is_covered(at, _exclude_body(camera))
+	_indoor_mix = move_toward(_indoor_mix, 1.0 if sheltered else 0.0, delta * 4.0)
+	if _blizzard != null: _blizzard.advance(camera, _indoor_mix, delta, sheltered)
 	var ambient := lerpf(outdoor_ambient, _indoor_ambient_energy(), _indoor_mix)
 	if debug_visibility_profile != null:
 		ambient = lerpf(debug_visibility_profile.ambient_light_energy, ambient, debug_darkness)
@@ -227,15 +235,32 @@ func _process(delta: float) -> void:
 		_camera_environment.ambient_light_energy = ambient
 		environment_changed = true
 	# Outdoor haze fades away under a roof, including on underground floors.
-	var fog_density := _outdoor_fog_density * (1.0 - _indoor_mix) * debug_darkness
+	var storm: float = 1.0 if _blizzard != null and _blizzard.enabled else 0.0
+	var fog_density := lerpf(_outdoor_fog_density, 1.0, storm) * (1.0 - _indoor_mix) * debug_darkness
+	# Depth fog is always active in both light modes: low quality cannot reveal
+	# distant landmarks by switching off optional volumetric scattering.
+	var storm_end: float = _blizzard.visibility_distance() if _blizzard != null else _outdoor_fog_end
+	_camera_environment.fog_depth_begin = lerpf(_outdoor_fog_begin, 2.0, storm)
+	_camera_environment.fog_depth_end = lerpf(_outdoor_fog_end, storm_end, storm)
+	_camera_environment.fog_depth_curve = lerpf(source_environment().fog_depth_curve, 1.0, storm)
+	_camera_environment.fog_aerial_perspective = lerpf(source_environment().fog_aerial_perspective, 0.0, storm)
+	_camera_environment.fog_light_color = source_environment().fog_light_color.lerp(_blizzard.fog_color, storm) if _blizzard != null else source_environment().fog_light_color
 	if not is_equal_approx(_camera_environment.fog_density, fog_density):
 		_camera_environment.fog_density = fog_density
 		environment_changed = true
-	var sky_affect := _outdoor_fog_sky_affect * (1.0 - _indoor_mix)
+	var sky_affect := lerpf(_outdoor_fog_sky_affect, 1.0, storm) * (1.0 - _indoor_mix)
 	if not is_equal_approx(_camera_environment.fog_sky_affect, sky_affect):
 		_camera_environment.fog_sky_affect = sky_affect
 		environment_changed = true
 	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix) * debug_darkness
+	# Volumetric sun shadows can reveal distant cliff silhouettes through an
+	# otherwise opaque depth whiteout. Keep this optional layer inside only.
+	var quality := get_node("/root/GameMenu/GraphicsQuality")
+	var authored_volume: bool = bool(source_environment().get_meta("quality_authored_effects", {"fog": source_environment().volumetric_fog_enabled}).get("fog", false))
+	var volume_enabled: bool = authored_volume and quality.advanced_lighting_enabled and int(quality.values.get("FogQuality", 2)) > 0 and (storm == 0.0 or _indoor_mix > 0.999)
+	if _camera_environment.volumetric_fog_enabled != volume_enabled:
+		_camera_environment.volumetric_fog_enabled = volume_enabled
+		environment_changed = true
 	if not is_equal_approx(_camera_environment.volumetric_fog_density, volume_density):
 		_camera_environment.volumetric_fog_density = volume_density
 		environment_changed = true
