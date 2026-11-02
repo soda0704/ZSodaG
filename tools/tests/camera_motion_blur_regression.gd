@@ -8,6 +8,8 @@ func _initialize() -> void:
 	var prefix := "user://camera_blur_%d" % OS.get_process_id()
 	ProjectSettings.set_setting("northern_lab/testing/settings_path", prefix + ".json")
 	ProjectSettings.set_setting("northern_lab/testing/controls_path", prefix + ".cfg")
+	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING, prefix + "_save.cfg")
+	ProjectSettings.set_setting(JournalReadingStore.ROOT_SETTING, prefix + "_journal")
 	create_timer(60).timeout.connect(func(): quit(2))
 	run.call_deferred()
 
@@ -32,8 +34,12 @@ func run() -> void:
 	var quality = root.get_node("GameMenu/GraphicsQuality")
 	quality.set_process(false)
 	var legacy: Dictionary = quality.normalized({})
-	check(legacy.MotionBlur and legacy.MotionBlurStrength == 35, "old settings receive enabled blur at 35 percent")
+	check(not legacy.MotionBlur and legacy.MotionBlurStrength == 35, "new and missing settings start without blur")
 	check(not quality.normalized({"MotionBlur": false}).MotionBlur, "explicit saved disable survives normalization")
+	var previous := {"MotionBlur": true, "MotionBlurStrength": 55, "Gamma": 110}
+	var migrated: Dictionary = quality.migrate_saved(previous, 2)
+	check(not migrated.MotionBlur and migrated.MotionBlurStrength == 55 and migrated.Gamma == 110 and previous.MotionBlur, "previous automatic blur migrates off without changing calibration or its input")
+	check(quality.migrate_saved(previous, quality.PRESET_REVISION).MotionBlur, "a later deliberate enable survives loading")
 	var arena = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(arena); current_scene = arena
 	for frame in 25: await physics_frame
@@ -48,6 +54,12 @@ func run() -> void:
 	var mat: ShaderMaterial = effect.get_node("Effect").material
 	await settle()
 	check(not mat.get_shader_parameter("motion_blur_enabled"), "stationary camera remains sharp")
+	await turn()
+	check(not mat.get_shader_parameter("motion_blur_enabled"), "default film profile remains sharp while moving")
+	var enabled: Dictionary = quality.values.duplicate()
+	enabled.MotionBlur = true
+	menu._settings_data.Graphics = enabled.duplicate()
+	quality.apply(enabled); await settle()
 	await turn()
 	check(mat.get_shader_parameter("motion_blur_enabled") and Vector2(mat.get_shader_parameter("blur_direction")).length() > 0.0001, "real camera turning activates visible shutter flow")
 	check(Vector2(mat.get_shader_parameter("blur_direction")).length() <= 0.01201, "blur remains bounded during motion")

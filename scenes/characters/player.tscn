@@ -83,7 +83,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=2061400366]
 unique_name_in_owner = true
-fov = 83.0
+fov = 91.0
 far = 150.0
 script = ExtResource("3_camera_motion")
 

@@ -7,7 +7,7 @@ var advanced_lighting_enabled := true
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []
-const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": true, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
+const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": false, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
 const PRESETS := {
 	1: {"Scale": 75, "MSAA": 0, "FXAA": true, "ShadowQuality": 1, "ShadowDistance": 48, "AOQuality": 1, "FogQuality": 1, "GIQuality": 1, "Bloom": true, "LOD": 6, "DecalDistance": 20, "TrackCount": 64, "VegetationDistance": 250},
 	2: {"Scale": 100, "MSAA": 0, "FXAA": true, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500},
@@ -15,12 +15,16 @@ const PRESETS := {
 }
 
 # Revision 1 accidentally combined full-resolution GI and SSAO in the High preset.
-const PRESET_REVISION := 2
+const PRESET_REVISION := 3
 const LEGACY_HIGH := {"Scale": 100, "MSAA": 1, "FXAA": false, "ShadowQuality": 3, "ShadowDistance": 96, "AOQuality": 3, "FogQuality": 3, "GIQuality": 3, "Bloom": true, "LOD": 1, "DecalDistance": 60, "TrackCount": 256, "VegetationDistance": 650}
 
 static func migrate_saved(data: Dictionary, revision: int) -> Dictionary:
 	var result := data.duplicate(true)
 	if revision >= PRESET_REVISION: return result
+	# Revision 2 enabled camera blur automatically. The revised film profile
+	# starts sharp, also for existing installs; later explicit choices survive.
+	if result.has("MotionBlur"): result.MotionBlur = false
+	if revision >= 2: return result
 	for key in LEGACY_HIGH:
 		if not data.has(key) or data[key] != LEGACY_HIGH[key]: return result
 	# Only the exact previous preset is replaced; custom and display values survive.
@@ -32,7 +36,7 @@ static func normalized(data: Dictionary) -> Dictionary:
 	for key in DEFAULTS:
 		if data.has(key): result[key] = data[key]
 	result.ShadowDistance = clampf(float(result.ShadowDistance), 24.0, 96.0)
-	result.MotionBlur = bool(data.get("MotionBlur", true))
+	result.MotionBlur = bool(data.get("MotionBlur", false))
 	result.MotionBlurStrength = clampf(float(data.get("MotionBlurStrength", 35)), 0.0, 100.0)
 	return result
 

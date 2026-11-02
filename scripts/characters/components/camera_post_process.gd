@@ -8,7 +8,7 @@ extends Control
 @onready var player: GamePlayer = get_parent().get_parent()
 @onready var camera: Camera3D = player.get_node("Head/Camera3D")
 @onready var effect_material: ShaderMaterial = $Effect.material
-var motion_blur_enabled := true
+var motion_blur_enabled := false
 var motion_blur_strength := 0.35
 var _previous_pose := Transform3D.IDENTITY
 var _history_valid := false
@@ -16,6 +16,9 @@ var _cooldown := 0.12
 var _direction := Vector2.ZERO
 var _radial := 0.0
 var _lens_amount := 1.0
+var _rim_input := Vector2.ZERO
+var _rim_target := Vector2.ZERO
+var _rim_offset := Vector2.ZERO
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_sync_resolution)
@@ -23,7 +26,7 @@ func _ready() -> void:
 	_update_visibility()
 	var quality := get_node("/root/GameMenu/GraphicsQuality")
 	quality.camera_effects_changed.connect(_apply_motion_settings)
-	_apply_motion_settings(bool(quality.values.get("MotionBlur", true)), float(quality.values.get("MotionBlurStrength", 35)) / 100.0)
+	_apply_motion_settings(bool(quality.values.get("MotionBlur", false)), float(quality.values.get("MotionBlurStrength", 35)) / 100.0)
 
 func _sync_resolution() -> void:
 	var size:=Vector2(get_viewport().get_texture().get_size()).max(Vector2.ONE)
@@ -34,7 +37,12 @@ func _apply_motion_settings(enabled: bool, strength: float) -> void:
 	motion_blur_strength = clampf(strength, 0.0, 1.0)
 	reset_motion_history()
 
-func reset_motion_history() -> void:
+func reset_motion_history(reset_parallax: bool = true) -> void:
+	if reset_parallax:
+		_rim_input = Vector2.ZERO
+		_rim_target = Vector2.ZERO
+		_rim_offset = Vector2.ZERO
+		if is_node_ready(): effect_material.set_shader_parameter("vignette_offset", Vector2.ZERO)
 	_history_valid = false
 	_cooldown = 0.12
 	_direction = Vector2.ZERO
@@ -44,14 +52,35 @@ func reset_motion_history() -> void:
 		effect_material.set_shader_parameter("blur_direction", Vector2.ZERO)
 		effect_material.set_shader_parameter("radial_blur", 0.0)
 
+func _input(event: InputEvent) -> void:
+	# Captured mouse stays at the screen centre, so use its relative movement.
+	# Observing input here never consumes it or changes the player's look input.
+	if event is InputEventMouseMotion and visible and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		_rim_input += event.relative
+
+func _update_corner_parallax(delta: float, active: bool) -> void:
+	if not active or delta <= 0.0 or delta > 0.15:
+		_rim_input = Vector2.ZERO
+		_rim_target = Vector2.ZERO
+		_rim_offset = Vector2.ZERO
+	else:
+		var height := maxf(get_viewport().get_visible_rect().size.y, 1.0)
+		_rim_target = (_rim_target + _rim_input / height * 0.045).limit_length(0.012)
+		_rim_target *= exp(-6.0 * delta)
+		_rim_offset = _rim_offset.lerp(_rim_target, 1.0 - exp(-14.0 * delta))
+		_rim_input = Vector2.ZERO
+	effect_material.set_shader_parameter("vignette_offset", _rim_offset)
+
 func _process(delta: float) -> void:
 	_update_visibility()
 	# The journal's projected page hit tests use the undistorted camera projection.
 	var reading := player._is_journal_open()
+	var look_active: bool = visible and not reading and not player.is_bunk_busy() and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not get_node("/root/GameMenu").is_menu_open()
+	_update_corner_parallax(delta, look_active)
 	_lens_amount = move_toward(_lens_amount, 0.0 if reading else 1.0, delta * 8.0)
 	effect_material.set_shader_parameter("lens_amount", _lens_amount)
-	if not visible or not motion_blur_enabled or motion_blur_strength <= 0.0 or reading or player.is_bunk_busy() or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED or get_node("/root/GameMenu").is_menu_open() or delta <= 0.0 or delta > 0.15:
-		reset_motion_history()
+	if not look_active or not motion_blur_enabled or motion_blur_strength <= 0.0 or delta <= 0.0 or delta > 0.15:
+		reset_motion_history(false)
 		return
 	var pose := camera.get_global_transform_interpolated()
 	if not _history_valid:

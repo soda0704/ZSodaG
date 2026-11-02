@@ -23,26 +23,20 @@ uniform int samples : hint_range(4, 32) = 32;
 
 group_uniforms Bodycam;
 uniform float lens_amount : hint_range(0.0, 1.0) = 1.0;
-uniform float barrel_strength : hint_range(0.0, 0.15) = 0.045;
+uniform float barrel_strength : hint_range(0.0, 0.2) = 0.12;
 uniform float chroma_pixels : hint_range(0.0, 2.0) = 0.65;
-uniform float vignette_strength : hint_range(0.0, 0.8) = 0.35;
+uniform float vignette_strength : hint_range(0.0, 1.0) = 1.0;
+uniform float vignette_corner_size : hint_range(0.1, 0.5) = 0.3;
+uniform float vignette_softness : hint_range(0.005, 0.2) = 0.12;
+uniform vec2 vignette_offset = vec2(0.0);
 uniform float response_curve : hint_range(0.0, 0.5) = 0.18;
 uniform float saturation : hint_range(0.0, 1.2) = 0.84;
-uniform float sensor_grain : hint_range(0.0, 0.04) = 0.01;
+uniform float sensor_grain : hint_range(0.0, 0.15) = 0.07;
+uniform float grain_size : hint_range(0.5, 3.0) = 0.85;
 
 group_uniforms Noise_Settings;
 uniform float noise_intensity : hint_range(0, 1.0, 0.001) = 0.5;
 uniform float max_noise : hint_range(0.1, 2.0, 0.001) = 1.0;
-
-group_uniforms Red;
-uniform float r_intensity : hint_range(0, 2.0, 0.001) = 1.0;
-uniform float r_scale : hint_range(0.1, 0.6, 0.001) = 0.472;
-group_uniforms Green;
-uniform float g_intensity : hint_range(0, 2.0, 0.001) = 0.667;
-uniform float g_scale : hint_range(0.1, 0.6, 0.001) = 0.6;
-group_uniforms Blue;
-uniform float b_intensity : hint_range(0, 2.0, 0.001) = 1.213;
-uniform float b_scale : hint_range(0.1, 0.6, 0.001) = 0.41;
 
 // hash22 from https://www.shadertoy.com/view/lldyDn with a seed added.
 vec2 hash22(vec2 uv, float seed) {
@@ -102,19 +96,33 @@ void fragment() {
 	float luminance = dot(pixel_color.rgb, vec3(0.2126, 0.7152, 0.0722));
 	pixel_color.rgb = mix(vec3(luminance), pixel_color.rgb, saturation);
 	pixel_color.rgb *= vec3(0.985, 1.015, 1.025);
-	float vignette = smoothstep(0.35, 1.45, sqrt(radius2));
-	pixel_color.rgb *= 1.0 - vignette * vignette_strength * mix(0.45, 1.0, lens_amount);
+	// Small rounded lens-housing corners: the middle of every edge stays clear.
+	// Follow the look input only near the corners, without introducing side bars.
+	float rim_follow = smoothstep(0.6, 0.85, abs(p.x)) * smoothstep(0.6, 0.85, abs(p.y));
+	vec2 rim_p = p - vignette_offset * vec2(2.0 * resolution.y / resolution.x, 2.0) * rim_follow;
+	vec2 corner = max(abs(rim_p) - vec2(1.0 - vignette_corner_size), vec2(0.0)) / vignette_corner_size;
+	float vignette = smoothstep(1.035, 1.035 + vignette_softness, length(corner));
 	float photon_noise_factor = sqrt(1.0 / max(light_gathering, 0.0001));
 	float read_noise_factor = sqrt(iso / 100.0);
 	float noise_amplifier = photon_noise_factor * read_noise_factor;
-	vec3 delta_color = vec3(
-		(noise(uv * resolution.y * r_scale, 1.23 + TIME) - 0.5) * 2.0 * r_intensity,
-		(noise(uv * resolution.y * g_scale, 4.32 + TIME) - 0.5) * 2.0 * g_intensity,
-		(noise(uv * resolution.y * b_scale, 5.25 + TIME) - 0.5) * 2.0 * b_intensity
-	) * noise_intensity * min(noise_amplifier * 0.01, max_noise);
-	float grain = hash22(floor(SCREEN_UV * resolution), floor(TIME * 30.0)).x * sensor_grain;
+	float read_noise = (noise(uv * resolution.y * 0.5, 1.23 + TIME) - 0.5)
+		* noise_intensity * min(noise_amplifier * 0.01, max_noise);
+	// Grain is added after lens resampling, so AA/render scaling cannot erase it.
+	// Like the old Fears to Fathom pass, use one luminance sample for all RGB.
+	// Sum independent samples for a softer, bell-shaped distribution; continuous
+	// coordinates remove the previous large square cells. No VHS warp or ghosts.
+	float grain_frame = floor(TIME * 60.0);
+	vec2 grain_uv = SCREEN_UV * resolution / max(resolution.y / 720.0, 0.5) / grain_size;
+	vec2 first = hash22(grain_uv, grain_frame);
+	vec2 second = hash22(grain_uv + vec2(17.31, 43.17), grain_frame + 5.19);
+	float fine_grain = (first.x + first.y + second.x + second.y) * 0.5;
+	float soft_grain = (noise(grain_uv * 0.8, grain_frame + 3.0) - 0.5) * 2.0;
+	float grain = (fine_grain * 0.7 + soft_grain * 0.3) * sensor_grain;
 	// Sensor texture must not turn a completely unlit room grey.
-	float grain_mask = smoothstep(0.0, 0.08, max(luminance, 0.0)) * mix(0.4, 1.0, lens_amount);
-	pixel_color.rgb = max(vec3(0.0), pixel_color.rgb + (delta_color + vec3(grain)) * grain_mask);
+	float grain_mask = smoothstep(0.0, 0.035, max(luminance, 0.0));
+	grain_mask *= mix(1.0, 0.7, smoothstep(0.15, 0.85, luminance)) * mix(0.25, 1.0, lens_amount);
+	pixel_color.rgb = max(vec3(0.0), pixel_color.rgb + vec3(read_noise + grain) * grain_mask);
+	// The opaque lens rim covers grain as well as the scene.
+	pixel_color.rgb *= 1.0 - vignette * vignette_strength;
 	COLOR = pixel_color;
 }
