@@ -23,7 +23,7 @@ func run() -> void:
 	world.resume_base_on_start = true
 	get_tree().root.add_child(world); get_tree().current_scene = world
 	if host:
-		world._on_session_ready(true)
+		world.start_test_session(true)
 		check(await wait_until(func(): return world._v3_items_spawned and not world._v3_transition_in_progress),"host loads production audio scene")
 		var encounter = world._base_gameplay_controller.get_parent().get_node("ContainmentEncounter")
 		for creature in get_tree().get_nodes_in_group("hostile_monsters"): creature.set_ai_enabled(false)

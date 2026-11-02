@@ -26,6 +26,9 @@ func run() -> void:
 	for path in manifest.roots:
 		if load(path) == null: unloadable.append(path)
 	check(unloadable.is_empty(), "all %d export roots load with their dependencies: %s" % [manifest.roots.size(), unloadable])
+	# These are loaded by string paths; do not rely solely on the generated manifest.
+	for path in ["res://scenes/ui/characters/tactical_a.scn", "res://scenes/ui/characters/tactical_b.scn"]:
+		check(ResourceLoader.exists(path) and load(path) is PackedScene, "dynamic character preview is packaged and loads: " + path)
 	for path in ["res://assets/models/weapons/pistol.glb", "res://assets/characters/tactical_a/scene.gltf", "res://scenes/tests", "res://tools", "res://blender", "res://assets/models/modular_scifi_megakit/models"]:
 		check(not ResourceLoader.exists(path) and not DirAccess.dir_exists_absolute(path), "unused/source content is absent: " + path)
 	for path in ["res://network_build.cfg", "res://game_actions_480.vdf", "res://assets/models/item_model_credits.md"]:

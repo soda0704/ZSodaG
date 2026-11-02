@@ -1,12 +1,13 @@
 extends Node
 ## Render budgets change detail, never the authored energy, colour or fog distances.
 const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
+signal camera_effects_changed(motion_blur: bool, strength: float)
 # Runtime override only: every launch starts advanced, including fresh installs.
 var advanced_lighting_enabled := true
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []
-const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
+const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": true, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
 const PRESETS := {
 	1: {"Scale": 75, "MSAA": 0, "FXAA": true, "ShadowQuality": 1, "ShadowDistance": 48, "AOQuality": 1, "FogQuality": 1, "GIQuality": 1, "Bloom": true, "LOD": 6, "DecalDistance": 20, "TrackCount": 64, "VegetationDistance": 250},
 	2: {"Scale": 100, "MSAA": 0, "FXAA": true, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500},
@@ -31,6 +32,8 @@ static func normalized(data: Dictionary) -> Dictionary:
 	for key in DEFAULTS:
 		if data.has(key): result[key] = data[key]
 	result.ShadowDistance = clampf(float(result.ShadowDistance), 24.0, 96.0)
+	result.MotionBlur = bool(data.get("MotionBlur", true))
+	result.MotionBlurStrength = clampf(float(data.get("MotionBlurStrength", 35)), 0.0, 100.0)
 	return result
 
 static func preset_index(data: Dictionary) -> int:
@@ -58,7 +61,9 @@ func apply(data: Dictionary) -> void:
 	var update_nodes := values.is_empty()
 	for key in ["Brightness", "Gamma", "MSAA", "FXAA", "ShadowDistance", "AOQuality", "FogQuality", "Bloom", "DecalDistance", "TrackCount", "VegetationDistance"]:
 		if values.get(key) != next[key]: update_nodes = true; break
+	var camera_changed: bool = values.is_empty() or values.get("MotionBlur") != next.MotionBlur or values.get("MotionBlurStrength") != next.MotionBlurStrength
 	values = next
+	if camera_changed: camera_effects_changed.emit(bool(values.MotionBlur), float(values.MotionBlurStrength) / 100.0)
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_request_hdr_output(bool(values.HDR) and DisplayServer.window_is_hdr_output_supported())
 		DisplayServer.window_set_hdr_output_reference_luminance(clampf(float(values.HDRWhite), 100.0, 400.0))

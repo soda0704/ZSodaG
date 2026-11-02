@@ -327,9 +327,9 @@ func capture_feedback_screenshot() -> void:
 func close_feedback() -> void:
 	if _feedback_capture_busy or tester_feedback._busy: return
 	if _feedback_return_to_scene:
-		force_close_menu()
+		shell.disappear(force_close_menu)
 	else:
-		show_view(_feedback_origin)
+		shell.transition(show_view.bind(_feedback_origin))
 
 func open_settings() -> void:
 	if shell.busy or _transition_in_progress:
@@ -357,12 +357,10 @@ func open_settings() -> void:
 		shell.appear()
 
 func close_settings() -> void:
-	shell.transition(func():
-		if _settings_return_to_main_scene:
-			force_close_menu()
-		else:
-			show_view(_settings_origin)
-	)
+	if _settings_return_to_main_scene:
+		shell.disappear(force_close_menu)
+	else:
+		shell.transition(show_view.bind(_settings_origin))
 
 func close_menu() -> void:
 	if _transition_in_progress or shell.busy:
@@ -371,9 +369,9 @@ func close_menu() -> void:
 		feedback_label.text = "Дождитесь завершения подключения к Steam-лобби."
 		return
 	if _in_main_scene():
-		force_close_menu()
+		shell.disappear(force_close_menu)
 		return
-	shell.transition(force_close_menu)
+	shell.disappear(force_close_menu)
 
 func force_close_menu() -> void:
 	_feedback_epoch += 1
@@ -448,8 +446,12 @@ func start_host_flow() -> void:
 func _confirm_new_coop_game() -> void:
 	confirm("Новая кооп-игра", "Заменить сохранение кооперативной экспедиции?", [{"label": "Начать заново", "action": _begin_host_session.bind(false)}])
 
-func _begin_host_session(resume_checkpoint: bool) -> void:
+func _begin_host_session(resume_checkpoint: bool, character_selected: bool = false) -> void:
 	if _transition_in_progress:
+		return
+	var main := get_tree().current_scene as NorthernLabMainMenu
+	if not character_selected and main != null:
+		main.show_character("host", resume_checkpoint)
 		return
 	BaseGameplayController.save_scope = "coop"
 	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
@@ -730,11 +732,14 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	menu_root.visible = false
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	await show_scene_load_cover()
 
 	var change_result := get_tree().change_scene_to_file(
 		MECHANICS_TEST_ROOM_SCENE
 	)
 	if change_result != OK:
+		$SceneLoadCover.hide()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		_transition_in_progress = false
 		open_menu(MenuView.MAIN)
 		feedback_label.text = "Не удалось открыть базу."
@@ -747,8 +752,7 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	):
 		gameplay_controller.set("resume_base_on_start", resume_checkpoint)
 		gameplay_controller.call("start_standalone_game")
-		if resume_checkpoint:
-			await gameplay_controller.call("_enter_v3_level")
+		await gameplay_controller.call("_enter_v3_level")
 	_transition_in_progress = false
 
 func ensure_network_scene() -> bool:
@@ -763,14 +767,33 @@ func ensure_network_scene() -> bool:
 
 	menu_root.visible = false
 	get_tree().paused = false
+	await show_scene_load_cover()
 	var change_result := get_tree().change_scene_to_file(
 		MECHANICS_TEST_ROOM_SCENE
 	)
 	if change_result != OK:
+		$SceneLoadCover.hide()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return false
 
 	await get_tree().scene_changed
+	await release_scene_load_cover()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	return true
+
+func show_scene_load_cover() -> void:
+	$SceneLoadCover.show()
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	# Draw while the old scene still exists. Autoload survives the empty scene frame.
+	if DisplayServer.get_name() == "headless": await get_tree().process_frame
+	else: await RenderingServer.frame_post_draw
+
+func release_scene_load_cover() -> void:
+	if not $SceneLoadCover.visible: return
+	# The new loading screen/cabin has entered and rendered before this is removed.
+	await get_tree().process_frame
+	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
+	$SceneLoadCover.hide()
 
 func return_to_main_menu(reason: String = "", _save_before_exit: bool = true) -> void:
 	if _transition_in_progress:

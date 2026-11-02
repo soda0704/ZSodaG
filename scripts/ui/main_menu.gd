@@ -7,16 +7,17 @@ var continue_game_button: Button
 var single_player_button: Button
 var settings_button: Button
 var exit_button: Button
-var skin_option: OptionButton
 var status_label: Label
 var selector: NorthernCharacterSelection
 var current_view := "home"
 var _transition_in_progress := false
 var _character_flow := "solo"
+var _character_resume := false
 var _last_focus: Control
 var _checkpoint_scope := "solo"
 
 func _ready() -> void:
+	NorthernCharacterSelection.prepare_previews()
 	ExpeditionSaveStore.select_existing("solo")
 	BaseGameplayController.save_scope = "solo"
 	GameMenu.force_close_menu()
@@ -37,7 +38,13 @@ func _page(template: String) -> VBoxContainer:
 	if is_instance_valid(selector):
 		selector.queue_free()
 		selector = null
-		skin_option = null
+	shell.presentation = null
+	shell.top_rail.show()
+	shell.bottom_rail.show()
+	shell.header.show()
+	shell.footer.show()
+	shell.top_rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shell.bottom_rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	$FeedbackCorner.visible = current_view == "home"
 	var page: VBoxContainer = load(template).instantiate()
 	shell.replace(page)
@@ -80,24 +87,37 @@ func _navigate(callback: Callable) -> void:
 func _on_single_player_pressed() -> void:
 	_navigate(show_character.bind("solo"))
 
-func show_character(flow: String = "solo") -> void:
+func show_character(flow: String = "solo", resume_checkpoint: bool = false) -> void:
 	current_view = "character"
 	_character_flow = flow
+	_character_resume = resume_checkpoint
 	_page("res://scenes/ui/menu_character.tscn")
 	selector = preload("res://scenes/ui/character_selection.tscn").instantiate()
 	selector.name = "SkinCard"
+	selector.activation_allowed = func(): return not _transition_in_progress and not shell.busy and not GameMenu.is_menu_open()
+	selector.character_selected.connect(_on_character_selected)
 	shell.add_child(selector)
+	shell.presentation = selector
 	shell.move_child(selector, shell.content.get_index() + 1)
 	NorthernMenuStyle.fill(selector)
-	skin_option = selector.option
-	shell.footer.get_child(shell.footer.get_child_count() - 1).queue_free()
-	shell.footer.add_child(NorthernMenuStyle.button("Начать экспедицию" if flow == "solo" else "Выбрать", _confirm_character, 23))
-	shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", back, 21))
-	skin_option.grab_focus()
+	shell.header.hide()
+	shell.clear(shell.footer)
+	var back_button := NorthernMenuStyle.button("ESC  Назад", back, 18)
+	back_button.name = "CharacterBack"
+	shell.footer.add_child(back_button)
+	shell.top_rail.mouse_filter = Control.MOUSE_FILTER_STOP
+	shell.bottom_rail.mouse_filter = Control.MOUSE_FILTER_STOP
+
+func _on_character_selected(_variant_id: int) -> void:
+	_confirm_character()
 
 func _confirm_character() -> void:
 	if _character_flow == "coop":
 		_navigate(_show_coop)
+	elif _character_flow == "host":
+		_transition_in_progress = true
+		set_menu_enabled(false)
+		await shell.transition(func(): GameMenu._begin_host_session(_character_resume, true))
 	else:
 		_start_solo(false)
 
@@ -154,7 +174,6 @@ func _show_coop() -> void:
 	join.disabled = not SteamNetwork.steam_available
 	host.pressed.connect(func(): _navigate(func(): GameMenu.start_host_flow()))
 	join.pressed.connect(func(): _navigate(func(): GameMenu.open_menu(GlobalGameMenu.MenuView.JOIN)))
-	page.get_node("Character").pressed.connect(func(): _navigate(show_character.bind("coop")))
 	page.get_node("OfflineHint").visible = not SteamNetwork.steam_available
 
 func _start_solo(resume_checkpoint: bool) -> void:
@@ -193,6 +212,7 @@ func _set_controls_enabled(node: Node, enabled: bool) -> void:
 func set_overlay_visible(value: bool) -> void:
 	if shell == null:
 		return
+	var was_visible := shell.content.visible
 	if value:
 		_last_focus = get_viewport().gui_get_focus_owner()
 	shell.content.visible = not value or GameMenu.dialog != null
@@ -202,6 +222,8 @@ func set_overlay_visible(value: bool) -> void:
 		selector.visible = shell.content.visible
 	if not value and is_instance_valid(_last_focus) and _last_focus.is_visible_in_tree():
 		_last_focus.grab_focus()
+	if not value and not was_visible:
+		shell.appear()
 
 func show_status(message: String) -> void:
 	if status_label != null:
@@ -211,7 +233,7 @@ func show_status(message: String) -> void:
 func back() -> void:
 	if shell.busy or _transition_in_progress:
 		return
-	_navigate(_show_coop if (current_view == "character" and _character_flow == "coop") or (current_view == "checkpoint" and _checkpoint_scope == "coop") else _show_home)
+	_navigate(_show_coop if (current_view == "character" and _character_flow in ["coop", "host"]) or (current_view == "checkpoint" and _checkpoint_scope == "coop") else _show_home)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if GameMenu.is_menu_open() or event.is_echo():

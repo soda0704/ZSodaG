@@ -51,7 +51,7 @@ func run() -> void:
 		check(await wait_until(func(): return world.players.get_node("1").is_carrying_corpse()),"late join restores the remote carrier's occupied hands")
 		medical_ready.rpc_id(1)
 		return
-	world._on_session_ready(true)
+	world.start_test_session(true)
 	check(await wait_until(func(): return world._v3_items_spawned and not world._v3_transition_in_progress),"medical host loads production base")
 	check(await wait_until(body_ready),"host initializes recoverable medical body")
 	var actor: GamePlayer=world.players.get_node("1")

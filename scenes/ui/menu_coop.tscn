@@ -43,7 +43,7 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 17
 disabled = true
-text = "СОЗДАТЬ STEAM-ЛОББИ"
+text = "СОЗДАТЬ КООПЕРАТИВ"
 alignment = 0
 script = ExtResource("1_cj5tf")
 
@@ -53,16 +53,7 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 17
 disabled = true
-text = "ПОДКЛЮЧИТЬСЯ ПО ID"
-alignment = 0
-script = ExtResource("1_cj5tf")
-
-[node name="Character" type="Button" parent="." unique_id=1650142558]
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 17
-text = "ВЫБРАТЬ ПЕРСОНАЖА"
+text = "ПРИСОЕДИНИТЬСЯ"
 alignment = 0
 script = ExtResource("1_cj5tf")
 

@@ -7,7 +7,10 @@ func _initialize():
 func check(ok: bool, label: String):
 	print("PASS " if ok else "FAIL ",label)
 	if not ok: failures.append(label)
-func settle(seconds := 0.7): await create_timer(seconds).timeout
+func settle(seconds := 0.7):
+	await create_timer(seconds).timeout
+	var limit:=Time.get_ticks_msec()+4000
+	while root.get_node("GameMenu").shell.busy and Time.get_ticks_msec()<limit:await process_frame
 func run():
 	await process_frame
 	var menu = root.get_node("GameMenu")
@@ -31,6 +34,17 @@ func run():
 	menu.dialog.dismiss()
 	await settle()
 	check(Input.mouse_mode==Input.MOUSE_MODE_VISIBLE, "modal preserves visible mouse ownership of another gameplay interface")
+	menu.open_menu()
+	await create_timer(.12).timeout
+	check(menu.shell.busy and menu.shell.shade.modulate.a>0.0 and menu.shell.shade.modulate.a<1.0 and menu.shell.content.modulate.a<1.0,"gameplay menu enters with a gradual backdrop and content fade")
+	menu.close_menu()
+	check(menu.is_menu_open(),"an exit cannot interrupt the unfinished entrance")
+	await settle()
+	menu.close_menu()
+	await create_timer(.10).timeout
+	check(menu.is_menu_open() and menu.shell.busy and menu.shell.shade.modulate.a>0.0 and menu.shell.shade.modulate.a<1.0,"closing fades the live backdrop before hiding the gameplay menu")
+	await settle()
+	check(not menu.is_menu_open() and not menu.shell.busy,"animated close releases gameplay input after completing the fade")
 	menu.open_menu()
 	await settle()
 	menu.open_settings()
@@ -125,5 +139,9 @@ func run():
 	menu.settings_panel.request_back()
 	await settle()
 	check(not menu.is_menu_open() and main.is_ancestor_of(root.gui_get_focus_owner()), "returning from settings restores focus to the main menu")
+	menu.force_close_menu()
+	current_scene=null
+	main.queue_free()
+	await create_timer(.2).timeout
 	print("MENU LIFECYCLE RESULT ",failures)
 	quit(0 if failures.is_empty() else 1)

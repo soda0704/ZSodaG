@@ -17,14 +17,13 @@ func run() -> void:
  main.show_character("solo")
  for i in 4:await process_frame
  var selector = main.selector
- selector._update_preview_size()
- check(selector.get_node("Preview") is TextureRect and selector.preview.msaa_3d==Viewport.MSAA_8X,"menu uses supersampled texture with 8x MSAA")
- check(selector.preview.size.y>selector.get_node("Preview").size.y and selector.preview.size.y<=2160,"preview oversamples without unbounded 4K cost")
- var env:Environment=selector.preview.find_children("*","WorldEnvironment",true,false)[0].environment
+ selector._update_preview_sizes()
+ check(selector.choices.size()==2 and selector.previews.all(func(view):return view.msaa_3d==Viewport.MSAA_2X),"both characters use native texture buttons with 2x MSAA")
+ check(selector.previews[0].size.y<=selector.choices[0].size.y and selector.previews[0].size.y<=1080,"paired previews avoid supersampling and bound their render sizes")
+ var env:Environment=selector.previews[0].get_node("Environment").environment
  check(env.background_color==Color(0,0,0,0),"transparent AA edge has no white clear colour")
- check(selector.get_node("Preview").material.shader.code.contains("blend_premul_alpha"),"preview compositing preserves antialiased alpha edges")
- var style:StyleBoxFlat=selector.option.get_theme_stylebox("normal")
- check(style.bg_color.a>0.9 and style.bg_color.get_luminance()<0.04,"character dropdown has its own opaque dark backdrop")
+ check(selector.choices[0].material.shader.code.contains("blend_premul_alpha"),"preview compositing preserves antialiased alpha edges")
+ check(selector.find_children("*","OptionButton",true,false).is_empty(),"character selection has no dropdown")
  main.queue_free();await process_frame
  var base=load("res://scenes/levels/base_blockout_v03.tscn").instantiate();root.add_child(base);current_scene=base
  var state:BaseGameplayController=base.get_node("BaseGameplayController");state.progress_persistence_enabled=false;state.set_process(false)

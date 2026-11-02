@@ -34,7 +34,7 @@ func run() -> void:
 	get_tree().current_scene = world
 	if not host:
 		check(await wait_until(func(): return peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED), "client connects before starting session")
-	world._on_session_ready(host)
+	world.start_test_session(host)
 	check(await wait_until(func(): return world._entered_v3_level and not world._v3_transition_in_progress and (not host or world._v3_items_spawned)), "load production session")
 	if host:
 		world._base_gameplay_controller.set_process(false)

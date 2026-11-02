@@ -1,11 +1,23 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/components/camera_post_process.gd" id="script"]
-[ext_resource type="Shader" path="res://assets/shaders/fears_to_fathom.gdshader" id="shader"]
+[ext_resource type="Shader" path="res://assets/shaders/realistic_photography_camera.gdshader" id="shader"]
 
 [sub_resource type="ShaderMaterial" id="material"]
 resource_local_to_scene = true
 shader = ExtResource("shader")
+shader_parameter/iso = 400.0
+shader_parameter/fstop = 4.0
+shader_parameter/shutter_speed = 0.016666667
+shader_parameter/set_ev = -0.05
+shader_parameter/base_ev = 19.90689
+shader_parameter/motion_blur_enabled = false
+shader_parameter/samples = 8
+shader_parameter/noise_intensity = 0.08
+shader_parameter/max_noise = 0.12
+shader_parameter/r_intensity = 0.5
+shader_parameter/g_intensity = 0.5
+shader_parameter/b_intensity = 0.5
 
 [node name="CameraPostProcess" type="Control"]
 visible = false

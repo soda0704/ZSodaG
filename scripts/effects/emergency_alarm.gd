@@ -20,7 +20,7 @@ func advance_emergency(delta: float) -> float:
 		return 1.0
 	# Muted outside, still advancing: entering the base must not reset the beat.
 	if not playing: play()
-	_gain=move_toward(_gain,1.0 if presence.listener_inside() else 0.0,delta/presence_fade_seconds)
+	_gain=move_toward(_gain,presence.listener_gain(),delta/presence_fade_seconds)
 	volume_db=alarm_volume_db+linear_to_db(maxf(smoothstep(0.0,1.0,_gain),.00001))
 	var clock:=get_playback_position()+AudioServer.get_time_since_last_mix()-AudioServer.get_output_latency()
 	animation.seek(fposmod(maxf(0.0,clock),stream.get_length()),true)

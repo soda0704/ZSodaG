@@ -19,6 +19,16 @@ func check(value: bool, message: String) -> void:
 
 func wait_ui() -> void:
 	await create_timer(0.8).timeout
+	var limit:=Time.get_ticks_msec()+5000
+	while Time.get_ticks_msec()<limit:
+		var menu=root.get_node("GameMenu")
+		var scene=current_scene
+		var ready:bool=not menu.shell.busy
+		if scene!=null and scene.is_in_group("main_menu"):
+			ready=ready and not scene.shell.busy
+			if is_instance_valid(scene.selector):ready=ready and scene.selector._picking_ready
+		if ready:break
+		await process_frame
 
 func screenshot(label: String) -> void:
 	await RenderingServer.frame_post_draw
@@ -64,14 +74,10 @@ func run() -> void:
 	if main.current_view != "character" or not is_instance_valid(main.selector):
 		quit(1)
 		return
-	var start_button = main.shell.footer.get_child(main.shell.footer.get_child_count() - 2)
-	start_button.grab_focus()
+	check(main.selector.choices.size()==2 and main.shell.top_rail.visible and main.shell.bottom_rail.visible and not main.shell.header.visible and main.shell.footer.get_node("CharacterBack").is_visible_in_tree(), "character screen keeps black bars and Back without captions or a separate start button")
+	main.selector.choices[1].grab_focus()
 	await wait_ui()
-	check(start_button.selection_line_rect().size.x <= start_button.get_theme_font("font").get_string_size(start_button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, start_button.get_theme_font_size("font_size")).x + 1, "character action underline stays within the caption width")
-	check(start_button.get_theme_stylebox("focus").get_border_width(SIDE_BOTTOM) == 0, "native focus does not add a second full-width underline")
-	main.selector.option.grab_focus()
-	await wait_ui()
-	check(main.selector.option.selection_line_rect().size.x < main.selector.option.size.x * 0.5 and main.selector.option.get_theme_stylebox("focus") == main.selector.option.get_theme_stylebox("hover"), "character selector keeps its authored focus frame and caption-sized underline")
+	check(main.selector._highlighted==1 and main.selector._picking_ready, "native focus highlights a character and body picking is ready")
 	await screenshot("export-menu-character")
 	main.back()
 	await wait_ui()
@@ -158,7 +164,7 @@ func run() -> void:
 	await screenshot("export-menu-cabin-settings")
 	menu.force_close_menu()
 	await wait_ui()
-	check(current_scene.lobby_hud.lobby_panel.visible, "cabin hint returns after closing the menu")
+	check(not current_scene.lobby_hud.lobby_panel.visible, "solo world keeps the aircraft lobby hint hidden after closing the menu")
 	menu.confirm("Выход", "Проверка прицела", [])
 	check(not player.crosshair.visible, "standalone confirmation hides the gameplay reticle")
 	player.survival._sync(player.survival.health, 0, false, "", 0)

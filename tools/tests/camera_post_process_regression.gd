@@ -4,8 +4,10 @@ const OUTPUT := "res://tools/.local/feedback-fixes-2026-10-30/"
 var checks := 0
 var failures := 0
 var actor: GamePlayer
+var output := OUTPUT
 
 func _initialize() -> void:
+	if not OS.get_environment("NORTHERNLAB_EXPORT_CAPTURE_DIR").is_empty():output=OS.get_environment("NORTHERNLAB_EXPORT_CAPTURE_DIR")+"/"
 	var prefix := "user://camera_post_process_%d" % OS.get_process_id()
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,prefix+".cfg")
 	ProjectSettings.set_setting("northern_lab/testing/settings_path",prefix+".json")
@@ -26,7 +28,7 @@ func picture(label: String = "") -> Image:
 	for frame in 6: await process_frame
 	await RenderingServer.frame_post_draw
 	var result := root.get_texture().get_image()
-	if not label.is_empty(): result.save_png(OUTPUT+label+".png")
+	if not label.is_empty(): result.save_png(output+label+".png")
 	return result
 
 func difference(a: Image, b: Image, area: Rect2i) -> float:
@@ -47,7 +49,7 @@ func marker(parent: Node, position: Vector2, size: Vector2, color: Color) -> Col
 
 func run() -> void:
 	if DisplayServer.get_name()=="headless":push_error("Graphical renderer required");quit(2);return
-	DirAccess.make_dir_recursive_absolute(OUTPUT)
+	DirAccess.make_dir_recursive_absolute(output)
 	Engine.max_fps=60;root.size=Vector2i(1280,720)
 	root.content_scale_size=Vector2i(1280,720)
 	root.get_node("GameMenu/GraphicsQuality").set_process(false)
@@ -65,6 +67,7 @@ func run() -> void:
 	var effect:=actor.get_node("PlayerUI/CameraPostProcess")
 	await picture()
 	check(effect.visible,"local active camera enables the effect automatically")
+	check(effect.get_node("Effect").material.shader.resource_path.ends_with("realistic_photography_camera.gdshader"),"Realistic Photography Camera replaces the previous shader")
 	check(effect.get_node("Effect").size==root.get_visible_rect().size,"effect covers the player viewport")
 	effect.effect_enabled=false
 	var before:=await picture("camera-shader-before")
@@ -96,9 +99,9 @@ func run() -> void:
 	check(not remote_effect.visible and effect.visible,"second player never adds a second full-screen pass")
 	var local_material:ShaderMaterial=effect.get_node("Effect").material
 	var remote_material:ShaderMaterial=remote_effect.get_node("Effect").material
-	local_material.set_shader_parameter("noise_strength",.02)
-	check(local_material!=remote_material and remote_material.get_shader_parameter("noise_strength")!=.02,"material tuning remains local to each player instance")
-	local_material.set_shader_parameter("noise_strength",.048)
+	local_material.set_shader_parameter("noise_intensity",.02)
+	check(local_material!=remote_material and remote_material.get_shader_parameter("noise_intensity")!=.02,"material tuning remains local to each player instance")
+	local_material.set_shader_parameter("noise_intensity",.08)
 	actor.debug_free_camera.set_enabled(true)
 	await picture()
 	check(not effect.visible,"switching away from player camera disables its screen effect")
@@ -112,6 +115,7 @@ func run() -> void:
 	root.size=Vector2i(960,540)
 	await picture()
 	check(effect.get_node("Effect").size==root.get_visible_rect().size,"screen effect follows viewport resizing")
+	check(local_material.get_shader_parameter("resolution")==Vector2(root.get_texture().get_size()),"grain resolution tracks the actual screen texture")
 	actor=null;current_scene=null;base.queue_free()
 	for frame in 4:await process_frame
 	check(get_nodes_in_group("local_player").is_empty(),"removing the player releases the effect with the level")

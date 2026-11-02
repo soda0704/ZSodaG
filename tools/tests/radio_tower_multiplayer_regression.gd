@@ -24,7 +24,7 @@ func run() -> void:
 	get_tree().root.add_child(world); get_tree().current_scene = world
 
 	if host:
-		world._on_session_ready(true)
+		world.start_test_session(true)
 		check(await wait_until(func(): return world._v3_items_spawned and not world._v3_transition_in_progress),"host loads production tower")
 		print("HOST_READY_FOR_RADIO_CLIENT")
 		check(await wait_until(func():return acknowledged>=1),"late guest receives the same campaign code")

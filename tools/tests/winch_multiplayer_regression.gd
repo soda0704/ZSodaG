@@ -59,7 +59,7 @@ func run() -> void:
 		check(await wait_until(func(): return winch._cabin_motion_elapsed > 0.1 and winch.cabin.position.y < -0.1), "late join restores original motion progress")
 		winch_ready.rpc_id(1)
 		return
-	world._on_session_ready(true)
+	world.start_test_session(true)
 	check(await wait_until(func(): return world._v3_items_spawned), "host resumes production winch")
 	winch = get_tree().get_first_node_in_group("expedition_winches")
 	world._base_gameplay_controller.set_process(false)

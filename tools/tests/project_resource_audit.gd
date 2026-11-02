@@ -28,7 +28,7 @@ func scan(path: String) -> void:
 		failures += 1
 		return
 	for file in directory.get_files():
-		if file.get_extension() in ["tscn", "tres", "res"]:
+		if file.get_extension() in ["tscn", "scn", "tres", "res"]:
 			inspect(path.path_join(file))
 	for folder in directory.get_directories():
 		scan(path.path_join(folder))

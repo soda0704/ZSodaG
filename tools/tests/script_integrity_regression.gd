@@ -23,7 +23,7 @@ func scan_scripts(path: String) -> void:
 func scan_scenes(path: String) -> void:
 	var directory := DirAccess.open(path)
 	for file in directory.get_files():
-		if file.get_extension() != "tscn": continue
+		if file.get_extension() not in ["tscn", "scn"]: continue
 		var scene_path := path.path_join(file)
 		var scene := load(scene_path) as PackedScene
 		if scene == null:

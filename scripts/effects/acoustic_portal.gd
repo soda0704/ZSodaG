@@ -7,12 +7,17 @@ extends Node3D
 @export var fade_seconds := 0.45
 @export var roof_probe_guard_distance := 3.0
 @export var occlusion_interval := 0.25
+@export var interior_leak_distance := 6.0
+@export_range(0.0, 1.0) var interior_leak_gain := .65
 @onready var volume: CollisionShape3D = $Passage/CollisionShape3D
 @onready var wind: AudioStreamPlayer3D = $Wind
 var _door: Node3D
 var _manager: Node
 var _occlusion_time := 0.0
 var _path_clear := true
+var _leak_probe_at := Vector3.INF
+var _next_leak_probe := 0
+var _leak_path_clear := false
 
 func _ready() -> void:
 	add_to_group("acoustic_portals")
@@ -55,6 +60,19 @@ func wind_path_clear(camera: Camera3D) -> bool:
 	var target := wind.global_position + global_basis.z.normalized() * 0.35
 	var query := PhysicsRayQueryParameters3D.create(camera.global_position, target, 1, excluded)
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
+func interior_gain_at(camera: Camera3D) -> float:
+	var opened := openness()
+	var distance := camera.global_position.distance_to(wind.global_position)
+	if opened <= .001 or distance >= interior_leak_distance: return 0.0
+	# Reuse the real doorway and its collision, without a second alarm player/clock.
+	var now := Time.get_ticks_msec()
+	if now >= _next_leak_probe or camera.global_position.distance_squared_to(_leak_probe_at) > .25:
+		_leak_probe_at = camera.global_position
+		_next_leak_probe = now + roundi(occlusion_interval * 1000)
+		_leak_path_clear = wind_path_clear(camera)
+	if not _leak_path_clear: return 0.0
+	return opened * interior_leak_gain * (1.0 - smoothstep(0.0, interior_leak_distance, distance))
 
 func update_audio(delta: float) -> void:
 	var acoustics := get_tree().get_first_node_in_group("exterior_acoustics")

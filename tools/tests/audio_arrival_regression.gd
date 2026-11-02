@@ -21,11 +21,10 @@ func run() -> void:
 	for attempt in 2:
 		await menu.start_standalone_flow()
 		var session:=current_scene
-		await session._enter_v3_level()
 		var level:Node3D=session.get_node("V3Level")
 		var lighting:WorldLighting=level.get_node("WorldLighting")
 		var alarm:AudioStreamPlayer=lighting.get_node("EmergencyAlarm")
-		check(not session._v3_transition_in_progress and not session.lobby_hud.flight_transition.visible,"arrival %d completes real staged loading"%attempt)
+		check(not session._v3_transition_in_progress and not session.lobby_hud.flight_transition.visible and not session.is_solo_arrival() and not session.has_node("ArrivalCabin"),"solo %d loads directly into the world without a cabin readiness step"%attempt)
 		check(alarm.power==level.get_node("BasePowerLightingController") and alarm.presence==level.get_node("BaseInteriorAmbience"),"arrival %d binds alarm to this level's power and occupancy"%attempt)
 		var remnants:=0
 		for box:CSGBox3D in level.find_children("*","CSGBox3D",true,false):

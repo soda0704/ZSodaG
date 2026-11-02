@@ -75,6 +75,13 @@ func mix_audio(delta: float, point: Vector3, active: bool = true) -> void:
 	AudioFade.apply(muffled_wind, db_to_linear(wind_volume_db) * sheltered_wind_gain * (1.0 - outside) if active else 0.0, delta, fade_seconds)
 	AudioFade.apply(storm, db_to_linear(storm_volume_db) * storm_intensity(point) * outside, delta, fade_seconds)
 
+func interior_gain_at(camera: Camera3D) -> float:
+	var gain := 0.0
+	# Staged floors can add their portals after this node's initial binding.
+	for portal: AcousticPortal in get_tree().get_nodes_in_group("acoustic_portals"):
+		gain = maxf(gain, portal.interior_gain_at(camera))
+	return gain
+
 func _physics_process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if camera != null:

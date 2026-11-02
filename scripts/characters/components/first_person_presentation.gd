@@ -334,7 +334,12 @@ func _update_lighting(delta: float) -> void:
 	var target := Color(0.02,0.025,0.03)
 	if lighting != null: target=lighting.sample_view_light(camera)
 	var magnitude:=maxf(target.r,maxf(target.g,target.b))
-	_lighting_fill.light_color=target/magnitude if magnitude>0.0001 else Color.WHITE
+	if magnitude<=.0001:
+		# A blackout must not turn a still-fading red light into white.
+		_lighting_fill.light_energy=0.0
+		return
+	# Keep the current source hue throughout its attack. Darkness preserves hue.
+	_lighting_fill.light_color=target/magnitude
 	_lighting_fill.light_energy=lerpf(_lighting_fill.light_energy,magnitude,1.0-exp(-8.0*delta))
 
 static func update_offer_tree(target_tree: AnimationTree, values: Dictionary, delta: float) -> void:

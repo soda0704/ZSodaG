@@ -8,9 +8,11 @@ var shade: ColorRect
 var top_rail: ColorRect
 var bottom_rail: ColorRect
 var video: VideoStreamPlayer
+var presentation: Control
 var busy := false
 var _epoch := 0
 var _motion: Tween
+var _stagger_items: Array[Control] = []
 
 func _ready() -> void:
 	NorthernMenuStyle.fill(self)
@@ -38,74 +40,91 @@ func replace(view: Control) -> void:
 	content.add_child(view)
 	NorthernMenuStyle.fill(view)
 
-func transition(callback: Callable, compact: bool = false) -> void:
-	if busy:
-		return
+func transition(callback: Callable, compact: bool = false, closing: bool = false) -> void:
+	if busy: return
 	busy = true
 	_epoch += 1
 	var epoch := _epoch
-	var tween := create_tween().set_parallel(true)
-	_motion = tween
 	var origin := content.position.x
-	var duration := 0.12 if compact else 0.20
-	tween.tween_property(content, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
-	tween.tween_property(content, "position:x", origin - 12.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
-	tween.tween_property(header, "modulate:a", 0.65, duration)
-	tween.tween_property(footer, "modulate:a", 0.42, duration)
-	await tween.finished
-	if epoch != _epoch:
-		return
+	var duration := .16 if compact else .30
+	if is_instance_valid(presentation) and presentation.is_visible_in_tree():
+		duration = .55
+	_motion = create_tween().set_parallel(true)
+	_motion.tween_property(content, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	_motion.tween_property(content, "position:x", origin - 18.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	_motion.tween_property(header, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	_motion.tween_property(footer, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	if closing:
+		_motion.tween_property(shade, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	if is_instance_valid(presentation) and presentation.has_method("animate_out"):
+		presentation.animate_out(_motion, duration)
+	await _motion.finished
+	if epoch != _epoch: return
 	content.position.x = origin
 	callback.call()
-	# Closing a menu or replacing its scene can cancel this transition in callback.
-	if epoch != _epoch or not is_inside_tree():
-		return
-	content.modulate.a = 0
-	content.position.x += 15
-	var enter := create_tween().set_parallel(true)
-	_motion = enter
-	enter.tween_property(content, "modulate:a", 1.0, 0.20 if compact else 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
-	enter.tween_property(content, "position:x", content.position.x - 15, 0.24 if compact else 0.40).set_custom_interpolator(NorthernMenuStyle.ease)
-	enter.tween_property(header, "modulate:a", 1.0, 0.25)
-	enter.tween_property(footer, "modulate:a", 1.0, 0.30)
-	if not compact:
-		_stagger(enter)
-	await enter.finished
-	if epoch == _epoch:
+	# Scene changes/force_close_menu cancel the old sequence before the next entry.
+	if epoch != _epoch or not is_inside_tree(): return
+	if closing:
 		busy = false
+		return
+	_motion = create_tween().set_parallel(true)
+	_enter(_motion, .30 if compact else .52, not compact)
+	await _motion.finished
+	if epoch == _epoch: busy = false
 
-func _stagger(tween: Tween) -> void:
-	var items: Array[Node] = []
+func disappear(callback: Callable) -> void:
+	transition(callback, false, true)
+
+func _enter(motion: Tween, duration: float, stagger: bool) -> void:
+	content.modulate.a = 0.0
+	content.position.x += 22.0
+	motion.tween_property(content, "modulate:a", 1.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	motion.tween_property(content, "position:x", content.position.x - 22.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	motion.tween_property(header, "modulate:a", 1.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	motion.tween_property(footer, "modulate:a", 1.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	if stagger: _stagger(motion)
+
+func _stagger(motion: Tween) -> void:
+	_stagger_items.clear()
 	for navigation in content.find_children("Navigation", "Container", true, false):
 		if navigation.is_visible_in_tree():
-			items.append_array(navigation.get_children())
+			for child in navigation.get_children():
+				if child is Control: _stagger_items.append(child)
 	for row in content.find_children("*", "HBoxContainer", true, false):
 		if row.is_visible_in_tree() and row.get_script() == preload("res://scripts/ui/menu_setting_row.gd"):
-			items.append(row)
-	for index in mini(items.size(), 7):
-		var item := items[index] as Control
-		item.modulate.a = 0
-		tween.tween_property(item, "modulate:a", 1.0, 0.24).set_delay(index * 0.025).set_custom_interpolator(NorthernMenuStyle.ease)
+			_stagger_items.append(row)
+	for page in content.get_children():
+		for child in page.get_children():
+			if child is BaseButton and child.is_visible_in_tree() and child not in _stagger_items:
+				_stagger_items.append(child)
+	for index in mini(_stagger_items.size(), 7):
+		var item := _stagger_items[index]
+		item.modulate.a = 0.0
+		motion.tween_property(item, "modulate:a", 1.0, .38).set_delay(index * .04).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func appear() -> void:
 	cancel_transition()
-	content.modulate.a = 0
-	_motion = create_tween()
-	_motion.tween_property(content, "modulate:a", 1.0, 0.30).set_custom_interpolator(NorthernMenuStyle.ease)
+	busy = true
+	var epoch := _epoch
+	header.modulate.a = 0.0
+	footer.modulate.a = 0.0
+	shade.modulate.a = 0.0
+	_motion = create_tween().set_parallel(true)
+	_motion.tween_property(shade, "modulate:a", 1.0, .5).set_custom_interpolator(NorthernMenuStyle.ease)
+	_enter(_motion, .6, true)
+	_motion.finished.connect(func():
+		if epoch == _epoch: busy = false
+	)
 
 func cancel_transition() -> void:
 	_epoch += 1
-	if _motion != null and _motion.is_valid():
-		_motion.kill()
+	if _motion != null and _motion.is_valid(): _motion.kill()
 	busy = false
-	content.modulate.a = 1
+	content.modulate.a = 1.0
 	content.offset_left = 72 if top_rail.visible else 99
-	header.modulate.a = 1
-	footer.modulate.a = 1
-	for navigation in content.find_children("Navigation", "Container", true, false):
-		for item in navigation.get_children():
-			if item is Control:
-				item.modulate.a = 1
-	for row in content.find_children("*", "HBoxContainer", true, false):
-		if row.get_script() == preload("res://scripts/ui/menu_setting_row.gd"):
-			row.modulate.a = 1
+	header.modulate.a = 1.0
+	footer.modulate.a = 1.0
+	shade.modulate.a = 1.0
+	for item in _stagger_items:
+		if is_instance_valid(item): item.modulate.a = 1.0
+	_stagger_items.clear()

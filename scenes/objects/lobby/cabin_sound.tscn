@@ -28,7 +28,6 @@ _data = {&"RESET": SubResource("reset"), &"arrival": SubResource("arrival")}
 bus = &"Vehicles"
 stream = ExtResource("1")
 volume_db = -12.0
-autoplay = true
 
 [node name="FadePlayer" type="AnimationPlayer" parent="."]
 libraries = {&"": SubResource("library")}

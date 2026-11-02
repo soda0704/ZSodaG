@@ -225,11 +225,11 @@ func start_standalone_game() -> void:
 	if not multiplayer.is_server() or not _player_roster.is_empty():
 		return
 	_standalone_mode = true
-	overview_camera.current = false
 	GameMenu.force_close_menu()
-	spawn_player_for_peer(multiplayer.get_unique_id())
+	# Solo has no cabin player. Spawn only after world coordinates and physics exist.
+	if has_node("ArrivalCabin"): $ArrivalCabin.hide()
 	lobby_hud.refresh()
-	# New solo sessions stay playable in the cabin until the ESC ready action.
+	# GameMenu immediately loads the world for both new and resumed solo games.
 
 
 func is_waiting_for_arrival() -> bool:
@@ -247,12 +247,13 @@ func begin_solo_arrival() -> void:
 
 
 func _on_session_ready(as_host: bool) -> void:
+	if as_host: _start_cabin_audio()
 	if as_host:
 		spawn_player_for_peer(1)
-		if resume_base_on_start:
-			_enter_v3_level.rpc()
-		elif uses_staging_lobby:
+		if uses_staging_lobby:
 			GameMenu.call_deferred("open_menu", GlobalGameMenu.MenuView.SESSION)
+		elif resume_base_on_start:
+			_enter_v3_level.rpc()
 		if not uses_staging_lobby or CoopLobby.game_has_started:
 			spawn_initial_items()
 	else:
@@ -286,8 +287,18 @@ func _request_gameplay_state() -> void:
 	if _entered_v3_level:
 		_enter_v3_level.rpc_id(sender_id)
 		return
+	_confirm_staging_lobby.rpc_id(sender_id)
 	for ramp in get_tree().get_nodes_in_group("helicopter_ramps"):
 		ramp.sync_network_state_to_peer(sender_id)
+
+@rpc("authority", "call_remote", "reliable")
+func _confirm_staging_lobby() -> void:
+	# A late join to an already running base must never start the cabin loop.
+	_start_cabin_audio()
+
+func _start_cabin_audio() -> void:
+	if not _standalone_mode and uses_staging_lobby and not _entered_v3_level and not _v3_transition_in_progress and has_node("CabinSound"):
+		if not $CabinSound/CabinLoop.playing: $CabinSound/CabinLoop.play()
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -518,16 +529,17 @@ func _enter_v3_level() -> void:
 		if player is GamePlayer: _pause_transition_player(player)
 	_entered_v3_level = true
 	if has_node("CabinSound"):
-		if resume_base_on_start:
+		if _standalone_mode or resume_base_on_start:
 			$CabinSound/CabinLoop.stop()
 		else:
 			$CabinSound/FadePlayer.play("arrival")
 	GameMenu.force_close_menu()
 	preload("res://scripts/network/level_load_job.gd").trace("cover_begin")
 	var transition_id := lobby_hud.show_transition_cover(
-		"ПОСАДКА У БАЗЫ..."
+		"ЗАГРУЗКА БАЗЫ..." if _standalone_mode else "ПОСАДКА У БАЗЫ..."
 	)
 	preload("res://scripts/network/level_load_job.gd").trace("cover_end")
+	await GameMenu.release_scene_load_cover()
 	await get_tree().create_timer(0.8).timeout
 
 	var packed_level: PackedScene
@@ -640,6 +652,8 @@ func _enter_v3_level() -> void:
 			transport.set_day(_base_gameplay_controller.day_index)
 			transport.restore_checkpoint_floor(int(_base_gameplay_controller.maintenance.get(transport.checkpoint_key, 0)))
 
+	if _standalone_mode and _player_roster.is_empty():
+		spawn_player_for_peer(multiplayer.get_unique_id())
 	overview_camera.current = false
 	# Let the authored terrain and CSG collision enter the physics world before
 	# moving players away from the staging cabin.
@@ -980,6 +994,9 @@ func _on_peer_joined(peer_id: int) -> void:
 
 
 func _on_session_closed(_reason: String) -> void:
+	if has_node("CabinSound"):
+		$CabinSound/FadePlayer.stop()
+		$CabinSound/CabinLoop.stop()
 	_peer_inventory_ids.clear()
 	if is_instance_valid(_base_gameplay_controller):
 		_base_gameplay_controller.progress_persistence_enabled = false

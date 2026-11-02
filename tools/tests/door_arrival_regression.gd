@@ -12,24 +12,19 @@ func run():
 	await root.get_node("GameMenu").start_standalone_flow()
 	var world = current_scene
 	await create_timer(2).timeout
-	check(world.is_solo_arrival(), "new solo stays in helicopter")
+	check(world.has_node("V3Level") and not world.is_solo_arrival(), "new solo starts directly in the world")
 	var menu = root.get_node("GameMenu")
-	check(not menu.is_menu_open(), "cabin initially playable")
+	check(not menu.is_menu_open(), "world initially playable")
 	var escape := InputEventAction.new()
 	escape.action = "pause"
 	escape.pressed = true
 	menu._unhandled_input(escape)
-	check(menu.session_panel.visible and not menu.ready_button.disabled, "ESC exposes solo readiness")
+	check(menu.main_panel.visible and not menu.session_panel.visible, "ESC opens ordinary gameplay menu without solo readiness")
 	menu.close_menu()
 	await create_timer(0.6).timeout
-	check(world.is_solo_arrival() and not menu.is_menu_open(), "closing ESC does not land")
-	menu.open_menu(menu.MenuView.SESSION)
-	menu._on_ready_pressed()
-	var arrival_deadline := Time.get_ticks_msec() + 30000
-	while (not world.has_node("V3Level") or world._v3_transition_in_progress) and Time.get_ticks_msec() < arrival_deadline:
-		await create_timer(0.1).timeout
+	check(not world.is_solo_arrival() and not menu.is_menu_open(), "closing ESC returns to the loaded world")
 	var arrived: bool = world.has_node("V3Level") and not world._v3_transition_in_progress and not world.is_solo_arrival()
-	check(arrived, "explicit readiness lands at base")
+	check(arrived, "solo entry completes world loading automatically")
 	if not arrived:
 		quit(1)
 		return

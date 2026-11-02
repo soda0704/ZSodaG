@@ -33,7 +33,7 @@ func run() -> void:
 		check(await wait_until(func(): return world._entered_v3_level and not world._v3_transition_in_progress and world.players.get_child_count() == 2), "guest loads real expedition")
 		ready_for_contention.rpc_id(1)
 		return
-	world._on_session_ready(true)
+	world.start_test_session(true)
 	check(await wait_until(func(): return world._v3_items_spawned and not world._v3_transition_in_progress), "host loads real expedition")
 	world.set_process(false)
 	world._base_gameplay_controller.set_process(false)

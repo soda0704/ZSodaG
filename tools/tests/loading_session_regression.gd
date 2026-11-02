@@ -42,14 +42,12 @@ func run() -> void:
 			"bloom": values.Bloom = false
 		quality.apply(values)
 	Engine.max_fps = 60
+	measuring = true
 	await menu.start_standalone_flow()
-	await create_timer(1.0).timeout
+	measuring = false
 	var session = current_scene
 	check(session != null and session.has_method("_enter_v3_level"), "real solo session started")
 	if not failures.is_empty(): quit(1); return
-	measuring = true
-	await session._enter_v3_level()
-	measuring = false
 	check(not session._v3_transition_in_progress, "arrival finishes")
 	check(not session.lobby_hud.flight_transition.visible, "cover fades after readiness")
 	var level = session.get_node_or_null("V3Level")

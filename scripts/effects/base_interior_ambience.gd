@@ -18,7 +18,10 @@ func contains_point(point: Vector3) -> bool:
 	return false
 
 func mix_presence(delta: float, inside: bool) -> void:
-	_blend = move_toward(_blend, 1.0 if inside else 0.0, delta / maxf(fade_seconds, 0.01))
+	mix_gain(delta, 1.0 if inside else 0.0)
+
+func mix_gain(delta: float, gain: float) -> void:
+	_blend = move_toward(_blend, clampf(gain, 0.0, 1.0), delta / maxf(fade_seconds, 0.01))
 	volume_db = linear_to_db(maxf(db_to_linear(ambience_volume_db) * smoothstep(0.0, 1.0, _blend), 0.00001))
 	if _blend > 0.0 and not _started:
 		play()
@@ -34,4 +37,11 @@ func listener_inside() -> bool:
 	return false
 
 func _process(delta: float) -> void:
-	mix_presence(delta, listener_inside())
+	mix_gain(delta, listener_gain())
+
+func listener_gain() -> float:
+	if listener_inside(): return 1.0
+	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
+	if is_instance_valid(player) and _acoustics != null and contains_point(player.camera.global_position):
+		return _acoustics.interior_gain_at(player.camera)
+	return 0.0

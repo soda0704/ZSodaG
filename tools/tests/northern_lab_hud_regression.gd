@@ -48,7 +48,10 @@ func review_helicopter() -> void:
 	var session: Node3D = load("res://scenes/levels/base_session.tscn").instantiate()
 	root.add_child(session)
 	current_scene = session
-	session.start_standalone_game()
+	# Review the cooperative staging cabin; solo now spawns only in the ready world.
+	session.spawn_player_for_peer(1)
+	session.overview_camera.current=false
+	session.lobby_hud.refresh()
 	await ticks(30)
 	actor = get_first_node_in_group("local_player") as GamePlayer
 	check(actor != null, "helicopter has its production local player")

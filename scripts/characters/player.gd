@@ -510,7 +510,9 @@ func update_local_view_motion(delta: float) -> void:
 		delta,
 		movement_ratio,
 		is_on_floor(),
-		_sprint_active
+		_sprint_active,
+		_is_crouching,
+		_aiming
 	)
 	flashlight.update_motion(
 		delta,
@@ -1232,6 +1234,8 @@ func _receive_authoritative_teleport(
 	_remote_target_yaw = next_yaw
 	_remote_target_pitch = 0.0
 	_reconciliation_offset = Vector3.ZERO
+	var screen_effect := get_node_or_null("PlayerUI/CameraPostProcess")
+	if screen_effect != null: screen_effect.reset_motion_history()
 
 
 func pickup_world_item_authoritative(

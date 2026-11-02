@@ -9,6 +9,12 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures.append(label)
 func settle() -> void:
 	await create_timer(0.7).timeout
+	var deadline:=Time.get_ticks_msec()+4000
+	while Time.get_ticks_msec()<deadline:
+		var menu=root.get_node("GameMenu")
+		var scene=current_scene
+		if not menu.shell.busy and (scene==null or not scene.is_in_group("main_menu") or not scene.shell.busy):break
+		await process_frame
 func capture(label: String) -> void:
 	if DisplayServer.get_name() == "headless": return
 	var output := "res://tools/.local/daily-save-ui"

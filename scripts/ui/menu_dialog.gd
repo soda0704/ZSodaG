@@ -44,15 +44,15 @@ func present(title: String, message: String, choices: Array[Dictionary]) -> void
 	if _closing:
 		return
 	_entrance = create_tween().set_parallel(true)
-	_entrance.tween_property(self, "modulate:a", 1.0, 0.26).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(panel, "modulate:a", 1.0, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(_center, "position:y", 0.0, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(_center, "scale", Vector2.ONE, 0.39).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(self, "_line_progress", 1.0, 0.46).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(self, "modulate:a", 1.0, 0.40).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(panel, "modulate:a", 1.0, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "position:y", 0.0, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "scale", Vector2.ONE, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(self, "_line_progress", 1.0, 0.60).set_custom_interpolator(NorthernMenuStyle.ease)
 	for index in $Center/Panel/Content.get_child_count():
 		var part: Control = $Center/Panel/Content.get_child(index)
 		part.modulate.a = 0
-		_entrance.tween_property(part, "modulate:a", 1.0, 0.26).set_delay(0.065 + 0.035 * index).set_custom_interpolator(NorthernMenuStyle.ease)
+		_entrance.tween_property(part, "modulate:a", 1.0, 0.40).set_delay(0.07 + 0.05 * index).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _process(_delta: float) -> void:
 	if panel != null:
@@ -72,9 +72,9 @@ func dismiss(action: Callable = Callable()) -> void:
 	for button in actions.get_children():
 		button.disabled = true
 	var exit_motion := create_tween().set_parallel(true)
-	exit_motion.tween_property(self, "modulate:a", 0.0, 0.19).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(_center, "position:y", _center.position.y + 10.5, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(_center, "scale", Vector2.ONE * 0.995, 0.17).set_custom_interpolator(NorthernMenuStyle.ease)
+	exit_motion.tween_property(self, "modulate:a", 0.0, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
+	exit_motion.tween_property(_center, "position:y", _center.position.y + 10.5, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
+	exit_motion.tween_property(_center, "scale", Vector2.ONE * 0.995, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
 	await exit_motion.finished
 	closed.emit()
 	if is_instance_valid(_previous_focus) and _previous_focus.is_visible_in_tree():

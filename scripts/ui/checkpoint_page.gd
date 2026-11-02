@@ -61,9 +61,9 @@ func animate_in() -> void:
 	_appearance = create_tween().set_parallel(true)
 	for index in _entries.size():
 		_entries[index].modulate.a = 0.0
-		_appearance.tween_property(_entries[index], "modulate:a", 1.0, .26).set_delay(index * .045).set_custom_interpolator(NorthernMenuStyle.ease)
+		_appearance.tween_property(_entries[index], "modulate:a", 1.0, .42).set_delay(index * .07).set_custom_interpolator(NorthernMenuStyle.ease)
 	%Actions.modulate.a = 0.0
-	_appearance.tween_property(%Actions, "modulate:a", 1.0, .32).set_delay(.06).set_custom_interpolator(NorthernMenuStyle.ease)
+	_appearance.tween_property(%Actions, "modulate:a", 1.0, .48).set_delay(.10).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _animate_selection() -> void:
 	# A quick selection during entrance must never leave other entries half hidden.

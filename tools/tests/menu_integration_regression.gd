@@ -16,6 +16,12 @@ func check(ok: bool, label: String) -> void:
 
 func wait_ui() -> void:
 	await create_timer(0.65).timeout
+	var limit:=Time.get_ticks_msec()+4000
+	while Time.get_ticks_msec()<limit:
+		var menu=root.get_node("GameMenu")
+		var scene=current_scene
+		if not menu.shell.busy and (scene==null or not scene.is_in_group("main_menu") or not scene.shell.busy):break
+		await process_frame
 
 func screenshot(name: String) -> void:
 	if capture and DisplayServer.get_name() != "headless":
@@ -59,11 +65,11 @@ func run() -> void:
 		menu.dialog.dismiss(main.show_character.bind("solo"))
 		await wait_ui()
 	check(main.current_view == "character", "new game opens character selection")
-	check(main.selector.option.item_count == 2, "both production characters are selectable")
-	main.selector.option.select(1)
-	main.selector.option.item_selected.emit(1)
-	check(menu.get_character_variant_id() == 1 and main.selector.model.scene_file_path.contains("tactical_b"), "character selection persists and displays the production model")
-	check(main.selector.preview.world_3d != root.world_3d and main.selector.preview.transparent_bg, "character render is isolated and transparent")
+	check(main.selector.choices.size() == 2, "both production characters are selectable")
+	var saved_variant:int=menu.get_character_variant_id()
+	main.selector.choices[1].grab_focus()
+	check(main.selector._highlighted == 1 and menu.get_character_variant_id() == saved_variant and main.selector.models[1].scene_file_path.contains("tactical_b"), "focus highlights the second production character without selecting it")
+	check(main.selector.previews[0].world_3d != root.world_3d and main.selector.previews[0].world_3d != main.selector.previews[1].world_3d and main.selector.previews[0].transparent_bg, "character renders are isolated and transparent")
 	check(main.selector.get_parent() == main.shell and main.selector.get_index() < main.shell.top_rail.get_index() and main.selector.get_index() < main.shell.bottom_rail.get_index(), "full-height character is rendered below the black menu rails")
 	await screenshot("native-character")
 	main._show_home()

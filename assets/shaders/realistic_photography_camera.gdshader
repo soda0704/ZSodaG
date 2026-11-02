@@ -1,0 +1,120 @@
+// Realistic Photography Camera by TuniTem, CC0 1.0.
+// https://godotshaders.com/shader/realistic-photography-camera/
+// Screen effect from the published shader; project tuning lives in the scene.
+// NorthernLab bodycam adaptation: lens, sensor grain, response curve and shutter.
+shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
+uniform vec2 resolution = vec2(1920, 1080);
+
+group_uniforms Camera_Settings;
+uniform float iso : hint_range(100, 25600, 100) = 400;
+uniform float fstop : hint_range(1.0, 32.0, 0.1) = 2.8;
+uniform float shutter_speed : hint_range(0.0001, 4.0, 0.0001) = 0.004;
+uniform float set_ev : hint_range(-5.0, 5.0, 0.001) = 0.0;
+group_uniforms Exposure;
+uniform float base_ev = 17.621;
+
+group_uniforms MotionBlur;
+uniform bool motion_blur_enabled = false;
+uniform vec2 blur_direction = vec2(0.0, 0.0);
+uniform float radial_blur = 0.0;
+uniform int samples : hint_range(4, 32) = 32;
+
+group_uniforms Bodycam;
+uniform float lens_amount : hint_range(0.0, 1.0) = 1.0;
+uniform float barrel_strength : hint_range(0.0, 0.15) = 0.045;
+uniform float chroma_pixels : hint_range(0.0, 2.0) = 0.65;
+uniform float vignette_strength : hint_range(0.0, 0.8) = 0.35;
+uniform float response_curve : hint_range(0.0, 0.5) = 0.18;
+uniform float saturation : hint_range(0.0, 1.2) = 0.84;
+uniform float sensor_grain : hint_range(0.0, 0.04) = 0.01;
+
+group_uniforms Noise_Settings;
+uniform float noise_intensity : hint_range(0, 1.0, 0.001) = 0.5;
+uniform float max_noise : hint_range(0.1, 2.0, 0.001) = 1.0;
+
+group_uniforms Red;
+uniform float r_intensity : hint_range(0, 2.0, 0.001) = 1.0;
+uniform float r_scale : hint_range(0.1, 0.6, 0.001) = 0.472;
+group_uniforms Green;
+uniform float g_intensity : hint_range(0, 2.0, 0.001) = 0.667;
+uniform float g_scale : hint_range(0.1, 0.6, 0.001) = 0.6;
+group_uniforms Blue;
+uniform float b_intensity : hint_range(0, 2.0, 0.001) = 1.213;
+uniform float b_scale : hint_range(0.1, 0.6, 0.001) = 0.41;
+
+// hash22 from https://www.shadertoy.com/view/lldyDn with a seed added.
+vec2 hash22(vec2 uv, float seed) {
+	uv += seed;
+	vec3 p3 = fract(vec3(uv.xyx) * vec3(0.1031, 0.1030, 0.0973));
+	p3 += dot(p3, p3.yzx + 33.33);
+	return fract((p3.xx + p3.yz) * p3.zy) * 2.0 - 1.0;
+}
+
+// Perlin noise from https://godotshaders.com/snippet/2d-noise/
+float noise(vec2 uv, float s) {
+	vec2 uv_index = floor(uv);
+	vec2 uv_fract = fract(uv);
+	vec2 blur = smoothstep(0.0, 1.0, uv_fract);
+	return mix(
+		mix(dot(hash22(uv_index + vec2(0.0, 0.0), s), uv_fract - vec2(0.0, 0.0)),
+			dot(hash22(uv_index + vec2(1.0, 0.0), s), uv_fract - vec2(1.0, 0.0)), blur.x),
+		mix(dot(hash22(uv_index + vec2(0.0, 1.0), s), uv_fract - vec2(0.0, 1.0)),
+			dot(hash22(uv_index + vec2(1.0, 1.0), s), uv_fract - vec2(1.0, 1.0)), blur.x),
+		blur.y) + 0.5;
+}
+
+void fragment() {
+	vec2 pixel = 1.0 / max(resolution, vec2(1.0));
+	vec2 p = (SCREEN_UV - 0.5) * 2.0;
+	float radius2 = dot(p, p);
+	float lens = barrel_strength * lens_amount;
+	// Overscan prevents wrapping and bright/black borders at the curved corners.
+	vec2 uv = 0.5 + p * (1.0 + lens * radius2) / (1.0 + 2.0 * lens) * 0.5;
+	uv = clamp(uv, pixel, 1.0 - pixel);
+	vec4 centre = texture(screen_texture, uv);
+	// Motion blur adapted by the author from the smooth-motion-blur shader.
+	vec4 pixel_color;
+	if (motion_blur_enabled) {
+		vec4 color = vec4(0.0);
+		float total_weight = 0.0;
+		for (int i = 0; i < samples; i++) {
+			float offset = float(i) / float(samples - 1) - 0.5;
+			vec2 flow = blur_direction + (uv - 0.5) * radial_blur;
+			color += texture(screen_texture, clamp(uv + flow * offset, pixel, 1.0 - pixel));
+			total_weight += 1.0;
+		}
+		pixel_color = color / total_weight;
+	} else {
+		pixel_color = centre;
+	}
+	vec2 fringe = p * pixel * chroma_pixels * radius2 * lens_amount;
+	pixel_color.r += texture(screen_texture, clamp(uv + fringe, pixel, 1.0 - pixel)).r - centre.r;
+	pixel_color.b += texture(screen_texture, clamp(uv - fringe, pixel, 1.0 - pixel)).b - centre.b;
+	uv.y *= resolution.y / resolution.x;
+	float light_gathering = (1.0 / (fstop * fstop)) * shutter_speed;
+	float scene_ev = set_ev + base_ev + log2(light_gathering * iso / 100.0);
+	float exposure_multiplier = pow(2.0, scene_ev - 12.0);
+	pixel_color.rgb *= exposure_multiplier;
+	vec3 bounded = clamp(pixel_color.rgb, 0.0, 1.0);
+	pixel_color.rgb = mix(pixel_color.rgb, bounded * bounded * (3.0 - 2.0 * bounded), response_curve);
+	float luminance = dot(pixel_color.rgb, vec3(0.2126, 0.7152, 0.0722));
+	pixel_color.rgb = mix(vec3(luminance), pixel_color.rgb, saturation);
+	pixel_color.rgb *= vec3(0.985, 1.015, 1.025);
+	float vignette = smoothstep(0.35, 1.45, sqrt(radius2));
+	pixel_color.rgb *= 1.0 - vignette * vignette_strength * mix(0.45, 1.0, lens_amount);
+	float photon_noise_factor = sqrt(1.0 / max(light_gathering, 0.0001));
+	float read_noise_factor = sqrt(iso / 100.0);
+	float noise_amplifier = photon_noise_factor * read_noise_factor;
+	vec3 delta_color = vec3(
+		(noise(uv * resolution.y * r_scale, 1.23 + TIME) - 0.5) * 2.0 * r_intensity,
+		(noise(uv * resolution.y * g_scale, 4.32 + TIME) - 0.5) * 2.0 * g_intensity,
+		(noise(uv * resolution.y * b_scale, 5.25 + TIME) - 0.5) * 2.0 * b_intensity
+	) * noise_intensity * min(noise_amplifier * 0.01, max_noise);
+	float grain = hash22(floor(SCREEN_UV * resolution), floor(TIME * 30.0)).x * sensor_grain;
+	// Sensor texture must not turn a completely unlit room grey.
+	float grain_mask = smoothstep(0.0, 0.08, max(luminance, 0.0)) * mix(0.4, 1.0, lens_amount);
+	pixel_color.rgb = max(vec3(0.0), pixel_color.rgb + (delta_color + vec3(grain)) * grain_mask);
+	COLOR = pixel_color;
+}

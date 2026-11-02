@@ -55,6 +55,8 @@ func run():
 	var cabin = load("res://scenes/objects/lobby/cabin_sound.tscn").instantiate()
 	root.add_child(cabin)
 	check(cabin.get_node("CabinLoop").stream.loop,"helicopter stream imported as loop")
+	check(not cabin.get_node("CabinLoop").autoplay and not cabin.get_node("CabinLoop").playing,"cabin stays silent until the cooperative session explicitly starts it")
+	cabin.get_node("CabinLoop").play()
 	cabin.get_node("FadePlayer").play("arrival")
 	await create_timer(3.8).timeout
 	check(not cabin.get_node("CabinLoop").playing,"helicopter arrival fade stops audio")

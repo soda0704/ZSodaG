@@ -51,18 +51,12 @@ func run() -> void:
 		finish()
 		return
 	var player = get_first_node_in_group("local_player")
-	if not check(player != null and session.is_solo_arrival(), "New Game spawns a playable player in the helicopter"):
+	if not check(player != null and session.has_node("V3Level") and not session.is_solo_arrival(), "New Game spawns a playable player directly in the world"):
 		finish()
 		return
 	check(player.get_node_or_null("PlayerUI/NorthernLabHUD") != null, "player HUD instantiates in the package")
 	check(session.lobby_hud != null and session.lobby_hud.lobby_panel.theme != null, "helicopter interface instantiates with its theme")
-	await capture("new-game-helicopter")
-	menu.open_menu(1)
-	menu._on_ready_pressed()
-	var deadline := Time.get_ticks_msec() + 60000
-	while Time.get_ticks_msec() < deadline and (not session.has_node("V3Level") or session._v3_transition_in_progress):
-		await create_timer(0.1).timeout
-	if not check(session.has_node("V3Level") and not session._v3_transition_in_progress, "Ready action completes the transition to the actual base"):
+	if not check(not session._v3_transition_in_progress and not session.has_node("ArrivalCabin"), "solo world is ready without a cabin readiness action"):
 		finish()
 		return
 	var base = get_first_node_in_group("base_gameplay_controller")
@@ -79,7 +73,7 @@ func run() -> void:
 	check(session != null and session.has_node("V3Level") and not session._v3_transition_in_progress, "Continue loads the saved base without another helicopter arrival")
 	check(get_first_node_in_group("base_gameplay_controller") != null and get_first_node_in_group("local_player") != null, "continued expedition restores gameplay and player")
 	menu.return_to_main_menu()
-	deadline = Time.get_ticks_msec() + 15000
+	var deadline := Time.get_ticks_msec() + 15000
 	while menu._transition_in_progress and Time.get_ticks_msec() < deadline:
 		await process_frame
 	if not check(current_scene != null and current_scene.scene_file_path == "res://scenes/ui/main_menu.tscn", "saved expedition returns to the main menu"):
@@ -88,5 +82,5 @@ func run() -> void:
 	await create_timer(0.8).timeout
 	await menu.start_standalone_flow()
 	await create_timer(0.8).timeout
-	check(current_scene != null and current_scene.has_method("is_solo_arrival") and current_scene.is_solo_arrival(), "a second New Game starts a fresh helicopter session")
+	check(current_scene != null and current_scene.has_node("V3Level") and not current_scene.is_solo_arrival(), "a second New Game starts a fresh world directly")
 	finish()

@@ -1,0 +1,52 @@
+[gd_scene format=3]
+[ext_resource type="Shader" path="res://assets/shaders/character_choice.gdshader" id="composite"]
+[ext_resource type="Script" path="res://scripts/ui/character_choice.gd" id="script"]
+
+[sub_resource type="ShaderMaterial" id="composite_material"]
+shader = ExtResource("composite")
+
+[sub_resource type="Environment" id="environment"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.78, 0.8, 0.76, 1)
+ambient_light_energy = 0.45
+reflected_light_source = 1
+
+[sub_resource type="ViewportTexture" id="texture"]
+viewport_path = NodePath("Viewport")
+
+[node name="CharacterChoice" type="TextureButton"]
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("texture")
+ignore_texture_size = true
+stretch_mode = 0
+material = SubResource("composite_material")
+script = ExtResource("script")
+
+[node name="Viewport" type="SubViewport" parent="."]
+transparent_bg = true
+msaa_3d = 1
+size = Vector2i(640, 720)
+metadata/ui_presentation = true
+
+[node name="Environment" type="WorldEnvironment" parent="Viewport"]
+environment = SubResource("environment")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Viewport"]
+rotation_degrees = Vector3(-22, -165, 0)
+light_color = Color(0.94, 0.96, 1, 1)
+light_energy = 0.65
+light_specular = 0.2
+
+[node name="RimLight" type="DirectionalLight3D" parent="Viewport"]
+rotation_degrees = Vector3(-18, 35, 0)
+light_color = Color(0.57, 0.7, 0.84, 1)
+light_energy = 0.18
+light_specular = 0.0
+
+[node name="Camera" type="Camera3D" parent="Viewport"]
+position = Vector3(0, 1.54, -1.22)
+rotation_degrees = Vector3(0, 180, 0)
+current = true
+fov = 38.0

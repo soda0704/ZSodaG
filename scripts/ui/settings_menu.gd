@@ -15,6 +15,8 @@ const QUALITY := [
 	["FogQuality", "Объёмный туман", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
 	["GIQuality", "Отражённый свет · VoxelGI", ["Низкое", "Среднее", "Высокое"], [1, 2, 3]],
 	["Bloom", "Свечение источников света"],
+	["MotionBlur", "Размытие при движении"],
+	["MotionBlurStrength", "Сила размытия", 0, 100, 5, "%"],
 	["DecalDistance", "Дальность следов и крови", 10, 70, 5, " м"],
 	["TrackCount", "Следы на снегу", 32, 512, 32, ""],
 	["VegetationDistance", "Дальность деревьев и камней", 150, 750, 50, " м"],
@@ -220,6 +222,7 @@ func _choice(key: String, text: String, labels: Array, values: Array, graphics: 
 func _toggle(key: String, text: String, graphics: bool = false, disabled: bool = false) -> void:
 	var row := _row(text)
 	var button := NorthernMenuStyle.button("Вкл." if bool(_get_value(key, graphics)) else "Выкл.", Callable(), 17)
+	button.name = key
 	button.theme_type_variation = &"MenuToggle"
 	button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
 	button.disabled = disabled

@@ -41,7 +41,7 @@ func run() -> void:
 		check(encounter.get_health(1) == 85,"direct client damage cannot mutate shared progress")
 		hives_ready.rpc_id(1)
 		return
-	world._on_session_ready(true)
+	world.start_test_session(true)
 	check(await wait_until(func(): return world._v3_items_spawned),"host resumes production cave")
 	encounter = get_tree().get_first_node_in_group("cave_hive_encounters")
 	encounter.state.set_process(false)

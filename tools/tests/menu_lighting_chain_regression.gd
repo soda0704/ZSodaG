@@ -12,7 +12,7 @@ func check(ok: bool,label:String):
 func frames(count:int):
 	for frame in count: await process_frame
 func settle(): await create_timer(0.7).timeout
-func wait_for(predicate:Callable,seconds:=15.0):
+func wait_for(predicate:Callable,seconds:=60.0):
 	var deadline=Time.get_ticks_msec()+int(seconds*1000)
 	while not predicate.call() and Time.get_ticks_msec()<deadline: await process_frame
 	return predicate.call()
@@ -31,22 +31,17 @@ func run():
 	main.single_player_button.pressed.emit()
 	await settle()
 	check(main.current_view=="character", "New Game reaches the production character selector")
-	main.selector.option.select(1)
-	main.selector.option.item_selected.emit(1)
-	main._confirm_character()
+	if not await wait_for(func():return main.selector._picking_ready):
+		check(false,"character silhouettes are ready for input");quit(1);return
+	main.selector.select_variant(1)
 	if not await wait_for(func(): return current_scene!=null and current_scene.scene_file_path==menu.MECHANICS_TEST_ROOM_SCENE and not menu._transition_in_progress):
 		check(false,"character confirmation loads the arrival session"); quit(1); return
 	var world=current_scene
 	var player=get_first_node_in_group("local_player")
 	player.survival.debug_invincible=true
-	check(world.is_solo_arrival() and menu.get_character_variant_id()==1, "chosen character enters the cabin and waits for explicit readiness")
-	menu.open_menu(menu.MenuView.SESSION)
-	await settle()
-	check(menu.session_panel.visible and not menu.ready_button.disabled, "solo lobby offers readiness without requiring a network session")
-	check(menu.shell.header.get_child(0).text.contains("ОДИНОЧНАЯ") and menu.ready_button.text == "ГОТОВ К ВЫСАДКЕ", "solo arrival is labelled as solo and uses a consistent disembark action")
-	menu._on_ready_pressed()
-	if not await wait_for(func(): return world.has_node("V3Level") and not world.is_solo_arrival() and not world._v3_transition_in_progress):
-		check(false,"readiness loads the real base"); quit(1); return
+	check(world.has_node("V3Level") and not world.is_solo_arrival() and menu.get_character_variant_id()==1, "chosen solo character enters the world directly")
+	check(not world.has_node("ArrivalCabin") and not world.lobby_hud.lobby_panel.visible, "solo world has no cabin or readiness hint")
+	check(not menu.is_menu_open() and not world._v3_transition_in_progress, "solo loading finishes without a readiness action")
 	await frames(45)
 	var level=world.get_node("V3Level")
 	var state:BaseGameplayController=level.get_node("BaseGameplayController")

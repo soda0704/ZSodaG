@@ -42,7 +42,7 @@ func visit(path: String) -> void:
 	# Includes load(variable), menu templates and resource paths stored in constants.
 	for literal in resource_literal.search_all(source):
 		var target: String = literal.get_string(1)
-		if target.get_extension() in ["gd", "tscn", "tres", "res", "glb", "gltf", "gdshader", "png", "svg", "ogg", "ogv"] and FileAccess.file_exists(target):
+		if target.get_extension() in ["gd", "tscn", "scn", "tres", "res", "glb", "gltf", "gdshader", "png", "svg", "ogg", "ogv"] and FileAccess.file_exists(target):
 			select(target)
 	# Global script classes also create dependencies without load()/preload().
 	for token in identifier.search_all(source):

@@ -64,7 +64,7 @@ func run() -> void:
 		check(bench.crafted_count()==0,"late client sees uncrafted shared recipe")
 		craft_ready.rpc_id(1)
 		return
-	world._on_session_ready(true)
+	world.start_test_session(true)
 	check(await wait_until(func():return world._v3_items_spawned),"host resumes production scene")
 	bench=get_tree().get_first_node_in_group("flamethrower_workbenches");bench.state.set_process(false)
 	check(world.world_items.get_child_count()==18,"old checkpoint migrates two part sets exactly once")

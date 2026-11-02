@@ -7,6 +7,7 @@ var client_is_ready := false
 var phase_reported_day := 0
 var world: Node
 var finish_wait := 0.0
+var unexpected_cabin_audio := false
 func _ready() -> void: run.call_deferred()
 func check(ok: bool, label: String) -> void:
 	checks += 1
@@ -14,6 +15,7 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures += 1
 func _process(_delta: float) -> void:
 	if world == null: return
+	if not host:unexpected_cabin_audio=unexpected_cabin_audio or world.get_node("CabinSound/CabinLoop").playing
 	for player in world.players.get_children():
 		player.set_physics_process(false)
 		player.survival.set_physics_process(false)
@@ -71,7 +73,11 @@ func run() -> void:
 	get_tree().root.add_child(world)
 	get_tree().current_scene = world
 	if host:
+		CoopLobby._on_session_ready(true)
 		world._on_session_ready(true)
+		check(world.is_waiting_for_arrival() and not world._v3_transition_in_progress and world.has_node("ArrivalCabin"), "resumed coop host first waits in the aircraft lobby")
+		check(world.get_node("CabinSound/CabinLoop").playing,"cooperative host hears the explicitly started staging cabin")
+		check(world.launch_test_expedition(), "ready host explicitly launches the saved coop expedition")
 		check(await wait_until(func(): return world._v3_items_spawned), "host resumed production base")
 		print("HOST_READY_FOR_RESUME_CLIENT")
 		check(await wait_until(func(): return client_is_ready), "late client receives resumed expedition")
@@ -126,6 +132,7 @@ func run() -> void:
 		check(await wait_until(func(): return peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED), "client transport connected before session RPCs")
 		world._on_session_ready(false)
 		check(await wait_until(func(): return world._entered_v3_level and not world._v3_transition_in_progress and world.players.get_child_count() == 2), "client loaded restored scene and roster")
+		check(not unexpected_cabin_audio,"late client entering an active base never starts the helicopter loop")
 		await get_tree().create_timer(0.4).timeout
 		var local: GamePlayer = get_tree().get_first_node_in_group("local_player")
 		check(local != null, "client owns restored player")
