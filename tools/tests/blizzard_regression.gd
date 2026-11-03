@@ -45,6 +45,13 @@ func mean_luminance(picture: Image, area: Rect2i) -> float:
 			count += 1
 	return total/count
 
+func marker_red(picture: Image, center: Vector2) -> float:
+	var strongest := -1.0
+	for y in range(-45,46,5):
+		for x in range(-45,46,5):
+			strongest = maxf(strongest, red_at(picture, center + Vector2(x,y)))
+	return strongest
+
 func marker(parent: Node3D, at: Vector3, size: float) -> MeshInstance3D:
 	var mesh := MeshInstance3D.new()
 	var box := BoxMesh.new(); box.size=Vector3.ONE*size
@@ -71,7 +78,7 @@ func run() -> void:
 	var weather=base.get_node("SnowExterior/Blizzard")
 	var quality=root.get_node("GameMenu/GraphicsQuality")
 	check(get_nodes_in_group("local_blizzard").size()==1,"loaded world owns exactly one local snow field")
-	check(not weather.flakes.local_coords and weather.flakes.amount==1800,"bounded GPU snow remains in world space after emission")
+	check(not weather.flakes.local_coords and weather.flakes.amount==2800,"denser small snowflakes remain in world space after emission")
 	actor.teleport_authoritative(Vector3(-60,3,50),0)
 	actor.camera.rotation=Vector3.ZERO
 	actor.get_node("PlayerUI/CameraPostProcess").effect_enabled=false
@@ -80,13 +87,25 @@ func run() -> void:
 	await settle(1.0)
 	var near=marker(base,actor.camera.global_position+Vector3(1.2,0,-4),0.8)
 	var far=marker(base,actor.camera.global_position+Vector3(-4,0,-25),3.0)
+	var transparent_far=marker(base,actor.camera.global_position+Vector3(4,0,-25),3.0)
+	var transparent_material: StandardMaterial3D = transparent_far.mesh.material
+	transparent_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	transparent_material.albedo_color.a = .85
 	await settle()
 	var near_pixel:=actor.camera.unproject_position(near.global_position)
 	var far_pixel:=actor.camera.unproject_position(far.global_position)
+	var transparent_pixel:=actor.camera.unproject_position(transparent_far.global_position)
 	var clear:=await capture("visibility-clear")
 	check(red_at(clear,near_pixel)>.3 and red_at(clear,far_pixel)>.3,"both distance markers are genuinely visible before the storm")
+	check(red_at(clear,transparent_pixel)>.3,"transparent distance marker is visible before storm")
 	weather.enabled=true
 	await settle(1.2)
+	weather.fog_material.render_priority = -100
+	await settle()
+	var old_order:=await capture("transparent-old-order")
+	check(red_at(old_order,transparent_pixel)>.3,"old render order reproduces transparent geometry leaking through storm")
+	weather.fog_material.render_priority = 126
+	await settle()
 	check(lighting._indoor_mix<.001 and weather.outside_weight>.99 and weather.flakes.visible,"outdoors activates snow and the storm profile")
 	var ends: Array[float]=[]
 	for advanced in [false,true]:
@@ -96,16 +115,17 @@ func run() -> void:
 		var close_red:=red_at(image,near_pixel);var distant_red:=red_at(image,far_pixel)
 		print("STORM PIXELS advanced=",advanced," near=",close_red," far=",distant_red)
 		check(close_red>.18 and distant_red<.04,"storm preserves a 4 m object but hides a 25 m object, advanced="+str(advanced))
-		check(actor.camera.environment.fog_enabled and actor.camera.environment.fog_density>.97,"visibility fog survives the lighting quality switch")
-		ends.append(actor.camera.environment.fog_depth_end)
+		check(red_at(image,transparent_pixel)<.04,"transparent geometry cannot draw through distant storm, advanced="+str(advanced))
+		check(weather.fog_quad.visible and actor.camera.environment.fog_density<.001,"spatial exterior fog survives the lighting quality switch")
+		ends.append(weather.visibility_distance())
 	check(absf(ends[0]-ends[1])<.01,"both light modes keep the same authored visibility distance")
 	lighting.set_process(false)
 	weather.gust_period=18;weather._elapsed=0;lighting._process(.01)
-	var calm:float=actor.camera.environment.fog_depth_end
+	var calm:float=weather.visibility_distance()
 	weather._elapsed=6.8;lighting._process(.01)
-	check(calm>19.5 and actor.camera.environment.fog_depth_end<11.5,"gusts reduce visibility from about 20 m to 11 m")
+	check(calm>22.5 and weather.visibility_distance()<12.8,"visibility distances increased fourteen percent as requested")
 	lighting.set_process(true)
-	near.queue_free();far.queue_free()
+	near.queue_free();far.queue_free();transparent_far.queue_free()
 	actor.get_node("PlayerUI/CameraPostProcess").effect_enabled=true
 	actor.teleport_authoritative(Vector3(-53.7224,2.02075,37.8333),0)
 	actor.camera.look_at(Vector3(-17,2.5,1))
@@ -125,12 +145,30 @@ func run() -> void:
 	actor.teleport_authoritative(Vector3(-36.5,.1,3),-PI/2)
 	actor.camera.rotation=Vector3.ZERO
 	await settle(1.0)
-	check(lighting._indoor_mix>.999 and not weather.flakes.visible and not weather.flakes.emitting,"entering the vestibule removes the local snow field")
+	check(lighting._indoor_mix>.999 and weather.flakes.visible and weather.fog_quad.visible,"weather remains rendered outside when viewed from the vestibule")
 	check(actor.camera.environment.fog_density<.0001 and weather.local_storm_intensity()==0,"indoor air stays clear and local storm audio target fades to zero")
 	await capture("vestibule-clear")
+	actor.camera.look_at(actor.camera.global_position+Vector3.LEFT*30)
+	await settle()
+	var marker_outside=marker(base,Vector3(-64,actor.camera.global_position.y,3),4)
+	weather.enabled=false;await settle()
+	var door_clear:=await capture("doorway-storm-off")
+	var marker_pixel:=actor.camera.unproject_position(marker_outside.global_position)
+	weather.enabled=true;await settle()
+	var door_storm:=await capture("doorway-storm-on")
+	print("DOORWAY RED clear=",marker_red(door_clear,marker_pixel)," storm=",marker_red(door_storm,marker_pixel))
+	check(marker_red(door_clear,marker_pixel)>.3 and marker_red(door_storm,marker_pixel)<.04,"exterior marker is hidden by storm when looking out from inside")
+	marker_outside.queue_free()
+	var console=root.get_node("DeveloperConsole")
+	check(console._execute_one("/camera_filters off").contains("выключено") and not actor.get_node("PlayerUI/CameraPostProcess").effect_enabled,"console disables local camera filters")
+	console._execute_one("/camera_filters on")
+	console._execute_one("/blizzard off");await settle()
+	check(not weather.enabled and not weather.fog_quad.visible and not weather.flakes.visible,"console disables exterior fog and snow together")
+	console._execute_one("/blizzard on");await settle()
+	check(weather.enabled and weather.fog_quad.visible,"console restores storm without creating another instance")
 	check(base.get_node("BaseAmbience")._blizzard==weather,"existing storm audio follows this weather instance without a second player")
 	actor.teleport_authoritative(Vector3(-60,3,50),0)
-	await settle()
+	await settle(1.0)
 	check(weather.flakes.visible and weather.outside_weight>.99,"returning outdoors restores weather after teleport without another field")
 	weather.enabled=false;await settle()
 	check(not weather.flakes.visible and is_equal_approx(actor.camera.environment.fog_depth_end,450.0),"disabling the prototype restores the original outdoor haze")

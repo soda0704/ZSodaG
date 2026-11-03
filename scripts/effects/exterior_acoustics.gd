@@ -36,6 +36,10 @@ func has_roof(point: Vector3) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(point + Vector3.UP * 0.1, point + Vector3.UP * initialization_roof_distance, 1)
 	var camera := get_viewport().get_camera_3d()
 	var excluded: Array[RID] = []
+	# A weather hood above an outdoor entrance is shelter, not base occupancy.
+	# Existing interior ceilings still determine room occupancy on spawn/teleport.
+	for shell: CollisionObject3D in get_tree().get_nodes_in_group("exterior_shell_collision"):
+		excluded.append(shell.get_rid())
 	if camera != null:
 		var ancestor: Node = camera
 		while ancestor != null:
@@ -63,6 +67,7 @@ func update_listener(point: Vector3, delta: float, reset: bool = false) -> void:
 	outside_blend = move_toward(outside_blend, 0.0 if is_inside else 1.0, delta / maxf(fade_seconds, 0.01))
 
 func storm_intensity(point: Vector3) -> float:
+	if is_instance_valid(_blizzard) and not _blizzard.enabled: return 0.0
 	var intensity: float = _blizzard.local_storm_intensity() if is_instance_valid(_blizzard) else 0.0
 	for volume in _storm_volumes:
 		var local: Vector3 = volume.to_local(point)

@@ -20,8 +20,7 @@ func run() -> void:
 	var console := root.get_node("DeveloperConsole")
 	await menu.start_standalone_flow(false)
 	var world: Node = current_scene
-	check(console.execute("/sleep").contains("база ещё не загружена"), "sleep rejected before base arrival")
-	await world._enter_v3_level()
+	check(world._base_gameplay_controller != null, "solo flow loads the base directly before console commands")
 	var state: BaseGameplayController = world._base_gameplay_controller
 	var actor: GamePlayer = world.players.get_node("1")
 	state.set_process(false)

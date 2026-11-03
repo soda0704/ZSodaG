@@ -217,7 +217,7 @@ func _process(delta: float) -> void:
 	var at := camera.get_global_transform_interpolated().origin
 	var environment_changed := false
 	var sheltered := is_covered(at, _exclude_body(camera))
-	_indoor_mix = move_toward(_indoor_mix, 1.0 if sheltered else 0.0, delta * 4.0)
+	_indoor_mix = move_toward(_indoor_mix, 1.0 if sheltered else 0.0, delta * 1.25)
 	if _blizzard != null: _blizzard.advance(camera, _indoor_mix, delta, sheltered)
 	var ambient := lerpf(outdoor_ambient, _indoor_ambient_energy(), _indoor_mix)
 	if debug_visibility_profile != null:
@@ -234,11 +234,10 @@ func _process(delta: float) -> void:
 	if not is_equal_approx(_camera_environment.ambient_light_energy, ambient):
 		_camera_environment.ambient_light_energy = ambient
 		environment_changed = true
-	# Outdoor haze fades away under a roof, including on underground floors.
+	# Spatial storm fog excludes rooms per ray instead of switching with the camera.
 	var storm: float = 1.0 if _blizzard != null and _blizzard.enabled else 0.0
-	var fog_density := lerpf(_outdoor_fog_density, 1.0, storm) * (1.0 - _indoor_mix) * debug_darkness
-	# Depth fog is always active in both light modes: low quality cannot reveal
-	# distant landmarks by switching off optional volumetric scattering.
+	var fog_density := _outdoor_fog_density * (1.0 - storm) * (1.0 - _indoor_mix) * debug_darkness
+	# Retain original haze only when the spatial storm is disabled.
 	var storm_end: float = _blizzard.visibility_distance() if _blizzard != null else _outdoor_fog_end
 	_camera_environment.fog_depth_begin = lerpf(_outdoor_fog_begin, 2.0, storm)
 	_camera_environment.fog_depth_end = lerpf(_outdoor_fog_end, storm_end, storm)
@@ -248,16 +247,16 @@ func _process(delta: float) -> void:
 	if not is_equal_approx(_camera_environment.fog_density, fog_density):
 		_camera_environment.fog_density = fog_density
 		environment_changed = true
-	var sky_affect := lerpf(_outdoor_fog_sky_affect, 1.0, storm) * (1.0 - _indoor_mix)
+	var sky_affect := _outdoor_fog_sky_affect * (1.0 - storm) * (1.0 - _indoor_mix)
 	if not is_equal_approx(_camera_environment.fog_sky_affect, sky_affect):
 		_camera_environment.fog_sky_affect = sky_affect
 		environment_changed = true
 	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix) * debug_darkness
 	# Volumetric sun shadows can reveal distant cliff silhouettes through an
-	# otherwise opaque depth whiteout. Keep this optional layer inside only.
+	# otherwise opaque whiteout. Do not stack it with the spatial storm pass.
 	var quality := get_node("/root/GameMenu/GraphicsQuality")
 	var authored_volume: bool = bool(source_environment().get_meta("quality_authored_effects", {"fog": source_environment().volumetric_fog_enabled}).get("fog", false))
-	var volume_enabled: bool = authored_volume and quality.advanced_lighting_enabled and int(quality.values.get("FogQuality", 2)) > 0 and (storm == 0.0 or _indoor_mix > 0.999)
+	var volume_enabled: bool = authored_volume and quality.advanced_lighting_enabled and int(quality.values.get("FogQuality", 2)) > 0 and storm == 0.0
 	if _camera_environment.volumetric_fog_enabled != volume_enabled:
 		_camera_environment.volumetric_fog_enabled = volume_enabled
 		environment_changed = true

@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://ojj5yvkr85ou"]
 
 [ext_resource type="PackedScene" uid="uid://dqrjbf0rkbo2h" path="res://assets/models/architecture/arctic_base_exterior/arctic_base_exterior_shell.glb" id="1_shell"]
+[ext_resource type="Shape3D" path="res://assets/models/architecture/arctic_base_exterior/shell_collision.res" id="collision"]
 
 [node name="ArcticBase_ExteriorShell" type="Node3D" unique_id=823052525]
-editor_description = "Measured exterior-only shell. Disable this node to compare with the original base. No scripts or collision."
+editor_description = "Measured exterior shell with static concave collision matching the skin and cut door openings. Roof equipment and antennas remain visual."
 
 [node name="Model" parent="." unique_id=659112990 instance=ExtResource("1_shell")]
 
@@ -25,5 +26,10 @@ layers = 65537
 
 [node name="Antenna_CrossArray_3" parent="Model" index="5" unique_id=1449938108]
 layers = 65537
+
+[node name="ShellBody" type="StaticBody3D" parent="." groups=["exterior_shell_collision"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShellBody"]
+shape = ExtResource("collision")
 
 [editable path="Model"]

@@ -1,31 +1,14 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/effects/local_blizzard.gd" id="logic"]
+[ext_resource type="Shader" path="res://assets/shaders/blizzard_flakes.gdshader" id="flakes_shader"]
 
-[sub_resource type="Gradient" id="soft_flake"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="flake_texture"]
-gradient = SubResource("soft_flake")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
-[sub_resource type="StandardMaterial3D" id="snow_material"]
-transparency = 1
-shading_mode = 0
-cull_mode = 2
-albedo_color = Color(0.86, 0.92, 0.96, 0.65)
-albedo_texture = SubResource("flake_texture")
-billboard_mode = 1
-proximity_fade_enabled = true
-proximity_fade_distance = 0.45
+[sub_resource type="ShaderMaterial" id="snow_material"]
+shader = ExtResource("flakes_shader")
 
 [sub_resource type="QuadMesh" id="flake"]
 material = SubResource("snow_material")
-size = Vector2(0.14, 0.035)
+size = Vector2(0.065, 0.045)
 
 [sub_resource type="ParticleProcessMaterial" id="wind"]
 emission_shape = 3
@@ -35,8 +18,12 @@ spread = 18.0
 initial_velocity_min = 9.0
 initial_velocity_max = 16.0
 gravity = Vector3(0, -0.6, 0)
-scale_min = 0.45
-scale_max = 1.1
+scale_min = 0.35
+scale_max = 1.65
+angle_min = -180.0
+angle_max = 180.0
+angular_velocity_min = -45.0
+angular_velocity_max = 45.0
 
 [node name="Blizzard" type="Node3D"]
 script = ExtResource("logic")
@@ -46,7 +33,7 @@ emitting = false
 visible = false
 layers = 262145
 cast_shadow = 0
-amount = 1800
+amount = 2800
 lifetime = 1.4
 preprocess = 1.4
 local_coords = false

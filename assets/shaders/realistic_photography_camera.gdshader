@@ -32,6 +32,7 @@ uniform vec2 vignette_offset = vec2(0.0);
 uniform float response_curve : hint_range(0.0, 0.5) = 0.18;
 uniform float saturation : hint_range(0.0, 1.2) = 0.84;
 uniform float sensor_grain : hint_range(0.0, 0.15) = 0.07;
+uniform float vhs_strength : hint_range(0.0, 1.0) = 0.18;
 uniform float grain_size : hint_range(0.5, 3.0) = 0.85;
 
 group_uniforms Noise_Settings;
@@ -67,6 +68,8 @@ void fragment() {
 	// Overscan prevents wrapping and bright/black borders at the curved corners.
 	vec2 uv = 0.5 + p * (1.0 + lens * radius2) / (1.0 + 2.0 * lens) * 0.5;
 	uv = clamp(uv, pixel, 1.0 - pixel);
+	// Sub-pixel horizontal tape instability, without rolling tears.
+	uv.x += sin(SCREEN_UV.y * 130.0 + TIME * 5.0) * pixel.x * 0.45 * vhs_strength * lens_amount;
 	vec4 centre = texture(screen_texture, uv);
 	// Motion blur adapted by the author from the smooth-motion-blur shader.
 	vec4 pixel_color;
@@ -110,7 +113,7 @@ void fragment() {
 	// Grain is added after lens resampling, so AA/render scaling cannot erase it.
 	// Like the old Fears to Fathom pass, use one luminance sample for all RGB.
 	// Sum independent samples for a softer, bell-shaped distribution; continuous
-	// coordinates remove the previous large square cells. No VHS warp or ghosts.
+	// coordinates remove the previous large square cells; no frame accumulation.
 	float grain_frame = floor(TIME * 60.0);
 	vec2 grain_uv = SCREEN_UV * resolution / max(resolution.y / 720.0, 0.5) / grain_size;
 	vec2 first = hash22(grain_uv, grain_frame);
@@ -123,6 +126,8 @@ void fragment() {
 	grain_mask *= mix(1.0, 0.7, smoothstep(0.15, 0.85, luminance)) * mix(0.25, 1.0, lens_amount);
 	pixel_color.rgb = max(vec3(0.0), pixel_color.rgb + vec3(read_noise + grain) * grain_mask);
 	// The opaque lens rim covers grain as well as the scene.
+	float scanline = sin(SCREEN_UV.y * resolution.y * 3.14159265);
+	pixel_color.rgb *= 1.0 - (0.5 + 0.5 * scanline) * 0.035 * vhs_strength * lens_amount;
 	pixel_color.rgb *= 1.0 - vignette * vignette_strength;
 	COLOR = pixel_color;
 }

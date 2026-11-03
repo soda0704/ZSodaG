@@ -20,8 +20,18 @@ func advance_emergency(delta: float) -> float:
 		return 1.0
 	# Muted outside, still advancing: entering the base must not reset the beat.
 	if not playing: play()
-	_gain=move_toward(_gain,presence.listener_gain(),delta/presence_fade_seconds)
+	_gain=move_toward(_gain,listener_gain(),delta/presence_fade_seconds)
 	volume_db=alarm_volume_db+linear_to_db(maxf(smoothstep(0.0,1.0,_gain),.00001))
 	var clock:=get_playback_position()+AudioServer.get_time_since_last_mix()-AudioServer.get_output_latency()
 	animation.seek(fposmod(maxf(0.0,clock),stream.get_length()),true)
 	return intensity
+
+func listener_gain() -> float:
+	var gain: float = presence.listener_gain()
+	var camera := get_viewport().get_camera_3d()
+	if camera == null: return gain
+	for portal: AcousticPortal in get_tree().get_nodes_in_group("acoustic_portals"):
+		var distance := camera.global_position.distance_to(portal.wind.global_position)
+		if distance < 22.0 and portal.openness() > .001 and portal.wind_path_clear(camera):
+			gain = maxf(gain, portal.openness() * .8 * (1.0 - smoothstep(2.0,22.0,distance)))
+	return gain

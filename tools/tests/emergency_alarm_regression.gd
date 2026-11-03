@@ -23,7 +23,7 @@ func capture_phase(lighting:WorldLighting,alarm:AudioStreamPlayer,time:float,lab
 	alarm.play(time)
 	await process_frame
 	alarm.stream_paused=true
-	for frame in 24:
+	for frame in 54:
 		lighting._process(1.0/60.0)
 		# Freeze the authored light phase for an apples-to-apples image pair.
 		# Audio/renderer warm-up can advance a newly started stream by a frame.
@@ -35,7 +35,9 @@ func capture_phase(lighting:WorldLighting,alarm:AudioStreamPlayer,time:float,lab
 		await process_frame
 	await RenderingServer.frame_post_draw
 	var picture:=root.get_texture().get_image()
-	picture.save_png("res://tools/.local/feedback-fixes-2026-10-30/emergency-darkness-"+label+".png")
+	var capture_dir := OS.get_environment("NORTHERNLAB_EXPORT_CAPTURE_DIR")
+	if capture_dir.is_empty(): capture_dir = "res://tools/.local/feedback-fixes-2026-10-30"
+	picture.save_png(capture_dir+"/emergency-darkness-"+label+".png")
 	print("DARKNESS CAPTURE ",label," phase=",lighting.emergency_intensity)
 	return picture
 
@@ -81,6 +83,9 @@ func run() -> void:
 	check(alarm.playing and quiet<alarm.alarm_volume_db,"emergency power starts the alarm with a short fade")
 	lighting._advance_emergency(.5)
 	check(absf(alarm.volume_db-alarm.alarm_volume_db)<.01,"alarm reaches its configured level inside the base")
+	var pulse_resource: Animation = alarm.animation.get_animation("alarm")
+	alarm.animation.seek(.431,true)
+	check(absf(alarm.intensity-float(pulse_resource.value_track_interpolate(0,.431)))<.001,"alarm envelope preserves fractional brightness on burst transitions")
 	var synced:=true
 	for position in [.2,.65,1.25,1.95,3.2,4.45,6.1]:
 		alarm.seek(position)
@@ -140,6 +145,10 @@ func run() -> void:
 	presence._process(3.0)
 	check(not presence.listener_inside() and presence.listener_gain()>0.1,"open pedestrian doorway carries base sound to the exterior threshold")
 	check(alarm.volume_db> -50.0 and alarm.volume_db<alarm.alarm_volume_db and presence._blend>0.0,"alarm and interior ambience are audible but attenuated by the open entrance")
+	actor.teleport_authoritative(Vector3(-50,.1,3),0)
+	lighting._advance_emergency(1.0)
+	check(alarm.listener_gain()>.1 and alarm.volume_db> -50.0,"open entrance alarm reaches twelve metres outdoors")
+	actor.teleport_authoritative(Vector3(-39.5,.1,3),0)
 	var manager:BaseAutoDoorManager=base.get_node("Floor_0_Base_Blockout/Doors/AutomaticDoors")
 	var entrance:Node3D=base.get_node("Floor_0_Base_Blockout/Doors/West_Pedestrian_Exterior_Door_Visual_Prototype")
 	check(manager.debug_set_door_open(entrance,false),"existing door controller accepts a closed entrance for the acoustic check")
