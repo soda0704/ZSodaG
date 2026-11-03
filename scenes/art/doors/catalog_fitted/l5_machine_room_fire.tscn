@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/base/modular_catalog_door.gd" id="logic"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l5_machine_room_fire.tscn" id="legacy"]
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/meshes/door_dark_metal.res" id="mesh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/base/modular_scifi/doors/door_frame_square.tscn" id="frame"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/modular_scifi_megakit/derived/door_dark_metal_mirrored.res" id="mirrored"]
+
+[node name="CatalogDoor" type="Node3D"]
+script = ExtResource("logic")
+metadata/catalog_replacement = true
+metadata/catalog_source = "door_dark_metal"
+metadata/passage_size = Vector3(6.2108054, 5.699412, 0.24)
+metadata/existing_frame = false
+
+[node name="CatalogFrame" parent="." instance=ExtResource("frame")]
+scale = Vector3(1.941659,1.534172,1)
+
+[node name="ClosedPreview" type="Node3D" parent="."]
+
+[node name="LeftLeaf" type="Node3D" parent="ClosedPreview"]
+
+[node name="CatalogMesh" type="MeshInstance3D" parent="ClosedPreview/LeftLeaf"]
+transform = Transform3D(1.4804443, 0, 0, 0, 1.4125835, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = ExtResource("mesh")
+
+[node name="RightLeaf" type="Node3D" parent="ClosedPreview"]
+
+[node name="CatalogMesh" type="MeshInstance3D" parent="ClosedPreview/RightLeaf"]
+transform = Transform3D(1.4804443, 0, 0, 0, 1.4125835, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = ExtResource("mirrored")
+
+[node name="OpenPreview" type="Node3D" parent="."]
+visible = false
+
+[node name="LeftLeaf" type="Node3D" parent="OpenPreview"]
+position = Vector3(-3.1774027, 0, 0)
+
+[node name="RightLeaf" type="Node3D" parent="OpenPreview"]
+position = Vector3(3.1774027, 0, 0)
+
+[node name="LegacyFrame" parent="." instance=ExtResource("legacy")]
+visible = false

@@ -26,7 +26,7 @@ func floor_transform(floor_name:String) -> Transform3D:
 	return Transform3D.IDENTITY
 
 func prepare(node: Node, moving := false, dynamic_emission := false) -> void:
-	moving = moving or node is RigidBody3D or node is CharacterBody3D or node is MedicalCorpse or str(node.name) in ["ClosedPreview","OpenPreview","ClosedState","OpenState","DoorLeaves","Leaf","DoorPanel"]
+	moving = moving or node is RigidBody3D or node is CharacterBody3D or node is MedicalCorpse or str(node.name) in ["LegacyFrame","ClosedPreview","OpenPreview","ClosedState","OpenState","DoorLeaves","Leaf","DoorPanel"]
 	dynamic_emission = dynamic_emission or bool(node.get_meta("dynamic_emission", false))
 	if node is GeometryInstance3D:
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED if moving else GeometryInstance3D.GI_MODE_STATIC
@@ -52,6 +52,7 @@ func run() -> void:
 	var only_zone:=""
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--zone="):only_zone=argument.trim_prefix("--zone=")
+		if argument.begins_with("--zones="):only_zone=argument.trim_prefix("--zones=")
 	for zone in ZONES:
 		if "--entrance-only" in OS.get_cmdline_user_args() and zone[0]!="Entrance":continue
 		var probe:=VoxelGI.new()
@@ -66,13 +67,13 @@ func run() -> void:
 			probe.data=existing
 			holder.add_child(probe);probe.owner=holder
 			continue
-		if not only_zone.is_empty() and only_zone!=zone[0]:
+		if not only_zone.is_empty() and str(zone[0]) not in only_zone.split(",", false):
 			probe.data=load(path)
 			holder.add_child(probe);probe.owner=holder
 			continue
 		# Load one floor without the existing GI, terrain or gameplay. Previously
 		# baked probes stay outside the tree, so baking cannot trigger GI updates.
-		var floor_root:=load("res://scenes/levels/"+FLOORS[zone[1]]+".tscn").instantiate() as Node3D
+		var floor_root:=load("res://scenes/levels/"+str(FLOORS[zone[1]]).to_lower()+".tscn").instantiate() as Node3D
 		prepare(floor_root)
 		floor_root.transform=floor_transform(FLOORS[zone[1]])
 		root.add_child(floor_root)
@@ -93,6 +94,12 @@ func run() -> void:
 		floor_root.queue_free()
 		for frame in 3: await process_frame
 	var packed:=PackedScene.new()
+	if "--data-only" in OS.get_cmdline_user_args():
+		holder.free()
+		print("GI DATA BAKE COMPLETE")
+		for frame in 3: await process_frame
+		quit()
+		return
 	if packed.pack(holder)!=OK:quit(1);return
 	var destination:="res://tools/.local/entrance_gi.tscn" if "--entrance-only" in OS.get_cmdline_user_args() else "res://scenes/levels/world_indirect_lighting.tscn"
 	if ResourceSaver.save(packed,destination)!=OK:quit(1);return

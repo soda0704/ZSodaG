@@ -133,6 +133,8 @@ func _setup_doors() -> void:
 			blocker.position.y = 1.35
 		if visual.has_meta("passage_size"):
 			var passage: Vector3 = visual.get_meta("passage_size")
+			if visual.has_meta("catalog_replacement"):
+				passage *= visual.global_basis.get_scale().abs()
 			(blocker.shape as BoxShape3D).size = passage
 			blocker.position.y = passage.y * 0.5
 		var indicators := _collect_indicators(visual)
@@ -240,6 +242,8 @@ func _collect_state_nodes(
 	closed_nodes: Array[Node]
 ) -> void:
 	for node in visual.find_children("*", "Node3D", true, false):
+		var legacy := visual.get_node_or_null("LegacyFrame")
+		if legacy != null and legacy.is_ancestor_of(node): continue
 		if node.name in [&"OpenPreview", &"OpenState"]:
 			open_nodes.append(node)
 		elif node.name in [&"ClosedPreview", &"ClosedState"]:
@@ -249,6 +253,8 @@ func _collect_state_nodes(
 func _collect_indicators(visual: Node3D) -> Array[MeshInstance3D]:
 	var indicators: Array[MeshInstance3D] = []
 	for candidate in visual.find_children("*", "MeshInstance3D", true, false):
+		var legacy := visual.get_node_or_null("LegacyFrame")
+		if legacy != null and legacy.is_ancestor_of(candidate): continue
 		var mesh := candidate as MeshInstance3D
 		var lowered_name := str(mesh.name).to_lower()
 		var lowered_path := str(visual.get_path_to(mesh)).to_lower()
@@ -286,7 +292,7 @@ func _collect_leaf_pairs(
 			if closed_leaf == null:
 				continue
 			var open_position := Vector3.ZERO
-			var socket := visual.find_child("%sOpenSocket" % leaf_name, true, false) as Marker3D
+			var socket := visual.find_child("%sOpenSocket" % leaf_name, true, false) as Marker3D if not visual.has_meta("catalog_replacement") else null
 			if socket != null:
 				open_position = closed_leaf.get_parent().to_local(socket.global_position)
 			elif open_leaf != null:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://deey53vvvoivh"]
 
-[ext_resource type="PackedScene" uid="uid://c5138n7v1cdx8" path="res://scenes/art/doors/standard_door_visual_blockout.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/catalog_fitted/standard_door_visual_blockout.tscn" id="door"]
 [ext_resource type="Script" uid="uid://b3tkdcgwou2lb" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="door_manager"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/items/radio_module.tscn" id="radio_module"]

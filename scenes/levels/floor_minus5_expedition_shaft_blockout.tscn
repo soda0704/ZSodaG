@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" path="res://scenes/art/blood/level_5_blood.tscn" id="blood_dressing"]
 [ext_resource type="Script" path="res://scripts/gameplay/base/base_auto_door_manager.gd" id="authored_door_manager"]
-[ext_resource type="PackedScene" path="res://scenes/art/doors/fitted/l5_machine_room_fire.tscn" id="l5_machine_room_fire"]
+[ext_resource type="PackedScene" path="res://scenes/art/doors/catalog_fitted/l5_machine_room_fire.tscn" id="l5_machine_room_fire"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/elevator/expedition_winch.tscn" id="functional_winch"]
 
@@ -1429,7 +1429,7 @@ editor_description = "Temporary review lighting. Cool white light marks controll
 script = ExtResource("authored_door_manager")
 
 [node name="l5_machine_room_fire" parent="Doors" instance=ExtResource("l5_machine_room_fire")]
-transform = Transform3D(-3.4914813388431334e-15, 0, -1.0, 0, 1, 0, 1.0, 0, -3.4914813388431334e-15, -38.96, 0, -21)
+transform = Transform3D(-3.4914812e-15, 0, -1, 0, 1, 0, 1, 0, -3.4914812e-15, -38.96, 0, -21)
 metadata/unpowered_open = true
 
 [node name="InvestigationZone" type="Area3D" parent="."]

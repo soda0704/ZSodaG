@@ -664,27 +664,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.25, 0)
 [node name="Floor_0_Base_Blockout" parent="." unique_id=2036079911 instance=ExtResource("3_floor_0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0346718, -0.0141816, 0.018938065)
 
-[node name="West_Hub_Decon_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="1" unique_id=971400324]
-transform = Transform3D(0, 0, -1.3333333, 0, 1, 0, 1.3332528, 0, 0, -9.963, 0, 0)
-
-[node name="West_Garage_Cold_Warm_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="4" unique_id=106393883]
-transform = Transform3D(0.8793927, 0, 0, 0, 0.9312111, 0, 0, 0, 1, -32, 0, 1.753)
-
-[node name="West_Pedestrian_Inner_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="5" unique_id=474262819]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1.0558158, 0, 0, -35.003, 0, 5)
-
-[node name="West_Pedestrian_Exterior_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="6" unique_id=895177845]
-transform = Transform3D(0, 0, -1, 0, 1.25, 0, 1.2080698, 0, 0, -38.003, 0, 3)
-
-[node name="living_hermetic_door" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="10" unique_id=70269635]
-transform = Transform3D(-4.1556387e-08, 0, -1, 0, 1, 0, 0.9506993, 0, -4.371139e-08, 10, 0, 0)
-
-[node name="Science_Briefing_Research_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="15" unique_id=2091425612]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -18.003)
-
-[node name="Science_Research_Isolation_Door_Visual_Prototype" parent="Floor_0_Base_Blockout/Doors" parent_id_path=PackedInt32Array(2036079911, 1659585370) index="16" unique_id=153211515]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 0.92311454, 0, 0, 0, 0, -22.3914)
-
 [node name="EndDayBunkInteractable01" parent="Floor_0_Base_Blockout/Gameplay" parent_id_path=PackedInt32Array(2036079911, 1475033882) index="4" unique_id=535255200]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 23.802559, 0.95, -7.3403735)
 
