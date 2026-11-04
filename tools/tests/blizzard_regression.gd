@@ -171,7 +171,7 @@ func run() -> void:
 	await settle(1.0)
 	check(weather.flakes.visible and weather.outside_weight>.99,"returning outdoors restores weather after teleport without another field")
 	weather.enabled=false;await settle()
-	check(not weather.flakes.visible and is_equal_approx(actor.camera.environment.fog_depth_end,450.0),"disabling the prototype restores the original outdoor haze")
+	check(not weather.flakes.visible and not actor.camera.environment.fog_enabled and not actor.camera.environment.volumetric_fog_enabled,"disabling weather leaves clear air without a second distant fog layer")
 	actor=null;current_scene=null;base.queue_free()
 	for frame in 5:await process_frame
 	check(get_nodes_in_group("local_blizzard").is_empty(),"unloading the world removes the local weather instance")

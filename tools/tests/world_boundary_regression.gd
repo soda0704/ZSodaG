@@ -14,7 +14,7 @@ func run():
 	root.add_child(camera)
 	camera.current = true
 	var world: Node3D = load("res://scenes/levels/snow_exterior.tscn").instantiate()
-	root.add_child(world)
+	var level := Node3D.new(); root.add_child(level); level.add_child(world)
 	await physics_frame
 	await physics_frame
 	check(not world.has_node("DistantMountains"), "distant mountain meshes removed")
@@ -56,14 +56,13 @@ func run():
 	var collision := probe.move_and_collide(Vector3(-700,0,0))
 	check(collision!=null and collision.get_collider()==boundary and probe.position.x > -505.0,"character cannot walk through boundary")
 	probe.queue_free()
-	check(world.get_node("BoundaryDressing").get_child_count()==17,"lower decoration retained: five logs and twelve ice blocks")
+	check(not world.has_node("BoundaryDressing"),"logs and loose rock/ice decoration removed with their collisions")
 	var panorama: Texture2D = sky_panorama
 	check(panorama.get_width()==4096 and panorama.get_height()==2048,"4K HDR panorama imported")
 	var valley := world.get_node("CliffValley")
 	check(valley.get_node("DistantValleyFloor").mesh.get_aabb().end.x >= 2500,"distant valley continues beyond terrain edge")
 	for effect in ["ValleyWindMist", "CliffSnowstorm"]:
-		var particles: GPUParticles3D = valley.get_node(effect)
-		check(particles.emitting and particles.process_material != null and particles.draw_pass_1 != null,"wind effect configured: " + effect)
+		check(not valley.has_node(effect),"obsolete distant weather removed: " + effect)
 	print("RESULT ",failures)
 	quit(0 if failures.is_empty() else 1)
 

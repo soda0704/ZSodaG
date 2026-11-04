@@ -4,7 +4,7 @@ extends SceneTree
 func _initialize(): run.call_deferred()
 func run():
 	var world = load("res://scenes/levels/snow_exterior.tscn").instantiate()
-	root.add_child(world)
+	var level := Node3D.new(); root.add_child(level); level.add_child(world)
 	var camera := Camera3D.new()
 	root.add_child(camera)
 	camera.current=true
@@ -37,6 +37,7 @@ func run():
 
 	print("PERIMETER COVERAGE ERRORS ",perimeter_errors)
 	var count:=0
+	if not valley.find_children("Forest*","MultiMeshInstance3D",false,false).is_empty(): perimeter_errors+=1
 	var errors:=perimeter_errors
 	var worst:=0.0
 	var columns: Dictionary = {}

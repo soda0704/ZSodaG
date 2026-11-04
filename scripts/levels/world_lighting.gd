@@ -14,7 +14,7 @@ const EMERGENCY_MIN_INTENSITY := 0.15
 signal emergency_intensity_changed(intensity: float)
 @export var outdoor_ambient := 0.12
 @export var indoor_ambient := 0.025
-@export var emergency_indoor_ambient := 0.0
+@export var emergency_indoor_ambient := 0.005
 @export_group("Exterior below the base")
 @export var lower_exterior_bounds: CollisionShape3D
 @export_group("Debug visibility")
@@ -49,6 +49,7 @@ var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
 var _editor_visibility:Dictionary={}
 var _power: BasePowerLightingController
+var _daylight_portal: AcousticPortal
 
 func _ready() -> void:
 	if Engine.is_editor_hint():return
@@ -200,6 +201,7 @@ func _process(delta: float) -> void:
 		_editor_preview(delta)
 		return
 	_advance_emergency(delta)
+	_update_entrance_daylight()
 	var camera := get_viewport().get_camera_3d()
 	if camera == null: return
 	if camera != _camera:
@@ -274,6 +276,15 @@ func _process(delta: float) -> void:
 
 func source_environment() -> Environment:
 	return get_parent().get_node("SnowExterior/OvercastDayEnvironment").environment
+
+func _update_entrance_daylight() -> void:
+	# Reuse the real moving door's openness; daylight is independent of base power.
+	if not is_instance_valid(_daylight_portal):
+		_daylight_portal = get_parent().get_node_or_null("Floor_0_Base_Blockout/Doors/PedestrianWindPassage") as AcousticPortal
+	var lamp := get_node_or_null("ExteriorDaylight/EntranceSky") as SpotLight3D
+	if lamp == null: return
+	var opened := _daylight_portal.openness() if is_instance_valid(_daylight_portal) else 0.0
+	set_lamp_modulation(lamp, opened * clampf(outdoor_ambient, 0.0, 1.0))
 
 func _indoor_ambient_energy() -> float:
 	# A power outage must leave the alarm bursts and player lights meaningful.

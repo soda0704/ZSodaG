@@ -23,10 +23,14 @@ var _clock := 0.0
 
 func _ready() -> void:
 	_terrain = get_node_or_null(terrain_path)
-	if _terrain == null:
-		set_physics_process(false)
 
 func _physics_process(delta: float) -> void:
+	# Incremental world loading temporarily detaches Terrain3D. Resolve it again
+	# once loading finishes instead of permanently disabling the track sampler.
+	if not is_instance_valid(_terrain):
+		_terrain = get_node_or_null(terrain_path)
+		if _terrain == null:
+			return
 	_clock += delta
 	while _marks.size() > max_marks:
 		_remove_oldest()

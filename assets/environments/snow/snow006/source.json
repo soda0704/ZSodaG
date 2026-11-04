@@ -1,0 +1,37 @@
+{
+  "asset": "Snow006",
+  "source_archive": "D:/Work/11.2026/1/footage/Snow006_2K-JPG.zip",
+  "resolution": [
+    2048,
+    2048
+  ],
+  "maps": {
+    "color.jpg": "931fd2c5a486877de79890018ab94e65d9ee57d67ca3e0f92f23b46d3bff5ffc",
+    "normal_gl.jpg": "cae6ed862b9de94cc8c0ed1ad1175fed4985145331d8c42a03021232b2d58026",
+    "roughness.jpg": "39b9482a5ac372e7255ca5b2d439585a43e1c0bdb4794f160bda70c34c404f6f",
+    "ao.jpg": "c403da8597f69a6601a15b800282e78ba89c55dfb99681320dc29aa7c0f657c0",
+    "height.jpg": "9254b36fc5154f6f9ae27318818e019cd0d3314ba57f77e714e80a479476089e"
+  },
+  "runtime_packing": {
+    "runtime_albedo_ao.res": "sRGB Color RGB + linear AO alpha",
+    "runtime_normal_rough.res": "linear OpenGL Normal RGB + Roughness alpha"
+  },
+  "notes": [
+    "Original JPEG pixels preserved; no upscaling, colour correction or regeneration.",
+    "NormalGL used; NormalDX is not mixed with it.",
+    "Continuous variation retained, no stochastic cell blends.",
+    "AI-generated native-resolution alternative is separate and inactive."
+  ],
+  "render_tile_metres": 2.4,
+  "relief": {
+    "mode": "eight-step parallax occlusion, geometry/collision unchanged",
+    "height_metres": 0.006,
+    "fade_metres": [
+      6,
+      16
+    ],
+    "resource": "runtime_height.res",
+    "format": "single-channel linear R8 + mipmaps",
+    "gpu_bytes": 5592405
+  }
+}

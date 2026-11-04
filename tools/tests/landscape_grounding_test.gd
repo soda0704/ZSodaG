@@ -7,13 +7,19 @@ func run():
 		quit(1)
 		return
 	var world = load("res://scenes/levels/snow_exterior.tscn").instantiate()
-	root.add_child(world)
+	var level := Node3D.new(); root.add_child(level); level.add_child(world)
 	var camera := Camera3D.new()
 	root.add_child(camera)
 	camera.current = true
 	await process_frame
 	await RenderingServer.frame_post_draw
 	var terrain = world.get_node("Terrain3D")
+	if not world.has_node("Landscape"):
+		var removed: bool = not world.has_node("BoundaryDressing") and not world.has_node("SouthPassForest") and not world.has_node("WestPassForest")
+		removed = removed and world.get_node("CliffValley").find_children("Forest*","MultiMeshInstance3D",false,false).is_empty()
+		print("RESULT outdoor tree/rock meshes and colliders removed=", removed)
+		quit(0 if removed else 1)
+		return
 	var colliders = world.get_node("Landscape/RockAndTreeCollision").get_children()
 	var failures := 0
 	var count := 0

@@ -7,6 +7,7 @@
 
 [node name="WorldLighting" type="Node3D" unique_id=43938933]
 script = ExtResource("controller")
+outdoor_ambient = 1.0
 debug_visibility_profile = ExtResource("debug_visibility")
 
 [node name="MedicalFaultLamp" parent="." instance=ExtResource("medical_fault")]
@@ -16,9 +17,9 @@ fixture_path = NodePath("")
 power_controller_path = NodePath("../../BasePowerLightingController")
 
 [node name="OvercastSun" type="DirectionalLight3D" parent="." unique_id=1849345055]
-transform = Transform3D(0.8480481, 0.3545852, -0.39380676, 0, 0.7431448, 0.6691306, 0.52991927, -0.56745493, 0.63022256, 0, 0, 0)
-light_color = Color(0.76, 0.84, 1, 1)
-light_energy = 0.42
+rotation = Vector3(-0.506980658, -1.232767105, 0)
+light_color = Color(1, 0.98, 0.95, 1)
+light_energy = 3.5
 light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.7
 light_specular = 0.25
@@ -31,6 +32,26 @@ shadow_caster_mask = 491520
 directional_shadow_mode = 1
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 96.0
+metadata/world_lighting = true
+
+[node name="ExteriorDaylight" type="Node3D" parent="."]
+
+[node name="EntranceSky" type="SpotLight3D" parent="ExteriorDaylight"]
+position = Vector3(-39.2, 2.6, 3)
+rotation = Vector3(-0.28, -1.5707963, 0)
+light_color = Color(0.78, 0.87, 1, 1)
+light_energy = 6.0
+light_indirect_energy = 0.0
+light_bake_mode = 0
+light_specular = 0.25
+light_cull_mask = 393217
+shadow_enabled = true
+shadow_bias = 0.02
+shadow_normal_bias = 0.05
+spot_range = 9.0
+spot_attenuation = 1.4
+spot_angle = 60.0
+spot_angle_attenuation = 0.65
 metadata/world_lighting = true
 
 [node name="Standard" type="Node3D" parent="." unique_id=1377672619]

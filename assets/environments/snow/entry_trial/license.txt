@@ -1,0 +1,19 @@
+Snow 02 — Rob Tuytel, Poly Haven
+https://polyhaven.com/a/snow_02
+License: CC0 1.0 Universal (public domain dedication)
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Source maps: Diffuse, OpenGL Normal, Roughness, PNG, 2048x2048.
+Physical source tile: 2 x 2 metres.
+The original normal RGB and roughness alpha are packed into one linear BC7 texture.
+Diffuse is stored separately as BC7 and sampled as sRGB. Both contain full mip chains.
+Packing script: tools/authoring/prepare_entry_snow.gd.
+Source download MD5 values are checked against https://api.polyhaven.com/files/snow_02.
+Diffuse: b2b84ea0435f960b3f5d69274e1a675c
+Normal: 3c07c791818404722c924b951c5eb841
+Roughness: 315f17fbf6cd4573fb500f9a83f5e899
+
+The active outdoor material uses the original Snow 02 maps listed above.
+The powder_albedo.res and powder_normal_rough.res are inactive project-authored
+procedural experiments. Boot imprint resources are separate project-authored
+content, not part of the Poly Haven asset.

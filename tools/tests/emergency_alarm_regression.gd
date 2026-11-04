@@ -198,7 +198,7 @@ func run() -> void:
 			var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
 			print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
 			check(dark<.03 and bright>dark*1.4,"interior is nearly invisible between visible alarm bursts in "+mode+" mode")
-			check(actor.camera.environment.ambient_light_energy==0.0 and lighting.sample_view_light(actor.camera).get_luminance()==0.0,"power outage removes ambient and artificial hand fill in "+mode+" mode")
+			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.emergency_indoor_ambient) and is_equal_approx(lighting.emergency_indoor_ambient/lighting.indoor_ambient,.2),"power outage retains only twenty percent of ordinary ambient in "+mode+" mode")
 			if advanced:
 				actor.flashlight.malfunction_enabled=false
 				actor.pickup_world_item_authoritative(&"flashlight",{"battery_charge":1.0})

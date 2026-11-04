@@ -1,10 +1,14 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/environments/snow/footprint.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_albedo.res" id="1"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_normal.res" id="2"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_orm.res" id="3"]
 
 [node name="Footprint" type="Decal"]
-size = Vector3(0.25, 0.35, 0.43)
+size = Vector3(0.25, 0.35, 0.40)
 texture_albedo = ExtResource("1")
+texture_normal = ExtResource("2")
+texture_orm = ExtResource("3")
 upper_fade = 0.15
 lower_fade = 0.15
 normal_fade = 0.75

@@ -1,0 +1,21 @@
+{
+  "size": [
+    1254,
+    1254
+  ],
+  "generated_source": [
+    1254,
+    1254
+  ],
+  "physical_tile_metres": 2,
+  "height_range_metres": [
+    -0.0035,
+    0.0035
+  ],
+  "wrap_height_difference_mean": 0.00015076634318580206,
+  "adjacent_height_difference_mean": 0.00024742801355446766,
+  "edge_to_interior_ratio": 0.6093341696437015,
+  "normal_convention": "OpenGL, +Y",
+  "color_space": "Albedo sRGB; Normal/ORM/Height linear",
+  "provenance": "AI-generated grayscale master; aligned PBR maps derived numerically, not measured photogrammetry"
+}

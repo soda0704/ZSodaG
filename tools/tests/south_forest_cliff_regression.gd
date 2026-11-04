@@ -6,8 +6,10 @@ func check(ok:bool,message:String):
  if not ok: failures.append(message)
 func run():
  var world=load("res://scenes/levels/snow_exterior.tscn").instantiate()
- root.add_child(world)
- var cave=load("res://scenes/levels/cave_day7.tscn").instantiate();root.add_child(cave)
+ var level=Node3D.new();root.add_child(level);level.add_child(world)
+ var cave=load("res://scenes/levels/cave_day7.tscn").instantiate()
+ # Geometry fixture has no base progression controller; encounter is tested separately.
+ cave.get_node("HiveEncounter").free();root.add_child(cave)
  var camera=Camera3D.new()
  camera.position=Vector3(300,100,0)
  root.add_child(camera)
@@ -55,42 +57,11 @@ func run():
   var p:Vector3=background.to_global((background_faces[i]+background_faces[i+1]+background_faces[i+2])/3)
   if p.x> -509.99 and p.x<1533.99 and p.z> -765.99 and p.z<765.99:overlap+=1
  check(overlap==0,"Distant backdrop does not intersect playable terrain or cave lip: %d overlapping triangles"%overlap)
- for name in ["SouthPassForest","WestPassForest"]:
-  var forest=world.get_node(name)
-  var count=0
-  var errors=0
-  var rows:Dictionary={}
-  for f in forest.find_children("Pines_*","MultiMeshInstance3D",false,false):
-   for i in f.multimesh.instance_count:
-    var p=f.global_transform*f.multimesh.get_instance_transform(i).origin
-    var h:float=terrain.data.get_height(p)
-    if not p.is_finite() or not is_finite(h) or absf(h-p.y)>0.03: errors+=1
-    rows[p.x]=int(rows.get(p.x,0))+1
-    count+=1
-  var maxrow=0
-  for n in rows.values(): maxrow=maxi(maxrow,n)
-  check(count==(150 if name=="SouthPassForest" else 100) and errors==0,name+" grounded")
-  check(forest.get_node("TreeTrunks").get_child_count()==count and maxrow<=2,name+" colliders and irregular placement")
- var peak_objects=0
- for f in world.get_node("Landscape").get_children():
-  if not f is MultiMeshInstance3D: continue
-  for i in f.multimesh.instance_count:
-   var p=f.global_transform*f.multimesh.get_instance_transform(i).origin
-   var h:float=terrain.data.get_height(p)
-   if (is_finite(h) and h>55.0) or (p.x>=225 and p.x<=390 and absf(p.z)<365): peak_objects+=1
- for node in world.get_node("BoundaryDressing").get_children():
-  var h:float=terrain.data.get_height(node.global_position)
-  if is_finite(h) and h>55: peak_objects+=1
- check(peak_objects==0,"upper slopes and cliff edge clear of decoration")
- var forest_errors=0
- for f in world.get_node("CliffValley").find_children("Forest*","MultiMeshInstance3D",false,false):
-  for i in f.multimesh.instance_count:
-   var p=f.global_transform*f.multimesh.get_instance_transform(i).origin
-   var h:float=terrain.data.get_height(p)
-   if not p.is_finite() or (p.x>220 and is_finite(h) and absf(p.y-h)>0.15): forest_errors+=1
- check(forest_errors==0,"background forest follows the lowered valley")
+ for name in ["SouthPassForest","WestPassForest","Landscape","BoundaryDressing"]:
+  check(not world.has_node(name),name+" decoration and collisions removed")
+ check(world.get_node("CliffValley").find_children("Forest*","MultiMeshInstance3D",false,false).is_empty(),"distant forest removed")
  var haze=world.get_node("CliffValley").find_children("StormHaze_*","FogVolume",false,false)
- check(haze.size()==28 and is_equal_approx(haze[0].material.density,0.028),"storm coverage and previous density retained")
+ check(haze.is_empty(),"obsolete distant fog sheets removed; local Blizzard owns weather")
  print("RESULT FAILURES ",failures.size())
  quit(0 if failures.is_empty() else 1)
 

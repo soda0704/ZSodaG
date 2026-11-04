@@ -1,0 +1,14 @@
+AI-generated arctic snow material study — inactive library variant.
+Built-in image_gen generated the grayscale height master, 1254 x 1254 native pixels.
+Final source PBR maps are 1254 x 1254; no 2K upscaled files are retained.
+Albedo, OpenGL normal, roughness, AO, ORM and 16-bit height were derived from one
+periodic height field using tools/authoring/generate_arctic_snow.cjs. They are not
+measured photogrammetry or independently generated mismatching map images.
+Runtime BC7 experiments may align to 1256 pixels because BC7 uses 4x4 blocks;
+this variant is NOT connected or exported. Active material is user-supplied Snow006.
+
+Generation prompt (built-in image_gen):
+Generate one production texture asset for a photorealistic PBR material in a Godot game. Output exactly 2048 x 2048 pixels, square. This is the MASTER HEIGHT MAP for loose dry arctic snow, from which physically aligned normal/roughness/albedo maps will be computed, NOT a shaded beauty render. Strict orthographic top-down, grayscale displacement/height data only: medium gray average surface, white means higher, dark means lower. Natural soft irregular small snow granules and fine porous packed powder clusters, scattered very shallow rounded wind-scoured hollows, no long deep grooves, no soil, rocks, footprints, ice slabs or distinctive focal features. A 2 by 2 metre physical tile, high-density crisp millimetre/centimetre structure, gentle broad height changes under 1 centimetre, avoid huge smooth cloudy areas. Completely neutral omnidirectional height representation, NO directional lighting, NO cast shadows, NO specular highlights, NO ambient occlusion baked into heights, no perspective. SEAMLESS TILEABLE across both axes, matching top/bottom and left/right edges including slope; random homogeneous distribution with no visible grid, bands, mirrored quadrants or repeating motifs inside the tile. Edge-to-edge surface data only; no text, labels, frames, contact sheet, sphere, or watermark. Photogrammetry-quality natural granular snow relief, technically usable coherent PBR height source.
+
+The tool returned 1254px despite the requested size; this is recorded rather than
+represented as native 2K output. User explicitly chose to keep native resolution.
