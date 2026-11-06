@@ -98,7 +98,8 @@ void fragment() {
 	pixel_color.rgb = mix(pixel_color.rgb, bounded * bounded * (3.0 - 2.0 * bounded), response_curve);
 	float luminance = dot(pixel_color.rgb, vec3(0.2126, 0.7152, 0.0722));
 	pixel_color.rgb = mix(vec3(luminance), pixel_color.rgb, saturation);
-	pixel_color.rgb *= vec3(0.985, 1.015, 1.025);
+	// White balance and grading belong to WorldEnvironment. The sensor/lens
+	// pass must not add a second cyan cast on top of the scene lighting.
 	// Small rounded lens-housing corners: the middle of every edge stays clear.
 	// Follow the look input only near the corners, without introducing side bars.
 	float rim_follow = smoothstep(0.6, 0.85, abs(p.x)) * smoothstep(0.6, 0.85, abs(p.y));

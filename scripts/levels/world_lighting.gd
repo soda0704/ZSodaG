@@ -4,17 +4,18 @@ extends Node3D
 ## A bounded shadow atlas pool shared by spot and omni lamps.
 const EXTERIOR_LAYER := 1 << 16
 const ARRIVAL_SHADOW_LAYER := 1 << 15
-const MAX_ACTIVE_LAMPS := 8
-const MAX_RESIDENT_LAMPS := 10
-const MAX_ACTIVE_SHADOW_SLOTS := 8
-const MAX_RESIDENT_SHADOW_SLOTS := 10
+const MAX_ACTIVE_LAMPS := 6
+const MAX_RESIDENT_LAMPS := 8
+const MAX_ACTIVE_SHADOW_SLOTS := 6
+const MAX_RESIDENT_SHADOW_SLOTS := 8
 const EMERGENCY_COLOR := Color(1.0, 0.025, 0.012)
 const EMERGENCY_PERIOD := 2.0
 const EMERGENCY_MIN_INTENSITY := 0.15
 signal emergency_intensity_changed(intensity: float)
-@export var outdoor_ambient := 0.12
-@export var indoor_ambient := 0.025
-@export var emergency_indoor_ambient := 0.005
+var outdoor_ambient: float:
+	get:
+		var source := source_environment()
+		return source.ambient_light_energy if source != null else 0.12
 @export_group("Exterior below the base")
 @export var lower_exterior_bounds: CollisionShape3D
 @export_group("Debug visibility")
@@ -34,6 +35,8 @@ var emergency_intensity := 1.0
 var _setting_lamp_visibility := false
 var _camera: Camera3D
 var _camera_environment: Environment
+var _environment_source: Environment
+var _environment_dirty := false
 var _indoor_mix := 1.0
 var _outdoor_fog_density := 0.0
 var _outdoor_fog_sky_affect := 0.0
@@ -48,12 +51,9 @@ var quality_shadow_distance := 96.0
 var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
 var _editor_visibility:Dictionary={}
-var _power: BasePowerLightingController
-var _daylight_portal: AcousticPortal
 
 func _ready() -> void:
 	if Engine.is_editor_hint():return
-	_power = get_parent().get_node_or_null("BasePowerLightingController") as BasePowerLightingController
 	_blizzard = get_parent().get_node_or_null("SnowExterior/Blizzard")
 	add_to_group("world_lighting")
 	_sun=get_node("OvercastSun")
@@ -201,13 +201,20 @@ func _process(delta: float) -> void:
 		_editor_preview(delta)
 		return
 	_advance_emergency(delta)
-	_update_entrance_daylight()
 	var camera := get_viewport().get_camera_3d()
 	if camera == null: return
-	if camera != _camera:
+	var source := source_environment()
+	if source == null: return
+	var quality = get_node("/root/GameMenu/GraphicsQuality")
+	if source != _environment_source:
+		if _environment_source != null and _environment_source.changed.is_connected(_on_environment_source_changed):
+			_environment_source.changed.disconnect(_on_environment_source_changed)
+		_environment_source = source
+		_environment_source.changed.connect(_on_environment_source_changed)
+		_environment_dirty = true
+	if camera != _camera or _environment_dirty:
 		_camera = camera
-		var source: Environment = get_parent().get_node("SnowExterior/OvercastDayEnvironment").environment
-		_camera_environment = source.duplicate() as Environment
+		_camera_environment = quality.make_environment_copy(source)
 		_outdoor_fog_density = source.fog_density if source.fog_enabled else 0.0
 		_outdoor_fog_sky_affect = source.fog_sky_affect
 		_outdoor_volume_density = source.volumetric_fog_density
@@ -215,13 +222,16 @@ func _process(delta: float) -> void:
 		_outdoor_fog_begin = source.fog_depth_begin
 		_outdoor_fog_end = source.fog_depth_end
 		_camera.environment = _camera_environment
-		get_node("/root/GameMenu/GraphicsQuality").apply_environment(_camera_environment)
+		quality.apply_environment(_camera_environment)
+		_environment_dirty = false
 	var at := camera.get_global_transform_interpolated().origin
 	var environment_changed := false
 	var sheltered := is_covered(at, _exclude_body(camera))
 	_indoor_mix = move_toward(_indoor_mix, 1.0 if sheltered else 0.0, delta * 1.25)
 	if _blizzard != null: _blizzard.advance(camera, _indoor_mix, delta, sheltered)
-	var ambient := lerpf(outdoor_ambient, _indoor_ambient_energy(), _indoor_mix)
+	# The room's geometry, lamps and GI determine its darkness. Crossing a roof
+	# boundary must never change the exposure or ambient of the whole image.
+	var ambient := outdoor_ambient
 	if debug_visibility_profile != null:
 		ambient = lerpf(debug_visibility_profile.ambient_light_energy, ambient, debug_darkness)
 		var color := debug_visibility_profile.ambient_light_color.lerp(source_environment().ambient_light_color, debug_darkness)
@@ -256,8 +266,7 @@ func _process(delta: float) -> void:
 	var volume_density := lerpf(_outdoor_volume_density, 0.0006, _indoor_mix) * debug_darkness
 	# Volumetric sun shadows can reveal distant cliff silhouettes through an
 	# otherwise opaque whiteout. Do not stack it with the spatial storm pass.
-	var quality := get_node("/root/GameMenu/GraphicsQuality")
-	var authored_volume: bool = bool(source_environment().get_meta("quality_authored_effects", {"fog": source_environment().volumetric_fog_enabled}).get("fog", false))
+	var authored_volume: bool = source.volumetric_fog_enabled
 	var volume_enabled: bool = authored_volume and quality.advanced_lighting_enabled and int(quality.values.get("FogQuality", 2)) > 0 and storm == 0.0
 	if _camera_environment.volumetric_fog_enabled != volume_enabled:
 		_camera_environment.volumetric_fog_enabled = volume_enabled
@@ -275,20 +284,13 @@ func _process(delta: float) -> void:
 	_update_lamps(at, delta)
 
 func source_environment() -> Environment:
-	return get_parent().get_node("SnowExterior/OvercastDayEnvironment").environment
+	var environment_node: WorldEnvironment
+	if get_parent() != null:
+		environment_node = get_parent().get_node_or_null("SnowExterior/OvercastDayEnvironment") as WorldEnvironment
+	return environment_node.environment if environment_node != null else null
 
-func _update_entrance_daylight() -> void:
-	# Reuse the real moving door's openness; daylight is independent of base power.
-	if not is_instance_valid(_daylight_portal):
-		_daylight_portal = get_parent().get_node_or_null("Floor_0_Base_Blockout/Doors/PedestrianWindPassage") as AcousticPortal
-	var lamp := get_node_or_null("ExteriorDaylight/EntranceSky") as SpotLight3D
-	if lamp == null: return
-	var opened := _daylight_portal.openness() if is_instance_valid(_daylight_portal) else 0.0
-	set_lamp_modulation(lamp, opened * clampf(outdoor_ambient, 0.0, 1.0))
-
-func _indoor_ambient_energy() -> float:
-	# A power outage must leave the alarm bursts and player lights meaningful.
-	return emergency_indoor_ambient if is_instance_valid(_power) and not _power.is_standard_powered else indoor_ambient
+func _on_environment_source_changed() -> void:
+	_environment_dirty = true
 
 func set_debug_darkness(value: float) -> void:
 	debug_darkness = clampf(value, 0.0, 1.0)
@@ -347,6 +349,8 @@ func _update_editor_lamp_visibility(at: Vector3) -> void:
 			_editor_visibility[lamp] = active
 
 func _exit_tree() -> void:
+	if _environment_source != null and _environment_source.changed.is_connected(_on_environment_source_changed):
+		_environment_source.changed.disconnect(_on_environment_source_changed)
 	if not Engine.is_editor_hint():
 		for view in _debug_viewports:
 			if is_instance_valid(view): view.debug_draw = _debug_viewports[view]
@@ -397,7 +401,7 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 
 func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
-	var indoor_fill := .12 * clampf(_indoor_ambient_energy() / maxf(indoor_ambient, .0001), 0.0, 1.0)
+	var indoor_fill := .12
 	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, indoor_fill, _indoor_mix)
 	var exclude := _exclude_body(camera)
 	var sources: Array[Light3D] = _resident_lamps.duplicate()

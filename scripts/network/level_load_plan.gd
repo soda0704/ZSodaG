@@ -6,7 +6,7 @@ var chunks: Dictionary = {}
 var signatures: Dictionary = {}
 var failed := false
 const PLAN_PATH := "res://assets/config/level_loading_plan.res"
-const SCHEMA := 3
+const SCHEMA := 4
 
 
 func allowed(path: String) -> bool:

@@ -12,7 +12,15 @@ func run() -> void:
 		print("LEVEL LOAD PLAN current")
 		quit(0)
 		return
-	plan = Builder.new().build(load(Builder.ROOT_PATH))
+	# The old plan can cache its nested PackedScenes. Refresh scene files from
+	# leaves to root, while retaining canonical Script resources/class identity.
+	if plan != null:
+		var paths: Array = plan.get_meta("source_hashes", {}).keys()
+		paths.reverse()
+		for path in paths:
+			if str(path).ends_with(".tscn") and ResourceLoader.exists(path):
+				ResourceLoader.load(path, "PackedScene", ResourceLoader.CACHE_MODE_REPLACE)
+	plan = Builder.new().build(ResourceLoader.load(Builder.ROOT_PATH, "PackedScene", ResourceLoader.CACHE_MODE_REPLACE))
 	if plan == null:
 		quit(1)
 		return

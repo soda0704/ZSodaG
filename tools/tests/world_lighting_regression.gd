@@ -87,8 +87,8 @@ func run() -> void:
 	var authored: Environment = level.get_node("SnowExterior/OvercastDayEnvironment").environment
 	var panorama := authored.sky.sky_material as PanoramaSkyMaterial
 	check(authored.reflected_light_source == Environment.REFLECTION_SOURCE_SKY,"outdoor metal receives HDR sky reflections")
-	check(panorama != null and panorama.panorama.resource_path.ends_with("overcast_soil_puresky_4k.exr") and panorama.panorama.get_width() == 4096,"sky uses the full-resolution project EXR")
-	check(authored.sky.radiance_size == Sky.RADIANCE_SIZE_1024 and authored.sky.process_mode == Sky.PROCESS_MODE_QUALITY,"static HDR sky uses quality radiance processing")
+	check(panorama != null and panorama.panorama.resource_path.ends_with("autumn_field_puresky_4k.exr") and panorama.panorama.get_width() == 4096,"sky uses the full-resolution project EXR")
+	check(authored.sky.radiance_size == Sky.RADIANCE_SIZE_512 and authored.sky.process_mode == Sky.PROCESS_MODE_QUALITY,"static HDR sky uses bounded quality radiance processing")
 	var player:GamePlayer=load("res://scenes/characters/player.tscn").instantiate()
 	player.setup(1,"World lighting",Vector3(-25,0.1,0),Color.WHITE,-PI/2)
 	level.add_child(player)
@@ -239,15 +239,15 @@ func run() -> void:
 	await frames(40)
 	# VoxelGI also occludes the fallback ambient; isolate the actual bounce
 	# contribution with ambient zero in both comparison frames.
-	var saved_ambient:float=lighting.indoor_ambient
-	lighting.indoor_ambient=0.0
+	var saved_ambient:float=authored.ambient_light_energy
+	authored.ambient_light_energy=0.0;authored.emit_changed()
 	await frames(40)
 	var bounced_only:=await capture("garage-bounce-comparison")
 	indirect.hide()
 	await frames(40)
 	var direct_only:=await capture("garage-direct-only")
 	indirect.show()
-	lighting.indoor_ambient=saved_ambient
+	authored.ambient_light_energy=saved_ambient;authored.emit_changed()
 	await frames(40)
 	await capture("garage-powered")
 	print("GI LEVELS direct=",mean(direct_only)," bounced=",mean(bounced_only))
@@ -289,7 +289,7 @@ func run() -> void:
 		previous=values
 		var active := shadow_slots_in_view(level, camera)
 		maximum_lamps=maxi(maximum_lamps,active)
-		check(is_equal_approx(camera.environment.ambient_light_energy,lighting.indoor_ambient),"camera rotation preserves indoor ambient %d"%index)
+		check(is_equal_approx(camera.environment.ambient_light_energy,authored.ambient_light_energy),"camera rotation preserves authored ambient %d"%index)
 	print("MOTION largest_luminance_step=",largest_jump," max_shadow_lamps=",maximum_lamps)
 	check(largest_jump<0.07,"small camera motion does not abruptly switch surface lighting")
 	check(brightest_sample>0.04,"motion stability includes lit surfaces, not only black shadows")
@@ -323,7 +323,7 @@ func run() -> void:
 		await frames(30)
 		var room_picture:=await capture(location[0])
 		print("ROOM ",location[0]," mean=",mean(room_picture)," fps=",Engine.get_frames_per_second())
-		check(is_equal_approx(camera.environment.ambient_light_energy,lighting.indoor_ambient),"room "+location[0]+" uses interior lighting")
+		check(is_equal_approx(camera.environment.ambient_light_energy,authored.ambient_light_energy),"room "+location[0]+" preserves authored ambient")
 		var residents := shadow_slots_in_view(level, camera)
 		check(residents<=16,"room "+location[0]+" stays within the shadow budget")
 		check(indirect.get_active_probe_count()<=3,"room "+location[0]+" does not render GI on unrelated floors")

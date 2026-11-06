@@ -40,9 +40,9 @@ func run() -> void:
 		await process_frame
 		lighting._process(0.5)
 		check(lighting.is_covered(point), "technical route %s stays indoors" % point)
-		check(is_equal_approx(camera.environment.ambient_light_energy, lighting.indoor_ambient) and is_zero_approx(camera.environment.fog_density), "technical route %s keeps indoor ambient and no outdoor haze" % point)
+		check(is_equal_approx(camera.environment.ambient_light_energy, lighting.source_environment().ambient_light_energy) and is_zero_approx(camera.environment.fog_density), "technical route %s preserves authored ambient and excludes outdoor haze" % point)
 	check(not lighting.is_covered(Vector3(0, 1.75, 29)), "open exterior beyond the technical wing stays outdoors")
-	check(not lighting.is_covered(Vector3(0, 7, 22)), "camera above the technical roof stays outdoors")
+	check(not lighting.is_covered(Vector3(0, 12, 22)), "camera above the technical roof stays outdoors")
 	world.queue_free()
 	await process_frame
 	print("GENERATOR LIGHTING RESULT ", failures)

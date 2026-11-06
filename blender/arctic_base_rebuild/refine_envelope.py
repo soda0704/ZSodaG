@@ -69,7 +69,8 @@ bmesh.ops.delete(bm,geom=remove,context='VERTS');bm.to_mesh(equip_ob.data);bm.fr
 # Portal follows the actual animated 5.56 x 3.62 metre shutter, not the old wider prototype.
 portal=Geo('Fitted_Entrance_Reveals')
 for name,lo,hi,top,front in [('garage',-5.31,.31,3.70,-39.50),('entrance',2.08,3.92,3.15,-39.80)]:
- for zz in [lo-.13,hi+.13]:portal.box((front,0,zz-.13,-38.00,top+.18,zz+.13),0)
+ # Bury the feet 20 cm below the snow instead of ending flush at world zero.
+ for zz in [lo-.13,hi+.13]:portal.box((front,-.20,zz-.13,-38.00,top+.18,zz+.13),0)
  portal.box((front,top,lo-.26,-38.00,top+.18,hi+.26),0)
  if name=='garage':
   # Narrow seals overlap the leaf by 1 cm. These are inside the deep reveal.

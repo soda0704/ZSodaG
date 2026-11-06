@@ -30,7 +30,7 @@ func run() -> void:
  for i in 8:await physics_frame
  var world:WorldLighting=base.get_node("WorldLighting")
  var sun:DirectionalLight3D=world.get_node("OvercastSun")
- check(is_equal_approx(sun.light_energy,0.42) and is_equal_approx(world.outdoor_ambient,0.13) and is_equal_approx(world.indoor_ambient,0.026),"authored world sun and ambient energies remain unchanged")
+ check(is_equal_approx(sun.light_energy,1.2) and is_equal_approx(world.outdoor_ambient,world.source_environment().ambient_light_energy),"world uses the rebuilt sun and authored ambient")
  var panel:Node3D=base.get_node("Floor_0_Base_Blockout/West_Entrance/Art/ElevatorBackupSolarPanel")
  var panel_mesh:MeshInstance3D=panel.find_children("*","MeshInstance3D",true,false)[0]
  check((panel_mesh.layers & WorldLighting.EXTERIOR_LAYER)==0,"solar panel does not receive new global directional illumination")

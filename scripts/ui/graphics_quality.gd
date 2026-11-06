@@ -112,8 +112,15 @@ func _update_render_budgets() -> void:
 	if signature == _applied_budgets: return
 	var shadows := clampi(_lighting_quality("ShadowQuality"), 1, 3)
 	RenderingServer.directional_shadow_atlas_set_size([2048, 4096, 4096][shadows - 1], false)
-	RenderingServer.directional_soft_shadow_filter_set_quality((shadows - 1) as RenderingServer.ShadowQuality)
-	RenderingServer.positional_soft_shadow_filter_set_quality((shadows - 1) as RenderingServer.ShadowQuality)
+	# Engine enum entries include Very Low and Low before Medium. A numeric
+	# offset made the UI's Medium/High settings select Very Low/Low filtering.
+	var shadow_filter: RenderingServer.ShadowQuality = [RenderingServer.SHADOW_QUALITY_HARD, RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM, RenderingServer.SHADOW_QUALITY_SOFT_HIGH][shadows - 1]
+	RenderingServer.directional_soft_shadow_filter_set_quality(shadow_filter)
+	# Multiple local shadow maps are substantially dearer than the single sun.
+	# Keep filtered occlusion at Medium without running the sun's PCF kernel
+	# for every room lamp; High retains the previous Medium kernel locally.
+	var local_filter: RenderingServer.ShadowQuality = [RenderingServer.SHADOW_QUALITY_HARD, RenderingServer.SHADOW_QUALITY_SOFT_LOW, RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM][shadows - 1]
+	RenderingServer.positional_soft_shadow_filter_set_quality(local_filter)
 	var ao := clampi(_lighting_quality("AOQuality"), 0, 3)
 	RenderingServer.environment_set_ssao_quality(([0, 0, 2, 3][ao]) as RenderingServer.EnvironmentSSAOQuality, ao < 3, 0.5, 2, 30.0, 150.0)
 	var fog := clampi(_lighting_quality("FogQuality"), 0, 3)
@@ -146,10 +153,17 @@ func apply_node(node: Node) -> void:
 		node.quality_shadow_distance = float(values.ShadowDistance) if advanced_lighting_enabled else minf(float(values.ShadowDistance), 48.0)
 	if node.get_script() == INDIRECT_LIGHTING_SCRIPT:
 		node.set_quality_enabled(advanced_lighting_enabled)
-	if node is WorldEnvironment and node.environment != null:
-		apply_environment(node.environment)
-	if node is Camera3D and node.environment != null:
-		apply_environment(node.environment)
+	if node is WorldEnvironment:
+		# The authored node is the source, never the destination of a preset.
+		var active_camera := node.get_viewport().get_camera_3d()
+		if active_camera != null: apply_node(active_camera)
+	if node is Camera3D:
+		var source: Environment = node.environment if node.environment != null else node.get_world_3d().environment
+		if source != null:
+			if not source.get_meta("quality_runtime_environment", false):
+				node.environment = make_environment_copy(source)
+			elif node.environment == null: node.environment = source
+			apply_environment(node.environment)
 	if node is Decal:
 		node.distance_fade_enabled = true
 		node.distance_fade_begin = float(values.DecalDistance) * 0.75
@@ -160,16 +174,27 @@ func apply_node(node: Node) -> void:
 		node.visibility_range_end = float(values.VegetationDistance)
 		node.visibility_range_end_margin = 40.0
 
+func _remember_environment(env: Environment) -> void:
+	env.set_meta("quality_authored_effects", {"ao":env.ssao_enabled,"fog":env.volumetric_fog_enabled,"bloom":env.glow_enabled,"ssil":env.ssil_enabled,"ssr":env.ssr_enabled,"sdfgi":env.sdfgi_enabled})
+	env.set_meta("quality_authored_calibration", {"enabled":env.adjustment_enabled,"brightness":env.adjustment_brightness,"correction":env.adjustment_color_correction})
+
+func make_environment_copy(source: Environment) -> Environment:
+	var result := source.duplicate() as Environment
+	# Discard stale metadata from older scenes; actual Inspector values win.
+	_remember_environment(result)
+	result.set_meta("quality_runtime_environment", true)
+	return result
+
 func apply_environment(env: Environment) -> void:
 	if env == null or values.is_empty(): return
-	if not env.has_meta("quality_authored_effects"):
-		env.set_meta("quality_authored_effects", {"ao": env.ssao_enabled, "fog": env.volumetric_fog_enabled, "bloom": env.glow_enabled})
+	if not env.has_meta("quality_authored_calibration"): _remember_environment(env)
 	var authored: Dictionary = env.get_meta("quality_authored_effects")
-	if not env.adjustment_enabled: env.adjustment_enabled = true
-	var brightness := clampf(float(values.Brightness)/100.0, 0.7, 1.4)
+	var calibration: Dictionary = env.get_meta("quality_authored_calibration")
+	var brightness := float(calibration.brightness) * clampf(float(values.Brightness)/100.0, 0.7, 1.4)
 	if not is_equal_approx(env.adjustment_brightness, brightness): env.adjustment_brightness = brightness
 	var gamma := clampi(roundi(float(values.Gamma)/10.0)*10, 70, 150)
-	var correction: Texture = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else null
+	env.adjustment_enabled = bool(calibration.enabled) or int(values.Brightness) != 100 or gamma != 100
+	var correction: Texture = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else calibration.correction
 	if env.adjustment_color_correction != correction: env.adjustment_color_correction = correction
 	var ao_enabled: bool = advanced_lighting_enabled and authored.ao and int(values.AOQuality) > 0
 	var fog_enabled: bool = advanced_lighting_enabled and authored.fog and int(values.FogQuality) > 0
@@ -180,7 +205,8 @@ func apply_environment(env: Environment) -> void:
 	# Direct lights and distance haze survive both modes. VoxelGI is gated
 	# independently of the saved preset by WorldIndirectLighting.
 	for effect in ["ssil_enabled", "ssr_enabled", "sdfgi_enabled"]:
-		if env.get(effect): env.set(effect, false)
+		var enabled: bool = advanced_lighting_enabled and bool(authored.get(effect.trim_suffix("_enabled"), false))
+		if env.get(effect) != enabled: env.set(effect, enabled)
 	# Environment setters update the renderer but do not consistently emit changed.
 	# The isolated hands keep a copy and must receive calibration/effect updates.
 	env.emit_changed()

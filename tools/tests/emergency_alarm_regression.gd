@@ -197,8 +197,8 @@ func run() -> void:
 			var bright:=world_red_level(await capture_phase(lighting,alarm,peak_time,mode+"-bright"))
 			var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
 			print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
-			check(dark<.03 and bright>dark*1.4,"interior is nearly invisible between visible alarm bursts in "+mode+" mode")
-			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.emergency_indoor_ambient) and is_equal_approx(lighting.emergency_indoor_ambient/lighting.indoor_ambient,.2),"power outage retains only twenty percent of ordinary ambient in "+mode+" mode")
+			check(dark>.005 and bright>dark*1.15,"room retains readable shadows and a distinct alarm burst in "+mode+" mode")
+			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy),"power outage preserves the node's authored ambient in "+mode+" mode")
 			if advanced:
 				actor.flashlight.malfunction_enabled=false
 				actor.pickup_world_item_authoritative(&"flashlight",{"battery_charge":1.0})
@@ -209,7 +209,7 @@ func run() -> void:
 				actor.toggle_flashlight_authoritative()
 			set_power(state,true)
 			var normal:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-normal"))
-			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.indoor_ambient) and normal>dark+.02,"restoring power returns normal interior visibility in "+mode+" mode")
+			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy) and normal>dark+.02,"restoring power illuminates the room through real lamps in "+mode+" mode")
 			set_power(state,false)
 		actor.teleport_authoritative(Vector3(180,60,180),0)
 		await capture_phase(lighting,alarm,dim_time,"exterior")

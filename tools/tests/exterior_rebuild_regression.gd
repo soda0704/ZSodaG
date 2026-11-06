@@ -46,8 +46,13 @@ func run():
   var colors=wall_mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_COLOR]
   if colors==null:continue
   for color in colors:wear_min=minf(wear_min,color.r);wear_max=maxf(wear_max,color.r)
- check(wear_max-wear_min>.10,"spatial wall weathering survives GLB import")
+ check(wear_max-wear_min>.10,"source vertex colours remain intact in the imported asset")
  check(model.has_node("Entrance_Weather_Hood"),"new entrance canopy is instantiated")
+ var reveals:MeshInstance3D=model.get_node("Fitted_Entrance_Reveals")
+ var feet:=0;var cap_level:=true
+ for point in reveals.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]:
+  if point.y<.0:feet+=1;cap_level=cap_level and point.y>=-.201
+ check(feet>=400 and cap_level,"both entrance surrounds extend twenty centimetres below the snow datum")
  var roof_mesh:MeshInstance3D=model.get_node("Arched_Roof_Surface")
  var edges:Dictionary={};var roof_faces:=roof_mesh.mesh.get_faces()
  for tri in range(0,roof_faces.size(),3):
