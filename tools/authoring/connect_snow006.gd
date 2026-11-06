@@ -9,7 +9,7 @@ func _initialize():
  material.set_shader_parameter("entry_snow_normal_rough",load("res://assets/environments/snow/snow006/runtime_normal_rough.res"))
  material.set_shader_parameter("entry_snow_tile_size",2.4)
  material.set_shader_parameter("entry_snow_height",load("res://assets/environments/snow/snow006/runtime_height.res"))
- material.set_shader_parameter("entry_snow_relief_metres",0.006)
+ material.set_shader_parameter("entry_snow_relief_metres",0.03)
  material.set_shader_parameter("entry_snow_normal_strength",1.0)
  if ResourceSaver.save(mesh,path,ResourceSaver.FLAG_COMPRESS)!=OK:quit(1);return
  print("BACKDROP SNOW006 ",material.get_shader_parameter("entry_snow_albedo").resource_path)

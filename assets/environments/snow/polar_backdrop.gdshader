@@ -6,7 +6,7 @@ uniform sampler2D entry_snow_albedo : source_color, filter_linear_mipmap_anisotr
 uniform sampler2D entry_snow_normal_rough : filter_linear_mipmap_anisotropic, repeat_enable;
 uniform float entry_snow_tile_size : hint_range(1.0,4.0) = 2.4;
 uniform sampler2D entry_snow_height : filter_linear_mipmap_anisotropic, repeat_enable;
-uniform float entry_snow_relief_metres : hint_range(0.0,0.012) = 0.006;
+uniform float entry_snow_relief_metres : hint_range(0.0,0.06) = 0.03;
 uniform float entry_snow_normal_strength : hint_range(0.0,1.0) = 1.0;
 uniform bool entry_snow_variation = true;
 uniform float entry_snow_patch_density : hint_range(0.4,2.0) = 1.0;
@@ -25,20 +25,20 @@ void snow02_coordinates(vec2 uv,out vec2 at,out mat2 jacobian) {
  at=uv+warp;
 }
 
-// Bounded eight-step parallax occlusion, close-up only. Height never moves collision/vertices.
+// Bounded 24-step parallax occlusion, close-up only. Height never moves collision/vertices.
 vec2 snow02_parallax(vec2 at,mat2 jacobian,vec2 dx,vec2 dy,vec3 view_world,float view_distance) {
  float relief=entry_snow_relief_metres*(1.0-smoothstep(6.0,16.0,view_distance));
  if(relief<0.00001)return at;
  vec2 ray=jacobian*(view_world.xz/max(abs(view_world.y),0.25))*(relief/entry_snow_tile_size);
  vec2 current=at+ray*0.5;
- vec2 step_uv=ray/8.0;
+ vec2 step_uv=ray/24.0;
  float layer=0.0;
  float depth=1.0-textureGrad(entry_snow_height,current,dx,dy).r;
  vec2 previous=current;float before=depth;
- for(int step=0;step<8;step++) {
+ for(int step=0;step<24;step++) {
   if(layer>=depth)break;
   previous=current;before=depth-layer;
-  current-=step_uv;layer+=0.125;
+  current-=step_uv;layer+=1.0/24.0;
   depth=1.0-textureGrad(entry_snow_height,current,dx,dy).r;
  }
  float after=layer-depth;

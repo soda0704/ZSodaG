@@ -62,7 +62,7 @@ func run():
 	material.set_shader_parameter("entry_snow_normal_rough",load("res://assets/environments/snow/snow006/runtime_normal_rough.res"))
 	material.set_shader_parameter("entry_snow_height",load("res://assets/environments/snow/snow006/runtime_height.res"))
 	material.set_shader_parameter("entry_snow_tile_size",2.4)
-	material.set_shader_parameter("entry_snow_relief_metres",0.006)
+	material.set_shader_parameter("entry_snow_relief_metres",0.03)
 	var mesh:=surface.commit();mesh.surface_set_material(0,material)
 	ResourceSaver.save(mesh,"res://assets/environments/snow/meshes/polar_backdrop.res",ResourceSaver.FLAG_COMPRESS)
 	print("EDGE FIX corridor samples=",changed," backdrop vertices=",vertices.size())

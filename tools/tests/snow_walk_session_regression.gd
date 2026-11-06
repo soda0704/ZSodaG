@@ -69,6 +69,10 @@ func run() -> void:
 	actor.get_node("PlayerUI/CameraPostProcess").effect_enabled=false
 	actor.head.look_at(Vector3(-57,terrain.data.get_height(Vector3(-57,0,18)),18))
 	await shot("normal-walk-bootprints")
+	at=Vector3(-92,0,95);at.y=terrain.data.get_height(at)+.1
+	actor.teleport_authoritative(at,0)
+	actor.head.look_at(Vector3(-20,1.2,0))
+	await shot("base-rise-arrival-clear")
 	at=Vector3(-62,0,21);at.y=terrain.data.get_height(at)+0.1
 	actor.teleport_authoritative(at,0)
 	actor.head.look_at(Vector3(-43,1.1,3))

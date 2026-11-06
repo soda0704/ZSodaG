@@ -57,7 +57,7 @@ _shader_parameters = {
 &"entry_snow_enabled": true,
 &"entry_snow_height": ExtResource("entry_snow_height"),
 &"entry_snow_tile_size": 2.4,
-&"entry_snow_relief_metres": 0.006,
+&"entry_snow_relief_metres": 0.03,
 &"entry_snow_normal_strength": 1.0,
 &"entry_snow_bounds": Vector4(-520, 1544, -776, 776),
 &"flat_terrain_normals": null,

@@ -1,31 +1,63 @@
 [gd_scene format=3 uid="uid://ojj5yvkr85ou"]
 
-[ext_resource type="PackedScene" uid="uid://dqrjbf0rkbo2h" path="res://assets/models/architecture/arctic_base_exterior/arctic_base_exterior_shell.glb" id="1_shell"]
-[ext_resource type="Shape3D" path="res://assets/models/architecture/arctic_base_exterior/shell_collision.res" id="collision"]
+[ext_resource type="PackedScene" path="res://assets/models/architecture/arctic_base_rebuild/arctic_base_rebuild.glb" id="shell"]
+[ext_resource type="Shape3D" path="res://assets/models/architecture/arctic_base_rebuild/shell_collision.res" id="collision"]
 
-[node name="ArcticBase_ExteriorShell" type="Node3D" unique_id=823052525]
-editor_description = "Measured exterior shell with static concave collision matching the skin and cut door openings. Roof equipment and antennas remain visual."
+[ext_resource type="Material" path="res://assets/models/architecture/arctic_base_rebuild/weathered_coating.tres" id="coating"]
 
-[node name="Model" parent="." unique_id=659112990 instance=ExtResource("1_shell")]
+[node name="ArcticBase_ExteriorShell" type="Node3D"]
 
-[node name="Base_ExteriorShell_Mesh" parent="Model" index="0" unique_id=1635393134]
-layers = 65537
+[node name="Model" parent="." instance=ExtResource("shell")]
 
-[node name="Roof_TechnicalEquipment" parent="Model" index="1" unique_id=1155989750]
-layers = 65537
+[node name="Antenna_CentralLattice" parent="Model" index="0"]
+layers = 327681
 
-[node name="Antenna_CentralLattice_0" parent="Model" index="2" unique_id=1355340141]
-transform = Transform3D(3.3328235, 0, 0, 0, 2.9515374, 0, 0, 0, 3.1574142, 0, -21.774147, 0)
-layers = 65537
+[node name="Antenna_Footings" parent="Model" index="1"]
+layers = 327681
 
-[node name="Antenna_ScienceMast_1" parent="Model" index="3" unique_id=1105246996]
-layers = 65537
+[node name="Antenna_ScienceMast" parent="Model" index="2"]
+layers = 327681
 
-[node name="Antenna_CrossArray_2" parent="Model" index="4" unique_id=1611383450]
-layers = 65537
+[node name="Arched_Roof_Surface" parent="Model" index="3"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
 
-[node name="Antenna_CrossArray_3" parent="Model" index="5" unique_id=1449938108]
-layers = 65537
+[node name="Base_ExteriorShell_Mesh" parent="Model" index="4"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
+
+[node name="Entrance_Weather_Hood" parent="Model" index="5"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
+
+[node name="Entry_Identification" parent="Model" index="6"]
+layers = 327681
+
+[node name="Fitted_Entrance_Reveals" parent="Model" index="7"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
+
+[node name="Joint_Flashings" parent="Model" index="8"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
+
+[node name="Panel_Fixings" parent="Model" index="9"]
+layers = 327681
+
+[node name="Roof_TechnicalEquipment" parent="Model" index="10"]
+layers = 327681
+surface_material_override/0 = ExtResource("coating")
+
+[node name="ShellCollisionProxy" parent="Model" index="11"]
+layers = 327681
+visible = false
+cast_shadow = 0
+
+[node name="Snow_Accumulation" parent="Model" index="12"]
+layers = 327681
+
+[node name="StandingSeams" parent="Model" index="13"]
+layers = 327681
 
 [node name="ShellBody" type="StaticBody3D" parent="." groups=["exterior_shell_collision"]]
 

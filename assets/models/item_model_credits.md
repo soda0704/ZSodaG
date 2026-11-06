@@ -65,3 +65,7 @@ Original licence: assets/models/props/dry_foliage/license.txt. The bent and stra
 ## Bed
 
 Source: user-supplied `Bed-1ebf05f2-textures.zip` (18 October 2026). Imported original bed.glb and supplied texture maps into `furniture/bed/`; original asset licensing/attribution terms remain applicable. No license is inferred from the archive name.
+
+## Rebuilt base exterior
+
+Blue painted metal PBR: **Blue Metal Plate**, Rob Tuytel / Poly Haven, https://polyhaven.com/a/blue_metal_plate — **CC0**, https://polyhaven.com/license . The pale wall coating is a colour remap of that material. New envelope, canopy, flashings and shutter geometry were authored for NorthernLab. Roof snow and antennas reuse existing project assets; their existing licensing remains applicable. Source details: `architecture/arctic_base_rebuild/provenance.md`.

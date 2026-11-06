@@ -42,7 +42,7 @@ text = "ДВА ИГРОКА · УДЕРЖИВАЙТЕ E"
 [node name="Handle0" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
 sync_to_physics = false
-position = Vector3(-2.94, 1.25, 0.28)
+position = Vector3(-2.94, 1.25, 1.56)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")
@@ -56,7 +56,7 @@ material_override = SubResource("orange")
 [node name="Handle1" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
 sync_to_physics = false
-position = Vector3(2.94, 1.25, 0.28)
+position = Vector3(2.94, 1.25, 1.56)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2")

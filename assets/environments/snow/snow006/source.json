@@ -24,8 +24,8 @@
   ],
   "render_tile_metres": 2.4,
   "relief": {
-    "mode": "eight-step parallax occlusion, geometry/collision unchanged",
-    "height_metres": 0.006,
+    "mode": "24-step parallax occlusion, geometry/collision unchanged",
+    "height_metres": 0.03,
     "fade_metres": [
       6,
       16
