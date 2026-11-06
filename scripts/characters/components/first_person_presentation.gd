@@ -327,6 +327,10 @@ func _sync_environment() -> void:
 			for key in _environment_keys:
 				var value:Variant=source.get(key)
 				if _view_environment.get(key)!=value:_view_environment.set(key,value)
+			# This isolated World3D has no room walls or GI volumes. Its lighting
+			# is sampled from actual world sources below; never copy unoccluded sky.
+			_view_environment.ambient_light_source=Environment.AMBIENT_SOURCE_DISABLED
+			_view_environment.reflected_light_source=Environment.REFLECTION_SOURCE_DISABLED
 		_environment_dirty=false
 
 func _update_lighting(delta: float) -> void:

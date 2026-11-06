@@ -1,0 +1,119 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/interior_ambient_occlusion.gd" id="script"]
+
+[node name="InteriorAmbientOcclusion" type="Node3D"]
+script = ExtResource("script")
+
+[node name="Fallback" type="Node3D" parent="."]
+visible = false
+
+[node name="Entrance" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-27, 3, 0)
+size = Vector3(38, 12, 26)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Hub" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(0, 4, 0)
+size = Vector3(24, 12, 62)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Living" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(23, 3, 2)
+size = Vector3(30, 12, 32)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Control" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-30, -14, 0)
+size = Vector3(88, 12, 60)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="LifeSupport" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-30, -32, 0)
+size = Vector3(98, 16, 62)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Trials" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-24, -50, -3)
+size = Vector3(48, 14, 42)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Containment" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-18, -68, -14)
+size = Vector3(68, 14, 64)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Expedition" type="ReflectionProbe" parent="Fallback"]
+position = Vector3(-20, -86, -17)
+size = Vector3(76, 16, 68)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="Connectors" type="Node3D" parent="."]
+
+[node name="West" type="ReflectionProbe" parent="Connectors"]
+position = Vector3(-9.8, 2.5, 0)
+size = Vector3(2.4, 5.6, 5.9)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="East" type="ReflectionProbe" parent="Connectors"]
+position = Vector3(9.75, 2.5, 0)
+size = Vector3(2.4, 5.6, 5.9)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="North" type="ReflectionProbe" parent="Connectors"]
+position = Vector3(0, 2.5, -9.8)
+size = Vector3(5.9, 5.6, 2.4)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2
+
+[node name="South" type="ReflectionProbe" parent="Connectors"]
+position = Vector3(0, 2.5, 9.8)
+size = Vector3(5.9, 5.6, 2.4)
+interior = true
+cull_mask = 0
+reflection_mask = 524288
+ambient_mode = 2
+blend_distance = 0.2

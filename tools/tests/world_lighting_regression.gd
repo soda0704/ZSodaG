@@ -71,11 +71,11 @@ func run() -> void:
 	check(lighting.is_visible_in_tree(),"assembled level enables the shared lighting root")
 	var indirect: Node3D=level.get_node("WorldIndirectLighting")
 	var probes:=indirect.find_children("*","VoxelGI",true,false)
-	check(probes.size()==8,"all eight lighting zones have baked voxel geometry")
+	check(probes.size()==10,"all ten lighting zones have baked voxel geometry")
 	var interior_probes:=true
 	var overlap_safe:=true
 	for probe:VoxelGI in probes:
-		interior_probes=interior_probes and probe.data!=null and probe.data.interior==(probe.position.y<0.0) and probe.data.use_two_bounces and is_equal_approx(probe.data.energy,0.7)
+		interior_probes=interior_probes and probe.data!=null and probe.data.interior and probe.data.use_two_bounces and is_equal_approx(probe.data.energy,0.7)
 		var bounds:=AABB(probe.position-probe.size/2,probe.size)
 		for other:VoxelGI in probes:
 			if probe==other:continue
@@ -83,7 +83,7 @@ func run() -> void:
 			if not intersection.has_volume():continue
 			for third:VoxelGI in probes:
 				if third!=probe and third!=other and intersection.intersects(AABB(third.position-third.size/2,third.size)):overlap_safe=false
-	check(interior_probes and overlap_safe,"underground GI excludes sky while surface GI preserves exterior ambient; no triple overlap")
+	check(interior_probes and overlap_safe,"all room GI volumes exclude sky; no triple overlap")
 	var authored: Environment = level.get_node("SnowExterior/OvercastDayEnvironment").environment
 	var panorama := authored.sky.sky_material as PanoramaSkyMaterial
 	check(authored.reflected_light_source == Environment.REFLECTION_SOURCE_SKY,"outdoor metal receives HDR sky reflections")
@@ -122,7 +122,7 @@ func run() -> void:
 			var values:Array=[]
 			for point in points:values.append(sample(picture,camera,point))
 			print("APPROACH ",pose[0]," probes=",indirect.get_active_probe_count()," ambient=",camera.environment.ambient_light_energy," samples=",values)
-			check(indirect.get_active_probe_count()==3,"exterior "+pose[0]+" keeps surface GI resident")
+			check(indirect.get_active_probe_count()==5,"exterior "+pose[0]+" keeps surface GI resident")
 			check(values[0]>0.06 and values[1]>0.1,"exterior "+pose[0]+" facade and roof retain visible light")
 			if pose[0]=="far":far_values=values.duplicate()
 			if pose[0]=="near":check(absf(values[0]-far_values[0])<0.035 and absf(values[1]-far_values[1])<0.035,"approaching the base does not abruptly replace its exterior lighting")
@@ -196,7 +196,7 @@ func run() -> void:
 	check(player.body_animator.first_person.viewport.world_3d!=camera.get_world_3d(),"hands render in an isolated world without traversing the base")
 	check(player.body_animator.first_person.viewport.size==root.size,"hand render target matches physical window pixels")
 	check(not root.positional_shadow_atlas_16_bits,"world positional shadows use full depth precision")
-	check(indirect.get_active_probe_count()==3,"ground-floor view processes only its three GI zones")
+	check(indirect.get_active_probe_count()==5,"ground-floor view processes only its five GI zones")
 	var hands_environment_id:=player.body_animator.first_person.view_camera.environment.get_instance_id()
 	menu.get_node("GraphicsQuality").apply({"SSIL":true,"SSR":true,"Glow":true,"SunShadows":false,"LocalShadows":false,"Brightness":100,"Gamma":100,"FPS":60})
 	await frames(20)
@@ -326,11 +326,11 @@ func run() -> void:
 		check(is_equal_approx(camera.environment.ambient_light_energy,authored.ambient_light_energy),"room "+location[0]+" preserves authored ambient")
 		var residents := shadow_slots_in_view(level, camera)
 		check(residents<=16,"room "+location[0]+" stays within the shadow budget")
-		check(indirect.get_active_probe_count()<=3,"room "+location[0]+" does not render GI on unrelated floors")
+		check(indirect.get_active_probe_count()<=5,"room "+location[0]+" does not render GI on unrelated floors")
 		var resident_probes:=0
 		for probe:VoxelGI in probes:
 			if probe.data!=null:resident_probes+=1
-		check(resident_probes<=3,"room "+location[0]+" releases distant GPU volumes")
+		check(resident_probes<=5,"room "+location[0]+" releases distant GPU volumes")
 		check(player.body_animator.first_person.view_camera.environment.get_instance_id()==hands_environment_id,"room "+location[0]+" reuses the hand environment")
 		var room_pose := camera.global_transform
 		var view_overlay:CanvasLayer=player.body_animator.first_person.overlay

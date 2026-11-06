@@ -32,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://cv6w7m25xo5p6" path="res://scenes/objects/crafting/flamethrower_workbench.tscn" id="flame_bench"]
 [ext_resource type="PackedScene" path="res://scenes/objects/crafting/flamethrower_loot_spawns.tscn" id="flame_loot"]
 [ext_resource type="PackedScene" path="res://scenes/levels/world_indirect_lighting.tscn" id="indirect_lighting"]
+[ext_resource type="PackedScene" path="res://scenes/levels/interior_ambient_occlusion.tscn" id="ambient_occlusion"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_interior_ambience.tscn" id="interior_ambience_audio"]
 [ext_resource type="Resource" path="res://assets/ui/journal/maps/atlas.tres" id="journal_atlas"]
 [ext_resource type="PackedScene" path="res://scenes/objects/items/journal_pickup.tscn" id="journal_pickup"]
@@ -605,6 +606,8 @@ transform = Transform3D(1, 0, 0, 0, 7.54979e-08, 1, 0, -1, 7.54979e-08, -33.5, -
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2.7458, 6.4)
 
 [node name="WorldIndirectLighting" parent="." unique_id=2024796229 instance=ExtResource("indirect_lighting")]
+
+[node name="InteriorAmbientOcclusion" parent="." instance=ExtResource("ambient_occlusion")]
 
 [node name="WorldAtmosphere" parent="." unique_id=85034148 instance=ExtResource("world_atmosphere")]
 

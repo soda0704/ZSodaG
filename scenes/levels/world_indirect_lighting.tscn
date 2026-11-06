@@ -9,27 +9,41 @@
 [ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/trials.res" id="7_vm0kw"]
 [ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/containment.res" id="8_n76gg"]
 [ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/expedition.res" id="9_u3v24"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/north_wing.res" id="north"]
+[ext_resource type="VoxelGIData" path="res://assets/environments/base_gi/south_wing.res" id="south"]
 
 [node name="WorldIndirectLighting" type="Node3D" unique_id=730965030]
 script = ExtResource("1_bwqdp")
 
 [node name="Entrance" type="VoxelGI" parent="." unique_id=2043422436]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.05, 2.5, 0)
 subdiv = 2
-size = Vector3(38, 12, 26)
+size = Vector3(27.9, 5.6, 20.1)
 data = ExtResource("2_ahtjr")
 
 [node name="Hub" type="VoxelGI" parent="." unique_id=436565554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-subdiv = 3
-size = Vector3(24, 12, 62)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 4, 0)
+subdiv = 2
+size = Vector3(18.5, 8.6, 18.4)
 data = ExtResource("3_dwpmu")
 
 [node name="Living" type="VoxelGI" parent="." unique_id=719390824]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 3, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.675, 2.5, 0)
 subdiv = 2
-size = Vector3(30, 12, 32)
+size = Vector3(25.55, 5.6, 20.1)
 data = ExtResource("4_krp38")
+
+[node name="NorthWing" type="VoxelGI" parent="."]
+position = Vector3(0, 2.5, -18.7)
+subdiv = 2
+size = Vector3(20.1, 5.6, 17.5)
+data = ExtResource("north")
+
+[node name="SouthWing" type="VoxelGI" parent="."]
+position = Vector3(0, 2.5, 18.7)
+subdiv = 2
+size = Vector3(20.1, 5.6, 17.5)
+data = ExtResource("south")
 
 [node name="Control" type="VoxelGI" parent="." unique_id=1027206813]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -14, 0)

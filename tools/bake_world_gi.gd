@@ -2,9 +2,11 @@ extends SceneTree
 ## Rebuild after structural edits. Run with the editor binary and Forward+.
 const OUT := "res://assets/environments/base_gi/"
 const ZONES := [
-	["Entrance",0,Vector3(-27,3,0),Vector3(38,12,26),2],
-	["Hub",0,Vector3(0,4,0),Vector3(24,12,62),3],
-	["Living",0,Vector3(23,3,2),Vector3(30,12,32),2],
+	["Entrance",0,Vector3(-24.05,2.5,0),Vector3(27.9,5.6,20.1),2],
+	["Hub",0,Vector3(-0.05,4,0),Vector3(18.5,8.6,18.4),2],
+	["Living",0,Vector3(22.675,2.5,0),Vector3(25.55,5.6,20.1),2],
+	["NorthWing",0,Vector3(0,2.5,-18.7),Vector3(20.1,5.6,17.5),2],
+	["SouthWing",0,Vector3(0,2.5,18.7),Vector3(20.1,5.6,17.5),2],
 	["Control",1,Vector3(-30,-14,0),Vector3(88,12,60),3],
 	["LifeSupport",2,Vector3(-30,-32,0),Vector3(98,16,62),3],
 	["Trials",3,Vector3(-24,-50,-3),Vector3(48,14,42),3],
@@ -61,7 +63,7 @@ func run() -> void:
 		if "--retune" in OS.get_cmdline_user_args():
 			var existing:=load(path) as VoxelGIData
 			existing.energy=0.7
-			existing.interior=zone[1]!=0
+			existing.interior=true
 			if ResourceSaver.save(existing,path,ResourceSaver.FLAG_COMPRESS)!=OK:quit(1);return
 			print("RETUNED ",probe.name," cells=",existing.get_octree_cells().size()," interior=",existing.interior)
 			probe.data=existing
@@ -84,7 +86,9 @@ func run() -> void:
 		if probe.data==null or probe.data.get_octree_cells().is_empty():
 			push_error("Empty voxel data for "+str(probe.name));quit(1);return
 		var data:=probe.data as VoxelGIData
-		data.interior=zone[1]!=0;data.use_two_bounces=true
+		# Every volume encloses rooms, including the surface floor. Outdoor sky
+		# belongs to the exterior; it must not be injected into closed rooms.
+		data.interior=true;data.use_two_bounces=true
 		data.energy=0.7;data.propagation=0.55;data.bias=0.5;data.normal_bias=0.5
 		if ResourceSaver.save(data,path,ResourceSaver.FLAG_COMPRESS)!=OK:quit(1);return
 		data.take_over_path(path)

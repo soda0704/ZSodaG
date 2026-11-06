@@ -47,6 +47,7 @@ var _outdoor_fog_end := 450.0
 var _blizzard: Node
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
+var _sun_shadow_mode := DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
 var quality_shadow_distance := 96.0
 var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
@@ -58,6 +59,7 @@ func _ready() -> void:
 	add_to_group("world_lighting")
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
+	_sun_shadow_mode=_sun.directional_shadow_mode
 	refresh_exterior_layers()
 	var arrival := get_parent().get_node_or_null("ArrivalSite")
 	if arrival != null:
@@ -243,6 +245,10 @@ func _process(delta: float) -> void:
 	var shadow_range := minf(_sun_shadow_distance, clampf(quality_shadow_distance, 24.0, 96.0))
 	var sun_distance:=lerpf(shadow_range,minf(shadow_range,24.0),_indoor_mix)
 	if not is_equal_approx(_sun.directional_shadow_max_distance,sun_distance):_sun.directional_shadow_max_distance=sun_distance
+	# The indoor shadow view covers at most 24 m. Two cascades retain detail
+	# there without redrawing all room geometry into four shadow maps.
+	var shadow_mode := DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if _indoor_mix > .99 and _sun_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS else _sun_shadow_mode
+	if _sun.directional_shadow_mode != shadow_mode: _sun.directional_shadow_mode = shadow_mode
 	if not is_equal_approx(_camera_environment.ambient_light_energy, ambient):
 		_camera_environment.ambient_light_energy = ambient
 		environment_changed = true
@@ -401,8 +407,7 @@ func _update_lamps(at: Vector3, delta: float) -> void:
 
 func sample_view_light(camera: Camera3D) -> Color:
 	var at := camera.get_global_transform_interpolated().origin
-	var indoor_fill := .12
-	var sum := Color(0.018, 0.023, 0.03) * lerpf(1.0, indoor_fill, _indoor_mix)
+	var sum := Color(0.018, 0.023, 0.03) * (1.0 - _indoor_mix)
 	var exclude := _exclude_body(camera)
 	var sources: Array[Light3D] = _resident_lamps.duplicate()
 	for mobile in get_tree().get_nodes_in_group("mobile_interior_lights"):
@@ -418,6 +423,13 @@ func sample_view_light(camera: Camera3D) -> Color:
 		if not get_world_3d().direct_space_state.intersect_ray(query).is_empty(): continue
 		sum += lamp.light_color * pow(1.0 - distance / lamp_range(lamp), 2.0) * lamp.light_energy * 0.16
 	sum += Color(0.08, 0.095, 0.12) * (1.0 - _indoor_mix)
+	# Direct daylight can reach the player's hands through a real opening too.
+	# The same geometry blocks it when the door is closed; no portal fill lamp.
+	if _sun != null and _sun.is_visible_in_tree() and _sun.light_energy > 0.0:
+		var toward_sun := _sun.global_basis.z.normalized()
+		var query := PhysicsRayQueryParameters3D.create(at, at + toward_sun * 96.0, 1, exclude)
+		if get_world_3d().direct_space_state.intersect_ray(query).is_empty():
+			sum += _sun.light_color * _sun.light_energy * 0.08
 	return Color(minf(sum.r, 0.35), minf(sum.g, 0.35), minf(sum.b, 0.35), 1.0)
 
 func _tag_shadow_casters(node: Node) -> void:

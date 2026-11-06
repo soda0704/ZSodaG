@@ -88,7 +88,7 @@ func run():
  indirect.set_quality_enabled(false);indirect.update_floor(2)
  var no_gi:bool=indirect.get_active_probe_count()==0
  indirect.set_quality_enabled(true);indirect.update_floor(2)
- check(no_gi and indirect.get_active_probe_count()==3 and power_before==base.get_node("BaseGameplayController").main_breaker_on,"GI toggles independently of electrical power")
+ check(no_gi and indirect.get_active_probe_count()==5 and power_before==base.get_node("BaseGameplayController").main_breaker_on,"GI toggles independently of electrical power")
  for view in [["overview",Vector3(-65,23,38),Vector3(-8,4,0)],["entry",Vector3(-46,2.1,6),Vector3(-38.8,2.2,2.8)],["roof",Vector3(-28,12,12),Vector3(-22,8.7,0)],["side",Vector3(-25,2,-15),Vector3(-22,3,-10.5)],["west-corners",Vector3(-44,5.7,16),Vector3(-37,6.5,9)],["east-corners",Vector3(43,5.7,16),Vector3(34,6.5,9)],["north-corners",Vector3(16,5.7,-34),Vector3(9,6.5,-27)],["south-corners",Vector3(16,5.7,34),Vector3(9,6.5,27)]]:
   camera.position=view[1];camera.look_at(view[2]);await shot("rebuilt-"+view[0])
  var state:BaseGameplayController=base.get_node("BaseGameplayController")

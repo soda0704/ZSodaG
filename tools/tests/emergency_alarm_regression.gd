@@ -197,7 +197,7 @@ func run() -> void:
 			var bright:=world_red_level(await capture_phase(lighting,alarm,peak_time,mode+"-bright"))
 			var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
 			print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
-			check(dark>.005 and bright>dark*1.15,"room retains readable shadows and a distinct alarm burst in "+mode+" mode")
+			check(dark<.03 and bright>dark+.01,"unpowered room has no global fill and retains a distinct alarm burst in "+mode+" mode")
 			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy),"power outage preserves the node's authored ambient in "+mode+" mode")
 			if advanced:
 				actor.flashlight.malfunction_enabled=false

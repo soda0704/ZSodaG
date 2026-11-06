@@ -1,6 +1,7 @@
 extends Node
 ## Render budgets change detail, never the authored energy, colour or fog distances.
 const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
+const INTERIOR_OCCLUSION_SCRIPT = preload("res://scripts/levels/interior_ambient_occlusion.gd")
 signal camera_effects_changed(motion_blur: bool, strength: float)
 # Runtime override only: every launch starts advanced, including fresh installs.
 var advanced_lighting_enabled := true
@@ -52,7 +53,7 @@ func _ready() -> void:
 	get_tree().node_added.connect(_schedule_node)
 
 func _schedule_node(node: Node) -> void:
-	if node is WorldEnvironment or node is Camera3D or node is GeometryInstance3D or node is Decal or node is WorldLighting or node is SubViewport or node.get_script() == INDIRECT_LIGHTING_SCRIPT or node.name == &"SnowTracks" or node.has_meta("boundary_detail"):
+	if node is WorldEnvironment or node is Camera3D or node is GeometryInstance3D or node is Decal or node is WorldLighting or node is SubViewport or (node.get_script() == INDIRECT_LIGHTING_SCRIPT or node.get_script() == INTERIOR_OCCLUSION_SCRIPT) or node.name == &"SnowTracks" or node.has_meta("boundary_detail"):
 		_apply_node_id.call_deferred(node.get_instance_id())
 
 func _apply_node_id(id: int) -> void:
@@ -153,6 +154,8 @@ func apply_node(node: Node) -> void:
 		node.quality_shadow_distance = float(values.ShadowDistance) if advanced_lighting_enabled else minf(float(values.ShadowDistance), 48.0)
 	if node.get_script() == INDIRECT_LIGHTING_SCRIPT:
 		node.set_quality_enabled(advanced_lighting_enabled)
+	if node.get_script() == INTERIOR_OCCLUSION_SCRIPT:
+		node.set_advanced_enabled(advanced_lighting_enabled)
 	if node is WorldEnvironment:
 		# The authored node is the source, never the destination of a preset.
 		var active_camera := node.get_viewport().get_camera_3d()
