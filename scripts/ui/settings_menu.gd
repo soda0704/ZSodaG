@@ -36,6 +36,13 @@ var controls: NorthernControlSettings
 var shell: NorthernMenuShell
 var _menu: Node
 var _persist_failed := false
+var navigation: VBoxContainer
+var detail: VBoxContainer
+var _category_motion: Tween
+var _category_epoch := 0
+var _category_marker: ColorRect
+var _marker_motion: Tween
+var _marker_target := INF
 
 func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	_menu = menu
@@ -47,16 +54,42 @@ func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	original_bindings = controls.current_bindings()
 	draft_bindings = original_bindings.duplicate(true)
 	add_theme_constant_override("separation", 0)
-	title = NorthernMenuStyle.label("НАСТРОЙКИ ЭКРАНА", 36)
+	var heading := NorthernMenuStyle.label("НАСТРОЙКИ", 48)
+	heading.theme_type_variation = &"MenuTitle"
+	heading.custom_minimum_size.y = 76
+	add_child(heading)
+	var body := HBoxContainer.new()
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 36)
+	add_child(body)
+	navigation = VBoxContainer.new()
+	navigation.name = "Categories"
+	navigation.custom_minimum_size.x = 220
+	navigation.add_theme_constant_override("separation", 6)
+	var sidebar := Control.new()
+	sidebar.custom_minimum_size.x = 220
+	body.add_child(sidebar)
+	sidebar.add_child(navigation)
+	NorthernMenuStyle.fill(navigation)
+	_category_marker = ColorRect.new()
+	_category_marker.color = Color.WHITE
+	_category_marker.size = Vector2(2, 26)
+	_category_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sidebar.add_child(_category_marker)
+	detail = VBoxContainer.new()
+	detail.name = "Parameters"
+	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(detail)
+	title = NorthernMenuStyle.label("НАСТРОЙКИ ЭКРАНА", 44)
 	title.theme_type_variation = &"MenuTitle"
-	add_child(title)
+	detail.add_child(title)
 	title.hide()
 	scroll = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	add_child(scroll)
-	# Keep the centered hover enlargement inside the scroll viewport on both sides.
+	detail.add_child(scroll)
+	# Keep outlines inside the scroll viewport, without scaling rows.
 	var hover_inset := MarginContainer.new()
 	hover_inset.name = "HoverInset"
 	hover_inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -69,11 +102,11 @@ func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rows.add_theme_constant_override("separation", 5)
 	hover_inset.add_child(rows)
-	NorthernMenuStyle.rule(self)
+	NorthernMenuStyle.rule(detail)
 	description = NorthernMenuStyle.label("Изменения вступят в силу после применения.", 18, NorthernMenuStyle.MUTED)
-	description.custom_minimum_size.y = 132
+	description.custom_minimum_size.y = 48
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	add_child(description)
+	detail.add_child(description)
 	_build_navigation()
 	select_category(0)
 
@@ -81,15 +114,57 @@ func _build_navigation() -> void:
 	shell.clear(shell.header)
 	shell.clear(shell.footer)
 	for index in CATEGORIES.size():
-		shell.header.add_child(NorthernMenuStyle.button(CATEGORIES[index], func(): shell.transition(select_category.bind(index), true), 20))
-	shell.footer.add_child(NorthernMenuStyle.label("NORTHERNLAB / НАСТРОЙКИ", 17, NorthernMenuStyle.MUTED))
+		var tab := NorthernMenuStyle.button(CATEGORIES[index], _request_category.bind(index), 26)
+		tab.theme_type_variation = &"MenuSection"
+		tab.custom_minimum_size = Vector2(220, 52)
+		tab.toggle_mode = true
+		navigation.add_child(tab)
 	var space := Control.new()
 	space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	shell.footer.add_child(space)
 	shell.footer.add_child(NorthernMenuStyle.button("По умолчанию", reset_category, 15))
 	apply_button = NorthernMenuStyle.button("Применить", apply, 15)
+	apply_button.theme_type_variation = &"MenuPrimary"
 	shell.footer.add_child(apply_button)
 	shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", request_back, 15))
+
+func _mark_category(index: int) -> void:
+	for i in navigation.get_child_count():
+		navigation.get_child(i).set_pressed_no_signal(i == index)
+	_move_marker.call_deferred(index)
+
+func _move_marker(index: int) -> void:
+	if not is_inside_tree(): return
+	var tab: Button = navigation.get_child(index)
+	var target := tab.position.y + (tab.size.y - _category_marker.size.y) * 0.5
+	if is_equal_approx(target, _marker_target) and _marker_motion != null and _marker_motion.is_running(): return
+	_marker_target = target
+	if _marker_motion != null and _marker_motion.is_valid(): _marker_motion.kill()
+	if NorthernMenuStyle.keyboard_navigation or NorthernMenuStyle.reduced_motion:
+		_category_marker.position.y = target
+		return
+	_marker_motion = create_tween()
+	_marker_motion.tween_property(_category_marker, "position:y", target, NorthernMenuStyle.MARKER_SECONDS).set_custom_interpolator(NorthernMenuStyle.ease)
+
+func _request_category(index: int) -> void:
+	if index == category and (_category_motion == null or not _category_motion.is_running()):
+		_mark_category(index)
+		return
+	_category_epoch += 1
+	var epoch := _category_epoch
+	if _category_motion != null and _category_motion.is_valid(): _category_motion.kill()
+	_mark_category(index)
+	if NorthernMenuStyle.keyboard_navigation:
+		select_category(index)
+		detail.modulate.a = 1.0
+		return
+	_category_motion = create_tween()
+	_category_motion.tween_property(detail, "modulate:a", 0.0, NorthernMenuStyle.CATEGORY_EXIT_SECONDS).set_custom_interpolator(NorthernMenuStyle.ease)
+	await _category_motion.finished
+	if epoch != _category_epoch: return
+	select_category(index)
+	_category_motion = create_tween()
+	_category_motion.tween_property(detail, "modulate:a", 1.0, NorthernMenuStyle.CATEGORY_ENTER_SECONDS).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func select_category(index: int) -> void:
 	waiting = ""
@@ -97,9 +172,8 @@ func select_category(index: int) -> void:
 	description.text = "Изменения вступят в силу после применения."
 	shell.clear(rows)
 	scroll.scroll_vertical = 0
-	title.text = "НАСТРОЙКИ / " + CATEGORIES[index].to_upper()
-	for i in shell.header.get_child_count():
-		shell.header.get_child(i).modulate = Color.WHITE if i == index else Color(0.68, 0.68, 0.65)
+	title.text = CATEGORIES[index].to_upper()
+	_mark_category(index)
 	match index:
 		0:
 			var resolutions: Array = []
@@ -117,6 +191,7 @@ func select_category(index: int) -> void:
 			_choice("Screen", "Монитор", monitors, monitor_ids)
 			_toggle("VSync", "Вертикальная синхронизация")
 			_toggle("ShowFPS", "Показывать FPS")
+			_toggle("ReduceMenuMotion", "Снизить движение меню")
 			_numeric("Brightness", "Яркость", 70, 140, 5, "%", true)
 			_numeric("Gamma", "Гамма", 70, 150, 10, "%", true)
 			_toggle("HDR", "HDR", true, not DisplayServer.window_is_hdr_output_supported())
@@ -159,10 +234,10 @@ func select_category(index: int) -> void:
 
 func _row(text: String) -> HBoxContainer:
 	var row := preload("res://scripts/ui/menu_setting_row.gd").new()
-	row.custom_minimum_size.y = 62
+	row.custom_minimum_size.y = 54
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
 	row.add_theme_constant_override("separation", 18)
-	var label := NorthernMenuStyle.label(text.to_upper(), 18, NorthernMenuStyle.MUTED)
+	var label := NorthernMenuStyle.label(text, 18, NorthernMenuStyle.TEXT)
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	label.clip_text = true
@@ -290,7 +365,7 @@ func reset_category() -> void:
 	var defaults: Dictionary = _menu.default_settings_data()
 	match category:
 		0:
-			for key in ["Resolution", "WindowMode", "Screen", "VSync", "ShowFPS"]:
+			for key in ["Resolution", "WindowMode", "Screen", "VSync", "ShowFPS", "ReduceMenuMotion"]:
 				draft[key] = defaults[key]
 			for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
 				draft.Graphics[key] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[key]

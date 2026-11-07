@@ -1,52 +1,49 @@
 [gd_scene format=3]
-[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="button"]
 
-[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_lfbx5"]
-
-[node name="JoinPage" type="VBoxContainer" unique_id=1397225175]
-theme = ExtResource("menu_theme")
-visible = false
-layout_mode = 0
+[node name="JoinPage" type="VBoxContainer"]
+theme = ExtResource("theme")
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/separation = 26
+theme_override_constants/separation = 12
 
-[node name="@Label@11" type="Label" parent="." unique_id=1591123969]
+[node name="Title" type="Label" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
-theme_override_font_sizes/font_size = 17
-text = "КОOПЕРАТИВ / ПОДКЛЮЧЕНИЕ"
-vertical_alignment = 1
-
-[node name="@Label@12" type="Label" parent="." unique_id=1320592607]
+text = "ПОДКЛЮЧЕНИЕ"
+theme_override_font_sizes/font_size = 48
 theme_type_variation = &"MenuTitle"
-layout_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
-theme_override_font_sizes/font_size = 33
-text = "ПРИСОЕДИНИТЬСЯ К ДРУГУ"
-vertical_alignment = 1
 
-[node name="@Label@13" type="Label" parent="." unique_id=752552810]
+[node name="Gap" type="Control" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
-theme_override_font_sizes/font_size = 20
-text = "ID лобби Steam"
-vertical_alignment = 1
+custom_minimum_size = Vector2(0,16)
+mouse_filter = 2
 
-[node name="LobbyInput" type="LineEdit" parent="." unique_id=909984559]
+[node name="FieldLabel" type="Label" parent="."]
 layout_mode = 2
+text = "ID ЛОББИ STEAM"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
+
+[node name="LobbyInput" type="LineEdit" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(520,60)
+size_flags_horizontal = 0
 placeholder_text = "Введите ID лобби"
 max_length = 20
 
-[node name="Connect" type="Button" parent="." unique_id=1018472217]
-custom_minimum_size = Vector2(0, 54)
+[node name="Connect" type="Button" parent="."]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 17
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(520,56)
+theme_type_variation = &"MenuPrimary"
 text = "ПОДКЛЮЧИТЬСЯ"
 alignment = 0
-script = ExtResource("1_lfbx5")
+theme_override_font_sizes/font_size = 20
+script = ExtResource("button")
 
-[node name="@Control@16" type="Control" parent="." unique_id=817967774]
+[node name="BottomSpace" type="Control" parent="."]
 layout_mode = 2
+custom_minimum_size = Vector2(0,0)
+mouse_filter = 2
 size_flags_vertical = 3

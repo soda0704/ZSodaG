@@ -22,6 +22,8 @@ func configure(scope: String, _summary: Dictionary, points: Array[Dictionary], l
 	_points = points
 	_latest_name = latest_name
 	%Mode.text = "КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ · ЗАПИСИ ХОСТА" if scope == "coop" else "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ"
+	%Mode.visible = scope == "coop"
+	if scope == "coop": %Mode.text = "СОХРАНЕНИЯ ХОСТА"
 	_latest_index = -1
 	for index in 3:
 		if not points[index].is_empty() and str(points[index].name) == latest_name:
@@ -58,12 +60,16 @@ func _select(index: int, animate: bool = true) -> void:
 
 func animate_in() -> void:
 	if _appearance != null and _appearance.is_valid(): _appearance.kill()
+	if NorthernMenuStyle.keyboard_navigation:
+		for entry in _entries: entry.modulate.a = 1.0
+		%Actions.modulate.a = 1.0
+		return
 	_appearance = create_tween().set_parallel(true)
 	for index in _entries.size():
 		_entries[index].modulate.a = 0.0
-		_appearance.tween_property(_entries[index], "modulate:a", 1.0, .42).set_delay(index * .07).set_custom_interpolator(NorthernMenuStyle.ease)
+		_appearance.tween_property(_entries[index], "modulate:a", 1.0, .22).set_delay(index * .035).set_custom_interpolator(NorthernMenuStyle.ease)
 	%Actions.modulate.a = 0.0
-	_appearance.tween_property(%Actions, "modulate:a", 1.0, .48).set_delay(.10).set_custom_interpolator(NorthernMenuStyle.ease)
+	_appearance.tween_property(%Actions, "modulate:a", 1.0, .24).set_delay(.05).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _animate_selection() -> void:
 	# A quick selection during entrance must never leave other entries half hidden.
@@ -71,6 +77,9 @@ func _animate_selection() -> void:
 		_appearance.kill()
 		for entry in _entries: entry.modulate.a = 1.0
 	if _action_motion != null and _action_motion.is_valid(): _action_motion.kill()
-	%Actions.modulate.a = .45
+	if NorthernMenuStyle.keyboard_navigation:
+		%Actions.modulate.a = 1.0
+		return
 	_action_motion = create_tween()
-	_action_motion.tween_property(%Actions, "modulate:a", 1.0, .18).set_custom_interpolator(NorthernMenuStyle.ease)
+	_action_motion.tween_property(%Actions, "modulate:a", .75, .06)
+	_action_motion.tween_property(%Actions, "modulate:a", 1.0, .12).set_custom_interpolator(NorthernMenuStyle.ease)

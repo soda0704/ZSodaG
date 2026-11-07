@@ -24,6 +24,8 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	shell = $Shell
 	background_video = $BackgroundVideo
+	resized.connect(_fit_background_video)
+	_fit_background_video.call_deferred()
 	shell.video = background_video
 	background_video.bus = &"Music"
 	background_video.finished.connect(background_video.play)
@@ -33,6 +35,14 @@ func _ready() -> void:
 	$FeedbackCorner.pressed.connect(func(): GameMenu.open_feedback())
 	_show_home()
 	shell.appear()
+
+func _fit_background_video() -> void:
+	var frame_size := background_video.get_video_texture().get_size()
+	if frame_size.x <= 0.0 or frame_size.y <= 0.0: return
+	var factor := maxf(size.x / frame_size.x, size.y / frame_size.y)
+	background_video.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	background_video.size = frame_size * factor
+	background_video.position = (size - background_video.size) * 0.5
 
 func _page(template: String) -> VBoxContainer:
 	if is_instance_valid(selector):
@@ -48,17 +58,13 @@ func _page(template: String) -> VBoxContainer:
 	$FeedbackCorner.visible = current_view == "home"
 	var page: VBoxContainer = load(template).instantiate()
 	shell.replace(page)
-	if current_view == "home":
-		page.offset_left = 27
+	if current_view == "home": page.offset_left = 11
 	shell.content.clip_contents = true
 	shell.clear(shell.header)
 	shell.clear(shell.footer)
-	shell.footer.add_child(NorthernMenuStyle.label("NORTHERNLAB · ВЕРСИЯ %s" % str(ProjectSettings.get_setting("application/config/version", "1.00")), 18, NorthernMenuStyle.MUTED))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	shell.footer.add_child(spacer)
-	var steam := "STEAM ONLINE · " + SteamNetwork.local_user_name if SteamNetwork.steam_available else "STEAM OFFLINE · ОДИНОЧНАЯ ИГРА ДОСТУПНА"
-	shell.footer.add_child(NorthernMenuStyle.label(steam, 18, NorthernMenuStyle.MUTED))
 	if current_view != "home":
 		shell.footer.add_child(NorthernMenuStyle.button("ESC  Назад", back, 15))
 	status_label = page.get_node_or_null("Status")
@@ -80,8 +86,9 @@ func _show_home() -> void:
 	exit_button.pressed.connect(_on_exit_pressed)
 
 func _navigate(callback: Callable) -> void:
-	if _transition_in_progress or shell.busy or GameMenu.is_menu_open():
+	if _transition_in_progress or GameMenu.is_menu_open():
 		return
+	if shell.busy: shell.cancel_transition()
 	shell.transition(callback)
 
 func _on_single_player_pressed() -> void:
@@ -189,10 +196,6 @@ func _start_solo(resume_checkpoint: bool) -> void:
 func _on_exit_pressed() -> void:
 	if shell.busy or _transition_in_progress or GameMenu.is_menu_open():
 		return
-	shell.busy = true
-	await create_tween().tween_property(exit_button, "modulate:a", 0.55, 0.17).set_custom_interpolator(NorthernMenuStyle.ease).finished
-	shell.busy = false
-	exit_button.modulate.a = 1
 	GameMenu.confirm("Выход из игры", "Завершить игру?", [{"label": "Выйти", "action": GameMenu.quit_with_save}])
 
 func set_menu_enabled(value: bool) -> void:
@@ -212,6 +215,7 @@ func _set_controls_enabled(node: Node, enabled: bool) -> void:
 func set_overlay_visible(value: bool) -> void:
 	if shell == null:
 		return
+	$FeedbackCorner.visible = not value and current_view == "home"
 	var was_visible := shell.content.visible
 	if value:
 		_last_focus = get_viewport().gui_get_focus_owner()
@@ -231,7 +235,7 @@ func show_status(message: String) -> void:
 		status_label.visible = not message.is_empty()
 
 func back() -> void:
-	if shell.busy or _transition_in_progress:
+	if _transition_in_progress:
 		return
 	_navigate(_show_coop if (current_view == "character" and _character_flow in ["coop", "host"]) or (current_view == "checkpoint" and _checkpoint_scope == "coop") else _show_home)
 

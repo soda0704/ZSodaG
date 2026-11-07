@@ -1,120 +1,107 @@
 [gd_scene format=3]
-[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="menu_theme"]
-
-[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="1_d3o33"]
-
-[ext_resource type="Script" path="res://scripts/ui/menu_navigation.gd" id="navigation"]
-
-[node name="HomePage" type="VBoxContainer" unique_id=1750901319]
-theme = ExtResource("menu_theme")
-layout_mode = 0
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/ui/menu_button.gd" id="button"]
+[node name="HomePage" type="VBoxContainer"]
+theme = ExtResource("theme")
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/separation = 0
 
-[node name="@Control@70" type="Control" parent="." unique_id=1100852791]
-custom_minimum_size = Vector2(0, 48)
+[node name="TitleGap" type="Control" parent="."]
 layout_mode = 2
+custom_minimum_size = Vector2(0,64)
 mouse_filter = 2
 
-[node name="Brand" type="Label" parent="." unique_id=96502130]
-theme_override_constants/line_spacing = 0
-custom_minimum_size = Vector2(0, 124)
-theme_type_variation = &"MenuBrand"
+[node name="Brand" type="Label" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.81960785, 0.7882353, 1)
-theme_override_font_sizes/font_size = 74
 text = "NORTHERN\nLAB"
+theme_override_font_sizes/font_size = 74
+theme_type_variation = &"MenuBrand"
+custom_minimum_size = Vector2(0,124)
+theme_override_constants/line_spacing = 0
 vertical_alignment = 1
+theme_override_colors/font_color = Color(0.8275, 0.8275, 0.8275, 1)
 
 [node name="BrandGap" type="Control" parent="."]
-custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
+custom_minimum_size = Vector2(0,18)
 mouse_filter = 2
 
-[node name="Tagline" type="Label" parent="." unique_id=1302152555]
-theme_type_variation = &"MenuTagline"
-custom_minimum_size = Vector2(0, 28)
+[node name="Tagline" type="Label" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
-theme_override_font_sizes/font_size = 17
 text = "СЕВЕРНАЯ ИССЛЕДОВАТЕЛЬСКАЯ СТАНЦИЯ"
-vertical_alignment = 1
+theme_override_font_sizes/font_size = 17
+custom_minimum_size = Vector2(0,28)
+theme_type_variation = &"MenuTagline"
 
-[node name="@Control@73" type="Control" parent="." unique_id=1092574040]
-custom_minimum_size = Vector2(0, 108)
+[node name="NavigationGap" type="Control" parent="."]
 layout_mode = 2
+custom_minimum_size = Vector2(0,60)
 mouse_filter = 2
 
-[node name="Navigation" type="VBoxContainer" parent="." unique_id=1991053604]
-script = ExtResource("navigation")
+[node name="Navigation" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Continue" type="Button" parent="Navigation" unique_id=1592227051]
-size_flags_horizontal = 0
-theme_type_variation = &"MenuNav"
-custom_minimum_size = Vector2(0, 54)
+[node name="Continue" type="Button" parent="Navigation"]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 23
-disabled = true
-text = "ПРОДОЛЖИТЬ ИГРУ"
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(380,54)
+theme_type_variation = &"MenuNav"
+text = "ПРОДОЛЖИТЬ"
 alignment = 0
-script = ExtResource("1_d3o33")
-
-[node name="NewGame" type="Button" parent="Navigation" unique_id=1995339932]
-size_flags_horizontal = 0
-theme_type_variation = &"MenuNav"
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 23
+script = ExtResource("button")
+
+[node name="NewGame" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(380,54)
+theme_type_variation = &"MenuNav"
 text = "НОВАЯ ИГРА"
 alignment = 0
-script = ExtResource("1_d3o33")
-
-[node name="Coop" type="Button" parent="Navigation" unique_id=660551539]
-size_flags_horizontal = 0
-theme_type_variation = &"MenuNav"
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 23
+script = ExtResource("button")
+
+[node name="Coop" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(380,54)
+theme_type_variation = &"MenuNav"
 text = "КООПЕРАТИВ"
 alignment = 0
-script = ExtResource("1_d3o33")
-
-[node name="Settings" type="Button" parent="Navigation" unique_id=1100669142]
-size_flags_horizontal = 0
-theme_type_variation = &"MenuNav"
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 23
+script = ExtResource("button")
+
+[node name="Settings" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(380,54)
+theme_type_variation = &"MenuNav"
 text = "НАСТРОЙКИ"
 alignment = 0
-script = ExtResource("1_d3o33")
-
-[node name="Exit" type="Button" parent="Navigation" unique_id=1052726191]
-size_flags_horizontal = 0
-theme_type_variation = &"MenuNav"
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 23
+script = ExtResource("button")
+
+[node name="Exit" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(380,54)
+theme_type_variation = &"MenuNav"
 text = "ВЫХОД"
 alignment = 0
-script = ExtResource("1_d3o33")
+theme_override_font_sizes/font_size = 23
+script = ExtResource("button")
 
-[node name="@Control@80" type="Control" parent="." unique_id=1508993208]
-custom_minimum_size = Vector2(0, 20)
+[node name="BottomSpace" type="Control" parent="."]
 layout_mode = 2
+custom_minimum_size = Vector2(0,0)
 mouse_filter = 2
+size_flags_vertical = 3
 
-[node name="Status" type="Label" parent="." unique_id=904998187]
+[node name="Status" type="Label" parent="."]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6509804, 0.6509804, 0.62352943, 1)
-theme_override_font_sizes/font_size = 21
-vertical_alignment = 1
+text = ""
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)

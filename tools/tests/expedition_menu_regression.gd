@@ -119,7 +119,7 @@ func run() -> void:
 	var available: bool = root.get_node("SteamNetwork").steam_available
 	root.get_node("SteamNetwork").steam_available = true
 	menu.start_host_flow()
-	check(main.current_view == "checkpoint" and main.shell.content.get_child(0).get_node("%Mode").text.contains("КООПЕРАТИВНАЯ"), "coop uses the same three checkpoint entries on the host")
+	check(main.current_view == "checkpoint" and main.shell.content.get_child(0).get_node("%Mode").text == "СОХРАНЕНИЯ ХОСТА", "coop uses the same three checkpoint entries on the host")
 	await capture("coop-checkpoints")
 	root.get_node("SteamNetwork").steam_available = available
 	await settle()

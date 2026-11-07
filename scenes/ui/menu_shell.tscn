@@ -3,6 +3,16 @@
 [ext_resource type="Script" uid="uid://enl04vs5w32y" path="res://scripts/ui/menu_shell.gd" id="1_kn1yp"]
 [ext_resource type="Theme" uid="uid://80qoqxslm4nr" path="res://scenes/ui/menu_theme.tres" id="2_theme"]
 
+[sub_resource type="Gradient" id="ScrimGradient"]
+offsets = PackedFloat32Array(0, 0.32, 0.68, 1)
+colors = PackedColorArray(0, 0, 0, 0.98, 0, 0, 0, 0.87, 0, 0, 0, 0.3, 0, 0, 0, 0.12)
+[sub_resource type="GradientTexture2D" id="ScrimTexture"]
+gradient = SubResource("ScrimGradient")
+width = 1024
+height = 32
+fill_from = Vector2(0, 0)
+fill_to = Vector2(1, 0)
+
 [node name="Shell" type="Control" unique_id=24526738]
 layout_mode = 3
 anchors_preset = 15
@@ -18,32 +28,44 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.008, 0.012, 0.012, 0.18)
+color = Color(0, 0, 0, 0.18)
+
+[node name="Atmosphere" type="TextureRect" parent="Shade"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource("ScrimTexture")
+expand_mode = 1
+
 
 [node name="Content" type="Control" parent="." unique_id=960076605]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 140.0
-offset_bottom = -140.0
+offset_left = 88.0
+offset_right = -88.0
+offset_top = 124.0
+offset_bottom = -104.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopRail" type="ColorRect" parent="." unique_id=588861012]
 layout_mode = 0
 anchor_right = 1.0
-offset_bottom = 87.0
+offset_bottom = 84.0
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.9)
 
 [node name="Row" type="HBoxContainer" parent="TopRail" unique_id=1758443925]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 72.0
+offset_left = 88.0
 offset_top = 12.0
-offset_right = -72.0
+offset_right = -88.0
 offset_bottom = -12.0
 
 [node name="BottomRail" type="ColorRect" parent="." unique_id=1832185292]
@@ -51,15 +73,15 @@ layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -87.0
+offset_top = -80.0
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.9)
 
 [node name="Row" type="HBoxContainer" parent="BottomRail" unique_id=2122599159]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 72.0
+offset_left = 88.0
 offset_top = 12.0
-offset_right = -72.0
+offset_right = -88.0
 offset_bottom = -12.0

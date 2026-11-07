@@ -2,12 +2,26 @@ class_name NorthernMenuStyle
 extends RefCounted
 ## Shared native presentation for Menu, ESC_MENU and LOBBY_MENU.
 
-const TEXT := Color("d3d1c9")
-const MUTED := Color("a6a69f")
-const ACCENT := Color("65413c")
-const RULE := Color(0.72, 0.71, 0.65, 0.18)
+const TEXT := Color("eeeeee")
+const MUTED := Color("b5b5b5")
+const ACCENT := Color.WHITE
+const RULE := Color(1, 1, 1, 0.22)
+const SURFACE := Color.BLACK
+const ENTER_SECONDS := 0.24
+const EXIT_SECONDS := 0.16
+const HOVER_SECONDS := 0.12
+const PRESS_SECONDS := 0.10
+const RELEASE_SECONDS := 0.15
+const MARKER_SECONDS := 0.20
+const CATEGORY_EXIT_SECONDS := 0.10
+const CATEGORY_ENTER_SECONDS := 0.18
+const MODAL_SECONDS := 0.25
+const STAGGER_SECONDS := 0.035
 static var _ease_samples := PackedFloat32Array()
 static var _cursor: ImageTexture
+static var reduced_motion := false
+static var keyboard_navigation := false
+static var touch_navigation := false
 
 static func make_theme() -> Theme:
 	return preload("res://scenes/ui/menu_theme.tres")
@@ -45,19 +59,19 @@ static func ease(value: float) -> float:
 	return lerpf(_ease_samples[index], _ease_samples[index + 1], sample - index)
 
 static func _bezier_ease(value: float) -> float:
-	# CSS cubic-bezier(.22,.8,.25,1) used by the approved previews.
+	# Emil's strong ease-out: cubic-bezier(.23,1,.32,1).
 	if value <= 0.0 or value >= 1.0: return value
 	var low := 0.0
 	var high := 1.0
 	var parameter := value
 	for iteration in 12:
-		var x := 3 * (1 - parameter) * (1 - parameter) * parameter * 0.22 + 3 * (1 - parameter) * parameter * parameter * 0.25 + parameter * parameter * parameter
+		var x := 3 * (1 - parameter) * (1 - parameter) * parameter * 0.23 + 3 * (1 - parameter) * parameter * parameter * 0.32 + parameter * parameter * parameter
 		if x < value:
 			low = parameter
 		else:
 			high = parameter
 		parameter = (low + high) * 0.5
-	return 3 * (1 - parameter) * (1 - parameter) * parameter * 0.8 + 3 * (1 - parameter) * parameter * parameter + parameter * parameter * parameter
+	return 3 * (1 - parameter) * (1 - parameter) * parameter + 3 * (1 - parameter) * parameter * parameter + parameter * parameter * parameter
 
 static func gap(parent: Node, height: float) -> Control:
 	var node := Control.new()

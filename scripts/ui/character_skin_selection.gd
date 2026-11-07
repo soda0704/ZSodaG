@@ -25,6 +25,9 @@ static func prepare_previews() -> void:
 	for path in PREVIEW_PATHS: ResourceLoader.load_threaded_request(path)
 
 func _ready() -> void:
+	for caption in [$Heading, $Caption]:
+		caption.modulate.a = 0.0
+		create_tween().tween_property(caption, "modulate:a", 1.0, .24).set_delay(.10).set_custom_interpolator(NorthernMenuStyle.ease)
 	selected_variant = GameMenu.get_character_variant_id()
 	_pointer_position = get_viewport().get_mouse_position()
 	prepare_previews()
@@ -103,6 +106,7 @@ func _process(delta: float) -> void:
 			var progress := NorthernMenuStyle.ease(clampf((_entrance_time - index * .09) / .65, 0.0, 1.0))
 			choices[index].material.set_shader_parameter("entrance", progress)
 			models[index].position = Vector3(lerpf(.14 if index == 0 else -.14, 0.0, progress), lerpf(-.035, 0.0, progress), 0)
+			if NorthernMenuStyle.reduced_motion: models[index].position = Vector3.ZERO
 		_picking_ready = _entrance_time >= .74
 	if _pointer_mode: _update_hover()
 	for index in choices.size():
@@ -132,6 +136,8 @@ func animate_out(motion: Tween, duration: float) -> void:
 		motion.tween_property(choices[index].material, "shader_parameter/entrance", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
 		if index < models.size():
 			motion.tween_property(models[index], "position", Vector3(.12 if index == 0 else -.12, -.025, 0), duration).set_custom_interpolator(NorthernMenuStyle.ease)
+	motion.tween_property($Heading, "modulate:a", 0.0, duration)
+	motion.tween_property($Caption, "modulate:a", 0.0, duration)
 	motion.tween_property($SelectionShade, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _update_preview_sizes() -> void:

@@ -25,7 +25,7 @@ func configure(menu: Node) -> void:
 	ready_status_label = find_child("ReadyStatus", true, false)
 	count_label = find_child("Count", true, false)
 	crew = find_child("Crew", true, false)
-	crew.add_theme_constant_override("separation", 0)
+	crew.add_theme_constant_override("separation", 12)
 	copy_button.pressed.connect(func(): _menu._on_copy_lobby_id_pressed())
 	invite_button.pressed.connect(func(): _menu._on_invite_pressed())
 	ready_button.pressed.connect(func(): _menu._on_ready_pressed())
@@ -48,6 +48,8 @@ func refresh() -> void:
 	for index in (1 if solo else CoopLobby.MAX_PLAYERS):
 		var row := preload("res://scenes/ui/lobby_member.tscn").instantiate()
 		crew.add_child(row)
+		row.get_node("Content/Identity/MemberName").text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		row.get_node("Content/Identity/MemberName").clip_text = true
 		row.get_node("Content/Order").text = "0%d" % [index + 1]
 		if index < peers.size():
 			var peer := int(peers[index])
@@ -57,6 +59,7 @@ func refresh() -> void:
 			row.get_node("Content/Identity/Role").text = "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ" if solo else ("ОРГАНИЗАТОР" if peer == 1 else "УЧАСТНИК")
 			var peer_ready := bool(CoopLobby.ready_states.get(peer, false))
 			row.get_node("Content/Ready").text = "ГОТОВ" if peer_ready else "НЕ ГОТОВ"
+			row.get_node("Content/Ready").add_theme_color_override("font_color", NorthernMenuStyle.ACCENT if peer_ready else NorthernMenuStyle.MUTED)
 	lobby_id_value.text = str(SteamNetwork.lobby_id) if SteamNetwork.lobby_id > 0 else "Одиночная экспедиция" if solo else "Подключение…"
 	copy_button.disabled = SteamNetwork.lobby_id <= 0
 	invite_button.disabled = SteamNetwork.lobby_id <= 0 or not SteamNetwork.is_host

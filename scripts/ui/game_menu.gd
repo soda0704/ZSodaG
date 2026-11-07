@@ -152,6 +152,16 @@ func is_capturing_feedback_screenshot() -> bool:
 	return _feedback_capture_busy
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey or event is InputEventJoypadButton:
+		NorthernMenuStyle.keyboard_navigation = true
+	elif event is InputEventJoypadMotion and absf(event.axis_value) > .4:
+		NorthernMenuStyle.keyboard_navigation = true
+	elif event is InputEventMouseMotion or event is InputEventMouseButton:
+		NorthernMenuStyle.keyboard_navigation = false
+		NorthernMenuStyle.touch_navigation = false
+	elif event is InputEventScreenTouch or event is InputEventScreenDrag:
+		NorthernMenuStyle.keyboard_navigation = false
+		NorthernMenuStyle.touch_navigation = true
 	_handle_feedback_shortcut(event)
 
 func _handle_feedback_shortcut(event: InputEvent) -> bool:
@@ -169,6 +179,8 @@ func _handle_feedback_shortcut(event: InputEvent) -> bool:
 	return true
 
 func _unhandled_input(event: InputEvent) -> void:
+	if shell.busy and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
+		shell.cancel_transition()
 	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy or _feedback_capture_busy:
 		return
 	if event.is_action_pressed("tester_feedback"):
@@ -240,11 +252,6 @@ func show_view(view: MenuView) -> void:
 		shell.clear(shell.header)
 		shell.clear(shell.footer)
 		if view != MenuView.MAIN and view != MenuView.FEEDBACK:
-			var world := get_tree().get_first_node_in_group("network_gameplay_controller")
-			var solo: bool = world != null and world.has_method("is_solo_arrival") and world.is_solo_arrival()
-			var expedition := "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ" if solo else "КООПЕРАТИВНАЯ ЭКСПЕДИЦИЯ"
-			shell.header.add_child(NorthernMenuStyle.label("NORTHERNLAB  /  " + expedition, 18, NorthernMenuStyle.MUTED))
-			shell.footer.add_child(NorthernMenuStyle.label("CH-47 · ПОДГОТОВКА К ВЫСАДКЕ", 18, NorthernMenuStyle.MUTED))
 			var spacer := Control.new()
 			spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			shell.footer.add_child(spacer)
@@ -343,7 +350,7 @@ func open_settings() -> void:
 		shell.content.add_child(settings_panel)
 		NorthernMenuStyle.fill(settings_panel)
 		settings_panel.anchor_right = 0
-		settings_panel.offset_right = minf(1020, shell.content.size.x * 0.75)
+		settings_panel.offset_right = minf(1380, shell.content.size.x * 0.90)
 		settings_panel.configure(self, shell)
 		settings_panel.back_requested.connect(close_settings)
 		menu_root.show()
@@ -628,6 +635,7 @@ func save_settings_data() -> bool:
 	return result == OK
 
 func apply_settings_data() -> void:
+	NorthernMenuStyle.reduced_motion = bool(_settings_data.get("ReduceMenuMotion", false))
 	$FPSCounter.set_enabled(bool(_settings_data.get("ShowFPS", false)))
 	if _settings_data.get("GraphicsCalibrationPending", false): $GraphicsQuality.restart_recommendation()
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
@@ -869,6 +877,7 @@ func default_settings_data() -> Dictionary:
 		"Screen": 0,
 		"VSync": true,
 		"ShowFPS": false,
+		"ReduceMenuMotion": false,
 		"MasterVolume": 80.0,
 		"MusicVolume": 70.0,
 		"EffectsVolume": 100.0,

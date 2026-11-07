@@ -10,13 +10,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("theme")
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 script = ExtResource("page")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_right = 72
+theme_override_constants/margin_right = 0
 
 [node name="Center" type="CenterContainer" parent="Margin"]
 layout_mode = 2
@@ -24,20 +24,20 @@ layout_mode = 2
 [node name="Content" type="VBoxContainer" parent="Margin/Center"]
 custom_minimum_size = Vector2(960, 0)
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="Mode" type="Label" parent="Margin/Center/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.68, 0.66, 1)
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 theme_override_font_sizes/font_size = 17
 text = "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ"
 
 [node name="Title" type="Label" parent="Margin/Center/Content"]
 layout_mode = 2
 theme_type_variation = &"MenuTitle"
-theme_override_font_sizes/font_size = 42
-text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
+theme_override_font_sizes/font_size = 46
+text = "СОХРАНЕНИЯ"
 
 [node name="Gap" type="Control" parent="Margin/Center/Content"]
 custom_minimum_size = Vector2(0, 12)
@@ -69,8 +69,8 @@ theme_override_constants/separation = 8
 [node name="Continue" type="Button" parent="Margin/Center/Content/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 58)
-theme_type_variation = &"MenuAction"
+custom_minimum_size = Vector2(0, 54)
+theme_type_variation = &"MenuPrimary"
 theme_override_font_sizes/font_size = 22
 text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
 script = ExtResource("button")
@@ -80,7 +80,7 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 38)
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.67, 0.56, 0.5, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "УДАЛИТЬ ЭКСПЕДИЦИЮ"
 alignment = 0
 script = ExtResource("button")
@@ -90,5 +90,5 @@ visible = false
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.79, 0.63, 0.54, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 autowrap_mode = 3

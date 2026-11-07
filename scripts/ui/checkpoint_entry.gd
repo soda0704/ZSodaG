@@ -26,17 +26,20 @@ func configure(index: int, title: String, point: Dictionary, is_latest: bool, em
 func set_selected(value: bool) -> void:
 	set_pressed_no_signal(value)
 	%Marker.visible = value
-	var ink := Color("e0ddd3") if value else Color("c6c5bd")
-	if disabled: ink = Color("919995")
+	var ink := Color("eeeeee") if value else Color("d0d0d0")
+	if disabled: ink = Color("929292")
 	%Day.add_theme_color_override("font_color", ink)
-	%Number.add_theme_color_override("font_color", Color("cfb598") if value else Color("777d7c"))
-	%Power.add_theme_color_override("font_color", Color("a6aca8") if not disabled else Color("919995"))
+	%Number.add_theme_color_override("font_color", Color("ffffff") if value else Color("adadad"))
+	%Power.add_theme_color_override("font_color", Color("b5b5b5") if not disabled else Color("929292"))
 
 	_animate_tint()
 
 func _animate_tint() -> void:
 	var target := .12 if button_pressed else .055 if not disabled and (is_hovered() or has_focus()) else 0.0
 	if _hover_motion != null and _hover_motion.is_valid(): _hover_motion.kill()
+	if NorthernMenuStyle.keyboard_navigation:
+		%Tint.color.a = target
+		return
 	if is_equal_approx(%Tint.color.a, target): return
 	_hover_motion = create_tween()
 	_hover_motion.tween_property(%Tint, "color:a", target, .18).set_custom_interpolator(NorthernMenuStyle.ease)

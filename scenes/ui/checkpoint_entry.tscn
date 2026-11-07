@@ -3,24 +3,24 @@
 [ext_resource type="Script" path="res://scripts/ui/checkpoint_entry.gd" id="entry"]
 
 [sub_resource type="StyleBoxFlat" id="Normal"]
-bg_color = Color(0.022, 0.029, 0.033, 0.77)
+bg_color = Color(0, 0, 0, 0.96)
 border_width_bottom = 1
-border_color = Color(0.68, 0.7, 0.66, 0.2)
+border_color = Color(0.7, 0.7, 0.7, 0.2)
 
 [sub_resource type="StyleBoxFlat" id="Hover"]
-bg_color = Color(0.022, 0.029, 0.033, 0.77)
+bg_color = Color(0, 0, 0, 0.96)
 border_width_bottom = 1
-border_color = Color(0.7, 0.68, 0.61, 0.48)
+border_color = Color(0.7, 0.7, 0.7, 0.48)
 
 [sub_resource type="StyleBoxFlat" id="Selected"]
-bg_color = Color(0.022, 0.029, 0.033, 0.77)
+bg_color = Color(0, 0, 0, 0.96)
 border_width_bottom = 1
-border_color = Color(0.7, 0.64, 0.53, 0.5)
+border_color = Color(0.7, 0.7, 0.7, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="Disabled"]
-bg_color = Color(0.022, 0.029, 0.033, 0.48)
+bg_color = Color(0, 0, 0, 0.8)
 border_width_bottom = 1
-border_color = Color(0.5, 0.55, 0.54, 0.16)
+border_color = Color(0.55, 0.55, 0.55, 0.16)
 
 [sub_resource type="StyleBoxFlat" id="Focus"]
 bg_color = Color(0, 0, 0, 0)
@@ -28,10 +28,10 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.81, 0.71, 0.6, 0.85)
+border_color = Color(1, 1, 1, 0.85)
 
 [node name="CheckpointEntry" type="Button"]
-custom_minimum_size = Vector2(0, 140)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 toggle_mode = true
@@ -50,7 +50,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.81, 0.71, 0.6, 0)
+color = Color(1, 1, 1, 0)
 
 [node name="Marker" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -58,7 +58,7 @@ layout_mode = 1
 anchor_bottom = 1.0
 offset_right = 3.0
 mouse_filter = 2
-color = Color(0.81, 0.71, 0.6, 1)
+color = Color(1, 1, 1, 1)
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -67,8 +67,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 24
-theme_override_constants/margin_top = 17
-theme_override_constants/margin_bottom = 17
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
 mouse_filter = 2
 
 [node name="Row" type="HBoxContainer" parent="Margin"]
@@ -77,17 +77,18 @@ theme_override_constants/separation = 22
 mouse_filter = 2
 
 [node name="Number" type="Label" parent="Margin/Row"]
+visible = false
 unique_name_in_owner = true
 custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 text = "01"
 
 [node name="Content" type="VBoxContainer" parent="Margin/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 mouse_filter = 2
 
 [node name="Top" type="HBoxContainer" parent="Margin/Row/Content"]
@@ -98,15 +99,15 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 17
-theme_override_colors/font_color = Color(0.65, 0.68, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 text = "РУЧНАЯ ЗАПИСЬ"
 
 [node name="Latest" type="Label" parent="Margin/Row/Content/Top"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.81, 0.71, 0.6, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "ПОСЛЕДНЯЯ"
 
 [node name="Middle" type="HBoxContainer" parent="Margin/Row/Content"]
@@ -117,19 +118,19 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 31
+theme_override_font_sizes/font_size = 26
 text = "ДЕНЬ 4"
 
 [node name="Time" type="Label" parent="Margin/Row/Content/Middle"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.65, 0.68, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 text = "27.10.2026 · 12:34"
 
 [node name="Power" type="Label" parent="Margin/Row/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 text = "Питание базы включено"

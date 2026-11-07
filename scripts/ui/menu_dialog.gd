@@ -34,25 +34,28 @@ func present(title: String, message: String, choices: Array[Dictionary]) -> void
 	back.theme_type_variation = &"MenuAction"
 	actions.add_child(back)
 	back.grab_focus()
+	if NorthernMenuStyle.keyboard_navigation:
+		_line_progress = 1.0
+		return
 	modulate.a = 0
 	panel.modulate.a = 0
 	# CenterContainer owns the panel's position and scale. Animate its outer
 	# transform so delayed layout and resizing cannot overwrite the motion.
-	_center.scale = Vector2.ONE * 0.988
-	_center.position.y = 21
+	_center.scale = Vector2.ONE if NorthernMenuStyle.reduced_motion else Vector2.ONE * 0.96
+	_center.position.y = 0 if NorthernMenuStyle.reduced_motion else 12
 	await get_tree().process_frame
 	if _closing:
 		return
 	_entrance = create_tween().set_parallel(true)
-	_entrance.tween_property(self, "modulate:a", 1.0, 0.40).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(panel, "modulate:a", 1.0, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(_center, "position:y", 0.0, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(_center, "scale", Vector2.ONE, 0.55).set_custom_interpolator(NorthernMenuStyle.ease)
-	_entrance.tween_property(self, "_line_progress", 1.0, 0.60).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(self, "modulate:a", 1.0, 0.20).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(panel, "modulate:a", 1.0, 0.25).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "position:y", 0.0, 0.25).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(_center, "scale", Vector2.ONE, 0.25).set_custom_interpolator(NorthernMenuStyle.ease)
+	_entrance.tween_property(self, "_line_progress", 1.0, 0.28).set_custom_interpolator(NorthernMenuStyle.ease)
 	for index in $Center/Panel/Content.get_child_count():
 		var part: Control = $Center/Panel/Content.get_child(index)
 		part.modulate.a = 0
-		_entrance.tween_property(part, "modulate:a", 1.0, 0.40).set_delay(0.07 + 0.05 * index).set_custom_interpolator(NorthernMenuStyle.ease)
+		_entrance.tween_property(part, "modulate:a", 1.0, 0.20).set_delay(0.02 * index).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _process(_delta: float) -> void:
 	if panel != null:
@@ -71,11 +74,13 @@ func dismiss(action: Callable = Callable()) -> void:
 		_entrance.kill()
 	for button in actions.get_children():
 		button.disabled = true
-	var exit_motion := create_tween().set_parallel(true)
-	exit_motion.tween_property(self, "modulate:a", 0.0, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(_center, "position:y", _center.position.y + 10.5, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
-	exit_motion.tween_property(_center, "scale", Vector2.ONE * 0.995, 0.32).set_custom_interpolator(NorthernMenuStyle.ease)
-	await exit_motion.finished
+	if not NorthernMenuStyle.keyboard_navigation:
+		var exit_motion := create_tween().set_parallel(true)
+		exit_motion.tween_property(self, "modulate:a", 0.0, 0.16).set_custom_interpolator(NorthernMenuStyle.ease)
+		if not NorthernMenuStyle.reduced_motion:
+			exit_motion.tween_property(_center, "position:y", _center.position.y + 12, 0.16).set_custom_interpolator(NorthernMenuStyle.ease)
+			exit_motion.tween_property(_center, "scale", Vector2.ONE * 0.96, 0.16).set_custom_interpolator(NorthernMenuStyle.ease)
+		await exit_motion.finished
 	closed.emit()
 	if is_instance_valid(_previous_focus) and _previous_focus.is_visible_in_tree():
 		_previous_focus.grab_focus()

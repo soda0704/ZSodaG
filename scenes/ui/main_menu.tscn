@@ -5,6 +5,7 @@
 [ext_resource type="VideoStream" path="res://assets/ui/main_menu.ogv" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/background_music.tscn" id="music"]
 [node name="Menu" type="Control" groups=["main_menu"]]
+clip_contents = true
 theme = ExtResource("menu_theme")
 layout_mode = 3
 anchors_preset = 15
@@ -41,4 +42,4 @@ offset_top = -143.0
 offset_bottom = -97.0
 theme_type_variation = &"MenuNav"
 theme_override_font_sizes/font_size = 20
-text = "ОБРАТНАЯ СВЯЗЬ · F8"
+text = "ОБРАТНАЯ СВЯЗЬ"
