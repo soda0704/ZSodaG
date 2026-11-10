@@ -20,8 +20,8 @@ func run() -> void:
 	for lamp: Light3D in backup_lamps:
 		red = red and lamp.light_color.is_equal_approx(WorldLighting.EMERGENCY_COLOR)
 		if lamp is OmniLight3D: omni_count += 1
-	check(backup_lamps.size() == 49 and red, "all 49 authored emergency sources are red before runtime")
-	check(omni_count == 36, "backup combines 36 volume sources with 13 directed sources")
+	check(backup_lamps.size() == 121 and red, "all 121 authored emergency sources are red before runtime")
+	check(omni_count == 0, "ceiling spots use one shadow atlas cell each")
 	root.add_child(level)
 	lighting.set_process(false)
 	var state: BaseGameplayController = level.get_node("BaseGameplayController")
@@ -90,7 +90,7 @@ func run() -> void:
 		if hit.is_empty() or hit.normal.dot(Vector3.DOWN) < 0.7 or hit.position.y - lamp.global_position.y > 0.26:
 			ceiling_mounted = false
 			print("CEILING MISMATCH ", lamp.get_path(), " ", hit)
-	check(ceiling_mounted and checked == 128, "128 intact-ceiling sources sit within 26 cm of physical ceiling; hub fixtures and breach preserve their mounting")
+	check(ceiling_mounted and checked == 254, "254 intact-ceiling sources sit within 26 cm of physical ceiling; hub fixtures and breach preserve their mounting")
 	var added := OmniLight3D.new()
 	added.light_color = Color.BLUE
 	added.light_energy = 2.5

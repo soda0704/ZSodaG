@@ -620,7 +620,7 @@ function Invoke-DevelopmentBuild {
             }
             if ($StatusCallback) { & $StatusCallback "Checking game executable startup (3/3)..." }
             Invoke-GodotBuildStep @stepCallbacks -Name 'export_startup' -TimeoutSeconds 60 -Environment $auditEnvironment -Executable $stagingExecutable -Arguments @(
-                '--headless', '--', '--startup-check'
+                '--audio-driver', 'Dummy', '--resolution', '1280x720', '--', '--startup-check'
             )
             if ($StatusCallback) { & $StatusCallback "Publishing verified build to build/windows-dev..." }
             Publish-DevelopmentBuild $stagingDirectory

@@ -150,9 +150,13 @@ func run() -> void:
 	elevator.set_powered(true)
 	replica._apply_network_snapshot(elevator.get_network_snapshot())
 	check(replica.cabin_light.visible, "replicated power restoration enables client cabin light")
+	# Let the asynchronous audio mixer release cabin playback before quitting
+	# the entire engine; one rendered frame can be shorter than an audio block.
+	for cabin in [elevator, replica]:
+		for audio: AudioStreamPlayer3D in cabin.find_children("*", "AudioStreamPlayer3D", true, false): audio.stop()
 	elevator.queue_free()
 	replica.queue_free()
 	sampler.queue_free()
-	await process_frame
+	for frame in 12: await process_frame
 	print("RESULT FAILURES ", failures)
 	quit(1 if failures else 0)

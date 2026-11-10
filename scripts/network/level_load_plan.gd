@@ -6,7 +6,7 @@ var chunks: Dictionary = {}
 var signatures: Dictionary = {}
 var failed := false
 const PLAN_PATH := "res://assets/config/level_loading_plan.res"
-const SCHEMA := 4
+const SCHEMA := 6
 
 
 func allowed(path: String) -> bool:
@@ -44,7 +44,12 @@ func prepare(scene: PackedScene):
 	var selected: Array[String] = []
 	for i in state.get_node_count():
 		var child = state.get_node_instance(i)
-		if child == null or not allowed(child.resource_path) or weight(child, {}) < 128:
+		if child == null or not allowed(child.resource_path):
+			continue
+		# Export expands redundant transforms of the GI instances into the root.
+		# Assemble this lighting unit from the current scene like other chunks,
+		# rather than rejecting the entire cached base because of those rows.
+		if weight(child, {}) < 128 and child.resource_path != "res://scenes/levels/world_indirect_lighting.tscn":
 			continue
 		var node_path = str(state.get_node_path(i)).trim_prefix("./")
 		if under(node_path, selected):
@@ -138,19 +143,27 @@ static func current(plan: Resource) -> bool:
 static func signature(scene: PackedScene, selected: PackedStringArray) -> String:
 	var state = scene.get_state()
 	var rows: Array = []
+	var nodes: Dictionary = {}
+	var sibling_counts: Dictionary = {}
 	var resources: Dictionary = {}
 	for i in state.get_node_count():
 		var child = state.get_node_instance(i)
 		var node_path := str(state.get_node_path(i)).trim_prefix("./")
+		var sibling_index := state.get_node_index(i)
+		if not state.get_node_type(i).is_empty() or child != null:
+			var parent_path := node_path.get_base_dir()
+			var ordinal := int(sibling_counts.get(parent_path, 0))
+			sibling_counts[parent_path] = ordinal + 1
+			if sibling_index < 0: sibling_index = ordinal
 		if under(node_path, selected):
 			if selected.has(node_path):
-				rows.append(["chunk", node_path, "" if child == null else child.resource_path])
+				nodes[node_path] = ["chunk", node_path, "" if child == null else child.resource_path]
 			continue
 		var row: Array = [
 			node_path,
 			state.get_node_type(i),
 			str(state.get_node_owner_path(i)).trim_prefix("./"),
-			state.get_node_index(i),
+			sibling_index,
 			state.get_node_groups(i),
 			"" if child == null else child.resource_path
 		]
@@ -161,7 +174,12 @@ static func signature(scene: PackedScene, selected: PackedStringArray) -> String
 					stable_value(state.get_node_property_value(i, j), resources)
 				]
 			)
-		rows.append(row)
+		nodes[node_path] = row
+	# Export may interleave parent/descendant rows differently. Their global
+	# declaration order is irrelevant, but actual sibling order must be guarded.
+	var node_paths: Array = nodes.keys()
+	node_paths.sort()
+	for node_path in node_paths: rows.append(nodes[node_path])
 	for i in state.get_connection_count():
 		rows.append(
 			[

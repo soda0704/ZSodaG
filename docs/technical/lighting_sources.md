@@ -37,17 +37,17 @@
 
 | Узел | Что делает | Управление |
 | --- | --- | --- |
-| `WorldLighting/Standard/*` — SpotLight3D и OmniLight3D | Основные рабочие лампы и освещение помещений | `world_lighting.gd::_register_lamp()`, `_select_nearest()`, `_update_lamps()` |
-| `WorldLighting/Emergency/*` | Красные аварийные лампы | `world_lighting.gd::_advance_emergency()`; питание выбирает `base_power_lighting_controller.gd::apply_power_state()` |
+| `WorldLighting/Standard/*` — 143 SpotLight3D | Основные рабочие лампы и освещение помещений | `world_lighting.gd::_register_lamp()`, `base_light_pool.gd::update()`, `_update_lamps()` |
+| `WorldLighting/Emergency/*` — 121 SpotLight3D | Красные аварийные лампы | `world_lighting.gd::_advance_emergency()`; питание выбирает `base_power_lighting_controller.gd::apply_power_state()` |
 | `WorldLighting/OvercastSun` — DirectionalLight3D | Наружный направленный свет через слой 17 | `world_lighting.gd::_process()` ограничивает дальность теней с учётом положения камеры |
 | `SnowExterior/OvercastDayEnvironment` — WorldEnvironment | Небо, фоновый свет, отражения, туман, SSAO, Glow, тональная обработка | Авторский Environment в `scenes/levels/snow_exterior.tscn`; качество — `GraphicsQuality.apply_environment()` |
-| `WorldIndirectLighting/*` — восемь VoxelGI | Отражённый свет от ламп на геометрии базы | `world_indirect_lighting.gd::update_floor()` |
+| `WorldIndirectLighting/*` — десять VoxelGI | Отражённый свет от ламп на геометрии базы | `world_indirect_lighting.gd::update_floor()` |
 
 WorldLighting выбирает ближайшие лампы и ограничивает одновременный набор и его тени. Поэтому видимые в сцене авторские источники не обязательно все одновременно активны в рендерере. Их положение, цвет, энергия, радиус, угол, `light_indirect_energy` и `light_volumetric_fog_energy` берутся из сцены.
 
-Контроллер копирует исходный Environment на активную камеру. `is_covered()` проверяет крышу, а `_process()` плавно меняет фоновую освещённость и параметры тумана. В сборочной сцене заданы `outdoor_ambient = 1.0` и `indoor_ambient = 0.035`; значения по умолчанию отдельного контроллера — 0.12 и 0.025. Для проверки итогового изображения следует смотреть также `Camera3D.environment` во время игры.
+Контроллер копирует исходный Environment на активную камеру для локального качества и калибровки. Крыша влияет на наружные эффекты и бюджет солнечных теней, но не меняет ambient/exposure всего изображения. Комнаты затемняются геометрией и комнатными GI/ReflectionProbe. Искусственная лампа EntranceSky удалена.
 
-Восемь зон GI: Entrance, Hub, Living, Control, LifeSupport, Trials, Containment, Expedition. Данные геометрии — `assets/environments/base_gi/*.res`. После перестройки статических стен, полов и мебели их нужно пересчитать через `tools/bake_world_gi.gd`. Перенос обычной лампы не требует запекания геометрии. Подробнее: [освещение мира](world_lighting.md).
+Десять зон GI: Entrance, Hub, Living, NorthWing, SouthWing, Control, LifeSupport, Trials, Containment, Expedition. Данные — assets/environments/base_gi/*.res. После перестройки статической геометрии их нужно пересчитать через tools/bake_world_gi.gd; перенос обычной лампы не требует такого запекания. Подробнее: [освещение мира](world_lighting.md), [дневной свет](interior_daylight.md).
 
 ## Свет вне обычных ламп
 
@@ -83,4 +83,4 @@ WorldLighting выбирает ближайшие лампы и ограничи
 
 `tools/tests/light_swap_regression.gd` проверяет старт нового профиля в продвинутом режиме, переключение, освобождение/возврат GI, сохранность настроек и питания, наследование режима новыми сценами, загрузку прибытия и независимость fullbright. После сохранения настроек в обычном режиме тест запускает новый процесс с тем же профилем и проверяет возврат продвинутого освещения. Существующие проверки графики и мира явно выбирают продвинутый режим там, где проверяют GI и постэффекты.
 
-Дополнение 04.11.2026: `WorldLighting/ExteriorDaylight/EntranceSky` — настоящий SpotLight3D с тенями для дневного света через открытый пешеходный вход. Энергия следует существующему AcousticPortal.openness(), при закрытии равна нулю, от питания базы не зависит; используется штатный ограниченный пул. Аварийный ambient теперь составляет 20% обычного (0.007 против 0.035 в собранной базе), а красная световая фаза по-прежнему может полностью погаснуть. Подробности: [world_lighting.md](world_lighting.md).
+Обновление 10.11.2026: расстановка и ограниченный пул переработаны. Проверки покрытия и кадров всех десяти секций — base_light_coverage_regression.gd и base_light_render_regression.gd. Огибающая тревоги достигает точного нуля; набор ламп не зависит от фазы звука. Питание и неисправности сохраняют существующий авторитетный контроллер.

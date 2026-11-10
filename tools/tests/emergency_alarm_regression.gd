@@ -66,7 +66,7 @@ func run() -> void:
 	for box:CSGBox3D in base.find_children("*","CSGBox3D",true,false):
 		if "Light" in box.name or "Lamp" in box.name or "Fixture" in box.name:boxes.append(str(box.name))
 	check(boxes.is_empty(),"CSG lamp placeholder boxes are absent from the assembled game level")
-	check(lighting.get_node("Standard").get_child_count()==89 and lighting.get_node("Emergency").get_child_count()==49,"all 89 standard and 49 emergency light sources remain present")
+	check(lighting.get_node("Standard").get_child_count()==143 and lighting.get_node("Emergency").get_child_count()==121,"all 143 standard and 121 emergency sources are present in the rebuilt layout")
 	actor.teleport_authoritative(Vector3(-5,0.1,0),0)
 	acoustics.update_listener(actor.camera.global_position,.1,true)
 	check(presence.listener_inside(),"actual listener in the hub is inside the authored base regions")
@@ -132,7 +132,7 @@ func run() -> void:
 		for lamp:Light3D in lighting.get_node("Emergency").get_children():energy+=lamp.light_energy
 		bursts=bursts and alarm.intensity==1.0 and energy>0.0
 		for entry in fixtures._materials:bursts=bursts and entry.material.emission_energy_multiplier>0.0
-	check(blackouts,"all 49 emergency lights and hub fixture emission reach exact zero in both light quality modes")
+	check(blackouts,"all emergency lights and hub fixture emission reach exact zero in both light quality modes")
 	check(bursts,"alarm bursts restore emergency light and fixture emission in both light quality modes")
 	alarm.stream_paused=false
 	alarm.seek(1.0);await process_frame;lighting._advance_emergency(.016)

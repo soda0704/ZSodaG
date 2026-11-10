@@ -32,7 +32,7 @@ func run():
  var manager=base.get_node("Floor_0_Base_Blockout/Doors/AutomaticDoors")
  var door=base.get_node("Floor_0_Base_Blockout/Doors/West_Pedestrian_Exterior_Door_Visual_Prototype")
  check(not lighting.has_node("ExteriorDaylight"),"synthetic vestibule daylight source has been removed")
- check(lighting.get_node("Standard").get_child_count()==89 and lighting.get_node("Emergency").get_child_count()==49,"existing standard and emergency circuits retain all authored lamps")
+ check(lighting.get_node("Standard").get_child_count()==143 and lighting.get_node("Emergency").get_child_count()==121,"both circuits contain the rebuilt source layout")
  var world_suns:=0
  for source in root.find_children("*","DirectionalLight3D",true,false):
   if source.get_world_3d()==base.get_world_3d() and source.is_visible_in_tree() and source.light_energy>0:

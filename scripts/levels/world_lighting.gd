@@ -52,6 +52,7 @@ var quality_shadow_distance := 96.0
 var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
 var _editor_visibility:Dictionary={}
+var _lamp_pool = preload("res://scripts/levels/base_light_pool.gd").new(self)
 
 func _ready() -> void:
 	if Engine.is_editor_hint():return
@@ -109,10 +110,14 @@ func _register_lamp(lamp: Light3D) -> void:
 		_emergency_lamps[lamp] = lamp.light_color
 		lamp.light_color = EMERGENCY_COLOR
 	lamp.light_energy = 0.0
+	lamp.hide()
+	_pool_visibility[lamp] = false
+	_lamp_pool.invalidate()
 	lamp.visibility_changed.connect(_on_lamp_visibility_changed.bind(lamp))
 	lamp.tree_exiting.connect(_unregister_lamp.bind(lamp), CONNECT_ONE_SHOT)
 
 func _on_lamp_visibility_changed(lamp: Light3D) -> void:
+	if not _setting_lamp_visibility: _lamp_pool.invalidate()
 	# Ancestor visibility also emits this signal. Only a local user change is intent.
 	if not _setting_lamp_visibility and lamp.visible != bool(_pool_visibility[lamp]):
 		_lamp_enabled[lamp] = lamp.visible
@@ -122,6 +127,7 @@ func set_lamp_enabled(lamp: Light3D, enabled: bool) -> void:
 	# Also works on a distant lamp whose render visibility is already false.
 	if not _lamp_enabled.has(lamp): return
 	_lamp_enabled[lamp] = enabled
+	_lamp_pool.invalidate()
 	if not enabled:
 		_setting_lamp_visibility = true
 		lamp.hide()
@@ -142,6 +148,7 @@ func _unregister_lamp(lamp: Light3D) -> void:
 	lamp.visible = bool(_lamp_enabled[lamp])
 	_lamps.erase(lamp)
 	_resident_lamps.erase(lamp)
+	_lamp_pool.remove(lamp)
 	for cache in [_energies, _modulations, _levels, _lamp_enabled, _pool_visibility, _emergency_lamps]:
 		cache.erase(lamp)
 
@@ -365,35 +372,28 @@ func _exit_tree() -> void:
 		if is_instance_valid(lamp):RenderingServer.instance_set_visible(lamp.get_instance(),lamp.is_visible_in_tree())
 
 func _update_lamps(at: Vector3, delta: float) -> void:
-	var nearby: Array[Light3D] = []
-	for lamp in _lamps:
-		var parent := lamp.get_parent_node_3d()
-		if bool(_lamp_enabled[lamp]) and (parent == null or parent.is_visible_in_tree()) and lamp.global_position.distance_to(at) < 24.0 and absf(lamp.global_position.y-at.y) < lamp_range(lamp): nearby.append(lamp)
-	nearby = _select_nearest(nearby, at)
-	var targets: Dictionary = {}
-	for lamp in _lamps:
-		var wanted := 1.0 if lamp in nearby else 0.0
-		if wanted > 0.0:
-			wanted *= 1.0 - smoothstep(16.0, 24.0, lamp.global_position.distance_to(at))
-		targets[lamp] = wanted
+	var targets: Dictionary = _lamp_pool.update(at, delta)
 	# Finish fading existing residents before admitting new lamps to the atlas.
 	# Capacity limits must never force a visible source to disappear in one frame.
 	var residents := 0
 	var resident_slots := 0
-	for lamp in _lamps:
+	for lamp in _resident_lamps:
+		var parent := lamp.get_parent_node_3d()
+		var powered := bool(_lamp_enabled[lamp]) and (parent == null or parent.is_visible_in_tree())
+		_levels[lamp] = move_toward(float(_levels[lamp]), float(targets.get(lamp, 0.0)), delta * 5.0) if powered else 0.0
 		if float(_levels[lamp]) > 0.0:
-			_levels[lamp] = move_toward(float(_levels[lamp]), float(targets[lamp]), delta * 5.0)
-			if float(_levels[lamp]) > 0.0:
-				residents += 1
-				resident_slots += shadow_slot_cost(lamp)
-	for lamp in nearby:
+			residents += 1
+			resident_slots += shadow_slot_cost(lamp)
+	var output: Array[Light3D] = _resident_lamps.duplicate()
+	for lamp: Light3D in targets:
 		var cost := shadow_slot_cost(lamp)
 		if float(_levels[lamp]) == 0.0 and residents < MAX_RESIDENT_LAMPS and resident_slots + cost <= MAX_RESIDENT_SHADOW_SLOTS and float(targets[lamp]) > 0.0:
 			_levels[lamp] = minf(float(targets[lamp]), delta * 5.0)
 			residents += 1
 			resident_slots += cost
+			if not output.has(lamp): output.append(lamp)
 	_resident_lamps.clear()
-	for lamp in _lamps:
+	for lamp in output:
 		var level := float(_levels[lamp])
 		if level > 0.0: _resident_lamps.append(lamp)
 		_setting_lamp_visibility = true
@@ -419,7 +419,7 @@ func sample_view_light(camera: Camera3D) -> Color:
 		var distance := offset.length()
 		if distance > lamp_range(lamp) or distance < 0.1: continue
 		if lamp is SpotLight3D and (-lamp.global_basis.z).dot(offset / distance) < cos(deg_to_rad(lamp.spot_angle)): continue
-		var query := PhysicsRayQueryParameters3D.create(at, lamp.global_position, 1, exclude)
+		var query := PhysicsRayQueryParameters3D.create(lamp.global_position, at, 1, exclude)
 		if not get_world_3d().direct_space_state.intersect_ray(query).is_empty(): continue
 		sum += lamp.light_color * pow(1.0 - distance / lamp_range(lamp), 2.0) * lamp.light_energy * 0.16
 	sum += Color(0.08, 0.095, 0.12) * (1.0 - _indoor_mix)

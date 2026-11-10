@@ -115,6 +115,13 @@ func run():
 		quit(1)
 		return
 	var after = capture(staged, job)
+	if not "--stale-plan" in OS.get_cmdline_user_args():
+		for cached_path in expected_signatures:
+			if not job.skeletons.has(cached_path):
+				push_error("Current loading plan unexpectedly fell back to whole-scene instantiation: " + str(cached_path))
+				staged.free()
+				quit(1)
+				return
 	plan.set_meta("signatures", expected_signatures)
 	if "--stale-plan" in OS.get_cmdline_user_args() and job.skeletons.has(PATH):
 		push_error("Stale plan was not rejected")

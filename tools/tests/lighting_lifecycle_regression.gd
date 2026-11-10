@@ -82,9 +82,67 @@ func run() -> void:
 	transient.free()
 	await frames()
 	check(lighting._lamps.size() == 2, "lamp freed before deferred registration is ignored safely")
+	var mixed: Array[Light3D] = []
+	for index in 16:
+		var source: Light3D = OmniLight3D.new() if index % 2 == 0 else SpotLight3D.new()
+		source.position = Vector3(index - 8, 2, 0)
+		source.shadow_enabled = true
+		circuit.add_child(source)
+		mixed.append(source)
+	await frames()
+	var bounded := true
+	var powered_off := true
+	for step in 120:
+		if step == 45: circuit.hide()
+		if step == 55: circuit.show()
+		lighting._update_lamps(Vector3(sin(step * 0.1) * 9.0, 0, 0), 1.0 / 60.0)
+		var slots := 0
+		for source: Light3D in lighting._resident_lamps: slots += WorldLighting.shadow_slot_cost(source)
+		bounded = bounded and slots <= WorldLighting.MAX_RESIDENT_SHADOW_SLOTS and lighting._resident_lamps.size() <= WorldLighting.MAX_RESIDENT_LAMPS
+		if step == 45:
+			for source: Light3D in lighting._lamps: powered_off = powered_off and is_zero_approx(source.light_energy)
+	check(bounded, "mixed omni/spot pool stays bounded while moving and crossfading")
+	check(powered_off, "disabling a circuit immediately removes its output during a crossfade")
+	for source in mixed: source.free()
+	var near := SpotLight3D.new()
+	near.position = Vector3(0, 4, 0)
+	near.rotation.x = -PI / 2.0
+	near.spot_range = 8.0
+	near.shadow_enabled = true
+	circuit.add_child(near)
+	var far := SpotLight3D.new()
+	far.position = Vector3(20, 4, 0)
+	far.rotation.x = -PI / 2.0
+	far.spot_range = 8.0
+	far.shadow_enabled = true
+	circuit.add_child(far)
+	await frames()
+	lighting._update_lamps(Vector3(0, 1.7, 0), 1.0)
+	lighting._update_lamps(Vector3(0, 1.7, 0), 1.0)
+	check(far.visible and far.light_energy > 0.0, "a distant lamp keeps lighting the visible end of an open corridor beyond its reach to the viewer")
+	var wall := StaticBody3D.new()
+	wall.position = Vector3(10, 3, 0)
+	var collision := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(0.25, 6, 40)
+	collision.shape = shape
+	wall.add_child(collision)
+	world.add_child(wall)
+	for frame in 3: await physics_frame
+	lighting._update_lamps(Vector3(0, 1.7, 0), 1.0)
+	lighting._update_lamps(Vector3(0, 1.7, 0), 1.0)
+	check(not far.visible, "an opaque corridor wall releases the distant lamp while local lighting stays available")
+	wall.free()
+	far.free()
+	near.free()
 	world.queue_free()
 	await frames()
-	var arena := load("res://tools/tests/fixtures/character_test_arena.tscn").instantiate() as Node3D
+	var fixture_path := "res://tools/tests/fixtures/character_test_arena.tscn"
+	if not ResourceLoader.exists(fixture_path):
+		# The external package test keeps test-only scenery beside this script;
+		# production scenes/scripts still resolve from the actual exported pack.
+		fixture_path = get_script().resource_path.get_base_dir().path_join("fixtures/character_test_arena.tscn")
+	var arena := load(fixture_path).instantiate() as Node3D
 	root.add_child(arena)
 	current_scene = arena
 	var player := load("res://scenes/characters/player.tscn").instantiate() as GamePlayer
