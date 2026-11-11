@@ -4,6 +4,7 @@
 [ext_resource type="Shape3D" path="res://assets/models/architecture/arctic_base_rebuild/shell_collision.res" id="collision"]
 
 [ext_resource type="Material" path="res://assets/models/architecture/arctic_base_rebuild/weathered_coating.tres" id="coating"]
+[ext_resource type="ArrayMesh" path="res://assets/models/architecture/arctic_base_rebuild/entrance_reveals_extended.res" id="extended_reveals"]
 
 [node name="ArcticBase_ExteriorShell" type="Node3D"]
 
@@ -34,6 +35,7 @@ surface_material_override/0 = ExtResource("coating")
 layers = 327681
 
 [node name="Fitted_Entrance_Reveals" parent="Model" index="7"]
+mesh = ExtResource("extended_reveals")
 layers = 327681
 surface_material_override/0 = ExtResource("coating")
 

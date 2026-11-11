@@ -208,7 +208,7 @@ size = Vector3(0.15, 2.45, 2.3)
 size = Vector3(3.2, 3.2, 2.65)
 
 [node name="ArrivalSite" type="Node3D" unique_id=1955715997]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, -4, 95)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, -4.3, 95)
 
 [node name="HeliportVisual" type="Node3D" parent="." unique_id=1179188904 instance=ExtResource("1_wmfvw")]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)

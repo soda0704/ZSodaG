@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://it38xnxigcbi"]
 
+[ext_resource type="PackedScene" path="res://scenes/levels/polar_ice_lowland.tscn" id="polar_lowland"]
+
 [ext_resource type="Script" path="res://scripts/levels/snow_exterior.gd" id="1_g7pg2"]
 [ext_resource type="Shader" path="res://assets/environments/snow/terrain_cliff_cutout.gdshader" id="2_lgpxw"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/terrain_snow_albedo.res" id="3_cwim4"]
@@ -18,6 +20,10 @@
 [ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_normal_rough.res" id="entry_snow_normal_rough"]
 
 [ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_height.res" id="entry_snow_height"]
+
+[ext_resource type="Texture2D" path="res://assets/environments/snow/ice004/ice004_color.jpg" id="polar_color"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/ice004/ice004_normalgl.jpg" id="polar_normal"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/ice004/ice004_roughness.jpg" id="polar_rough"]
 
 [sub_resource type="Gradient" id="Gradient_64ytg"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -42,6 +48,9 @@ seamless = true
 
 [sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_ud8tr"]
 _shader_parameters = {
+&"polar_ice_color": ExtResource("polar_color"),
+&"polar_ice_normal": ExtResource("polar_normal"),
+&"polar_ice_rough": ExtResource("polar_rough"),
 &"auto_base_texture": 1,
 &"auto_height_reduction": 0.0,
 &"auto_overlay_texture": 0,
@@ -262,3 +271,5 @@ shape = SubResource("BoxShape3D_d382h")
 
 [node name="RadioTower" parent="." instance=ExtResource("radio_tower")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.2, -180)
+
+[node name="PolarIceLowland" parent="." instance=ExtResource("polar_lowland")]

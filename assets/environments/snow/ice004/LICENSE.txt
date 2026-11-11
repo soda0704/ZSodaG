@@ -1,0 +1,5 @@
+Ice004 by Lennart Demes / ambientCG. 2K JPG PBR maps.
+Source: https://ambientcg.com/a/Ice004
+Download: https://ambientcg.com/get?file=Ice004_2K-JPG.zip
+License: CC0 1.0 Universal. https://docs.ambientcg.com/license/
+Color is sRGB; NormalGL and Roughness are linear. Original archive is kept locally outside the active import folder.
