@@ -16,9 +16,9 @@ fixture_path = NodePath("")
 power_controller_path = NodePath("../../BasePowerLightingController")
 
 [node name="OvercastSun" type="DirectionalLight3D" parent="." unique_id=1849345055]
-rotation = Vector3(-0.506980658, -1.232767105, 0)
+rotation = Vector3(-0.698131701, -1.232767105, 0)
 light_color = Color(0.97, 0.985, 1, 1)
-light_energy = 1.2
+light_energy = 0.95
 light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.7
 light_specular = 0.25
