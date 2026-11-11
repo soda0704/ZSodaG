@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://it38xnxigcbi"]
 
+[ext_resource type="PackedScene" path="res://scenes/art/environment/polar_location_details.tscn" id="polar_location_details"]
+
 [ext_resource type="PackedScene" path="res://scenes/levels/polar_ice_lowland.tscn" id="polar_lowland"]
 
 [ext_resource type="Script" path="res://scripts/levels/snow_exterior.gd" id="1_g7pg2"]
@@ -270,6 +272,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 935, -160, 0)
 shape = SubResource("BoxShape3D_d382h")
 
 [node name="RadioTower" parent="." instance=ExtResource("radio_tower")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.2, -180)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.631172, -180)
 
 [node name="PolarIceLowland" parent="." instance=ExtResource("polar_lowland")]
+
+[node name="PolarLocationDetails" parent="." instance=ExtResource("polar_location_details")]

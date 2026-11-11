@@ -5,6 +5,29 @@
 
 [ext_resource type="Material" path="res://assets/models/architecture/arctic_base_rebuild/weathered_coating.tres" id="coating"]
 [ext_resource type="ArrayMesh" path="res://assets/models/architecture/arctic_base_rebuild/entrance_reveals_extended.res" id="extended_reveals"]
+[ext_resource type="ArrayMesh" path="res://assets/models/architecture/arctic_base_rebuild/entry_snow_tongue.res" id="entry_snow_tongue"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_albedo_ao.res" id="entry_snow_color"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_normal_rough.res" id="entry_snow_normal"]
+
+[sub_resource type="StandardMaterial3D" id="entry_snow_material"]
+albedo_color = Color(0.75, 0.78, 0.8, 1)
+albedo_texture = ExtResource("entry_snow_color")
+roughness = 0.95
+normal_enabled = true
+normal_scale = 0.7
+normal_texture = ExtResource("entry_snow_normal")
+
+[sub_resource type="StandardMaterial3D" id="threshold_material"]
+albedo_color = Color(0.22, 0.25, 0.26, 1)
+metallic = 0.35
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="threshold_foundation_mesh"]
+material = SubResource("threshold_material")
+size = Vector3(1.9, 0.85, 1.84)
+
+[sub_resource type="BoxShape3D" id="threshold_foundation_shape"]
+size = Vector3(1.9, 0.85, 1.84)
 
 [node name="ArcticBase_ExteriorShell" type="Node3D"]
 
@@ -65,5 +88,21 @@ layers = 327681
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ShellBody"]
 shape = ExtResource("collision")
+
+[node name="EntranceThresholdFoundation" type="StaticBody3D" parent="."]
+position = Vector3(-38.85, -0.45, 3)
+editor_description = "Opaque support below the existing pedestrian threshold; extends into snow without raising the passage."
+
+[node name="WindblownSnow" type="MeshInstance3D" parent="."]
+layers = 327681
+mesh = ExtResource("entry_snow_tongue")
+material_override = SubResource("entry_snow_material")
+
+[node name="Visual" type="MeshInstance3D" parent="EntranceThresholdFoundation"]
+layers = 327681
+mesh = SubResource("threshold_foundation_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EntranceThresholdFoundation"]
+shape = SubResource("threshold_foundation_shape")
 
 [editable path="Model"]

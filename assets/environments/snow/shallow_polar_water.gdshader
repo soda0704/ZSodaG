@@ -29,12 +29,17 @@ void fragment() {
 	float depth=texture(depth_texture,SCREEN_UV).r;
 	vec4 scene=INV_PROJECTION_MATRIX*vec4(SCREEN_UV*2.0-1.0,depth,1.0);
 	float thickness=max(0.0,-scene.z/scene.w+VERTEX.z);
-	vec2 n=vec2(sin(dot(world_uv,vec2(.7,.32))+TIME*.8),cos(dot(world_uv,vec2(-.28,.9))+TIME*.65))*.024;
-	n+=vec2(sin(dot(world_uv,vec2(2.1,-.8))-TIME*1.1),cos(dot(world_uv,vec2(.9,2.8))+TIME*.9))*.008;
+	// Gradient of advected irregular ripples: no intersecting periodic sine bands.
+	vec2 q=mat2(vec2(.82,.57),vec2(-.57,.82))*world_uv*2.8+vec2(TIME*.13,-TIME*.08);
+	q+=vec2(sin(world_uv.y*.39),cos(world_uv.x*.31))*.24;
+	vec2 n=vec2(water_noise(q+vec2(.035,0))-water_noise(q-vec2(.035,0)),water_noise(q+vec2(0,.035))-water_noise(q-vec2(0,.035)))*1.15;
 	NORMAL=normalize((VIEW_MATRIX*vec4(normalize(water_normal+vec3(n.x,0.0,n.y)),0.0)).xyz);
 	float fresnel=pow(1.0-clamp(dot(normalize(NORMAL),normalize(VIEW)),0.0,1.0),5.0);
 	float shore=(1.0-smoothstep(.025,.18,thickness))*smoothstep(.55,.78,water_noise(world_uv*2.0));
-	ALBEDO=mix(mix(vec3(.085,.21,.24),vec3(.035,.12,.16),1.0-exp(-thickness*.55)),vec3(.65,.75,.76),shore*.45);
-	ROUGHNESS=mix(.085,.35,shore);SPECULAR=.35;
-	ALPHA=clamp(.16+(1.0-exp(-thickness*.7))*.4+fresnel*.30+shore*.15,.16,.85);
+	float absorption=1.0-exp(-thickness*.65);
+	ALBEDO=mix(mix(vec3(.045,.115,.12),vec3(.012,.045,.052),absorption),vec3(.52,.61,.62),shore*.25);
+	float minification=clamp(length(fwidth(world_uv))*.6,0.0,.16);
+	ROUGHNESS=mix(.065+minification,.28,shore);SPECULAR=.25;
+	// Shallow bed remains visible; opacity rises with optical depth and grazing angle.
+	ALPHA=clamp(.07+absorption*.30+fresnel*.40+shore*.12,.07,.82);
 }

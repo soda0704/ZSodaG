@@ -1,0 +1,6 @@
+Source: https://ambientcg.com/view?id=Ice003
+Download: https://ambientcg.com/get?file=Ice003_2K-JPG.zip
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+License statement: https://ambientcg.com/index.php?license
+Downloaded 2026-11-11. Original 2048x2048 JPG maps, not upscaled.
+OpenGL normal used; DirectX normal excluded. Native texture resources include mipmaps.
