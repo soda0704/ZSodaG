@@ -6,7 +6,7 @@
 script = ExtResource("script")
 
 [node name="Fallback" type="Node3D" parent="."]
-visible = false
+visible = true
 
 [node name="Entrance" type="ReflectionProbe" parent="Fallback"]
 position = Vector3(-27, 3, 0)
@@ -88,7 +88,7 @@ size = Vector3(2.4, 5.6, 5.9)
 interior = true
 cull_mask = 0
 reflection_mask = 524288
-ambient_mode = 2
+ambient_mode = 0
 blend_distance = 0.2
 
 [node name="East" type="ReflectionProbe" parent="Connectors"]
@@ -97,7 +97,7 @@ size = Vector3(2.4, 5.6, 5.9)
 interior = true
 cull_mask = 0
 reflection_mask = 524288
-ambient_mode = 2
+ambient_mode = 0
 blend_distance = 0.2
 
 [node name="North" type="ReflectionProbe" parent="Connectors"]
@@ -106,7 +106,7 @@ size = Vector3(5.9, 5.6, 2.4)
 interior = true
 cull_mask = 0
 reflection_mask = 524288
-ambient_mode = 2
+ambient_mode = 0
 blend_distance = 0.2
 
 [node name="South" type="ReflectionProbe" parent="Connectors"]
@@ -115,5 +115,5 @@ size = Vector3(5.9, 5.6, 2.4)
 interior = true
 cull_mask = 0
 reflection_mask = 524288
-ambient_mode = 2
+ambient_mode = 0
 blend_distance = 0.2

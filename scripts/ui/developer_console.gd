@@ -2,8 +2,12 @@ extends CanvasLayer
 
 const FlameCommands = preload("res://scripts/ui/developer_flamethrower_commands.gd")
 const TargetCommands = preload("res://scripts/ui/developer_target_commands.gd")
+const ConsoleControls = preload("res://scripts/ui/developer_console_controls.gd")
+var command_controls: RefCounted
+var _server_toggle_states: Dictionary = {}
 const FREECAM_COMMANDS := ["/freecam", "/freecam on", "/freecam off", "/freecam speed 5", "/freecam speed reset"]
-const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off", "/light_swap", "/light_swap basic", "/light_swap advanced", "/camera_filters", "/camera_filters on", "/camera_filters off", "/blizzard", "/blizzard on", "/blizzard off"]
+const PLAYER_TOGGLE_COMMANDS := ["/fly on", "/fly off", "/across on", "/across off", "/god on", "/god off"]
+const LIGHTING_COMMANDS := ["/fullbright", "/fullbright on", "/fullbright off", "/camera_filters", "/camera_filters on", "/camera_filters off", "/blizzard", "/blizzard on", "/blizzard off"]
 const INSPECTION_COMMANDS := ["/status", "/plant status", "/plant water", "/item seed_packet"]
 const COMMANDS := ["/help", "/clear", "/target", "/open", "/close", "/kill", "/fly", "/across", "/speed 3", "/speed reset", "/god", "/heal", "/where", "/bed", "/sleep", "/next day", "/last day", "/level 0", "/level 1", "/level 2", "/level 3", "/level 4", "/level 5", "/cave entry", "/cave lair", "/cave exit", "/day 1", "/day 2", "/day 3", "/day 4", "/day 5", "/day 6", "/day 7", "/ammo", "/weapon pistol", "/weapon m4a1", "/weapon kitchen_knife", "/tape", "/crowbar", "/flashlight", "/fuel full", "/fuel empty", "/item tape", "/item crowbar", "/item fuel_can", "/item flashlight", "/item battery", "/item fuse", "/item pistol", "/item m4a1", "/item kitchen_knife", "/item pistol_ammo", "/item rifle_magazine", "/spawn tail", "/spawn slasher", "/spawn smily", "/spawn head", "/spawn evolution", "/monsters status", "/monsters reset", "/monsters kill", "/despawn", "/wiring", "/lightfault", "/testroom", "/outside"]
 @onready var panel: PanelContainer = $Panel
@@ -37,18 +41,30 @@ func _help_text() -> String:
 	return "\n".join(lines)
 
 func _all_commands() -> Array:
-	return FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS + FlameCommands.COMMANDS
+	return FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS + FlameCommands.COMMANDS + PLAYER_TOGGLE_COMMANDS
 
 func _command_row(command: String) -> String:
 	var description: String
 	if command in INSPECTION_COMMANDS: description = _inspection_description(command)
 	elif command in FlameCommands.COMMANDS: description = FlameCommands.description(command)
 	else:
-		var local_descriptions := {"/freecam":"Свободная камера; on/off, speed 5 или speed reset", "/fullbright":"Светлый тестовый режим; on/off", "/light_swap":"Качество света; basic/advanced", "/camera_filters":"Фильтры камеры; on/off, локально", "/blizzard":"Метель; on/off, локально"}
+		var local_descriptions := {"/freecam":"Свободная камера; on/off, speed 5 или speed reset", "/fullbright":"Светлый тестовый режим; on/off", "/camera_filters":"Фильтры камеры; on/off, локально", "/blizzard":"Метель; on/off, локально"}
 		description = COMMAND_DETAILS.get(command, local_descriptions.get(command.split(" ")[0], DESCRIPTIONS.get(command.split(" ")[0], "")))
 	return "[url=%s]%s[/url] — %s" % [command, command, description]
 
 func _ready() -> void:
+	command_controls = ConsoleControls.new(self)
+	$Panel/Box/Commands.hide()
+	var switch_view := Button.new()
+	switch_view.name = "SwitchView"
+	switch_view.text = "Строки команд"
+	switch_view.focus_mode = Control.FOCUS_NONE
+	$Panel/Box/CommandsHeader.add_child(switch_view)
+	switch_view.pressed.connect(func():
+		$Panel/Box/Commands.visible = not $Panel/Box/Commands.visible
+		command_controls.panel.visible = not $Panel/Box/Commands.visible
+		switch_view.text = "Панель управления" if $Panel/Box/Commands.visible else "Строки команд"
+	)
 	entry.text_submitted.connect(_submit)
 	entry.gui_input.connect(_entry_input)
 	entry.text_changed.connect(func(_text):
@@ -64,7 +80,9 @@ func _ready() -> void:
 	for button_name in spawn_names:
 		$Panel/Box/SpawnBar.get_node(button_name).pressed.connect(func(): insert_command(spawn_names[button_name]))
 	output.text = ""
-	output.hide()
+	# Keep the log's space reserved so the first result cannot move controls
+	# away from the pointer between two clicks.
+	output.show()
 	$Panel/Box/Commands.text = _help_text()
 	_refresh_suggestions()
 	$Panel/Box/Grip.gui_input.connect(func(event):
@@ -74,6 +92,8 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if get_node("/root/GameMenu").is_rebinding_controls(): return
+	var field := get_viewport().gui_get_focus_owner()
+	var editing_parameter: bool = command_controls != null and field is LineEdit and command_controls.panel.is_ancestor_of(field)
 	if _resizing and opened:
 		if event is InputEventMouseMotion:
 			panel.offset_bottom = clampf(event.position.y, 220.0, get_viewport().get_visible_rect().size.y - 20.0)
@@ -89,10 +109,10 @@ func _input(event: InputEvent) -> void:
 		elif opened and event.keycode == KEY_ESCAPE:
 			set_open(false)
 			get_viewport().set_input_as_handled()
-		elif opened and event.keycode == KEY_TAB:
+		elif opened and event.keycode == KEY_TAB and not editing_parameter:
 			complete_command()
 			get_viewport().set_input_as_handled()
-		elif opened and not entry.has_focus() and (((event.unicode >= 32 or event.keycode in [KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY_KP_ENTER]) and not (event.ctrl_pressed or event.alt_pressed or event.meta_pressed)) or ((event.ctrl_pressed or event.meta_pressed) and event.keycode == KEY_V)):
+		elif opened and not editing_parameter and not entry.has_focus() and (((event.unicode >= 32 or event.keycode in [KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY_KP_ENTER]) and not (event.ctrl_pressed or event.alt_pressed or event.meta_pressed)) or ((event.ctrl_pressed or event.meta_pressed) and event.keycode == KEY_V)):
 			# Clicking a log or scrollbar must not make subsequent typing disappear.
 			# Focus before GUI dispatch, so this same key reaches the LineEdit once.
 			entry.grab_focus()
@@ -113,6 +133,7 @@ func set_open(value: bool) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		entry.grab_focus()
 		_focus_entry.call_deferred()
+		command_controls.sync()
 		show_all_commands()
 	else:
 		entry.release_focus()
@@ -120,6 +141,9 @@ func set_open(value: bool) -> void:
 
 func _focus_entry() -> void:
 	if opened and panel.is_visible_in_tree(): entry.grab_focus()
+
+func _process(delta: float) -> void:
+	if opened and command_controls != null: command_controls.update(delta)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_IN and opened:
@@ -172,7 +196,7 @@ func complete_command() -> void:
 			partial = "/" + partial
 		_completion_prefix = entry.text.left(bounds.x) + (" " if bounds.x > 0 else "")
 		_completion_suffix = entry.text.substr(bounds.y)
-		for command in FREECAM_COMMANDS + LIGHTING_COMMANDS + COMMANDS + INSPECTION_COMMANDS + FlameCommands.COMMANDS:
+		for command in _all_commands():
 			if command.begins_with(partial):
 				_completion_options.append(command)
 		_completion_index = -1
@@ -246,7 +270,7 @@ func _execute_one(line: String) -> String:
 	if args[0] == "/clear":
 		output.clear()
 		output.text = ""
-		output.hide()
+		output.show()
 		history.clear()
 		history_index = 0
 		_refresh_suggestions()
@@ -256,8 +280,6 @@ func _execute_one(line: String) -> String:
 		return _execute_freecam(args)
 	if args[0] == "/fullbright":
 		return _execute_lighting(args)
-	if args[0] == "/light_swap":
-		return _execute_light_swap(args)
 	if args[0] in ["/camera_filters", "/blizzard"]:
 		return _execute_local_effect(args)
 	var state := get_tree().get_first_node_in_group("base_gameplay_controller")
@@ -283,16 +305,6 @@ func _execute_local_effect(args: PackedStringArray) -> String:
 	var enabled: bool = not bool(target.get(property)) if args.size() == 1 else args[1] == "on"
 	target.set(property, enabled)
 	return "%s: %s. Локально, без записи в сохранение." % [args[0], "включено" if enabled else "выключено"]
-
-func _execute_light_swap(args: PackedStringArray) -> String:
-	if args.size() > 2 or (args.size() == 2 and args[1] not in ["basic", "advanced"]):
-		return "Использование: /light_swap [basic|advanced]."
-	var quality := get_node("/root/GameMenu/GraphicsQuality")
-	if args.size() == 1:
-		quality.toggle_lighting_mode()
-	else:
-		quality.set_advanced_lighting_enabled(args[1] == "advanced")
-	return "Продвинутый режим освещения включён." if quality.advanced_lighting_enabled else "Обычный режим освещения включён."
 
 func _execute_lighting(args: PackedStringArray) -> String:
 	var lighting := get_tree().get_first_node_in_group("world_lighting") as WorldLighting
@@ -341,11 +353,18 @@ func _request_command(line: String, selected: NodePath = NodePath(), point: Vect
 	var result := "Сначала загрузите игру и войдите на карту."
 	if not args.is_empty():
 		result = _execute_authoritative(args, state, sender_id, selected, point)
-	_receive_command_result.rpc_id(sender_id, result)
+	var player := state.get_player_node(sender_id) as GamePlayer if state != null else null
+	if player == null:
+		var session := get_tree().get_first_node_in_group("network_gameplay_controller")
+		if session != null: player = session.players.get_node_or_null(str(sender_id)) as GamePlayer
+	var flags := {"god": player.survival.debug_invincible} if player != null else {}
+	_receive_command_result.rpc_id(sender_id, result, flags)
 
 
 @rpc("authority", "call_remote", "reliable")
-func _receive_command_result(result: String) -> void:
+func _receive_command_result(result: String, flags: Dictionary = {}) -> void:
+	var player := get_tree().get_first_node_in_group("local_player")
+	if player != null and flags.has("god"): _server_toggle_states[player.get_instance_id()] = bool(flags.god)
 	output.show()
 	output.add_text("[сервер] %s\n" % result)
 
@@ -425,18 +444,20 @@ func _execute_authoritative(args: PackedStringArray, state: Node, peer_id: int, 
 			state._broadcast_snapshot(snapshot)
 			return "Авария проводки. Отремонтируйте провода в генераторной, затем включите щит."
 		"/fly", "/across":
+			if args.size() > 2 or (args.size() == 2 and args[1] not in ["on", "off"]): return "Использование: %s [on|off]" % args[0]
 			if args[0] == "/fly":
-				player.debug_fly = not player.debug_fly
+				player.debug_fly = not player.debug_fly if args.size() == 1 else args[1] == "on"
 				player.debug_across = false
 			else:
-				player.debug_across = not player.debug_across
+				player.debug_across = not player.debug_across if args.size() == 1 else args[1] == "on"
 				player.debug_fly = player.debug_across
 			player.velocity = Vector3.ZERO
 			player.survival.reset_fall()
 			player._publish_inventory()
 			return "Полёт: %s • сквозь стены: %s" % [player.debug_fly, player.debug_across]
 		"/god":
-			player.survival.debug_invincible = not player.survival.debug_invincible
+			if args.size() > 2 or (args.size() == 2 and args[1] not in ["on", "off"]): return "Использование: /god [on|off]"
+			player.survival.debug_invincible = not player.survival.debug_invincible if args.size() == 1 else args[1] == "on"
 			return "Бессмертие: %s" % player.survival.debug_invincible
 		"/heal":
 			if player.survival.dead:
@@ -561,6 +582,7 @@ func _refresh_suggestions() -> void:
 			lines.append(_command_row(command))
 	$Panel/Box/Commands.text = "\n".join(lines)
 	$Panel/Box/CommandsHeader/Count.text = "Команды: %d / %d · список прокручивается" % [lines.size(), _all_commands().size()]
+	if command_controls != null: command_controls.filter_commands(partial, _show_all_commands)
 
 
 func _inspection_description(command: String) -> String:

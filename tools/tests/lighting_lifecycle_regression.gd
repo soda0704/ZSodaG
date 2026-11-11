@@ -133,6 +133,36 @@ func run() -> void:
 	lighting._update_lamps(Vector3(0, 1.7, 0), 1.0)
 	check(not far.visible, "an opaque corridor wall releases the distant lamp while local lighting stays available")
 	wall.free()
+	var camera := Camera3D.new()
+	world.add_child(camera)
+	camera.current = true
+	camera.position = Vector3(0, 1.7, 0)
+	camera.look_at(Vector3(60, 1.7, 0))
+	far.position.x = 60
+	lighting._lamp_pool.invalidate()
+	lighting._update_lamps(camera.position, 1.0)
+	lighting._update_lamps(camera.position, 1.0)
+	check(far.visible and is_equal_approx(far.light_energy, 1.0), "visible illumination 60 metres away is fully active before approaching")
+	camera.position.x = 45
+	lighting._lamp_pool.invalidate()
+	lighting._update_lamps(camera.position, 1.0)
+	check(is_equal_approx(far.light_energy, 1.0), "approaching the distant light does not increase its authored output")
+	var row: Array[Light3D] = []
+	for index in 12:
+		var source := SpotLight3D.new()
+		source.position = Vector3(48 + index * 5, 4, 0)
+		source.rotation.x = -PI / 2.0
+		source.spot_range = 8
+		source.shadow_enabled = true
+		circuit.add_child(source)
+		row.append(source)
+	await frames()
+	lighting._lamp_pool.invalidate()
+	lighting._update_lamps(camera.position, 1.0)
+	lighting._update_lamps(camera.position, 1.0)
+	check(row.all(func(source): return source.visible and source.light_energy > 0.99), "a visible row of twelve lamps is not truncated to the nearest six")
+	for source in row: source.free()
+	camera.free()
 	far.free()
 	near.free()
 	world.queue_free()

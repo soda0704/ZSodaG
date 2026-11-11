@@ -73,15 +73,16 @@ func run():
 	var sun:DirectionalLight3D=lighting.get_node("OvercastSun")
 	check(bool(sun.light_cull_mask&1) and bool(sun.shadow_caster_mask&1),"the single world sun reaches room surfaces and respects real door shadows")
 	var fallback=base.get_node("InteriorAmbientOcclusion")
-	check(fallback.get_node("Fallback").get_child_count()==8 and fallback.get_node("Connectors").get_child_count()==4 and fallback.find_children("*","ReflectionProbe").all(func(probe):return probe.cull_mask==0 and probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR and probe.interior and probe.update_mode==ReflectionProbe.UPDATE_ONCE),"room fallback and connector isolation use static empty captures, not extra lamps")
+	check(fallback.get_node("Fallback").get_child_count()==8 and fallback.get_node("Connectors").get_child_count()==4 and fallback.find_children("*","ReflectionProbe").all(func(probe):return probe.cull_mask==0 and probe.interior and probe.update_mode==ReflectionProbe.UPDATE_ONCE),"room fallback and connector isolation use static empty captures, not extra lamps")
 	camera=Camera3D.new();base.add_child(camera);camera.current=true;camera.fov=75
 	var manager=base.get_node("Floor_0_Base_Blockout/Doors/AutomaticDoors")
 	var entrance=base.get_node("Floor_0_Base_Blockout/Doors/West_Pedestrian_Exterior_Door_Visual_Prototype")
 	var quality=root.get_node("GameMenu/GraphicsQuality");quality.set_process(false)
-	for advanced in [true,false]:
-		var mode:="advanced" if advanced else "basic"
-		quality.set_advanced_lighting_enabled(advanced);set_power(false)
-		check(fallback.get_node("Fallback").visible!=advanced,"room fallback is exclusive with VoxelGI in "+mode)
+	for gi_enabled in [true,false]:
+		var mode:="gi-on" if gi_enabled else "gi-off"
+		quality.set_gi_quality(2 if gi_enabled else 0);set_power(false)
+		check(fallback.get_node("Fallback").visible,"room sky isolation remains available at GI boundaries in "+mode)
+		check(fallback.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR),"backup circuit excludes neutral ambient in "+mode)
 		manager.debug_set_door_open(entrance,false);await create_timer(1.0).timeout
 		var hub:=await capture(mode+"-unlit-hub",Vector3(-5,1.75,0),Vector3(0,1.7,-4))
 		var closed_room:=mean(hub,Rect2i(750,240,330,210))
@@ -95,7 +96,7 @@ func run():
 		check(is_equal_approx(camera.environment.ambient_light_energy,source.ambient_light_energy),"door state never changes global exposure/ambient in "+mode)
 		var facade:=await capture(mode+"-facade",Vector3(-44,5.7,16),Vector3(-37,6.5,9))
 		check(mean(facade,Rect2i(550,340,450,200))>.15,"outside facade remains lit in "+mode)
-		if advanced:
+		if gi_enabled:
 			sun.hide()
 			var ambient_only:=await capture("exterior-sky-only",Vector3(-44,5.7,16),Vector3(-37,6.5,9))
 			var indirect=base.get_node("WorldIndirectLighting");indirect.set_debug_disabled(true)
@@ -106,11 +107,13 @@ func run():
 			check(delta<.015,"room GI does not blacken the exterior hood or roof in sky-only light")
 			indirect.set_debug_disabled(false);sun.show()
 		set_power(true)
+		check(fallback.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==(ReflectionProbe.AMBIENT_DISABLED if gi_enabled else ReflectionProbe.AMBIENT_COLOR)),"powered room preserves GI only in advanced mode: "+mode)
+		check(fallback.get_node("Connectors").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_DISABLED),"doorway captures never impose a black diffuse rectangle in "+mode)
 		var normal:=await capture(mode+"-powered-room",Vector3(-27,1.7,-2),Vector3(-22,2,-6.6),true)
 		var lit_room:=mean(normal,Rect2i(340,180,720,380));print("POWERED ROOM ",mode," ",lit_room)
 		check(lit_room>.025,"real standard lamps illuminate the powered room in "+mode)
 		set_power(false)
-	quality.set_advanced_lighting_enabled(true)
+	quality.set_gi_quality(2)
 	actor.camera.current=true;actor.teleport_authoritative(Vector3(-5,.1,0),0)
 	await capture("view-light-unlit",Vector3(-5,1.75,0),Vector3(0,1.7,-4))
 	check(lighting.sample_view_light(actor.camera).get_luminance()<.001,"hands have no constant fill when world light sources are absent")

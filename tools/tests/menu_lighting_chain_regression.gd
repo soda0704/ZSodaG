@@ -20,7 +20,7 @@ func run():
 	await process_frame
 	var menu=root.get_node("GameMenu")
 	var quality=menu.get_node("GraphicsQuality")
-	quality.set_advanced_lighting_enabled(true)
+	quality.set_gi_quality(2)
 	root.mode=Window.MODE_WINDOWED
 	root.size=Vector2i(1280,720)
 	Engine.max_fps=60

@@ -43,7 +43,7 @@ func run() -> void:
 	check(journal.is_journal_open() and fp.model.visible,"real 3D journal is open in the player viewmodel")
 	var dark_ok:=true;var red_ok:=true;var observed_red:=false
 	for mode in [false,true]:
-		root.get_node("GameMenu/GraphicsQuality").set_advanced_lighting_enabled(mode)
+		root.get_node("GameMenu/GraphicsQuality").set_gi_quality(2 if mode else 0)
 		for cycle in 3:
 			for pulse in [1.0,.5,.02,0.0,0.0,.001,.1,1.0]:
 				lighting.emergency_intensity=pulse

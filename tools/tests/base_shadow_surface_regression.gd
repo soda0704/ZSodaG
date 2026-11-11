@@ -83,9 +83,9 @@ func run() -> void:
 	var quality = root.get_node("GameMenu/GraphicsQuality")
 	quality.set_process(false)
 	var last_shaded: Image
-	for advanced in [true, false]:
-		quality.set_advanced_lighting_enabled(advanced)
-		var mode := "advanced" if advanced else "basic"
+	for gi_enabled in [true, false]:
+		quality.set_gi_quality(2 if gi_enabled else 0)
+		var mode := "gi-on" if gi_enabled else "gi-off"
 		var shaded := await capture(mode + "-surface-shadowed", true)
 		last_shaded = shaded
 		var reference := await capture(mode + "-surface-reference", false)
@@ -121,7 +121,7 @@ func run() -> void:
 	print("CASTER CONTROL red_ratio=", after / maxf(before, 0.001))
 	check(before / 169.0 > 0.15 and after < before * 0.5, "a genuine caster still blocks the lamp after acne correction")
 	caster.free()
-	quality.set_advanced_lighting_enabled(true)
+	quality.set_gi_quality(2)
 	for lamp: Light3D in enabled_before: lighting.set_lamp_enabled(lamp, enabled_before[lamp])
 	await capture("authored-all-lamps", true)
 	for data in energies: data.energy = float(energies[data])

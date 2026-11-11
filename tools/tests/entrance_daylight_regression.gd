@@ -40,9 +40,9 @@ func run():
  check(world_suns==1,"only one active directional source illuminates the game world")
  var camera:=Camera3D.new();base.add_child(camera);camera.current=true;camera.position=Vector3(-35.6,1.7,3);camera.look_at(Vector3(-37.5,.4,3));camera.fov=85
  manager.debug_set_door_open(door,true);await create_timer(1.2).timeout
- for advanced in [false,true]:
-  var mode:="advanced" if advanced else "basic"
-  root.get_node("GameMenu/GraphicsQuality").set_advanced_lighting_enabled(advanced)
+ for gi_enabled in [false,true]:
+  var mode:="gi-on" if gi_enabled else "gi-off"
+  root.get_node("GameMenu/GraphicsQuality").set_gi_quality(2 if gi_enabled else 0)
   for frame in 60:lighting._process(1.0/60);await process_frame
   await shot("entrance-"+mode+"-open")
   check(manager.is_door_open_at(door) and not lighting.has_node("ExteriorDaylight/EntranceSky"),"opening real door does not recreate synthetic light in "+mode)

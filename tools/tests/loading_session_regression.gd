@@ -31,7 +31,7 @@ func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1280, 720)
 	var menu = root.get_node("GameMenu")
-	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
+	menu.get_node("GraphicsQuality").set_gi_quality(2)
 	for argument in OS.get_cmdline_user_args():
 		if not argument.begins_with("--without="): continue
 		var quality = menu.get_node("GraphicsQuality")

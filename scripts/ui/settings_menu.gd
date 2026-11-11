@@ -12,15 +12,32 @@ const QUALITY := [
 	["ShadowQuality", "Качество теней", ["Низкое", "Среднее", "Высокое"], [1, 2, 3]],
 	["ShadowDistance", "Дальность теней солнца", 24, 96, 8, " м"],
 	["AOQuality", "Затенение в углах · SSAO", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
-	["FogQuality", "Объёмный туман", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
-	["GIQuality", "Отражённый свет · VoxelGI", ["Низкое", "Среднее", "Высокое"], [1, 2, 3]],
-	["Bloom", "Свечение источников света"],
+	["GIQuality", "Отражённый свет · GI", ["Выкл.", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3]],
+	["Bloom", "Свечение источников · Glow"],
 	["MotionBlur", "Размытие при движении"],
 	["MotionBlurStrength", "Сила размытия", 0, 100, 5, "%"],
 	["DecalDistance", "Дальность следов и крови", 10, 70, 5, " м"],
 	["TrackCount", "Следы на снегу", 32, 512, 32, ""],
-	["VegetationDistance", "Дальность деревьев и камней", 150, 750, 50, " м"],
 ]
+const QUALITY_HINTS := {
+	"Brightness": "Общая яркость изображения. Не добавляет источники света в тёмные помещения.",
+	"Gamma": "Яркость средних и тёмных тонов изображения.",
+	"HDRWhite": "Опорная яркость при включённом HDR. Требуются HDR-дисплей и HDR в Windows.",
+	"Scale": "Разрешение 3D-мира. Интерфейс сохраняет чёткость; меньшее значение снижает нагрузку.",
+	"MSAA": "Сглаживание краёв геометрии. ×4 и ×8 заметно повышают нагрузку.",
+	"FXAA": "Экранное сглаживание; может немного смягчать мелкие детали.",
+	"FPS": "Верхний предел кадров. VSync дополнительно ограничивает частотой дисплея.",
+	"LOD": "Больше число — раньше упрощаются модели с подготовленными уровнями детализации.",
+	"ShadowQuality": "Разрешение и смягчение теней. Источники света остаются теми же.",
+	"ShadowDistance": "Максимальная дальность солнечных теней снаружи. Под крышей она автоматически сокращается.",
+	"AOQuality": "Контактное затенение в углах и у предметов. Не меняет питание и яркость ламп.",
+	"GIQuality": "Отражённый свет при штатном питании. Во время аварии GI отключён, работают красные лампы.",
+	"Bloom": "Мягкий ореол у очень ярких источников. Не добавляет свет в комнату.",
+	"MotionBlur": "Размытие при движении и повороте камеры.",
+	"MotionBlurStrength": "Действует, когда включено размытие при движении.",
+	"DecalDistance": "Дальность видимости декалей: следов на снегу, крови и попаданий.",
+	"TrackCount": "Предел одновременно сохраняемых отпечатков на снегу; старые следы постепенно удаляются.",
+}
 const AUDIO := [["MasterVolume", "Общая громкость"], ["MusicVolume", "Музыка"], ["EffectsVolume", "Взаимодействия"], ["WeaponsVolume", "Оружие"], ["VehiclesVolume", "Транспорт"], ["MachineryVolume", "Механизмы"], ["AmbienceVolume", "Окружение"], ["BreathingVolume", "Дыхание"], ["RoomReverb", "Реверберация помещений"]]
 var draft: Dictionary = {}
 var draft_bindings: Dictionary = {}
@@ -232,7 +249,7 @@ func select_category(index: int) -> void:
 			rows.add_child(hint)
 	_changed()
 
-func _row(text: String) -> HBoxContainer:
+func _row(text: String, key: String = "") -> HBoxContainer:
 	var row := preload("res://scripts/ui/menu_setting_row.gd").new()
 	row.custom_minimum_size.y = 54
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -243,8 +260,10 @@ func _row(text: String) -> HBoxContainer:
 	label.clip_text = true
 	row.add_child(label)
 	rows.add_child(row)
+	var hint: String = QUALITY_HINTS.get(key, "Изменения вступят в силу после применения.")
+	row.tooltip_text = hint
 	row.mouse_entered.connect(func():
-		description.text = text + " · Изменения вступят в силу после применения."
+		description.text = text + " · " + hint
 	)
 	return row
 
@@ -261,7 +280,7 @@ func _set_value(key: String, value: Variant, graphics: bool) -> void:
 	_changed()
 
 func _numeric(key: String, text: String, low: float, high: float, increment: float, unit: String, graphics: bool = false) -> void:
-	var row := _row(text)
+	var row := _row(text, key)
 	var value := NorthernMenuValue.new()
 	value.minimum = low
 	value.maximum = high
@@ -275,7 +294,7 @@ func _numeric(key: String, text: String, low: float, high: float, increment: flo
 	value.value_changed.connect(func(next): _set_value(key, next, graphics); row.pulse())
 
 func _choice(key: String, text: String, labels: Array, values: Array, graphics: bool = false) -> void:
-	var row := _row(text)
+	var row := _row(text, key)
 	var option := OptionButton.new()
 	option.name = key
 	option.theme_type_variation = &"MenuChoice"
@@ -284,18 +303,25 @@ func _choice(key: String, text: String, labels: Array, values: Array, graphics: 
 	option.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	for item in labels:
 		option.add_item(str(item).to_upper())
-	option.select(maxi(values.find(_get_value(key, graphics)), 0))
+	var choices := values.duplicate()
+	var selected := choices.find(_get_value(key, graphics))
+	if selected < 0:
+		# Old/custom FPS limits must not be displayed as "unlimited".
+		choices.append(_get_value(key, graphics))
+		option.add_item(str(_get_value(key, graphics)).to_upper())
+		selected = choices.size() - 1
+	option.select(selected)
 	row.add_child(option)
 	option.item_selected.connect(func(index):
 		row.pulse()
 		if key == "Preset":
 			_preset(index)
 		else:
-			_set_value(key, values[index], graphics)
+			_set_value(key, choices[index], graphics)
 	)
 
 func _toggle(key: String, text: String, graphics: bool = false, disabled: bool = false) -> void:
-	var row := _row(text)
+	var row := _row(text, key)
 	var button := NorthernMenuStyle.button("Вкл." if bool(_get_value(key, graphics)) else "Выкл.", Callable(), 17)
 	button.name = key
 	button.theme_type_variation = &"MenuToggle"
@@ -335,6 +361,12 @@ func _changed() -> void:
 	if rows != null:
 		var preset := rows.find_child("Preset", true, false) as OptionButton
 		if preset != null: preset.select(preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics))
+		var resolution := rows.find_child("Resolution", true, false) as OptionButton
+		if resolution != null:
+			resolution.disabled = draft.get("WindowMode", "fullscreen") == "maximized"
+			resolution.tooltip_text = "Развёрнутое окно использует размер рабочего стола." if resolution.disabled else "Разрешение окна или полноэкранного режима."
+		var hdr := rows.find_child("HDR", true, false) as Button
+		if hdr != null: hdr.disabled = not DisplayServer.window_is_hdr_output_supported()
 
 func apply(show_notice: bool = true) -> bool:
 	var binding_error := controls.validation_error(draft_bindings)
@@ -370,6 +402,7 @@ func reset_category() -> void:
 			for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
 				draft.Graphics[key] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[key]
 		1:
+			draft.GraphicsCalibrationPending = false
 			for spec in QUALITY:
 				draft.Graphics[spec[0]] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[spec[0]]
 		2:

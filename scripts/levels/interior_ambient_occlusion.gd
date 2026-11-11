@@ -1,23 +1,37 @@
 @tool
 extends Node3D
-## A cheap spatial fallback when VoxelGI is disabled. Empty reflection captures
-## replace sky ambient only on interior geometry, never on the whole camera.
+## Interior reflection captures also cover GI boundaries and missing voxels.
+## They replace sky only on interior geometry, never on the whole camera.
 const RECEIVER_LAYER := 1 << 19
 const EXTERIOR_LAYER := 1 << 16
 var _receivers: Dictionary = {}
-var _advanced := true
+var _gi_enabled := true
+var _power_enabled := true
 
 func _ready() -> void:
 	add_to_group("interior_ambient_occlusion")
+	var circuit := get_parent().get_node_or_null("BasePowerLightingController")
+	if circuit != null: _power_enabled = circuit.is_standard_powered
 	_tag_tree(get_parent())
 	get_tree().node_added.connect(_on_node_added)
-	set_advanced_enabled(_advanced)
+	set_gi_enabled(_gi_enabled)
 
-func set_advanced_enabled(enabled: bool) -> void:
-	_advanced = enabled
-	# A reflection probe's ambient override would also flatten GI bounce.
-	# Advanced uses the interior VoxelGI data; Basic uses these empty captures.
-	$Fallback.visible = not enabled
+func set_gi_enabled(enabled: bool) -> void:
+	_gi_enabled = enabled
+	_refresh_mode()
+
+func set_power_enabled(enabled: bool) -> void:
+	if _power_enabled == enabled: return
+	_power_enabled = enabled
+	_refresh_mode()
+
+func _refresh_mode() -> void:
+	# VoxelGI does not cover every trim, doorway edge or newly placed panel.
+	# With GI enabled replace sky reflections only. AMBIENT_COLOR would also
+	# override VoxelGI's diffuse bounce, flattening light from the room lamps.
+	$Fallback.visible = true
+	for probe: ReflectionProbe in $Fallback.get_children():
+		probe.ambient_mode = ReflectionProbe.AMBIENT_DISABLED if _gi_enabled and _power_enabled else ReflectionProbe.AMBIENT_COLOR
 
 func _excluded(node: Node) -> bool:
 	return node.name in [&"ArcticBase_ExteriorShell", &"SnowExterior", &"ArrivalSite"] or "SolarPanel" in str(node.name)

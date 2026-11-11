@@ -4,10 +4,10 @@ extends Node3D
 ## A bounded shadow atlas pool shared by spot and omni lamps.
 const EXTERIOR_LAYER := 1 << 16
 const ARRIVAL_SHADOW_LAYER := 1 << 15
-const MAX_ACTIVE_LAMPS := 6
-const MAX_RESIDENT_LAMPS := 8
-const MAX_ACTIVE_SHADOW_SLOTS := 6
-const MAX_RESIDENT_SHADOW_SLOTS := 8
+const MAX_ACTIVE_LAMPS := 24
+const MAX_RESIDENT_LAMPS := 28
+const MAX_ACTIVE_SHADOW_SLOTS := 24
+const MAX_RESIDENT_SHADOW_SLOTS := 28
 const EMERGENCY_COLOR := Color(1.0, 0.025, 0.012)
 const EMERGENCY_PERIOD := 2.0
 const EMERGENCY_MIN_INTENSITY := 0.15
@@ -280,7 +280,7 @@ func _process(delta: float) -> void:
 	# Volumetric sun shadows can reveal distant cliff silhouettes through an
 	# otherwise opaque whiteout. Do not stack it with the spatial storm pass.
 	var authored_volume: bool = source.volumetric_fog_enabled
-	var volume_enabled: bool = authored_volume and quality.advanced_lighting_enabled and int(quality.values.get("FogQuality", 2)) > 0 and storm == 0.0
+	var volume_enabled: bool = authored_volume and int(quality.values.get("FogQuality", 2)) > 0 and storm == 0.0
 	if _camera_environment.volumetric_fog_enabled != volume_enabled:
 		_camera_environment.volumetric_fog_enabled = volume_enabled
 		environment_changed = true

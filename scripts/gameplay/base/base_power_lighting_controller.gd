@@ -26,6 +26,11 @@ func apply_power_state(is_powered: bool, force: bool = false) -> void:
 	is_standard_powered = available
 	if _standard_lighting != null: _standard_lighting.visible = available
 	if _emergency_lighting != null: _emergency_lighting.visible = not available
+	# The circuit selects the room rendering profile once, not on alarm pulses.
+	# Graphics quality remains an independent local override.
+	for path in ["WorldIndirectLighting", "InteriorAmbientOcclusion"]:
+		var profile := get_parent().get_node_or_null(NodePath(path))
+		if profile != null: profile.set_power_enabled(available)
 	if changed or force: lighting_state_changed.emit(available)
 
 func _on_power_state_changed(is_powered: bool) -> void:

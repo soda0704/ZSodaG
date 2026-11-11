@@ -92,7 +92,7 @@ func run() -> void:
 	camera.fov = 80
 	var quality = root.get_node("GameMenu/GraphicsQuality")
 	quality.set_process(false)
-	quality.set_advanced_lighting_enabled(true)
+	quality.set_gi_quality(2)
 	var routes := [
 		["entrance", Vector3(-27, 1.7, -2), Vector3(-20, 2, 0)],
 		["hub", Vector3(-6, 1.75, 6), Vector3(4, 1.7, 5.8)],
@@ -110,9 +110,9 @@ func run() -> void:
 		var backup := await capture(route[0] + "-emergency", route[1], route[2], false, 1.0)
 		check(normal.x > 0.008, route[0] + " normal light reaches rendered room surfaces")
 		check(backup.x > 0.002, route[0] + " emergency burst reaches rendered room surfaces")
-	for advanced in [true, false]:
-		quality.set_advanced_lighting_enabled(advanced)
-		var mode := "advanced" if advanced else "basic"
+	for gi_enabled in [true, false]:
+		quality.set_gi_quality(2 if gi_enabled else 0)
+		var mode := "gi-on" if gi_enabled else "gi-off"
 		var route: Array = routes[1]
 		var bright := await capture(mode + "-hub-burst", route[1], route[2], false, 1.0)
 		var dark := await capture(mode + "-hub-blackout", route[1], route[2], false, 0.0)

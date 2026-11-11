@@ -607,8 +607,8 @@ func load_settings_data() -> Dictionary:
 		for key in (parsed as Dictionary):
 			defaults[key] = (parsed as Dictionary)[key]
 	var quality_script = preload("res://scripts/ui/graphics_quality.gd")
-	if defaults.get("Graphics", {}) is Dictionary:
-		defaults["Graphics"] = quality_script.migrate_saved(defaults.get("Graphics", {}), int((parsed as Dictionary).get("GraphicsPresetRevision", 0)) if parsed is Dictionary else quality_script.PRESET_REVISION)
+	var saved_graphics: Dictionary = defaults.get("Graphics", {}) if defaults.get("Graphics", {}) is Dictionary else {}
+	defaults["Graphics"] = quality_script.normalized(quality_script.migrate_saved(saved_graphics, int((parsed as Dictionary).get("GraphicsPresetRevision", 0)) if parsed is Dictionary else quality_script.PRESET_REVISION))
 	defaults["GraphicsPresetRevision"] = quality_script.PRESET_REVISION
 	return defaults
 
@@ -638,7 +638,6 @@ func apply_settings_data() -> void:
 	NorthernMenuStyle.reduced_motion = bool(_settings_data.get("ReduceMenuMotion", false))
 	$FPSCounter.set_enabled(bool(_settings_data.get("ShowFPS", false)))
 	if _settings_data.get("GraphicsCalibrationPending", false): $GraphicsQuality.restart_recommendation()
-	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 	var resolution := parse_resolution(
 		str(_settings_data.get("Resolution", "1920x1080"))
 	)
@@ -678,6 +677,7 @@ func apply_settings_data() -> void:
 				else DisplayServer.VSYNC_DISABLED
 			)
 	_applied_display = display
+	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 
 	var volume_percent := clampf(
 		float(_settings_data.get("MasterVolume", 80.0)),

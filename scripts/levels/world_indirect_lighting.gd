@@ -7,6 +7,7 @@ var _data_paths:Dictionary={}
 var _failed_paths:Dictionary={}
 var _debug_disabled := false
 var _quality_enabled := true
+var _power_enabled := true
 var _last_height := 0.0
 var _loading := false
 var _loading_data: Dictionary = {}
@@ -47,7 +48,19 @@ func set_quality_enabled(enabled: bool) -> void:
 	if is_node_ready() and not Engine.is_editor_hint() and not _loading:
 		update_floor(_last_height)
 
+func set_power_enabled(enabled: bool) -> void:
+	# Backup lamps use direct red light. Retain resident data across the alarm
+	# pulse, but never display the neutral GI wash during a power outage.
+	if _power_enabled == enabled: return
+	_power_enabled = enabled
+	_render_states.clear()
+	if is_node_ready() and not Engine.is_editor_hint() and not _loading:
+		update_floor(_last_height)
+
 func _ready() -> void:
+	# Staged loading may attach this block after the power controller's _ready.
+	var circuit := get_parent().get_node_or_null("BasePowerLightingController")
+	if circuit != null: _power_enabled = circuit.is_standard_powered
 	visibility_changed.connect(func()->void:_render_states.clear())
 	for probe in get_children():
 		probe.visibility_changed.connect(func()->void:_render_states.erase(probe))
@@ -85,7 +98,7 @@ func update_floor(height:float) -> void:
 					probe.data=load(_data_paths[probe]) as VoxelGIData
 					if probe.data==null:_failed_paths[probe]=true
 			elif probe.data!=null:probe.data=null
-		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree() and not _debug_disabled and _quality_enabled
+		var active:=(surface_view or distance<probe.size.y*0.5+2.0) and probe.data!=null and probe.is_visible_in_tree() and not _debug_disabled and _quality_enabled and _power_enabled
 		if active:_active_count+=1
 		# Backend-only visibility keeps the authored scene and editor undo intact.
 		if _render_states.get(probe,null)!=active:

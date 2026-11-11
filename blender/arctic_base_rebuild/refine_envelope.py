@@ -42,11 +42,11 @@ for name,bounds in REF['exterior_design_bounds'].items():
   for outer in [a-pd*.11+pn*.045,a+d*.11+n*.045]:edges.solid([outer+Vector((0,.38,0)),middle+Vector((0,.38,0)),middle+Vector((0,h-.08,0)),outer+Vector((0,h-.08,0))],.018,bis,0)
   for t0,t1 in [(0,length)]:
    if not holes:edges.beam(a+d*t0+n*.06+Vector((0,.18,0)),a+d*t1+n*.06+Vector((0,.18,0)),.08,1)
-# Keep the existing measured module bridges, outside all four interior routes.
+# Close roof bridges above the modular ceilings, never inside the four routes.
 for axis,side in [('x',-1),('x',1),('z',-1),('z',1)]:
  a,b=(-10.6,-7.6) if side<0 else (7.6,10.6);ya,yb=(6.3,8.9) if side<0 else (8.9,6.3)
  for flank in [-1,1]:
-  P=[(a,-.3,flank*2.9),(b,-.3,flank*2.9),(b,yb,flank*2.9),(a,ya,flank*2.9)] if axis=='x' else [(flank*2.9,-.3,a),(flank*2.9,-.3,b),(flank*2.9,yb,b),(flank*2.9,ya,a)]
+  P=[(a,5.2,flank*2.9),(b,5.2,flank*2.9),(b,yb,flank*2.9),(a,ya,flank*2.9)] if axis=='x' else [(flank*2.9,5.2,a),(flank*2.9,5.2,b),(flank*2.9,yb,b),(flank*2.9,ya,a)]
   panels.solid(P,.16,(0,0,flank) if axis=='x' else (flank,0,0),0)
  P=[(a,ya,-2.92),(b,yb,-2.92),(b,yb,2.92),(a,ya,2.92)] if axis=='x' else [(-2.92,ya,a),(-2.92,yb,b),(2.92,yb,b),(2.92,ya,a)]
  panels.solid(P,.15,(0,1,0),2)

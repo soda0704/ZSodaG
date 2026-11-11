@@ -26,6 +26,8 @@ func run():
  var all=console._all_commands()
  check(commands.text.contains("/blizzard off") and commands.text.contains("/camera_filters off") and commands.text.contains("/freecam off") and commands.text.contains("/wiring"),"opening lists old and new commands including explicit off variants")
  check(commands.get_parsed_text().split("\n",false).size()==all.size(),"entire registered command list is present")
+ console.get_node("Panel/Box/CommandsHeader/SwitchView").pressed.emit()
+ await process_frame
  var help:String=console._help_text()
  var complete_help:=true
  for command in all:complete_help=complete_help and help.contains("[url="+command+"]")

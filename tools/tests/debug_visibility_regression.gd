@@ -24,7 +24,7 @@ func run() -> void:
 	root.size = Vector2i(960,540)
 	Engine.max_fps = 60
 	var menu = root.get_node("GameMenu")
-	menu.get_node("GraphicsQuality").set_advanced_lighting_enabled(true)
+	menu.get_node("GraphicsQuality").set_gi_quality(2)
 	menu.force_close_menu()
 	var world = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	world.get_node("BaseGameplayController").progress_persistence_enabled = false

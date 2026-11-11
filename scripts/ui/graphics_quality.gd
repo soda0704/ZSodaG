@@ -3,16 +3,14 @@ extends Node
 const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
 const INTERIOR_OCCLUSION_SCRIPT = preload("res://scripts/levels/interior_ambient_occlusion.gd")
 signal camera_effects_changed(motion_blur: bool, strength: float)
-# Runtime override only: every launch starts advanced, including fresh installs.
-var advanced_lighting_enabled := true
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []
 const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": false, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
 const PRESETS := {
-	1: {"Scale": 75, "MSAA": 0, "FXAA": true, "ShadowQuality": 1, "ShadowDistance": 48, "AOQuality": 1, "FogQuality": 1, "GIQuality": 1, "Bloom": true, "LOD": 6, "DecalDistance": 20, "TrackCount": 64, "VegetationDistance": 250},
-	2: {"Scale": 100, "MSAA": 0, "FXAA": true, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500},
-	3: {"Scale": 100, "MSAA": 1, "FXAA": false, "ShadowQuality": 3, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 3, "GIQuality": 2, "Bloom": true, "LOD": 1, "DecalDistance": 60, "TrackCount": 256, "VegetationDistance": 650},
+	1: {"Scale": 75, "MSAA": 0, "FXAA": true, "ShadowQuality": 1, "ShadowDistance": 48, "AOQuality": 1, "GIQuality": 1, "Bloom": true, "LOD": 6, "DecalDistance": 20, "TrackCount": 64},
+	2: {"Scale": 100, "MSAA": 0, "FXAA": true, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128},
+	3: {"Scale": 100, "MSAA": 1, "FXAA": false, "ShadowQuality": 3, "ShadowDistance": 96, "AOQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 1, "DecalDistance": 60, "TrackCount": 256},
 }
 
 # Revision 1 accidentally combined full-resolution GI and SSAO in the High preset.
@@ -36,9 +34,15 @@ static func normalized(data: Dictionary) -> Dictionary:
 	var result := DEFAULTS.duplicate()
 	for key in DEFAULTS:
 		if data.has(key): result[key] = data[key]
-	result.ShadowDistance = clampf(float(result.ShadowDistance), 24.0, 96.0)
-	result.MotionBlur = bool(data.get("MotionBlur", false))
-	result.MotionBlurStrength = clampf(float(data.get("MotionBlurStrength", 35)), 0.0, 100.0)
+	# Saved files and the UI must describe the same values the renderer receives.
+	var ranges := {"Brightness": [70, 140], "Gamma": [70, 150], "HDRWhite": [100, 400], "Scale": [50, 100], "MSAA": [0, 3], "FPS": [0, 240], "ShadowQuality": [1, 3], "ShadowDistance": [24, 96], "AOQuality": [0, 3], "FogQuality": [0, 3], "GIQuality": [0, 3], "MotionBlurStrength": [0, 100], "LOD": [1, 8], "DecalDistance": [10, 70], "TrackCount": [32, 512], "VegetationDistance": [150, 750]}
+	for key in ranges:
+		if not (result[key] is int or result[key] is float) or not is_finite(float(result[key])): result[key] = DEFAULTS[key]
+		result[key] = clampi(roundi(float(result[key])), ranges[key][0], ranges[key][1])
+	result.Gamma = roundi(float(result.Gamma) / 10.0) * 10
+	for key in ["HDR", "FXAA", "Bloom", "MotionBlur"]:
+		if not (result[key] is bool or result[key] is int or result[key] is float): result[key] = DEFAULTS[key]
+		result[key] = bool(result[key])
 	return result
 
 static func preset_index(data: Dictionary) -> int:
@@ -62,16 +66,16 @@ func _apply_node_id(id: int) -> void:
 
 func apply(data: Dictionary) -> void:
 	var next := normalized(data)
-	if next == values: return
+	if next == values:
+		apply_display_output()
+		return
 	var update_nodes := values.is_empty()
-	for key in ["Brightness", "Gamma", "MSAA", "FXAA", "ShadowDistance", "AOQuality", "FogQuality", "Bloom", "DecalDistance", "TrackCount", "VegetationDistance"]:
+	for key in ["Brightness", "Gamma", "MSAA", "FXAA", "ShadowDistance", "AOQuality", "FogQuality", "GIQuality", "Bloom", "DecalDistance", "TrackCount", "VegetationDistance"]:
 		if values.get(key) != next[key]: update_nodes = true; break
 	var camera_changed: bool = values.is_empty() or values.get("MotionBlur") != next.MotionBlur or values.get("MotionBlurStrength") != next.MotionBlurStrength
 	values = next
 	if camera_changed: camera_effects_changed.emit(bool(values.MotionBlur), float(values.MotionBlurStrength) / 100.0)
-	if DisplayServer.get_name() != "headless":
-		DisplayServer.window_request_hdr_output(bool(values.HDR) and DisplayServer.window_is_hdr_output_supported())
-		DisplayServer.window_set_hdr_output_reference_luminance(clampf(float(values.HDRWhite), 100.0, 400.0))
+	apply_display_output()
 	var viewport := get_viewport()
 	viewport.scaling_3d_scale = clampf(float(values.Scale) / 100.0, 0.5, 1.0)
 	viewport.msaa_3d = clampi(int(values.MSAA), 0, 3) as Viewport.MSAA
@@ -82,24 +86,19 @@ func apply(data: Dictionary) -> void:
 	Engine.max_fps = maxi(0, int(values.FPS))
 	if update_nodes: _visit(get_tree().root)
 
-func set_advanced_lighting_enabled(enabled: bool) -> void:
-	if advanced_lighting_enabled == enabled: return
-	advanced_lighting_enabled = enabled
-	if values.is_empty(): return
-	_update_shadow_atlas()
-	_update_render_budgets()
-	_visit(get_tree().root)
+func apply_display_output() -> void:
+	if values.is_empty() or DisplayServer.get_name() == "headless": return
+	# Re-evaluate support after changing monitors even when graphics are identical.
+	DisplayServer.window_request_hdr_output(bool(values.HDR) and DisplayServer.window_is_hdr_output_supported())
+	DisplayServer.window_set_hdr_output_reference_luminance(float(values.HDRWhite))
 
-func toggle_lighting_mode() -> bool:
-	set_advanced_lighting_enabled(not advanced_lighting_enabled)
-	return advanced_lighting_enabled
-
-func _lighting_quality(key: String) -> int:
-	if advanced_lighting_enabled: return int(values[key])
-	return 1 if key in ["ShadowQuality", "GIQuality"] else 0
+func set_gi_quality(level: int) -> void:
+	var next := values.duplicate()
+	next.GIQuality = clampi(level, 0, 3)
+	apply(next)
 
 func _update_shadow_atlas() -> void:
-	get_viewport().positional_shadow_atlas_size = 2048 if _lighting_quality("ShadowQuality") == 1 else 4096
+	get_viewport().positional_shadow_atlas_size = 2048 if int(values.ShadowQuality) == 1 else 4096
 
 func _update_render_budgets() -> void:
 	if _render_update_pending or DisplayServer.get_name() == "headless": return
@@ -111,7 +110,7 @@ func _update_render_budgets() -> void:
 	_render_update_pending = false
 	var signature := _budget_signature()
 	if signature == _applied_budgets: return
-	var shadows := clampi(_lighting_quality("ShadowQuality"), 1, 3)
+	var shadows := clampi(int(values.ShadowQuality), 1, 3)
 	RenderingServer.directional_shadow_atlas_set_size([2048, 4096, 4096][shadows - 1], false)
 	# Engine enum entries include Very Low and Low before Medium. A numeric
 	# offset made the UI's Medium/High settings select Very Low/Low filtering.
@@ -122,17 +121,17 @@ func _update_render_budgets() -> void:
 	# for every room lamp; High retains the previous Medium kernel locally.
 	var local_filter: RenderingServer.ShadowQuality = [RenderingServer.SHADOW_QUALITY_HARD, RenderingServer.SHADOW_QUALITY_SOFT_LOW, RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM][shadows - 1]
 	RenderingServer.positional_soft_shadow_filter_set_quality(local_filter)
-	var ao := clampi(_lighting_quality("AOQuality"), 0, 3)
+	var ao := clampi(int(values.AOQuality), 0, 3)
 	RenderingServer.environment_set_ssao_quality(([0, 0, 2, 3][ao]) as RenderingServer.EnvironmentSSAOQuality, ao < 3, 0.5, 2, 30.0, 150.0)
-	var fog := clampi(_lighting_quality("FogQuality"), 0, 3)
+	var fog := clampi(int(values.FogQuality), 0, 3)
 	RenderingServer.environment_set_volumetric_fog_volume_size([64, 64, 96, 128][fog], [48, 48, 64, 64][fog])
-	var gi := clampi(_lighting_quality("GIQuality"), 1, 3)
+	var gi := clampi(int(values.GIQuality), 1, 3)
 	RenderingServer.gi_set_use_half_resolution(gi < 3)
 	RenderingServer.voxel_gi_set_quality((0 if gi == 1 else 1) as RenderingServer.VoxelGIQuality)
 	_applied_budgets = signature
 
 func _budget_signature() -> Array[int]:
-	return [clampi(_lighting_quality("ShadowQuality"), 1, 3), clampi(_lighting_quality("AOQuality"), 0, 3), clampi(_lighting_quality("FogQuality"), 0, 3), clampi(_lighting_quality("GIQuality"), 1, 3)]
+	return [clampi(int(values.ShadowQuality), 1, 3), clampi(int(values.AOQuality), 0, 3), clampi(int(values.FogQuality), 0, 3), clampi(int(values.GIQuality), 1, 3)]
 
 func _visit(node: Node) -> void:
 	apply_node(node)
@@ -151,11 +150,11 @@ func apply_node(node: Node) -> void:
 	# their own unshaded environment; screen-space effects break their data pass.
 	if node.get_viewport() != get_viewport(): return
 	if node is WorldLighting:
-		node.quality_shadow_distance = float(values.ShadowDistance) if advanced_lighting_enabled else minf(float(values.ShadowDistance), 48.0)
+		node.quality_shadow_distance = float(values.ShadowDistance)
 	if node.get_script() == INDIRECT_LIGHTING_SCRIPT:
-		node.set_quality_enabled(advanced_lighting_enabled)
+		node.set_quality_enabled(int(values.GIQuality) > 0)
 	if node.get_script() == INTERIOR_OCCLUSION_SCRIPT:
-		node.set_advanced_enabled(advanced_lighting_enabled)
+		node.set_gi_enabled(int(values.GIQuality) > 0)
 	if node is WorldEnvironment:
 		# The authored node is the source, never the destination of a preset.
 		var active_camera := node.get_viewport().get_camera_3d()
@@ -199,16 +198,16 @@ func apply_environment(env: Environment) -> void:
 	env.adjustment_enabled = bool(calibration.enabled) or int(values.Brightness) != 100 or gamma != 100
 	var correction: Texture = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else calibration.correction
 	if env.adjustment_color_correction != correction: env.adjustment_color_correction = correction
-	var ao_enabled: bool = advanced_lighting_enabled and authored.ao and int(values.AOQuality) > 0
-	var fog_enabled: bool = advanced_lighting_enabled and authored.fog and int(values.FogQuality) > 0
-	var bloom_enabled: bool = advanced_lighting_enabled and authored.bloom and bool(values.Bloom)
+	var ao_enabled: bool = authored.ao and int(values.AOQuality) > 0
+	var fog_enabled: bool = authored.fog and int(values.FogQuality) > 0
+	var bloom_enabled: bool = authored.bloom and bool(values.Bloom)
 	if env.ssao_enabled != ao_enabled: env.ssao_enabled = ao_enabled
 	if env.volumetric_fog_enabled != fog_enabled: env.volumetric_fog_enabled = fog_enabled
 	if env.glow_enabled != bloom_enabled: env.glow_enabled = bloom_enabled
-	# Direct lights and distance haze survive both modes. VoxelGI is gated
-	# independently of the saved preset by WorldIndirectLighting.
+	# Preserve the remaining authored effects; no bundled lighting override.
+	# VoxelGI has its own saved setting and a separate circuit constraint.
 	for effect in ["ssil_enabled", "ssr_enabled", "sdfgi_enabled"]:
-		var enabled: bool = advanced_lighting_enabled and bool(authored.get(effect.trim_suffix("_enabled"), false))
+		var enabled: bool = bool(authored.get(effect.trim_suffix("_enabled"), false))
 		if env.get(effect) != enabled: env.set(effect, enabled)
 	# Environment setters update the renderer but do not consistently emit changed.
 	# The isolated hands keep a copy and must receive calibration/effect updates.
@@ -252,7 +251,7 @@ func _process(delta: float) -> void:
 		var reduced := values.duplicate()
 		reduced.Scale = maxi(50, int(reduced.Scale) - 10)
 		if _calibration_round >= 1:
-			for key in ["LOD", "VegetationDistance", "DecalDistance", "TrackCount"]: reduced[key] = PRESETS[1][key]
+			for key in ["LOD", "DecalDistance", "TrackCount"]: reduced[key] = PRESETS[1][key]
 		apply(reduced)
 		menu._settings_data.Graphics = reduced
 		_calibration_round += 1

@@ -11,6 +11,8 @@ func _initialize():
  var shape:=ConcavePolygonShape3D.new();shape.set_faces(faces);shape.backface_collision=true
  var path:="res://assets/models/architecture/arctic_base_rebuild/shell_collision.res"
  if ResourceSaver.save(shape,path,ResourceSaver.FLAG_COMPRESS)!=OK:quit(1);return
+ if "--collision-only" in OS.get_cmdline_user_args():
+  root_node.free();print("SHELL COLLISION REFRESHED");quit();return
  shape=load(path)
  for node in model.find_children("*","GeometryInstance3D",true,false):node.layers=1|(1<<16)|(1<<18)
  proxy.visible=false;proxy.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

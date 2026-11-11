@@ -138,7 +138,7 @@ for name,b in REF['exterior_design_bounds'].items():
 for axis,side in [('x',-1),('x',1),('z',-1),('z',1)]:
  a,b=(-10.6,-7.6) if side<0 else (7.6,10.6);ya,yb=(6.3,8.9) if side<0 else (8.9,6.3)
  for flank in [-1,1]:
-  P=[(a,-.3,flank*2.9),(b,-.3,flank*2.9),(b,yb,flank*2.9),(a,ya,flank*2.9)] if axis=='x' else [(flank*2.9,-.3,a),(flank*2.9,-.3,b),(flank*2.9,yb,b),(flank*2.9,ya,a)]
+  P=[(a,5.2,flank*2.9),(b,5.2,flank*2.9),(b,yb,flank*2.9),(a,ya,flank*2.9)] if axis=='x' else [(flank*2.9,5.2,a),(flank*2.9,5.2,b),(flank*2.9,yb,b),(flank*2.9,ya,a)]
   n=(0,0,flank) if axis=='x' else (flank,0,0);skin.solid(P,.16,n,1);proxy.solid(P,.16,n,1)
  P=[(a,ya,-2.92),(b,yb,-2.92),(b,yb,2.92),(a,ya,2.92)] if axis=='x' else [(-2.92,ya,a),(-2.92,yb,b),(2.92,yb,b),(2.92,ya,a)]
  skin.solid(P,.15,(0,1,0),2);proxy.solid(P,.15,(0,1,0),2)
