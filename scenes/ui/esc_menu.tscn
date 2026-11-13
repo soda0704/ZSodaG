@@ -13,12 +13,12 @@ script = ExtResource("script")
 [node name="Brand" type="Label" parent="."]
 layout_mode = 2
 text = "МЕНЮ"
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 44
 theme_type_variation = &"MenuTitle"
 
 [node name="NavigationGap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,20)
+custom_minimum_size = Vector2(0, 18)
 mouse_filter = 2
 
 [node name="Navigation" type="VBoxContainer" parent="."]
@@ -29,86 +29,86 @@ theme_override_constants/separation = 4
 [node name="Continue" type="Button" parent="Navigation"]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(440,54)
+custom_minimum_size = Vector2(405, 50)
 theme_type_variation = &"MenuNav"
 text = "ВЕРНУТЬСЯ В ИГРУ"
 alignment = 0
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 21
 script = ExtResource("button")
 
 [node name="Settings" type="Button" parent="Navigation"]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(440,54)
+custom_minimum_size = Vector2(405, 50)
 theme_type_variation = &"MenuNav"
 text = "НАСТРОЙКИ"
 alignment = 0
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 21
 script = ExtResource("button")
 
 [node name="MainMenu" type="Button" parent="Navigation"]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(440,54)
+custom_minimum_size = Vector2(405, 50)
 theme_type_variation = &"MenuNav"
 text = "ГЛАВНОЕ МЕНЮ"
 alignment = 0
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 21
 script = ExtResource("button")
 
 [node name="ContextGap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,24)
+custom_minimum_size = Vector2(0, 22)
 mouse_filter = 2
 
 [node name="Context" type="Label" parent="."]
 layout_mode = 2
 text = ""
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 
 [node name="SaveGap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,12)
+custom_minimum_size = Vector2(0, 11)
 mouse_filter = 2
 
 [node name="Save" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(440,54)
+custom_minimum_size = Vector2(405, 50)
 theme_type_variation = &"MenuPrimary"
 text = "СОХРАНИТЬ ЭКСПЕДИЦИЮ"
 alignment = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 script = ExtResource("button")
 
 [node name="SaveHint" type="Label" parent="."]
 layout_mode = 2
 text = ""
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 autowrap_mode = 3
-custom_minimum_size = Vector2(620,40)
+custom_minimum_size = Vector2(570, 37)
 size_flags_horizontal = 0
 
 [node name="BottomSpace" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,16)
+custom_minimum_size = Vector2(0, 15)
 mouse_filter = 2
 
 
 [node name="Feedback" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(440,54)
+custom_minimum_size = Vector2(405, 50)
 theme_type_variation = &"MenuAction"
 text = "ОБРАТНАЯ СВЯЗЬ · F8"
 alignment = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 script = ExtResource("button")
 
 [node name="LiveWorld" type="Label" parent="."]
 layout_mode = 2
 text = "Игра продолжается на фоне"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)

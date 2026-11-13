@@ -3,8 +3,8 @@ extends CanvasLayer
 ## Stable gameplay API; native views share one settings and network service.
 
 enum MenuView { MAIN, SESSION, JOIN, SETTINGS, FEEDBACK }
-@export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.864
-@export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.576
+@export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.36
+@export_range(0.0, 1.0, 0.01) var escape_background_opacity := 0.26
 const MECHANICS_TEST_ROOM_SCENE := "res://scenes/levels/base_session.tscn"
 const SETTINGS_DIRECTORY := "NorthernLab"
 const SETTINGS_FILE := "launcher_settings.json"
@@ -52,6 +52,7 @@ func _ready() -> void:
 	NorthernMenuStyle.install_cursor()
 	menu_root = $MenuRoot
 	shell = $MenuRoot/Shell
+	shell.content.resized.connect(_fit_view_panels)
 	main_panel = $MenuRoot/Shell/Content/ESC_MENU
 	NorthernMenuStyle.fill(main_panel)
 	main_panel.configure(self)
@@ -60,8 +61,7 @@ func _ready() -> void:
 	session_panel = $MenuRoot/Shell/Content/LOBBY_MENU
 	NorthernMenuStyle.fill(session_panel)
 	session_panel.anchor_right = 0
-	session_panel.offset_right = 1350
-	session_panel.offset_top = 21
+	session_panel.offset_top = 0
 	session_panel.configure(self)
 	session_status_label = session_panel.session_status_label
 	lobby_id_value = session_panel.lobby_id_value
@@ -82,9 +82,15 @@ func _ready() -> void:
 	feedback_label.offset_bottom = -90
 	connect_network_signals()
 	show_view(MenuView.MAIN)
+	_fit_view_panels()
 	menu_root.hide()
 	if "--startup-check" in OS.get_cmdline_user_args():
 		_run_startup_check.call_deferred()
+
+func _fit_view_panels() -> void:
+	var width := minf(1240.0, shell.content.size.x * 0.90)
+	for panel in [session_panel, settings_panel]:
+		if is_instance_valid(panel): panel.offset_right = width
 
 func _exit_tree() -> void:
 	NorthernMenuStyle.uninstall_cursor()
@@ -244,10 +250,10 @@ func show_view(view: MenuView) -> void:
 	shell.rails(view != MenuView.MAIN)
 	var lobby_context := view == MenuView.SESSION or (view == MenuView.SETTINGS and _settings_origin == MenuView.SESSION and not _settings_return_to_main_scene)
 	var escape_context := not _in_main_scene() and (view == MenuView.MAIN or view == MenuView.SETTINGS or view == MenuView.FEEDBACK)
-	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.18)
+	shell.shade.color.a = lobby_background_opacity if lobby_context else (escape_background_opacity if escape_context else 0.26)
 	shell.content.offset_right = -72 if view == MenuView.FEEDBACK else 0
-	shell.top_rail.color.a = 1.0 if _in_main_scene() else 0.0
-	shell.bottom_rail.color.a = 1.0 if _in_main_scene() else 0.0
+	shell.top_rail.color.a = 0.0
+	shell.bottom_rail.color.a = 0.0
 	if view != MenuView.SETTINGS:
 		shell.clear(shell.header)
 		shell.clear(shell.footer)
@@ -350,7 +356,7 @@ func open_settings() -> void:
 		shell.content.add_child(settings_panel)
 		NorthernMenuStyle.fill(settings_panel)
 		settings_panel.anchor_right = 0
-		settings_panel.offset_right = minf(1380, shell.content.size.x * 0.90)
+		_fit_view_panels()
 		settings_panel.configure(self, shell)
 		settings_panel.back_requested.connect(close_settings)
 		menu_root.show()

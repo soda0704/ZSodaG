@@ -2,5 +2,5 @@
 [ext_resource type="FontFile" path="res://assets/fonts/menu/golostext.ttf" id="font"]
 [resource]
 base_font = ExtResource("font")
-variation_opentype = {"wght": 400.0}
+variation_opentype = {"wght": 375.0}
 spacing_glyph = 0

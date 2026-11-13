@@ -11,23 +11,23 @@ theme_override_constants/separation = 12
 [node name="Title" type="Label" parent="."]
 layout_mode = 2
 text = "ПОДКЛЮЧЕНИЕ"
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 44
 theme_type_variation = &"MenuTitle"
 
 [node name="Gap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,16)
+custom_minimum_size = Vector2(0, 15)
 mouse_filter = 2
 
 [node name="FieldLabel" type="Label" parent="."]
 layout_mode = 2
 text = "ID ЛОББИ STEAM"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 
 [node name="LobbyInput" type="LineEdit" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(520,60)
+custom_minimum_size = Vector2(478, 55)
 size_flags_horizontal = 0
 placeholder_text = "Введите ID лобби"
 max_length = 20
@@ -35,15 +35,15 @@ max_length = 20
 [node name="Connect" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(520,56)
+custom_minimum_size = Vector2(478, 52)
 theme_type_variation = &"MenuPrimary"
 text = "ПОДКЛЮЧИТЬСЯ"
 alignment = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 script = ExtResource("button")
 
 [node name="BottomSpace" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,0)
+custom_minimum_size = Vector2(0, 0)
 mouse_filter = 2
 size_flags_vertical = 3

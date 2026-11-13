@@ -2,5 +2,5 @@
 [ext_resource type="FontFile" path="res://assets/fonts/menu/oswald.ttf" id="font"]
 [resource]
 base_font = ExtResource("font")
-variation_opentype = {"wght": 400.0}
+variation_opentype = {"wght": 350.0}
 spacing_glyph = 1

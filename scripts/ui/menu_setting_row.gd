@@ -21,5 +21,5 @@ func pulse() -> void:
 	_flash = 1
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.84 + _hover * 0.10))
-	draw_line(Vector2(0, size.y - 1), Vector2(size.x, size.y - 1), Color(1, 1, 1, 0.10 + _hover * 0.16 + _flash * 0.2), 1)
+	draw_rect(Rect2(Vector2.ZERO, size), Color(0.018, 0.025, 0.032, 0.14 + _hover * 0.05))
+	draw_line(Vector2(0, size.y - 1), Vector2(size.x, size.y - 1), Color(0.83, 0.89, 0.93, 0.08 + _hover * 0.10 + _flash * 0.12), 1)

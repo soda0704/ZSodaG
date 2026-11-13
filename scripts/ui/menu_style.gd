@@ -5,7 +5,7 @@ extends RefCounted
 const TEXT := Color("eeeeee")
 const MUTED := Color("b5b5b5")
 const ACCENT := Color.WHITE
-const RULE := Color(1, 1, 1, 0.22)
+const RULE := Color(0.83, 0.89, 0.93, 0.14)
 const SURFACE := Color.BLACK
 const ENTER_SECONDS := 0.24
 const EXIT_SECONDS := 0.16
@@ -43,7 +43,7 @@ static func button(text: String, callback: Callable = Callable(), font_size: int
 	node.text = text.to_upper()
 	node.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	node.add_theme_font_size_override("font_size", font_size)
-	node.custom_minimum_size.y = 54
+	node.custom_minimum_size.y = 44
 	node.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	node.set_script(preload("res://scripts/ui/menu_button.gd"))
 	if callback.is_valid():

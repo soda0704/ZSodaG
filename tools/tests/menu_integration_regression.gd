@@ -156,7 +156,10 @@ func run() -> void:
 	check(menu.main_panel.name == "ESC_MENU" and not menu.shell.top_rail.visible and not menu.shell.bottom_rail.visible, "ESC_MENU has no edge rails")
 	check(menu.main_panel.continue_button.get_parent().get_child_count() == 3, "ESC contains exactly Continue, Settings and Main menu")
 	check(not paused and menu.shell.video == null, "ESC keeps the actual world running and has no replacement backdrop")
-	check(is_equal_approx(menu.shell.shade.color.a, menu.escape_background_opacity) and menu.escape_background_opacity >= 0.4, "ESC darkens the live game for legible text")
+	var scrim:GradientTexture2D=menu.shell.shade.get_node("Atmosphere").texture
+	var navigation_u:float=menu.main_panel.continue_button.get_global_rect().get_center().x/menu.shell.size.x
+	var navigation_shade:float=1.0-(1.0-menu.shell.shade.color.a)*(1.0-scrim.gradient.sample(navigation_u).a)
+	check(is_equal_approx(menu.shell.shade.color.a, menu.escape_background_opacity) and navigation_shade >= 0.4 and navigation_shade < 0.95, "ESC gradient keeps navigation readable while preserving the live backdrop")
 	await screenshot("native-esc")
 	menu.open_settings()
 	await wait_ui()

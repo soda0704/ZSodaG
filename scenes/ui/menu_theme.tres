@@ -7,170 +7,177 @@
 [ext_resource type="FontVariation" path="res://scenes/ui/menu_brand_font.tres" id="brand"]
 
 [sub_resource type="StyleBoxFlat" id="Quiet"]
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
-bg_color = Color(0,0,0,0)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="Hover"]
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
-bg_color = Color(1,1,1,0.045)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.035)
 
 [sub_resource type="StyleBoxFlat" id="Press"]
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
-bg_color = Color(1,1,1,0.10)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.075)
 
 [sub_resource type="StyleBoxFlat" id="Focus"]
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
-bg_color = Color(0,0,0,0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.6)
 
 [sub_resource type="StyleBoxFlat" id="Action"]
-content_margin_left = 24.0
-content_margin_top = 16.0
-content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(0,0,0,0.95)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.20)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.59, 0.59, 0.59, 0.28)
+border_color = Color(0.82, 0.88, 0.92, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="ActionHover"]
-content_margin_left = 24.0
-content_margin_top = 16.0
-content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(1,1,1,0.07)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.07)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.82, 0.88, 0.92, 0.42)
 
 [sub_resource type="StyleBoxFlat" id="Primary"]
-content_margin_left = 24.0
-content_margin_top = 16.0
-content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(0,0,0,0.84)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.28)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.82, 0.88, 0.92, 0.42)
 
 [sub_resource type="StyleBoxFlat" id="PrimaryHover"]
-content_margin_left = 24.0
-content_margin_top = 16.0
-content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(1,1,1,0.08)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.09)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.82, 0.88, 0.92, 0.62)
 
 [sub_resource type="StyleBoxFlat" id="Disabled"]
-content_margin_left = 24.0
-content_margin_top = 16.0
-content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(0,0,0,0.45)
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.08)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.59, 0.59, 0.59, 0.28)
+border_color = Color(0.82, 0.88, 0.92, 0.12)
 
 [sub_resource type="StyleBoxFlat" id="Field"]
-content_margin_left = 18.0
-content_margin_top = 14.0
-content_margin_right = 18.0
-content_margin_bottom = 14.0
-bg_color = Color(0,0,0,0.94)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.24)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.59, 0.59, 0.59, 0.28)
+border_color = Color(0.82, 0.88, 0.92, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="FieldHover"]
-content_margin_left = 18.0
-content_margin_top = 14.0
-content_margin_right = 18.0
-content_margin_bottom = 14.0
-bg_color = Color(1,1,1,0.05)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.06)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.82, 0.88, 0.92, 0.42)
 
 [sub_resource type="StyleBoxFlat" id="Panel"]
 content_margin_left = 24.0
 content_margin_top = 24.0
 content_margin_right = 24.0
 content_margin_bottom = 24.0
-bg_color = Color(0,0,0,0.98)
+bg_color = Color(0.018, 0.025, 0.032, 0.94)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.59, 0.59, 0.59, 0.28)
+border_color = Color(0.82, 0.88, 0.92, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="Roster"]
 content_margin_left = 24.0
 content_margin_top = 24.0
 content_margin_right = 24.0
 content_margin_bottom = 24.0
-bg_color = Color(0,0,0,0.92)
+bg_color = Color(0.018, 0.025, 0.032, 0.28)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.59, 0.59, 0.59, 0.28)
+border_color = Color(0.82, 0.88, 0.92, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="Track"]
 content_margin_left = 3.0
 content_margin_top = 0.0
 content_margin_right = 3.0
 content_margin_bottom = 0.0
-bg_color = Color(0,0,0,0.7)
+bg_color = Color(0.018, 0.025, 0.032, 0.14)
 
 [sub_resource type="StyleBoxFlat" id="Grabber"]
 content_margin_left = 3.0
 content_margin_top = 0.0
 content_margin_right = 3.0
 content_margin_bottom = 0.0
-bg_color = Color(1,1,1,0.4)
+bg_color = Color(0.83, 0.89, 0.93, 0.30)
 
 [sub_resource type="StyleBoxFlat" id="GrabberHover"]
 content_margin_left = 3.0
 content_margin_top = 0.0
 content_margin_right = 3.0
 content_margin_bottom = 0.0
-bg_color = Color(1,1,1,0.8)
+bg_color = Color(0.9, 0.94, 0.97, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StepperQuiet"]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
 
 [resource]
 default_font = ExtResource("body")
-default_font_size = 20
+default_font_size = 18
 
 Button/fonts/font = ExtResource("body")
 
@@ -423,3 +430,13 @@ MenuSection/styles/hover = SubResource("Quiet")
 MenuSection/styles/pressed = SubResource("Quiet")
 MenuSection/styles/hover_pressed = SubResource("Quiet")
 MenuSection/styles/focus = SubResource("Quiet")
+
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.35)
+Label/constants/shadow_offset_y = 1
+
+MenuStepperPart/base_type = &"Button"
+MenuStepperPart/fonts/font = ExtResource("body")
+MenuStepperPart/styles/normal = SubResource("StepperQuiet")
+MenuStepperPart/styles/hover = SubResource("StepperQuiet")
+MenuStepperPart/styles/pressed = SubResource("StepperQuiet")
+MenuStepperPart/styles/focus = SubResource("StepperQuiet")

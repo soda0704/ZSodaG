@@ -11,52 +11,52 @@ theme_override_constants/separation = 12
 [node name="Title" type="Label" parent="."]
 layout_mode = 2
 text = "КООПЕРАТИВ"
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 44
 theme_type_variation = &"MenuTitle"
 
 [node name="Gap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,16)
+custom_minimum_size = Vector2(0, 15)
 mouse_filter = 2
 
 [node name="Host" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(520,56)
+custom_minimum_size = Vector2(478, 52)
 theme_type_variation = &"MenuPrimary"
 text = "СОЗДАТЬ ЭКСПЕДИЦИЮ"
 alignment = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 script = ExtResource("button")
 
 [node name="JoinGap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,4)
+custom_minimum_size = Vector2(0, 4)
 mouse_filter = 2
 
 [node name="Join" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
-custom_minimum_size = Vector2(520,56)
+custom_minimum_size = Vector2(478, 52)
 theme_type_variation = &"MenuAction"
 text = "ПРИСОЕДИНИТЬСЯ К НАПАРНИКУ"
 alignment = 0
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 script = ExtResource("button")
 
 [node name="OfflineGap" type="Control" parent="."]
 layout_mode = 2
-custom_minimum_size = Vector2(0,24)
+custom_minimum_size = Vector2(0, 22)
 mouse_filter = 2
 
 [node name="OfflineHint" type="Label" parent="."]
 layout_mode = 2
 text = "Для кооператива запустите игру через Steam."
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="Status" type="Label" parent="."]
 layout_mode = 2
 text = ""
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 1, 1, 1)

@@ -15,18 +15,42 @@ var _origin := Vector2.ZERO
 var _start := 0.0
 
 func _ready() -> void:
-	custom_minimum_size.x = 280
-	add_theme_constant_override("separation", 8)
-	add_child(NorthernMenuStyle.button("‹", func(): set_value(value - step), 18))
+	custom_minimum_size.y = 40
+	size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	add_theme_constant_override("separation", 0)
+	var decrease := _part("‹", func(): set_value(value - step), 20)
+	add_child(decrease)
 	number = NorthernMenuStyle.button("", Callable(), 17)
-	number.theme_type_variation = &"MenuToggle"
+	number.theme_type_variation = &"MenuStepperPart"
+	number.custom_minimum_size.y = 40
 	number.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	number.mouse_default_cursor_shape = Control.CURSOR_HSIZE
 	number.gui_input.connect(_number_input)
 	add_child(number)
-	add_child(NorthernMenuStyle.button("›", func(): set_value(value + step), 18))
+	add_child(_part("›", func(): set_value(value + step), 20))
+	for child in get_children():
+		child.mouse_entered.connect(queue_redraw)
+		child.mouse_exited.connect(queue_redraw)
+		child.focus_entered.connect(queue_redraw)
+		child.focus_exited.connect(queue_redraw)
 	_update_number()
+
+func _part(text: String, action: Callable, font_size: int) -> Button:
+	var button := NorthernMenuStyle.button(text, action, font_size)
+	button.theme_type_variation = &"MenuStepperPart"
+	button.custom_minimum_size = Vector2(36, 40)
+	button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	return button
+
+func _draw() -> void:
+	var focus := get_viewport().gui_get_focus_owner()
+	var focused := focus != null and is_ancestor_of(focus)
+	var hovered := get_global_rect().has_point(get_global_mouse_position())
+	get_theme_stylebox("hover" if hovered else "normal", "MenuChoice").draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
+	if focused: get_theme_stylebox("focus", "MenuChoice").draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
+	for x in [36.0, size.x - 36.0]:
+		draw_line(Vector2(x, 9), Vector2(x, size.y - 9), NorthernMenuStyle.RULE, 1)
 
 func _number_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

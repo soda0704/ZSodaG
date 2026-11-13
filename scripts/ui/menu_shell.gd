@@ -29,7 +29,7 @@ func rails(enabled: bool) -> void:
 	top_rail.visible = enabled
 	bottom_rail.visible = enabled
 	content.offset_left = 88
-	content.offset_top = 124 if enabled else 96
+	content.offset_top = 102 if enabled else 76
 	content.offset_bottom = -104 if enabled else -88
 
 func clear(container: Node) -> void:

@@ -9,7 +9,7 @@ theme_override_constants/separation = 16
 [node name="Title" type="Label" parent="."]
 layout_mode = 2
 theme_type_variation = &"MenuTitle"
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 44
 text = "ПОДГОТОВКА К ВЫСАДКЕ"
 [node name="Columns" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -25,7 +25,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "СОСТАВ ЭКСПЕДИЦИИ"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 [node name="Count" type="Label" parent="Columns/Roster/Heading"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -34,8 +34,8 @@ layout_mode = 2
 theme_override_constants/separation = 12
 [node name="ReadyStatus" type="Label" parent="Columns/Roster"]
 layout_mode = 2
-custom_minimum_size = Vector2(0,52)
-theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 48)
+theme_override_font_sizes/font_size = 17
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 autowrap_mode = 3
 [node name="Actions" type="HBoxContainer" parent="Columns/Roster"]
@@ -48,53 +48,53 @@ theme_override_constants/separation = 16
 [node name="Heading" type="Label" parent="Columns/Connection"]
 layout_mode = 2
 text = "ПОДКЛЮЧЕНИЕ"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 [node name="LobbyID" type="LineEdit" parent="Columns/Connection"]
 layout_mode = 2
-custom_minimum_size = Vector2(0,52)
+custom_minimum_size = Vector2(0, 48)
 editable = false
 [node name="SessionStatus" type="Label" parent="Columns/Connection"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
 autowrap_mode = 3
 [node name="Ready" type="Button" parent="Columns/Roster/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuAction"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "ГОТОВ К ВЫСАДКЕ"
 script = ExtResource("button")
 [node name="Launch" type="Button" parent="Columns/Roster/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuPrimary"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "НАЧАТЬ ВЫСАДКУ"
 script = ExtResource("button")
 [node name="CopyID" type="Button" parent="Columns/Connection"]
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuAction"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "КОПИРОВАТЬ ID"
 script = ExtResource("button")
 [node name="Invite" type="Button" parent="Columns/Connection"]
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuAction"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "ПРИГЛАСИТЬ ДРУГА"
 script = ExtResource("button")
 [node name="Leave" type="Button" parent="Columns/Connection"]
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0,54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuAction"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "ПОКИНУТЬ ЛОББИ"
 script = ExtResource("button")

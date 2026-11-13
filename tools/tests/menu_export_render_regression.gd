@@ -66,7 +66,7 @@ func run() -> void:
 	check(brand.get_theme_font("font").get_font_name() == "Arial Black", "exported brand preserves the original Arial Black face")
 	check(main.single_player_button.get_theme_font("font").get_font_name() == "Oswald" and main.theme.default_font.get_font_name() == "Golos Text", "exported navigation and body use embedded Cyrillic fonts")
 	check(brand.get_line_count() == 2 and brand.size.y <= 125, "brand keeps its two-line hierarchy")
-	check(main.single_player_button.get_theme_font_size("font_size") == 23 and main.single_player_button.scale == Vector2.ONE, "navigation retains its designed size without scaling text")
+	check(main.single_player_button.get_theme_font_size("font_size") == 21 and main.single_player_button.scale == Vector2.ONE, "compact navigation retains native font sizing without scaling text")
 	await screenshot("export-menu-home")
 	click(main.single_player_button)
 	await wait_ui()
@@ -74,7 +74,7 @@ func run() -> void:
 	if main.current_view != "character" or not is_instance_valid(main.selector):
 		quit(1)
 		return
-	check(main.selector.choices.size()==2 and main.shell.top_rail.visible and main.shell.bottom_rail.visible and not main.shell.header.visible and main.shell.footer.get_node("CharacterBack").is_visible_in_tree(), "character screen keeps black bars and Back without captions or a separate start button")
+	check(main.selector.choices.size()==2 and main.shell.top_rail.visible and main.shell.bottom_rail.visible and not main.shell.header.visible and main.shell.footer.get_node("CharacterBack").is_visible_in_tree(), "character screen keeps header/footer layout and Back without captions or a separate start button")
 	main.selector.choices[1].grab_focus()
 	await wait_ui()
 	check(main.selector._highlighted==1 and main.selector._picking_ready, "native focus highlights a character and body picking is ready")

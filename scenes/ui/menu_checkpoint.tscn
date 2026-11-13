@@ -22,7 +22,7 @@ theme_override_constants/margin_right = 0
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="Margin/Center"]
-custom_minimum_size = Vector2(960, 0)
+custom_minimum_size = Vector2(883, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -30,17 +30,17 @@ theme_override_constants/separation = 8
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 text = "ОДИНОЧНАЯ ЭКСПЕДИЦИЯ"
 
 [node name="Title" type="Label" parent="Margin/Center/Content"]
 layout_mode = 2
 theme_type_variation = &"MenuTitle"
-theme_override_font_sizes/font_size = 46
+theme_override_font_sizes/font_size = 42
 text = "СОХРАНЕНИЯ"
 
 [node name="Gap" type="Control" parent="Margin/Center/Content"]
-custom_minimum_size = Vector2(0, 12)
+custom_minimum_size = Vector2(0, 11)
 layout_mode = 2
 mouse_filter = 2
 
@@ -57,7 +57,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ActionGap" type="Control" parent="Margin/Center/Content"]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 mouse_filter = 2
 
@@ -69,17 +69,17 @@ theme_override_constants/separation = 8
 [node name="Continue" type="Button" parent="Margin/Center/Content/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 50)
 theme_type_variation = &"MenuPrimary"
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "ПРОДОЛЖИТЬ ЭКСПЕДИЦИЮ"
 script = ExtResource("button")
 
 [node name="Delete" type="Button" parent="Margin/Center/Content/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 38)
-theme_override_font_sizes/font_size = 18
+custom_minimum_size = Vector2(0, 35)
+theme_override_font_sizes/font_size = 17
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "УДАЛИТЬ ЭКСПЕДИЦИЮ"
 alignment = 0
@@ -89,6 +89,6 @@ script = ExtResource("button")
 visible = false
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 autowrap_mode = 3

@@ -97,6 +97,7 @@ func run() -> void:
 		if DisplayServer.get_name() != "headless":
 			var column_x := -1.0
 			var column_width := -1.0
+			var control_height := -1.0
 			var aligned := true
 			for row in settings.rows.get_children():
 				if not row is NorthernMenuSettingRow: continue
@@ -104,11 +105,28 @@ func run() -> void:
 				if column_x < 0.0:
 					column_x = editor.position.x
 					column_width = editor.size.x
-				aligned = aligned and is_equal_approx(editor.position.x, column_x) and is_equal_approx(editor.size.x, column_width)
+					control_height = editor.size.y
+				aligned = aligned and is_equal_approx(editor.position.x, column_x) and is_equal_approx(editor.size.x, column_width) and is_equal_approx(editor.size.y, control_height)
+				if editor is NorthernMenuValue:
+					for part in editor.get_children():
+						aligned = aligned and part.position.x >= 0 and part.position.x + part.size.x <= editor.size.x + .1 and is_equal_approx(part.size.y, editor.size.y)
 			check(aligned, "settings category %d uses one aligned value column" % category)
 			if "--capture" in OS.get_cmdline_user_args():
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("res://tools/.local/settings-lighting-qa/settings-%d.png" % category)
+	if DisplayServer.get_name() != "headless":
+		var original_size := root.size
+		for dimensions in [Vector2i(1280,720),Vector2i(1920,1080)]:
+			root.size = dimensions
+			for category in 4:
+				settings.select_category(category)
+				await create_timer(.2).timeout
+				var contained:bool = settings.get_global_rect().end.x <= root.get_visible_rect().end.x - 16
+				for row in settings.rows.get_children():
+					if row is NorthernMenuSettingRow:
+						contained = contained and row.get_child(1).get_global_rect().end.x <= settings.scroll.get_global_rect().end.x
+				check(contained, "settings category %d stays inside the viewport after resizing to %s" % [category,dimensions])
+		root.size = original_size
 	settings.request_back()
 	check(menu.dialog == null, "leaving applied settings does not ask to apply them again")
 	await create_timer(0.7).timeout

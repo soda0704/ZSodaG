@@ -3,7 +3,7 @@ extends VBoxContainer
 
 signal back_requested
 const CATEGORIES := ["Экран", "Качество", "Звук", "Управление"]
-const VALUE_COLUMN_WIDTH := 330.0
+const VALUE_COLUMN_WIDTH := 296.0
 const QUALITY := [
 	["Scale", "Масштаб 3D", 50, 100, 5, "%"],
 	["MSAA", "Сглаживание MSAA", ["Выкл.", "×2", "×4", "×8"], [0, 1, 2, 3]],
@@ -71,26 +71,26 @@ func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	original_bindings = controls.current_bindings()
 	draft_bindings = original_bindings.duplicate(true)
 	add_theme_constant_override("separation", 0)
-	var heading := NorthernMenuStyle.label("НАСТРОЙКИ", 48)
+	var heading := NorthernMenuStyle.label("НАСТРОЙКИ", 44)
 	heading.theme_type_variation = &"MenuTitle"
-	heading.custom_minimum_size.y = 76
+	heading.custom_minimum_size.y = 64
 	add_child(heading)
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation", 36)
+	body.add_theme_constant_override("separation", 28)
 	add_child(body)
 	navigation = VBoxContainer.new()
 	navigation.name = "Categories"
-	navigation.custom_minimum_size.x = 220
+	navigation.custom_minimum_size.x = 200
 	navigation.add_theme_constant_override("separation", 6)
 	var sidebar := Control.new()
-	sidebar.custom_minimum_size.x = 220
+	sidebar.custom_minimum_size.x = 200
 	body.add_child(sidebar)
 	sidebar.add_child(navigation)
 	NorthernMenuStyle.fill(navigation)
 	_category_marker = ColorRect.new()
 	_category_marker.color = Color.WHITE
-	_category_marker.size = Vector2(2, 26)
+	_category_marker.size = Vector2(1, 24)
 	_category_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sidebar.add_child(_category_marker)
 	detail = VBoxContainer.new()
@@ -131,9 +131,9 @@ func _build_navigation() -> void:
 	shell.clear(shell.header)
 	shell.clear(shell.footer)
 	for index in CATEGORIES.size():
-		var tab := NorthernMenuStyle.button(CATEGORIES[index], _request_category.bind(index), 26)
+		var tab := NorthernMenuStyle.button(CATEGORIES[index], _request_category.bind(index), 23)
 		tab.theme_type_variation = &"MenuSection"
-		tab.custom_minimum_size = Vector2(220, 52)
+		tab.custom_minimum_size = Vector2(200, 46)
 		tab.toggle_mode = true
 		navigation.add_child(tab)
 	var space := Control.new()
@@ -218,8 +218,10 @@ func select_category(index: int) -> void:
 			var recommend_button := NorthernMenuStyle.button("Подобрать", func():
 				draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
 				draft.GraphicsCalibrationPending = true
-				select_category(1), 20)
-			recommend_button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+				select_category(1), 17)
+			recommend_button.theme_type_variation = &"MenuAction"
+			recommend_button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
+			recommend_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 			recommended_row.add_child(recommend_button)
 			_choice("Preset", "Общее качество", ["Свои настройки", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3], true)
 			for spec in QUALITY:
@@ -239,10 +241,11 @@ func select_category(index: int) -> void:
 			for action in controls.ACTIONS:
 				var row := _row(controls.ACTIONS[action])
 				var text := controls.event_from_data(draft_bindings.get(action, {"key": 0})).as_text().replace(" (Physical)", "")
-				var key_button := NorthernMenuStyle.button(text, func(): _wait_for_key(action), 22)
+				var key_button := NorthernMenuStyle.button(text, func(): _wait_for_key(action), 17)
+				key_button.theme_type_variation = &"MenuToggle"
 				key_button.disabled = controls.FIXED_BINDINGS.has(action)
 				key_button.name = action
-				key_button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+				key_button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
 				row.add_child(key_button)
 			var hint := NorthernMenuStyle.label(get_node("/root/SteamInput").get_controls_hint(), 20, NorthernMenuStyle.MUTED)
 			hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -251,10 +254,10 @@ func select_category(index: int) -> void:
 
 func _row(text: String, key: String = "") -> HBoxContainer:
 	var row := preload("res://scripts/ui/menu_setting_row.gd").new()
-	row.custom_minimum_size.y = 54
+	row.custom_minimum_size.y = 44
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
 	row.add_theme_constant_override("separation", 18)
-	var label := NorthernMenuStyle.label(text, 18, NorthernMenuStyle.TEXT)
+	var label := NorthernMenuStyle.label(text, 17, NorthernMenuStyle.TEXT)
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	label.clip_text = true
@@ -298,7 +301,9 @@ func _choice(key: String, text: String, labels: Array, values: Array, graphics: 
 	var option := OptionButton.new()
 	option.name = key
 	option.theme_type_variation = &"MenuChoice"
-	option.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+	option.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
+	option.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	option.add_theme_font_size_override("font_size", 17)
 	option.fit_to_longest_item = false
 	option.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	for item in labels:
@@ -325,7 +330,7 @@ func _toggle(key: String, text: String, graphics: bool = false, disabled: bool =
 	var button := NorthernMenuStyle.button("Вкл." if bool(_get_value(key, graphics)) else "Выкл.", Callable(), 17)
 	button.name = key
 	button.theme_type_variation = &"MenuToggle"
-	button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+	button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
 	button.disabled = disabled
 	button.tooltip_text = "Нужны HDR-дисплей и включённый HDR в Windows." if disabled else ""
 	row.add_child(button)

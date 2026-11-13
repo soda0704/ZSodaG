@@ -30,13 +30,14 @@ func selection_line_rect() -> Rect2:
 func _draw() -> void:
 	if _hover <= 0.0: return
 	var ink := NorthernMenuStyle.ACCENT
-	ink.a = _hover
-	draw_rect(Rect2(Vector2.ZERO, size), Color(1, 1, 1, .055 * _hover + .03 * _press))
+	ink.a = _hover * .78
+	draw_rect(Rect2(Vector2.ZERO, size), Color(.83, .89, .93, .025 * _hover + .025 * _press))
+	if theme_type_variation == &"MenuStepperPart": return
 	if theme_type_variation == &"MenuSection":
-		if has_focus(): draw_rect(Rect2(Vector2.ZERO, size), Color(1,1,1,.65), false, 1.0)
+		if has_focus(): draw_rect(Rect2(Vector2.ZERO, size), Color(.83,.89,.93,.4), false, 1.0)
 		return
 	if theme_type_variation in [&"MenuNav", &"MenuEscapeNav"]:
-		draw_rect(Rect2(Vector2(0, 14), Vector2(3 + _press * 2, maxf(0, size.y - 28))), ink)
+		draw_rect(Rect2(Vector2(0, 15), Vector2(1 + _press, maxf(0, size.y - 30))), ink)
 	elif theme_type_variation != &"MenuPrimary":
 		var line := selection_line_rect()
 		draw_line(line.position, line.end, ink, 1.0)
