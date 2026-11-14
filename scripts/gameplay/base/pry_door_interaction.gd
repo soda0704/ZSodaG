@@ -40,7 +40,7 @@ func network_interact(peer: int, player: Node) -> void:
 	busy = false
 	if not is_instance_valid(player) or player.survival.dead or player.crowbar_uses <= 0 or door.open or manager.is_door_pried(door) or manager._controller.main_breaker_on or player.global_position.distance_to(door.anchor.global_position + Vector3.UP) > 4.0:
 		return
-	player.crowbar_uses -= 1
+	player.use_crowbar_authoritative()
 	player._publish_inventory()
 	var controller: BaseGameplayController = manager.get("_controller")
 	var state := controller.get_snapshot()

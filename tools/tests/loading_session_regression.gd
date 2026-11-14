@@ -54,7 +54,11 @@ func run() -> void:
 	check(level != null, "authored level attached")
 	check(session.world_items.get_child_count() > 0, "loot restored before reveal")
 	var gi = level.get_node("WorldIndirectLighting")
-	check(not gi._loading and gi.get_active_probe_count() > 0, "authored arrival lighting restored")
+	var loaded_probe := false
+	for probe: VoxelGI in gi.get_children():
+		loaded_probe = loaded_probe or probe.data != null
+	check(not gi._loading and loaded_probe, "authored arrival lighting resources restored")
+	check(gi.get_active_probe_count() == 0, "unpowered arrival does not display the neutral GI wash")
 	check(not gi._loading_data.size(), "temporary lighting references released")
 	var state = level.get_node("BaseGameplayController")
 	check(state.day_index == 1, "arrival does not advance the campaign")
@@ -91,6 +95,7 @@ func run() -> void:
 	powered_snapshot.fuel_liters = 20.0
 	state._broadcast_snapshot(powered_snapshot)
 	for frame in 4: await process_frame
+	check(gi.get_active_probe_count() > 0, "restoring standard power activates the authored GI probes")
 	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
 	for terminal in terminals:
 		for binding in [["screen_texture", "ScreenViewport"], ["error_texture", "ErrorViewport"]]:

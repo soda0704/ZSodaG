@@ -3,11 +3,20 @@ extends CharacterBody3D
 
 signal inventory_changed
 
+const LOCAL_INPUT_SCRIPT = preload("res://scripts/characters/components/player_local_input.gd")
+const LOCOMOTION_SCRIPT = preload("res://scripts/characters/components/player_locomotion.gd")
+const INVENTORY_ACTIONS = preload("res://scripts/characters/components/player_inventory_actions.gd")
+var _local_input: LOCAL_INPUT_SCRIPT = LOCAL_INPUT_SCRIPT.new()
+var _locomotion: LOCOMOTION_SCRIPT = LOCOMOTION_SCRIPT.new()
+
+
 var survival: PlayerSurvival
 var debug_fly := false
 var debug_across := false
 var debug_speed_multiplier := 1.0
-var _flight_vertical := 0.0
+var _flight_vertical: float:
+	get: return _local_input.flight_vertical
+	set(value): _local_input.flight_vertical = value
 var weapon: WeaponController
 var vehicle: Node3D
 var debug_free_camera
@@ -57,9 +66,15 @@ const REMOTE_EXTRAPOLATION_SECONDS := 0.05
 @export_range(0.1, 5.0) var sprint_recovery_per_second: float = 1.0
 ## Small reserve needed only after complete exhaustion, to avoid tick-by-tick toggling.
 @export_range(0.1, 5.0) var sprint_restart_reserve: float = 1.0
-var _sprint_remaining := 10.0
-var _sprint_exhausted := false
-var _sprint_active := false
+var _sprint_remaining: float:
+	get: return _locomotion.sprint_remaining
+	set(value): _locomotion.sprint_remaining = value
+var _sprint_exhausted: bool:
+	get: return _locomotion.sprint_exhausted
+	set(value): _locomotion.sprint_exhausted = value
+var _sprint_active: bool:
+	get: return _locomotion.sprint_active
+	set(value): _locomotion.sprint_active = value
 @export var crouch_speed: float = 2.2
 @export var acceleration: float = 14.0
 @export var air_control_multiplier: float = 0.28
@@ -106,15 +121,33 @@ var gravity: float = float(
 	ProjectSettings.get_setting("physics/3d/default_gravity")
 )
 
-var _input_move: Vector2 = Vector2.ZERO
-var _input_sprint: bool = false
-var _input_crouch: bool = false
-var _input_yaw: float = 0.0
-var _input_pitch: float = 0.0
-var _jump_serial: int = 0
-var _flashlight_serial: int = 0
-var _interact_serial: int = 0
-var _drop_item_serial: int = 0
+var _input_move: Vector2:
+	get: return _local_input.input_move
+	set(value): _local_input.input_move = value
+var _input_sprint: bool:
+	get: return _local_input.input_sprint
+	set(value): _local_input.input_sprint = value
+var _input_crouch: bool:
+	get: return _local_input.input_crouch
+	set(value): _local_input.input_crouch = value
+var _input_yaw: float:
+	get: return _local_input.input_yaw
+	set(value): _local_input.input_yaw = value
+var _input_pitch: float:
+	get: return _local_input.input_pitch
+	set(value): _local_input.input_pitch = value
+var _jump_serial: int:
+	get: return _local_input.jump_serial
+	set(value): _local_input.jump_serial = value
+var _flashlight_serial: int:
+	get: return _local_input.flashlight_serial
+	set(value): _local_input.flashlight_serial = value
+var _interact_serial: int:
+	get: return _local_input.interact_serial
+	set(value): _local_input.interact_serial = value
+var _drop_item_serial: int:
+	get: return _local_input.drop_item_serial
+	set(value): _local_input.drop_item_serial = value
 var _input_sequence: int = 0
 var _input_send_accumulator: float = 0.0
 
@@ -132,16 +165,34 @@ var _server_consumed_jump_serial: int = 0
 var _server_consumed_flashlight_serial: int = 0
 var _server_consumed_interact_serial: int = 0
 var _server_consumed_drop_item_serial: int = 0
-var _snapshot_send_accumulator: float = 0.0
+const REPLICATION_SCRIPT = preload("res://scripts/characters/components/player_state_replication.gd")
+var _replication: REPLICATION_SCRIPT = REPLICATION_SCRIPT.new()
+var _snapshot_send_accumulator: float:
+	get: return _replication.send_accumulator
+	set(value): _replication.send_accumulator = value
 
 var _client_consumed_jump_serial: int = 0
-var _reconciliation_offset: Vector3 = Vector3.ZERO
-var _remote_target_position: Vector3 = Vector3.ZERO
-var _remote_target_velocity: Vector3 = Vector3.ZERO
-var _remote_target_yaw: float = 0.0
-var _remote_target_pitch: float = 0.0
-var _remote_crouching: bool = false
-var _remote_grounded: bool = true
+var _reconciliation_offset: Vector3:
+	get: return _replication.correction_offset
+	set(value): _replication.correction_offset = value
+var _remote_target_position: Vector3:
+	get: return _replication.target_position
+	set(value): _replication.target_position = value
+var _remote_target_velocity: Vector3:
+	get: return _replication.target_velocity
+	set(value): _replication.target_velocity = value
+var _remote_target_yaw: float:
+	get: return _replication.target_yaw
+	set(value): _replication.target_yaw = value
+var _remote_target_pitch: float:
+	get: return _replication.target_pitch
+	set(value): _replication.target_pitch = value
+var _remote_crouching: bool:
+	get: return _replication.crouching
+	set(value): _replication.crouching = value
+var _remote_grounded: bool:
+	get: return _replication.grounded
+	set(value): _replication.grounded = value
 var _journal_phase := 0
 @export_range(1.0, 2.5) var journal_animation_speed := 1.6
 var has_journal := false
@@ -149,8 +200,14 @@ var _journal_map := false
 var _journal_loupe := false
 var _aiming := false
 var _aim_serial_state := false
-var _has_remote_snapshot: bool = false
-var _has_flashlight: bool = false
+var _has_remote_snapshot: bool:
+	get: return _replication.has_snapshot
+	set(value): _replication.has_snapshot = value
+const EQUIPMENT_SCRIPT = preload("res://scripts/characters/components/player_equipment.gd")
+var _equipment: EQUIPMENT_SCRIPT = EQUIPMENT_SCRIPT.new()
+var _has_flashlight: bool:
+	get: return _equipment.has_flashlight
+	set(value): _equipment.has_flashlight = value
 @export_range(0.2, 1.0) var corpse_carry_speed_multiplier := 0.6
 var carried_corpse: Node3D
 var corpse_action_busy := false
@@ -158,38 +215,69 @@ var corpse_action_busy := false
 func is_carrying_corpse() -> bool:
 	return is_instance_valid(carried_corpse)
 
-var _held_item_type: StringName = NO_ITEM
-var _handheld_flashlight_drawn := false
+var _held_item_type: StringName:
+	get: return _equipment.held_item
+	set(value): _equipment.held_item = value
+var _handheld_flashlight_drawn: bool:
+	get: return _equipment.handheld_drawn
+	set(value): _equipment.handheld_drawn = value
 var _battery_flashlight_presentation := false
-var _flashlight_enabled: bool = false
-var _flashlight_malfunctioning: bool = false
+var _flashlight_enabled: bool:
+	get: return _equipment.enabled
+	set(value): _equipment.enabled = value
+var _flashlight_malfunctioning: bool:
+	get: return _equipment.malfunctioning
+	set(value): _equipment.malfunctioning = value
 const FLASHLIGHT_SHAKE_PRESSES := 6
 var _flashlight_shake_presses := 0
 var _last_flashlight_shake_msec := -1000
-var _battery_charge: float = 0.0
+var _battery_charge: float:
+	get: return _equipment.charge
+	set(value): _equipment.charge = value
 var _displayed_battery_percent: int = -1
-var _is_crouching: bool = false
+var _is_crouching: bool:
+	get: return _locomotion.is_crouching
+	set(value): _locomotion.is_crouching = value
 var _is_sleeping_in_bunk: bool = false
-var _spare_batteries: Array[float] = []
+const SUPPLIES_SCRIPT = preload("res://scripts/characters/components/player_supplies.gd")
+var _supplies: SUPPLIES_SCRIPT = SUPPLIES_SCRIPT.new()
+# Public gameplay properties delegate to one per-player state owner.
+var _spare_batteries: Array[float]:
+	get: return _supplies.spare_batteries
+	set(value): _supplies.spare_batteries = value
 var _inventory_revision: int = 0
 # Handoffs publish only after both inventories contain the final ownership.
 var _handoff_transaction := false
 var fuel_liters := 20.0
 var _battery_action_busy: bool = false
-var _pad_sprint: bool = false
+var _pad_sprint: bool:
+	get: return _local_input.pad_sprint
+	set(value): _local_input.pad_sprint = value
 @export_group("AI movement noise")
 @export_range(0.0, 50.0) var walking_noise_radius := 6.0
 @export_range(0.0, 50.0) var sprinting_noise_radius := 14.0
 @export_range(0.0, 5.0) var crouching_noise_radius := 0.8
 @export_range(0.2, 3.0) var noise_stride := 1.5
-var _noise_step_distance := 0.0
+var _noise_step_distance: float:
+	get: return _locomotion.noise_step_distance
+	set(value): _locomotion.noise_step_distance = value
 const CRAFT_RECIPE = preload("res://assets/config/flamethrower_recipe.tres")
-var crafting_parts: Dictionary = {}
-var tape_count := 0
-var crowbar_uses := 0
-var weapon_light_mounted := false
+var crafting_parts: Dictionary:
+	get: return _supplies.crafting_parts
+	set(value): _supplies.crafting_parts = value
+var tape_count: int:
+	get: return _supplies.tape_count
+	set(value): _supplies.tape_count = value
+var crowbar_uses: int:
+	get: return _supplies.crowbar_uses
+	set(value): _supplies.crowbar_uses = value
+var weapon_light_mounted: bool:
+	get: return _equipment.mounted
+	set(value): _equipment.mounted = value
 var _equipment_notice_until := 0
-var _pad_crouch: bool = false
+var _pad_crouch: bool:
+	get: return _local_input.pad_crouch
+	set(value): _local_input.pad_crouch = value
 
 
 func setup(
@@ -272,74 +360,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_debug_free_camera_active():
-		return
-	if survival.dead:
-		return
-	if not is_local_player():
-		return
-	if is_bunk_busy():
-		if event.is_action_pressed("interact"):
-			request_leave_bunk_sleep()
-		return
-	if _is_journal_open():
-		return
-
-	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-		return
-	if event is InputEventKey and event.echo:
-		return
-
-	if event is InputEventMouseMotion:
-		var sensitivity: float = (
-			mouse_sensitivity
-			* float(get_node("/root/GameMenu").get_mouse_sensitivity_multiplier())
-		)
-		_input_yaw = wrapf(
-			_input_yaw - event.relative.x * sensitivity,
-			-PI,
-			PI
-		)
-		_input_pitch = clampf(
-			_input_pitch - event.relative.y * sensitivity,
-			deg_to_rad(-85.0),
-			deg_to_rad(85.0)
-		)
-		camera.add_look_impulse(event.relative)
-		flashlight.add_look_impulse(event.relative)
-	elif event.is_action_pressed("jump"):
-		_jump_serial += 1
-	elif is_climbing():
-		return
-	elif event.is_action_pressed("interact"):
-		if handoff.is_offering():
-			pass
-		elif get_interaction_target() != null and get_interaction_target().has_method("begin_item_handoff"):
-			get_interaction_target().begin_item_handoff()
-		elif needs_flashlight_shake():
-			request_inventory_action(&"shake_flashlight")
-		elif get_interaction_target() != null and get_interaction_target().has_method("begin_lobby_interaction") and get_interaction_target().begin_lobby_interaction():
-			pass
-		elif get_interaction_target() != null and get_interaction_target().has_method("begin_terminal_interaction"):
-			get_interaction_target().begin_terminal_interaction()
-		elif not $ItemDrag.begin_interaction():
-			_interact_serial += 1
-	elif event.is_action_pressed("drop_item"):
-		if not handoff.is_offering() and not $ItemDrag.is_heavy_carrying(): _drop_item_serial += 1
-	elif event.is_action_pressed("offer_item"):
-		if handoff.is_offering(): handoff.request_cancel()
-		else: handoff.request_offer(_held_item_type, false)
-	elif event.is_action_pressed("replace_battery"):
-		request_reload_or_battery()
-	elif event.is_action_pressed("sprint") and get_node("/root/SteamInput").is_controller_event(event):
-		_pad_sprint = not _pad_sprint
-		_pad_crouch = false
-	elif event.is_action_pressed("crouch") and get_node("/root/SteamInput").is_controller_event(event):
-		_pad_crouch = not _pad_crouch
-		_pad_sprint = false
-	elif event.is_action_pressed("flashlight"):
-		if _has_flashlight:
-			_flashlight_serial += 1
+	_local_input._unhandled_input(self, event)
 
 
 func _physics_process(delta: float) -> void:
@@ -391,111 +412,19 @@ func refresh_crosshair_visibility() -> void:
 
 
 func _update_sprint(delta: float) -> void:
-	var wants_sprint := _server_sprint if multiplayer.is_server() else _input_sprint
-	var movement := _server_move if multiplayer.is_server() else _input_move
-	var crouching := _server_crouch if multiplayer.is_server() else _input_crouch
-	var allowed := not is_climbing() and not is_carrying_corpse() and wants_sprint and movement.length_squared() > 0.01 and not crouching and not _is_crouching and not survival.dead and not is_driving() and not is_bunk_busy() and not debug_fly
-	_sprint_active = allowed and not _sprint_exhausted and _sprint_remaining > 0.0
-	if _sprint_active:
-		_sprint_remaining = maxf(0.0, _sprint_remaining - delta)
-		if _sprint_remaining <= 0.00001:
-			_sprint_active = false
-			_sprint_remaining = 0.0
-			_sprint_exhausted = true
-	else:
-		_sprint_remaining = minf(sprint_duration, _sprint_remaining + sprint_recovery_per_second*delta)
-		if _sprint_remaining >= minf(sprint_restart_reserve,sprint_duration):
-			_sprint_exhausted = false
+	_locomotion._update_sprint(self, delta)
 
 
 func collect_local_input() -> void:
-	if is_debug_free_camera_active():
-		_input_move = Vector2.ZERO
-		_input_sprint = false
-		_input_crouch = _is_crouching
-		_pad_sprint = false
-		_pad_crouch = false
-		return
-	if (
-		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
-		or is_bunk_busy()
-		or _is_journal_open()
-	):
-		_input_move = Vector2.ZERO
-		_input_sprint = false
-		_input_crouch = false
-		_pad_sprint = false
-		return
-
-	var godot_move := Input.get_vector(
-		"move_left",
-		"move_right",
-		"move_forward",
-		"move_backward"
-	)
-	var steam_move := _get_steam_input_vector(&"get_gameplay_move")
-	_input_move = (
-		steam_move
-		if steam_move.length_squared() > godot_move.length_squared()
-		else godot_move
-	)
-	var using_controller: bool = bool(get_node("/root/SteamInput").using_controller)
-	if not using_controller:
-		_pad_sprint = false
-		_pad_crouch = false
-	if _input_move.length() < 0.1:
-		_pad_sprint = false
-	_input_crouch = _pad_crouch if using_controller else Input.is_action_pressed("crouch")
-	_input_sprint = (_pad_sprint if using_controller else Input.is_action_pressed("sprint")) and not _input_crouch
+	_local_input.collect_local_input(self)
 
 
 func collect_local_look(delta: float) -> void:
-	if is_debug_free_camera_active():
-		return
-	if (
-		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
-		or is_bunk_busy()
-		or _is_journal_open()
-	):
-		return
-	var sensitivity_multiplier: float = float(
-		get_node("/root/GameMenu").get_mouse_sensitivity_multiplier()
-	)
-	var godot_look := Input.get_vector(
-		"look_left",
-		"look_right",
-		"look_up",
-		"look_down"
-	)
-	var look_radians: Vector2 = (
-		godot_look
-		* controller_look_speed
-		* sensitivity_multiplier
-		* delta
-	)
-	var steam_look := _get_steam_input_vector(&"get_gameplay_look")
-	if not steam_look.is_zero_approx():
-		# Steam may expose the same controller through the raw joypad fallback.
-		# A native look sample replaces, rather than doubles, that sample.
-		look_radians = steam_look * mouse_sensitivity * sensitivity_multiplier
-	if look_radians.is_zero_approx():
-		return
-	_input_yaw = wrapf(_input_yaw - look_radians.x, -PI, PI)
-	_input_pitch = clampf(
-		_input_pitch - look_radians.y,
-		deg_to_rad(-85.0),
-		deg_to_rad(85.0)
-	)
-	var look_impulse: Vector2 = look_radians / maxf(mouse_sensitivity, 0.00001)
-	camera.add_look_impulse(look_impulse)
-	flashlight.add_look_impulse(look_impulse)
+	_local_input.collect_local_look(self, delta)
 
 
 func _get_steam_input_vector(method_name: StringName) -> Vector2:
-	var steam_input := get_node_or_null("/root/SteamInput")
-	if steam_input == null or not steam_input.has_method(method_name):
-		return Vector2.ZERO
-	return steam_input.call(method_name) as Vector2
+	return _local_input._get_steam_input_vector(self, method_name)
 
 
 func update_local_view_motion(delta: float) -> void:
@@ -752,128 +681,23 @@ func simulate_movement(
 	yaw: float,
 	pitch: float
 ) -> void:
-	if is_climbing():
-		$LadderClimb.simulate(delta,move_input,should_jump,yaw,pitch)
-		return
-	rotation.y = yaw
-	head.rotation.y = 0
-	head.rotation.x = pitch
-	if corpse_action_busy:
-		move_input = Vector2.ZERO
-		should_jump = false
-	update_crouch_state(delta, crouching)
-	if debug_fly and not survival.dead:
-		var flight_direction := head.global_basis * Vector3(move_input.x, 0, move_input.y)
-		flight_direction.y += _flight_vertical
-		velocity = flight_direction.limit_length() * (18.0 if sprinting else 7.0) * debug_speed_multiplier
-		if debug_across:
-			global_position += velocity * delta
-		else:
-			move_and_slide()
-		survival.reset_fall()
-		return
-
-	sprinting = _sprint_active
-
-	if not is_on_floor():
-		var gravity_scale := fall_gravity_multiplier if velocity.y < 0.0 else 1.0
-		velocity.y -= gravity * gravity_scale * delta
-	elif velocity.y < 0.0:
-		velocity.y = 0.0
-
-	if should_jump and is_on_floor() and not _is_crouching and not $ItemDrag.is_heavy_carrying():
-		velocity.y = jump_velocity
-
-	var input_direction := Vector3(move_input.x, 0.0, move_input.y)
-	var world_direction := transform.basis * input_direction.limit_length(1.0)
-	var speed := (
-		crouch_speed
-		if _is_crouching
-		else sprint_speed if sprinting else walk_speed
-	)
-	if is_carrying_corpse():
-		speed *= corpse_carry_speed_multiplier
-	if $ItemDrag.is_heavy_carrying(): speed = minf(speed, walk_speed * 0.5)
-	var carried_weight := 0.0
-	for item in get_tree().get_nodes_in_group("world_items"):
-		if item is WorldItemPickup and not item._collected and item.global_position.distance_to(global_position) < 0.75:
-			carried_weight = maxf(carried_weight, item.get_push_resistance())
-			_push_loose_item(item, world_direction, delta)
-	var target_velocity := world_direction * speed * debug_speed_multiplier / (1.0 + carried_weight * 0.06)
-	var movement_acceleration := acceleration * debug_speed_multiplier
-	if not is_on_floor():
-		movement_acceleration *= air_control_multiplier
-
-	velocity.x = move_toward(
-		velocity.x,
-		target_velocity.x,
-		movement_acceleration * delta
-	)
-	velocity.z = move_toward(
-		velocity.z,
-		target_velocity.z,
-		movement_acceleration * delta
-	)
-	var incoming_y := velocity.y
-	var movement_start := global_position
-	if not preload("res://scripts/characters/components/step_motion.gd").try_step(self, delta, max_step_height):
-		move_and_slide()
-	survival.observe_motion(incoming_y, is_on_floor(), get_platform_velocity().y)
-	if multiplayer.is_server():
-		_emit_movement_noise(global_position - movement_start - get_platform_velocity() * delta, is_on_floor())
+	_locomotion.simulate_movement(self, delta, move_input, sprinting, crouching, should_jump, yaw, pitch)
 
 
 func get_movement_noise_radius() -> float:
-	return crouching_noise_radius if _is_crouching else sprinting_noise_radius if _sprint_active else walking_noise_radius
+	return _locomotion.get_movement_noise_radius(self)
 
 
 func _emit_movement_noise(travel: Vector3, grounded: bool) -> void:
-	if not multiplayer.is_server(): return
-	var distance := Vector2(travel.x, travel.z).length()
-	if not grounded or survival.dead or is_bunk_busy() or is_driving() or debug_fly or distance > 2.0:
-		_noise_step_distance = 0.0
-		return
-	if distance < 0.001: return
-	_noise_step_distance += distance
-	if _noise_step_distance >= noise_stride:
-		_noise_step_distance = fmod(_noise_step_distance, noise_stride)
-		preload("res://scripts/gameplay/gameplay_noise.gd").emit(self, get_movement_noise_radius())
+	_locomotion._emit_movement_noise(self, travel, grounded)
 
 
 func update_crouch_state(delta: float, wants_to_crouch: bool) -> void:
-	if not wants_to_crouch and _is_crouching and not can_stand_up():
-		wants_to_crouch = true
-	_is_crouching = wants_to_crouch
-
-	var target_height := crouching_height if _is_crouching else standing_height
-	var target_head_height := (
-		crouching_head_height if _is_crouching else standing_head_height
-	)
-	var capsule := collision_shape.shape as CapsuleShape3D
-	if capsule != null:
-		capsule.height = move_toward(
-			capsule.height,
-			target_height,
-			crouch_transition_speed * delta
-		)
-		collision_shape.position.y = capsule.height * 0.5
-	head.position.y = move_toward(
-		head.position.y,
-		target_head_height,
-		crouch_transition_speed * delta
-	)
+	_locomotion.update_crouch_state(self, delta, wants_to_crouch)
 
 
 func can_stand_up() -> bool:
-	if get_world_3d() == null:
-		return true
-	var query := PhysicsRayQueryParameters3D.create(
-		global_position + Vector3.UP * (crouching_height - 0.08),
-		global_position + Vector3.UP * (standing_height + 0.04),
-		collision_mask,
-		[get_rid()]
-	)
-	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+	return _locomotion.can_stand_up(self)
 
 
 func get_interaction_target() -> Node:
@@ -1016,16 +840,7 @@ func _receive_journal_map(value: bool, loupe := false) -> void:
 	_journal_loupe = value and loupe
 
 func _push_loose_item(item: WorldItemPickup, _movement: Vector3, delta: float) -> void:
-	if not multiplayer.is_server() or item.freeze or item.drag_owner_peer != 0:
-		return
-	var away := item.global_position - global_position
-	away.y = 0.0
-	if away.length_squared() < 0.0001:
-		return
-	# Keep the original proximity nudge, at 0.2 instead of 1.5 m/s per
-	# 60 Hz tick. No direction/speed gate that makes heavy items immovable.
-	item.sleeping = false
-	item.linear_velocity += away.normalized() * item_push_acceleration * delta
+	_locomotion._push_loose_item(self, item, _movement, delta)
 
 
 func _update_aim_intent() -> void:
@@ -1242,126 +1057,41 @@ func pickup_world_item_authoritative(
 	item_type: StringName,
 	item_state: Dictionary
 ) -> bool:
-	if not multiplayer.is_server() or survival.dead or is_bunk_busy() or is_driving() or is_climbing() or is_carrying_corpse() or $ItemDrag.is_heavy_carrying():
-		return false
-	var stacks := item_type in [&"journal",&"battery",&"pistol_ammo",&"rifle_magazine",&"tape"] or CRAFT_RECIPE.pickup_scenes.has(item_type)
-	if not stacks and _held_item_type not in [NO_ITEM,FLASHLIGHT_ITEM] and ItemDropPlacement.find_pose(self,get_item_pickup_scene(_held_item_type),_held_item_type,get_held_item_drop_transform())==null: return false
-	if item_type == &"journal":
-		if has_journal: return false
-		has_journal = true
-		_publish_inventory()
-		return true
+	return INVENTORY_ACTIONS.pickup_world_item_authoritative(self, item_type, item_state)
 
-	if item_type == &"pistol_ammo":
-		var amount := int(item_state.get("amount", 12))
-		if amount <= 0 or weapon.pistol_ammo + amount > 240:
-			return false
-		weapon.pistol_ammo += amount
-		_publish_inventory()
-		return true
-	if item_type == &"rifle_magazine":
-		var amount := int(item_state.get("rounds", 30))
-		if amount <= 0 or amount > 30 or weapon.rifle_magazines.size() >= 10:
-			return false
-		weapon.rifle_magazines.append(amount)
-		_publish_inventory()
-		return true
 
-	if item_type == BATTERY_ITEM:
-		if _spare_batteries.size() >= MAX_SPARE_BATTERIES:
-			return false
-		var charge_amount := clampf(float(item_state.get("charge_amount", 1.0)), 0.0, 1.0)
-		if charge_amount <= 0.0:
-			return false
-		_spare_batteries.append(charge_amount)
-		_publish_inventory()
-		return true
-	if item_type == &"tape":
-		tape_count += 1
-		_publish_inventory()
-		return true
-	if item_type == &"crowbar":
-		if crowbar_uses > 0:
-			return false
-		crowbar_uses = clampi(int(item_state.get("uses", 3)), 1, 3)
-		_publish_inventory()
-		return true
+func take_pocket_supply(type: StringName, data: Dictionary) -> bool:
+	return multiplayer.is_server() and _supplies.try_take(type, data, CRAFT_RECIPE.pickup_scenes)
 
-	if CRAFT_RECIPE.pickup_scenes.has(item_type):
-		crafting_parts[item_type] = int(crafting_parts.get(item_type, 0)) + 1
-		_publish_inventory()
-		return true
+func use_crowbar_authoritative() -> bool:
+	return multiplayer.is_server() and _supplies.use_crowbar()
 
-	if item_type not in [FLASHLIGHT_ITEM, FUSE_ITEM, FUEL_ITEM, SEED_ITEM, &"flamethrower"] and not WeaponController.TYPES.has(item_type):
-		return false
-	if item_type == FLASHLIGHT_ITEM:
-		if weapon_light_mounted or _battery_action_busy:
-			return false
-		if _has_flashlight:
-			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
-		_has_flashlight = true
-		_battery_charge = clampf(float(item_state.get("battery_charge", 1.0)), 0.0, 1.0)
-		if _held_item_type == NO_ITEM:
-			_held_item_type = FLASHLIGHT_ITEM
-		_handheld_flashlight_drawn = _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM, &"m4a1", &"flamethrower"]
-		_flashlight_malfunctioning = bool(item_state.get("malfunctioning", false))
-		_flashlight_shake_presses = 0
-		_flashlight_enabled = _held_item_type not in [&"m4a1", &"flamethrower"] and _battery_charge > 0.0 and not _flashlight_malfunctioning
-	else:
-		var keep_handheld := is_handheld_flashlight_drawn()
-		# Equipment is pocketed, only another bulky hand item is dropped.
-		if _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]:
-			spawn_dropped_item_authoritative(_held_item_type, get_held_item_state())
-			if weapon_light_mounted:
-				_has_flashlight = false
-				_battery_charge = 0.0
-				weapon_light_mounted = false
-		_held_item_type = item_type
-		if item_type == &"flamethrower":
-			weapon.flame.fuel_liters = clampf(float(item_state.get("fuel_liters",weapon.flame.capacity_liters)),0,weapon.flame.capacity_liters)
-		if item_type == FUEL_ITEM:
-			fuel_liters = clampf(float(item_state.get("fuel_liters", 20.0)), 0.0, 20.0)
-		if WeaponController.TYPES.has(item_type):
-			if item_state.has("mounted_charge") and item_type != &"kitchen_knife":
-				if _has_flashlight:
-					spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
-				_has_flashlight = true
-				weapon_light_mounted = item_type == &"m4a1"
-				keep_handheld = not weapon_light_mounted
-				_battery_charge = clampf(float(item_state.mounted_charge), 0.0, 1.0)
-				_flashlight_malfunctioning = bool(item_state.get("mounted_malfunctioning", false))
-			weapon.reload_left = 0.0
-			weapon.rounds = clampi(int(item_state.get("rounds", WeaponController.CAPACITY[item_type])), 0, WeaponController.CAPACITY[item_type])
-		_handheld_flashlight_drawn = keep_handheld and _has_flashlight and item_type not in [&"m4a1", &"flamethrower"]
-		_flashlight_enabled = (weapon_light_mounted or _handheld_flashlight_drawn) and _battery_charge > 0.0 and not _flashlight_malfunctioning
-	_publish_inventory()
-	return true
+func add_crafting_supply_authoritative(type: StringName, amount: int) -> bool:
+	return multiplayer.is_server() and _supplies.add_material(type, amount, CRAFT_RECIPE.pickup_scenes)
 
+func consume_crafting_supplies(requirements: Dictionary) -> bool:
+	return multiplayer.is_server() and _supplies.consume_recipe(requirements)
 
 func is_handheld_flashlight_drawn() -> bool:
-	return _has_flashlight and not weapon_light_mounted and _held_item_type not in [&"m4a1", &"flamethrower"] and (_held_item_type == FLASHLIGHT_ITEM or _handheld_flashlight_drawn)
+	return _equipment.is_handheld_drawn()
 
 
 func is_offhand_flashlight_drawn() -> bool:
-	return is_handheld_flashlight_drawn() and _held_item_type not in [NO_ITEM, FLASHLIGHT_ITEM]
+	return _equipment.is_offhand_drawn()
 
 
 func get_inventory_snapshot() -> Dictionary:
-	return {
+	var snapshot := {
 		"has_journal": has_journal,
 		"held_item": _held_item_type,
-		"crafting_parts": crafting_parts.duplicate(),
 		"debug_fly": debug_fly,
 		"debug_across": debug_across,
 		"debug_speed_multiplier": debug_speed_multiplier,
 		"fuel_liters": fuel_liters,
-		"tape_count": tape_count,
-		"crowbar_uses": crowbar_uses,
 		"weapon_light_mounted": weapon_light_mounted,
 		"has_flashlight": _has_flashlight,
 		"handheld_flashlight_drawn": _handheld_flashlight_drawn,
 		"battery_charge": _battery_charge,
-		"spare_batteries": _spare_batteries.duplicate(),
 		"flashlight_enabled": _flashlight_enabled,
 		"malfunctioning": _flashlight_malfunctioning,
 		"revision": _inventory_revision,
@@ -1372,6 +1102,8 @@ func get_inventory_snapshot() -> Dictionary:
 		"flame_fuel_liters": weapon.flame.fuel_liters if weapon != null else 3.0,
 		"flame_active": weapon.flame.emitting if weapon != null else false,
 	}
+	_supplies.write_snapshot(snapshot)
+	return snapshot
 
 
 func _publish_inventory(force := false) -> void:
@@ -1394,22 +1126,11 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 	debug_fly = bool(data.get("debug_fly", false))
 	debug_across = bool(data.get("debug_across", false))
 	debug_speed_multiplier = clampf(float(data.get("debug_speed_multiplier", 1.0)), 0.1, 20.0)
-	crafting_parts.clear()
-	for type in CRAFT_RECIPE.pickup_scenes:
-		var count := clampi(int(data.get("crafting_parts", {}).get(type,0)),0,100)
-		if count > 0: crafting_parts[type] = count
-	tape_count = maxi(0, int(data.get("tape_count", 0)))
-	crowbar_uses = clampi(int(data.get("crowbar_uses", 0)), 0, 3)
+	_supplies.apply_snapshot(data, CRAFT_RECIPE.pickup_scenes, MAX_SPARE_BATTERIES)
 	weapon_light_mounted = bool(data.get("weapon_light_mounted", false)) and StringName(data.get("held_item", "")) == &"m4a1" and bool(data.get("has_flashlight", false))
 	fuel_liters = clampf(float(data.get("fuel_liters", 20.0)), 0.0, 20.0)
 	_has_flashlight = bool(data.get("has_flashlight", false))
 	_battery_charge = clampf(float(data.get("battery_charge", 0.0)), 0.0, 1.0) if _has_flashlight else 0.0
-	_spare_batteries.clear()
-	for charge: Variant in data.get("spare_batteries", []):
-		if _spare_batteries.size() >= MAX_SPARE_BATTERIES:
-			break
-		if float(charge) > 0.0:
-			_spare_batteries.append(clampf(float(charge), 0.0, 1.0))
 	_held_item_type = StringName(data.get("held_item", NO_ITEM))
 	weapon.pistol_ammo = clampi(int(data.get("pistol_ammo", 0)), 0, 240)
 	weapon.rifle_magazines.clear()
@@ -1433,26 +1154,7 @@ func apply_inventory_snapshot(data: Dictionary) -> void:
 
 
 func toggle_flashlight_authoritative() -> bool:
-	if $ItemDrag.is_heavy_carrying(): return false
-	if survival.dead or is_carrying_corpse() or is_driving() or _battery_action_busy:
-		return false
-	if not multiplayer.is_server() or not _has_flashlight or is_bunk_busy():
-		return false
-	if weapon_light_mounted:
-		_flashlight_enabled = not _flashlight_enabled and _battery_charge > 0.0 and not _flashlight_malfunctioning
-	elif _held_item_type in [&"m4a1", &"flamethrower"]:
-		_show_pocket_light_notice.rpc_id(owner_peer_id)
-		return false
-	else:
-		if _held_item_type in [NO_ITEM, FLASHLIGHT_ITEM]:
-			_held_item_type = NO_ITEM if _held_item_type == FLASHLIGHT_ITEM else FLASHLIGHT_ITEM
-			_handheld_flashlight_drawn = false
-		else:
-			_handheld_flashlight_drawn = not _handheld_flashlight_drawn
-		_flashlight_enabled = is_handheld_flashlight_drawn() and _battery_charge > 0.0 and not _flashlight_malfunctioning
-	player_audio.play_cue.rpc(&"flashlight_on" if _flashlight_enabled else &"flashlight_off")
-	_publish_inventory()
-	return true
+	return INVENTORY_ACTIONS.toggle_flashlight_authoritative(self)
 
 
 func request_inventory_action(action: StringName) -> void:
@@ -1541,98 +1243,11 @@ func _play_battery_action() -> void:
 
 
 func perform_inventory_action_authoritative(action: StringName) -> bool:
-	if is_climbing(): return false
-	if handoff.is_offering() or $ItemDrag.is_heavy_carrying(): return false
-	if is_driving() or is_carrying_corpse():
-		return false
-	if survival.dead:
-		return false
-	if not multiplayer.is_server() or is_bunk_busy():
-		return false
-	if String(action).begins_with("drop_part:"):
-		var type := StringName(String(action).trim_prefix("drop_part:"))
-		if not CRAFT_RECIPE.pickup_scenes.has(type) or int(crafting_parts.get(type,0)) <= 0: return false
-		crafting_parts[type] = int(crafting_parts[type]) - 1
-		spawn_dropped_item_authoritative(type,{})
-		_publish_inventory()
-		return true
-	match action:
-		&"refuel_flamethrower":
-			return weapon.flame.refuel_authoritative()
-		&"mount_light":
-			if tape_count <= 0 or not _has_flashlight or weapon_light_mounted or _held_item_type != &"m4a1":
-				return false
-			tape_count -= 1
-			weapon_light_mounted = true
-			_handheld_flashlight_drawn = false
-			_flashlight_enabled = _battery_charge > 0.0 and not _flashlight_malfunctioning
-		&"detach_light":
-			if not weapon_light_mounted:
-				return false
-			weapon_light_mounted = false
-			_flashlight_enabled = false
-		&"drop_crowbar":
-			if crowbar_uses <= 0:
-				return false
-			spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses})
-			crowbar_uses = 0
-		&"drop_tape":
-			if tape_count <= 0:
-				return false
-			spawn_dropped_item_authoritative(&"tape", {})
-			tape_count -= 1
-		&"drop_hand_item":
-			return drop_current_item_authoritative()
-		&"replace_battery":
-			if not _has_flashlight or _spare_batteries.is_empty():
-				return false
-			# Choose the fullest cell; replacing never reduces the current charge.
-			var best_charge: float = _spare_batteries.max()
-			if best_charge <= _battery_charge:
-				return false
-			_spare_batteries.erase(best_charge)
-			if _battery_charge > 0.0:
-				_spare_batteries.append(_battery_charge)
-			_battery_charge = best_charge
-			_flashlight_enabled = (is_handheld_flashlight_drawn() or weapon_light_mounted) and not _flashlight_malfunctioning
-		&"shake_flashlight":
-			return shake_flashlight_authoritative()
-		&"drop_battery":
-			if _spare_batteries.is_empty():
-				return false
-			spawn_dropped_item_authoritative(BATTERY_ITEM, {"charge_amount": _spare_batteries.pop_back()})
-		&"drop_flashlight":
-			if not _has_flashlight:
-				return false
-			spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning})
-			_has_flashlight = false
-			_handheld_flashlight_drawn = false
-			weapon_light_mounted = false
-			_battery_charge = 0.0
-			_flashlight_enabled = false
-			_flashlight_malfunctioning = false
-			if _held_item_type == FLASHLIGHT_ITEM:
-				_held_item_type = NO_ITEM
-		_:
-			return false
-	_publish_inventory()
-	return true
+	return INVENTORY_ACTIONS.perform_inventory_action_authoritative(self, action)
 
 
 func get_held_item_state() -> Dictionary:
-	if _held_item_type == &"flamethrower":
-		return {"fuel_liters":weapon.flame.fuel_liters}
-	if _held_item_type == FUEL_ITEM:
-		return {"fuel_liters": fuel_liters}
-	if WeaponController.TYPES.has(_held_item_type):
-		var state := {"rounds": weapon.rounds}
-		if weapon_light_mounted:
-			state["mounted_charge"] = _battery_charge
-			state["mounted_malfunctioning"] = _flashlight_malfunctioning
-		return state
-	if _held_item_type == FLASHLIGHT_ITEM:
-		return {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning}
-	return {}
+	return INVENTORY_ACTIONS.get_held_item_state(self)
 
 
 @rpc("authority", "call_local", "reliable")
@@ -1648,80 +1263,26 @@ func play_crowbar_action() -> void:
 
 
 func get_held_item_drop_transform() -> Transform3D:
-	var forward := -head.global_basis.z.normalized()
-	var start := head.global_position
-	var desired := start + forward * 0.7 + Vector3.DOWN * 0.35
-	# Sweep a conservative item volume, not a ray: never spawn beyond a wall
-	# or beneath the floor when looking down next to a surface.
-	var shape := SphereShape3D.new()
-	shape.radius = 0.3
-	var query := PhysicsShapeQueryParameters3D.new()
-	query.shape = shape
-	query.transform = Transform3D(Basis.IDENTITY, start)
-	query.motion = desired - start
-	query.collision_mask = 1
-	query.exclude = [get_rid()]
-	var fractions := get_world_3d().direct_space_state.cast_motion(query)
-	if fractions.size() > 0:
-		desired = start + query.motion * maxf(fractions[0] - 0.03, 0.0)
-	return Transform3D(
-		head.global_basis.orthonormalized(),
-		desired
-	)
+	return INVENTORY_ACTIONS.get_held_item_drop_transform(self)
 
 
 func get_held_item_drop_linear_velocity() -> Vector3:
-	return velocity + -head.global_basis.z.normalized() * 1.1
+	return INVENTORY_ACTIONS.get_held_item_drop_linear_velocity(self)
 
 
 func drop_current_item_authoritative() -> bool:
-	if is_climbing(): return false
-	if $ItemDrag.is_heavy_carrying(): return false
-	if is_carrying_corpse():
-		return carried_corpse.drop_from_shoulder(owner_peer_id)
-	if survival.dead:
-		return false
-	return drop_current_item_at_authoritative(
-		get_held_item_drop_transform(),
-		get_held_item_drop_linear_velocity()
-	)
+	return INVENTORY_ACTIONS.drop_current_item_authoritative(self)
 
 
 func drop_current_item_at_authoritative(
 	drop_transform: Transform3D,
 	drop_velocity: Vector3 = Vector3.ZERO
 ) -> bool:
-	if not multiplayer.is_server() or _held_item_type == NO_ITEM:
-		return false
-
-	var safe: Variant=ItemDropPlacement.find_pose(self,get_item_pickup_scene(_held_item_type),_held_item_type,drop_transform)
-	if safe==null: return false
-	drop_transform=safe
-	handoff.cancel_authoritative()
-	var released := release_held_item_authoritative()
-	spawn_dropped_item_authoritative(released.type, released.state, drop_transform, drop_velocity)
-	return true
+	return INVENTORY_ACTIONS.drop_current_item_at_authoritative(self, drop_transform, drop_velocity)
 
 
 func release_held_item_authoritative() -> Dictionary:
-	if not multiplayer.is_server() or _held_item_type == NO_ITEM: return {}
-	var dropped_item_type := _held_item_type
-	var dropped_item_state := get_held_item_state()
-	var keep_handheld := is_offhand_flashlight_drawn()
-	_held_item_type = NO_ITEM
-	if dropped_item_type == FLASHLIGHT_ITEM or weapon_light_mounted:
-		weapon_light_mounted = false
-		_has_flashlight = false
-		_battery_charge = 0.0
-	_handheld_flashlight_drawn = false
-	if keep_handheld:
-		_held_item_type = FLASHLIGHT_ITEM
-	else:
-		_flashlight_enabled = false
-		if not _has_flashlight:
-			_flashlight_malfunctioning = false
-	_publish_inventory()
-	return {"type": dropped_item_type, "state": dropped_item_state}
+	return INVENTORY_ACTIONS.release_held_item_authoritative(self)
 
 
 func has_held_item(item_type: StringName) -> bool:
@@ -1729,62 +1290,15 @@ func has_held_item(item_type: StringName) -> bool:
 
 
 func drop_all_items_at_authoritative(drop_transform: Transform3D) -> void:
-	if not multiplayer.is_server():
-		return
-	handoff.cancel_authoritative()
-	drop_current_item_at_authoritative(drop_transform)
-	if crowbar_uses > 0:
-		spawn_dropped_item_authoritative(&"crowbar", {"uses": crowbar_uses}, drop_transform, Vector3.ZERO)
-	for type in crafting_parts:
-		for index in int(crafting_parts[type]): spawn_dropped_item_authoritative(type,{},drop_transform,Vector3.ZERO)
-	crafting_parts.clear()
-	for index in tape_count:
-		spawn_dropped_item_authoritative(&"tape", {}, drop_transform, Vector3.ZERO)
-	crowbar_uses = 0
-	tape_count = 0
-	if _has_flashlight:
-		spawn_dropped_item_authoritative(FLASHLIGHT_ITEM, {"battery_charge": _battery_charge, "malfunctioning": _flashlight_malfunctioning}, drop_transform, Vector3.ZERO)
-	for charge in _spare_batteries:
-		spawn_dropped_item_authoritative(BATTERY_ITEM, {"charge_amount": charge}, drop_transform, Vector3.ZERO)
-	_has_flashlight = false
-	_handheld_flashlight_drawn = false
-	_battery_charge = 0.0
-	_spare_batteries.clear()
-	_publish_inventory()
-	if weapon.pistol_ammo > 0:
-		spawn_dropped_item_authoritative(&"pistol_ammo", {"amount": weapon.pistol_ammo}, drop_transform, Vector3.ZERO)
-	for magazine: int in weapon.rifle_magazines:
-		spawn_dropped_item_authoritative(&"rifle_magazine", {"rounds": magazine}, drop_transform, Vector3.ZERO)
-	weapon.pistol_ammo = 0
-	weapon.rifle_magazines.clear()
-	_publish_inventory()
+	INVENTORY_ACTIONS.drop_all_items_at_authoritative(self, drop_transform)
 
 
 func consume_held_item_authoritative(item_type: StringName) -> bool:
-	if not multiplayer.is_server() or _held_item_type != item_type:
-		return false
-	_held_item_type = FLASHLIGHT_ITEM if is_offhand_flashlight_drawn() else NO_ITEM
-	_handheld_flashlight_drawn = false
-	_publish_inventory()
-	return true
+	return INVENTORY_ACTIONS.consume_held_item_authoritative(self, item_type)
 
 
 func get_item_pickup_scene(item_type: StringName) -> PackedScene:
-	return (
-		FLASHLIGHT_PICKUP_SCENE
-		if item_type == FLASHLIGHT_ITEM
-		else FUSE_PICKUP_SCENE
-		if item_type == FUSE_ITEM
-		else SEED_PICKUP_SCENE if item_type == SEED_ITEM
-		else BATTERY_PICKUP_SCENE if item_type == BATTERY_ITEM
-		else FUEL_PICKUP_SCENE if item_type == FUEL_ITEM
-		else load(CRAFT_RECIPE.pickup_scenes[item_type]) if CRAFT_RECIPE.pickup_scenes.has(item_type)
-		else preload("res://scenes/objects/crafting/flamethrower_pickup.tscn") if item_type == &"flamethrower"
-		else preload("res://scenes/objects/items/tool_pickup.tscn") if item_type in [&"tape", &"crowbar"]
-		else preload("res://scenes/objects/items/pistol_pickup.tscn") if item_type==&"pistol"
-		else preload("res://scenes/objects/items/m4a1_pickup.tscn") if item_type==&"m4a1"
-		else preload("res://scenes/objects/items/weapon_pickup.tscn") if WeaponController.TYPES.has(item_type) or item_type in [&"pistol_ammo", &"rifle_magazine"] else null
-	)
+	return INVENTORY_ACTIONS.get_item_pickup_scene(self, item_type)
 
 
 func spawn_dropped_item_authoritative(
@@ -1793,73 +1307,11 @@ func spawn_dropped_item_authoritative(
 	drop_transform_override: Variant = null,
 	linear_velocity_override: Variant = null
 ) -> void:
-	if not multiplayer.is_server():
-		return
-
-	var drop_transform := get_held_item_drop_transform()
-	if drop_transform_override is Transform3D:
-		drop_transform = drop_transform_override as Transform3D
-	var safe: Variant=ItemDropPlacement.find_pose(self,get_item_pickup_scene(item_type),item_type,drop_transform)
-	if safe==null: return
-	drop_transform=safe
-	var drop_velocity := get_held_item_drop_linear_velocity()
-	if linear_velocity_override is Vector3:
-		drop_velocity = linear_velocity_override as Vector3
-	var controller := get_tree().get_first_node_in_group(
-		"network_gameplay_controller"
-	)
-	if controller != null and controller.has_method("spawn_dropped_item"):
-		controller.call(
-			"spawn_dropped_item",
-			item_type,
-			{
-				"item_state": item_state.duplicate(true),
-				"transform": drop_transform,
-				"linear_velocity": drop_velocity,
-				"angular_velocity": Vector3(1.4, 0.8, -1.1),
-			}
-		)
-		return
-
-	var pickup_scene := get_item_pickup_scene(item_type)
-	if pickup_scene == null or get_tree().current_scene == null:
-		return
-	var pickup := pickup_scene.instantiate() as WorldItemPickup
-	pickup.setup_spawn({
-		"item_type": item_type,
-		"item_state": item_state,
-		"transform": get_tree().current_scene.global_transform.affine_inverse()*drop_transform,
-		"linear_velocity": drop_velocity,
-		"angular_velocity": Vector3(1.4, 0.8, -1.1),
-	})
-	get_tree().current_scene.add_child(pickup)
-	pickup.global_transform = drop_transform
+	INVENTORY_ACTIONS.spawn_dropped_item_authoritative(self, item_type, item_state, drop_transform_override, linear_velocity_override)
 
 
 func update_authoritative_flashlight_battery(delta: float) -> void:
-	if (
-		not multiplayer.is_server()
-		or not _has_flashlight
-		or not _flashlight_enabled
-		or _battery_charge <= 0.0
-	):
-		return
-
-	# A stowed light (journal, sleep, two-hand reload) does not spend charge.
-	if _journal_phase > 0 or is_bunk_busy() or survival.dead or is_driving() or is_carrying_corpse():
-		return
-	var light_working := weapon._mounted_beam.is_visible_in_tree() if weapon_light_mounted else flashlight.is_enabled
-	if not light_working and get_tree().get_first_node_in_group("wiring_ui") == null:
-		return
-	_battery_charge = maxf(
-		_battery_charge - delta / maxf(battery_duration_seconds, 1.0),
-		0.0
-	)
-	flashlight.set_battery_charge(_battery_charge, false)
-	update_battery_ui()
-	if _battery_charge <= 0.0:
-		_flashlight_enabled = false
-		_publish_inventory()
+	INVENTORY_ACTIONS.update_authoritative_flashlight_battery(self, delta)
 
 
 @rpc("authority", "call_local", "reliable", 2)
@@ -1887,28 +1339,7 @@ func _receive_held_item_inventory(
 
 
 func send_snapshot_if_due(delta: float) -> void:
-	_snapshot_send_accumulator += delta
-	var interval := 1.0 / SNAPSHOT_SEND_RATE
-	if _snapshot_send_accumulator < interval:
-		return
-
-	_snapshot_send_accumulator = fmod(_snapshot_send_accumulator, interval)
-	_receive_authoritative_state.rpc(
-		position,
-		velocity,
-		rotation.y,
-		head.rotation.x,
-		_is_crouching,
-		_held_item_type,
-		_has_flashlight,
-		_battery_charge,
-		_flashlight_enabled,
-		_flashlight_malfunctioning,
-		_server_last_sequence,
-		get_inventory_snapshot(),
-		Vector3(_sprint_remaining, 1.0 if _sprint_exhausted else 0.0, 1.0 if _sprint_active else 0.0),
-		{"grounded":is_on_floor(),"journal_phase":_journal_phase,"journal_map":_journal_map,"journal_loupe":_journal_loupe,"variant":character_variant_id,"aiming":_aiming,"ladder":str($LadderClimb.route.get_path()) if is_climbing() else "","ladder_revision":$LadderClimb.revision,"ladder_blocked":$LadderClimb.exit_blocked}
-	)
+	_replication.send_if_due(self, delta)
 
 
 @rpc("authority", "call_remote", "unreliable_ordered", 1)
@@ -1928,78 +1359,31 @@ func _receive_authoritative_state(
 	server_sprint_state: Vector3 = Vector3(-1.0, 0.0, 0.0),
 	server_animation: Dictionary = {}
 ) -> void:
-	_remote_grounded = bool(server_animation.get("grounded",_remote_grounded))
-	$LadderClimb.exit_blocked=bool(server_animation.get("ladder_blocked",false))
-	$LadderClimb.sync(str(server_animation.get("ladder","")),int(server_animation.get("ladder_revision",0)))
-	_journal_phase = int(server_animation.get("journal_phase",_journal_phase))
-	_journal_map = bool(server_animation.get("journal_map",_journal_map))
-	_journal_loupe = bool(server_animation.get("journal_loupe",_journal_loupe))
-	if not is_local_player(): _aiming=bool(server_animation.get("aiming",false))
-	if server_sprint_state.x >= 0.0:
-		_sprint_remaining = clampf(server_sprint_state.x, 0.0, sprint_duration)
-		_sprint_exhausted = server_sprint_state.y > 0.5
-		_sprint_active = server_sprint_state.z > 0.5
-	if not server_inventory.is_empty():
-		apply_inventory_snapshot(server_inventory)
-	else:
-		apply_inventory_snapshot({
-			"held_item": server_held_item_type,
-			"has_flashlight": server_has_flashlight,
-			"battery_charge": server_battery_charge,
-			"flashlight_enabled": server_flashlight_enabled,
-			"malfunctioning": server_flashlight_malfunctioning,
-		})
-
-	if is_local_player():
-		var extrapolated_position := (
-			server_position
-			+ server_velocity * REMOTE_EXTRAPOLATION_SECONDS
-		)
-		var error := extrapolated_position - position
-		if error.length() >= hard_reconciliation_distance:
-			position = extrapolated_position
-			_reconciliation_offset = Vector3.ZERO
-		else:
-			_reconciliation_offset = error
-		velocity = velocity.lerp(server_velocity, 0.15)
-		return
-
-	_remote_target_position = server_position
-	_remote_target_velocity = server_velocity
-	_remote_target_yaw = server_yaw
-	_remote_target_pitch = server_pitch
-	_remote_crouching = server_crouching
-	_has_remote_snapshot = true
+	_replication.receive(
+		self,
+		server_position,
+		server_velocity,
+		server_yaw,
+		server_pitch,
+		server_crouching,
+		server_held_item_type,
+		server_has_flashlight,
+		server_battery_charge,
+		server_flashlight_enabled,
+		server_flashlight_malfunctioning,
+		_acknowledged_input,
+		server_inventory,
+		server_sprint_state,
+		server_animation
+	)
 
 
 func apply_reconciliation(delta: float) -> void:
-	if is_driving():
-		return
-	if _reconciliation_offset.is_zero_approx():
-		return
-
-	var weight := 1.0 - exp(-reconciliation_speed * delta)
-	var correction := _reconciliation_offset * weight
-	position += correction
-	_reconciliation_offset -= correction
+	_replication.reconcile(self, delta)
 
 
 func interpolate_remote_player(delta: float) -> void:
-	if not _has_remote_snapshot or is_bunk_busy() or is_driving():
-		return
-
-	var weight := 1.0 - exp(-remote_interpolation_speed * delta)
-	var extrapolated_position := (
-		_remote_target_position
-		+ _remote_target_velocity * REMOTE_EXTRAPOLATION_SECONDS
-	)
-	position = position.lerp(extrapolated_position, weight)
-	rotation.y = lerp_angle(rotation.y, _remote_target_yaw, weight)
-	head.rotation.x = lerp_angle(
-		head.rotation.x,
-		_remote_target_pitch,
-		weight
-	)
+	_replication.interpolate(self, delta)
 
 
 func apply_flashlight_inventory(
@@ -2049,24 +1433,15 @@ func is_wiring_view_active() -> bool:
 
 
 func _refresh_equipment_visuals() -> void:
-	if not _has_flashlight: _battery_flashlight_presentation = false
-	var journal_equipment_hidden: bool = is_climbing() or _journal_phase>0 or (is_local_player() and _is_journal_open()) or handoff.pocket_pose() or $ItemDrag.is_heavy_carrying()
-	flashlight.set_battery_charge(_battery_charge, false)
+	if not _equipment.has_flashlight: _battery_flashlight_presentation = false
+	var hidden: bool = is_climbing() or _journal_phase > 0 or (is_local_player() and _is_journal_open()) or handoff.pocket_pose() or $ItemDrag.is_heavy_carrying()
 	var hands_busy := survival.dead or is_bunk_busy() or is_driving() or is_carrying_corpse() or (weapon.reload_left > 0.0 and is_handheld_flashlight_drawn())
-	flashlight.set_equipped((is_handheld_flashlight_drawn() or _battery_flashlight_presentation) and not journal_equipment_hidden and not hands_busy)
-	if _flashlight_malfunctioning:
-		# The inventory owns the fault, even while the lamp is hidden or empty.
-		flashlight.is_malfunctioning = true
-		flashlight.set_enabled(false, false)
-	else:
-		if flashlight.is_malfunctioning:
-			flashlight.cancel_malfunction()
-		flashlight.set_enabled(_flashlight_enabled and not weapon_light_mounted and not is_wiring_view_active(), false)
-	held_seed_packet.visible = _held_item_type == SEED_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
-	held_fuse.visible = _held_item_type == FUSE_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
-	held_fuel_can.visible = _held_item_type == FUEL_ITEM and not journal_equipment_hidden and not _battery_flashlight_presentation
+	body_animator.refresh_equipment_visuals(self, _equipment, hidden, hands_busy, _battery_flashlight_presentation, is_wiring_view_active())
 	update_battery_ui()
 
+
+func clear_movement_correction() -> void:
+	_replication.correction_offset = Vector3.ZERO
 
 func _on_authoritative_flashlight_malfunction_started() -> void:
 	if not multiplayer.is_server():
@@ -2079,29 +1454,11 @@ func _on_authoritative_flashlight_malfunction_started() -> void:
 
 
 func needs_flashlight_shake() -> bool:
-	return (
-		_has_flashlight and _flashlight_malfunctioning and _battery_charge > 0.0
-		and (is_handheld_flashlight_drawn() or weapon_light_mounted)
-		and not _battery_action_busy and not survival.dead and not is_bunk_busy()
-		and not is_driving() and not is_carrying_corpse() and weapon.reload_left <= 0.0
-	)
+	return INVENTORY_ACTIONS.needs_flashlight_shake(self)
 
 
 func shake_flashlight_authoritative() -> bool:
-	if not multiplayer.is_server() or not needs_flashlight_shake():
-		return false
-	var now := Time.get_ticks_msec()
-	if now - _last_flashlight_shake_msec < 120:
-		return false
-	_last_flashlight_shake_msec = now
-	_flashlight_shake_presses += 1
-	if _flashlight_shake_presses >= FLASHLIGHT_SHAKE_PRESSES:
-		_flashlight_malfunctioning = false
-		_flashlight_shake_presses = 0
-		_flashlight_enabled = true
-		player_audio.play_cue.rpc(&"flashlight_on")
-	_publish_inventory()
-	return true
+	return INVENTORY_ACTIONS.shake_flashlight_authoritative(self)
 
 
 func update_battery_ui() -> void:

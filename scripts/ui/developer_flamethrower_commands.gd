@@ -21,8 +21,7 @@ static func description(command: String) -> String:
 static func add_parts(player: GamePlayer, amounts: Dictionary, multiplier:=1) -> void:
 	for kind in amounts:
 		var count:=int(amounts[kind])*multiplier
-		if kind==&"tape":player.tape_count+=count
-		else:player.crafting_parts[kind]=int(player.crafting_parts.get(kind,0))+count
+		player.add_crafting_supply_authoritative(kind, count)
 	player._publish_inventory()
 static func execute(args: PackedStringArray, player: GamePlayer) -> String:
 	if not player.multiplayer.is_server():return "Команда должна выполняться на сервере."
@@ -54,7 +53,8 @@ static func execute(args: PackedStringArray, player: GamePlayer) -> String:
 					if count>0:missing.append("%s ×%d"%[RECIPE.titles[kind],count])
 				return "Не хватает: "+", ".join(missing)+". /flame parts — выдать набор."
 			if not player.pickup_world_item_authoritative(&"flamethrower",{}):return "Не удалось выдать огнемёт; детали сохранены."
-			add_parts(player,RECIPE.requirements,-1)
+			player.consume_crafting_supplies(RECIPE.requirements)
+			player._publish_inventory()
 			return "Огнемёт собран из деталей. Тестовая сборка не расходует сюжетный лимит."
 		"disassemble":
 			if args.size()!=2:return "Использование: /flame disassemble"

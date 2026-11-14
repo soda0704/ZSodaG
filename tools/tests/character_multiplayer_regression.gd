@@ -187,6 +187,10 @@ func finish(code: int) -> void:
 	get_tree().quit(code)
 
 func run() -> void:
+	if DisplayServer.get_name() == "headless" and not OS.get_cmdline_user_args().has("--offhand-only"):
+		push_error("Character input regression requires graphical windows and captured mouse; use a graphical two-process run.")
+		get_tree().quit(1)
+		return
 	Engine.max_fps=60
 	root.size = Vector2i(1280,720)
 	for arg in OS.get_cmdline_user_args():
@@ -255,6 +259,9 @@ func run() -> void:
 	equip(&"flashlight")
 	set_stage.rpc("torch")
 	await delay(0.9)
+	for actor: GamePlayer in actors:
+		check(actor.pickup_world_item_authoritative(&"journal", {}), "journal fixture uses the authoritative pickup for player %s" % actor.owner_peer_id)
+	await delay(0.25)
 	set_stage.rpc("journal")
 	await delay(3.7)
 	set_stage.rpc("death_client")

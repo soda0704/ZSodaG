@@ -1,7 +1,8 @@
 class_name AudioMixController
 extends Node
 
-const VOLUME_BUSES := {"EffectsVolume": "Effects", "WeaponsVolume": "Weapons", "VehiclesVolume": "Vehicles", "MachineryVolume": "Machinery", "AmbienceVolume": "Ambience", "BreathingVolume": "Breathing"}
+const VOLUME_BUSES := {"MasterVolume": "Master", "MusicVolume": "Music", "EffectsVolume": "Effects", "WeaponsVolume": "Weapons", "VehiclesVolume": "Vehicles", "MachineryVolume": "Machinery", "AmbienceVolume": "Ambience", "BreathingVolume": "Breathing"}
+const DEFAULT_VOLUMES := {"MasterVolume": 80.0, "MusicVolume": 70.0}
 @export var indoor_reverb_wet := 0.12
 @export var outdoor_cutoff_hz := 10000.0
 @export var indoor_cutoff_hz := 18000.0
@@ -28,7 +29,7 @@ func apply_settings(data: Dictionary) -> void:
 		for name in buses:
 			var bus := AudioServer.get_bus_index(name)
 			if bus < 0: continue
-			var percent := clampf(float(data.get(key, 100.0)), 0.0, 100.0)
+			var percent := clampf(float(data.get(key, DEFAULT_VOLUMES.get(key, 100.0))), 0.0, 100.0)
 			AudioServer.set_bus_mute(bus, percent <= 0.0)
 			AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(percent / 100.0, 0.0001)))
 	room_amount = clampf(float(data.get("RoomReverb", 50.0)) / 100.0, 0.0, 1.0)

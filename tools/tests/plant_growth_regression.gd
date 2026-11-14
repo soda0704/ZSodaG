@@ -20,7 +20,11 @@ func fixture(day: int, planted: bool, stage: int, dead: bool = false) -> void:
 	state._broadcast_snapshot(snapshot)
 
 func sleep_once() -> bool:
-	return state.set_end_day_ready_authoritative(1, true) and state.set_peer_sleeping_authoritative(1, true) and state.advance_day_authoritative()
+	if not (state.set_end_day_ready_authoritative(1, true) and state.set_peer_sleeping_authoritative(1, true) and state.advance_day_authoritative()):
+		return false
+	# Day progression owns the morning write; advance_day only changes state.
+	# Fixtures deliberately revisit earlier days inside this isolated save root.
+	return state.save_progress_authoritative(false, "sleep", "Утро тестового дня", true)
 
 func visible_stages(kind: String) -> Array[int]:
 	var result: Array[int] = []
@@ -73,7 +77,7 @@ func run() -> void:
 		check(visible_stages("Live") == [expected] and visible_stages("Dead").is_empty(), "native scene selects only live stage %d" % expected)
 		check(not container.get_node("PlantedSeed").visible, "sprout replaces planting seed at stage %d" % expected)
 	check(state.day_index == 8 and state.plant_growth_stage == 7, "day one sowing reaches full growth on day eight")
-	check(state.load_saved_snapshot().plant_growth_stage == 7, "growth is persisted in host save")
+	check(int(state.load_saved_snapshot().get("plant_growth_stage", -1)) == 7, "growth is persisted in host save")
 	base.queue_free()
 	await process_frame
 	await boot()
@@ -87,7 +91,7 @@ func run() -> void:
 		await visit()
 		check(not state.water_plant_authoritative(1) and button.get_interaction_hint_for(player).is_empty(), "withered stage %d cannot be revived by watering" % stage)
 		check(sleep_once() and state.plant_withered, "further sleep cannot revive stage %d" % stage)
-	check(state.load_saved_snapshot().plant_withered, "withered state persisted")
+	check(bool(state.load_saved_snapshot().get("plant_withered", false)), "withered state persisted")
 	fixture(9, true, 0)
 	await visit()
 	check(state.water_plant_authoritative(1) and sleep_once() and state.plant_growth_stage == 1, "late planting ages from planting, not calendar day")
@@ -129,4 +133,5 @@ func run() -> void:
 	base.queue_free()
 	await process_frame
 	print("PLANT GROWTH CHECKS ",checks," FAILURES ",failures)
+	await create_timer(.3).timeout
 	quit(1 if failures else 0)

@@ -1,0 +1,42 @@
+{
+  "scope": "Verified unused navigation code and redundant Blender autosaves only",
+  "local_recovery": "tools/.local/refactor-2026-11-14/removed/",
+  "deleted_files": [
+    {
+      "path": "scripts/ui/menu_navigation.gd",
+      "bytes": 1924,
+      "sha256": "9adbe6902bc1311a883a6ba7257274feeff6ea2ae794e0982eb9e2a6993158a3",
+      "reason": "No path, UID, class or engine resource dependency points to the obsolete navigation script; active menus use menu_button and settings marker."
+    },
+    {
+      "path": "scripts/ui/menu_navigation.gd.uid",
+      "bytes": 19,
+      "sha256": "b019f0fd25ebcfb2d006cd4eafbef37df7b8722f76171753ddd7c2d9e9c1acfe",
+      "reason": "No path, UID, class or engine resource dependency points to the obsolete navigation script; active menus use menu_button and settings marker."
+    },
+    {
+      "path": "blender/arctic_base_rebuild/arctic_base_rebuild.blend1",
+      "bytes": 15669760,
+      "sha256": "97cdd32281e53720f50880a9d4a1e2303137cca5516cc2dae3eabbd641bc0e06",
+      "reason": "Blender automatic backup; corresponding newer .blend exists; no authoring script or game resource references the .blend1."
+    },
+    {
+      "path": "blender/polar_location/polar_location.blend1",
+      "bytes": 526827,
+      "sha256": "46563db971494deb1018c2198406c46c1b81c4ccb2d11b93536fd0d18febfc4d",
+      "reason": "Blender automatic backup; corresponding newer .blend exists; no authoring script or game resource references the .blend1."
+    },
+    {
+      "path": "blender/stream_bend/stream_bend.blend1",
+      "bytes": 136944,
+      "sha256": "bb140ae7e42e8b1cc07186d60c51d13ae95a04bbb0d3831a2668600a617b80fa",
+      "reason": "Blender automatic backup; corresponding newer .blend exists; no authoring script or game resource references the .blend1."
+    },
+    {
+      "path": "blender/stream_bend/stream_bend_refined.blend1",
+      "bytes": 410341,
+      "sha256": "3c4d1b9947bb15aa0e10b0d75e2bfd46822d1ff059e5526de927db93cdb197e8",
+      "reason": "Blender automatic backup; corresponding newer .blend exists; no authoring script or game resource references the .blend1."
+    }
+  ]
+}

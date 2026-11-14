@@ -46,7 +46,6 @@ folder_colors={
 "res://scenes/art/elevator/": "red",
 "res://scenes/levels/": "red",
 "res://scenes/objects/elevator/": "red",
-"res://scenes/tests/": "red",
 "res://scripts/gameplay/elevator/": "red"
 }
 

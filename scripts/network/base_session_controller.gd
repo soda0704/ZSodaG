@@ -1,5 +1,15 @@
 extends Node3D
 
+const LEVEL_LOAD_JOB = preload("res://scripts/network/level_load_job.gd")
+var _level_load_job: LEVEL_LOAD_JOB
+
+
+func _exit_tree() -> void:
+	if _level_load_job != null:
+		_level_load_job.cancel()
+		_level_load_job = null
+
+
 const PLAYER_SCENE := preload(
 	"res://scenes/characters/player.tscn"
 )
@@ -234,6 +244,10 @@ func start_standalone_game() -> void:
 
 func is_waiting_for_arrival() -> bool:
 	return uses_staging_lobby and not _entered_v3_level and not _v3_transition_in_progress
+
+
+func is_loading_world() -> bool:
+	return _v3_transition_in_progress
 
 
 func is_solo_arrival() -> bool:
@@ -523,6 +537,8 @@ func _enter_v3_level() -> void:
 	if _entered_v3_level or _v3_transition_in_progress:
 		return
 	_v3_transition_in_progress = true
+	var construction := LEVEL_LOAD_JOB.new()
+	_level_load_job = construction
 	# Restored doses, death countdowns and cabin poses must not advance while
 	# the player is still behind the loading cover. Rendering stays active.
 	for player in players.get_children():
@@ -540,21 +556,12 @@ func _enter_v3_level() -> void:
 	)
 	preload("res://scripts/network/level_load_job.gd").trace("cover_end")
 	await GameMenu.release_scene_load_cover()
+	if not is_inside_tree() or construction.cancelled: return
 	await get_tree().create_timer(0.8).timeout
+	if not is_inside_tree() or construction.cancelled: return
 
-	var packed_level: PackedScene
-	if DisplayServer.get_name() == "headless":
-		# The dummy renderer's resource RID owners are not thread-safe. Keep
-		# loading serial too: dependencies can create materials and textures.
-		packed_level = load(V3_LEVEL_PATH) as PackedScene
-	else:
-		# Threaded IO keeps the visible transition UI and journal hint animating.
-		preload("res://scripts/network/level_load_job.gd").trace("request_begin")
-		ResourceLoader.load_threaded_request(V3_LEVEL_PATH)
-		preload("res://scripts/network/level_load_job.gd").trace("request_end")
-		while ResourceLoader.load_threaded_get_status(V3_LEVEL_PATH) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-			await get_tree().process_frame
-		packed_level = ResourceLoader.load_threaded_get(V3_LEVEL_PATH) as PackedScene
+	var packed_level := await construction.request_scene(V3_LEVEL_PATH, get_tree())
+	if not is_inside_tree() or construction.cancelled: return
 	if packed_level == null:
 		push_error("Could not load V3 level: %s" % V3_LEVEL_PATH)
 		_entered_v3_level = false
@@ -563,9 +570,9 @@ func _enter_v3_level() -> void:
 		lobby_hud.reveal_transition_cover(transition_id)
 		return
 
-	var construction := preload("res://scripts/network/level_load_job.gd").new()
 	construction.trace("construct_begin")
 	var v3_level := await construction.instantiate(packed_level, get_tree()) as BaseBlockoutRuntime
+	if not is_inside_tree() or construction.cancelled: return
 	construction.trace("construct_end")
 	if v3_level == null:
 		push_error("V3 root must use BaseBlockoutRuntime")
@@ -605,16 +612,20 @@ func _enter_v3_level() -> void:
 			"sleeping": body.sleeping})
 		body.freeze = true
 	await get_tree().process_frame
+	if not is_inside_tree() or construction.cancelled: return
 	construction.trace("terrain_begin")
 	if not await exterior.finish_loading():
-		GameMenu.return_to_main_menu.call_deferred("Не удалось загрузить рельеф базы.", false)
+		GameMenu.abort_scene_load.call_deferred("Не удалось загрузить рельеф базы.")
 		return
 	v3_level.get_node("WorldLighting").refresh_exterior_layers()
 	construction.trace("terrain_end")
 	await construction.finish_loading(get_tree())
+	if not is_inside_tree() or construction.cancelled: return
 	construction.trace("collision_end")
 	await get_tree().physics_frame
+	if not is_inside_tree() or construction.cancelled: return
 	await get_tree().physics_frame
+	if not is_inside_tree() or construction.cancelled: return
 	v3_level.process_mode = level_process_mode
 	for entry in collision_modes:
 		var object: CollisionObject3D = entry.object
@@ -658,7 +669,9 @@ func _enter_v3_level() -> void:
 	# Let the authored terrain and CSG collision enter the physics world before
 	# moving players away from the staging cabin.
 	await get_tree().physics_frame
+	if not is_inside_tree() or construction.cancelled: return
 	await get_tree().physics_frame
+	if not is_inside_tree() or construction.cancelled: return
 	if multiplayer.is_server():
 		for player in players.get_children():
 			if player.has_method("teleport_authoritative"):
@@ -676,6 +689,7 @@ func _enter_v3_level() -> void:
 	if arrival_cabin != null:
 		arrival_cabin.queue_free()
 		await get_tree().process_frame
+		if not is_inside_tree() or construction.cancelled: return
 	if multiplayer.is_server():
 		spawn_v3_world_items()
 	else:
@@ -684,21 +698,27 @@ func _enter_v3_level() -> void:
 		# while a slower host is still restoring its checkpoint.
 		while is_instance_valid(_base_gameplay_controller) and not _base_gameplay_controller.has_authoritative_snapshot:
 			await get_tree().process_frame
+			if not is_inside_tree() or construction.cancelled: return
 		if not is_instance_valid(_base_gameplay_controller): return
 	# The final camera, physics bodies and restored loot must exist before warming
 	# lighting. Keep the cover up until actual frames have settled on this machine.
 	await get_tree().process_frame
+	if not is_inside_tree() or construction.cancelled: return
 	var arrival_camera := get_viewport().get_camera_3d()
 	if arrival_camera != null:
 		await indirect.finish_loading(arrival_camera.global_position.y)
+		if not is_inside_tree() or construction.cancelled: return
 	else:
 		await indirect.finish_loading(get_v3_spawn_position(0).y)
+		if not is_inside_tree() or construction.cancelled: return
 	await lobby_hud.wait_for_transition_ready(transition_id)
+	if not is_inside_tree() or construction.cancelled: return
 	await lobby_hud.reveal_transition_cover(transition_id)
+	if not is_inside_tree() or construction.cancelled: return
 	_v3_transition_in_progress = false
 	_resume_transition_players()
 	lobby_hud.refresh()
-
+	_level_load_job = null
 
 func get_v3_spawn_position(index: int) -> Vector3:
 	if _v3_spawn_positions.is_empty():

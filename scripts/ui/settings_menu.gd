@@ -1,5 +1,6 @@
 class_name NorthernSettingsMenu
 extends VBoxContainer
+const GRAPHICS_SETTINGS = preload("res://scripts/ui/graphics_quality.gd")
 
 signal back_requested
 const CATEGORIES := ["Экран", "Качество", "Звук", "Управление"]
@@ -66,7 +67,7 @@ func configure(menu: Node, owner_shell: NorthernMenuShell) -> void:
 	shell = owner_shell
 	controls = menu.get_node("ControlSettings")
 	draft = menu._settings_data.duplicate(true)
-	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").normalized(draft.get("Graphics", {}))
+	var graphics: Dictionary = GRAPHICS_SETTINGS.normalized(draft.get("Graphics", {}))
 	draft["Graphics"] = graphics
 	original_bindings = controls.current_bindings()
 	draft_bindings = original_bindings.duplicate(true)
@@ -148,19 +149,23 @@ func _build_navigation() -> void:
 func _mark_category(index: int) -> void:
 	for i in navigation.get_child_count():
 		navigation.get_child(i).set_pressed_no_signal(i == index)
-	_move_marker.call_deferred(index)
+	if _marker_target == INF:
+		_move_marker.call_deferred(index) # Wait only for the initial Container layout.
+	else:
+		_move_marker(index)
 
 func _move_marker(index: int) -> void:
 	if not is_inside_tree(): return
 	var tab: Button = navigation.get_child(index)
-	var target := tab.position.y + (tab.size.y - _category_marker.size.y) * 0.5
+	var target := navigation.position.y + tab.position.y + (tab.size.y - _category_marker.size.y) * 0.5
 	if is_equal_approx(target, _marker_target) and _marker_motion != null and _marker_motion.is_running(): return
+	var first_layout := _marker_target == INF
 	_marker_target = target
 	if _marker_motion != null and _marker_motion.is_valid(): _marker_motion.kill()
-	if NorthernMenuStyle.keyboard_navigation or NorthernMenuStyle.reduced_motion:
+	if first_layout or NorthernMenuStyle.keyboard_navigation or NorthernMenuStyle.reduced_motion or is_equal_approx(_category_marker.position.y, target):
 		_category_marker.position.y = target
 		return
-	_marker_motion = create_tween()
+	_marker_motion = create_tween().set_ignore_time_scale(true)
 	_marker_motion.tween_property(_category_marker, "position:y", target, NorthernMenuStyle.MARKER_SECONDS).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _request_category(index: int) -> void:
@@ -216,7 +221,7 @@ func select_category(index: int) -> void:
 		1:
 			var recommended_row := _row("Рекомендуемые настройки · цель 60 FPS")
 			var recommend_button := NorthernMenuStyle.button("Подобрать", func():
-				draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
+				draft.Graphics = GRAPHICS_SETTINGS.recommended()
 				draft.GraphicsCalibrationPending = true
 				select_category(1), 17)
 			recommend_button.theme_type_variation = &"MenuAction"
@@ -271,7 +276,7 @@ func _row(text: String, key: String = "") -> HBoxContainer:
 	return row
 
 func _get_value(key: String, graphics: bool) -> Variant:
-	if key == "Preset": return preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics)
+	if key == "Preset": return GRAPHICS_SETTINGS.preset_index(draft.Graphics)
 	return draft.Graphics.get(key, 0) if graphics else draft.get(key, 0)
 
 func _set_value(key: String, value: Variant, graphics: bool) -> void:
@@ -345,19 +350,19 @@ func _preset(index: int) -> void:
 	if index == 0:
 		return
 	var data: Dictionary = draft.Graphics.duplicate()
-	data.merge(preload("res://scripts/ui/graphics_quality.gd").PRESETS[index], true)
-	draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(data)
+	data.merge(GRAPHICS_SETTINGS.PRESETS[index], true)
+	draft.Graphics = GRAPHICS_SETTINGS.normalized(data)
 	select_category(category)
 
 func has_changes() -> bool:
 	if _persist_failed: return true
 	var applied: Dictionary = _menu._settings_data.duplicate(true)
-	var graphics: Dictionary = preload("res://scripts/ui/graphics_quality.gd").normalized(applied.get("Graphics", {}))
+	var graphics: Dictionary = GRAPHICS_SETTINGS.normalized(applied.get("Graphics", {}))
 	applied.Graphics = graphics
 	# Recommended/default values may be integers while normalization uses floats.
 	# Compare both sides in the same representation, including before Apply.
 	var pending := draft.duplicate(true)
-	pending.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(pending.get("Graphics", {}))
+	pending.Graphics = GRAPHICS_SETTINGS.normalized(pending.get("Graphics", {}))
 	return pending != applied or draft_bindings != original_bindings
 
 func _changed() -> void:
@@ -365,7 +370,7 @@ func _changed() -> void:
 		apply_button.disabled = not has_changes()
 	if rows != null:
 		var preset := rows.find_child("Preset", true, false) as OptionButton
-		if preset != null: preset.select(preload("res://scripts/ui/graphics_quality.gd").preset_index(draft.Graphics))
+		if preset != null: preset.select(GRAPHICS_SETTINGS.preset_index(draft.Graphics))
 		var resolution := rows.find_child("Resolution", true, false) as OptionButton
 		if resolution != null:
 			resolution.disabled = draft.get("WindowMode", "fullscreen") == "maximized"
@@ -378,7 +383,7 @@ func apply(show_notice: bool = true) -> bool:
 	if not binding_error.is_empty():
 		description.text = binding_error
 		return false
-	draft.Graphics = preload("res://scripts/ui/graphics_quality.gd").normalized(draft.get("Graphics", {}))
+	draft.Graphics = GRAPHICS_SETTINGS.normalized(draft.get("Graphics", {}))
 	var previous: Dictionary = _menu._settings_data
 	_menu._settings_data = draft.duplicate(true)
 	var settings_saved: bool = _menu.save_settings_data()
@@ -405,11 +410,11 @@ func reset_category() -> void:
 			for key in ["Resolution", "WindowMode", "Screen", "VSync", "ShowFPS", "ReduceMenuMotion"]:
 				draft[key] = defaults[key]
 			for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
-				draft.Graphics[key] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[key]
+				draft.Graphics[key] = GRAPHICS_SETTINGS.DEFAULTS[key]
 		1:
 			draft.GraphicsCalibrationPending = false
 			for spec in QUALITY:
-				draft.Graphics[spec[0]] = preload("res://scripts/ui/graphics_quality.gd").DEFAULTS[spec[0]]
+				draft.Graphics[spec[0]] = GRAPHICS_SETTINGS.DEFAULTS[spec[0]]
 		2:
 			for spec in AUDIO:
 				draft[spec[0]] = defaults[spec[0]]

@@ -9,6 +9,41 @@ var staged_csg: Dictionary = {}
 var collisions_ready := false
 var loaded_instance: Node
 var restore_started := false
+var cancelled := false
+var _pending_instances: Array[Node] = []
+
+
+func cancel() -> void:
+	if cancelled: return
+	cancelled = true
+	# Only detached construction roots belong to the job. Attached nodes belong
+	# to their scene and are released by the normal scene teardown.
+	for node in _pending_instances:
+		if is_instance_valid(node) and node.get_parent() == null and not node.is_inside_tree():
+			node.free()
+	_pending_instances.clear()
+	if is_instance_valid(loaded_instance) and loaded_instance.get_parent() == null and not loaded_instance.is_inside_tree():
+		loaded_instance.free()
+	loaded_instance = null
+	staged_csg.clear()
+
+
+func request_scene(path: String, tree: SceneTree) -> PackedScene:
+	if cancelled: return null
+	if DisplayServer.get_name() == "headless":
+		return load(path) as PackedScene
+	trace("request_begin")
+	if ResourceLoader.load_threaded_request(path, "PackedScene") != OK:
+		return null
+	trace("request_end")
+	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		await tree.process_frame
+	# Native IO cannot be cancelled. Even after scene exit, consume the finished
+	# request exactly once; an abandoned result must not outlive the job.
+	if ResourceLoader.load_threaded_get_status(path) != ResourceLoader.THREAD_LOAD_LOADED:
+		return null
+	var packed := ResourceLoader.load_threaded_get(path) as PackedScene
+	return null if cancelled else packed
 
 
 static func trace(label: String) -> void:
@@ -17,6 +52,7 @@ static func trace(label: String) -> void:
 
 
 func instantiate(packed: PackedScene, tree: SceneTree) -> Node:
+	if cancelled: return null
 	var plan: Resource = load(Plan.PLAN_PATH) if ResourceLoader.exists(Plan.PLAN_PATH) else null
 	if (
 		OS.has_feature("editor")
@@ -31,6 +67,7 @@ func instantiate(packed: PackedScene, tree: SceneTree) -> Node:
 		chunks = plan.get_meta("chunks", {})
 		signatures = plan.get_meta("signatures", {})
 	var instance = await construct(packed, tree)
+	if cancelled: return null
 	loaded_instance = instance
 	return instance
 
@@ -113,6 +150,7 @@ func collect_csg(instance: Node, path: String) -> void:
 
 
 func construct(packed: PackedScene, tree: SceneTree) -> Node:
+	if cancelled: return null
 	var path = packed.resource_path
 	if (
 		skeletons.has(path)
@@ -125,11 +163,15 @@ func construct(packed: PackedScene, tree: SceneTree) -> Node:
 		skeletons.erase(path)
 	if not skeletons.has(path):
 		var node = packed.instantiate()
+		_pending_instances.append(node)
 		collect_csg(node, path)
 		await tree.process_frame
+		if cancelled: return null
+		_pending_instances.erase(node)
 		return node
 	var skeleton: PackedScene = skeletons[path]
 	var instance = skeleton.instantiate()
+	_pending_instances.append(instance)
 	instance.scene_file_path = path
 	var state = packed.get_state()
 	var copies: Dictionary = {}
@@ -146,6 +188,7 @@ func construct(packed: PackedScene, tree: SceneTree) -> Node:
 			instance.free()
 			return null
 		var child = await construct(child_scene, tree)
+		if cancelled: return null
 		if child == null:
 			instance.free()
 			return null
@@ -171,6 +214,7 @@ func construct(packed: PackedScene, tree: SceneTree) -> Node:
 			var child_scene = state.get_node_instance(i)
 			if child_scene != null:
 				node = await construct(child_scene, tree)
+				if cancelled: return null
 			elif not state.get_node_type(i).is_empty():
 				node = ClassDB.instantiate(state.get_node_type(i))
 			if node == null or parent == null:
@@ -206,10 +250,13 @@ func construct(packed: PackedScene, tree: SceneTree) -> Node:
 		if not source.is_connected(signal_name, callable):
 			source.connect(signal_name, callable, state.get_connection_flags(i))
 	await tree.process_frame
+	if cancelled: return null
+	_pending_instances.erase(instance)
 	return instance
 
 
 func restore_csg(tree: SceneTree, instance: Node) -> void:
+	if cancelled: return
 	var count := 0
 	for body: StaticBody3D in instance.find_children("*", "StaticBody3D", true, false):
 		if not is_instance_valid(body):
@@ -219,21 +266,26 @@ func restore_csg(tree: SceneTree, instance: Node) -> void:
 		count += 1
 		if count % 24 == 0:
 			await tree.process_frame
+			if cancelled: return
 	count = 0
-	for node in staged_csg:
+	for node in staged_csg.keys():
 		if is_instance_valid(node):
 			node.use_collision = staged_csg[node]
 		count += 1
 		if count % 24 == 0:
 			await tree.process_frame
+			if cancelled: return
 	await tree.physics_frame
+	if cancelled: return
 	await tree.physics_frame
+	if cancelled: return
 	collisions_ready = true
 
 
 func finish_loading(tree: SceneTree) -> void:
+	if cancelled: return
 	if not restore_started:
 		restore_started = true
 		await restore_csg(tree, loaded_instance)
-	while not collisions_ready:
+	while not collisions_ready and not cancelled:
 		await tree.process_frame

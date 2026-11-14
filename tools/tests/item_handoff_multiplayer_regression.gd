@@ -11,8 +11,8 @@ func check(ok: bool, label: String) -> void:
 	checks += 1
 	if not ok: failures += 1
 	print("PASS " if ok else "FAIL ", label)
-func wait_until(test: Callable) -> bool:
-	var end := Time.get_ticks_msec() + 6000
+func wait_until(test: Callable, timeout_msec: int = 6000) -> bool:
+	var end := Time.get_ticks_msec() + timeout_msec
 	while Time.get_ticks_msec() < end:
 		if test.call(): return true
 		await get_tree().process_frame
@@ -59,7 +59,9 @@ func _process(_delta: float) -> void:
 		actors[guest_id].handoff._physics_process(0)
 
 func run_host() -> void:
-	check(await wait_until(func(): return ready_guest), "both native player scenes ready")
+	# Cold process startup includes native rendering and both character resources.
+	# Keep the shorter six-second limits on actual handoff transactions below.
+	check(await wait_until(func(): return ready_guest, 30000), "both native player scenes ready")
 	if not ready_guest: get_tree().quit(1); return
 	var giver: GamePlayer = actors[guest_id]
 	var receiver: GamePlayer = actors[1]

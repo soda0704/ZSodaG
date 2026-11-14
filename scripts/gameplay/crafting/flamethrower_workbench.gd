@@ -50,9 +50,7 @@ func craft_authoritative(actor: GamePlayer) -> bool:
 	if actor.global_position.distance_to(global_position) > interaction_distance or actor.get_interaction_target() != self: return false
 	if crafted_count() >= RECIPE.craft_limit or not RECIPE.can_craft(actor): return false
 	# No await between validation, consumption and award: concurrent E requests serialize on the host.
-	for type in RECIPE.requirements:
-		if type == &"tape": actor.tape_count -= int(RECIPE.requirements[type])
-		else: actor.crafting_parts[type] = int(actor.crafting_parts.get(type,0)) - int(RECIPE.requirements[type])
+	if not actor.consume_crafting_supplies(RECIPE.requirements): return false
 	var snapshot := state.get_snapshot()
 	snapshot.maintenance["flamethrower_crafting"] = {"crafted": crafted_count()+1}
 	state._broadcast_snapshot(snapshot,false)

@@ -30,6 +30,13 @@ func wait_ui() -> void:
 		if ready:break
 		await process_frame
 
+func backdrop_alpha(menu: Node, control: Control) -> float:
+	var shade: ColorRect = menu.shell.shade
+	var gradient: Gradient = shade.get_node("Atmosphere").texture.gradient
+	var center := control.get_global_rect().get_center()
+	var sample := clampf((center.x - shade.global_position.x) / maxf(shade.size.x, 1.0), 0.0, 1.0)
+	return 1.0 - (1.0 - shade.color.a) * (1.0 - gradient.sample(sample).a)
+
 func screenshot(label: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(OS.get_environment("NORTHERNLAB_EXPORT_CAPTURE_DIR").path_join(label + ".png"))
@@ -77,6 +84,8 @@ func run() -> void:
 	check(main.selector.choices.size()==2 and main.shell.top_rail.visible and main.shell.bottom_rail.visible and not main.shell.header.visible and main.shell.footer.get_node("CharacterBack").is_visible_in_tree(), "character screen keeps header/footer layout and Back without captions or a separate start button")
 	main.selector.choices[1].grab_focus()
 	await wait_ui()
+	if main.selector._highlighted != 1 or not main.selector._picking_ready:
+		print("CHARACTER FOCUS DIAGNOSTIC ready=", main.selector._picking_ready, " highlighted=", main.selector._highlighted, " models=", main.selector.models.size(), " focused=", main.selector.choices[1].has_focus(), " pointer_mode=", main.selector._pointer_mode)
 	check(main.selector._highlighted==1 and main.selector._picking_ready, "native focus highlights a character and body picking is ready")
 	await screenshot("export-menu-character")
 	main.back()
@@ -116,7 +125,7 @@ func run() -> void:
 	menu.confirm("Оформление окна", "Шрифт, подложка и действия используют тему меню.", [])
 	await wait_ui()
 	check(menu.dialog.actions.get_child(0).get_theme_font("font") == menu.shell.theme.default_font, "dialog actions retain the menu font outside Shell")
-	check(menu.dialog.panel.size.x == 930 and is_equal_approx(menu.dialog.get_node("Shade").color.a, 0.72), "notification stays compact with an isolating dark backdrop")
+	check(menu.dialog.panel.size.x <= 930 and menu.dialog.panel.get_theme_stylebox("panel").bg_color.a >= .99, "notification stays compact with an isolating dark backdrop")
 	check(menu.dialog.panel.scale.is_equal_approx(Vector2.ONE) and menu.dialog.get_node("Center").scale.is_equal_approx(Vector2.ONE) and menu.dialog._line_progress > 0.99, "notification entrance settles on sharp text and a complete accent line")
 	check(menu.dialog.panel.get_global_rect().get_center().distance_to(menu.dialog.get_global_rect().get_center()) < 2.0, "exported notification is centered after its entrance")
 	await screenshot("export-menu-dialog")
@@ -134,9 +143,9 @@ func run() -> void:
 	menu.open_menu(1)
 	await wait_ui()
 	check(menu.session_panel.is_visible_in_tree() and menu.ready_button.is_visible_in_tree(), "exported lobby controls survive scene packing")
-	check(menu.shell.shade.color.a >= 0.7, "lobby backdrop is dark enough to separate text from the game")
+	check(backdrop_alpha(menu, menu.session_panel) >= 0.4, "lobby gradient separates text from the game")
 	var member = menu.session_panel.crew.get_child(0)
-	check(member is PanelContainer and member.get_theme_stylebox("panel").bg_color.a >= 0.3, "lobby roster retains its native panel background")
+	check(member is PanelContainer and member.get_theme_stylebox("panel").bg_color.a > 0.0 and member.get_theme_stylebox("panel").bg_color.a <= 0.5, "lobby roster retains its native panel background")
 	await screenshot("export-menu-lobby")
 	menu.force_close_menu()
 	await menu.start_standalone_flow()
@@ -146,7 +155,7 @@ func run() -> void:
 	menu.open_menu(0)
 	check(not player.crosshair.visible, "opening ESC immediately hides the gameplay reticle")
 	await wait_ui()
-	check(is_equal_approx(menu.shell.shade.color.a, menu.escape_background_opacity) and menu.escape_background_opacity >= 0.4, "exported ESC darkens the actual game without rails")
+	check(is_equal_approx(menu.shell.shade.color.a, menu.escape_background_opacity) and backdrop_alpha(menu, menu.main_panel) >= 0.4, "exported ESC darkens the actual game without rails")
 	await screenshot("export-menu-cabin-esc")
 	menu.open_settings()
 	await wait_ui()
@@ -160,7 +169,7 @@ func run() -> void:
 	menu.open_settings()
 	await wait_ui()
 	check(not current_scene.lobby_hud.lobby_panel.visible, "cabin hint stays hidden behind menu and settings")
-	check(menu.shell.shade.color.a >= 0.7, "settings opened from lobby retain the dark backdrop")
+	check(backdrop_alpha(menu, menu.settings_panel) >= 0.4, "settings opened from lobby retain the gradient backdrop")
 	await screenshot("export-menu-cabin-settings")
 	menu.force_close_menu()
 	await wait_ui()

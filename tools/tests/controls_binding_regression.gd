@@ -114,6 +114,10 @@ func run() -> void:
  letters.tester_feedback = {"key": KEY_F9}
  controls.replace_bindings(letters)
  menu._input(key(KEY_F9))
+ # Opening a new report first captures the rendered frame asynchronously.
+ var report_deadline := Time.get_ticks_msec() + 5000
+ while menu._feedback_capture_busy and Time.get_ticks_msec() < report_deadline:
+  await process_frame
  check(not console.opened and menu._current_view == menu.MenuView.FEEDBACK, "function-key report shortcut remains available from console")
  menu.close_feedback()
  controls.replace_bindings(initial)

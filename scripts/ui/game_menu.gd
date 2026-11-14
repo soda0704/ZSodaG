@@ -1,6 +1,7 @@
 class_name GlobalGameMenu
 extends CanvasLayer
 ## Stable gameplay API; native views share one settings and network service.
+const GRAPHICS_SETTINGS = preload("res://scripts/ui/graphics_quality.gd")
 
 enum MenuView { MAIN, SESSION, JOIN, SETTINGS, FEEDBACK }
 @export_range(0.0, 1.0, 0.01) var lobby_background_opacity := 0.36
@@ -35,6 +36,7 @@ var _current_view: MenuView = MenuView.MAIN
 var _settings_origin: MenuView = MenuView.MAIN
 var _settings_return_to_main_scene := false
 var _transition_in_progress := false
+var _scene_transition_generation := 0
 var _settings_data: Dictionary = {}
 var _mouse_sensitivity_multiplier := 1.0
 var _applied_display: Dictionary = {}
@@ -566,6 +568,7 @@ func _on_session_ready(_as_host: bool) -> void:
 	force_close_menu()
 
 func _on_session_closed(reason: String) -> void:
+	_scene_transition_generation += 1
 	_transition_in_progress = true
 	call_deferred("_finish_return_to_main_menu", reason)
 
@@ -599,23 +602,27 @@ func set_character_variant_id(variant_id: int) -> void:
 
 func load_settings_data() -> Dictionary:
 	var defaults := default_settings_data()
-	defaults["GraphicsPresetRevision"] = preload("res://scripts/ui/graphics_quality.gd").PRESET_REVISION
+	defaults["GraphicsPresetRevision"] = GRAPHICS_SETTINGS.PRESET_REVISION
 	var path := get_settings_path()
 	if not FileAccess.file_exists(path):
-		defaults.Graphics = preload("res://scripts/ui/graphics_quality.gd").recommended()
+		defaults.Graphics = GRAPHICS_SETTINGS.recommended()
 		defaults.GraphicsCalibrationPending = true
 		return defaults
 	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return defaults
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	file.close()
+	var saved_revision: int = GRAPHICS_SETTINGS.PRESET_REVISION
 	if parsed is Dictionary:
-		for key in (parsed as Dictionary):
-			defaults[key] = (parsed as Dictionary)[key]
-	var quality_script = preload("res://scripts/ui/graphics_quality.gd")
-	var saved_graphics: Dictionary = defaults.get("Graphics", {}) if defaults.get("Graphics", {}) is Dictionary else {}
-	defaults["Graphics"] = quality_script.normalized(quality_script.migrate_saved(saved_graphics, int((parsed as Dictionary).get("GraphicsPresetRevision", 0)) if parsed is Dictionary else quality_script.PRESET_REVISION))
-	defaults["GraphicsPresetRevision"] = quality_script.PRESET_REVISION
+		# Preserve unknown keys and the revision-zero migration for older files.
+		defaults.merge(parsed, true)
+		saved_revision = int(parsed.get("GraphicsPresetRevision", 0))
+	var stored_graphics: Variant = defaults.get("Graphics", {})
+	var saved_graphics: Dictionary = stored_graphics if stored_graphics is Dictionary else {}
+	var migrated: Dictionary = GRAPHICS_SETTINGS.migrate_saved(saved_graphics, saved_revision)
+	defaults["Graphics"] = GRAPHICS_SETTINGS.normalized(migrated)
+	defaults["GraphicsPresetRevision"] = GRAPHICS_SETTINGS.PRESET_REVISION
 	return defaults
 
 func save_settings_data() -> bool:
@@ -685,30 +692,6 @@ func apply_settings_data() -> void:
 	_applied_display = display
 	$GraphicsQuality.apply(_settings_data.get("Graphics", {}))
 
-	var volume_percent := clampf(
-		float(_settings_data.get("MasterVolume", 80.0)),
-		0.0,
-		100.0
-	)
-	var master_bus := AudioServer.get_bus_index("Master")
-	if master_bus >= 0:
-		AudioServer.set_bus_mute(master_bus, volume_percent <= 0.0)
-		AudioServer.set_bus_volume_db(
-			master_bus,
-			linear_to_db(maxf(volume_percent / 100.0, 0.0001))
-		)
-	var music_percent := clampf(
-		float(_settings_data.get("MusicVolume", 70.0)),
-		0.0,
-		100.0
-	)
-	var music_bus := AudioServer.get_bus_index("Music")
-	if music_bus >= 0:
-		AudioServer.set_bus_mute(music_bus, music_percent <= 0.0)
-		AudioServer.set_bus_volume_db(
-			music_bus,
-			linear_to_db(maxf(music_percent / 100.0, 0.0001))
-		)
 	_mouse_sensitivity_multiplier = clampf(
 		float(_settings_data.get("MouseSensitivity", 1.0)),
 		0.25,
@@ -737,6 +720,8 @@ func get_mouse_sensitivity_multiplier() -> float:
 	return _mouse_sensitivity_multiplier
 
 func start_standalone_flow(resume_checkpoint: bool = false) -> void:
+	_scene_transition_generation += 1
+	var generation := _scene_transition_generation
 	BaseGameplayController.save_scope = "solo"
 	if not resume_checkpoint and not BaseGameplayController.delete_progress_save():
 		open_menu(MenuView.MAIN)
@@ -747,6 +732,7 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await show_scene_load_cover()
+	if generation != _scene_transition_generation: return
 
 	var change_result := get_tree().change_scene_to_file(
 		MECHANICS_TEST_ROOM_SCENE
@@ -760,14 +746,29 @@ func start_standalone_flow(resume_checkpoint: bool = false) -> void:
 		return
 
 	await get_tree().scene_changed
+	if generation != _scene_transition_generation: return
 	var gameplay_controller := get_tree().current_scene
 	if gameplay_controller != null and gameplay_controller.has_method(
 		"start_standalone_game"
 	):
 		gameplay_controller.set("resume_base_on_start", resume_checkpoint)
 		gameplay_controller.call("start_standalone_game")
-		await gameplay_controller.call("_enter_v3_level")
+		var session_ref: WeakRef = weakref(gameplay_controller)
+		gameplay_controller.call("_enter_v3_level")
+		# The session owns its coroutine and can be freed during disconnection.
+		# Autoload must not await a completion signal from that dead coroutine.
+		while generation == _scene_transition_generation:
+			var session = session_ref.get_ref()
+			if session == null or not session.is_loading_world(): break
+			await get_tree().process_frame
+	if generation != _scene_transition_generation: return
 	_transition_in_progress = false
+
+func abort_scene_load(reason: String) -> void:
+	# Failure/disconnection can interrupt the ordinary transition input lock.
+	_scene_transition_generation += 1
+	_transition_in_progress = false
+	return_to_main_menu(reason, false)
 
 func ensure_network_scene() -> bool:
 	var current_scene := get_tree().current_scene

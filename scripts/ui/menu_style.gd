@@ -12,7 +12,7 @@ const EXIT_SECONDS := 0.16
 const HOVER_SECONDS := 0.12
 const PRESS_SECONDS := 0.10
 const RELEASE_SECONDS := 0.15
-const MARKER_SECONDS := 0.20
+const MARKER_SECONDS := 0.14
 const CATEGORY_EXIT_SECONDS := 0.10
 const CATEGORY_ENTER_SECONDS := 0.18
 const MODAL_SECONDS := 0.25
@@ -22,9 +22,6 @@ static var _cursor: ImageTexture
 static var reduced_motion := false
 static var keyboard_navigation := false
 static var touch_navigation := false
-
-static func make_theme() -> Theme:
-	return preload("res://scenes/ui/menu_theme.tres")
 
 static func fill(control: Control) -> void:
 	control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

@@ -9,7 +9,9 @@ var active_actor: GamePlayer
 var motion_frame := -1
 var jump_sent := false
 
-func _initialize() -> void: run.call_deferred()
+func _initialize() -> void:
+	ProjectSettings.set_setting("northern_lab/testing/controls_path", "user://motion_controls_%d.cfg" % OS.get_process_id())
+	run.call_deferred()
 
 func check(ok: bool, label: String) -> void:
 	checks += 1
@@ -65,6 +67,10 @@ func camera_intrusions(actor: GamePlayer) -> int:
 	return offenders
 
 func run() -> void:
+	# Deferred settings initialization must capture real defaults before this
+	# fixture removes live input events in favour of synthetic movement.
+	await process_frame
+	await process_frame
 	if DisplayServer.get_name()=="headless":
 		push_error("Run this visual input regression with a graphical renderer.")
 		quit(1)

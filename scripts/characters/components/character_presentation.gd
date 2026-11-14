@@ -318,3 +318,26 @@ func restore_after_respawn() -> void:
 		tree.active = true
 		var playback: AnimationNodeStateMachinePlayback = tree.get("parameters/Movement/playback")
 		playback.start("Stand")
+
+
+func refresh_equipment_visuals(
+	player: GamePlayer,
+	equipment: PlayerEquipment,
+	hidden: bool,
+	hands_busy: bool,
+	battery_presentation: bool,
+	wiring_view: bool
+) -> void:
+	player.flashlight.set_battery_charge(equipment.charge, false)
+	player.flashlight.set_equipped((equipment.is_handheld_drawn() or battery_presentation) and not hidden and not hands_busy)
+	if equipment.malfunctioning:
+		# The inventory owns the fault, even while the lamp is hidden or empty.
+		player.flashlight.is_malfunctioning = true
+		player.flashlight.set_enabled(false, false)
+	else:
+		if player.flashlight.is_malfunctioning:
+			player.flashlight.cancel_malfunction()
+		player.flashlight.set_enabled(equipment.enabled and not equipment.mounted and not wiring_view, false)
+	player.held_seed_packet.visible = equipment.held_item == player.SEED_ITEM and not hidden and not battery_presentation
+	player.held_fuse.visible = equipment.held_item == player.FUSE_ITEM and not hidden and not battery_presentation
+	player.held_fuel_can.visible = equipment.held_item == player.FUEL_ITEM and not hidden and not battery_presentation

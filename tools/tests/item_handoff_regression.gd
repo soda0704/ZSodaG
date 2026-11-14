@@ -23,6 +23,10 @@ func offer(type: StringName, pocket := false) -> int:
 	receiver.camera.look_at(giver.handoff.global_position)
 	await settle()
 	check(receiver.get_interaction_target() == giver.handoff, "real E ray targets offered hand")
+	# This single-process fixture disables handoff physics and has no remote
+	# heartbeat sender. Model the giver still holding E after the rendered aim.
+	# Lease expiry itself is exercised by the real two-process regression.
+	if not pocket: giver.handoff._lease = Time.get_ticks_msec() + 1000
 	return giver.handoff.token
 func run() -> void:
 	root.get_node("GameMenu").force_close_menu()
@@ -42,11 +46,15 @@ func run() -> void:
 	for type in [&"pistol", &"m4a1", &"kitchen_knife", &"fuel_can", &"flashlight", &"fuse", &"seed_packet", &"flamethrower"]:
 		clean(giver); clean(receiver)
 		giver.pickup_world_item_authoritative(type, {"fuel_liters": 1.25, "battery_charge": 0.37, "rounds": 7})
+		# Render newly equipped models before starting the held-offer lease.
+		await settle()
 		var original := giver.get_held_item_state()
 		var serial: int = await offer(type)
 		check(giver._held_item_type == type, "offering does not remove the held item")
 		check(not giver.weapon.perform_action(&"fire"), "offered weapon cannot fire")
-		check(giver.handoff.accept_authoritative(receiver, serial), "receiver accepts the hand item")
+		var accepted: bool = giver.handoff.accept_authoritative(receiver, serial)
+		if not accepted: print("HANDOFF REJECT ",type," mode=",giver.handoff.mode," lease_left=",giver.handoff._lease-Time.get_ticks_msec()," usable=",giver.handoff.usable(giver),"/",giver.handoff.usable(receiver)," reach=",giver.handoff.hand_reachable(receiver)," target=",receiver.get_interaction_target()==giver.handoff," capacity=",giver.handoff.capacity_problem(receiver))
+		check(accepted, "receiver accepts the hand item")
 		check(receiver._held_item_type == type and receiver.get_held_item_state() == original, "held item preserves ammunition, fuel and battery state")
 		check(giver._held_item_type == &"" and not giver.handoff.is_offering(), "giver releases item and offer")
 		check(not giver.handoff.accept_authoritative(receiver, serial), "repeat acceptance cannot duplicate the item")

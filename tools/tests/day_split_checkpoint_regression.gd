@@ -108,5 +108,9 @@ func run():
  journal._refresh_content()
  check(journal.tasks_label.text.contains("продолжение шахты") and not state.can_end_current_day(),"day seven journal directs exploration beneath the complex")
  state.progress_persistence_enabled=false
+ journal.force_close()
+ base.queue_free()
+ await create_timer(0.3).timeout
+ for frame in 10: await process_frame
  print("RESULT FAILURES ",failures)
  quit(0 if failures==0 else 1)

@@ -18,7 +18,7 @@ func _set_route(path: NodePath, next_revision: int, point: Vector3) -> void:
 	_pending_exit=0
 	route=get_node_or_null(path) as LadderRoute if not path.is_empty() else null
 	player.global_position=point; player.velocity=Vector3.ZERO
-	player._reconciliation_offset=Vector3.ZERO
+	player.clear_movement_correction()
 	player.survival.reset_fall(); player.head.rotation.y=0
 	player._is_crouching=false
 	player.update_crouch_state(1.0,false)

@@ -202,10 +202,8 @@ func accept_authoritative(receiver: GamePlayer, offered_token: int) -> bool:
 		return false
 	if from_hand:
 		actor.release_held_item_authoritative()
-	elif actor.CRAFT_RECIPE.pickup_scenes.has(type): actor.crafting_parts[type] = int(actor.crafting_parts[type]) - 1
-	elif type == &"battery": actor._spare_batteries.erase(float(state.charge_amount))
-	elif type == &"tape": actor.tape_count -= 1
-	elif type == &"crowbar": actor.crowbar_uses = 0
+	elif actor.CRAFT_RECIPE.pickup_scenes.has(type) or type in [&"battery", &"tape", &"crowbar"]:
+		actor.take_pocket_supply(type, state)
 	elif type == &"pistol_ammo": actor.weapon.pistol_ammo -= int(state.amount)
 	elif type == &"rifle_magazine": actor.weapon.rifle_magazines.remove_at(0)
 	elif type == &"flashlight":
