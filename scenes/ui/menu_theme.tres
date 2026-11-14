@@ -6,6 +6,8 @@
 
 [ext_resource type="FontVariation" path="res://scenes/ui/menu_brand_font.tres" id="brand"]
 
+[ext_resource type="Texture2D" path="res://assets/ui/calibration/slider_thumb.svg" id="calibration_thumb"]
+
 [sub_resource type="StyleBoxFlat" id="Quiet"]
 content_margin_left = 12.0
 content_margin_top = 8.0
@@ -174,6 +176,21 @@ content_margin_right = 0.0
 content_margin_top = 0.0
 content_margin_bottom = 0.0
 bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="CalibrationTrack"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.83, 0.89, 0.93, 0.18)
+
+[sub_resource type="StyleBoxFlat" id="CalibrationFill"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.83, 0.89, 0.93, 0.65)
+
+[sub_resource type="StyleBoxFlat" id="CalibrationFocus"]
+bg_color = Color(0.83, 0.89, 0.93, 0.025)
+border_width_left = 1
+border_color = Color(0.83, 0.89, 0.93, 0.65)
 
 [resource]
 default_font = ExtResource("body")
@@ -440,3 +457,20 @@ MenuStepperPart/styles/normal = SubResource("StepperQuiet")
 MenuStepperPart/styles/hover = SubResource("StepperQuiet")
 MenuStepperPart/styles/pressed = SubResource("StepperQuiet")
 MenuStepperPart/styles/focus = SubResource("StepperQuiet")
+
+CalibrationSlider/base_type = &"HSlider"
+CalibrationSlider/styles/slider = SubResource("CalibrationTrack")
+CalibrationSlider/styles/grabber_area = SubResource("CalibrationFill")
+CalibrationSlider/styles/grabber_area_highlight = SubResource("CalibrationFill")
+CalibrationSlider/styles/focus = SubResource("CalibrationFocus")
+CalibrationSlider/icons/grabber = ExtResource("calibration_thumb")
+CalibrationSlider/icons/grabber_highlight = ExtResource("calibration_thumb")
+CalibrationSlider/icons/grabber_disabled = ExtResource("calibration_thumb")
+CalibrationPrimary/base_type = &"MenuPrimary"
+CalibrationPrimary/styles/normal = SubResource("Quiet")
+CalibrationPrimary/styles/hover = SubResource("Hover")
+CalibrationPrimary/styles/focus = SubResource("CalibrationFocus")
+CalibrationAction/base_type = &"MenuAction"
+CalibrationAction/styles/normal = SubResource("Quiet")
+CalibrationAction/styles/hover = SubResource("Hover")
+CalibrationAction/styles/focus = SubResource("CalibrationFocus")

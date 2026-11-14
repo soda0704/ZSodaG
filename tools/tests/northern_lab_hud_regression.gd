@@ -210,6 +210,15 @@ func run() -> void:
 	actor.debug_fly = true
 	hud = actor.get_node("PlayerUI/NorthernLabHUD")
 	await ticks(10)
+	var quality := root.get_node("GameMenu/GraphicsQuality")
+	var previous_quality: Dictionary = quality.values.duplicate()
+	var calibrated: Dictionary = previous_quality.duplicate()
+	calibrated.HUDMargin = 5
+	quality.apply(calibrated)
+	var logical_size := root.get_visible_rect().size
+	check(hud.position.is_equal_approx(logical_size * .05), "saved HUD calibration moves the production HUD inward")
+	check((hud.position + hud._canvas_size * hud._layout_scale * .5).is_equal_approx(logical_size * .5), "calibrated HUD keeps the crosshair at the viewport center")
+	quality.apply(previous_quality)
 	check(hud.visible, "local player's HUD appears")
 	check(hud.mouse_filter == Control.MOUSE_FILTER_IGNORE, "HUD does not consume mouse input")
 	check(hud.view_state.quest.day == 1 and hud.view_state.quest.objective == "Вернуть базу к жизни", "HUD reads the journal's real day and objective")

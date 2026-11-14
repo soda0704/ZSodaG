@@ -1,6 +1,10 @@
 class_name GlobalGameMenu
 extends CanvasLayer
 ## Stable gameplay API; native views share one settings and network service.
+const DISPLAY_CALIBRATION = preload("res://scenes/ui/display_calibration.tscn")
+const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
+var _display_calibration: Control
+
 const GRAPHICS_SETTINGS = preload("res://scripts/ui/graphics_quality.gd")
 
 enum MenuView { MAIN, SESSION, JOIN, SETTINGS, FEEDBACK }
@@ -131,6 +135,16 @@ func _run_startup_check() -> void:
 	await tree.process_frame
 	await tree.create_timer(0.4, true).timeout
 	var scene := tree.current_scene
+	if scene != null and scene.scene_file_path == "res://scenes/ui/startup.tscn":
+		if not is_display_calibration_open() or not _display_calibration.startup:
+			push_error("First launch did not show display calibration")
+			tree.quit(1)
+			return
+		print("PASS packaged executable starts display calibration before the main menu")
+		_display_calibration.queue_free()
+		_display_calibration = null
+		quit_with_save(false)
+		return
 	if scene == null or scene.scene_file_path != "res://scenes/ui/main_menu.tscn":
 		push_error("Packaged executable did not reach the main menu")
 		tree.quit(1)
@@ -160,6 +174,7 @@ func is_capturing_feedback_screenshot() -> bool:
 	return _feedback_capture_busy
 
 func _input(event: InputEvent) -> void:
+	if is_display_calibration_open(): return
 	if event is InputEventKey or event is InputEventJoypadButton:
 		NorthernMenuStyle.keyboard_navigation = true
 	elif event is InputEventJoypadMotion and absf(event.axis_value) > .4:
@@ -187,6 +202,7 @@ func _handle_feedback_shortcut(event: InputEvent) -> bool:
 	return true
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_display_calibration_open(): return
 	if shell.busy and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
 		shell.cancel_transition()
 	if event.is_echo() or _transition_in_progress or dialog != null or shell.busy or _feedback_capture_busy:
@@ -405,7 +421,7 @@ func force_close_menu() -> void:
 	_sync_main_overlay()
 
 func is_menu_open() -> bool:
-	return _feedback_capture_busy or (menu_root != null and menu_root.visible)
+	return is_display_calibration_open() or _feedback_capture_busy or (menu_root != null and menu_root.visible)
 
 func is_lobby_gate_active() -> bool:
 	return SteamNetwork.state in [SteamNetworkService.SessionState.CREATING_LOBBY, SteamNetworkService.SessionState.JOINING_LOBBY, SteamNetworkService.SessionState.CONNECTING]
@@ -838,9 +854,7 @@ func manual_save() -> void:
 func _finish_return_to_main_menu(reason: String) -> void:
 	var current_scene := get_tree().current_scene
 	if current_scene != null and not current_scene.is_in_group("main_menu"):
-		var main_scene := str(
-			ProjectSettings.get_setting("application/run/main_scene", "")
-		)
+		var main_scene := MAIN_MENU_SCENE
 		if not main_scene.is_empty():
 			var change_result := get_tree().change_scene_to_file(main_scene)
 			if change_result == OK:
@@ -896,5 +910,55 @@ func default_settings_data() -> Dictionary:
 		"RoomReverb": 50.0,
 		"MouseSensitivity": 1.0,
 		"CharacterVariant": 0,
+		"DisplayCalibrationVersion": 0,
 	}
 	return defaults
+
+
+func is_display_calibration_open() -> bool:
+	return is_instance_valid(_display_calibration)
+
+
+func needs_display_calibration() -> bool:
+	var version: Variant = _settings_data.get("DisplayCalibrationVersion", 0)
+	return not ((version is int or version is float) and int(version) >= 1)
+
+
+func open_display_calibration(first_launch := false, callback: Callable = Callable()) -> void:
+	if is_display_calibration_open() or is_instance_valid(dialog) or _feedback_capture_busy: return
+	var previous_focus := get_viewport().gui_get_focus_owner()
+	var previous_mouse := Input.mouse_mode
+	var previous_focus_behavior := menu_root.focus_behavior_recursive
+	var previous_mouse_behavior := menu_root.mouse_behavior_recursive
+	menu_root.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED
+	menu_root.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var console := get_node_or_null("/root/DeveloperConsole")
+	if console != null and console.opened: console.set_open(false)
+	var view = DISPLAY_CALIBRATION.instantiate()
+	_display_calibration = view
+	add_child(view)
+	view.configure(self, _settings_data.get("Graphics", {}), first_launch)
+	view.finished.connect(func(accepted: bool):
+		_display_calibration = null
+		menu_root.focus_behavior_recursive = previous_focus_behavior
+		menu_root.mouse_behavior_recursive = previous_mouse_behavior
+		Input.mouse_mode = previous_mouse
+		if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+		if callback.is_valid(): callback.call(accepted)
+	)
+
+
+func commit_display_calibration(values: Dictionary) -> bool:
+	var previous := _settings_data.duplicate(true)
+	var graphics := GRAPHICS_SETTINGS.normalized(_settings_data.get("Graphics", {}))
+	var calibrated := GRAPHICS_SETTINGS.normalized(values)
+	for key in ["DisplayWhitePoint", "DisplayBlackPoint", "Gamma", "HUDMargin"]:
+		graphics[key] = calibrated[key]
+	_settings_data.Graphics = graphics
+	_settings_data.DisplayCalibrationVersion = 1
+	if not save_settings_data():
+		_settings_data = previous
+		return false
+	$GraphicsQuality.apply(graphics)
+	return true

@@ -85,13 +85,17 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	hide()
+	add_to_group("hud_layout")
 	get_viewport().size_changed.connect(_layout)
 	_layout()
 
 func _layout() -> void:
 	var viewport_size := get_viewport_rect().size
 	_layout_scale = LAYOUT.scale_for(get_viewport())
-	_canvas_size = viewport_size / _layout_scale
+	var quality := get_node("/root/GameMenu/GraphicsQuality")
+	var safe := LAYOUT.safe_rect(viewport_size, float(quality.values.get("HUDMargin", 0)))
+	position = safe.position
+	_canvas_size = safe.size / _layout_scale
 	scale = Vector2.ONE * _layout_scale
 	size = _canvas_size
 	queue_redraw()
@@ -496,7 +500,7 @@ func _draw_teammate() -> void:
 	if camera_point.z < -player.camera.near:
 		var screen_point := player.camera.unproject_position(world_point)
 		if get_viewport_rect().grow(-30).has_point(screen_point):
-			draw_texture_rect(MARKER, Rect2(screen_point / _layout_scale - Vector2(16, 16), Vector2(32, 32)), false, _ink(WHITE))
+			draw_texture_rect(MARKER, Rect2((screen_point - position) / _layout_scale - Vector2(16, 16), Vector2(32, 32)), false, _ink(WHITE))
 	_draw_alpha = 1.0
 
 func interaction_layout(source: String) -> Dictionary:

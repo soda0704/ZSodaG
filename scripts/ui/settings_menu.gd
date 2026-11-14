@@ -21,8 +21,6 @@ const QUALITY := [
 	["TrackCount", "Следы на снегу", 32, 512, 32, ""],
 ]
 const QUALITY_HINTS := {
-	"Brightness": "Общая яркость изображения. Не добавляет источники света в тёмные помещения.",
-	"Gamma": "Яркость средних и тёмных тонов изображения.",
 	"HDRWhite": "Опорная яркость при включённом HDR. Требуются HDR-дисплей и HDR в Windows.",
 	"Scale": "Разрешение 3D-мира. Интерфейс сохраняет чёткость; меньшее значение снижает нагрузку.",
 	"MSAA": "Сглаживание краёв геометрии. ×4 и ×8 заметно повышают нагрузку.",
@@ -214,19 +212,35 @@ func select_category(index: int) -> void:
 			_toggle("VSync", "Вертикальная синхронизация")
 			_toggle("ShowFPS", "Показывать FPS")
 			_toggle("ReduceMenuMotion", "Снизить движение меню")
-			_numeric("Brightness", "Яркость", 70, 140, 5, "%", true)
-			_numeric("Gamma", "Гамма", 70, 150, 10, "%", true)
 			_toggle("HDR", "HDR", true, not DisplayServer.window_is_hdr_output_supported())
 			_numeric("HDRWhite", "Опорная яркость HDR", 100, 400, 20, " нит", true)
+			var calibration_row := _row("Калибровка экрана", "DisplayCalibration")
+			var calibration_button := NorthernMenuStyle.button("Настроить", func():
+				_menu.open_display_calibration(false, func(accepted: bool):
+					if not accepted: return
+					for key in ["DisplayWhitePoint", "DisplayBlackPoint", "Gamma", "HUDMargin"]:
+						draft.Graphics[key] = _menu._settings_data.Graphics[key]
+					draft.DisplayCalibrationVersion = _menu._settings_data.DisplayCalibrationVersion
+					_changed()
+				), 17)
+			calibration_button.name = "DisplayCalibrationButton"
+			calibration_button.custom_minimum_size.x = VALUE_COLUMN_WIDTH
+			calibration_button.custom_minimum_size.y = 40
+			calibration_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			calibration_row.add_child(calibration_button)
 		1:
 			var recommended_row := _row("Рекомендуемые настройки · цель 60 FPS")
 			var recommend_button := NorthernMenuStyle.button("Подобрать", func():
-				draft.Graphics = GRAPHICS_SETTINGS.recommended()
+				var recommended := GRAPHICS_SETTINGS.recommended()
+				for key in ["Brightness", "Gamma", "HDR", "HDRWhite", "DisplayBlackPoint", "DisplayWhitePoint", "HUDMargin"]:
+					recommended[key] = draft.Graphics[key]
+				draft.Graphics = recommended
 				draft.GraphicsCalibrationPending = true
 				select_category(1), 17)
 			recommend_button.theme_type_variation = &"MenuAction"
 			recommend_button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
 			recommend_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+			recommend_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			recommended_row.add_child(recommend_button)
 			_choice("Preset", "Общее качество", ["Свои настройки", "Низкое", "Среднее", "Высокое"], [0, 1, 2, 3], true)
 			for spec in QUALITY:
@@ -251,6 +265,7 @@ func select_category(index: int) -> void:
 				key_button.disabled = controls.FIXED_BINDINGS.has(action)
 				key_button.name = action
 				key_button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
+				key_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				row.add_child(key_button)
 			var hint := NorthernMenuStyle.label(get_node("/root/SteamInput").get_controls_hint(), 20, NorthernMenuStyle.MUTED)
 			hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -259,10 +274,11 @@ func select_category(index: int) -> void:
 
 func _row(text: String, key: String = "") -> HBoxContainer:
 	var row := preload("res://scripts/ui/menu_setting_row.gd").new()
-	row.custom_minimum_size.y = 44
+	row.custom_minimum_size.y = 52
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
 	row.add_theme_constant_override("separation", 18)
 	var label := NorthernMenuStyle.label(text, 17, NorthernMenuStyle.TEXT)
+	label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	label.clip_text = true
@@ -297,6 +313,7 @@ func _numeric(key: String, text: String, low: float, high: float, increment: flo
 	value.decimals = 2 if increment < 1 else 0
 	value.value = float(_get_value(key, graphics))
 	value.name = key
+	value.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(value)
 	value.custom_minimum_size.x = VALUE_COLUMN_WIDTH
 	value.value_changed.connect(func(next): _set_value(key, next, graphics); row.pulse())
@@ -338,6 +355,7 @@ func _toggle(key: String, text: String, graphics: bool = false, disabled: bool =
 	button.custom_minimum_size = Vector2(VALUE_COLUMN_WIDTH, 40)
 	button.disabled = disabled
 	button.tooltip_text = "Нужны HDR-дисплей и включённый HDR в Windows." if disabled else ""
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(button)
 	button.pressed.connect(func():
 		row.pulse()
@@ -409,7 +427,7 @@ func reset_category() -> void:
 		0:
 			for key in ["Resolution", "WindowMode", "Screen", "VSync", "ShowFPS", "ReduceMenuMotion"]:
 				draft[key] = defaults[key]
-			for key in ["Brightness", "Gamma", "HDR", "HDRWhite"]:
+			for key in ["HDR", "HDRWhite"]:
 				draft.Graphics[key] = GRAPHICS_SETTINGS.DEFAULTS[key]
 		1:
 			draft.GraphicsCalibrationPending = false

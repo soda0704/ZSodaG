@@ -8,3 +8,7 @@ static func scale_for(viewport: Viewport) -> float:
 	# The compact canvas leaves room for all three bottom groups and the objective.
 	var readable := minf(0.60, minf(pixel_size.x / 1600.0, pixel_size.y / 1000.0))
 	return maxf(maxf(reference, readable) / maxf(minf(stretch.x, stretch.y), 0.001), 0.01)
+
+static func safe_rect(viewport_size: Vector2, margin_percent: float) -> Rect2:
+	var inset := viewport_size * clampf(margin_percent, 0.0, 10.0) / 100.0
+	return Rect2(inset, viewport_size - inset * 2.0)

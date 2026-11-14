@@ -1,4 +1,4 @@
-param(
+﻿param(
     [switch]$BuildOnly,
     [string]$BuildSessionDirectory,
     [switch]$InitializeOnly,
@@ -11,7 +11,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $launcherScript = $MyInvocation.MyCommand.Path
 $backgroundPath = Join-Path $PSScriptRoot "launcher\northernlab_launcher.png"
-$applicationIcon = Join-Path $projectRoot "assets\ui\application\northernlab.ico"
+$applicationIcon = Join-Path $projectRoot "assets\ui\branding\releases\northernlab-logo-v1\northernlab-windows.ico"
 $localEditorDirectory = Join-Path $PSScriptRoot ".local\godotsteam-editor"
 $localGodot = Join-Path $localEditorDirectory "godot.exe"
 $godotSteamDirectory = Join-Path $projectRoot "addons\godotsteam"

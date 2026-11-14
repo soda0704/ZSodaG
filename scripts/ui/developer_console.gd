@@ -91,6 +91,7 @@ func _ready() -> void:
 	)
 
 func _input(event: InputEvent) -> void:
+	if get_node("/root/GameMenu").is_display_calibration_open(): return
 	if get_node("/root/GameMenu").is_rebinding_controls(): return
 	var field := get_viewport().gui_get_focus_owner()
 	var editing_parameter: bool = command_controls != null and field is LineEdit and command_controls.panel.is_ancestor_of(field)

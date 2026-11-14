@@ -44,9 +44,9 @@ focus_previous = NodePath("../LeftCharacter")
 [node name="Heading" type="Label" parent="."]
 layout_mode = 0
 offset_left = 88.0
-offset_top = 112.0
+offset_top = 62.0
 offset_right = 1100.0
-offset_bottom = 185.0
+offset_bottom = 135.0
 theme_type_variation = &"MenuTitle"
 theme_override_font_sizes/font_size = 48
 text = "ВЫБЕРИТЕ ПЕРСОНАЖА"

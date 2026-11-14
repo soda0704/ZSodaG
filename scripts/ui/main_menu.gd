@@ -227,7 +227,8 @@ func set_overlay_visible(value: bool) -> void:
 	if not value and is_instance_valid(_last_focus) and _last_focus.is_visible_in_tree():
 		_last_focus.grab_focus()
 	if not value and not was_visible:
-		shell.appear()
+		# The background is already visible under settings; retain its dark scrim.
+		shell.appear(true)
 
 func show_status(message: String) -> void:
 	if status_label != null:

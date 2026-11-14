@@ -116,16 +116,17 @@ func _stagger(motion: Tween) -> void:
 		item.modulate.a = 0.0
 		motion.tween_property(item, "modulate:a", 1.0, .16).set_delay(index * NorthernMenuStyle.STAGGER_SECONDS).set_custom_interpolator(NorthernMenuStyle.ease)
 
-func appear() -> void:
+func appear(preserve_shade := false) -> void:
 	cancel_transition()
 	if NorthernMenuStyle.keyboard_navigation: return
 	busy = true
 	var epoch := _epoch
 	header.modulate.a = 0.0
 	footer.modulate.a = 0.0
-	shade.modulate.a = 0.0
+	if not preserve_shade: shade.modulate.a = 0.0
 	_motion = create_tween().set_parallel(true)
-	_motion.tween_property(shade, "modulate:a", 1.0, .28).set_custom_interpolator(NorthernMenuStyle.ease)
+	if not preserve_shade:
+		_motion.tween_property(shade, "modulate:a", 1.0, .28).set_custom_interpolator(NorthernMenuStyle.ease)
 	_enter(_motion, .24, true)
 	_motion.finished.connect(func():
 		if epoch == _epoch: busy = false

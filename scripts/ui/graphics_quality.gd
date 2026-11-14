@@ -3,10 +3,12 @@ extends Node
 const INDIRECT_LIGHTING_SCRIPT = preload("res://scripts/levels/world_indirect_lighting.gd")
 const INTERIOR_OCCLUSION_SCRIPT = preload("res://scripts/levels/interior_ambient_occlusion.gd")
 signal camera_effects_changed(motion_blur: bool, strength: float)
+var _display_curve_key := ""
+var _display_curve: Texture
 var values: Dictionary = {}
 var _render_update_pending := false
 var _applied_budgets: Array[int] = []
-const DEFAULTS := {"Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": false, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
+const DEFAULTS := {"HUDMargin": 0, "DisplayBlackPoint": 0, "DisplayWhitePoint": 100, "Brightness": 100, "Gamma": 100, "HDR": false, "HDRWhite": 200, "Scale": 100, "MSAA": 0, "FXAA": true, "FPS": 0, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "FogQuality": 2, "GIQuality": 2, "Bloom": true, "MotionBlur": false, "MotionBlurStrength": 35, "LOD": 2, "DecalDistance": 40, "TrackCount": 128, "VegetationDistance": 500}
 const PRESETS := {
 	1: {"Scale": 75, "MSAA": 0, "FXAA": true, "ShadowQuality": 1, "ShadowDistance": 48, "AOQuality": 1, "GIQuality": 1, "Bloom": true, "LOD": 6, "DecalDistance": 20, "TrackCount": 64},
 	2: {"Scale": 100, "MSAA": 0, "FXAA": true, "ShadowQuality": 2, "ShadowDistance": 96, "AOQuality": 2, "GIQuality": 2, "Bloom": true, "LOD": 2, "DecalDistance": 40, "TrackCount": 128},
@@ -35,7 +37,7 @@ static func normalized(data: Dictionary) -> Dictionary:
 	for key in DEFAULTS:
 		if data.has(key): result[key] = data[key]
 	# Saved files and the UI must describe the same values the renderer receives.
-	var ranges := {"Brightness": [70, 140], "Gamma": [70, 150], "HDRWhite": [100, 400], "Scale": [50, 100], "MSAA": [0, 3], "FPS": [0, 240], "ShadowQuality": [1, 3], "ShadowDistance": [24, 96], "AOQuality": [0, 3], "FogQuality": [0, 3], "GIQuality": [0, 3], "MotionBlurStrength": [0, 100], "LOD": [1, 8], "DecalDistance": [10, 70], "TrackCount": [32, 512], "VegetationDistance": [150, 750]}
+	var ranges := {"HUDMargin": [0, 10], "DisplayBlackPoint": [-10, 10], "DisplayWhitePoint": [85, 115], "Brightness": [70, 140], "Gamma": [70, 150], "HDRWhite": [100, 400], "Scale": [50, 100], "MSAA": [0, 3], "FPS": [0, 240], "ShadowQuality": [1, 3], "ShadowDistance": [24, 96], "AOQuality": [0, 3], "FogQuality": [0, 3], "GIQuality": [0, 3], "MotionBlurStrength": [0, 100], "LOD": [1, 8], "DecalDistance": [10, 70], "TrackCount": [32, 512], "VegetationDistance": [150, 750]}
 	for key in ranges:
 		if not (result[key] is int or result[key] is float) or not is_finite(float(result[key])): result[key] = DEFAULTS[key]
 		result[key] = clampi(roundi(float(result[key])), ranges[key][0], ranges[key][1])
@@ -70,10 +72,12 @@ func apply(data: Dictionary) -> void:
 		apply_display_output()
 		return
 	var update_nodes := values.is_empty()
-	for key in ["Brightness", "Gamma", "MSAA", "FXAA", "ShadowDistance", "AOQuality", "FogQuality", "GIQuality", "Bloom", "DecalDistance", "TrackCount", "VegetationDistance"]:
+	for key in ["DisplayBlackPoint", "DisplayWhitePoint", "Brightness", "Gamma", "MSAA", "FXAA", "ShadowDistance", "AOQuality", "FogQuality", "GIQuality", "Bloom", "DecalDistance", "TrackCount", "VegetationDistance"]:
 		if values.get(key) != next[key]: update_nodes = true; break
 	var camera_changed: bool = values.is_empty() or values.get("MotionBlur") != next.MotionBlur or values.get("MotionBlurStrength") != next.MotionBlurStrength
+	var hud_changed: bool = values.get("HUDMargin", 0) != next.HUDMargin
 	values = next
+	if hud_changed: get_tree().call_group("hud_layout", "_layout")
 	if camera_changed: camera_effects_changed.emit(bool(values.MotionBlur), float(values.MotionBlurStrength) / 100.0)
 	apply_display_output()
 	var viewport := get_viewport()
@@ -191,13 +195,7 @@ func apply_environment(env: Environment) -> void:
 	if env == null or values.is_empty(): return
 	if not env.has_meta("quality_authored_calibration"): _remember_environment(env)
 	var authored: Dictionary = env.get_meta("quality_authored_effects")
-	var calibration: Dictionary = env.get_meta("quality_authored_calibration")
-	var brightness := float(calibration.brightness) * clampf(float(values.Brightness)/100.0, 0.7, 1.4)
-	if not is_equal_approx(env.adjustment_brightness, brightness): env.adjustment_brightness = brightness
-	var gamma := clampi(roundi(float(values.Gamma)/10.0)*10, 70, 150)
-	env.adjustment_enabled = bool(calibration.enabled) or int(values.Brightness) != 100 or gamma != 100
-	var correction: Texture = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else calibration.correction
-	if env.adjustment_color_correction != correction: env.adjustment_color_correction = correction
+	apply_display_calibration(env, values)
 	var ao_enabled: bool = authored.ao and int(values.AOQuality) > 0
 	var fog_enabled: bool = authored.fog and int(values.FogQuality) > 0
 	var bloom_enabled: bool = authored.bloom and bool(values.Bloom)
@@ -269,3 +267,43 @@ func restart_recommendation() -> void:
 	_calibration_frames.clear()
 	_calibration_round = 0
 	_previous_frame_usec = 0
+
+
+static func display_curve_value(value: float, data: Dictionary) -> float:
+	var black := float(data.get("DisplayBlackPoint", 0)) * 0.005
+	var white := float(data.get("DisplayWhitePoint", 100)) / 100.0
+	var corrected := clampf((value + black * (1.0 - value)) / white, 0.0, 1.0)
+	return pow(corrected, 100.0 / float(data.get("Gamma", 100)))
+
+
+func apply_display_calibration(env: Environment, data: Dictionary) -> void:
+	if not env.has_meta("quality_authored_calibration"): _remember_environment(env)
+	var authored: Dictionary = env.get_meta("quality_authored_calibration")
+	var gamma := clampi(roundi(float(data.get("Gamma", 100)) / 10.0) * 10, 70, 150)
+	var black := int(data.get("DisplayBlackPoint", 0))
+	var white := int(data.get("DisplayWhitePoint", 100))
+	var brightness := int(data.get("Brightness", 100))
+	env.adjustment_brightness = float(authored.brightness) * float(brightness) / 100.0
+	env.adjustment_enabled = bool(authored.enabled) or brightness != 100 or gamma != 100 or black != 0 or white != 100
+	if black == 0 and white == 100:
+		env.adjustment_color_correction = load("res://assets/environments/calibration/gamma_%d.tres" % gamma) if gamma != 100 else authored.correction
+		return
+	var key := "%d:%d:%d" % [black, white, gamma]
+	if key != _display_curve_key:
+		var offsets := PackedFloat32Array()
+		var colors := PackedColorArray()
+		for i in 256:
+			var at := float(i) / 255.0
+			var output := display_curve_value(at, data)
+			offsets.append(at)
+			colors.append(Color(output, output, output, 1.0))
+		var gradient := Gradient.new()
+		gradient.offsets = offsets
+		gradient.colors = colors
+		var texture := GradientTexture1D.new()
+		texture.width = 1024
+		texture.use_hdr = true
+		texture.gradient = gradient
+		_display_curve = texture
+		_display_curve_key = key
+	env.adjustment_color_correction = _display_curve
