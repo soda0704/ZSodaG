@@ -64,9 +64,9 @@ func run() -> void:
 	root.add_child(main)
 	current_scene = main
 	await wait_ui()
-	check(main.background_video.get_parent() == main and main.background_video.get_index() < main.shell.get_index(), "exported video draws below the complete interface")
+	check(main.get_node("SmokeBackground").get_index() < main.shell.get_index(), "exported fog draws below the complete interface")
 	check(main.shell.shade.get_index() < main.shell.content.get_index(), "exported shade darkens the background without dimming the text")
-	check(main.background_video.get_video_texture().get_size() == Vector2(1920, 1080), "exported background uses the optimized 1080p video")
+	check(main.get_node("SmokeBackground").visible and main.get_node("SmokeBackground").material is ShaderMaterial, "exported menu background uses the fog shader")
 	check(main.single_player_button.is_visible_in_tree() and main.single_player_button.get_global_rect().has_area(), "exported New Game button is visible and laid out")
 	var home = main.shell.content.get_child(0)
 	var brand = home.get_node("Brand")

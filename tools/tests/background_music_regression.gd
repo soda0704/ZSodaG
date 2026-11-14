@@ -29,7 +29,7 @@ func run() -> void:
 	check(music.volume_linear > initial_gain and music.volume_db < music.background_volume_db, "startup volume rises gradually rather than jumping to full level")
 	await create_timer(music.fade_in_seconds - 1.2 + 0.2).timeout
 	check(is_equal_approx(music.volume_db, music.background_volume_db), "startup fade reaches the configured source level")
-	check(menu.background_video.is_playing() and menu.background_video.volume_db <= -80.0, "background video plays silently")
+	check(menu.get_node_or_null("BackgroundVideo") == null and menu.get_node("SmokeBackground").visible, "procedural menu has no background video decoder")
 	check(music.playing and music.bus == &"Music", "separate menu music plays through the Music settings bus")
 	check(music.stream.resource_path == "res://assets/audio/music/main_menu.ogg", "menu uses the replacement track")
 	check(music.stream is AudioStreamOggVorbis and music.stream.loop, "native stream looping is enabled")

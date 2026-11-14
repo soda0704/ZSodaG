@@ -1,12 +1,11 @@
 extends Control
 ## Presentation only; the existing session controller owns the actual loading.
-@export var videos: Array[VideoStream] = []
 @export var tips: Array[LoadingTip] = []
 @export_range(3.0, 30.0) var tip_seconds := 5.0
 @export var music_volume_db := -12.0
-@onready var video: VideoStreamPlayer = $VideoFrame/Video
 @onready var music: AudioStreamPlayer = $Music
-@onready var animation: AnimationPlayer = $AnimationPlayer
+@onready var logo: TextureRect = $Footer/Content/Status/Logo
+var _logo_tween: Tween
 @onready var footer: MarginContainer = $Footer
 @onready var status: Label = %TransitionLabel
 @onready var tip_title: Label = %TipTitle
@@ -41,10 +40,12 @@ func show_cover(message: String) -> void:
 	tip_index = 0
 	_tip_elapsed = 0.0
 	_refresh_tip()
-	if not videos.is_empty():
-		video.stream = videos.pick_random()
-		video.play()
-	animation.play("atom")
+	if is_instance_valid(_logo_tween): _logo_tween.kill()
+	logo.modulate.a = 1.0
+	if not NorthernMenuStyle.reduced_motion:
+		_logo_tween = create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_logo_tween.tween_property(logo, "modulate:a", 0.72, 1.25)
+		_logo_tween.tween_property(logo, "modulate:a", 1.0, 1.25)
 	if is_instance_valid(_music_tween): _music_tween.kill()
 	music.volume_linear = 0.0
 	music.play()
@@ -61,9 +62,9 @@ func _visibility_changed() -> void:
 	if not is_node_ready() or is_visible_in_tree(): return
 	set_process(false)
 	_reset_tip_transition()
-	video.stop()
 	music.stop()
-	animation.stop()
+	if is_instance_valid(_logo_tween): _logo_tween.kill()
+	logo.modulate.a = 1.0
 	if is_instance_valid(_music_tween): _music_tween.kill()
 	_restore_mouse()
 

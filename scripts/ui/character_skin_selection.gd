@@ -138,7 +138,6 @@ func animate_out(motion: Tween, duration: float) -> void:
 			motion.tween_property(models[index], "position", Vector3(.12 if index == 0 else -.12, -.025, 0), duration).set_custom_interpolator(NorthernMenuStyle.ease)
 	motion.tween_property($Heading, "modulate:a", 0.0, duration)
 	motion.tween_property($Caption, "modulate:a", 0.0, duration)
-	motion.tween_property($SelectionShade, "modulate:a", 0.0, duration).set_custom_interpolator(NorthernMenuStyle.ease)
 
 func _update_preview_sizes() -> void:
 	for index in choices.size():

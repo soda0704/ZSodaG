@@ -2,7 +2,6 @@ class_name NorthernLabMainMenu
 extends Control
 
 var shell: NorthernMenuShell
-var background_video: VideoStreamPlayer
 var continue_game_button: Button
 var single_player_button: Button
 var settings_button: Button
@@ -23,28 +22,13 @@ func _ready() -> void:
 	GameMenu.force_close_menu()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	shell = $Shell
-	background_video = $BackgroundVideo
-	resized.connect(_fit_background_video)
-	_fit_background_video.call_deferred()
-	shell.video = background_video
-	background_video.bus = &"Music"
-	background_video.finished.connect(background_video.play)
-	if not background_video.is_playing():
-		background_video.play()
 	SteamNetwork.state_changed.connect(_on_steam_state_changed)
 	$FeedbackCorner.pressed.connect(func(): GameMenu.open_feedback())
 	_show_home()
 	shell.appear()
 
-func _fit_background_video() -> void:
-	var frame_size := background_video.get_video_texture().get_size()
-	if frame_size.x <= 0.0 or frame_size.y <= 0.0: return
-	var factor := maxf(size.x / frame_size.x, size.y / frame_size.y)
-	background_video.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	background_video.size = frame_size * factor
-	background_video.position = (size - background_video.size) * 0.5
-
 func _page(template: String) -> VBoxContainer:
+	shell.shade.show()
 	if is_instance_valid(selector):
 		selector.queue_free()
 		selector = null
@@ -99,6 +83,7 @@ func show_character(flow: String = "solo", resume_checkpoint: bool = false) -> v
 	_character_flow = flow
 	_character_resume = resume_checkpoint
 	_page("res://scenes/ui/menu_character.tscn")
+	shell.shade.hide()
 	selector = preload("res://scenes/ui/character_selection.tscn").instantiate()
 	selector.name = "SkinCard"
 	selector.activation_allowed = func(): return not _transition_in_progress and not shell.busy and not GameMenu.is_menu_open()
