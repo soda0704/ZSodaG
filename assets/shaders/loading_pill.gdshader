@@ -73,44 +73,30 @@ float rounded_box_sdf(vec2 point, vec2 half_size, float radius) {
 	return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - radius;
 }
 
+// A padded canvas leaves room for a 9px light and its halo around the 4px track.
+uniform float track_half_height = 0.0625;
 void fragment() {
-	// --- Pill-shaped track mask (anti-aliased rounded rect) ---
-	vec2 p = (UV - 0.5) * vec2(slider_aspect, 1.0);
-	vec2 half_size = vec2(slider_aspect * 0.5, 0.5);
-	float dist_to_edge = rounded_box_sdf(p, half_size, corner_radius);
-
-	float shape_mask = 1.0 - smoothstep(0.0, 0.02, dist_to_edge);
-	float border_mask = smoothstep(-border_width, -border_width + 0.02, dist_to_edge)
-					   - smoothstep(0.0, 0.02, dist_to_edge);
-
-	// --- Fill gradient + edge glow ---
-	vec4 grad = mix(color_min, color_max, UV.x);
-	float filled = fill_ratio <= 0.0 ? 0.0 : (fill_ratio >= 1.0 ? 1.0 : 1.0 - smoothstep(fill_ratio - edge_softness, fill_ratio + edge_softness, UV.x));
-
-	float dist_to_tip = abs(UV.x - fill_ratio);
-	float pulse = 0.5 + 0.5 * sin(TIME * tip_pulse_speed);
-	float tip_glow = smoothstep(tip_glow_width, 0.0, dist_to_tip) * (0.3 + 0.7 * pulse) * tip_glow_strength;
-
-	vec3 rgb = mix(track_color.rgb, grad.rgb + tip_glow, filled);
-	rgb = mix(rgb, track_border_color.rgb, border_mask * track_border_color.a);
-
-	float alpha = shape_mask * mix(track_color.a, grad.a, filled);
-
-	// --- Handle: circular regardless of node aspect ratio ---
-	vec2 centered_uv = vec2((UV.x - fill_ratio) * slider_aspect, UV.y - 0.5);
-	float dist_to_center = length(centered_uv);
-
-	float shadow = handle_radius > 0.0 ? (1.0-smoothstep(handle_radius, handle_radius+0.12, dist_to_center))*handle_shadow_strength : 0.0;
-	rgb = mix(rgb, vec3(0.0), shadow * 0.4);
-
-	float outline_mask = smoothstep(handle_radius + handle_outline_width, handle_radius, dist_to_center)
-					   - smoothstep(handle_radius, handle_radius - handle_outline_width, dist_to_center);
-	float fill_mask = smoothstep(handle_radius, handle_radius - handle_outline_width * 0.5, dist_to_center);
-
-	if (handle_radius <= 0.0) { outline_mask=0.0; fill_mask=0.0; }
-	rgb = mix(rgb, handle_outline_color.rgb, outline_mask * handle_outline_color.a);
-	rgb = mix(rgb, handle_color.rgb, fill_mask * handle_color.a);
-	alpha = max(alpha, max(outline_mask * handle_outline_color.a, fill_mask * handle_color.a));
-
-	COLOR = vec4(rgb, alpha);
+ vec2 p=(UV-0.5)*vec2(slider_aspect,1.0);
+ float distance=rounded_box_sdf(p,vec2(slider_aspect*0.5,track_half_height),track_half_height);
+ float aa=max(fwidth(distance),0.001);
+ float track=1.0-smoothstep(-aa,aa,distance);
+ float filled=fill_ratio<=0.0?0.0:(fill_ratio>=1.0?1.0:1.0-smoothstep(fill_ratio-edge_softness,fill_ratio+edge_softness,UV.x));
+ vec4 gradient=mix(color_min,color_max,UV.x);
+ vec3 base=mix(track_color.rgb,gradient.rgb,filled);
+ float alpha=track*mix(track_color.a,gradient.a,filled);
+ float inset=0.48/slider_aspect;
+ float position=clamp(fill_ratio,inset,1.0-inset);
+ vec2 light=vec2((UV.x-position)*slider_aspect,UV.y-0.5);
+ float radius=length(light);
+ float pulse=0.92+0.08*sin(TIME*tip_pulse_speed);
+ float halo=exp(-dot(light,light)/0.055)*0.68*pulse;
+ float inner_halo=exp(-dot(light,light)/0.012)*0.58;
+ float glow_alpha=clamp(halo+inner_halo,0.0,0.94);
+ vec3 glow_color=vec3(0.54,0.86,1.0);
+ vec3 premultiplied=base*alpha+glow_color*glow_alpha*(1.0-alpha);
+ alpha+=glow_alpha*(1.0-alpha);
+ float core=1.0-smoothstep(handle_radius-aa,handle_radius+aa,radius);
+ premultiplied=mix(premultiplied,handle_color.rgb,core);
+ alpha=mix(alpha,1.0,core);
+ COLOR=vec4(premultiplied/max(alpha,0.0001),alpha);
 }

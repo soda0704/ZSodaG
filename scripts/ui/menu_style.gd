@@ -18,7 +18,8 @@ const CATEGORY_ENTER_SECONDS := 0.18
 const MODAL_SECONDS := 0.25
 const STAGGER_SECONDS := 0.035
 static var _ease_samples := PackedFloat32Array()
-static var _cursor: ImageTexture
+const LASER_CURSOR = preload("res://scripts/ui/cursor/menu_laser_cursor.gd")
+static var _cursor: CanvasLayer
 static var reduced_motion := false
 static var keyboard_navigation := false
 static var touch_navigation := false
@@ -84,37 +85,21 @@ static func rule(parent: Node) -> void:
 	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(line)
 
-static func install_cursor() -> void:
-	if DisplayServer.get_name() == "headless":
+static func install_cursor(parent: Node) -> void:
+	if is_instance_valid(_cursor):
 		return
-	if _cursor == null: _cursor = ImageTexture.create_from_image(cursor_image())
-	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
-		Input.set_custom_mouse_cursor(_cursor, shape, Vector2(14, 14))
+	var cursor := LASER_CURSOR.new()
+	cursor.reduced_motion = func() -> bool: return reduced_motion
+	cursor.touch_navigation = func() -> bool: return touch_navigation
+	_cursor = cursor
+	parent.add_child(cursor)
 
 static func uninstall_cursor() -> void:
-	if _cursor == null:
+	if not is_instance_valid(_cursor):
 		return
-	# Input and the static cache both retain this GPU texture beyond scene changes.
-	# Release it while the renderer still exists, before the script cache shuts down.
-	for shape in [Input.CURSOR_ARROW, Input.CURSOR_POINTING_HAND, Input.CURSOR_HSIZE, Input.CURSOR_IBEAM, Input.CURSOR_DRAG]:
-		Input.set_custom_mouse_cursor(null, shape)
+	# Restore native shapes and release GPU resources before renderer shutdown.
+	_cursor.free()
 	_cursor = null
 
 static func cursor_image() -> Image:
-	var image := Image.create(28, 28, false, Image.FORMAT_RGBA8)
-	image.fill(Color.TRANSPARENT)
-	var points: Array[Vector2i] = []
-	for corner in [Vector2i(4, 4), Vector2i(23, 4), Vector2i(4, 23), Vector2i(23, 23)]:
-		var sx := 1 if corner.x < 14 else -1
-		var sy := 1 if corner.y < 14 else -1
-		for i in 5:
-			points.append(Vector2i(corner.x + i * sx, corner.y))
-			points.append(Vector2i(corner.x, corner.y + i * sy))
-	for x in range(13, 15):
-		for y in range(13, 15): points.append(Vector2i(x, y))
-	# The dark outline stays visible on paper; the ivory core stays visible at night.
-	for point in points:
-		for x in range(-1, 2):
-			for y in range(-1, 2): image.set_pixelv(point + Vector2i(x, y), Color(0.025, 0.025, 0.022, 1.0))
-	for point in points: image.set_pixelv(point, Color(0.94, 0.92, 0.86, 1.0))
-	return image
+	return LASER_CURSOR.fallback_image()

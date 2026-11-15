@@ -55,7 +55,7 @@ func _ready() -> void:
 	$LoadingRenderWarmup.msaa_3d = get_viewport().msaa_3d
 	$LoadingRenderWarmup.screen_space_aa = get_viewport().screen_space_aa
 	$LoadingRenderWarmup.use_taa = get_viewport().use_taa
-	NorthernMenuStyle.install_cursor()
+	NorthernMenuStyle.install_cursor(self)
 	menu_root = $MenuRoot
 	shell = $MenuRoot/Shell
 	shell.content.resized.connect(_fit_view_panels)

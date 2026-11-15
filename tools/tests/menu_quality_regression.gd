@@ -135,7 +135,7 @@ func run() -> void:
 	settings = menu.settings_panel
 	settings.select_category(1)
 	var image := NorthernMenuStyle.cursor_image()
-	check(image.get_pixel(4, 4).r > 0.9 and image.get_pixel(3, 4).r < 0.1 and image.get_pixel(3, 4).a == 1.0, "cursor has both light core and opaque dark outline for notebook paper")
+	check(image.get_size() == Vector2i(64, 64) and image.get_pixel(31, 31).a > 0.9 and image.get_pixel(0, 0).a < 0.001, "laser fallback has a visible centered core and transparent margins")
 	var monotonic := true
 	var previous := 0.0
 	for index in 1001:
