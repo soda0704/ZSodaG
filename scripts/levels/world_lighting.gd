@@ -48,6 +48,7 @@ var _blizzard: Node
 var _sun:DirectionalLight3D
 var _sun_shadow_distance:=96.0
 var _sun_shadow_mode := DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
+var _sun_volume_energy := 0.0
 var quality_shadow_distance := 96.0
 var _editor_lights:Array[Light3D]=[]
 var _editor_elapsed:=0.0
@@ -61,6 +62,7 @@ func _ready() -> void:
 	_sun=get_node("OvercastSun")
 	_sun_shadow_distance=_sun.directional_shadow_max_distance
 	_sun_shadow_mode=_sun.directional_shadow_mode
+	_sun_volume_energy=_sun.light_volumetric_fog_energy
 	refresh_exterior_layers()
 	var arrival := get_parent().get_node_or_null("ArrivalSite")
 	if arrival != null:
@@ -222,6 +224,8 @@ func _process(delta: float) -> void:
 		_environment_source.changed.connect(_on_environment_source_changed)
 		_environment_dirty = true
 	if camera != _camera or _environment_dirty:
+		if is_instance_valid(_camera) and _camera != camera:
+			_camera.remove_meta("world_environment_owner")
 		_camera = camera
 		_camera_environment = quality.make_environment_copy(source)
 		_outdoor_fog_density = source.fog_density if source.fog_enabled else 0.0
@@ -231,7 +235,8 @@ func _process(delta: float) -> void:
 		_outdoor_fog_begin = source.fog_depth_begin
 		_outdoor_fog_end = source.fog_depth_end
 		_camera.environment = _camera_environment
-		quality.apply_environment(_camera_environment)
+		_camera.set_meta("world_environment_owner", weakref(self))
+		apply_graphics_settings(quality)
 		_environment_dirty = false
 	var at := camera.get_global_transform_interpolated().origin
 	var environment_changed := false
@@ -291,10 +296,22 @@ func _process(delta: float) -> void:
 	if not is_equal_approx(_camera_environment.volumetric_fog_length, volume_length):
 		_camera_environment.volumetric_fog_length = volume_length
 		environment_changed = true
-	var sun_scattering := 0.7 * (1.0 - _indoor_mix)
+	var sun_scattering := _sun_volume_energy * (1.0 - _indoor_mix)
 	if not is_equal_approx(_sun.light_volumetric_fog_energy, sun_scattering): _sun.light_volumetric_fog_energy = sun_scattering
 	if environment_changed: _camera_environment.emit_changed()
 	_update_lamps(at, delta)
+
+func apply_graphics_settings(quality: Node) -> void:
+	# Quality supplies effect budgets; this owner composes them with weather.
+	quality_shadow_distance = float(quality.values.get("ShadowDistance", 96.0))
+	if _camera_environment == null: return
+	quality.apply_environment(_camera_environment, false)
+	if _blizzard != null and _blizzard.enabled:
+		_camera_environment.volumetric_fog_enabled = false
+	_camera_environment.emit_changed()
+
+func owns_environment(camera: Camera3D) -> bool:
+	return camera == _camera and camera.environment == _camera_environment
 
 func source_environment() -> Environment:
 	var environment_node: WorldEnvironment
@@ -362,6 +379,7 @@ func _update_editor_lamp_visibility(at: Vector3) -> void:
 			_editor_visibility[lamp] = active
 
 func _exit_tree() -> void:
+	if is_instance_valid(_camera): _camera.remove_meta("world_environment_owner")
 	if _environment_source != null and _environment_source.changed.is_connected(_on_environment_source_changed):
 		_environment_source.changed.disconnect(_on_environment_source_changed)
 	if not Engine.is_editor_hint():

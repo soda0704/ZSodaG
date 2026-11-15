@@ -5,7 +5,7 @@ uniform vec3 clear_min[9];
 uniform vec3 clear_max[9];
 uniform mat4 base_inverse;
 uniform float visibility_distance = 22.8;
-uniform vec3 storm_color : source_color = vec3(0.64,0.71,0.76);
+uniform vec3 storm_color : source_color = vec3(0.73,0.80,0.88);
 uniform float strength = 1.0;
 void vertex() { POSITION = vec4(VERTEX.xy, 1.0, 1.0); }
 void fragment() {
@@ -31,5 +31,7 @@ void fragment() {
  // Underground cave and lower floors keep their existing atmosphere.
  if(origin.y < -8.0 && target.y < -8.0) outdoors=0.0;
  float fog=smoothstep(2.0,visibility_distance,outdoors)*strength;
- ALBEDO=storm_color; ALPHA=fog;
+ // A restrained vertical gradient unifies the white horizon and blue sky.
+ float elevation=clamp(direction.y,0.0,1.0);
+ ALBEDO=mix(storm_color,storm_color*vec3(0.88,0.93,1.0),smoothstep(0.0,0.7,elevation)); ALPHA=fog;
 }

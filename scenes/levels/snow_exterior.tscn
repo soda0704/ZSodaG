@@ -141,18 +141,18 @@ radiance_size = 4
 
 [sub_resource type="Environment" id="Environment_v51dc"]
 background_mode = 2
-background_energy_multiplier = 0.4
+background_energy_multiplier = 0.48
 sky = SubResource("Sky_b4o2f")
-sky_rotation = Vector3(0, -0.6, 0)
+sky_rotation = Vector3(0, -0.424430446, 0)
 ambient_light_source = 3
 ambient_light_color = Color(0.9, 0.94, 1, 1)
 ambient_light_sky_contribution = 1.0
-ambient_light_energy = 3.5
+ambient_light_energy = 3.8
 reflected_light_source = 2
 tonemap_mode = 4
 ssao_enabled = true
 ssao_radius = 0.4
-ssao_intensity = 0.45
+ssao_intensity = 0.32
 ssao_power = 1.0
 ssao_detail = 0.25
 ssao_sharpness = 0.6
@@ -184,7 +184,7 @@ volumetric_fog_sky_affect = 0.15
 volumetric_fog_temporal_reprojection_enabled = false
 adjustment_enabled = true
 adjustment_contrast = 1.0
-adjustment_saturation = 0.9
+adjustment_saturation = 0.86
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vq06m"]
 size = Vector3(8, 950, 1500)
@@ -212,6 +212,7 @@ size = Vector3(1190, 200, 1480)
 script = ExtResource("1_g7pg2")
 
 [node name="Blizzard" parent="." instance=ExtResource("local_blizzard")]
+
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=1023634340]
 data_directory = "res://assets/environments/snow/expanded_terrain"

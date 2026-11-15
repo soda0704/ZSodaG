@@ -3,7 +3,7 @@ extends Node3D
 @export var enabled := true
 @export_range(8.0, 40.0) var calm_visibility := 22.8
 @export_range(5.0, 25.0) var gust_visibility := 12.54
-@export var fog_color := Color(0.64, 0.71, 0.76)
+@export var fog_color := Color(0.73, 0.80, 0.88)
 @export_range(4.0, 60.0) var gust_period := 18.0
 var gust := 0.0
 var outside_weight := 0.0
@@ -21,6 +21,9 @@ func _ready() -> void:
 	flakes.draw_pass_1 = flakes.draw_pass_1.duplicate()
 	flakes.draw_pass_1.material = snow_material.duplicate()
 	snow_material = flakes.draw_pass_1.material
+	# Match streak orientation to the authored particle motion, not a second wind.
+	var wind := flakes.process_material as ShaderMaterial
+	if wind != null: snow_material.set_shader_parameter("wind_direction", (wind.get_shader_parameter("wind_direction") as Vector3).normalized())
 	# Weather covers ordinary transparent surfaces too; local flakes draw last.
 	snow_material.render_priority = 127
 	var base := get_parent().get_parent() as Node3D
@@ -63,7 +66,7 @@ func advance(camera: Camera3D, indoor_mix: float, delta: float, sheltered: bool 
 	flakes.emitting = exposed
 	if exposed and (reset or not was_exposed): flakes.restart()
 	flakes.speed_scale = lerpf(0.8, 1.35, gust)
-	snow_material.set_shader_parameter("opacity", lerpf(0.5, 0.8, gust) * 0.87)
+	snow_material.set_shader_parameter("opacity", lerpf(0.72, 0.95, gust))
 	fog_quad.global_position = point
 	fog_quad.visible = enabled
 	fog_material.set_shader_parameter("visibility_distance", visibility_distance())

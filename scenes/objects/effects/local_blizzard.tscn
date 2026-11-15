@@ -3,27 +3,18 @@
 [ext_resource type="Script" path="res://scripts/effects/local_blizzard.gd" id="logic"]
 [ext_resource type="Shader" path="res://assets/shaders/blizzard_flakes.gdshader" id="flakes_shader"]
 
+[ext_resource type="Shader" path="res://assets/shaders/blizzard_motion.gdshader" id="motion_shader"]
+
 [sub_resource type="ShaderMaterial" id="snow_material"]
 shader = ExtResource("flakes_shader")
 
 [sub_resource type="QuadMesh" id="flake"]
 material = SubResource("snow_material")
-size = Vector2(0.065, 0.045)
+size = Vector2(0.16, 0.032)
 
-[sub_resource type="ParticleProcessMaterial" id="wind"]
-emission_shape = 3
-emission_box_extents = Vector3(9, 4, 9)
-direction = Vector3(1, -0.2, 0.4)
-spread = 18.0
-initial_velocity_min = 9.0
-initial_velocity_max = 16.0
-gravity = Vector3(0, -0.6, 0)
-scale_min = 0.35
-scale_max = 1.65
-angle_min = -180.0
-angle_max = 180.0
-angular_velocity_min = -45.0
-angular_velocity_max = 45.0
+[sub_resource type="ShaderMaterial" id="wind"]
+shader = ExtResource("motion_shader")
+shader_parameter/wind_direction = Vector3(1, -0.2, 0.4)
 
 [node name="Blizzard" type="Node3D"]
 script = ExtResource("logic")

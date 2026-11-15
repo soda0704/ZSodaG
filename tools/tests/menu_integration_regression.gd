@@ -65,6 +65,7 @@ func run() -> void:
 		menu.dialog.dismiss(main.show_character.bind("solo"))
 		await wait_ui()
 	check(main.current_view == "character", "new game opens character selection")
+	check(main.shell.shade.is_visible_in_tree() and main.shell.shade.get_index() < main.selector.get_index(), "character selection retains the shared background shade behind the characters")
 	check(main.selector.choices.size() == 2, "both production characters are selectable")
 	var saved_variant:int=menu.get_character_variant_id()
 	main.selector.choices[1].grab_focus()

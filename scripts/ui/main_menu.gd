@@ -83,7 +83,6 @@ func show_character(flow: String = "solo", resume_checkpoint: bool = false) -> v
 	_character_flow = flow
 	_character_resume = resume_checkpoint
 	_page("res://scenes/ui/menu_character.tscn")
-	shell.shade.hide()
 	selector = preload("res://scenes/ui/character_selection.tscn").instantiate()
 	selector.name = "SkinCard"
 	selector.activation_allowed = func(): return not _transition_in_progress and not shell.busy and not GameMenu.is_menu_open()

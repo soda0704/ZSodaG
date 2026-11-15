@@ -79,6 +79,11 @@ func run() -> void:
 	var quality=root.get_node("GameMenu/GraphicsQuality")
 	check(get_nodes_in_group("local_blizzard").size()==1,"loaded world owns exactly one local snow field")
 	check(not weather.flakes.local_coords and weather.flakes.amount==2800,"denser small snowflakes remain in world space after emission")
+	var flake_mesh: QuadMesh = weather.flakes.draw_pass_1
+	check(flake_mesh.size.x > flake_mesh.size.y * 2.0 and flake_mesh.size.x < flake_mesh.size.y * 8.0, "snow grains use compact motion trails instead of long luminous ribbons")
+	var wind: ShaderMaterial = weather.flakes.process_material
+	var streak_wind: Vector3 = weather.snow_material.get_shader_parameter("wind_direction")
+	check(streak_wind.is_equal_approx((wind.get_shader_parameter("wind_direction") as Vector3).normalized()), "streak direction follows the existing particle wind")
 	actor.teleport_authoritative(Vector3(-60,3,50),0)
 	actor.camera.rotation=Vector3.ZERO
 	actor.get_node("PlayerUI/CameraPostProcess").effect_enabled=false

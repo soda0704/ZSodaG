@@ -1,5 +1,7 @@
 extends RefCounted
 ## Main-thread assembly: no node enters the tree before all scene overrides exist.
+signal resource_progress(ratio: float)
+
 const Plan = preload("res://scripts/network/level_load_plan.gd")
 var chunks: Dictionary = {}
 var signatures: Dictionary = {}
@@ -37,7 +39,11 @@ func request_scene(path: String, tree: SceneTree) -> PackedScene:
 		return null
 	trace("request_end")
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		var progress: Array = []
+		ResourceLoader.load_threaded_get_status(path, progress)
+		if not progress.is_empty(): resource_progress.emit(float(progress[0]))
 		await tree.process_frame
+	resource_progress.emit(1.0)
 	# Native IO cannot be cancelled. Even after scene exit, consume the finished
 	# request exactly once; an abandoned result must not outlive the job.
 	if ResourceLoader.load_threaded_get_status(path) != ResourceLoader.THREAD_LOAD_LOADED:

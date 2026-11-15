@@ -554,6 +554,7 @@ func _enter_v3_level() -> void:
 	var transition_id := lobby_hud.show_transition_cover(
 		"ЗАГРУЗКА БАЗЫ..." if _standalone_mode else "ПОСАДКА У БАЗЫ..."
 	)
+	construction.resource_progress.connect(func(ratio: float): lobby_hud.set_transition_progress(transition_id, ratio * 0.35))
 	preload("res://scripts/network/level_load_job.gd").trace("cover_end")
 	await GameMenu.release_scene_load_cover()
 	if not is_inside_tree() or construction.cancelled: return
@@ -570,9 +571,11 @@ func _enter_v3_level() -> void:
 		lobby_hud.reveal_transition_cover(transition_id)
 		return
 
+	lobby_hud.set_transition_progress(transition_id, 0.35)
 	construction.trace("construct_begin")
 	var v3_level := await construction.instantiate(packed_level, get_tree()) as BaseBlockoutRuntime
 	if not is_inside_tree() or construction.cancelled: return
+	lobby_hud.set_transition_progress(transition_id, 0.6)
 	construction.trace("construct_end")
 	if v3_level == null:
 		push_error("V3 root must use BaseBlockoutRuntime")
@@ -618,9 +621,11 @@ func _enter_v3_level() -> void:
 		GameMenu.abort_scene_load.call_deferred("Не удалось загрузить рельеф базы.")
 		return
 	v3_level.get_node("WorldLighting").refresh_exterior_layers()
+	lobby_hud.set_transition_progress(transition_id, 0.8)
 	construction.trace("terrain_end")
 	await construction.finish_loading(get_tree())
 	if not is_inside_tree() or construction.cancelled: return
+	lobby_hud.set_transition_progress(transition_id, 0.88)
 	construction.trace("collision_end")
 	await get_tree().physics_frame
 	if not is_inside_tree() or construction.cancelled: return
@@ -711,6 +716,7 @@ func _enter_v3_level() -> void:
 	else:
 		await indirect.finish_loading(get_v3_spawn_position(0).y)
 		if not is_inside_tree() or construction.cancelled: return
+	lobby_hud.set_transition_progress(transition_id, 0.97)
 	await lobby_hud.wait_for_transition_ready(transition_id)
 	if not is_inside_tree() or construction.cancelled: return
 	await lobby_hud.reveal_transition_cover(transition_id)

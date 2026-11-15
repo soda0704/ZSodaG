@@ -5,6 +5,9 @@ extends Control
 @export var music_volume_db := -12.0
 @onready var music: AudioStreamPlayer = $Music
 @onready var logo: TextureRect = $Footer/Content/Status/Logo
+@onready var progress_bar: ColorRect = %LoadingProgress
+var _progress_target := 0.0
+var displayed_progress := 0.0
 var _logo_tween: Tween
 @onready var footer: MarginContainer = $Footer
 @onready var status: Label = %TransitionLabel
@@ -22,11 +25,16 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout)
 	get_node("/root/SteamInput").input_device_changed.connect(_refresh_tip)
 	visibility_changed.connect(_visibility_changed)
+	progress_bar.resized.connect(_sync_progress_size)
+	_sync_progress_size()
 	_layout()
 	_refresh_tip()
 	set_process(false)
 
 func show_cover(message: String) -> void:
+	_progress_target = 0.0
+	displayed_progress = 0.0
+	_update_progress_material()
 	if not _owns_mouse:
 		_previous_mouse_mode = Input.mouse_mode
 		_owns_mouse = true
@@ -77,6 +85,8 @@ func _restore_mouse() -> void:
 	_owns_mouse = false
 
 func _process(delta: float) -> void:
+	displayed_progress = minf(_progress_target, displayed_progress + delta * 1.8)
+	_update_progress_material()
 	_tip_elapsed += delta
 	if _tip_elapsed >= tip_seconds: next_tip()
 
@@ -129,3 +139,23 @@ func _layout() -> void:
 	footer.offset_right = get_viewport_rect().size.x / factor
 	footer.offset_top = -270.0
 	footer.offset_bottom = 0.0
+
+func set_progress(value: float) -> void:
+	if not is_finite(value): return
+	_progress_target = maxf(_progress_target, clampf(value, 0.0, 1.0))
+	if NorthernMenuStyle.reduced_motion:
+		displayed_progress = _progress_target
+		_update_progress_material()
+
+func finish_progress() -> void:
+	set_progress(1.0)
+	while is_visible_in_tree() and displayed_progress < 1.0:
+		await get_tree().process_frame
+
+func _sync_progress_size() -> void:
+	(progress_bar.material as ShaderMaterial).set_shader_parameter("slider_aspect", progress_bar.size.x / maxf(progress_bar.size.y, 1.0))
+
+func _update_progress_material() -> void:
+	var material := progress_bar.material as ShaderMaterial
+	material.set_shader_parameter("fill_ratio", displayed_progress)
+	material.set_shader_parameter("tip_pulse_speed", 0.0 if NorthernMenuStyle.reduced_motion else 0.8)

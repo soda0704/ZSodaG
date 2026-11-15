@@ -93,6 +93,8 @@ func reveal_transition_cover(transition_id: int) -> void:
 		return
 	if is_instance_valid(_transition_tween):
 		_transition_tween.kill()
+	await flight_transition.finish_progress()
+	if transition_id != _transition_generation: return
 	flight_transition.fade_music(0.8)
 	_transition_tween = create_tween()
 	_transition_tween.tween_property(
@@ -127,3 +129,7 @@ func wait_for_transition_ready(transition_id: int) -> void:
 		# Persistent low framerate is not a loading operation. Don't trap a player
 		# behind the cover indefinitely on unsupported hardware.
 		if elapsed >= 10.0: break
+
+func set_transition_progress(transition_id: int, value: float) -> void:
+	if transition_id == _transition_generation:
+		flight_transition.set_progress(value)

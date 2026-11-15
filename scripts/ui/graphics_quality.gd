@@ -154,7 +154,7 @@ func apply_node(node: Node) -> void:
 	# their own unshaded environment; screen-space effects break their data pass.
 	if node.get_viewport() != get_viewport(): return
 	if node is WorldLighting:
-		node.quality_shadow_distance = float(values.ShadowDistance)
+		node.apply_graphics_settings(self)
 	if node.get_script() == INDIRECT_LIGHTING_SCRIPT:
 		node.set_quality_enabled(int(values.GIQuality) > 0)
 	if node.get_script() == INTERIOR_OCCLUSION_SCRIPT:
@@ -164,6 +164,11 @@ func apply_node(node: Node) -> void:
 		var active_camera := node.get_viewport().get_camera_3d()
 		if active_camera != null: apply_node(active_camera)
 	if node is Camera3D:
+		var owner_ref = node.get_meta("world_environment_owner") if node.has_meta("world_environment_owner") else null
+		var environment_owner = owner_ref.get_ref() if owner_ref is WeakRef else null
+		if is_instance_valid(environment_owner) and environment_owner.owns_environment(node):
+			environment_owner.apply_graphics_settings(self)
+			return
 		var source: Environment = node.environment if node.environment != null else node.get_world_3d().environment
 		if source != null:
 			if not source.get_meta("quality_runtime_environment", false):
@@ -191,7 +196,7 @@ func make_environment_copy(source: Environment) -> Environment:
 	result.set_meta("quality_runtime_environment", true)
 	return result
 
-func apply_environment(env: Environment) -> void:
+func apply_environment(env: Environment, notify: bool = true) -> void:
 	if env == null or values.is_empty(): return
 	if not env.has_meta("quality_authored_calibration"): _remember_environment(env)
 	var authored: Dictionary = env.get_meta("quality_authored_effects")
@@ -209,7 +214,7 @@ func apply_environment(env: Environment) -> void:
 		if env.get(effect) != enabled: env.set(effect, enabled)
 	# Environment setters update the renderer but do not consistently emit changed.
 	# The isolated hands keep a copy and must receive calibration/effect updates.
-	env.emit_changed()
+	if notify: env.emit_changed()
 
 # Conservative hardware baseline, followed by a measured in-session check.
 # Frame-time correction changes rendering budgets only, never authored light.

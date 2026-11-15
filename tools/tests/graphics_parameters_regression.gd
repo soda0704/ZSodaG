@@ -38,6 +38,18 @@ func run():
 	var camera:=Camera3D.new();arena.add_child(camera);camera.position=Vector3(-27,1.7,-2);camera.look_at(Vector3(-22,2,-6.6));camera.current=true
 	var lighting:WorldLighting=arena.get_node("WorldLighting")
 	var gi=arena.get_node("WorldIndirectLighting")
+	await settle()
+	var authored_environment := lighting.source_environment().duplicate() as Environment
+	var managed_environment := camera.environment
+	check(lighting.owns_environment(camera), "world lighting owns the active camera environment")
+	var storm = arena.get_node("SnowExterior/Blizzard")
+	storm.enabled = true
+	lighting._process(0.0)
+	quality.apply_node(camera)
+	check(camera.environment == managed_environment and not camera.environment.volumetric_fog_enabled, "applying graphics cannot replace the world environment or stack volume fog over the storm")
+	storm.enabled = false
+	lighting._process(0.0)
+	check(is_equal_approx(lighting.source_environment().ambient_light_energy, authored_environment.ambient_light_energy) and lighting.source_environment().glow_enabled == authored_environment.glow_enabled, "runtime weather and graphics preserve the authored Environment")
 	var tracks=arena.find_child("SnowTracks",true,false)
 	var decal:=Decal.new();arena.add_child(decal)
 	var rows:=[]
