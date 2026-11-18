@@ -31,7 +31,6 @@
 [ext_resource type="Script" uid="uid://dfc5sfmap10vx" path="res://scripts/gameplay/base/base_first_entry.gd" id="first_entry"]
 [ext_resource type="PackedScene" uid="uid://cv6w7m25xo5p6" path="res://scenes/objects/crafting/flamethrower_workbench.tscn" id="flame_bench"]
 [ext_resource type="PackedScene" path="res://scenes/objects/crafting/flamethrower_loot_spawns.tscn" id="flame_loot"]
-[ext_resource type="PackedScene" path="res://scenes/levels/world_indirect_lighting.tscn" id="indirect_lighting"]
 [ext_resource type="PackedScene" path="res://scenes/levels/interior_ambient_occlusion.tscn" id="ambient_occlusion"]
 [ext_resource type="PackedScene" path="res://scenes/objects/effects/base_interior_ambience.tscn" id="interior_ambience_audio"]
 [ext_resource type="Resource" path="res://assets/ui/journal/maps/atlas.tres" id="journal_atlas"]
@@ -189,8 +188,6 @@ script = ExtResource("11_day_progression")
 lower_exterior_bounds = NodePath("../SnowExterior/LowerValleyOutdoorRegion/LowerValleyOutdoorBounds")
 
 [node name="EmergencyAlarm" parent="WorldLighting" instance=ExtResource("emergency_alarm")]
-
-[node name="WorldIndirectLighting" parent="." unique_id=2024796229 instance=ExtResource("indirect_lighting")]
 
 [node name="InteriorAmbientOcclusion" parent="." instance=ExtResource("ambient_occlusion")]
 
@@ -888,7 +885,6 @@ claim_key = "journal_2"
 [connection signal="lighting_fault_started" from="BaseGameplayController" to="BasePowerLightingController/FaultAudio" method="play"]
 
 [editable path="WorldLighting"]
-[editable path="WorldIndirectLighting"]
 [editable path="Elevator_Functional_Blockout"]
 [editable path="Floor_0_Base_Blockout"]
 [editable path="Floor_0_Base_Blockout/Doors/PedestrianWindPassage"]

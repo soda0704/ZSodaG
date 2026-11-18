@@ -16,6 +16,7 @@ func run() -> void:
  root.add_child(scene);current_scene=scene
  Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
  root.grab_focus()
+ Input.warp_mouse(Vector2(640,360))
  await create_timer(1.0).timeout
  var cursor=menu.get_node("MenuLaserCursor")
  check(root.has_focus(),"real exported window acquired OS focus")
@@ -48,4 +49,5 @@ func run() -> void:
  for i in 3:await process_frame
  print("EXPORT CURSOR FAILURES ",failures)
  quit.call_deferred(1 if failures else 0)
+
 

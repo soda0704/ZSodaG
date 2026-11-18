@@ -410,6 +410,11 @@ function Invoke-GodotBuildStep {
         while ($true) {
             foreach ($chunk in $process.Drain()) {
                 $displayChunk = [regex]::Replace($chunk.Text, '\x1B\[[0-?]*[ -/]*[@-~]', '')
+                if ($Name -eq 'export' -and -not $chunk.IsError) {
+                    # The full per-resource trace stays in the disk log.
+                    $displayChunk = [regex]::Replace($displayChunk, '(?m)^\[[^\r\n]*\]\s+savepack\s+\|[^\r\n]*\r?\n?', '')
+                }
+                if ([string]::IsNullOrWhiteSpace($displayChunk)) { continue }
                 if ($OutputCallback) { & $OutputCallback $displayChunk $chunk.IsError | Out-Null }
                 else { Write-Host -NoNewline $displayChunk }
             }
@@ -456,10 +461,18 @@ function Publish-DevelopmentBuild {
         Move-Item -LiteralPath $outputDirectory -Destination $backupDirectory
     }
     try {
+        $previousSaves = Join-Path $backupDirectory 'saves'
+        if ($hadPrevious -and (Test-Path -LiteralPath $previousSaves)) {
+            Move-Item -LiteralPath $previousSaves -Destination $StagingDirectory
+        }
         Move-Item -LiteralPath $StagingDirectory -Destination $outputDirectory
     }
     catch {
         if ($hadPrevious) {
+            $stagedSaves = Join-Path $StagingDirectory 'saves'
+            if (Test-Path -LiteralPath $stagedSaves) {
+                Move-Item -LiteralPath $stagedSaves -Destination $backupDirectory
+            }
             Move-Item -LiteralPath $backupDirectory -Destination $outputDirectory
         }
         throw
@@ -515,6 +528,7 @@ function Invoke-DevelopmentBuild {
         New-Item -ItemType Directory -Path $stagingDirectory -Force | Out-Null
         $stagingExecutable = Join-Path $stagingDirectory "NorthernLab.exe"
 
+        $auditUserData = $null
         try {
             $exportArguments = @(
                 "--headless",
@@ -597,7 +611,8 @@ function Invoke-DevelopmentBuild {
             }
             # Run outside the source project so omitted resources cannot be resolved locally.
             # Redirect user data before autoloads start; never touch the player's real saves.
-            $auditUserData = Join-Path $buildLogDirectory ("export-audit-" + [guid]::NewGuid().ToString("N"))
+            # Keep Vulkan cache paths below the Windows PowerShell path limit.
+            $auditUserData = Join-Path $buildRoot (".audit-" + [guid]::NewGuid().ToString("N"))
             New-Item -ItemType Directory -Path $auditUserData -Force | Out-Null
             $auditEnvironment = @{
                 APPDATA = $auditUserData
@@ -626,7 +641,21 @@ function Invoke-DevelopmentBuild {
             Publish-DevelopmentBuild $stagingDirectory
         }
         finally {
-            Remove-BuildStagingDirectory $stagingDirectory
+            try {
+                if ($auditUserData -and (Test-Path -LiteralPath $auditUserData)) {
+                    $auditPath = (Resolve-Path -LiteralPath $auditUserData).Path
+                    if ([IO.Path]::GetDirectoryName($auditPath) -eq [IO.Path]::GetFullPath($buildRoot) -and
+                        [IO.Path]::GetFileName($auditPath) -match '^\.audit-[a-f0-9]{32}$') {
+                        Remove-Item -LiteralPath $auditPath -Recurse -Force
+                    }
+                }
+            }
+            catch {
+                Write-Warning "Could not remove temporary audit data: $($_.Exception.Message)"
+            }
+            if (-not (Test-Path -LiteralPath (Join-Path $stagingDirectory 'saves'))) {
+                Remove-BuildStagingDirectory $stagingDirectory
+            }
         }
         New-LauncherShortcut
         if ($StatusCallback) {
@@ -753,11 +782,42 @@ $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="NorthernLab Launcher"
-        Width="760" Height="900"
+        Width="780" Height="760"
         MinWidth="700" MinHeight="620"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip"
         Background="#071018">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#A018242D"/>
+            <Setter Property="Foreground" Value="#EFF6FA"/>
+            <Setter Property="BorderBrush" Value="#6490A6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Surface" Property="Background" Value="#CC314854"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Surface" Property="Background" Value="#DD426071"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Surface" Property="BorderBrush" Value="#F1FAFF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Surface" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="RootGrid">
         <Grid.Background>
             <SolidColorBrush Color="#071018"/>
@@ -798,9 +858,8 @@ $xaml = @'
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Padding="24"
-                    CornerRadius="8"
-                    Background="#DD0A151D"
-                    BorderBrush="#385364"
+                    Background="#D9071016"
+                    BorderBrush="#446F8294"
                     BorderThickness="1">
                 <StackPanel>
                     <TextBlock Text="&#x41D;&#x410;&#x421;&#x422;&#x420;&#x41E;&#x419;&#x41A;&#x418; &#x417;&#x410;&#x41F;&#x423;&#x421;&#x41A;&#x410;"
@@ -831,7 +890,7 @@ $xaml = @'
                             Content="&#x418;&#x413;&#x420;&#x410;&#x422;&#x42C;"
                             Height="46"
                             IsEnabled="False"
-                            Background="#B72B24"
+                            Background="#99352326"
                             Foreground="White"
                             BorderBrush="#E45D53"
                             FontSize="15"
@@ -851,7 +910,6 @@ $xaml = @'
             <StackPanel Grid.Row="2">
             <Border
                     Padding="14,10"
-                    CornerRadius="5"
                     Background="#C40A151D"
                     BorderBrush="#2D4857"
                     BorderThickness="1">
@@ -866,6 +924,7 @@ $xaml = @'
                 </DockPanel>
             </Border>
             <ProgressBar x:Name="BuildProgress" Height="3" Margin="0,6,0,6"
+                         Foreground="#C35C51" Background="#263642"
                          IsIndeterminate="False" Visibility="Collapsed"/>
             <Expander Header="Build log" Foreground="#9CB4C1" IsExpanded="True" Margin="0,6,0,0">
                 <TextBox x:Name="BuildLog" Height="110" IsReadOnly="True" IsUndoEnabled="False"
@@ -1009,7 +1068,9 @@ function Update-LauncherBuild {
                 "Build worker stopped unexpectedly (code $exitCode). Logs: $script:buildSession"
             }
             Add-LauncherBuildOutput "`r`n$message`r`n"
-            Set-LauncherStatus "Build error. Logs: $script:buildSession" '#E45D53'
+            $playButton.IsEnabled = Test-Path -LiteralPath $outputExecutable -PathType Leaf
+            $reason = ($message -split '\r?\n', 2)[0]
+            Set-LauncherStatus "Build error: $reason" '#E45D53'
         }
         [IO.File]::WriteAllText((Join-Path $script:buildSession 'ui-result.json'), (@{
             hostPid = $PID; workerExitCode = $exitCode; playEnabled = $playButton.IsEnabled

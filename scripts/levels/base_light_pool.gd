@@ -34,7 +34,6 @@ func update(at: Vector3, delta: float) -> Dictionary:
 	_direction = direction
 	targets.clear()
 	var candidates: Array[Dictionary] = []
-	var rooms := host.get_parent().get_node_or_null("WorldIndirectLighting") if host.get_parent() != null else null
 	for lamp: Light3D in host._lamps:
 		var parent := lamp.get_parent_node_3d()
 		if not bool(host._lamp_enabled[lamp]) or (parent != null and not parent.is_visible_in_tree()): continue
@@ -45,15 +44,7 @@ func update(at: Vector3, delta: float) -> Dictionary:
 		# evict the lamp and make its next flash rebuild the shadow atlas.
 		var score := 1.0 / (0.5 + distance_sq / maxf(radius * radius, 0.01))
 		if host._resident_lamps.has(lamp): score *= 1.12
-		# An open hall may have a central shaft hiding the opposite fixtures,
-		# although their illuminated surfaces remain visible around that shaft.
-		var shared_room := false
-		var room_id := str(lamp.get_meta("lighting_room", ""))
-		if rooms != null and not room_id.is_empty():
-			var room := rooms.get_node_or_null(NodePath(room_id)) as VoxelGI
-			if room != null: shared_room = AABB(-room.size * 0.5, room.size).has_point(room.to_local(at))
-		if shared_room: score *= 3.0
-		candidates.append({"lamp": lamp, "score": score, "reachable": shared_room, "visible_surface": false})
+		candidates.append({"lamp": lamp, "score": score, "reachable": false, "visible_surface": false})
 	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.score > b.score)
 	# Geometry-aware priority prevents lamps across a wall from evicting this
 	# room's lamps. Nearby open doorways are sampled without using view direction.

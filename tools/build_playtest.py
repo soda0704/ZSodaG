@@ -15,6 +15,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+from tempfile import TemporaryDirectory
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -65,6 +66,7 @@ def main() -> None:
             raise RuntimeError("Candidate folder already contains a build. Preserve or move it before rebuilding.")
         if not args.verify_existing:
             run([godot, "--headless", "--editor", "--path", str(ROOT), "--import"], "import")
+            run([godot, "--headless", "--path", str(ROOT), "--script", "tools/prepare_level_loading.gd"], "loading-plan")
             run([godot, "--headless", "--path", str(ROOT), "--script", "tools/prepare_export_resources.gd"], "resources")
             run([godot, "--headless", "--path", str(ROOT), "--script", "tools/write_build_identity.gd"], "identity")
             run([godot, "--headless", "--path", str(ROOT), "--export-release", "Windows Playtest", str(exe)], "export", 600)
@@ -88,6 +90,18 @@ def main() -> None:
     marker = payload / ".audited.json"
     if not marker.exists() or json.loads(marker.read_text())["exe_sha256"] != digest(exe):
         raise RuntimeError("Payload was not audited or its executable changed")
+    # The candidate may contain logs, saves or files left by a previous export.
+    # Only runtime files enter the clean packaging directory.
+    with TemporaryDirectory(prefix="playtest-package-", dir=ROOT / "tools/.local") as staging:
+        clean_payload = Path(staging)
+        for filename in ("NorthernLab.exe", "steam_api64.dll", "steam_appid.txt", "game_actions_480.vdf",
+                         "libgodotsteam.windows.template_release.x86_64.dll",
+                         "libterrain.windows.release.x86_64.dll"):
+            shutil.copy2(payload / filename, clean_payload / filename)
+        package(args, clean_payload, output, name, version, stamp)
+
+
+def package(args: argparse.Namespace, payload: Path, output: Path, name: str, version: str, stamp: str) -> None:
     shutil.copy2(ROOT / "tools/distribution/start_here.txt", payload / "start_here.txt")
     licenses = payload / "Licenses"
     for base in (ROOT / "assets", ROOT / "addons"):
@@ -108,7 +122,7 @@ def main() -> None:
     run([str(args.iscc.resolve()), f"/DGameVersion={version}", f"/DPackageName={name}", f"/DPayloadDir={payload}", f"/DOutputDir={output}", str(ROOT / "tools/distribution/playtest.iss")], "installer", 600)
     archive = output / f"{name}-Portable.zip"
     print("portable", flush=True)
-    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as target:
+    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=1) as target:
         for source in distributable_files(payload):
             if source.name != ".audited.json":
                 target.write(source, Path("NorthernLab Playtest") / source.relative_to(payload))

@@ -49,7 +49,7 @@ func prepare(scene: PackedScene):
 		# Export expands redundant transforms of the GI instances into the root.
 		# Assemble this lighting unit from the current scene like other chunks,
 		# rather than rejecting the entire cached base because of those rows.
-		if weight(child, {}) < 128 and child.resource_path != "res://scenes/levels/world_indirect_lighting.tscn":
+		if weight(child, {}) < 128:
 			continue
 		var node_path = str(state.get_node_path(i)).trim_prefix("./")
 		if under(node_path, selected):

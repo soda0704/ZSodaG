@@ -243,7 +243,7 @@ func _process(delta: float) -> void:
 	var sheltered := is_covered(at, _exclude_body(camera))
 	_indoor_mix = move_toward(_indoor_mix, 1.0 if sheltered else 0.0, delta * 1.25)
 	if _blizzard != null: _blizzard.advance(camera, _indoor_mix, delta, sheltered)
-	# The room's geometry, lamps and GI determine its darkness. Crossing a roof
+	# The room's geometry and direct lamps determine its darkness. Crossing a roof
 	# boundary must never change the exposure or ambient of the whole image.
 	var ambient := outdoor_ambient
 	if debug_visibility_profile != null:
@@ -324,9 +324,6 @@ func _on_environment_source_changed() -> void:
 
 func set_debug_darkness(value: float) -> void:
 	debug_darkness = clampf(value, 0.0, 1.0)
-	var indirect := get_parent().get_node_or_null("WorldIndirectLighting")
-	if indirect != null:
-		indirect.set_debug_disabled(debug_darkness < 1.0)
 	_update_debug_viewports()
 
 func _update_debug_viewports() -> void:

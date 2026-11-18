@@ -57,8 +57,8 @@ function Test-WorkerUi {
     if (-not (Select-String -LiteralPath (Join-Path $script:buildSession 'worker.stdout.log') -SimpleMatch 'CONSOLE_HANDLE=0' -Quiet)) {
         throw 'Worker created a console window.'
     }
-    if ($Mode -eq 'failure' -and ($playButton.IsEnabled -or -not $rebuildButton.IsEnabled -or -not $statusText.Text.Contains('Build error'))) {
-        throw 'A worker crash did not leave the UI available for retry.'
+    if ($Mode -eq 'failure' -and (-not $playButton.IsEnabled -or -not $rebuildButton.IsEnabled -or -not $statusText.Text.Contains('Build error'))) {
+        throw 'A worker crash did not preserve Play for the existing build and allow retry.'
     }
     if ($Mode -eq 'success' -and (-not $playButton.IsEnabled -or -not $statusText.Text.Contains('Ready.'))) {
         throw 'Worker completion did not enable Play.'

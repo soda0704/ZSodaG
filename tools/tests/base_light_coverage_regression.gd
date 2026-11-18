@@ -49,7 +49,18 @@ func run() -> void:
 	for node in base.get_children():
 		if str(node.name).begins_with("Floor_"): floors.append(node.global_position.y)
 	var samples: Dictionary = {}
-	for area in base.get_node("WorldIndirectLighting").get_children():
+	for area in [
+		{"name": "Entrance", "global_position": Vector3(-24.05, 2.5, 0), "size": Vector3(27.9, 5.6, 20.1)},
+		{"name": "Hub", "global_position": Vector3(-0.05, 4, 0), "size": Vector3(18.5, 8.6, 18.4)},
+		{"name": "Living", "global_position": Vector3(22.675, 2.5, 0), "size": Vector3(25.55, 5.6, 20.1)},
+		{"name": "NorthWing", "global_position": Vector3(0, 2.5, -18.7), "size": Vector3(20.1, 5.6, 17.5)},
+		{"name": "SouthWing", "global_position": Vector3(0, 2.5, 18.7), "size": Vector3(20.1, 5.6, 17.5)},
+		{"name": "Control", "global_position": Vector3(-30, -14, 0), "size": Vector3(88, 12, 60)},
+		{"name": "LifeSupport", "global_position": Vector3(-30, -32, 0), "size": Vector3(98, 16, 62)},
+		{"name": "Trials", "global_position": Vector3(-24, -50, -3), "size": Vector3(48, 14, 42)},
+		{"name": "Containment", "global_position": Vector3(-18, -68, -14), "size": Vector3(68, 14, 64)},
+		{"name": "Expedition", "global_position": Vector3(-20, -86, -17), "size": Vector3(76, 16, 68)}
+	]:
 		var floor_y := 0.0
 		var best := INF
 		for y in floors:

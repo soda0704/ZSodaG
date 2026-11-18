@@ -1,3 +1,14 @@
+## Shadow and preset revision 5 (2026-11-19)
+
+- Positional atlas: Low 2048, Medium 4096, High 8192. High previously reused Medium resolution; filtering alone could not recover missing detail. Existing quadrant allocation and bounded lamp residency remain.
+- Ordinary base fixtures use filtered shadow maps without PCSS (`light_size=0`). Their previous 0.22 size enabled contact-hardening for every active fixture.
+- SSAO presets: Off / Off / Low. Glow remains available; fixed-view measurements did not justify removing it. Explicit custom SSAO settings remain supported.
+- Exact previous presets migrate to revision 5; custom settings and display calibration are preserved.
+- RTX 3060, 1920x1080, fixed hub view, 120 measured GPU samples after 90 warmup frames: High atlas with PCSS and SSAO Medium ~10.34 ms; without PCSS ~6.98 ms; without SSAO ~6.47 ms. These are local samples, not a game-wide FPS guarantee. Separate runs may include temperature/cache differences.
+- Reference: https://docs.godotengine.org/en/stable/tutorials/3d/lights_and_shadows.html
+
+> 2026-11-19: Global illumination removed (controller, probes, baked data, warmup, settings). Direct lights and sunlight own illumination. Interior reflection probes only mask outdoor sky. Soft shadow filters now scale Low/Medium/High; fog presets are explicit 1/2/2. Historical GI descriptions below no longer apply.
+
 # Освещение мира
 
 Актуальная схема: 11.11.2026. Размещение и настройки — `scenes/levels/world_lighting.tscn`. Сборочная сцена `base_blockout_v03.tscn` больше не переопределяет трансформы этих ламп.

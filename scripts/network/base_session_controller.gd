@@ -586,8 +586,6 @@ func _enter_v3_level() -> void:
 		return
 	v3_level.name = "V3Level"
 	v3_level.network_runtime_managed = true
-	var indirect := v3_level.get_node("WorldIndirectLighting")
-	indirect.prepare_loading()
 	var exterior := v3_level.get_node("SnowExterior")
 	exterior.prepare_loading()
 	var level_process_mode := v3_level.process_mode
@@ -709,13 +707,6 @@ func _enter_v3_level() -> void:
 	# lighting. Keep the cover up until actual frames have settled on this machine.
 	await get_tree().process_frame
 	if not is_inside_tree() or construction.cancelled: return
-	var arrival_camera := get_viewport().get_camera_3d()
-	if arrival_camera != null:
-		await indirect.finish_loading(arrival_camera.global_position.y)
-		if not is_inside_tree() or construction.cancelled: return
-	else:
-		await indirect.finish_loading(get_v3_spawn_position(0).y)
-		if not is_inside_tree() or construction.cancelled: return
 	lobby_hud.set_transition_progress(transition_id, 0.97)
 	await lobby_hud.wait_for_transition_ready(transition_id)
 	if not is_inside_tree() or construction.cancelled: return
