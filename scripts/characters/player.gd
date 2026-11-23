@@ -435,13 +435,15 @@ func update_local_view_motion(delta: float) -> void:
 		else sprint_speed if _sprint_active else walk_speed
 	)
 	var movement_ratio := horizontal_speed / maxf(reference_speed, 0.001)
+	var local_velocity := global_basis.inverse() * Vector3(velocity.x, 0.0, velocity.z)
 	camera.update_motion(
 		delta,
 		movement_ratio,
 		is_on_floor(),
 		_sprint_active,
 		_is_crouching,
-		_aiming
+		_aiming,
+		Vector2(local_velocity.x, local_velocity.z) / maxf(reference_speed, 0.001)
 	)
 	flashlight.update_motion(
 		delta,

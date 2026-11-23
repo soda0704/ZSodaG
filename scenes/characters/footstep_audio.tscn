@@ -2,8 +2,14 @@
 [ext_resource type="Script" path="res://scripts/characters/components/footstep_audio.gd" id="script"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/floor_0.ogg" id="floor0"]
 [ext_resource type="AudioStream" path="res://assets/audio/gameplay/metal_0.ogg" id="metal0"]
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_0.ogg" id="snow0"]
-[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_1.ogg" id="snow1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_00.wav" id="snow0"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_01.wav" id="snow1"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_02.wav" id="snow2"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_03.wav" id="snow3"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_04.wav" id="snow4"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_05.wav" id="snow5"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_06.wav" id="snow6"]
+[ext_resource type="AudioStream" path="res://assets/audio/gameplay/snow_nox_07.wav" id="snow7"]
 [node name="FootstepAudio" type="AudioStreamPlayer3D"]
 script = ExtResource("script")
 volume_db = -15.0
@@ -11,4 +17,4 @@ max_distance = 18.0
 unit_size = 2.0
 floor_sounds = Array[AudioStream]([ExtResource("floor0")])
 metal_sounds = Array[AudioStream]([ExtResource("metal0")])
-snow_sounds = Array[AudioStream]([ExtResource("snow0"), ExtResource("snow1")])
+snow_sounds = Array[AudioStream]([ExtResource("snow0"), ExtResource("snow1"), ExtResource("snow2"), ExtResource("snow3"), ExtResource("snow4"), ExtResource("snow5"), ExtResource("snow6"), ExtResource("snow7")])

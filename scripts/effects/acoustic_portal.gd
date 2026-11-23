@@ -3,7 +3,7 @@ extends Node3D
 ## Local -Z is outdoors, +Z is indoors. The doorway volume is authored in scene.
 @export var door_path: NodePath
 @export var door_manager_path: NodePath
-@export var wind_volume_db := -20.0
+@export var wind_volume_db := -14.0
 @export var fade_seconds := 0.45
 @export var roof_probe_guard_distance := 3.0
 @export var occlusion_interval := 0.25

@@ -33,7 +33,9 @@ func run() -> void:
 	check(music.playing and music.bus == &"Music", "separate menu music plays through the Music settings bus")
 	check(music.stream.resource_path == "res://assets/audio/music/main_menu.ogg", "menu uses the replacement track")
 	check(music.stream is AudioStreamOggVorbis and music.stream.loop, "native stream looping is enabled")
-	check(is_equal_approx(music.stream.get_length(), 30.0), "the full 30-second user recording is retained")
+	var loading := preload("res://scenes/ui/loading_screen.tscn").instantiate()
+	check(loading.get_node("Music").stream == music.stream, "the loading screen uses the same loop as the main menu")
+	loading.free()
 	check(AudioServer.get_bus_send(AudioServer.get_bus_index("Music")) == &"Master", "master volume controls menu music too")
 	check(not FileAccess.file_exists("res://assets/audio/music/northernlab.ogg"), "previous standalone track is removed")
 

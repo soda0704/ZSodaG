@@ -572,6 +572,7 @@ function Invoke-DevelopmentBuild {
                 -Force
 
             Copy-Item -LiteralPath (Join-Path $projectRoot "assets/monsters/attribution.md") -Destination (Join-Path $stagingDirectory "MONSTER_CREDITS.md") -Force
+            Copy-Item -LiteralPath (Join-Path $projectRoot "assets/audio/attribution.md") -Destination (Join-Path $stagingDirectory "AUDIO_CREDITS.md") -Force
             Copy-Item -LiteralPath (Join-Path $projectRoot "assets/environments/snow/mountain_source_license.txt") -Destination (Join-Path $stagingDirectory "MOUNTAIN_CREDITS.txt") -Force
             Copy-Item -LiteralPath (Join-Path $projectRoot "assets/models/pine_tree/attribution.md") -Destination (Join-Path $stagingDirectory "PINE_CREDITS.md") -Force
 

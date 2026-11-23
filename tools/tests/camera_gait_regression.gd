@@ -60,7 +60,8 @@ func run() -> void:
 			check(actor.velocity.length()>1.0 and actor._is_crouching==(gait=="crouch") and actor._aiming==(gait=="aim"),"variant %d actually performs %s"%[variant,gait])
 			check(max_step<.02 and max_roll<1.5 and ranges[gait].x<.12,"camera remains continuous and inside the player capsule for "+gait)
 			check(max_aim_deviation<.0001,"stride does not tilt the view away from the gameplay shooting direction for "+gait)
-		check(ranges.walk.x>.04 and ranges.sprint.x<ranges.walk.x*.85 and rolls.sprint<rolls.walk*.8,"variant %d keeps broad walking but running is steadier with less lateral swing and roll"%variant)
+		check(ranges.walk.x>.04 and ranges.sprint.y>ranges.walk.y*1.20 and ranges.sprint.z>ranges.walk.z*1.20
+			and rolls.sprint>rolls.walk*1.15,"variant %d running has stronger vertical motion, forward travel and roll"%variant)
 		check(ranges.crouch.x<ranges.walk.x*.8 and ranges.aim.x<ranges.walk.x*.55,"variant %d crouch and ADS reduce camera motion"%variant)
 		mode=""
 		for frame in 75:await physics_frame

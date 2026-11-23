@@ -2,15 +2,14 @@ class_name ExteriorAcoustics
 extends Node
 
 @export var storm_sources_path: NodePath
-@export var wind_volume_db := -20.0
-@export var storm_volume_db := -16.0
-@export var sheltered_wind_gain := 0.025
+@export var wind_volume_db := -9.0
+@export var storm_wind_boost_db := 2.0
+@export var sheltered_wind_gain := 0.007
 @export var fade_seconds := 1.0
 @export var initialization_roof_distance := 12.0
 @export var roof_probe_spacing := 3.0
 @onready var wind: AudioStreamPlayer = $Wind
 @onready var muffled_wind: AudioStreamPlayer = $MuffledWind
-@onready var storm: AudioStreamPlayer = $Storm
 var is_inside := false
 var outside_blend := 1.0
 var _camera: Camera3D
@@ -78,9 +77,9 @@ func storm_intensity(point: Vector3) -> float:
 
 func mix_audio(delta: float, point: Vector3, active: bool = true) -> void:
 	var outside := smoothstep(0.0, 1.0, outside_blend) if active else 0.0
-	AudioFade.apply(wind, db_to_linear(wind_volume_db) * outside, delta, fade_seconds)
+	var storm_boost := storm_wind_boost_db * clampf(storm_intensity(point), 0.0, 1.0) if outside > 0.0 else 0.0
+	AudioFade.apply(wind, db_to_linear(wind_volume_db + storm_boost) * outside, delta, fade_seconds)
 	AudioFade.apply(muffled_wind, db_to_linear(wind_volume_db) * sheltered_wind_gain * (1.0 - outside) if active else 0.0, delta, fade_seconds)
-	AudioFade.apply(storm, db_to_linear(storm_volume_db) * storm_intensity(point) * outside, delta, fade_seconds)
 
 func interior_gain_at(camera: Camera3D) -> float:
 	var gain := 0.0

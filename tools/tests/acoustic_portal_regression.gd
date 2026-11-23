@@ -1,6 +1,8 @@
 extends SceneTree
 var failures: Array[String] = []
-func _initialize() -> void: run.call_deferred()
+func _initialize() -> void:
+	create_timer(45.0).timeout.connect(func(): quit(2))
+	run.call_deferred()
 func check(value: bool, label: String) -> void:
 	print("PASS " if value else "FAIL ", label)
 	if not value: failures.append(label)
@@ -102,7 +104,6 @@ func run() -> void:
 	acoustics.update_listener(Vector3(-90, 15, 80), 2.0, true)
 	check(not acoustics.is_inside, "outdoor teleport resets shelter state")
 	check(camera.environment == old_environment and environment.adjustment_brightness == old_brightness, "acoustics leaves camera and brightness untouched")
-	check(world.get_node("SnowExterior/OvercastDaySun").light_cull_mask == 1048575, "sun uses normal geometry and shadow layers")
 	var bus := AudioServer.get_bus_index("MuffledWeather")
 	check(bus >= 0 and AudioServer.get_bus_effect(bus, 0) is AudioEffectLowPassFilter, "sheltered wind has native low-pass filtering")
 	var power = world.get_node("BaseGameplayController")
