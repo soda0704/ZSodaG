@@ -156,17 +156,13 @@ common/physics_interpolation=true
 
 [rendering]
 
-reflections/reflection_atlas/reflection_count=16
-reflections/reflection_atlas/reflection_size=32
-
 rendering_device/d3d12/max_resource_descriptors=131072
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=1
 lights_and_shadows/directional_shadow/16_bits=false
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=1
 lights_and_shadows/positional_shadow/atlas_16_bits=false
+reflections/reflection_atlas/reflection_size=32
+reflections/reflection_atlas/reflection_count=16
 environment/ssao/fadeout_from=30.0
 environment/ssao/fadeout_to=150.0
-lights_and_shadows/positional_shadow/atlas_quadrant_0_subdiv=2
-lights_and_shadows/positional_shadow/atlas_quadrant_1_subdiv=2
-lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=3
 lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=3

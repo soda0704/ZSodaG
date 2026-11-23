@@ -7,6 +7,9 @@ var sprint_exhausted: bool = false
 var sprint_active: bool = false
 var is_crouching: bool = false
 var noise_step_distance: float = 0.0
+const SnowDriftProfile := preload("res://scripts/effects/snow_drift_profile.gd")
+var _snow_profile := SnowDriftProfile.new()
+var _snow_resistance := 0.0
 
 func _update_sprint(player: GamePlayer, delta: float) -> void:
 	var wants_sprint := player._server_sprint if player.multiplayer.is_server() else player._input_sprint
@@ -73,6 +76,19 @@ func simulate_movement(player: GamePlayer,
 		if is_crouching
 		else player.sprint_speed if sprinting else player.walk_speed
 	)
+	var snow_depth := 0.0
+	if player.is_on_floor():
+		var ground := player.global_position
+		var candidate := _snow_profile.depth_for_walking(Vector2(ground.x, ground.z))
+		if candidate > 0.12:
+			var probe := PhysicsRayQueryParameters3D.create(
+				ground + Vector3.UP * 0.15, ground - Vector3.UP * 0.42, 1, [player.get_rid()]
+			)
+			var hit := player.get_world_3d().direct_space_state.intersect_ray(probe)
+			if hit.get("collider") is Terrain3D:
+				snow_depth = candidate
+	_snow_resistance = move_toward(_snow_resistance, smoothstep(0.12, 0.70, snow_depth), delta * 5.0)
+	speed *= lerpf(1.0, 0.67, _snow_resistance)
 	if player.is_carrying_corpse():
 		speed *= player.corpse_carry_speed_multiplier
 	if player.get_node("ItemDrag").is_heavy_carrying(): speed = minf(speed, player.walk_speed * 0.5)
@@ -83,6 +99,7 @@ func simulate_movement(player: GamePlayer,
 			_push_loose_item(player, item, world_direction, delta)
 	var target_velocity := world_direction * speed * player.debug_speed_multiplier / (1.0 + carried_weight * 0.06)
 	var movement_acceleration := player.acceleration * player.debug_speed_multiplier
+	movement_acceleration *= lerpf(1.0, 0.72, _snow_resistance)
 	if not player.is_on_floor():
 		movement_acceleration *= player.air_control_multiplier
 

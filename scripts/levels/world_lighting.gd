@@ -303,6 +303,7 @@ func _process(delta: float) -> void:
 
 func apply_graphics_settings(quality: Node) -> void:
 	# Quality supplies effect budgets; this owner composes them with weather.
+	if _blizzard != null: _blizzard.set_fog_quality(int(quality.values.get("FogQuality", 2)))
 	quality_shadow_distance = float(quality.values.get("ShadowDistance", 96.0))
 	if _camera_environment == null: return
 	quality.apply_environment(_camera_environment, false)

@@ -8,6 +8,9 @@ extends Node3D
 var gust := 0.0
 var outside_weight := 0.0
 var _elapsed := 0.0
+var _ground_height := -1000.0
+var _ground_poll := 0.0
+var _wind_material: ShaderMaterial
 var _camera: Camera3D
 var _last_position := Vector3.ZERO
 @onready var flakes: GPUParticles3D = $Flakes
@@ -21,9 +24,8 @@ func _ready() -> void:
 	flakes.draw_pass_1 = flakes.draw_pass_1.duplicate()
 	flakes.draw_pass_1.material = snow_material.duplicate()
 	snow_material = flakes.draw_pass_1.material
-	# Match streak orientation to the authored particle motion, not a second wind.
-	var wind := flakes.process_material as ShaderMaterial
-	if wind != null: snow_material.set_shader_parameter("wind_direction", (wind.get_shader_parameter("wind_direction") as Vector3).normalized())
+	_wind_material = flakes.process_material.duplicate() as ShaderMaterial
+	flakes.process_material = _wind_material
 	# Weather covers ordinary transparent surfaces too; local flakes draw last.
 	snow_material.render_priority = 127
 	var base := get_parent().get_parent() as Node3D
@@ -48,20 +50,33 @@ func _ready() -> void:
 func advance(camera: Camera3D, indoor_mix: float, delta: float, sheltered: bool = false) -> void:
 	_elapsed += delta
 	var wave := sin(_elapsed * TAU / maxf(gust_period, 4.0) - 0.8) * 0.5 + 0.5
-	gust = smoothstep(0.25, 0.95, wave)
+	var burst := sin(_elapsed * 1.81) * 0.09 + sin(_elapsed * 0.71 + 0.4) * 0.12
+	gust = smoothstep(0.25, 0.95, wave + burst)
 	outside_weight = (1.0 - indoor_mix) if enabled else 0.0
 	var point := camera.get_global_transform_interpolated().origin
 	var reset := camera != _camera or point.distance_to(_last_position) > 8.0
 	global_position = point + Vector3(-3.0, 1.5, -1.0)
 	_camera = camera
 	_last_position = point
+	var wake := Vector3(0.0, -1000.0, 0.0)
 	var was_exposed := flakes.visible
 	var exposed := enabled
 	if sheltered:
 		for portal: AcousticPortal in get_tree().get_nodes_in_group("acoustic_portals"):
 			if point.distance_to(portal.global_position) < 18.0:
 				global_position = portal.global_position - portal.global_basis.z * 6.0 + Vector3.UP * 2.0
+				wake = global_position - Vector3.UP
 				break
+	_ground_poll -= delta
+	if exposed and (reset or _ground_poll <= 0.0):
+		_ground_poll = 0.2
+		var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, global_position - Vector3.UP * 12.0, 1)
+		var ground := get_world_3d().direct_space_state.intersect_ray(query)
+		_ground_height = (ground.position as Vector3).y if not ground.is_empty() else -1000.0
+	_wind_material.set_shader_parameter("ground_height", _ground_height)
+	_wind_material.set_shader_parameter("wake_center", wake)
+	_wind_material.set_shader_parameter("gust", gust)
+	snow_material.set_shader_parameter("haze_color", fog_color)
 	flakes.visible = exposed
 	flakes.emitting = exposed
 	if exposed and (reset or not was_exposed): flakes.restart()
@@ -71,6 +86,11 @@ func advance(camera: Camera3D, indoor_mix: float, delta: float, sheltered: bool 
 	fog_quad.visible = enabled
 	fog_material.set_shader_parameter("visibility_distance", visibility_distance())
 	fog_material.set_shader_parameter("storm_color", fog_color)
+	fog_material.set_shader_parameter("ground_height", _ground_height)
+	fog_material.set_shader_parameter("gust", gust)
+
+func set_fog_quality(quality: int) -> void:
+	flakes.amount_ratio = lerpf(0.56, 1.0, clampf(quality / 2.0, 0.0, 1.0))
 
 func visibility_distance() -> float:
 	return lerpf(calm_visibility, gust_visibility, gust)

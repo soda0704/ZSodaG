@@ -1,12 +1,9 @@
 [gd_resource type="Theme" format=3 uid="uid://80qoqxslm4nr"]
 
-[ext_resource type="FontVariation" path="res://scenes/ui/menu_body_font.tres" id="body"]
-
+[ext_resource type="FontVariation" uid="uid://op5wq0dlp8j0" path="res://scenes/ui/menu_body_font.tres" id="body"]
+[ext_resource type="FontVariation" uid="uid://doxlvdctdp77r" path="res://scenes/ui/menu_brand_font.tres" id="brand"]
+[ext_resource type="Texture2D" uid="uid://df0jglcr2lddh" path="res://assets/ui/calibration/slider_thumb.svg" id="calibration_thumb"]
 [ext_resource type="FontVariation" path="res://scenes/ui/menu_title_font.tres" id="title"]
-
-[ext_resource type="FontVariation" path="res://scenes/ui/menu_brand_font.tres" id="brand"]
-
-[ext_resource type="Texture2D" path="res://assets/ui/calibration/slider_thumb.svg" id="calibration_thumb"]
 
 [sub_resource type="StyleBoxFlat" id="Quiet"]
 content_margin_left = 12.0
@@ -14,6 +11,18 @@ content_margin_top = 8.0
 content_margin_right = 12.0
 content_margin_bottom = 8.0
 bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.6)
 
 [sub_resource type="StyleBoxFlat" id="Hover"]
 content_margin_left = 12.0
@@ -29,77 +38,20 @@ content_margin_right = 12.0
 content_margin_bottom = 8.0
 bg_color = Color(0.83, 0.89, 0.93, 0.075)
 
-[sub_resource type="StyleBoxFlat" id="Focus"]
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
-bg_color = Color(0, 0, 0, 0)
+[sub_resource type="StyleBoxFlat" id="CalibrationFocus"]
+bg_color = Color(0.83, 0.89, 0.93, 0.025)
 border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.6)
+border_color = Color(0.83, 0.89, 0.93, 0.65)
 
-[sub_resource type="StyleBoxFlat" id="Action"]
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-bg_color = Color(0.018, 0.025, 0.032, 0.20)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.18)
+[sub_resource type="StyleBoxFlat" id="CalibrationFill"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.83, 0.89, 0.93, 0.65)
 
-[sub_resource type="StyleBoxFlat" id="ActionHover"]
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-bg_color = Color(0.83, 0.89, 0.93, 0.07)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.42)
-
-[sub_resource type="StyleBoxFlat" id="Primary"]
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-bg_color = Color(0.018, 0.025, 0.032, 0.28)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.42)
-
-[sub_resource type="StyleBoxFlat" id="PrimaryHover"]
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-bg_color = Color(0.83, 0.89, 0.93, 0.09)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.62)
-
-[sub_resource type="StyleBoxFlat" id="Disabled"]
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-bg_color = Color(0.018, 0.025, 0.032, 0.08)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.12)
+[sub_resource type="StyleBoxFlat" id="CalibrationTrack"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.83, 0.89, 0.93, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="Field"]
 content_margin_left = 12.0
@@ -107,30 +59,6 @@ content_margin_top = 8.0
 content_margin_right = 12.0
 content_margin_bottom = 8.0
 bg_color = Color(0.018, 0.025, 0.032, 0.24)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.18)
-
-[sub_resource type="StyleBoxFlat" id="FieldHover"]
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
-bg_color = Color(0.83, 0.89, 0.93, 0.06)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.88, 0.92, 0.42)
-
-[sub_resource type="StyleBoxFlat" id="Panel"]
-content_margin_left = 24.0
-content_margin_top = 24.0
-content_margin_right = 24.0
-content_margin_bottom = 24.0
-bg_color = Color(0.018, 0.025, 0.032, 0.94)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -149,19 +77,103 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.82, 0.88, 0.92, 0.18)
 
-[sub_resource type="StyleBoxFlat" id="Track"]
-content_margin_left = 3.0
+[sub_resource type="StyleBoxFlat" id="Disabled"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.08)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.12)
+
+[sub_resource type="StyleBoxFlat" id="ActionHover"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.07)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.42)
+
+[sub_resource type="StyleBoxFlat" id="Action"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.2)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.18)
+
+[sub_resource type="StyleBoxFlat" id="FieldHover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.06)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.42)
+
+[sub_resource type="StyleBoxFlat" id="PrimaryHover"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.83, 0.89, 0.93, 0.09)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.62)
+
+[sub_resource type="StyleBoxFlat" id="Primary"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.018, 0.025, 0.032, 0.28)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.42)
+
+[sub_resource type="StyleBoxFlat" id="StepperQuiet"]
+content_margin_left = 0.0
 content_margin_top = 0.0
-content_margin_right = 3.0
+content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.018, 0.025, 0.032, 0.14)
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+bg_color = Color(0.018, 0.025, 0.032, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.88, 0.92, 0.18)
 
 [sub_resource type="StyleBoxFlat" id="Grabber"]
 content_margin_left = 3.0
 content_margin_top = 0.0
 content_margin_right = 3.0
 content_margin_bottom = 0.0
-bg_color = Color(0.83, 0.89, 0.93, 0.30)
+bg_color = Color(0.83, 0.89, 0.93, 0.3)
 
 [sub_resource type="StyleBoxFlat" id="GrabberHover"]
 content_margin_left = 3.0
@@ -170,307 +182,166 @@ content_margin_right = 3.0
 content_margin_bottom = 0.0
 bg_color = Color(0.9, 0.94, 0.97, 0.6)
 
-[sub_resource type="StyleBoxFlat" id="StepperQuiet"]
-content_margin_left = 0.0
-content_margin_right = 0.0
+[sub_resource type="StyleBoxFlat" id="Track"]
+content_margin_left = 3.0
 content_margin_top = 0.0
+content_margin_right = 3.0
 content_margin_bottom = 0.0
-bg_color = Color(0, 0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="CalibrationTrack"]
-content_margin_top = 1.0
-content_margin_bottom = 1.0
-bg_color = Color(0.83, 0.89, 0.93, 0.18)
-
-[sub_resource type="StyleBoxFlat" id="CalibrationFill"]
-content_margin_top = 1.0
-content_margin_bottom = 1.0
-bg_color = Color(0.83, 0.89, 0.93, 0.65)
-
-[sub_resource type="StyleBoxFlat" id="CalibrationFocus"]
-bg_color = Color(0.83, 0.89, 0.93, 0.025)
-border_width_left = 1
-border_color = Color(0.83, 0.89, 0.93, 0.65)
+bg_color = Color(0.018, 0.025, 0.032, 0.14)
 
 [resource]
 default_font = ExtResource("body")
 default_font_size = 18
-
-Button/fonts/font = ExtResource("body")
-
 Button/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-Button/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-Button/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-Button/colors/font_pressed_color = Color(1, 1, 1, 1)
-
 Button/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
+Button/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+Button/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
 Button/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-OptionButton/fonts/font = ExtResource("body")
-
-OptionButton/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-OptionButton/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-OptionButton/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
-
-OptionButton/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
-OptionButton/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-Label/fonts/font = ExtResource("body")
-
-Label/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-Label/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-Label/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-Label/colors/font_pressed_color = Color(1, 1, 1, 1)
-
-Label/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
-Label/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-LineEdit/fonts/font = ExtResource("body")
-
-LineEdit/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-LineEdit/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-LineEdit/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-LineEdit/colors/font_pressed_color = Color(1, 1, 1, 1)
-
-LineEdit/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
-LineEdit/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-TextEdit/fonts/font = ExtResource("body")
-
-TextEdit/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-TextEdit/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-TextEdit/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-TextEdit/colors/font_pressed_color = Color(1, 1, 1, 1)
-
-TextEdit/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
-TextEdit/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-PopupMenu/fonts/font = ExtResource("body")
-
-PopupMenu/colors/font_color = Color(0.93, 0.93, 0.93, 1)
-
-PopupMenu/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
-
-PopupMenu/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
-
-PopupMenu/colors/font_pressed_color = Color(1, 1, 1, 1)
-
-PopupMenu/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
-
-PopupMenu/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
-
-Button/styles/normal = SubResource("Quiet")
-
-Button/styles/hover = SubResource("Hover")
-
-Button/styles/pressed = SubResource("Press")
-
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/fonts/font = ExtResource("body")
 Button/styles/disabled = SubResource("Quiet")
-
 Button/styles/focus = SubResource("Focus")
-
-OptionButton/styles/normal = SubResource("Quiet")
-
-OptionButton/styles/hover = SubResource("Hover")
-
-OptionButton/styles/pressed = SubResource("Press")
-
-OptionButton/styles/disabled = SubResource("Quiet")
-
-OptionButton/styles/focus = SubResource("Focus")
-
-LineEdit/styles/normal = SubResource("Field")
-
-LineEdit/styles/focus = SubResource("Focus")
-
-LineEdit/styles/read_only = SubResource("Field")
-
-LineEdit/colors/caret_color = Color(1, 1, 1, 1)
-
-LineEdit/colors/selection_color = Color(0.43, 0.43, 0.43, 1)
-
-TextEdit/styles/normal = SubResource("Field")
-
-TextEdit/styles/focus = SubResource("Focus")
-
-TextEdit/styles/read_only = SubResource("Field")
-
-TextEdit/colors/caret_color = Color(1, 1, 1, 1)
-
-TextEdit/colors/selection_color = Color(0.43, 0.43, 0.43, 1)
-
-MenuBrand/base_type = &"Label"
-
-MenuBrand/fonts/font = ExtResource("brand")
-
-MenuTitle/base_type = &"Label"
-
-MenuTitle/fonts/font = ExtResource("title")
-
-MenuTagline/base_type = &"Label"
-
-MenuTagline/fonts/font = ExtResource("body")
-
-MenuNav/base_type = &"Button"
-
-MenuNav/fonts/font = ExtResource("title")
-
-MenuEscapeNav/base_type = &"MenuNav"
-
-MenuEscapeNav/fonts/font = ExtResource("title")
-
-MenuAction/base_type = &"Button"
-
-MenuAction/fonts/font = ExtResource("body")
-
-MenuPrimary/base_type = &"MenuAction"
-
-MenuPrimary/fonts/font = ExtResource("body")
-
-MenuChoice/base_type = &"OptionButton"
-
-MenuChoice/fonts/font = ExtResource("body")
-
-MenuToggle/base_type = &"Button"
-
-MenuToggle/fonts/font = ExtResource("body")
-
-LobbyMember/base_type = &"PanelContainer"
-
-MenuAction/styles/normal = SubResource("Action")
-
-MenuAction/styles/hover = SubResource("ActionHover")
-
-MenuAction/styles/pressed = SubResource("Press")
-
-MenuAction/styles/hover_pressed = SubResource("ActionHover")
-
-MenuAction/styles/disabled = SubResource("Disabled")
-
-MenuAction/styles/focus = SubResource("Focus")
-
-MenuPrimary/styles/normal = SubResource("Primary")
-
-MenuPrimary/styles/hover = SubResource("PrimaryHover")
-
-MenuPrimary/styles/pressed = SubResource("Press")
-
-MenuPrimary/styles/hover_pressed = SubResource("PrimaryHover")
-
-MenuPrimary/styles/disabled = SubResource("Disabled")
-
-MenuPrimary/styles/focus = SubResource("Focus")
-
-MenuChoice/styles/normal = SubResource("Field")
-
-MenuChoice/styles/hover = SubResource("FieldHover")
-
-MenuChoice/styles/pressed = SubResource("Press")
-
-MenuChoice/styles/hover_pressed = SubResource("FieldHover")
-
-MenuChoice/styles/disabled = SubResource("Disabled")
-
-MenuChoice/styles/focus = SubResource("Focus")
-
-MenuToggle/styles/normal = SubResource("Field")
-
-MenuToggle/styles/hover = SubResource("FieldHover")
-
-MenuToggle/styles/pressed = SubResource("Press")
-
-MenuToggle/styles/hover_pressed = SubResource("FieldHover")
-
-MenuToggle/styles/disabled = SubResource("Disabled")
-
-MenuToggle/styles/focus = SubResource("Focus")
-
-MenuPrimary/colors/font_color = Color(1,1,1,1)
-
-MenuPrimary/colors/font_hover_color = Color(1,1,1,1)
-
-MenuPrimary/colors/font_focus_color = Color(1,1,1,1)
-
-MenuPrimary/colors/font_pressed_color = Color(1,1,1,1)
-
-MenuTagline/colors/font_color = Color(0.72, 0.72, 0.72, 1)
-
-MenuTagline/font_sizes/font_size = 16
-
-MenuTitle/font_sizes/font_size = 54
-
-LobbyMember/styles/panel = SubResource("Roster")
-
-PopupMenu/styles/panel = SubResource("Panel")
-
-PopupMenu/styles/hover = SubResource("Hover")
-
-PopupMenu/font_sizes/font_size = 20
-
-HBoxContainer/constants/separation = 24
-
-VBoxContainer/constants/separation = 12
-
-VScrollBar/styles/grabber = SubResource("Grabber")
-
-VScrollBar/styles/grabber_highlight = SubResource("GrabberHover")
-
-VScrollBar/styles/grabber_pressed = SubResource("GrabberHover")
-
-VScrollBar/styles/scroll = SubResource("Track")
-
-MenuSection/base_type = &"Button"
-MenuSection/fonts/font = ExtResource("title")
-MenuSection/styles/normal = SubResource("Quiet")
-MenuSection/styles/hover = SubResource("Quiet")
-MenuSection/styles/pressed = SubResource("Quiet")
-MenuSection/styles/hover_pressed = SubResource("Quiet")
-MenuSection/styles/focus = SubResource("Quiet")
-
-Label/colors/font_shadow_color = Color(0, 0, 0, 0.35)
-Label/constants/shadow_offset_y = 1
-
-MenuStepperPart/base_type = &"Button"
-MenuStepperPart/fonts/font = ExtResource("body")
-MenuStepperPart/styles/normal = SubResource("StepperQuiet")
-MenuStepperPart/styles/hover = SubResource("StepperQuiet")
-MenuStepperPart/styles/pressed = SubResource("StepperQuiet")
-MenuStepperPart/styles/focus = SubResource("StepperQuiet")
-
+Button/styles/hover = SubResource("Hover")
+Button/styles/normal = SubResource("Quiet")
+Button/styles/pressed = SubResource("Press")
+CalibrationAction/base_type = &"MenuAction"
+CalibrationAction/styles/focus = SubResource("CalibrationFocus")
+CalibrationAction/styles/hover = SubResource("Hover")
+CalibrationAction/styles/normal = SubResource("Quiet")
+CalibrationPrimary/base_type = &"MenuPrimary"
+CalibrationPrimary/styles/focus = SubResource("CalibrationFocus")
+CalibrationPrimary/styles/hover = SubResource("Hover")
+CalibrationPrimary/styles/normal = SubResource("Quiet")
 CalibrationSlider/base_type = &"HSlider"
-CalibrationSlider/styles/slider = SubResource("CalibrationTrack")
+CalibrationSlider/icons/grabber = ExtResource("calibration_thumb")
+CalibrationSlider/icons/grabber_disabled = ExtResource("calibration_thumb")
+CalibrationSlider/icons/grabber_highlight = ExtResource("calibration_thumb")
+CalibrationSlider/styles/focus = SubResource("CalibrationFocus")
 CalibrationSlider/styles/grabber_area = SubResource("CalibrationFill")
 CalibrationSlider/styles/grabber_area_highlight = SubResource("CalibrationFill")
-CalibrationSlider/styles/focus = SubResource("CalibrationFocus")
-CalibrationSlider/icons/grabber = ExtResource("calibration_thumb")
-CalibrationSlider/icons/grabber_highlight = ExtResource("calibration_thumb")
-CalibrationSlider/icons/grabber_disabled = ExtResource("calibration_thumb")
-CalibrationPrimary/base_type = &"MenuPrimary"
-CalibrationPrimary/styles/normal = SubResource("Quiet")
-CalibrationPrimary/styles/hover = SubResource("Hover")
-CalibrationPrimary/styles/focus = SubResource("CalibrationFocus")
-CalibrationAction/base_type = &"MenuAction"
-CalibrationAction/styles/normal = SubResource("Quiet")
-CalibrationAction/styles/hover = SubResource("Hover")
-CalibrationAction/styles/focus = SubResource("CalibrationFocus")
+CalibrationSlider/styles/slider = SubResource("CalibrationTrack")
+HBoxContainer/constants/separation = 24
+Label/colors/font_color = Color(0.93, 0.93, 0.93, 1)
+Label/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
+Label/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+Label/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
+Label/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
+Label/colors/font_pressed_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.35)
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = ExtResource("body")
+LineEdit/colors/caret_color = Color(1, 1, 1, 1)
+LineEdit/colors/font_color = Color(0.93, 0.93, 0.93, 1)
+LineEdit/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
+LineEdit/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+LineEdit/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
+LineEdit/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
+LineEdit/colors/font_pressed_color = Color(1, 1, 1, 1)
+LineEdit/colors/selection_color = Color(0.43, 0.43, 0.43, 1)
+LineEdit/fonts/font = ExtResource("body")
+LineEdit/styles/focus = SubResource("Focus")
+LineEdit/styles/normal = SubResource("Field")
+LineEdit/styles/read_only = SubResource("Field")
+LobbyMember/base_type = &"PanelContainer"
+LobbyMember/styles/panel = SubResource("Roster")
+MenuAction/base_type = &"Button"
+MenuAction/fonts/font = ExtResource("body")
+MenuAction/styles/disabled = SubResource("Disabled")
+MenuAction/styles/focus = SubResource("Focus")
+MenuAction/styles/hover = SubResource("ActionHover")
+MenuAction/styles/hover_pressed = SubResource("ActionHover")
+MenuAction/styles/normal = SubResource("Action")
+MenuAction/styles/pressed = SubResource("Press")
+MenuBrand/base_type = &"Label"
+MenuBrand/fonts/font = ExtResource("brand")
+MenuChoice/base_type = &"OptionButton"
+MenuChoice/fonts/font = ExtResource("body")
+MenuChoice/styles/disabled = SubResource("Disabled")
+MenuChoice/styles/focus = SubResource("Focus")
+MenuChoice/styles/hover = SubResource("FieldHover")
+MenuChoice/styles/hover_pressed = SubResource("FieldHover")
+MenuChoice/styles/normal = SubResource("Field")
+MenuChoice/styles/pressed = SubResource("Press")
+MenuEscapeNav/base_type = &"MenuNav"
+MenuEscapeNav/fonts/font = ExtResource("title")
+MenuNav/base_type = &"Button"
+MenuNav/fonts/font = ExtResource("title")
+MenuPrimary/base_type = &"MenuAction"
+MenuPrimary/colors/font_color = Color(1, 1, 1, 1)
+MenuPrimary/colors/font_focus_color = Color(1, 1, 1, 1)
+MenuPrimary/colors/font_hover_color = Color(1, 1, 1, 1)
+MenuPrimary/colors/font_pressed_color = Color(1, 1, 1, 1)
+MenuPrimary/fonts/font = ExtResource("body")
+MenuPrimary/styles/disabled = SubResource("Disabled")
+MenuPrimary/styles/focus = SubResource("Focus")
+MenuPrimary/styles/hover = SubResource("PrimaryHover")
+MenuPrimary/styles/hover_pressed = SubResource("PrimaryHover")
+MenuPrimary/styles/normal = SubResource("Primary")
+MenuPrimary/styles/pressed = SubResource("Press")
+MenuSection/base_type = &"Button"
+MenuSection/fonts/font = ExtResource("title")
+MenuSection/styles/focus = SubResource("Quiet")
+MenuSection/styles/hover = SubResource("Quiet")
+MenuSection/styles/hover_pressed = SubResource("Quiet")
+MenuSection/styles/normal = SubResource("Quiet")
+MenuSection/styles/pressed = SubResource("Quiet")
+MenuStepperPart/base_type = &"Button"
+MenuStepperPart/fonts/font = ExtResource("body")
+MenuStepperPart/styles/focus = SubResource("StepperQuiet")
+MenuStepperPart/styles/hover = SubResource("StepperQuiet")
+MenuStepperPart/styles/normal = SubResource("StepperQuiet")
+MenuStepperPart/styles/pressed = SubResource("StepperQuiet")
+MenuTagline/base_type = &"Label"
+MenuTagline/colors/font_color = Color(0.72, 0.72, 0.72, 1)
+MenuTagline/font_sizes/font_size = 16
+MenuTagline/fonts/font = ExtResource("body")
+MenuTitle/base_type = &"Label"
+MenuTitle/font_sizes/font_size = 54
+MenuTitle/fonts/font = ExtResource("title")
+MenuToggle/base_type = &"Button"
+MenuToggle/fonts/font = ExtResource("body")
+MenuToggle/styles/disabled = SubResource("Disabled")
+MenuToggle/styles/focus = SubResource("Focus")
+MenuToggle/styles/hover = SubResource("FieldHover")
+MenuToggle/styles/hover_pressed = SubResource("FieldHover")
+MenuToggle/styles/normal = SubResource("Field")
+MenuToggle/styles/pressed = SubResource("Press")
+OptionButton/colors/font_color = Color(0.93, 0.93, 0.93, 1)
+OptionButton/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
+OptionButton/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+OptionButton/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
+OptionButton/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
+OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+OptionButton/fonts/font = ExtResource("body")
+OptionButton/styles/disabled = SubResource("Quiet")
+OptionButton/styles/focus = SubResource("Focus")
+OptionButton/styles/hover = SubResource("Hover")
+OptionButton/styles/normal = SubResource("Quiet")
+OptionButton/styles/pressed = SubResource("Press")
+PopupMenu/colors/font_color = Color(0.93, 0.93, 0.93, 1)
+PopupMenu/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
+PopupMenu/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+PopupMenu/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
+PopupMenu/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
+PopupMenu/colors/font_pressed_color = Color(1, 1, 1, 1)
+PopupMenu/font_sizes/font_size = 20
+PopupMenu/fonts/font = ExtResource("body")
+PopupMenu/styles/hover = SubResource("Hover")
+PopupMenu/styles/panel = SubResource("Panel")
+TextEdit/colors/caret_color = Color(1, 1, 1, 1)
+TextEdit/colors/font_color = Color(0.93, 0.93, 0.93, 1)
+TextEdit/colors/font_disabled_color = Color(0.51, 0.51, 0.51, 1)
+TextEdit/colors/font_focus_color = Color(0.93, 0.93, 0.93, 1)
+TextEdit/colors/font_hover_color = Color(0.93, 0.93, 0.93, 1)
+TextEdit/colors/font_placeholder_color = Color(0.72, 0.72, 0.72, 1)
+TextEdit/colors/font_pressed_color = Color(1, 1, 1, 1)
+TextEdit/colors/selection_color = Color(0.43, 0.43, 0.43, 1)
+TextEdit/fonts/font = ExtResource("body")
+TextEdit/styles/focus = SubResource("Focus")
+TextEdit/styles/normal = SubResource("Field")
+TextEdit/styles/read_only = SubResource("Field")
+VBoxContainer/constants/separation = 12
+VScrollBar/styles/grabber = SubResource("Grabber")
+VScrollBar/styles/grabber_highlight = SubResource("GrabberHover")
+VScrollBar/styles/grabber_pressed = SubResource("GrabberHover")
+VScrollBar/styles/scroll = SubResource("Track")

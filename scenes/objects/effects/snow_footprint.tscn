@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_albedo.res" id="1"]
-[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_normal.res" id="2"]
-[ext_resource type="Texture2D" path="res://assets/environments/snow/entry_trial/boot_orm.res" id="3"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/quixel_sejl3ui/albedo.res" id="1"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/quixel_sejl3ui/normal.res" id="2"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/quixel_sejl3ui/orm.res" id="3"]
 
 [node name="Footprint" type="Decal"]
-size = Vector3(0.25, 0.35, 0.40)
+size = Vector3(0.17, 0.35, 0.34)
 texture_albedo = ExtResource("1")
 texture_normal = ExtResource("2")
 texture_orm = ExtResource("3")

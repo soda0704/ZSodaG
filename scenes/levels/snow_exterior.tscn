@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_normal_rough.res" id="entry_snow_normal_rough"]
 
 [ext_resource type="Texture2D" path="res://assets/environments/snow/snow006/runtime_height.res" id="entry_snow_height"]
+[ext_resource type="Texture2D" path="res://assets/environments/snow/interactive_snow_depth.res" id="interactive_snow_depth"]
 
 [ext_resource type="Texture2D" path="res://assets/environments/snow/ice004/ice004_color.jpg" id="polar_color"]
 [ext_resource type="Texture2D" path="res://assets/environments/snow/ice004/ice004_normalgl.jpg" id="polar_normal"]
@@ -64,13 +65,14 @@ _shader_parameters = {
 &"enable_macro_variation": null,
 &"enable_projection": true,
 &"entry_snow_albedo": ExtResource("entry_snow_albedo"),
+&"snow_exposed_rock": ExtResource("5_mwocw"),
 &"entry_snow_normal_rough": ExtResource("entry_snow_normal_rough"),
 &"entry_snow_enabled": true,
 &"entry_snow_height": ExtResource("entry_snow_height"),
+&"interactive_snow_depth": ExtResource("interactive_snow_depth"),
 &"entry_snow_tile_size": 2.4,
 &"entry_snow_relief_metres": 0.03,
 &"entry_snow_normal_strength": 1.0,
-&"entry_snow_bounds": Vector4(-520, 1544, -776, 776),
 &"flat_terrain_normals": null,
 &"macro_variation1": null,
 &"macro_variation2": null,
@@ -230,6 +232,9 @@ environment = SubResource("Environment_v51dc")
 [node name="SnowTracks" type="Node3D" parent="." unique_id=1849684363]
 script = ExtResource("14_1oaay")
 terrain_path = NodePath("../Terrain3D")
+deformable_snow = true
+lifetime = 42.0
+fade_seconds = 16.0
 footprint_scene = ExtResource("15_qpr43")
 tread_scene = ExtResource("16_gx5vb")
 ski_scene = ExtResource("17_idnty")

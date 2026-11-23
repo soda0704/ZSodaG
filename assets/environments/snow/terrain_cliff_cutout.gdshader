@@ -1,6 +1,89 @@
 // Terrain3D generated autoshader, retained with a local replacement-surface cutout.
 // Regenerate from Terrain3D when upgrading the addon; preserve the three cutout additions.
 shader_type spatial;
+uniform sampler2D snow_deformation : filter_linear, repeat_disable;
+uniform sampler2D interactive_snow_depth : filter_linear, repeat_disable;
+const float INTERACTIVE_SNOW_DEPTH_RANGE = 1.0;
+uniform vec2 snow_tile_origins[12];
+uniform int snow_tile_count = 0;
+uniform float snow_clock = 0.0;
+instance uniform bool fine_snow_mesh = false;
+instance uniform vec4 snow_coarse_edges = vec4(1.0);
+uniform vec2 fine_snow_origins[4];
+uniform int fine_snow_tile_count = 0;
+
+vec3 rounded_snow_profile(vec2 uv) {
+ const vec2 TAP = vec2(0.84 / 2048.0, 0.84 / 1536.0);
+ float southeast = textureLod(interactive_snow_depth, uv + TAP, 0.0).r;
+ float southwest = textureLod(interactive_snow_depth, uv + vec2(-TAP.x, TAP.y), 0.0).r;
+ float northeast = textureLod(interactive_snow_depth, uv + vec2(TAP.x, -TAP.y), 0.0).r;
+ float northwest = textureLod(interactive_snow_depth, uv - TAP, 0.0).r;
+ return vec3((southeast + southwest + northeast + northwest) * 0.25,
+  (southwest + northwest - southeast - northeast) / 3.36,
+  (northwest + northeast - southwest - southeast) / 3.36) * INTERACTIVE_SNOW_DEPTH_RANGE;
+}
+
+vec2 snow_contact_uv(vec2 point) {
+ for (int slot = 0; slot < snow_tile_count; slot++) {
+  vec2 local = (point - snow_tile_origins[slot]) / 16.0;
+  if (all(greaterThanEqual(local, vec2(0.0))) && all(lessThan(local, vec2(1.0)))) {
+   vec2 tile = vec2(float(slot % 4), float(slot / 4));
+   return (tile + clamp(local, vec2(0.5 / 192.0), vec2(1.0 - 0.5 / 192.0))) / vec2(4.0, 3.0);
+  }
+ }
+ return vec2(-1.0);
+}
+
+float snow_contact_height(vec2 contact) {
+ return contact.g * (1.0 - contact.r) * 0.19 - contact.r * 0.27;
+}
+
+vec2 aged_snow_texel(ivec2 pixel) {
+ vec4 value = texelFetch(snow_deformation, pixel, 0);
+ if (value.r + value.g < 0.001) { return vec2(0.0); }
+ vec2 time_bytes = round(value.ba * 255.0);
+ float age = mod(snow_clock - dot(time_bytes, vec2(1.0, 256.0)) + 65536.0, 65536.0);
+ return value.rg * (1.0 - smoothstep(26.0, 42.0, age));
+}
+
+vec2 read_snow_contact(vec2 atlas_uv) {
+ vec2 texel = atlas_uv * vec2(textureSize(snow_deformation, 0)) - 0.5;
+ ivec2 tile_start = ivec2(floor((texel + 0.5) / 192.0)) * 192;
+ ivec2 tile_end = tile_start + 191;
+ ivec2 lower = clamp(ivec2(floor(texel)), tile_start, tile_end);
+ ivec2 upper = clamp(ivec2(floor(texel)) + 1, tile_start, tile_end);
+ vec2 ratio = fract(texel);
+ vec2 north = mix(aged_snow_texel(lower), aged_snow_texel(ivec2(upper.x, lower.y)), ratio.x);
+ vec2 south = mix(aged_snow_texel(ivec2(lower.x, upper.y)), aged_snow_texel(upper), ratio.x);
+ return mix(north, south, ratio.y);
+}
+
+vec2 snow_contact_at(vec2 point) {
+ vec2 uv = snow_contact_uv(point);
+ return uv.x >= 0.0 ? read_snow_contact(uv) : vec2(0.0);
+}
+
+// The terrain grid resolves broad settling. Fine walls and banks are shaded per pixel.
+vec2 settled_snow_at(vec2 point, float spacing) {
+ float reach = spacing * 0.55;
+ bool overlaps_trace = false;
+ for (int slot = 0; slot < snow_tile_count; slot++) {
+  vec2 local = point - snow_tile_origins[slot];
+  if (all(greaterThanEqual(local, vec2(-reach))) && all(lessThan(local, vec2(16.0 + reach)))) {
+   overlaps_trace = true;
+   break;
+  }
+ }
+ if (!overlaps_trace) { return vec2(0.0); }
+ vec2 contact = snow_contact_at(point) * 0.20;
+ for (int i = 0; i < 8; i++) {
+  float angle = (float(i) + 0.5) * 0.78539816;
+  vec2 direction = vec2(cos(angle), sin(angle));
+  contact += snow_contact_at(point + direction * reach) * 0.10;
+ }
+ return contact;
+}
+uniform sampler2D snow_exposed_rock : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D polar_ice_color : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D polar_ice_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D polar_ice_rough : filter_linear_mipmap_anisotropic, repeat_enable;
@@ -10,8 +93,6 @@ uniform vec4 ridge_snow_color : source_color = vec4(0.82, 0.88, 0.92, 1.0);
 uniform vec4 cliff_replacement_bounds = vec4(258.0, 342.0, -364.0, 364.0);
 // Powder surface across the authored exterior. Bounds: min/max X, min/max Z.
 uniform bool entry_snow_enabled = true;
-uniform vec4 entry_snow_bounds = vec4(-520.0, 1544.0, -776.0, 776.0);
-uniform float entry_snow_edge : hint_range(1.0, 12.0) = 6.0;
 // Keep this Snow 02 sampler identical in terrain_cliff_cutout and polar_backdrop.
 // Snow006 supplied by the user. Color + AO and OpenGL Normal + Roughness packed together.
 uniform sampler2D entry_snow_albedo : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
@@ -201,6 +282,7 @@ struct material {
 
 varying float v_vertex_xz_dist;
 varying vec3 v_vertex;
+varying float v_ground_height;
 
 
 
@@ -236,7 +318,33 @@ vec3 get_index_uv(const vec2 uv2) {
  return vec3(uv2 - _region_locations[layer_index], float(layer_index));
 }
 
+float snow_surface_depth(vec2 point, float filter_spacing) {
+ vec2 uv = (point + vec2(512.5, 768.5)) / vec2(2048.0, 1536.0);
+ if (any(lessThanEqual(uv, vec2(0.0))) || any(greaterThanEqual(uv, vec2(1.0)))) { return 0.0; }
+ float depth = rounded_snow_profile(uv).x;
+ float view_distance = distance(point, _camera_pos.xz);
+ if (depth > 0.01 && view_distance < 34.0 && snow_tile_count > 0) {
+  vec2 contact = filter_spacing < 0.5 ? snow_contact_at(point) : settled_snow_at(point, filter_spacing);
+  float near_weight = 1.0 - smoothstep(21.0, 34.0, view_distance);
+  float compression = contact.r * near_weight;
+  float bank = contact.g * (1.0 - compression) * 0.10 * near_weight;
+  depth = mix(depth, min(depth, 0.025), compression) + depth * bank;
+ }
+ return min(depth, INTERACTIVE_SNOW_DEPTH_RANGE);
+}
+
+float terrain_height_at_grid(vec2 grid) {
+ ivec3 index = get_index_coord(grid, 1);
+ return texelFetch(_height_maps, index, 0).r;
+}
+
+vec2 snow_surface_at_grid(vec2 grid, float filter_spacing) {
+ float ground = terrain_height_at_grid(grid);
+ return vec2(ground, ground + snow_surface_depth(grid * _vertex_spacing, filter_spacing));
+}
+
 void vertex() {
+ vec3 fine_normal = vec3(0.0, 1.0, 0.0);
  
  v_vertex = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -258,7 +366,7 @@ void vertex() {
  v_fract * round((fract(v_vertex.xz * 0.25 / scale) - 0.5) * 4.0);
  vec2 start_pos = v_vertex.xz * _vertex_density;
  vec2 end_pos = (v_vertex.xz - shift * scale) * _vertex_density;
- v_vertex.xz -= shift * scale * vertex_lerp;
+ if (!fine_snow_mesh) { v_vertex.xz -= shift * scale * vertex_lerp; }
 
  
  UV = v_vertex.xz * _vertex_density;
@@ -282,13 +390,55 @@ void vertex() {
  
  ivec3 coord_a = get_index_coord(start_pos,  1 );
  ivec3 coord_b = get_index_coord(end_pos,  1 );
- float h = mix(texelFetch(_height_maps, coord_a, 0).r,texelFetch(_height_maps, coord_b, 0).r,vertex_lerp);
- v_vertex.y = h;
+ float coarse_filter = max(_vertex_spacing, 0.9);
+ if (fine_snow_mesh && v_region.z >= 0 && !hole) {
+  vec2 cell = floor(start_pos);
+  vec2 ratio = fract(start_pos);
+  float northwest = terrain_height_at_grid(cell);
+  float northeast = terrain_height_at_grid(cell + vec2(1.0, 0.0));
+  float southwest = terrain_height_at_grid(cell + vec2(0.0, 1.0));
+  float southeast = terrain_height_at_grid(cell + vec2(1.0));
+  float ground = mix(mix(northwest, northeast, ratio.x), mix(southwest, southeast, ratio.x), ratio.y);
+  v_ground_height = ground;
+  vec2 grade = vec2(mix(northeast - northwest, southeast - southwest, ratio.y),
+   mix(southwest - northwest, southeast - northeast, ratio.x)) / _vertex_spacing;
+  const float NORMAL_STEP = 0.17;
+  vec2 point = v_vertex.xz;
+  float depth = snow_surface_depth(point, 0.31);
+  vec2 surface_grade = grade + vec2(
+   snow_surface_depth(point + vec2(NORMAL_STEP, 0.0), 0.31) - depth,
+   snow_surface_depth(point + vec2(0.0, NORMAL_STEP), 0.31) - depth
+  ) / NORMAL_STEP;
+  fine_normal = normalize(vec3(-surface_grade.x, 1.0, -surface_grade.y));
+  v_vertex.y = ground + depth;
+  // Match the coarse edge to keep the transition watertight at integer tile boundaries.
+  vec4 faces = vec4(8.0) + vec4(VERTEX.x, -VERTEX.x, VERTEX.z, -VERTEX.z);
+  faces += (vec4(1.0) - snow_coarse_edges) * 16.0;
+  float edge = min(min(faces.x, faces.y), min(faces.z, faces.w));
+  if (edge < 1.25) {
+   vec2 a = snow_surface_at_grid(cell, coarse_filter);
+   vec2 b = snow_surface_at_grid(cell + vec2(1.0, 0.0), coarse_filter);
+   vec2 c = snow_surface_at_grid(cell + vec2(0.0, 1.0), coarse_filter);
+   vec2 d = snow_surface_at_grid(cell + vec2(1.0), coarse_filter);
+   vec2 coarse = mix(mix(a, b, ratio.x), mix(c, d, ratio.x), ratio.y);
+   float join = 1.0 - smoothstep(0.0, 1.25, edge);
+   // The blend uses coarse samples at the seam and dies off quickly inside the tile.
+   v_vertex.y = mix(v_vertex.y, coarse.y, join);
+   v_ground_height = mix(v_ground_height, coarse.x, join);
+  }
+ } else {
+  float ground = mix(texelFetch(_height_maps, coord_a, 0).r, texelFetch(_height_maps, coord_b, 0).r, vertex_lerp);
+  v_ground_height = ground;
+  v_vertex.y = ground;
+  if (v_region.z >= 0 && !hole) {
+   v_vertex.y += snow_surface_depth(v_vertex.xz, coarse_filter);
+  }
+ }
  }
 
  
  VERTEX = (VIEW_MATRIX * vec4(v_vertex, 1.0)).xyz;
- NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+ NORMAL = fine_snow_mesh ? normalize(mat3(VIEW_MATRIX) * fine_normal) : normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
  BINORMAL = normalize((MODELVIEW_MATRIX * vec4(BINORMAL, 0.0)).xyz);
  TANGENT = normalize((MODELVIEW_MATRIX * vec4(TANGENT, 0.0)).xyz);
 }
@@ -464,6 +614,12 @@ void extra_polar_surfaces(vec3 p, out float bed, out float coast) {
 }
 
 void fragment() {
+ if (!fine_snow_mesh && fine_snow_tile_count > 0) {
+  for (int slot = 0; slot < fine_snow_tile_count; slot++) {
+   vec2 local_snow = v_vertex.xz - fine_snow_origins[slot];
+   if (all(greaterThanEqual(local_snow, vec2(0.0))) && all(lessThan(local_snow, vec2(16.0)))) { discard; }
+  }
+ }
  // Exact edge at every LOD, slightly inside the authored mesh for seam overlap.
  if (CAMERA_VISIBLE_LAYERS != _mouse_layer && inside_cliff_replacement(v_vertex.xz)) { discard; }
  
@@ -569,9 +725,10 @@ void fragment() {
  TANGENT = normalize(cross(NORMAL, VIEW_MATRIX[2].xyz));
  BINORMAL = normalize(cross(NORMAL, TANGENT));
  } else {
- vec3 w_tangent = normalize(cross(w_normal, vec3(0.0, 0.0, 1.0)));
- vec3 w_binormal = normalize(cross(w_normal, w_tangent));
- NORMAL = mat3(VIEW_MATRIX) * w_normal;
+ vec3 surface_normal = fine_snow_mesh ? normalize(mat3(INV_VIEW_MATRIX) * NORMAL) : w_normal;
+ vec3 w_tangent = normalize(cross(surface_normal, vec3(0.0, 0.0, 1.0)));
+ vec3 w_binormal = normalize(cross(surface_normal, w_tangent));
+ NORMAL = mat3(VIEW_MATRIX) * surface_normal;
  TANGENT = mat3(VIEW_MATRIX) * w_tangent;
  BINORMAL = mat3(VIEW_MATRIX) * w_binormal;
  }
@@ -693,38 +850,37 @@ void fragment() {
  NORMAL_MAP = fma(normalize(mat.normal_rough.xzy), vec3(0.5), vec3(0.5));
  NORMAL_MAP_DEPTH = mat.normal_map_depth * (1.0-ridge_cover*0.45);
 
- // Replace only snow inside the sample area. The height/control maps, rock
- // layers, terrain holes, collision and material outside these bounds are intact.
- float powder_coverage = 0.0;
- float powder_ao = 1.0;
- if (entry_snow_enabled) {
+ // Apply Snow006 only along the compacted route; the surrounding ground uses Terrain3D's material.
+ float packed_coverage = 0.0;
+ float packed_ao = 1.0;
+ if (entry_snow_enabled && v_vertex.z > 1.0 && v_vertex.z < 98.0 && v_vertex.x > -106.0 && v_vertex.x < -35.0) {
   vec2 p = v_vertex.xz;
-  vec2 edge_in = smoothstep(entry_snow_bounds.xz, entry_snow_bounds.xz + vec2(entry_snow_edge), p);
-  vec2 edge_out = vec2(1.0) - smoothstep(entry_snow_bounds.yw - vec2(entry_snow_edge), entry_snow_bounds.yw, p);
-  // Legacy painted rock IDs belong to the old mountainous terrain. On the new
-  // plain use the actual slope, avoiding texel-shaped rock patches on flat snow.
-  float coverage = edge_in.x * edge_in.y * edge_out.x * edge_out.y
-   * smoothstep(0.65, 0.9, w_normal.y);
-  powder_coverage = coverage;
-  if (coverage > 0.001) {
-   vec3 snow_color;
-   vec3 detail_normal;
-   float snow_roughness;
-   sample_snow02(p,(INV_VIEW_MATRIX*vec4(VIEW,0.0)).xyz,length(VERTEX),snow_color,detail_normal,snow_roughness,powder_ao);
-   ALBEDO = mix(ALBEDO, snow_color, coverage);
-   ROUGHNESS = mix(ROUGHNESS, snow_roughness, coverage);
-   SPECULAR = mix(SPECULAR, 0.22, coverage);
-   NORMAL_MAP = normalize(mix(NORMAL_MAP * 2.0 - 1.0, detail_normal, coverage)) * 0.5 + 0.5;
-   NORMAL_MAP_DEPTH = mix(NORMAL_MAP_DEPTH, 1.0, coverage);
+  float route_t = clamp((p.y - 3.0) / 92.0, 0.0, 1.0);
+  float route_x = mix(-38.8, -94.0, route_t) - sin(route_t * 6.2831853) * 7.5
+   + sin(route_t * 12.566371) * 2.1;
+  float edge = (texture(noise_texture, p * 0.42).r - 0.5) * 0.90;
+  float route_distance = abs(p.x - route_x) * 0.72 + edge;
+  float ends = smoothstep(1.0, 3.0, p.y) * (1.0 - smoothstep(94.0, 98.0, p.y));
+  packed_coverage = (1.0 - smoothstep(0.66, 1.85, route_distance)) * ends * smoothstep(0.65, 0.9, w_normal.y);
+  if (packed_coverage > 0.001) {
+   vec3 path_color;
+   vec3 path_normal;
+   float path_roughness;
+   sample_snow02(p, (INV_VIEW_MATRIX * vec4(VIEW, 0.0)).xyz, length(VERTEX), path_color, path_normal, path_roughness, packed_ao);
+   ALBEDO = mix(ALBEDO, mix(path_color * 0.96, vec3(0.83, 0.86, 0.89), 0.12), packed_coverage);
+   ROUGHNESS = mix(ROUGHNESS, clamp(path_roughness, 0.60, 0.83), packed_coverage);
+   SPECULAR = mix(SPECULAR, 0.25, packed_coverage);
+   NORMAL_MAP = normalize(mix(NORMAL_MAP * 2.0 - 1.0, path_normal, packed_coverage * 0.75)) * 0.5 + 0.5;
+   NORMAL_MAP_DEPTH = mix(NORMAL_MAP_DEPTH, 1.0, packed_coverage);
   }
  }
 
- 
- float extra_bed;float extra_coast;extra_polar_surfaces(v_vertex,extra_bed,extra_coast);
+ vec3 ground_position = vec3(v_vertex.x, v_ground_height, v_vertex.z);
+ float extra_bed;float extra_coast;extra_polar_surfaces(ground_position,extra_bed,extra_coast);
  vec2 ice_p = (v_vertex.xz-vec2(-110.0,-105.0))/vec2(40.0,29.0);
  float ice_angle=atan(ice_p.y,ice_p.x);
  float ice_edge = length(ice_p)*(1.0+.13*sin(ice_angle*3.0+.7)+.10*sin(ice_angle*5.0-1.0)) + sin(v_vertex.x*0.19+sin(v_vertex.z*0.13))*0.045 + sin(v_vertex.z*0.31)*0.025;
- float ice_cover = (1.0-smoothstep(0.65,1.08,ice_edge))*smoothstep(0.7,0.96,w_normal.y)*smoothstep(-6.02,-5.70,v_vertex.y);
+ float ice_cover = (1.0-smoothstep(0.65,1.08,ice_edge))*smoothstep(0.7,0.96,w_normal.y)*smoothstep(-6.02,-5.70,v_ground_height);
  ice_cover=max(ice_cover,extra_coast);
  float frost_patch=.5+.5*sin(v_vertex.x*.19+sin(v_vertex.z*.13)*1.8)*sin(v_vertex.z*.23-v_vertex.x*.07);
  ice_cover*=.55+.45*smoothstep(.15,.8,frost_patch);
@@ -734,17 +890,81 @@ void fragment() {
  ROUGHNESS=mix(ROUGHNESS,texture(polar_ice_rough,ice_uv).r*.45+.35,ice_cover);
  vec2 ice_xy=(texture(polar_ice_normal,ice_uv).rg*2.0-1.0)*.38;
  NORMAL_MAP=normalize(mix(NORMAL_MAP*2.0-1.0,vec3(ice_xy,sqrt(max(1.0-dot(ice_xy,ice_xy),0.001))),ice_cover))*0.5+0.5;
- float basin_bed=(1.0-smoothstep(.95,1.15,ice_edge))*(1.0-smoothstep(-6.1,-5.85,v_vertex.y));
+ float basin_bed=(1.0-smoothstep(.95,1.15,ice_edge))*(1.0-smoothstep(-6.1,-5.85,v_ground_height));
  basin_bed=max(basin_bed,extra_bed);
  ALBEDO=mix(ALBEDO,vec3(.30,.38,.40),basin_bed);
  ROUGHNESS=mix(ROUGHNESS,.95,basin_bed);
  NORMAL_MAP_DEPTH*=1.0-basin_bed;
+ vec2 layer_uv = (v_vertex.xz + vec2(512.5, 768.5)) / vec2(2048.0, 1536.0);
+ vec3 snow_profile = vec3(0.0);
+ if (all(greaterThan(layer_uv, vec2(0.0))) && all(lessThan(layer_uv, vec2(1.0)))) {
+  snow_profile = rounded_snow_profile(layer_uv);
+ }
+ float snow_depth = snow_profile.x;
+ // World-space rock exposure keeps long dark patches without revealing Terrain3D control texels.
+ vec2 snow_position = v_vertex.xz;
+ float large_breakup = texture(noise_texture, snow_position * 0.065).r;
+ float fine_breakup = texture(noise_texture, snow_position * 0.28 + large_breakup * 0.31).r;
+ float exposure = (1.0 - w_normal.y) * 1.65 + large_breakup * 0.42 + fine_breakup * 0.13;
+ float rock = smoothstep(0.39, 0.74, exposure) * (1.0 - smoothstep(0.04, 0.37, snow_depth));
+ float surface_cover = float(entry_snow_enabled) * (1.0 - max(packed_coverage, max(ice_cover, basin_bed)));
+ float winter_cover = smoothstep(0.025, 0.25, snow_depth) * surface_cover;
+ if (winter_cover > 0.01 && !fine_snow_mesh) {
+  vec3 rounded_normal = normalize(normalize(w_normal) + vec3(snow_profile.y, 0.0, snow_profile.z));
+  NORMAL = normalize(mix(NORMAL, mat3(VIEW_MATRIX) * rounded_normal, winter_cover));
+  TANGENT = normalize(cross(BINORMAL, NORMAL));
+  BINORMAL = normalize(cross(NORMAL, TANGENT));
+ }
+ if (surface_cover > 0.01) {
+  vec2 snow_uv = snow_position / entry_snow_tile_size;
+  vec2 snow_at;
+  mat2 snow_warp;
+  snow02_coordinates(snow_uv, snow_at, snow_warp);
+  vec2 snow_dx = snow_warp * dFdx(snow_uv);
+  vec2 snow_dy = snow_warp * dFdy(snow_uv);
+  vec4 scan = textureGrad(entry_snow_albedo, snow_at, snow_dx, snow_dy);
+  vec4 detail = textureGrad(entry_snow_normal_rough, snow_at, snow_dx, snow_dy);
+  vec3 snow_col = mix(scan.rgb * 1.07, vec3(0.83, 0.86, 0.89), 0.12 + winter_cover * 0.14);
+  vec3 rock_col = texture(snow_exposed_rock, snow_position / 5.8).rgb;
+  rock_col = mix(vec3(0.27, 0.31, 0.34), rock_col, 0.53);
+  ALBEDO = mix(ALBEDO, mix(snow_col, rock_col, rock), surface_cover);
+  ROUGHNESS = mix(ROUGHNESS, mix(clamp(detail.a, 0.68, 0.91), 0.86, rock), surface_cover);
+  vec2 relief_xy = (detail.xy * 2.0 - 1.0) * mix(0.64, 0.37, winter_cover) * (1.0 - rock * 0.65);
+  vec3 grain_normal = normalize(vec3(relief_xy, 1.0));
+  NORMAL_MAP = normalize(mix(NORMAL_MAP * 2.0 - 1.0, grain_normal, surface_cover)) * 0.5 + 0.5;
+  NORMAL_MAP_DEPTH = mix(NORMAL_MAP_DEPTH, 1.0, surface_cover);
+  packed_ao = mix(packed_ao, mix(1.0, scan.a, 0.37), surface_cover);
+ }
+ if (length(VERTEX) < 34.0 && max(ice_cover, basin_bed) < 0.45 && packed_coverage < 0.85) {
+  vec2 contact_uv = snow_contact_uv(v_vertex.xz);
+  if (contact_uv.x >= 0.0) {
+   vec2 contact = read_snow_contact(contact_uv);
+   if (contact.r + contact.g > 0.001) {
+    float amount = mix(0.42, 1.0, winter_cover) * (1.0 - packed_coverage) * (1.0 - smoothstep(24.0, 34.0, length(VERTEX)));
+    ALBEDO *= 1.0 + amount * (contact.g * (1.0 - contact.r) * 0.13 - contact.r * 0.12);
+    ROUGHNESS = mix(ROUGHNESS, 0.82, contact.r * amount);
+    if (!fine_snow_mesh) {
+     vec2 p = v_vertex.xz;
+     const float SAMPLE_RADIUS = 0.15;
+     float west = snow_contact_height(snow_contact_at(p - vec2(SAMPLE_RADIUS, 0.0)));
+     float east = snow_contact_height(snow_contact_at(p + vec2(SAMPLE_RADIUS, 0.0)));
+     float north = snow_contact_height(snow_contact_at(p - vec2(0.0, SAMPLE_RADIUS)));
+     float south = snow_contact_height(snow_contact_at(p + vec2(0.0, SAMPLE_RADIUS)));
+     vec2 imprint_slope = clamp(vec2(west - east, south - north) * 2.4, vec2(-0.48), vec2(0.48));
+     vec3 imprint_normal = normalize(vec3(imprint_slope, 1.0));
+     float blend = clamp(length(imprint_slope) * 1.8 + contact.r * 0.35, 0.0, 1.0) * amount;
+     NORMAL_MAP = normalize(mix(NORMAL_MAP * 2.0 - 1.0, imprint_normal, blend)) * 0.5 + 0.5;
+     NORMAL_MAP_DEPTH = mix(NORMAL_MAP_DEPTH, 1.0, blend);
+    }
+   }
+  }
+ }
  float ao = (1. - (mat.albedo_height.a * log(2.1 - mat.ao_strength))) * (1. - mat.normal_rough.y);
  AO = clamp(1. - ao * mat.ao_strength, mat.albedo_height.a, 1.0);
  AO_LIGHT_AFFECT = (1.0 - mat.albedo_height.a) * clamp(mat.normal_rough.y, 0., 1.);
- // Painted rock AO is not part of the new powder surface either.
- AO = mix(AO, powder_ao, powder_coverage);
- AO_LIGHT_AFFECT *= 1.0 - powder_coverage;
+ // Compacted snow has its own texture AO.
+ AO = mix(AO, packed_ao, max(packed_coverage, surface_cover));
+ AO_LIGHT_AFFECT *= 1.0 - max(packed_coverage, surface_cover);
 
 }
 

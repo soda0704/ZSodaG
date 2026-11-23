@@ -4,6 +4,7 @@ var checks := 0
 var failures := 0
 var output := "res://tools/.local/snow-material-review/captures/"
 var actor: GamePlayer
+const SnowDriftProfile := preload("res://scripts/effects/snow_drift_profile.gd")
 
 func _initialize() -> void:
 	var prefix := "user://entry_snow_%d" % OS.get_process_id()
@@ -46,6 +47,19 @@ func ground_luminance(image: Image) -> float:
 
 func run() -> void:
 	if DisplayServer.get_name() == "headless": quit(2); return
+	var snow_profile := SnowDriftProfile.new()
+	var route_clear := true
+	for z in range(3, 96, 3):
+		route_clear = route_clear and snow_profile.depth_for_walking(Vector2(SnowDriftProfile.route_x_at(z), z)) < 0.025
+	check(route_clear, "the packed route has no deep loose accumulations")
+	var clear_sites := true
+	for point in [Vector2(-38.8, 3), Vector2(-125, 95), Vector2(0, -180), Vector2(-110, -105), Vector2(105, 95), Vector2(-215, 90)]:
+		clear_sites = clear_sites and snow_profile.depth_for_walking(point) < 0.025
+	check(clear_sites, "vestibule, landing pad, tower and ice basin centers stay clear of loose drifts")
+	var base_wake := snow_profile.depth_for_walking(Vector2(64, 27))
+	var windward := snow_profile.depth_for_walking(Vector2(-62, -22))
+	print("SNOW DISTRIBUTION base wake=", base_wake, " windward=", windward)
+	check(windward > 0.13 and base_wake > 0.55 and base_wake > windward + 0.20, "loose snow covers exposed ground and forms deeper leeward deposits")
 	DirAccess.make_dir_recursive_absolute(output)
 	Engine.max_fps = 60
 	root.size = Vector2i(1600, 900); root.content_scale_size = root.size
@@ -92,11 +106,11 @@ func run() -> void:
 		var hit: Dictionary = space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(point.x, h+2, point.z), Vector3(point.x, h-2, point.z), 1, [actor.get_rid()]))
 		if not is_finite(h) or hit.is_empty(): missing += 1
 	check(missing == 0, "continuous collision along approach: 21 ground probes")
-	var at := Vector3(-54, 0, 9)
+	var at := Vector3(-47.4, 0, 13)
 	at.y = terrain.data.get_height(at) + 0.05
 	actor.teleport_authoritative(at, 0)
 	actor.camera.rotation = Vector3.ZERO
-	actor.head.look_at(Vector3(-47, terrain.data.get_height(Vector3(-47,0,3))+0.2, 3))
+	actor.head.look_at(Vector3(-41, terrain.data.get_height(Vector3(-41,0,6))+0.1, 6))
 	material.set_shader_param("entry_snow_enabled", false)
 	var before := await shot("entry-day-before")
 	material.set_shader_param("entry_snow_enabled", true)
@@ -104,7 +118,7 @@ func run() -> void:
 	var change := difference(before, after)
 	print("DAY MATERIAL DIFFERENCE ", change)
 	check(change > 0.003, "new material visibly renders in the actual approach")
-	# Powder now covers the full exterior, including the former trial boundary.
+	# Snow006 also replaces the old field material away from the route.
 	at = Vector3(-180, 0, 110); at.y = terrain.data.get_height(at) + 0.05
 	actor.teleport_authoritative(at, 0)
 	actor.head.look_at(Vector3(-188, terrain.data.get_height(Vector3(-188,0,110)), 110))
@@ -112,10 +126,85 @@ func run() -> void:
 	before = await shot("outside-before")
 	material.set_shader_param("entry_snow_enabled", true)
 	after = await shot("outside-after")
-	check(difference(before, after) > 0.003, "powder material continues beyond the former trial boundary")
+	check(difference(before, after) > 0.003, "Snow006 replaces the distant field material as well as the route")
 	# Drive real player contacts through the existing track sampler, not a placed decal fixture.
 	var tracks = exterior.get_node("SnowTracks")
 	tracks.set_physics_process(false); tracks._actors.clear()
+	check(tracks._snow_deformation != null, "Terrain3D has a world-space deformation atlas")
+	if tracks._snow_deformation != null:
+		for origin: Vector3 in [Vector3(-61, 0, 15), Vector3(-180, 0, 110), Vector3(64, 0, -66)]:
+			var finish := origin + Vector3(1.7, 0, 0)
+			origin.y = terrain.data.get_height(origin) + 0.04
+			finish.y = terrain.data.get_height(finish) + 0.04
+			tracks._actors.clear()
+			actor.global_position = origin
+			await physics_frame
+			tracks._sample(actor, false)
+			actor.global_position = finish
+			await physics_frame
+			tracks._sample(actor, false)
+			var snow = tracks._snow_deformation
+			snow.flush(terrain.material, tracks._clock)
+			var tile := Vector2i((Vector2(finish.x, finish.z) / 16.0).floor())
+			check(snow._keys.has(tile), "walking writes deformation at %s" % origin)
+		var deformation: Image = tracks._snow_deformation.texture.get_image()
+		var groove := false
+		var bank := false
+		for y in deformation.get_height():
+			for x in deformation.get_width():
+				var point := deformation.get_pixel(x, y)
+				groove = groove or point.r > 0.8
+				bank = bank or point.g > 0.4
+				if groove and bank: break
+			if groove and bank: break
+		check(groove and bank, "the uploaded terrain atlas contains grooves and displaced banks")
+		# Use an actual drift and cross a boundary shared by two high-resolution grids.
+		var drift := Vector3(57, 0, -60)
+		tracks._actors.clear()
+		for step in range(11):
+			var contact := drift + Vector3.FORWARD * (step * 0.65)
+			contact.y = terrain.data.get_height(contact) + 0.04
+			actor.global_position = contact
+			await physics_frame
+			tracks._sample(actor, false)
+		var snow = tracks._snow_deformation
+		snow.flush(terrain.material, tracks._clock + 0.05)
+		var viewer := Vector3(57, terrain.data.get_height(Vector3(57, 0, -58)) + 0.04, -58)
+		actor.teleport_authoritative(viewer, 0)
+		actor.head.look_at(Vector3(57, terrain.data.get_height(Vector3(57, 0, -64)), -64))
+		tracks._snow_tiles.update(tracks, terrain, snow._origins, tracks._clock + 0.2)
+		check(int(material.get_shader_param("fine_snow_tile_count")) >= 2, "rendered deformation spans adjacent detailed snow tiles")
+		for mark in tracks._marks: mark.node.hide()
+		var active_tiles: int = material.get_shader_param("snow_tile_count")
+		material.set_shader_param("snow_tile_count", 0)
+		before = await shot("terrain-deformation-off")
+		material.set_shader_param("snow_tile_count", active_tiles)
+		after = await shot("terrain-deformation-on")
+		var deformation_difference := difference(before, after)
+		print("SNOW DEFORMATION DIFFERENCE ", deformation_difference)
+		check(deformation_difference > 0.0003, "the terrain itself renders displacement away from the base")
+		var patches = tracks._snow_tiles
+		var original_patches: Dictionary = patches._patches.duplicate()
+		var cross_seam := Vector3(57, terrain.data.get_height(Vector3(57, 0, -66)) + 0.04, -66)
+		actor.teleport_authoritative(cross_seam, 0)
+		await process_frame
+		patches.update(tracks, terrain, snow._origins, tracks._clock + 0.4)
+		var retained := 0
+		var settled := true
+		for origin: Vector2 in patches._patches:
+			var patch: MeshInstance3D = patches._patches[origin]
+			var center := origin + Vector2.ONE * 8.0
+			if original_patches.has(origin):
+				retained += 1
+				settled = settled and patch == original_patches[origin]
+			settled = settled and patch.physics_interpolation_mode == Node.PHYSICS_INTERPOLATION_MODE_OFF
+			settled = settled and patch.get_global_transform_interpolated().origin.is_equal_approx(Vector3(center.x, 0, center.y))
+		check(retained >= 2 and settled, "moving the camera over a tile seam never relocates retained patches or interpolates their transforms")
+		tracks._snow_deformation.flush(material, tracks._clock + 44.0)
+		tracks._snow_tiles.update(tracks, terrain, snow._origins, tracks._clock + 44.0)
+		check(int(material.get_shader_param("snow_tile_count")) == 0, "old deformation tiles expire and release their shader slots")
+		for mark in tracks._marks: mark.node.show()
+		tracks._actors.clear()
 	var count_before: int = tracks._marks.size()
 	for step in 11:
 		var foot := Vector3(-51.0 - step * 0.7, 0, 7)
@@ -183,6 +272,29 @@ func run() -> void:
 	weather.enabled = true
 	actor.get_node("PlayerUI/CameraPostProcess").effect_enabled = true
 	await shot("entry-gameplay-storm")
+	weather.enabled = false
+	var continuous_route := true
+	var old_height := NAN
+	for index in 93:
+		var t := index / 92.0
+		var x := lerpf(-38.8, -94.0, t) - sin(t * TAU) * 7.5 + sin(t * TAU * 2.0) * 2.1
+		var marker := Vector3(x, 0.0, lerpf(3.0, 95.0, t))
+		var height := terrain.data.get_height(marker) as float
+		continuous_route = continuous_route and is_finite(height)
+		if is_finite(old_height):
+			continuous_route = continuous_route and absf(height - old_height) < 0.7
+		old_height = height
+	check(continuous_route, "the winding landing route has continuous walkable terrain")
+	at = Vector3(-72.0, 0.0, 26.0)
+	at.y = terrain.data.get_height(at) + 0.04
+	actor.teleport_authoritative(at, 0)
+	actor.head.look_at(Vector3(-72, terrain.data.get_height(Vector3(-72, 0, 62)), 62))
+	await shot("winding-landing-route")
+	at = Vector3(79, 0, 33)
+	at.y = terrain.data.get_height(at) + 0.08
+	actor.teleport_authoritative(at, 0)
+	actor.head.look_at(Vector3(43, terrain.data.get_height(Vector3(43, 0, 17)) + 0.7, 17))
+	await shot("snow-leeward-base")
 	actor = null; current_scene = null; base.queue_free()
 	for frame in 4: await process_frame
 	print("ENTRY SNOW CHECKS ", checks, " FAILURES ", failures)
