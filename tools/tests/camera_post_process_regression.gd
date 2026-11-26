@@ -168,17 +168,24 @@ func run() -> void:
 	check(lens_point.x > 935.0 and lens_point.y > 420.0 and effect.project_overlay_point(Vector2(640, 360)).is_equal_approx(Vector2(640, 360)), "world HUD projection follows the lens and keeps the optical centre fixed")
 	actor.set_process_unhandled_input(false)
 	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
+	var hud := actor.get_node("PlayerUI/NorthernLabHUD")
+	var start_rotation := actor.head.rotation
 	for frame in 14:
-		var motion := InputEventMouseMotion.new()
-		motion.position=Vector2(640,360);motion.relative=Vector2(24,-12)
-		Input.parse_input_event(motion)
+		actor.head.rotation += Vector3(0.012, 0.025, 0.001)
+		actor.head.reset_physics_interpolation()
 		await process_frame
 	var offset: Vector2 = grain_material.get_shader_parameter("vignette_offset")
-	check(offset.x > .001 and offset.y < -.0005 and offset.length() <= .01201,"real mouse input moves the corners slightly in the cursor direction with blur disabled")
+	var housing_transform: Transform2D = hud.camera_frame_transform()
+	var center: Vector2 = hud._canvas_size * 0.5
+	var frame_offset: Vector2 = (housing_transform * center - center) * hud._layout_scale / root.get_visible_rect().size.y
+	check(offset.x > .001 and offset.y > .0005, "turning the stationary camera moves the housing on both axes")
+	check(offset.is_equal_approx(frame_offset) and is_equal_approx(grain_material.get_shader_parameter("vignette_rotation"), housing_transform.get_rotation()), "vignette keeps its own smaller movement range")
 	var moved_rim := await picture()
 	check(difference(vignette_frame,moved_rim,Rect2i(1120,0,160,110))>.003,"parallax visibly moves the rendered corner boundary")
-	await create_timer(1.0).timeout
-	check(Vector2(grain_material.get_shader_parameter("vignette_offset")).length()<.00015,"corner parallax smoothly returns to centre after mouse motion stops")
+	await create_timer(4.7).timeout
+	check(Vector2(grain_material.get_shader_parameter("vignette_offset")).length()<.00015,"corner parallax smoothly returns to centre after the camera stops turning")
+	actor.head.rotation = start_rotation
+	actor.head.reset_physics_interpolation()
 	grain_material.set_shader_parameter("sensor_grain",original_grain)
 	grain_material.set_shader_parameter("noise_intensity",original_noise)
 	vignette_patch.queue_free()

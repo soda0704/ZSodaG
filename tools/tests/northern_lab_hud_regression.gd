@@ -388,11 +388,9 @@ func run() -> void:
 		var prompt_rect: Rect2 = hud.interaction_layout("[E] Осмотреть щит").rect
 		check(prompt_rect.position.x > hud._canvas_size.x * 0.5 and is_equal_approx(prompt_rect.get_center().y, hud._canvas_size.y * 0.5), "short interaction stays beside the crosshair at %s" % resolution)
 		var contained := true
-		for drift in [Vector2(-12, 0), Vector2(12, 0)]:
+		for drift in [Vector2(-PARALLAX.LIMIT, 0), Vector2(PARALLAX.LIMIT, 0)]:
 			hud._parallax.offset = drift
-			hud._parallax.pitch_offset = 8.0 * signf(drift.x)
-			hud._parallax.movement = Vector3(drift.x, 9.0 * signf(drift.x), -0.028)
-			hud._parallax.roll = 0.022 * signf(drift.x)
+			hud._parallax.pitch_offset = PARALLAX.PITCH_LIMIT * signf(drift.x)
 			var objective: Rect2 = hud.objective_layout(hud.view_state.quest).rect
 			objective = hud.panel_transform(Vector2(1, 1)) * objective
 			var prompt: Rect2 = hud.interaction_layout("[E] Осмотреть щит").rect
@@ -403,6 +401,12 @@ func run() -> void:
 			equipment = hud.panel_transform(Vector2(0, -1)) * equipment
 			contained = contained and viewport.encloses(equipment)
 		check(contained, "HUD elements stay inside the screen at both parallax limits in %s" % resolution)
+		var mark_layout = preload("res://scripts/ui/hud_layout.gd")
+		var corner: Vector2 = mark_layout.camera_corner_anchor(hud._canvas_size, Vector2.ONE)
+		corner += hud.overlay_shift()
+		var clock_origin: Vector2 = hud.panel_transform(Vector2.ONE) * (mark_layout.RECORD_CLOCK - Vector2(16, 16))
+		check(corner.x + mark_layout.CORNER_ARM < clock_origin.x,
+			"camera corner arm clears the recording clock at %s" % resolution)
 		var equipment: Rect2 = hud.equipment_layout(hud.view_state).rect
 		equipment = hud.panel_transform(Vector2(0, -1)) * equipment
 		var health := Rect2(46, hud._canvas_size.y - 200, 355, 186)
@@ -443,6 +447,30 @@ func review_parallax() -> void:
 	var right: Transform2D = hud.panel_transform(Vector2(-1, -1))
 	check(left.x.y < 0.0 and right.x.y > 0.0 and is_equal_approx(left.x.angle(), -right.x.angle()),
 		"bottom panels recede symmetrically towards the centre")
+	var recording_anchor := Vector2(72, 182)
+	var rec_rest: Vector2 = hud.panel_transform(Vector2(1, 1)) * recording_anchor
+	check(rec_rest.x > hud._canvas_size.x * 0.07 and rec_rest.x < hud._canvas_size.x * 0.15,
+		"recording stays close to the center at rest")
+	hud._parallax.offset.x = -PARALLAX.LIMIT
+	var rec_edge: Vector2 = hud.panel_transform(Vector2(1, 1)) * recording_anchor
+	check(rec_edge.x > 0 and rec_edge.x < hud._canvas_size.x * 0.08, "fast turn can carry the recording panel nearly to the screen edge")
+	hud._parallax.reset()
+	hud._hud_motion_ready = false
+	hud._update_hud_blur(1.0 / 60.0, Transform3D.IDENTITY)
+	for frame in range(1, 30):
+		var fine_aim := Transform3D(Basis(Vector3.UP, frame * 0.002), Vector3.ZERO)
+		hud._update_hud_blur(1.0 / 60.0, fine_aim)
+	check(hud._blur_travel.length() < 0.00001, "fine aim stays below the HUD blur threshold")
+	hud._hud_motion_ready = false
+	hud._update_hud_blur(1.0 / 60.0, Transform3D.IDENTITY)
+	hud._update_hud_blur(1.0 / 60.0, Transform3D(Basis(Vector3.UP, 0.06), Vector3.ZERO))
+	var first_frame_blur: float = hud._blur_travel.length()
+	for frame in range(2, 15):
+		hud._update_hud_blur(1.0 / 60.0, Transform3D(Basis(Vector3.UP, frame * 0.06), Vector3.ZERO))
+	check(first_frame_blur < 0.008 and hud._blur_travel.length() > 0.015, "fast turns build blur gradually instead of applying it in one frame")
+	hud._hud_motion_ready = false
+	hud._update_hud_blur(1.0 / 60.0, Transform3D.IDENTITY)
+	check(hud._blur_travel == Vector2.ZERO, "HUD motion blur clears on a camera cut")
 	var compass_rest: Transform2D = hud.panel_transform(Vector2(0, 1))
 	var prompt_rest: Transform2D = hud.panel_transform(Vector2.ZERO)
 	hud._parallax.offset = Vector2(8, 0)
@@ -451,38 +479,40 @@ func review_parallax() -> void:
 		and not hud.panel_transform(Vector2.ZERO).is_equal_approx(prompt_rest),
 		"compass and interaction prompt respond to camera movement")
 	hud._parallax.reset()
-	var near_rest: Transform2D = hud.panel_transform(Vector2(-1, -1))
-	hud._parallax.movement.z = -0.02
-	var near_moved: Transform2D = hud.panel_transform(Vector2(-1, -1))
-	var far_moved: Transform2D = hud.panel_transform(Vector2.ZERO)
-	check(near_moved.x.length() / near_rest.x.length() > far_moved.x.length(),
-		"forward motion expands nearby HUD panels more than the distant prompt")
-	hud._parallax.movement.z = 0.02
-	check(hud.panel_transform(Vector2(-1, -1)).x.length() < near_rest.x.length(),
-		"backward motion contracts the perspective")
-	hud._parallax.reset()
+	var extent: Vector2 = hud._canvas_size
+	var groups := [
+		["recording and objectives", Vector2(1, 1), Vector2(130, 220)],
+		["teammate panel", Vector2(-1, 1), extent * Vector2(1, 0) + Vector2(-190, 86)],
+		["health and exposure", Vector2(1, -1), Vector2(88, extent.y - 126.0)],
+		["ammunition and battery", Vector2(-1, -1), extent - Vector2(166, 126.0)],
+		["compass", Vector2(0, 1), Vector2(extent.x * 0.5, 64)],
+		["equipment", Vector2(0, -1), Vector2(extent.x * 0.5, extent.y - 115)],
+		["interaction", Vector2.ZERO, extent * 0.5],
+	]
+	for group in groups:
+		var rest: Vector2 = hud.panel_transform(group[1]) * group[2]
+		hud._parallax.offset.x = -12.0
+		hud._parallax.pitch_offset = 7.0
+		var shifted: Vector2 = hud.panel_transform(group[1]) * group[2]
+		check(shifted.x < rest.x and shifted.y > rest.y, "%s lags left and down when looking right and up" % group[0])
+		hud._parallax.reset()
 	var motion := PARALLAX.new()
-	motion.sample(Vector3.FORWARD, 1.0 / 60.0)
-	var moving_velocity := Vector3(2.0, 1.0, -5.0)
-	for index in 12:
-		motion.sample(Vector3.FORWARD, 1.0 / 60.0, moving_velocity, Vector3(0.0, 0.02, 0.0), 0.021)
-	check(motion.movement.x < -0.5 and motion.movement.y > 0.5 and motion.movement.z < -0.005 and motion.roll < -0.005,
-		"strafe, vertical steps, forward motion and camera roll all affect the HUD")
-	for index in 120:
-		motion.sample(Vector3.FORWARD, 1.0 / 60.0, moving_velocity)
-	check(motion.movement.length() < 0.01 and absf(motion.roll) < 0.001,
-		"constant velocity and level camera settle at the neutral HUD pose")
-	for index in 12:
-		motion.sample(Vector3.FORWARD, 1.0 / 60.0)
-	check(motion.movement.x > 0.5 and motion.movement.z > 0.005,
-		"stopping produces bounded movement in the opposite direction")
+	var saved_velocity: Vector3 = actor.velocity
+	actor.velocity = Vector3(8.0, 4.0, -9.0)
+	for frame in 30:
+		hud._update_parallax(Vector3.FORWARD, 1.0 / 60.0)
+	actor.velocity = saved_velocity
+	check(hud.overlay_shift() == Vector2.ZERO, "body velocity cannot move the HUD while aim stays fixed")
 	motion.reset()
 	motion.sample(Vector3.FORWARD, 1.0 / 60)
 	for index in 24:
 		motion.sample(Basis(Vector3.UP, (index + 1) * 0.02) * Vector3.FORWARD, 1.0 / 60)
 	check(motion.offset.x > 1 and absf(motion.offset.y) < 0.01, "left camera turn moves panels right")
-	for index in 24:
+	var before_reverse := motion.offset.x
+	for index in 42:
 		motion.sample(Basis(Vector3.UP, 0.48 - (index + 1) * 0.02) * Vector3.FORWARD, 1.0 / 60)
+		if index == 5:
+			check(motion.offset.x > before_reverse * 0.6, "HUD carries its inertia through the first 100 ms of a turn reversal")
 	check(motion.offset.x < -1, "reversing camera turn moves panels left without a queued animation")
 	motion.reset()
 	motion.sample(Vector3.FORWARD, 1.0 / 60)
@@ -492,7 +522,7 @@ func review_parallax() -> void:
 		motion.sample(Basis(Vector3.RIGHT, sin(float(index) / 48 * TAU) * 0.7) * Vector3.FORWARD, 1.0 / 60)
 		vertical_still = vertical_still and motion.offset == Vector2.ZERO
 		vertical_lag = maxf(vertical_lag, absf(motion.pitch_offset))
-	check(vertical_still and vertical_lag > 1.0 and vertical_lag <= 8.0, "pitch creates bounded vertical lag independently of yaw")
+	check(vertical_still and vertical_lag > 1.0 and vertical_lag <= PARALLAX.PITCH_LIMIT, "pitch creates bounded vertical lag independently of yaw")
 	var settled := []
 	for rate in [30, 60, 144]:
 		motion.reset()
@@ -500,16 +530,16 @@ func review_parallax() -> void:
 		var bounded := true
 		for index in rate:
 			motion.sample(Basis.from_euler(Vector3(0.5, 2.0, 0) * float(index + 1) / rate) * Vector3.FORWARD, 1.0 / rate)
-			bounded = bounded and absf(motion.offset.x) <= 12 and motion.offset.y == 0
+			bounded = bounded and absf(motion.offset.x) <= PARALLAX.LIMIT and motion.offset.y == 0
 		settled.append(motion.offset)
 		var forward := Basis.from_euler(Vector3(0.5, 2.0, 0)) * Vector3.FORWARD
-		for index in rate: motion.sample(forward, 1.0 / rate)
+		for index in roundi(rate * 5.3): motion.sample(forward, 1.0 / rate)
 		check(bounded and motion.offset.length() < 0.01 and absf(motion.pitch_offset) < 0.01, "parallax stays bounded and returns smoothly to neutral at %d FPS" % rate)
 	check(settled[0].distance_to(settled[2]) < 0.1, "camera inertia has consistent strength at 30 and 144 FPS")
 	motion.reset()
 	motion.sample(Basis(Vector3.UP, 3.13) * Vector3.FORWARD, 1.0 / 60)
 	motion.sample(Basis(Vector3.UP, -3.13) * Vector3.FORWARD, 1.0 / 60)
-	check(motion.offset.x > 0 and motion.offset.x < 3, "crossing north's angle seam produces a small continuous drift")
+	check(motion.offset.x > 0 and motion.offset.x < PARALLAX.LIMIT * 0.2, "crossing north's angle seam produces a small continuous drift")
 	motion.sample(Vector3.FORWARD, 1.0 / 60)
 	check(motion.offset == Vector2.ZERO, "camera cut resets inertia instead of kicking panels")
 	hud._update_parallax(Vector3.FORWARD, 1.0 / 60)
@@ -642,21 +672,72 @@ func capture_layout_states() -> void:
 		hud.view_state.merge(cases[id], true)
 		hud._animated_state_initialized = false
 		hud._update_animations(0.2)
-		hud.queue_redraw()
+		hud.queue_hud_redraw()
 		await RenderingServer.frame_post_draw
 		save_capture("northern-hud-state-%s.png" % id)
-	var reticle_regions: Array[PackedByteArray] = []
+	await RenderingServer.frame_post_draw
+	var with_bloom := root.get_texture().get_image()
+	hud._bloom.set_glow_enabled(false)
+	await RenderingServer.frame_post_draw
+	var without_bloom := root.get_texture().get_image()
+	hud._bloom.set_glow_enabled(true)
+	var halo_pixels := 0
+	var bright_core_change := 0.0
+	for y in range(160, 535, 2):
+		for x in range(350, 1450, 2):
+			var source := without_bloom.get_pixel(x, y)
+			if source.get_luminance() > 0.90:
+				bright_core_change = maxf(bright_core_change, with_bloom.get_pixel(x, y).get_luminance() - source.get_luminance())
+			if source.get_luminance() < 0.16 and with_bloom.get_pixel(x, y).get_luminance() - source.get_luminance() > 0.016:
+				halo_pixels += 1
+	check(bright_core_change < 0.025, "glow preserves bright glyph cores")
+	check(halo_pixels > 45, "soft bloom spreads HUD highlights over nearby background pixels")
+	check(with_bloom.get_pixel(100, 400).is_equal_approx(without_bloom.get_pixel(100, 400)), "HUD bloom leaves background away from the interface unchanged")
+	hud._bloom.set_motion_trail(Vector2(0.068, 0.0))
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var exposure := root.get_texture().get_image()
+	save_capture("hud-shutter-exposure.png")
+	hud._bloom.set_motion_trail(Vector2.ZERO)
+	var spread := 0
+	var softened := 0
+	for y in range(80, 445, 2):
+		for x in range(100, 1500, 2):
+			var sharp := with_bloom.get_pixel(x, y).get_luminance()
+			var blurred := exposure.get_pixel(x, y).get_luminance()
+			if sharp < 0.15 and blurred - sharp > 0.025: spread += 1
+			if sharp > 0.65 and sharp - blurred > 0.13: softened += 1
+	check(spread > 100 and softened > 30, "centred shutter spreads HUD ink and softens its bright cores during a fast sweep")
+	var reticle_peaks: Array[Vector2i] = []
 	var compass_regions: Array[PackedByteArray] = []
-	for drift in [Vector2(-12, 0), Vector2(12, 0)]:
+	for drift in [Vector2(-PARALLAX.LIMIT, 0), Vector2(PARALLAX.LIMIT, 0)]:
 		hud._parallax.offset = drift
-		hud.queue_redraw()
+		hud.queue_hud_redraw()
 		await RenderingServer.frame_post_draw
 		var frame := root.get_texture().get_image()
-		var center := Vector2i(frame.get_size() * 0.5)
-		reticle_regions.append(frame.get_region(Rect2i(center - Vector2i(6, 6), Vector2i(12, 12))).get_data())
-		compass_regions.append(frame.get_region(Rect2i(620, 20, 680, 65)).get_data())
+		compass_regions.append(frame.get_region(Rect2i(410, 170, 1100, 230)).get_data())
 		save_capture("northern-hud-parallax-%s.png" % ("left" if drift.x < 0 else "right"))
-	check(reticle_regions[0] == reticle_regions[1], "rendered reticle stays fixed while HUD panels move")
+		# At full travel moving ink can cross behind the fixed reticle. Isolate its layer.
+		hud._bloom.hide()
+		for frame_index in 2:
+			await process_frame
+			await RenderingServer.frame_post_draw
+		var reticle_frame := root.get_texture().get_image()
+		var center := Vector2i(reticle_frame.get_size() * 0.5)
+		var brightest := 0.0
+		var peak := Vector2i(7, 7)
+		for y in range(-4, 5):
+			for x in range(-4, 5):
+				var light := reticle_frame.get_pixelv(center + Vector2i(x, y)).get_luminance()
+				if light > brightest:
+					brightest = light
+					peak = Vector2i(x, y)
+		if brightest > 0.45:
+			reticle_peaks.append(peak)
+		hud._bloom.show()
+	check(reticle_peaks.size() == 2 and reticle_peaks[0].length_squared() <= 2
+		and reticle_peaks[1].length_squared() <= 2,
+		"rendered reticle stays fixed while HUD panels move")
 	check(compass_regions[0] != compass_regions[1], "rendered compass follows the camera inertia")
 	hud._parallax.reset()
 	hud.view_state = original
@@ -682,7 +763,7 @@ func capture_objective_motion() -> void:
 		hud.refresh_state()
 		for frame in 45:
 			hud._update_animations(1.0 / 30.0)
-			hud.queue_redraw()
+			hud.queue_hud_redraw()
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().get_region(Rect2i(0, 0, 450, 390)).save_png("res://tools/.local/hud-motion/%03d.png" % index)
 			index += 1

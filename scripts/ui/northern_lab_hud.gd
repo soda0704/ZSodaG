@@ -18,6 +18,7 @@ const CARD_BODY_HEIGHT := 57.0
 const PARALLAX := preload("res://scripts/ui/hud_parallax.gd")
 const LAYOUT := preload("res://scripts/ui/hud_layout.gd")
 const CAMERA_INK := LAYOUT.CAMERA_INK
+const BLOOM := preload("res://scripts/ui/hud_bloom.gd")
 const EDGE_INSET := 16.0
 const ITEM_TITLES := {&"flamethrower":"Огнемёт",&"fuel_can": "Канистра",
 	&"fuse": "Предохранитель", &"seed_packet": "Семена"}
@@ -27,7 +28,11 @@ var view_state: Dictionary = {}
 var compass_heading := 0.0
 var teammate: GamePlayer
 var _font: Font = BODY_FONT
+const TEXT_SHADOW := Color(0.013, 0.02, 0.026, 0.58)
+
 var _frame_style := StyleBoxFlat.new()
+var _bloom := BLOOM.new()
+var _reticle := Control.new()
 var _badge_metrics_cache: Dictionary = {}
 var _elapsed := 0.0
 var _recording_elapsed := 0.0
@@ -68,6 +73,9 @@ var _teammate_id := 0
 var _parallax := PARALLAX.new()
 var _parallax_camera_id := 0
 var _parallax_position := Vector3.ZERO
+var _hud_motion_ready := false
+var _previous_blur_pose := Transform3D.IDENTITY
+var _blur_travel := Vector2.ZERO
 var _radiation_blades: Array[PackedVector2Array] = []
 @onready var _camera_effect = get_node("../CameraPostProcess")
 
@@ -80,6 +88,9 @@ func _ready() -> void:
 	player = get_parent().get_parent() as GamePlayer
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+
+
+
 	hide()
 	add_to_group("hud_layout")
 	get_viewport().size_changed.connect(_layout)
@@ -91,6 +102,14 @@ func _ready() -> void:
 		for index in range(8, -1, -1):
 			points.append(Vector2.from_angle(direction + lerpf(-0.47, 0.47, index / 8.0)) * 6.5)
 		_radiation_blades.append(points)
+	_bloom.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_bloom)
+	move_child(_bloom, 0)
+	_bloom.ink.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	_bloom.ink.draw.connect(_draw_ink)
+	_reticle.mouse_filter = MOUSE_FILTER_IGNORE
+	add_child(_reticle)
+	_reticle.draw.connect(_draw_reticle)
 	_layout()
 
 func _layout() -> void:
@@ -102,7 +121,8 @@ func _layout() -> void:
 	_canvas_size = safe.size / _layout_scale
 	scale = Vector2.ONE * _layout_scale
 	size = _canvas_size
-	queue_redraw()
+	_bloom.fit(_canvas_size, safe.size * get_viewport().get_stretch_transform().get_scale().abs())
+	queue_hud_redraw()
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(player) or player.survival == null or player.weapon == null:
@@ -111,6 +131,8 @@ func _process(delta: float) -> void:
 	if not visible:
 		_parallax.reset()
 		_parallax_camera_id = 0
+		_hud_motion_ready = false
+		_camera_effect.set_housing_motion(Vector2.ZERO, 0.0, 1.0)
 		_reveal = 0.0
 		_prompt_alpha = 0.0
 		_prompt_progress = 0.0
@@ -124,9 +146,15 @@ func _process(delta: float) -> void:
 	if view_state.is_empty() or _elapsed >= 0.1:
 		_elapsed = 0.0
 		refresh_state()
-	var forward := -player.camera.global_basis.z
+	# The head carries aim before the camera adds procedural gait.
+	var aim := Transform3D(player.head.get_global_transform_interpolated().basis.orthonormalized(), Vector3.ZERO)
+	var forward := -aim.basis.z
 	compass_heading = fposmod(rad_to_deg(atan2(forward.x, -forward.z)), 360.0)
 	_update_parallax(forward, delta)
+	_update_hud_blur(delta, aim)
+	var housing := camera_frame_transform()
+	var housing_shift := (housing * (_canvas_size * 0.5) - _canvas_size * 0.5) * _layout_scale
+	_camera_effect.set_housing_motion(housing_shift, housing.get_rotation(), housing.get_scale().x)
 	var notice: Control = $PowerSwitchNotice
 	if notice.visible:
 		var notice_plane := panel_transform(Vector2(-1, 1))
@@ -134,17 +162,44 @@ func _process(delta: float) -> void:
 		notice.rotation = notice_plane.get_rotation()
 		notice.scale = notice_plane.get_scale()
 	_update_animations(delta)
-	queue_redraw()
+	queue_hud_redraw()
 
 func _update_parallax(forward: Vector3, delta: float) -> void:
 	var camera_id := player.camera.get_instance_id()
 	if camera_id != _parallax_camera_id or player.global_position.distance_squared_to(_parallax_position) > 9.0:
 		_parallax.reset()
+		_hud_motion_ready = false
 	_parallax_camera_id = camera_id
 	_parallax_position = player.global_position
-	var camera_yaw := atan2(-forward.x, -forward.z)
-	var local_velocity := Basis(Vector3.UP, camera_yaw).transposed() * player.velocity
-	_parallax.sample(forward, delta, local_velocity, player.camera.get_hud_displacement(), player.camera.get_hud_roll())
+	_parallax.sample(forward, delta)
+
+func overlay_shift() -> Vector2:
+	var lag := _parallax.screen_shift() / Vector2(PARALLAX.LIMIT, PARALLAX.PITCH_LIMIT)
+	# Keep fine aiming quiet and give deliberate sweeps most of the screen travel.
+	lag = lag.clamp(-Vector2.ONE, Vector2.ONE)
+	return Vector2(signf(lag.x) * pow(absf(lag.x), 1.45),
+		signf(lag.y) * pow(absf(lag.y), 1.45)) * _canvas_size * 0.07
+
+
+func _update_hud_blur(delta: float, pose: Transform3D) -> void:
+	var angle := pose.basis.get_rotation_quaternion().angle_to(_previous_blur_pose.basis.get_rotation_quaternion())
+	if not _hud_motion_ready or angle > PI * 0.25 or delta <= 0.0 or delta > 0.15:
+		_blur_travel = Vector2.ZERO
+		_hud_motion_ready = true
+	else:
+		var camera_flow: Vector2 = _camera_effect.projected_shutter_flow(player.camera, pose, _previous_blur_pose)
+		var speed := angle / delta
+		var shutter := smoothstep(0.55, 3.4, speed) * (1.0 / 32.0) / delta
+		var travel := (camera_flow * shutter).limit_length(0.055)
+		var response := 4.0 if travel.length_squared() > _blur_travel.length_squared() else 2.8
+		_blur_travel = _blur_travel.lerp(travel, 1.0 - exp(-response * delta))
+	_previous_blur_pose = pose
+	_bloom.set_motion_trail(_blur_travel)
+
+
+func camera_frame_transform() -> Transform2D:
+	return Transform2D(0.0, _parallax.screen_shift() * 0.58)
+
 
 func panel_transform(edge: Vector2) -> Transform2D:
 	match edge:
@@ -169,23 +224,23 @@ func panel_transform(edge: Vector2) -> Transform2D:
 func floating_panel_transform(anchor: Vector2, edge: Vector2, depth: float, base_inset: Vector2 = Vector2.ONE * EDGE_INSET) -> Transform2D:
 	# Project the two axes of a plane facing inward toward the camera. Each group
 	# uses its own pivot and depth, so it can drift without pulling the reticle.
-	var motion: Vector3 = _parallax.movement
-	var lag := (Vector2(_parallax.offset.x, _parallax.pitch_offset) + Vector2(motion.x, motion.y)).limit_length(22.0)
+	var lag := _parallax.screen_shift()
 	var corner_slant := edge.x * (0.043 if edge.y >= 0.0 else -0.024)
 	var slant := (corner_slant + lag.x * 0.0011) * depth
 	var tilt := (edge.x * 0.022 + lag.y * 0.0011) * depth
 	var pitch_scale := (absf(edge.y) * 0.023 + absf(lag.y) * 0.0013) * depth
-	var perspective := 1.0 / (1.0 + motion.z * depth)
-	var roll := _parallax.roll * depth
-	var axes := Transform2D(Vector2(1.0 - absf(slant) * 0.42, slant).rotated(roll) * perspective,
-		Vector2(-tilt, 1.0 - pitch_scale).rotated(roll) * perspective, Vector2.ZERO)
-	var depth_shift := ((anchor - _canvas_size * 0.5) * (perspective - 1.0)).limit_length(24.0)
+	var axes := Transform2D(Vector2(1.0 - absf(slant) * 0.42, slant),
+		Vector2(-tilt, 1.0 - pitch_scale), Vector2.ZERO)
 	var inset := base_inset + LAYOUT.content_inset(_canvas_size)
-	axes.origin = anchor - axes * anchor + edge * inset + lag * depth + depth_shift
+	var compact := LAYOUT.group_scale(_canvas_size)
+	axes.x *= compact
+	axes.y *= compact
+	var resting_anchor := LAYOUT.centered(_canvas_size, anchor + edge * inset)
+	axes.origin = resting_anchor - axes * anchor + overlay_shift()
 	return axes
 
 func get_parallax_offset_pixels() -> Vector2:
-	return _parallax.offset * _layout_scale if visible else Vector2.ZERO
+	return _parallax.screen_shift() * _layout_scale if visible else Vector2.ZERO
 
 func _update_animations(delta: float) -> void:
 	_reveal = move_toward(_reveal, 1.0, delta / 0.20)
@@ -375,7 +430,7 @@ func refresh_state() -> void:
 		_teammate_id = teammate_id
 		_teammate_reveal = 0.0
 		_teammate_health = teammate.survival.health / teammate.survival.max_health if is_instance_valid(teammate) else 1.0
-	queue_redraw()
+	queue_hud_redraw()
 
 func _action_hint(action: StringName) -> String:
 	var service := get_node("/root/SteamInput")
@@ -390,29 +445,40 @@ func _action_hint(action: StringName) -> String:
 				return {MOUSE_BUTTON_LEFT: "ЛКМ", MOUSE_BUTTON_RIGHT: "ПКМ", MOUSE_BUTTON_MIDDLE: "СКМ"}.get(event.button_index, "Мышь %d" % event.button_index)
 	return str(service.get_action_hint(action)).trim_prefix("[").trim_suffix("]").strip_edges()
 
-func _draw() -> void:
+func queue_hud_redraw() -> void:
+	_bloom.ink.queue_redraw()
+	_reticle.queue_redraw()
+
+
+func _draw_reticle() -> void:
+	if not view_state.is_empty() and is_instance_valid(player) and should_draw_reticle():
+		LAYOUT.draw_reticle(_reticle, _canvas_size * 0.5)
+
+
+func _draw_ink() -> void:
 	if view_state.is_empty() or not is_instance_valid(player):
 		return
-	LAYOUT.draw_camera_corners(self, _canvas_size)
-	if should_draw_reticle():
-		LAYOUT.draw_reticle(self, _canvas_size * 0.5)
-	draw_set_transform_matrix(panel_transform(Vector2(0, 1)))
+	var frames := Transform2D(0.0, overlay_shift())
+	_bloom.ink.draw_set_transform_matrix(frames)
+	LAYOUT.draw_camera_corners(_bloom.ink, _canvas_size)
+	_bloom.ink.draw_set_transform(Vector2.ZERO)
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2(0, 1)))
 	_draw_compass()
-	draw_set_transform_matrix(panel_transform(Vector2(1, 1)))
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2(1, 1)))
 	_draw_recording()
 	_draw_objectives()
-	draw_set_transform_matrix(panel_transform(Vector2(-1, 1)))
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2(-1, 1)))
 	_draw_teammate()
-	draw_set_transform_matrix(panel_transform(Vector2.ZERO))
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2.ZERO))
 	_draw_interaction()
 	var health_transform := panel_transform(Vector2(1, -1))
-	draw_set_transform_matrix(health_transform)
+	_bloom.ink.draw_set_transform_matrix(health_transform)
 	_draw_health(health_transform)
-	draw_set_transform_matrix(panel_transform(Vector2(0, -1)))
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2(0, -1)))
 	_draw_equipment()
-	draw_set_transform_matrix(panel_transform(Vector2(-1, -1)))
+	_bloom.ink.draw_set_transform_matrix(panel_transform(Vector2(-1, -1)))
 	_draw_ammunition_and_light()
-	draw_set_transform(Vector2.ZERO)
+	_bloom.ink.draw_set_transform(Vector2.ZERO)
 
 func recording_timecode() -> String:
 	var seconds := floori(_recording_elapsed)
@@ -422,8 +488,8 @@ func _draw_recording() -> void:
 	# Keep the camera clock at its calibrated rest position while it shares the task plane.
 	var inset := Vector2.ONE * EDGE_INSET
 	var pulse := 0.70 + 0.30 * cos(_recording_elapsed * TAU / 1.8)
-	draw_circle(LAYOUT.RECORD_DOT - inset, 11.0, Color(LAYOUT.RECORD_RED, 0.10 * pulse), true, -1.0, true)
-	draw_circle(LAYOUT.RECORD_DOT - inset, 7.0, Color(LAYOUT.RECORD_RED, pulse), true, -1.0, true)
+
+	_bloom.ink.draw_circle(LAYOUT.RECORD_DOT - inset, 7.0, Color(LAYOUT.RECORD_RED, pulse), true, -1.0, true)
 	_text("ЗАПИСЬ", LAYOUT.RECORD_LABEL - inset, 30, CAMERA_INK)
 	_text(recording_timecode(), LAYOUT.RECORD_CLOCK - inset, 27, CAMERA_INK)
 
@@ -432,11 +498,9 @@ func should_draw_reticle() -> bool:
 
 func _text(value: String, at: Vector2, font_size: int = 24, color: Color = WHITE, width: float = -1.0, heading: bool = false) -> void:
 	var font: Font = HEADING_FONT if heading else _font
-	# A tight vertical shadow supports the high-resolution glyphs on bright scenery.
-	draw_string(font, at + Vector2(1, 2), value, HORIZONTAL_ALIGNMENT_LEFT, width, font_size, Color(0, 0, 0, 0.84 * _draw_alpha))
-	var glow := color.lerp(LAYOUT.CAMERA_GLOW, 0.35)
-	draw_string_outline(font, at, value, HORIZONTAL_ALIGNMENT_LEFT, width, font_size, 4, Color(glow, color.a * _draw_alpha * 0.085))
-	draw_string(font, at, value, HORIZONTAL_ALIGNMENT_LEFT, width, font_size, _ink(color))
+	_bloom.ink.draw_string_outline(font, at + Vector2(0, 1.5), value,
+		HORIZONTAL_ALIGNMENT_LEFT, width, font_size, 2, _ink(TEXT_SHADOW))
+	_bloom.ink.draw_string(font, at, value, HORIZONTAL_ALIGNMENT_LEFT, width, font_size, _ink(color))
 
 func _ink(color: Color) -> Color:
 	return Color(color, color.a * _draw_alpha)
@@ -450,14 +514,18 @@ func _panel(rect: Rect2, fill: Color, border: Color, radius: int = 5) -> void:
 	_frame_style.set_corner_radius_all(mini(radius, floori(minf(rect.size.x, rect.size.y) * 0.5)))
 	_frame_style.corner_detail = 8
 	_frame_style.anti_aliasing = true
-	draw_style_box(_frame_style, rect)
+	_frame_style.shadow_color = Color(0.013, 0.02, 0.026, 0.28 * _draw_alpha)
+	_frame_style.shadow_size = 3 if _frame_style.draw_center else 0
+	_frame_style.shadow_offset = Vector2(0, 1.5)
+	_bloom.ink.draw_style_box(_frame_style, rect)
 
 func _outline(rect: Rect2, color: Color) -> void:
 	_panel(rect, Color.TRANSPARENT, color, 3)
 
 func _wrapped(value: String, at: Vector2, font_size: int, width: float, color: Color, alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_LEFT) -> float:
-	draw_multiline_string(_font, at + Vector2(0, 1), value, alignment, width, font_size, -1, Color(0, 0, 0, 0.85 * _draw_alpha))
-	draw_multiline_string(_font, at, value, alignment, width, font_size, -1, _ink(color))
+	_bloom.ink.draw_multiline_string_outline(_font, at + Vector2(0, 1.5), value,
+		alignment, width, font_size, -1, 2, _ink(TEXT_SHADOW))
+	_bloom.ink.draw_multiline_string(_font, at, value, alignment, width, font_size, -1, _ink(color))
 	return _font.get_multiline_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, width, font_size).y
 
 func _badge_extent(value: String, font_size: int = 22) -> Vector2:
@@ -517,14 +585,14 @@ func objective_layout(quest: Dictionary) -> Dictionary:
 	var title := str(quest.get("objective", "Текущая задача")).strip_edges()
 	if title.is_empty(): title = "Текущая задача"
 	result.title = _fit_lines(title, 388, 28, 2)
-	result.title_y = 18 + HEADING_FONT.get_height(18) + 10
-	var y: float = result.title_y + _font.get_multiline_string_size(result.title, HORIZONTAL_ALIGNMENT_LEFT, 388, 28).y + 16
+	result.title_y = 18 + HEADING_FONT.get_height(18) + 13
+	var y: float = result.title_y + _font.get_multiline_string_size(result.title, HORIZONTAL_ALIGNMENT_LEFT, 388, 28).y + 20
 	var abbreviated: bool = result.title != title
 	for task in tasks.slice(0, 2):
 		var content := _fit_lines(str(task), 370, 24, 3)
 		result.rows.append({"text": content, "source": str(task), "y": y})
 		abbreviated = abbreviated or content != str(task)
-		y += _font.get_multiline_string_size(content, HORIZONTAL_ALIGNMENT_LEFT, 370, 24).y + 10
+		y += _font.get_multiline_string_size(content, HORIZONTAL_ALIGNMENT_LEFT, 370, 24).y + 12
 	if tasks.size() > 2 or abbreviated:
 		result.footer = "ЕЩЁ %d" % (tasks.size() - 2) if tasks.size() > 2 else "ПОДРОБНЕЕ"
 		result.footer_y = y + 4
@@ -546,11 +614,11 @@ func _draw_objectives() -> void:
 	_draw_alpha = _objective_alpha
 	if layout.empty:
 		_draw_alpha *= motion_curve((_task_time - 0.25) / 0.11) if not _departing_tasks.is_empty() else 1.0
-		draw_circle(panel.position + Vector2(24, 29), 3, _ink(TEAL))
+		_bloom.ink.draw_circle(panel.position + Vector2(24, 29), 3, _ink(TEAL))
 		_text(layout.empty_label, panel.position + Vector2(38, 29 + HEADING_FONT.get_ascent(18) - HEADING_FONT.get_height(18) * 0.5), 18, MUTED, -1, true)
 	else:
 		_text("ТЕКУЩАЯ ЗАДАЧА", panel.position + Vector2(26, 18 + HEADING_FONT.get_ascent(18)), 18, MUTED, -1, true)
-		draw_rect(Rect2(panel.position + Vector2(0, layout.title_y + 4), Vector2(1, 24)), _ink(AMBER))
+		_bloom.ink.draw_rect(Rect2(panel.position + Vector2(0, layout.title_y + 4), Vector2(1, 24)), _ink(AMBER))
 		_wrapped(layout.title, panel.position + Vector2(26, layout.title_y + _font.get_ascent(28)), 28, 388, AMBER)
 		for row in layout.rows:
 			var pose := _task_pose(row)
@@ -567,17 +635,17 @@ func _draw_objectives() -> void:
 
 func _draw_task_row(text: String, origin: Vector2, completion_age: float = -1.0) -> void:
 	var baseline := _font.get_ascent(24)
-	var bullet := origin + Vector2(29, baseline - 7)
+	var bullet := origin + Vector2(33, baseline - _font.get_ascent(24) * 0.40)
 	var completed := completion_age >= 0.0
 	if completed:
 		var stroke := motion_curve(completion_age / 0.13)
 		var start := bullet + Vector2(-5, 0)
 		var joint := bullet + Vector2(-1, 4)
-		draw_line(start, start.lerp(joint, minf(stroke * 2.0, 1.0)), _ink(TEAL), 2, true)
+		_bloom.ink.draw_line(start, start.lerp(joint, minf(stroke * 2.0, 1.0)), _ink(TEAL), 2, true)
 		if stroke > 0.5:
-			draw_line(joint, joint.lerp(bullet + Vector2(6, -4), (stroke - 0.5) * 2.0), _ink(TEAL), 2, true)
+			_bloom.ink.draw_line(joint, joint.lerp(bullet + Vector2(6, -4), (stroke - 0.5) * 2.0), _ink(TEAL), 2, true)
 	else:
-		draw_circle(bullet, 2, _ink(MUTED))
+		_bloom.ink.draw_circle(bullet, 2, _ink(MUTED))
 	_wrapped(text, origin + Vector2(46, baseline), 24, 370, TEAL if completed else WHITE)
 
 func compass_layout() -> Rect2:
@@ -589,9 +657,9 @@ func _draw_compass() -> void:
 	var center := _canvas_size.x * 0.5
 	var rect := compass_layout()
 	var left := rect.position.x
-	draw_line(Vector2(left, 65), Vector2(rect.end.x, 65), Color(0, 0, 0, 0.60), 2.0, true)
-	draw_line(Vector2(left, 64), Vector2(rect.end.x, 64), Color(LAYOUT.CAMERA_GLOW, 0.09), 5.0, true)
-	draw_line(Vector2(left, 64), Vector2(rect.end.x, 64), Color(CAMERA_INK, 0.64), 1.5, true)
+	_bloom.ink.draw_line(Vector2(left, 65), Vector2(rect.end.x, 65), Color(0, 0, 0, 0.60), 2.0, true)
+
+	_bloom.ink.draw_line(Vector2(left, 64), Vector2(rect.end.x, 64), Color(CAMERA_INK, 0.64), 1.5, true)
 	var labels := ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 	for tick in range(-32, 65):
 		var degrees := tick * 11.25
@@ -599,12 +667,12 @@ func _draw_compass() -> void:
 		if x < left + 24 or x > rect.end.x - 24:
 			continue
 		var major := posmod(tick, 4) == 0
-		draw_line(Vector2(x, 52 if major else 57), Vector2(x, 64), Color(CAMERA_INK, 0.60), 1.5, true)
+		_bloom.ink.draw_line(Vector2(x, 52 if major else 57), Vector2(x, 64), Color(CAMERA_INK, 0.60), 1.5, true)
 		if major:
 			var label: String = labels[posmod(floori(tick / 4.0), 8)]
 			var text_width := _font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
 			_text(label, Vector2(x - text_width * 0.5, 47), 26, CAMERA_INK)
-	draw_colored_polygon(PackedVector2Array([Vector2(center - 7, 79), Vector2(center + 7, 79), Vector2(center, 71)]), CAMERA_INK)
+	_bloom.ink.draw_colored_polygon(PackedVector2Array([Vector2(center - 7, 79), Vector2(center + 7, 79), Vector2(center, 71)]), CAMERA_INK)
 
 func _draw_teammate() -> void:
 	if not is_instance_valid(teammate) or teammate.survival == null:
@@ -617,20 +685,20 @@ func _draw_teammate() -> void:
 	var distance := player.global_position.distance_to(teammate.global_position)
 	_text("%d м" % roundi(distance), Vector2(x + 6, row + 96), 23)
 	_outline(Rect2(x + 99, row + 84, 125, 10), Color(TEAL, 0.34))
-	draw_rect(Rect2(x + 102, row + 87, 119 * _teammate_health, 4), _ink(WHITE))
+	_bloom.ink.draw_rect(Rect2(x + 102, row + 87, 119 * _teammate_health, 4), _ink(WHITE))
 	if teammate.survival.dead:
 		_text("Возрождение…", Vector2(x + 6, row + 123), 20, AMBER)
 		_draw_alpha = 1.0
 		return
 	var world_point := teammate.global_position + Vector3(0, 2.3, 0)
 	# World anchors stay registered to the target, independently of panel inertia.
-	draw_set_transform(Vector2.ZERO)
+	_bloom.ink.draw_set_transform(Vector2.ZERO)
 	var camera_point := player.camera.get_camera_transform().affine_inverse() * world_point
 	if camera_point.z < -player.camera.near:
 		var screen_point := player.camera.unproject_position(world_point)
 		screen_point = _camera_effect.project_overlay_point(screen_point)
 		if get_viewport_rect().grow(-30).has_point(screen_point):
-			draw_texture_rect(MARKER, Rect2((screen_point - position) / _layout_scale - Vector2(16, 16), Vector2(32, 32)), false, _ink(WHITE))
+			_bloom.ink.draw_texture_rect(MARKER, Rect2((screen_point - position) / _layout_scale - Vector2(16, 16), Vector2(32, 32)), false, _ink(WHITE))
 	_draw_alpha = 1.0
 
 func interaction_layout(source: String) -> Dictionary:
@@ -671,23 +739,23 @@ func _draw_health(panel: Transform2D) -> void:
 	var top := _canvas_size.y - LAYOUT.PRIMARY_STATUS_INSET
 	var hp := float(view_state.health)
 	var color := AMBER if _health_ratio < 0.3 else CAMERA_INK
-	draw_line(Vector2(78, top - 11), Vector2(98, top - 11), color, 4.0, true)
-	draw_line(Vector2(88, top - 21), Vector2(88, top - 1), color, 4.0, true)
+	_bloom.ink.draw_line(Vector2(78, top - 11), Vector2(98, top - 11), color, 4.0, true)
+	_bloom.ink.draw_line(Vector2(88, top - 21), Vector2(88, top - 1), color, 4.0, true)
 	var value := str(ceili(hp))
 	_text(value, Vector2(110, top), 34, color)
 	var bar_x := 128 + _font.get_string_size(str(ceili(view_state.max_health)), HORIZONTAL_ALIGNMENT_LEFT, -1, 34).x
-	draw_line(Vector2(bar_x, top - 10), Vector2(bar_x + 144, top - 10), Color(0, 0, 0, 0.48), 5.0, true)
+	_bloom.ink.draw_line(Vector2(bar_x, top - 10), Vector2(bar_x + 144, top - 10), Color(0, 0, 0, 0.48), 5.0, true)
 	if _health_ratio > 0.0:
-		draw_line(Vector2(bar_x, top - 10), Vector2(bar_x + 144 * _health_ratio, top - 10), Color(color, 0.12), 8.0, true)
-		draw_line(Vector2(bar_x, top - 10), Vector2(bar_x + 144 * _health_ratio, top - 10), color, 3.0, true)
+
+		_bloom.ink.draw_line(Vector2(bar_x, top - 10), Vector2(bar_x + 144 * _health_ratio, top - 10), color, 3.0, true)
 	var radiation := float(view_state.radiation)
 	var warning := radiation >= player.survival.radiation_damage_threshold
 	var radiation_ink := AMBER if warning else CAMERA_INK
-	draw_set_transform_matrix(panel * Transform2D(0.0, Vector2.ONE * 0.78, 0.0, Vector2(88, top + 27)))
+	_bloom.ink.draw_set_transform_matrix(panel * Transform2D(0.0, Vector2.ONE * 0.78, 0.0, Vector2(88, top + 27)))
 	for blade in _radiation_blades:
-		draw_colored_polygon(blade, radiation_ink)
-	draw_circle(Vector2.ZERO, 4, radiation_ink, true, -1.0, true)
-	draw_set_transform_matrix(panel)
+		_bloom.ink.draw_colored_polygon(blade, radiation_ink)
+	_bloom.ink.draw_circle(Vector2.ZERO, 4, radiation_ink, true, -1.0, true)
+	_bloom.ink.draw_set_transform_matrix(panel)
 	_text("%.0f%%" % radiation, Vector2(110, top + 36), 27, radiation_ink)
 	if warning:
 		_text("Покиньте зону", Vector2(110, top + 62), 20, AMBER)
@@ -708,7 +776,7 @@ func _draw_equipment() -> void:
 		var hint := str(_equipment_view.hint).replace(" / Create", "")
 		var body_height := CARD_BODY_HEIGHT if not hint.is_empty() else CARD_SIZE.y
 		if hand == &"pistol":
-			draw_texture_rect(PISTOL_ICON, Rect2(at + Vector2((CARD_SIZE.x - 68) * 0.5, (body_height - 43) * 0.5), Vector2(68, 43)), false, _ink(CAMERA_INK.lerp(WHITE, _equipment_flash)))
+			_bloom.ink.draw_texture_rect(PISTOL_ICON, Rect2(at + Vector2((CARD_SIZE.x - 68) * 0.5, (body_height - 43) * 0.5), Vector2(68, 43)), false, _ink(CAMERA_INK.lerp(WHITE, _equipment_flash)))
 		else:
 			var title := _fit_lines(str(ITEM_TITLES.get(hand, WeaponController.TITLES.get(hand, hand))), CARD_SIZE.x - 20, 20, 2)
 			var height := _font.get_multiline_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, CARD_SIZE.x - 20, 20).y
@@ -758,8 +826,8 @@ func _draw_ammunition_and_light() -> void:
 			_text("Перезарядка…", Vector2(x, top + 27), 20, AMBER)
 			var duration := player.weapon.rifle_reload_seconds if hand == &"m4a1" else player.weapon.pistol_reload_seconds
 			var progress := clampf(1.0 - player.weapon.reload_left / duration, 0, 1)
-			draw_line(Vector2(x, top + 38), Vector2(x + 130, top + 38), LINE, 2, true)
-			draw_line(Vector2(x, top + 38), Vector2(x + 130 * progress, top + 38), AMBER, 2, true)
+			_bloom.ink.draw_line(Vector2(x, top + 38), Vector2(x + 130, top + 38), LINE, 2, true)
+			_bloom.ink.draw_line(Vector2(x, top + 38), Vector2(x + 130 * progress, top + 38), AMBER, 2, true)
 		elif not view_state.battery_action_busy:
 			if view_state.get("reload_action", &"reload") == &"replace_battery":
 				_text("%s — Батарейка" % view_state.reload_hint, Vector2(x, top + 27), 18, MUTED)
@@ -769,7 +837,7 @@ func _draw_ammunition_and_light() -> void:
 				_text("Нет патронов", Vector2(x, top + 27), 18, AMBER)
 	if layout.has_light:
 		x = layout.battery_x
-		if layout.has_ammo: draw_line(Vector2(x - 13, top - 47), Vector2(x - 13, top + 1), LINE)
+		if layout.has_ammo: _bloom.ink.draw_line(Vector2(x - 13, top - 47), Vector2(x - 13, top + 1), LINE)
 		var charge := clampf(float(view_state.battery_charge), 0, 1)
 		var color := AMBER if charge <= 0.15 else CAMERA_INK
 		var icon_color := CAMERA_INK if view_state.flashlight_enabled else Color(CAMERA_INK, 0.58)
@@ -778,11 +846,11 @@ func _draw_ammunition_and_light() -> void:
 		var hint_width := _font.get_string_size(hint, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
 		_text(hint, Vector2(x + 20 - hint_width * 0.5, top + 27), 18, icon_color)
 		var shell := Rect2(x + 62, top - 28, 42, 19)
-		draw_rect(shell, Color(color, color.a * 0.11), false, 6.0)
-		draw_rect(shell, color, false, 2.0)
-		draw_rect(Rect2(shell.end.x, shell.position.y + 5, 4, 9), color)
+
+		_bloom.ink.draw_rect(shell, color, false, 2.0)
+		_bloom.ink.draw_rect(Rect2(shell.end.x, shell.position.y + 5, 4, 9), color)
 		if _charge_ratio > 0.0:
-			draw_rect(Rect2(shell.position + Vector2(4, 4), Vector2((shell.size.x - 8) * _charge_ratio, shell.size.y - 8)), color)
+			_bloom.ink.draw_rect(Rect2(shell.position + Vector2(4, 4), Vector2((shell.size.x - 8) * _charge_ratio, shell.size.y - 8)), color)
 		_text("%d%%" % roundi(charge * 100), Vector2(x + 121, top - 8), 30, color)
 		var notice := ""
 		if view_state.battery_action_busy:
@@ -803,9 +871,9 @@ func _draw_flashlight_icon(at: Vector2, color: Color, lamp_on: bool) -> void:
 	var rotation := Transform2D(-PI / 4.0, Vector2.ONE * 0.81, 0.0, at)
 	for index in outline.size():
 		outline[index] = rotation * outline[index]
-	draw_polyline(outline, Color(color, color.a * 0.12), 6.0, true)
-	draw_polyline(outline, color, 2.2, true)
-	draw_line(rotation * Vector2(-11, -6), rotation * Vector2(-11, 6), color, 2.2, true)
+
+	_bloom.ink.draw_polyline(outline, color, 2.2, true)
+	_bloom.ink.draw_line(rotation * Vector2(-11, -6), rotation * Vector2(-11, 6), color, 2.2, true)
 	if lamp_on:
 		for direction in [-1, 0, 1]:
-			draw_line(rotation * Vector2(20, direction * 8), rotation * Vector2(27, direction * 12), color, 1.7, true)
+			_bloom.ink.draw_line(rotation * Vector2(20, direction * 8), rotation * Vector2(27, direction * 12), color, 1.7, true)

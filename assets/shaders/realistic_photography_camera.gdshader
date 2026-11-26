@@ -31,6 +31,8 @@ uniform float vignette_strength : hint_range(0.0, 1.0) = 1.0;
 uniform float vignette_corner_size : hint_range(0.1, 1.0) = 0.81;
 uniform float vignette_softness : hint_range(0.005, 0.2) = 0.12;
 uniform vec2 vignette_offset = vec2(0.0);
+uniform float vignette_rotation = 0.0;
+uniform float vignette_scale = 1.0;
 uniform float response_curve : hint_range(0.0, 0.5) = 0.18;
 uniform float saturation : hint_range(0.0, 1.2) = 0.84;
 uniform float sensor_grain : hint_range(0.0, 0.15) = 0.07;
@@ -91,7 +93,11 @@ void fragment() {
 	} else {
 		pixel_color = centre;
 	}
-	vec2 rim_p = p - vignette_offset * vec2(2.0 / aspect, 2.0);
+	vec2 rim_screen = p * sensor - vignette_offset * 2.0;
+	float rim_cos = cos(vignette_rotation);
+	float rim_sin = sin(vignette_rotation);
+	vec2 rim_p = vec2(dot(rim_screen, vec2(rim_cos, rim_sin)),
+		dot(rim_screen, vec2(-rim_sin, rim_cos))) / (sensor * vignette_scale);
 	vec2 housing_aspect = vec2(mix(1.0, aspect, 0.88), 1.0);
 	vec2 rim_sensor = rim_p * housing_aspect;
 	float falloff = dot(rim_sensor, rim_sensor) / dot(housing_aspect, housing_aspect);
