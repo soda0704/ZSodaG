@@ -37,8 +37,6 @@ func run() -> void:
 		world = packed.instantiate()
 	print("INSTANTIATE MS ",(Time.get_ticks_usec()-before)/1000.0)
 	world.network_runtime_managed = true
-	if "--staged" in OS.get_cmdline_user_args():
-		world.get_node("WorldIndirectLighting").prepare_loading()
 	phase = "enter_tree"
 	before = Time.get_ticks_usec()
 	root.add_child(world)
@@ -50,12 +48,7 @@ func run() -> void:
 	camera.position = Vector3(-124,13,90)
 	camera.look_at(Vector3(-35,2,0))
 	camera.make_current()
-	phase = "warmup"
-	if "--staged" in OS.get_cmdline_user_args():
-		for frame in 4: await process_frame
-		phase = "lighting"
-		await world.get_node("WorldIndirectLighting").finish_loading(camera.global_position.y)
-		phase = "settle"
+	phase = "settle"
 	for i in 160: await process_frame
 	for key in samples:
 		var values: Array = samples[key]

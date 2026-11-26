@@ -76,7 +76,6 @@ func begin() -> void:
 	_pad_row = 0
 	_pad_mode = false
 	add_to_group("wiring_ui")
-	_player.refresh_crosshair_visibility()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	camera.make_current()
 	_player._refresh_equipment_visuals()
@@ -255,7 +254,6 @@ func close() -> void:
 	if is_instance_valid(_player) and _player.is_inside_tree():
 		_player._refresh_equipment_visuals()
 		if not _player.survival.dead and (menu == null or not menu.is_menu_open()): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		_player.refresh_crosshair_visibility()
 	var controller: BaseGameplayController = breaker.get_controller()
 	if controller != null: refresh(controller.get_snapshot())
 	_player = null

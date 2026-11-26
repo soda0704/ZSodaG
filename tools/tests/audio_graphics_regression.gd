@@ -7,7 +7,6 @@ func check(value: bool, label: String):
 func run():
 	ProjectSettings.set_setting(BaseGameplayController.TEST_SAVE_PATH_SETTING,"user://audio_graphics_test.cfg")
 	var quality = root.get_node("GameMenu/GraphicsQuality")
-	quality.set_gi_quality(2)
 	var original: Dictionary = quality.values.duplicate()
 	var light := OmniLight3D.new()
 	light.shadow_enabled = true
@@ -21,24 +20,33 @@ func run():
 	zone.environment.ambient_light_energy = 0.025
 	root.add_child(zone)
 	zone.set_process(false)
+	var camera := Camera3D.new()
+	root.add_child(camera)
+	camera.make_current()
 	quality.apply({"Scale":70,"LocalShadows":false,"AOQuality":0,"SSR":false,"FPS":60})
+	quality.apply_node(camera)
 	check(is_equal_approx(root.scaling_3d_scale,0.7) and Engine.max_fps==60,"render scale and FPS limit apply")
 	check(light.shadow_enabled and not untouched.shadow_enabled,"legacy quality flags preserve authored shadow states")
-	check(not zone.environment.ssao_enabled and not zone.environment.ssr_enabled,"environment effects disabled")
+	check(not camera.environment.ssao_enabled and not camera.environment.ssr_enabled,"environment effects disabled")
 	quality.apply({"LocalShadows":true,"SSR":true})
 	check(not light.is_queued_for_deletion(),"quality changes keep authored world lights")
-	check(not zone.environment.ssr_enabled and not zone.environment.fog_enabled and is_equal_approx(zone.environment.ambient_light_energy,0.025),"screen effects stay disabled while authored ambient is preserved")
-	zone.environment=Environment.new()
-	zone.environment.ssao_enabled=true
-	zone.environment.glow_enabled=true
-	zone.environment.fog_enabled=true
-	zone.environment.volumetric_fog_enabled=true
-	zone.environment.fog_density=0.004
-	quality.apply({"SSAO":false,"Glow":false,"Fog":false})
-	check(zone.environment.ssao_enabled and zone.environment.glow_enabled and zone.environment.fog_enabled and zone.environment.volumetric_fog_enabled and is_equal_approx(zone.environment.fog_density,0.004),"legacy flags do not replace the new render budgets or authored haze")
-	quality.apply({"Gamma":130,"Brightness":115})
-	check(is_equal_approx(zone.environment.adjustment_brightness,1.15) and zone.environment.adjustment_color_correction != null,"brightness and gamma affect the environment")
+	check(not camera.environment.ssr_enabled and not camera.environment.fog_enabled and is_equal_approx(camera.environment.ambient_light_energy,0.025),"screen effects stay disabled while authored ambient is preserved")
+	var source := Environment.new()
+	source.ssao_enabled = true
+	source.glow_enabled = true
+	source.fog_enabled = true
+	source.volumetric_fog_enabled = true
+	source.fog_density = 0.004
+	zone.environment = source
+	camera.environment = source
+	quality.apply({"AOQuality": 0, "Bloom": false, "FogQuality": 0, "Gamma": 130, "Brightness": 115})
+	var runtime := camera.environment
+	check(runtime != source and source.ssao_enabled and source.glow_enabled and source.volumetric_fog_enabled, "quality preserves the authored environment")
+	check(not runtime.ssao_enabled and not runtime.glow_enabled and not runtime.volumetric_fog_enabled and runtime.fog_enabled and is_equal_approx(runtime.fog_density, 0.004), "quality disables optional effects while preserving authored distance fog")
+	check(is_equal_approx(runtime.adjustment_brightness, 1.15) and runtime.adjustment_color_correction == load("res://assets/environments/calibration/gamma_130.tres"), "brightness and gamma affect the active camera")
+
 	check(NorthernSettingsMenu.CATEGORIES.size() == 4, "settings are separated into four categories")
+	camera.free()
 	zone.free()
 	var elevator = load("res://scenes/objects/elevator/elevator_functional_blockout.tscn").instantiate()
 	root.add_child(elevator)

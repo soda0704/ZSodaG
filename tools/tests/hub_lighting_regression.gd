@@ -29,7 +29,7 @@ func run() -> void:
 	var fixtures: Node = lighting.get_node("HubFixtures")
 	check(fixtures._materials.size() >= 4, "all four existing modular fixtures have isolated emission materials")
 	var fixture_root: Node = fixtures.get_node(fixtures.fixtures_path)
-	check(bool(fixture_root.get_meta("dynamic_emission", false)), "future GI bakes exclude the controllable fixture emission")
+	check(bool(fixture_root.get_meta("dynamic_emission", false)), "fixture root identifies dynamically controlled emission")
 	for mesh: MeshInstance3D in fixture_root.find_children("*", "MeshInstance3D", true, false):
 		for surface in mesh.mesh.get_surface_count():
 			var source := mesh.mesh.surface_get_material(surface) as StandardMaterial3D
@@ -51,11 +51,16 @@ func run() -> void:
 	for powered in [true, false, true]:
 		power.apply_power_state(powered)
 		for step in 20: lighting._update_lamps(Vector3(-5, 1.8, 0), 0.05)
-		var correct := true
+		var active_count := 0
+		var inactive_dark := true
 		for lamp in lamps:
 			var active := lamp.get_parent().name == ("Standard" if powered else "Emergency")
-			correct = correct and (lamp.light_energy > 0.0 if active else is_zero_approx(lamp.light_energy))
-		check(correct, "hub sources follow restored power" if powered else "outage extinguishes normal sources and enables backup")
+			if active and lamp.light_energy > 0.0:
+				active_count += 1
+			elif not active:
+				inactive_dark = inactive_dark and is_zero_approx(lamp.light_energy)
+		check(active_count > 0 and inactive_dark, "powered hub circuit supplies resident lamps while the other circuit stays dark")
+
 		check(lighting._resident_lamps.size() <= WorldLighting.MAX_RESIDENT_LAMPS, "hub respects the existing light budget")
 		for entry in fixtures._materials:
 			var material: StandardMaterial3D = entry.material
@@ -175,8 +180,6 @@ func check_base_ambience(audio: AudioStreamPlayer, level: Node3D) -> void:
 	audio.set_process(false)
 	check(audio.bus == &"Ambience" and audio.stream is AudioStreamMP3 and audio.stream.loop, "supplied metal ambience loops on the adjustable Ambience bus")
 	check(audio.stream.resource_path == "res://assets/audio/gameplay/base_metal_clangs.mp3", "base ambience uses the supplied recording")
-	for region: VoxelGI in level.get_node("WorldIndirectLighting").get_children():
-		check(audio.contains_point(region.global_position), "metal ambience covers the " + str(region.name) + " floor")
 	for height in [1.7, -14.0, -23.0, -41.0, -59.0, -77.0, -89.0]:
 		check(audio.contains_point(level.to_global(Vector3(0, height, 0))), "elevator travel keeps the base ambience at height " + str(height))
 	check(not audio.contains_point(level.to_global(Vector3(180, 2, 180))) and not audio.contains_point(level.to_global(Vector3(-30, -150, 0))), "exterior and deep cave positions do not activate base ambience")

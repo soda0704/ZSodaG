@@ -84,7 +84,7 @@ func client_reload() -> void:
  actor.request_reload_or_battery()
 @rpc("authority", "call_remote", "reliable")
 func client_toggle() -> void:
- check(actor.needs_flashlight_shake() and actor.get_node("PlayerUI/FlashlightShakeHint").visible, "fault and hint reach owning client")
+ check(actor.needs_flashlight_shake() and actor.get_node("PlayerUI/NorthernLabHUD").current_prompt().contains("Встряхнуть фонарь"), "fault and hint reach owning client")
  actor._flashlight_serial += 1
  actor.send_input_if_due(0.1)
  await get_tree().create_timer(0.15).timeout
@@ -101,7 +101,7 @@ func client_repair_mounted() -> void:
  await client_shake(6)
 @rpc("authority", "call_remote", "reliable")
 func finish_remote() -> void:
- check(not actor._flashlight_malfunctioning and actor._flashlight_enabled and not actor.get_node("PlayerUI/FlashlightShakeHint").visible, "repaired state and hidden hint reach client")
+ check(not actor._flashlight_malfunctioning and actor._flashlight_enabled and not actor.get_node("PlayerUI/NorthernLabHUD").current_prompt().contains("Встряхнуть фонарь"), "repaired state and hidden hint reach client")
  finish()
 func finish() -> void:
  print("FLASHLIGHT COOP CHECKS ", checks, " FAILURES ", failures)

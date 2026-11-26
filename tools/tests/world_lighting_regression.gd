@@ -53,7 +53,6 @@ func shadow_slots_in_view(level: Node3D, camera: Camera3D) -> int:
 func run() -> void:
 	if DisplayServer.get_name()=="headless": quit(1); return
 	var menu=root.get_node("GameMenu")
-	menu.get_node("GraphicsQuality").set_gi_quality(2)
 	menu.force_close_menu()
 	root.mode=Window.MODE_WINDOWED;root.size=Vector2i(960,540)
 	if "--full-hd" in OS.get_cmdline_user_args():root.size=Vector2i(1920,1080)
@@ -69,21 +68,6 @@ func run() -> void:
 	var power:BasePowerLightingController=level.get_node("BasePowerLightingController")
 	var lighting=level.get_node("WorldLighting")
 	check(lighting.is_visible_in_tree(),"assembled level enables the shared lighting root")
-	var indirect: Node3D=level.get_node("WorldIndirectLighting")
-	var probes:=indirect.find_children("*","VoxelGI",true,false)
-	check(probes.size()==10,"all ten lighting zones have baked voxel geometry")
-	var interior_probes:=true
-	var overlap_safe:=true
-	for probe:VoxelGI in probes:
-		interior_probes=interior_probes and probe.data!=null and probe.data.interior and probe.data.use_two_bounces and is_equal_approx(probe.data.energy,0.7)
-		var bounds:=AABB(probe.position-probe.size/2,probe.size)
-		for other:VoxelGI in probes:
-			if probe==other:continue
-			var intersection:=bounds.intersection(AABB(other.position-other.size/2,other.size))
-			if not intersection.has_volume():continue
-			for third:VoxelGI in probes:
-				if third!=probe and third!=other and intersection.intersects(AABB(third.position-third.size/2,third.size)):overlap_safe=false
-	check(interior_probes and overlap_safe,"all room GI volumes exclude sky; no triple overlap")
 	var authored: Environment = level.get_node("SnowExterior/OvercastDayEnvironment").environment
 	var panorama := authored.sky.sky_material as PanoramaSkyMaterial
 	check(authored.reflected_light_source == Environment.REFLECTION_SOURCE_SKY,"outdoor metal receives HDR sky reflections")
@@ -121,31 +105,17 @@ func run() -> void:
 			var picture:=await capture("approach-"+pose[0])
 			var values:Array=[]
 			for point in points:values.append(sample(picture,camera,point))
-			print("APPROACH ",pose[0]," probes=",indirect.get_active_probe_count()," ambient=",camera.environment.ambient_light_energy," samples=",values)
-			check(indirect.get_active_probe_count()==5,"exterior "+pose[0]+" keeps surface GI resident")
+			print("APPROACH ",pose[0]," ambient=",camera.environment.ambient_light_energy," samples=",values)
 			check(values[0]>0.06 and values[1]>0.1,"exterior "+pose[0]+" facade and roof retain visible light")
 			if pose[0]=="far":far_values=values.duplicate()
 			if pose[0]=="near":check(absf(values[0]-far_values[0])<0.035 and absf(values[1]-far_values[1])<0.035,"approaching the base does not abruptly replace its exterior lighting")
-			if pose[0]=="near" and "--approach-diagnose" in OS.get_cmdline_user_args():
-				indirect.hide();await frames(30)
-				picture=await capture("approach-near-no-gi");values=[]
-				for point in points:values.append(sample(picture,camera,point))
-				print("APPROACH near no GI samples=",values)
-				indirect.show()
 		print("APPROACH FAILURES ",failures)
 		quit(1 if failures else 0);return
-	if "--profile-gi" in OS.get_cmdline_user_args():
+	if "--profile-lighting" in OS.get_cmdline_user_args():
 		power.apply_power_state(true)
-		if "--free-inactive-gi" in OS.get_cmdline_user_args():
-			for probe:VoxelGI in probes:
-				if absf(camera.global_position.y-probe.global_position.y)>probe.size.y*0.5+2.0:probe.data=null
 		await frames(60)
-		var dynamic_objects:Array[GeometryInstance3D]=[]
-		for geometry:GeometryInstance3D in level.find_children("*","GeometryInstance3D",true,false):
-			if geometry.gi_mode==GeometryInstance3D.GI_MODE_DYNAMIC:dynamic_objects.append(geometry)
-		print("GI PROFILE dynamic_objects=",dynamic_objects.size())
-		print("GI PROFILE sizes main=",root.size," texture=",root.get_texture().get_size()," scale=",root.scaling_3d_scale," msaa=",root.msaa_3d," logical=",root.get_visible_rect().size," hands=",player.body_animator.first_person.viewport.size)
-		var modes:=["full","hands_no_glow","hands_no_msaa","no_hands","static_geometry","no_volume","direct_only","no_sun","no_shadows","no_ssao","no_glow"]
+		print("LIGHTING PROFILE sizes main=",root.size," texture=",root.get_texture().get_size()," scale=",root.scaling_3d_scale," msaa=",root.msaa_3d," logical=",root.get_visible_rect().size," hands=",player.body_animator.first_person.viewport.size)
+		var modes:=["full","hands_no_glow","hands_no_msaa","no_hands","no_volume","no_sun","no_shadows","no_ssao","no_glow"]
 		if "--profile-short" in OS.get_cmdline_user_args():modes=["full","no_hands"]
 		if "--profile-balanced" in OS.get_cmdline_user_args():modes=["full","low_filter","two_cascades","hands_2x","hands_half","no_ssao","scale_75"]
 		var route:={
@@ -175,10 +145,7 @@ func run() -> void:
 			if mode=="scale_75":root.scaling_3d_scale=0.75
 			if mode=="hands_no_glow":player.body_animator.first_person.view_camera.environment.glow_enabled=false
 			if mode=="hands_no_msaa":player.body_animator.first_person.viewport.msaa_3d=Viewport.MSAA_DISABLED
-			if mode=="static_geometry":
-				for geometry in dynamic_objects:geometry.gi_mode=GeometryInstance3D.GI_MODE_DISABLED
 			if mode=="no_volume":camera.environment.volumetric_fog_enabled=false
-			if mode=="direct_only":indirect.hide()
 			if mode=="no_sun":level.get_node("WorldLighting/OvercastSun").hide()
 			if mode=="no_shadows":
 				for source:Light3D in level.find_children("*","Light3D",true,false):source.shadow_enabled=false
@@ -188,7 +155,7 @@ func run() -> void:
 			await frames(30)
 			var started:=Time.get_ticks_msec()
 			await frames(60)
-			print("GI PROFILE ",mode," fps=",60000.0/(Time.get_ticks_msec()-started)," cpu_ms=",Performance.get_monitor(Performance.TIME_PROCESS)*1000," physics_ms=",Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS)*1000," draws=",Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)," primitives=",Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)," gpu_mem_mb=",Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)/1048576.0)
+			print("LIGHTING PROFILE ",mode," fps=",60000.0/(Time.get_ticks_msec()-started)," cpu_ms=",Performance.get_monitor(Performance.TIME_PROCESS)*1000," physics_ms=",Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS)*1000," draws=",Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)," primitives=",Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)," gpu_mem_mb=",Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)/1048576.0)
 		quit();return
 	check(lighting.is_covered(camera.global_position),"roof detection identifies the interior")
 	check(not lighting.is_covered(Vector3(-70,3,0)),"roof detection identifies open exterior")
@@ -196,7 +163,6 @@ func run() -> void:
 	check(player.body_animator.first_person.viewport.world_3d!=camera.get_world_3d(),"hands render in an isolated world without traversing the base")
 	check(player.body_animator.first_person.viewport.size==root.size,"hand render target matches physical window pixels")
 	check(not root.positional_shadow_atlas_16_bits,"world positional shadows use full depth precision")
-	check(indirect.get_active_probe_count()==5,"ground-floor view processes only its five GI zones")
 	var hands_environment_id:=player.body_animator.first_person.view_camera.environment.get_instance_id()
 	menu.get_node("GraphicsQuality").apply({"SSIL":true,"SSR":true,"Glow":true,"SunShadows":false,"LocalShadows":false,"Brightness":100,"Gamma":100,"FPS":60})
 	await frames(20)
@@ -237,21 +203,6 @@ func run() -> void:
 	state.snapshot_changed.emit(state.get_snapshot())
 	state.main_breaker_on = saved_breaker
 	await frames(40)
-	# VoxelGI also occludes the fallback ambient; isolate the actual bounce
-	# contribution with ambient zero in both comparison frames.
-	var saved_ambient:float=authored.ambient_light_energy
-	authored.ambient_light_energy=0.0;authored.emit_changed()
-	await frames(40)
-	var bounced_only:=await capture("garage-bounce-comparison")
-	indirect.hide()
-	await frames(40)
-	var direct_only:=await capture("garage-direct-only")
-	indirect.show()
-	authored.ambient_light_energy=saved_ambient;authored.emit_changed()
-	await frames(40)
-	await capture("garage-powered")
-	print("GI LEVELS direct=",mean(direct_only)," bounced=",mean(bounced_only))
-	check(mean(bounced_only)>mean(direct_only)+0.005,"voxel indirect light visibly contributes beyond direct lamps")
 	# The approved relight is brighter and neutral. Keep exposure bounded and
 	# verify highlight detail instead of enforcing the former horror darkness.
 	var clipped_surfaces := 0
@@ -326,11 +277,6 @@ func run() -> void:
 		check(is_equal_approx(camera.environment.ambient_light_energy,authored.ambient_light_energy),"room "+location[0]+" preserves authored ambient")
 		var residents := shadow_slots_in_view(level, camera)
 		check(residents<=16,"room "+location[0]+" stays within the shadow budget")
-		check(indirect.get_active_probe_count()<=5,"room "+location[0]+" does not render GI on unrelated floors")
-		var resident_probes:=0
-		for probe:VoxelGI in probes:
-			if probe.data!=null:resident_probes+=1
-		check(resident_probes<=5,"room "+location[0]+" releases distant GPU volumes")
 		check(player.body_animator.first_person.view_camera.environment.get_instance_id()==hands_environment_id,"room "+location[0]+" reuses the hand environment")
 		var room_pose := camera.global_transform
 		var view_overlay:CanvasLayer=player.body_animator.first_person.overlay
@@ -428,7 +374,6 @@ func run() -> void:
 	player.update_character_animation(1.0/60)
 	await frames(40)
 	var flashlight_picture:=await capture("flashlight")
-	check(indirect.get_node("Entrance").data!=null and indirect.get_node("Control").data==null,"return to ground floor restores its GI and releases underground volumes")
 	check(player.flashlight.beam.is_visible_in_tree() and player.flashlight.beam.shadow_enabled,"handheld flashlight casts world shadows")
 	check(mean(flashlight_picture)>mean(emergency),"flashlight makes the emergency room more readable")
 	player.flashlight.set_enabled(false,false)

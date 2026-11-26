@@ -62,10 +62,9 @@ func run() -> void:
 		check(selector.choices[0].get_global_rect().get_center().x<root.size.x*.5 and selector.choices[1].get_global_rect().get_center().x>root.size.x*.5,"character one is left and character two is right")
 		check(selector.models[0].scene_file_path.contains("tactical_a") and selector.models[1].scene_file_path.contains("tactical_b") and selector.models[0].get_child_count()==2 and selector.models[1].get_child_count()==2,"both previews use the production bodies with only skeleton and Idle player")
 		check(selector.previews[0].world_3d!=root.world_3d and selector.previews[0].world_3d!=selector.previews[1].world_3d,"character lighting is isolated from the game and from the other preview")
-		var visible_labels:=0
-		for label:Label in main.find_children("*","Label",true,false):
-			if label.is_visible_in_tree() and not label.text.is_empty():visible_labels+=1
-		check(visible_labels==0 and selector.find_children("*","OptionButton",true,false).is_empty(),"selection screen has no captions, dropdown or separate start button")
+		check(selector.get_node("Heading").is_visible_in_tree() and not selector.get_node("Caption").is_visible_in_tree()
+			and selector.find_children("*", "Button", true, false).is_empty(),
+			"selection displays its heading and uses direct activation on the character")
 		main.set_menu_enabled(false)
 		check(selector.choices.all(func(choice):return choice.disabled),"transition locks both choices")
 		main.set_menu_enabled(true)

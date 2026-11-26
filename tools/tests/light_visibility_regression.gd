@@ -44,7 +44,6 @@ func run():
 	base.get_node("BaseGameplayController").set_process(false);base.get_node("SnowExterior/Blizzard").enabled = false
 	lighting = base.get_node("WorldLighting");lighting.set_process(false)
 	camera = Camera3D.new();base.add_child(camera);camera.current = true;camera.fov = 80
-	root.get_node("GameMenu/GraphicsQuality").set_gi_quality(2)
 	camera.position = Vector3(-6,1.7,15.5);camera.look_at(Vector3(1,2,10.1))
 	var hull := base.get_node("Floor_0_Base_Blockout/ArcticBase_ExteriorShell")
 	var diagnostic := Node3D.new();base.add_child(diagnostic)
@@ -85,14 +84,7 @@ func run():
 	lighting.set_debug_darkness(0);await capture("bars-after");lighting.set_debug_darkness(1)
 	set_power(true)
 	for frame in 60: lighting._process(1.0/60.0);await process_frame
-	var lit := await capture("room-after")
-	var indirect := base.get_node("WorldIndirectLighting")
-	indirect.set_debug_disabled(true)
-	var direct_only := await capture("room-without-gi")
 	var region := Rect2i(220,160,840,490)
-	var delta := absf(mean(lit,region) - mean(direct_only,region))
-	check(delta > .001, "advanced reflection isolation preserves visible VoxelGI bounce (difference " + str(delta) + ")")
-	indirect.set_debug_disabled(false)
 	set_power(false)
 	var alarm := lighting.get_node("EmergencyAlarm")
 	alarm.stream_paused = true
@@ -108,7 +100,6 @@ func run():
 	check(root.get_camera_3d() == freecam, "the real player inspection camera becomes current")
 	var inspected := await capture("freecam-no-sources")
 	check(mean(inspected,region) < .003, "freecam does not make the unlit modular room glow")
-	check(base.get_node("WorldIndirectLighting").get_active_probe_count() == 0, "freecam keeps the backup circuit's direct-only profile")
 	freecam.set_enabled(false);camera.make_current()
 	check(root.get_camera_3d() == camera, "leaving freecam restores the controlled comparison camera")
 	lighting.get_node("OvercastSun").show()

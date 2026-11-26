@@ -117,14 +117,14 @@ func run() -> void:
 		var hidden_body := true
 		for mesh: MeshInstance3D in player.body_animator.model.find_children("*", "MeshInstance3D", true, false):
 			hidden_body = hidden_body and mesh.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-		check(hidden_body and player.crosshair.visible, "return restores normal owner body visibility and crosshair")
+		check(hidden_body and player.is_gameplay_view_active(), "return restores normal owner body visibility and crosshair")
 		for i in 3:
 			await process_frame
 		check(player.body_animator.first_person.overlay.visible, "return restores first-person hand composite")
 		console.execute("/freecam on")
 		player.survival.dead = true
 		freecam._process(0.01)
-		check(not player.is_debug_free_camera_active() and not player.crosshair.visible, "death exits camera mode without restoring living HUD")
+		check(not player.is_debug_free_camera_active() and not player.is_gameplay_view_active(), "death exits camera mode without restoring living HUD")
 		check(console.execute("/freecam on").contains("живому"), "dead player cannot enable freecam")
 		player.survival.dead = false
 		console.execute("/freecam on")

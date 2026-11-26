@@ -24,7 +24,6 @@ func run() -> void:
 	root.size = Vector2i(960,540)
 	Engine.max_fps = 60
 	var menu = root.get_node("GameMenu")
-	menu.get_node("GraphicsQuality").set_gi_quality(2)
 	menu.force_close_menu()
 	var world = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	world.get_node("BaseGameplayController").progress_persistence_enabled = false
@@ -37,7 +36,6 @@ func run() -> void:
 	player.survival.set_physics_process(false)
 	player.teleport_authoritative(Vector3(23,0.1,-1),-PI/2)
 	var lighting: WorldLighting = world.get_node("WorldLighting")
-	var indirect = world.get_node("WorldIndirectLighting")
 	var console = root.get_node("DeveloperConsole")
 	var original_draw := root.debug_draw
 	var authored: Environment = world.get_node("SnowExterior/OvercastDayEnvironment").environment
@@ -50,7 +48,7 @@ func run() -> void:
 	console.execute("/fullbright on")
 	await settle()
 	check(root.debug_draw == Viewport.DEBUG_DRAW_UNSHADED and player.body_animator.first_person.viewport.debug_draw == Viewport.DEBUG_DRAW_UNSHADED, "fullbright covers world and FP viewport")
-	check(indirect.get_active_probe_count() == 0 and is_zero_approx(player.camera.environment.volumetric_fog_density), "fullbright disables GI darkness and fog locally")
+	check(is_zero_approx(player.camera.environment.volumetric_fog_density), "fullbright disables fog locally")
 	await capture("fullbright")
 	for removed in ["/darkness 0.5", "/darkness reset", "/fullbright maybe"]:
 		console.execute(removed)
@@ -58,8 +56,7 @@ func run() -> void:
 	check(not console._help_text().contains("/darkness") and not str(console.LIGHTING_COMMANDS).contains("/darkness"), "darkness removed from help and completion")
 	console.execute("/fullbright off")
 	await settle()
-	print("DEBUG RESET probes=",indirect.get_active_probe_count()," mode=",root.debug_draw," darkness=",lighting.debug_darkness)
-	check(lighting.debug_darkness == 1.0 and indirect.get_active_probe_count() > 0 and root.debug_draw == original_draw, "reset restores authored light, GI and render mode")
+	check(lighting.debug_darkness == 1.0 and root.debug_draw == original_draw, "reset restores authored light and render mode")
 	check(is_equal_approx(authored.ambient_light_energy, authored_ambient) and state.get_snapshot() == snapshot, "debug visibility does not edit resources, power or saved gameplay state")
 	console.execute("/fullbright")
 	await settle()

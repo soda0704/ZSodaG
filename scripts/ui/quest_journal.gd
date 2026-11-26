@@ -234,7 +234,6 @@ func force_close() -> void:
 func _set_player_journal_visuals(_open: bool) -> void:
 	var player := get_tree().get_first_node_in_group("local_player") as GamePlayer
 	if player != null:
-		player.refresh_crosshair_visibility()
 		player._refresh_equipment_visuals()
 
 func is_journal_open() -> bool:
@@ -539,6 +538,7 @@ func get_hud_summary() -> Dictionary:
 	var description := str(_controller.get_expedition_objective().get("description", ""))
 	if not description.is_empty(): source = source.trim_prefix(description + "\n\n")
 	var pending: Array[String] = []
+	var completed: Array[String] = []
 	for paragraph in source.split("\n\n", false):
 		var continuation := ""
 		for line in paragraph.split("\n", false):
@@ -548,6 +548,7 @@ func get_hud_summary() -> Dictionary:
 				if not continuation.is_empty(): pending.append(continuation)
 				continuation = ""
 				if task.begins_with("○"): pending.append(task.trim_prefix("○").strip_edges())
+				else: completed.append(task.trim_prefix("✓").strip_edges())
 			else:
 				continuation += (" " if not continuation.is_empty() else "") + task
 				if task.ends_with(".") or task.ends_with("!") or task.ends_with("?"):
@@ -556,7 +557,7 @@ func get_hud_summary() -> Dictionary:
 		if not continuation.is_empty(): pending.append(continuation)
 	return {"day": _controller.day_index,
 		"objective": _live_record.get("objective", objective_label.text),
-		"tasks": pending, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ"}
+		"tasks": pending, "completed": completed, "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ"}
 
 func _select_item(id: StringName) -> void:
 	_selected_item = id

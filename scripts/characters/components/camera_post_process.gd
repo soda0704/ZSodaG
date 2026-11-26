@@ -32,6 +32,20 @@ func _sync_resolution() -> void:
 	var size:=Vector2(get_viewport().get_texture().get_size()).max(Vector2.ONE)
 	$Effect.material.set_shader_parameter("resolution",size)
 
+func project_overlay_point(point: Vector2) -> Vector2:
+	if not visible or _lens_amount <= 0.0:
+		return point
+	var size := get_viewport().get_visible_rect().size.max(Vector2.ONE)
+	var sensor := Vector2(size.x / size.y, 1.0)
+	var source := point / size * 2.0 - Vector2.ONE
+	var lens := float(effect_material.get_shader_parameter("barrel_strength")) * _lens_amount
+	var output := source
+	# Invert the shader's radial lookup for world-space HUD markers.
+	for step in 8:
+		var radius_squared := (output * sensor).length_squared() / sensor.length_squared()
+		output = source * ((1.0 + lens) / (1.0 + lens * radius_squared))
+	return (output + Vector2.ONE) * 0.5 * size
+
 func _apply_motion_settings(enabled: bool, strength: float) -> void:
 	motion_blur_enabled = enabled
 	motion_blur_strength = clampf(strength, 0.0, 1.0)

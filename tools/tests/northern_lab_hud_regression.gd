@@ -128,7 +128,7 @@ func review_base() -> void:
 		actor._server_pitch = actor._input_pitch
 		await ticks(10)
 		actor.refresh_interaction_prompt()
-		print("PRODUCTION PROMPT ", actor.interaction_prompt_label.text, " visible ", actor.interaction_prompt_label.visible)
+		print("PRODUCTION PROMPT ", actor.interaction_prompt, " visible ", not actor.interaction_prompt.is_empty())
 	check(hud.view_state.has_flashlight and hud.view_state.weapon_rounds == 8, "production inventory reaches HUD")
 	review_production_prompts(base)
 	if capture:
@@ -220,6 +220,12 @@ func run() -> void:
 	check((hud.position + hud._canvas_size * hud._layout_scale * .5).is_equal_approx(logical_size * .5), "calibrated HUD keeps the crosshair at the viewport center")
 	quality.apply(previous_quality)
 	check(hud.visible, "local player's HUD appears")
+	var aiming_before := actor._aiming
+	actor._aiming = false
+	check(hud.should_draw_reticle(), "small reticle appears in normal view")
+	actor._aiming = true
+	check(not hud.should_draw_reticle(), "aiming hides the HUD reticle")
+	actor._aiming = aiming_before
 	check(hud.mouse_filter == Control.MOUSE_FILTER_IGNORE, "HUD does not consume mouse input")
 	check(hud.view_state.quest.day == 1 and hud.view_state.quest.objective == "Вернуть базу к жизни", "HUD reads the journal's real day and objective")
 	check(hud.teammate == null, "solo has no fictional teammate")
@@ -249,12 +255,10 @@ func run() -> void:
 		save_capture("northern-hud-in-world.png")
 	actor.survival.health = 92.0
 	actor.survival.radiation = 12.0
-	actor.update_battery_ui()
 	hud.refresh_state()
 	check(hud.view_state.weapon_rounds == 8 and hud.view_state.pistol_ammo == 24, "live magazine and reserve reach HUD")
 	check(is_equal_approx(hud.view_state.battery_charge, 0.67) and hud.view_state.health == 92.0 and hud.view_state.radiation == 12.0, "health, exposure and battery use live values")
 	await ticks()
-	check(actor.weapon._hud.visible and actor.weapon._hud.self_modulate.a == 0, "legacy text is replaced while its firing gate stays enabled")
 	var before := actor.weapon.rounds
 	if capture:
 		var attack := InputEventAction.new()
@@ -347,18 +351,17 @@ func run() -> void:
 	actor.weapon.pistol_ammo = 24
 	actor.set_physics_process(false)
 	review_parallax()
-	actor.interaction_prompt_label.text = "[E] Осмотреть щит"
-	actor.interaction_prompt_label.show()
+	actor.interaction_prompt = "[E] Осмотреть щит"
 	hud._prompt_alpha = 0.0
 	hud._prompt_text = ""
 	hud._update_animations(0.035)
 	check(hud._prompt_alpha > 0.0 and hud._prompt_alpha < 1.0, "interaction animates in")
 	await create_timer(0.25).timeout
 	check(hud._prompt_alpha >= 0.99, "interaction animation reaches full clarity")
-	actor.interaction_prompt_label.text = "[E] Топливо: 99%"
+	actor.interaction_prompt = "[E] Топливо: 99%"
 	hud._update_animations(0.01)
 	check(hud._prompt_alpha >= 0.99 and hud._prompt_text.ends_with("99%"), "live text updates stay legible without restarting the fade")
-	actor.interaction_prompt_label.hide()
+	actor.interaction_prompt = ""
 	hud._update_animations(0.035)
 	check(hud._prompt_alpha >= 0.99, "one-frame target loss does not flicker the prompt")
 	hud._update_animations(0.035)
@@ -371,8 +374,7 @@ func run() -> void:
 	hud._update_animations(0.02)
 	check(hud._health_ratio < previous_fill and hud._health_ratio > 0.5, "health bar interpolates without changing actual health")
 	actor.survival.health = 92
-	actor.interaction_prompt_label.text = "[E] Осмотреть щит"
-	actor.interaction_prompt_label.show()
+	actor.interaction_prompt = "[E] Осмотреть щит"
 	await create_timer(0.25).timeout
 	for resolution in RESOLUTIONS:
 		root.size = resolution
@@ -384,29 +386,30 @@ func run() -> void:
 		var compass: Rect2 = hud.compass_layout()
 		check(compass.position.x > 500 and compass.end.x < hud._canvas_size.x - 300, "compass clears both upper corner groups at %s" % resolution)
 		var prompt_rect: Rect2 = hud.interaction_layout("[E] Осмотреть щит").rect
-		check(absf(prompt_rect.get_center().x - hud._canvas_size.x * 0.5) < 1 and prompt_rect.position.y > hud._canvas_size.y * 0.5 and prompt_rect.position.y < hud._canvas_size.y * 0.5 + 60, "interaction stays just below crosshair at %s" % resolution)
+		check(prompt_rect.position.x > hud._canvas_size.x * 0.5 and is_equal_approx(prompt_rect.get_center().y, hud._canvas_size.y * 0.5), "short interaction stays beside the crosshair at %s" % resolution)
 		var contained := true
 		for drift in [Vector2(-12, 0), Vector2(12, 0)]:
 			hud._parallax.offset = drift
+			hud._parallax.pitch_offset = 8.0 * signf(drift.x)
+			hud._parallax.movement = Vector3(drift.x, 9.0 * signf(drift.x), -0.028)
+			hud._parallax.roll = 0.022 * signf(drift.x)
 			var objective: Rect2 = hud.objective_layout(hud.view_state.quest).rect
-			objective.position += hud.panel_offset(Vector2(1, 1))
+			objective = hud.panel_transform(Vector2(1, 1)) * objective
 			var prompt: Rect2 = hud.interaction_layout("[E] Осмотреть щит").rect
-			prompt.position += hud.panel_offset()
+			prompt = hud.panel_transform(Vector2.ZERO) * prompt
 			var viewport := Rect2(Vector2.ZERO, hud._canvas_size)
 			contained = contained and viewport.encloses(objective) and viewport.encloses(prompt)
-			for card in hud.equipment_layout(hud.view_state):
-				var rect: Rect2 = card.frame
-				rect.position += hud.panel_offset(Vector2(0, -1))
-				contained = contained and viewport.encloses(rect)
-		check(contained, "panels stay inside the screen at both parallax limits in %s" % resolution)
-		var cards: Array = hud.equipment_layout(hud.view_state)
-		var equipment: Rect2 = cards[0].frame.merge(cards[1].frame)
-		equipment.position += hud.panel_offset(Vector2(0, -1))
+			var equipment: Rect2 = hud.equipment_layout(hud.view_state).rect
+			equipment = hud.panel_transform(Vector2(0, -1)) * equipment
+			contained = contained and viewport.encloses(equipment)
+		check(contained, "HUD elements stay inside the screen at both parallax limits in %s" % resolution)
+		var equipment: Rect2 = hud.equipment_layout(hud.view_state).rect
+		equipment = hud.panel_transform(Vector2(0, -1)) * equipment
 		var health := Rect2(46, hud._canvas_size.y - 200, 355, 186)
-		health.position += hud.panel_offset(Vector2(1, -1))
+		health = hud.panel_transform(Vector2(1, -1)) * health
 		var status: Dictionary = hud.status_layout(hud.view_state)
 		var ammo := Rect2(status.ammo_x, hud._canvas_size.y - 145, hud._canvas_size.x - 48 - status.ammo_x, 110)
-		ammo.position += hud.panel_offset(Vector2(-1, -1))
+		ammo = hud.panel_transform(Vector2(-1, -1)) * ammo
 		check(not equipment.intersects(health) and not equipment.intersects(ammo), "bottom groups do not overlap at %s" % resolution)
 		hud._parallax.reset()
 		if capture:
@@ -417,11 +420,9 @@ func run() -> void:
 			actor.get_node("PlayerUI").add_child(background)
 			actor.get_node("PlayerUI").move_child(background, 0)
 			background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			actor.interaction_prompt_label.text = "[E] Осмотреть щит"
-			actor.interaction_prompt_label.show()
+			actor.interaction_prompt = "[E] Осмотреть щит"
 			actor.set_physics_process(false)
 			await process_frame
-			actor.interaction_prompt_label.show()
 			await RenderingServer.frame_post_draw
 			save_capture("northern-hud-%dx%d.png" % [resolution.x,resolution.y])
 			background.queue_free()
@@ -437,7 +438,45 @@ func run() -> void:
 	quit(0 if failures == 0 else 1)
 
 func review_parallax() -> void:
+	hud._parallax.reset()
+	var left: Transform2D = hud.panel_transform(Vector2(1, -1))
+	var right: Transform2D = hud.panel_transform(Vector2(-1, -1))
+	check(left.x.y < 0.0 and right.x.y > 0.0 and is_equal_approx(left.x.angle(), -right.x.angle()),
+		"bottom panels recede symmetrically towards the centre")
+	var compass_rest: Transform2D = hud.panel_transform(Vector2(0, 1))
+	var prompt_rest: Transform2D = hud.panel_transform(Vector2.ZERO)
+	hud._parallax.offset = Vector2(8, 0)
+	hud._parallax.pitch_offset = 4.0
+	check(not hud.panel_transform(Vector2(0, 1)).is_equal_approx(compass_rest)
+		and not hud.panel_transform(Vector2.ZERO).is_equal_approx(prompt_rest),
+		"compass and interaction prompt respond to camera movement")
+	hud._parallax.reset()
+	var near_rest: Transform2D = hud.panel_transform(Vector2(-1, -1))
+	hud._parallax.movement.z = -0.02
+	var near_moved: Transform2D = hud.panel_transform(Vector2(-1, -1))
+	var far_moved: Transform2D = hud.panel_transform(Vector2.ZERO)
+	check(near_moved.x.length() / near_rest.x.length() > far_moved.x.length(),
+		"forward motion expands nearby HUD panels more than the distant prompt")
+	hud._parallax.movement.z = 0.02
+	check(hud.panel_transform(Vector2(-1, -1)).x.length() < near_rest.x.length(),
+		"backward motion contracts the perspective")
+	hud._parallax.reset()
 	var motion := PARALLAX.new()
+	motion.sample(Vector3.FORWARD, 1.0 / 60.0)
+	var moving_velocity := Vector3(2.0, 1.0, -5.0)
+	for index in 12:
+		motion.sample(Vector3.FORWARD, 1.0 / 60.0, moving_velocity, Vector3(0.0, 0.02, 0.0), 0.021)
+	check(motion.movement.x < -0.5 and motion.movement.y > 0.5 and motion.movement.z < -0.005 and motion.roll < -0.005,
+		"strafe, vertical steps, forward motion and camera roll all affect the HUD")
+	for index in 120:
+		motion.sample(Vector3.FORWARD, 1.0 / 60.0, moving_velocity)
+	check(motion.movement.length() < 0.01 and absf(motion.roll) < 0.001,
+		"constant velocity and level camera settle at the neutral HUD pose")
+	for index in 12:
+		motion.sample(Vector3.FORWARD, 1.0 / 60.0)
+	check(motion.movement.x > 0.5 and motion.movement.z > 0.005,
+		"stopping produces bounded movement in the opposite direction")
+	motion.reset()
 	motion.sample(Vector3.FORWARD, 1.0 / 60)
 	for index in 24:
 		motion.sample(Basis(Vector3.UP, (index + 1) * 0.02) * Vector3.FORWARD, 1.0 / 60)
@@ -448,10 +487,12 @@ func review_parallax() -> void:
 	motion.reset()
 	motion.sample(Vector3.FORWARD, 1.0 / 60)
 	var vertical_still := true
+	var vertical_lag := 0.0
 	for index in 48:
 		motion.sample(Basis(Vector3.RIGHT, sin(float(index) / 48 * TAU) * 0.7) * Vector3.FORWARD, 1.0 / 60)
 		vertical_still = vertical_still and motion.offset == Vector2.ZERO
-	check(vertical_still, "looking up and down leaves every panel stationary")
+		vertical_lag = maxf(vertical_lag, absf(motion.pitch_offset))
+	check(vertical_still and vertical_lag > 1.0 and vertical_lag <= 8.0, "pitch creates bounded vertical lag independently of yaw")
 	var settled := []
 	for rate in [30, 60, 144]:
 		motion.reset()
@@ -463,7 +504,7 @@ func review_parallax() -> void:
 		settled.append(motion.offset)
 		var forward := Basis.from_euler(Vector3(0.5, 2.0, 0)) * Vector3.FORWARD
 		for index in rate: motion.sample(forward, 1.0 / rate)
-		check(bounded and motion.offset.length() < 0.01, "parallax stays bounded and returns smoothly to neutral at %d FPS" % rate)
+		check(bounded and motion.offset.length() < 0.01 and absf(motion.pitch_offset) < 0.01, "parallax stays bounded and returns smoothly to neutral at %d FPS" % rate)
 	check(settled[0].distance_to(settled[2]) < 0.1, "camera inertia has consistent strength at 30 and 144 FPS")
 	motion.reset()
 	motion.sample(Basis(Vector3.UP, 3.13) * Vector3.FORWARD, 1.0 / 60)
@@ -481,6 +522,25 @@ func review_layout_states() -> void:
 	hud.set_process(false)
 	root.size = Vector2i(1920, 1080)
 	await ticks()
+	var previous_layout: Dictionary = hud._objective_view
+	var tasks_before: Dictionary = hud.objective_layout({"day": 1, "objective": "Вернуть базу к жизни",
+		"tasks": ["Заправить бак", "Включить главный щит", "Отдохнуть на базе"]})
+	var tasks_after: Dictionary = hud.objective_layout({"day": 1, "objective": "Вернуть базу к жизни",
+		"tasks": ["Включить главный щит", "Отдохнуть на базе"]})
+	hud._objective_view = tasks_before
+	hud._transition_task_list(tasks_after, ["Заправить бак"])
+	check(hud._departing_tasks.size() == 1 and hud._departing_tasks[0].completed, "only the completed row receives a checkmark")
+	check(hud._task_pose(tasks_after.rows[0]).y == tasks_before.rows[1].y
+		and hud._task_pose(tasks_after.rows[1]).z == 0.0, "remaining task holds its place while the new row waits")
+	hud._update_objective_motion(0.32)
+	check(hud._task_pose(tasks_after.rows[0]).y < tasks_before.rows[1].y
+		and hud._task_pose(tasks_after.rows[1]).z > 0.0, "remaining rows slide and eligible tasks fade in")
+	hud._transition_task_list(tasks_after, ["Заправить бак"])
+	check(hud._departing_tasks.size() == 1 and is_equal_approx(hud._departing_tasks[0].age, 0.32),
+		"a second update does not restart or remove the completed row's animation")
+	hud._update_objective_motion(0.22)
+	check(hud._departing_tasks.is_empty() and hud._task_pose(tasks_after.rows[1]).z == 1.0, "task list finishes without leaving stale rows")
+	hud._objective_view = previous_layout
 	var empty: Dictionary = hud.objective_layout({"tasks": []})
 	var single: Dictionary = hud.objective_layout({"objective": "Восстановить питание", "tasks": ["Включить щит"]})
 	var multiple: Dictionary = hud.objective_layout({"objective": "Восстановить питание", "tasks": ["Найти предохранитель", "Включить щит", "Вернуться на базу"]})
@@ -490,17 +550,16 @@ func review_layout_states() -> void:
 	var long_layout: Dictionary = hud.objective_layout({"objective": long_text, "tasks": [long_text, long_text]})
 	check(long_layout.rect.size.y < 440 and str(long_layout.rows[0].text).ends_with("…") and not str(long_layout.footer).is_empty(), "long objectives stay bounded with a journal continuation")
 	check(hud.equipment_layout({}).is_empty(), "no equipment reserves no empty cards")
-	var one: Array = hud.equipment_layout({"has_flashlight": true})
-	check(one.size() == 1 and absf(one[0].rect.get_center().x - hud._canvas_size.x * 0.5) < 1, "single item is centered")
-	var two: Array = hud.equipment_layout({"has_flashlight": true, "held_item": &"pistol"})
-	check(two.size() == 2 and two[0].rect.end.x < two[1].rect.position.x, "two real items have a consistent gap")
+	check(hud.equipment_layout({"has_flashlight": true}).is_empty(), "flashlight uses the battery cluster without a duplicate equipment display")
+	var armed: Dictionary = hud.equipment_layout({"has_flashlight": true, "held_item": &"pistol"})
+	check(absf(armed.rect.get_center().x - hud._canvas_size.x * 0.5) < 1, "equipped weapon remains centered")
 	var contextual_only := true
 	for item in [&"fuse", &"fuel_can", &"seed_packet"]:
-		var cards: Array = hud.equipment_layout({"held_item": item, "journal_hint": "K"})
-		contextual_only = contextual_only and cards.size() == 1 and cards[0].hint.is_empty()
+		var equipment: Dictionary = hud.equipment_layout({"held_item": item, "journal_hint": "K"})
+		contextual_only = contextual_only and equipment.hint.is_empty()
 	check(contextual_only, "interaction-only items never receive a journal or fictitious use key")
-	var usable: Array = hud.equipment_layout({"has_flashlight": true, "held_item": &"kitchen_knife", "light_hint": "H", "attack_hint": "R2"})
-	check(usable[0].hint == "H" and usable[1].hint == "R2", "usable equipment retains its actual rebound or controller action")
+	var usable: Dictionary = hud.equipment_layout({"held_item": &"kitchen_knife", "attack_hint": "R2"})
+	check(usable.hint == "R2", "usable equipment retains its actual rebound or controller action")
 	var compact: Dictionary = hud.interaction_layout("[E] Осмотреть щит")
 	check(compact.rect.size.y <= 48 and compact.rect.size.y >= compact.key_size.y + 12, "single-line interaction is compact with enough keycap padding")
 	var centered := true
@@ -526,6 +585,7 @@ func review_layout_states() -> void:
 	check(not hud.view_state.quest.tasks.is_empty(), "day seven exposes its assigned descent objective")
 	state.day_index = 2
 	state.quest_stage = 4
+	state.sleeping_peer_ids.assign(state.get_connected_player_peer_ids())
 	state.snapshot_changed.emit(state.get_snapshot())
 	hud.refresh_state()
 	check(hud.view_state.quest.tasks.is_empty() and hud.view_state.quest.empty_label == "ЗАДАЧИ ВЫПОЛНЕНЫ", "completed real story produces the compact completed state")
@@ -540,16 +600,26 @@ func review_layout_states() -> void:
 		state.maintenance = {}
 		state.snapshot_changed.emit(state.get_snapshot())
 		hud.refresh_state()
-		var contained := true
 		for frame in rate:
 			hud._update_animations(1.0 / rate)
-			contained = contained and (hud._objective_alpha <= 0.001 or hud._objective_height >= hud._objective_view.rect.size.y - 0.1)
-		check(hud._objective_phase == 0 and hud._objective_height <= 60 and contained, "interrupted panel motion settles cleanly at %d FPS" % rate)
+		check(hud._objective_phase == 0 and hud._objective_view.empty and hud._objective_alpha == 1.0, "interrupted objective transition settles cleanly at %d FPS" % rate)
+	state.sleeping_peer_ids.clear()
+	var previous_time: float = hud._recording_elapsed
+	hud._recording_elapsed = 3661.8
+	check(hud.recording_timecode() == "01:01:01", "recording timecode wraps minutes and seconds without dropping hours")
+	hud._recording_elapsed = previous_time
+	var font_supports_overlay := true
+	for index in "ЗАПИСЬ0123456789:[]".length():
+		font_supports_overlay = font_supports_overlay and hud._font.has_char("ЗАПИСЬ0123456789:[]".unicode_at(index))
+	check(font_supports_overlay, "embedded HUD font covers the recording overlay")
 	if capture:
 		await capture_layout_states()
 	hud.set_process(true)
 
 func capture_layout_states() -> void:
+	var effect := actor.get_node("PlayerUI/CameraPostProcess")
+	var effect_enabled: bool = effect.effect_enabled
+	effect.effect_enabled = false
 	var background := ColorRect.new()
 	background.color = Color("141e24")
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -563,7 +633,7 @@ func capture_layout_states() -> void:
 		"completed": {"quest": {"day": 2, "objective": "Ключ шифрования", "tasks": [], "empty_label": "ЗАДАЧИ ВЫПОЛНЕНЫ"}, "held_item": &"pistol", "has_flashlight": false},
 		"item-name": {"quest": {"day": 2, "objective": "Восстановить питание", "tasks": ["Установить предохранитель"]}, "held_item": &"fuse", "has_flashlight": false},
 		"long": {"quest": {"day": 2, "objective": "Восстановить аварийное электроснабжение подземного исследовательского комплекса", "tasks": ["Найти предохранитель в медпункте и установить его в резервный блок у входа в подземный комплекс", "Проверить соединение проводов главного распределительного щита в генераторной", "Вернуться на базу"]}, "held_item": &"pistol", "has_flashlight": true}}
-	actor.interaction_prompt_label.hide()
+	actor.interaction_prompt = ""
 	hud._prompt_text = ""
 	hud._prompt_progress = 0.0
 	hud._prompt_alpha = 0.0
@@ -575,21 +645,26 @@ func capture_layout_states() -> void:
 		hud.queue_redraw()
 		await RenderingServer.frame_post_draw
 		save_capture("northern-hud-state-%s.png" % id)
-	var fixed_regions: Array[PackedByteArray] = []
+	var reticle_regions: Array[PackedByteArray] = []
+	var compass_regions: Array[PackedByteArray] = []
 	for drift in [Vector2(-12, 0), Vector2(12, 0)]:
 		hud._parallax.offset = drift
 		hud.queue_redraw()
 		await RenderingServer.frame_post_draw
 		var frame := root.get_texture().get_image()
-		fixed_regions.append(frame.get_region(Rect2i(620, 20, 680, 65)).get_data())
+		var center := Vector2i(frame.get_size() * 0.5)
+		reticle_regions.append(frame.get_region(Rect2i(center - Vector2i(6, 6), Vector2i(12, 12))).get_data())
+		compass_regions.append(frame.get_region(Rect2i(620, 20, 680, 65)).get_data())
 		save_capture("northern-hud-parallax-%s.png" % ("left" if drift.x < 0 else "right"))
-	check(fixed_regions[0] == fixed_regions[1], "rendered compass stays fixed while all panels move")
+	check(reticle_regions[0] == reticle_regions[1], "rendered reticle stays fixed while HUD panels move")
+	check(compass_regions[0] != compass_regions[1], "rendered compass follows the camera inertia")
 	hud._parallax.reset()
 	hud.view_state = original
 	hud._animated_state_initialized = false
 	if OS.get_cmdline_user_args().has("--motion-capture"):
 		await capture_objective_motion()
 	background.queue_free()
+	effect.effect_enabled = effect_enabled
 
 func capture_objective_motion() -> void:
 	DirAccess.make_dir_recursive_absolute("res://tools/.local/hud-motion")

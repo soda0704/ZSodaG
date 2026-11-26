@@ -113,27 +113,25 @@ func run() -> void:
 	alarm.stream_paused=true
 	var fixtures:Node=lighting.get_node("HubFixtures")
 	var blackouts:=true;var bursts:=true
-	for gi_enabled in [false,true]:
-		root.get_node("GameMenu/GraphicsQuality").set_gi_quality(2 if gi_enabled else 0)
-		alarm.animation.seek(maxf(0.0,dark_time),true)
-		lighting.emergency_intensity=alarm.intensity
-		lighting.emergency_intensity_changed.emit(alarm.intensity)
-		lighting._update_lamps(actor.camera.global_position,1.0)
-		blackouts=blackouts and alarm.intensity==0.0 and lighting.get_node("Emergency").visible and not fixtures._materials.is_empty()
-		for lamp:Light3D in lighting.get_node("Emergency").get_children():
-			blackouts=blackouts and lamp.light_energy==0.0
-		for entry in fixtures._materials:
-			blackouts=blackouts and entry.material.emission_energy_multiplier==0.0
-		alarm.animation.seek(maxf(0.0,bright_time),true)
-		lighting.emergency_intensity=alarm.intensity
-		lighting.emergency_intensity_changed.emit(alarm.intensity)
-		lighting._update_lamps(actor.camera.global_position,1.0)
-		var energy:=0.0
-		for lamp:Light3D in lighting.get_node("Emergency").get_children():energy+=lamp.light_energy
-		bursts=bursts and alarm.intensity==1.0 and energy>0.0
-		for entry in fixtures._materials:bursts=bursts and entry.material.emission_energy_multiplier>0.0
-	check(blackouts,"all emergency lights and hub fixture emission reach exact zero in both light quality modes")
-	check(bursts,"alarm bursts restore emergency light and fixture emission in both light quality modes")
+	alarm.animation.seek(maxf(0.0,dark_time),true)
+	lighting.emergency_intensity=alarm.intensity
+	lighting.emergency_intensity_changed.emit(alarm.intensity)
+	lighting._update_lamps(actor.camera.global_position,1.0)
+	blackouts=blackouts and alarm.intensity==0.0 and lighting.get_node("Emergency").visible and not fixtures._materials.is_empty()
+	for lamp:Light3D in lighting.get_node("Emergency").get_children():
+		blackouts=blackouts and lamp.light_energy==0.0
+	for entry in fixtures._materials:
+		blackouts=blackouts and entry.material.emission_energy_multiplier==0.0
+	alarm.animation.seek(maxf(0.0,bright_time),true)
+	lighting.emergency_intensity=alarm.intensity
+	lighting.emergency_intensity_changed.emit(alarm.intensity)
+	lighting._update_lamps(actor.camera.global_position,1.0)
+	var energy:=0.0
+	for lamp:Light3D in lighting.get_node("Emergency").get_children():energy+=lamp.light_energy
+	bursts=bursts and alarm.intensity==1.0 and energy>0.0
+	for entry in fixtures._materials:bursts=bursts and entry.material.emission_energy_multiplier>0.0
+	check(blackouts,"all emergency lights and hub fixture emission reach exact zero during the alarm cycle")
+	check(bursts,"alarm bursts restore emergency light and fixture emission during the alarm cycle")
 	alarm.stream_paused=false
 	alarm.seek(1.0);await process_frame;lighting._advance_emergency(.016)
 	var before:float=alarm.get_playback_position()
@@ -170,11 +168,6 @@ func run() -> void:
 	actor.teleport_authoritative(Vector3(-5,0.1,0),0);acoustics.update_listener(actor.camera.global_position,.1,true)
 	lighting._advance_emergency(.5)
 	check(alarm.playing and absf(alarm.volume_db-alarm.alarm_volume_db)<.01,"returning inside restores sound without a new alarm instance")
-	var quality:=root.get_node("GameMenu/GraphicsQuality")
-	quality.set_gi_quality(0);lighting._advance_emergency(.1)
-	check(alarm.playing and lighting.get_node("Emergency").visible,"normal light quality preserves emergency audio and power logic")
-	quality.set_gi_quality(2);lighting._advance_emergency(.1)
-	check(alarm.playing,"advanced light quality preserves the same alarm")
 	set_power(state,true,true);lighting._advance_emergency(.5)
 	check(alarm.playing and not alarm.power.is_standard_powered,"a containment lighting fault triggers the alarm even with breaker on")
 	set_power(state,false);lighting.get_node("Emergency").hide();lighting._advance_emergency(.1)
@@ -191,26 +184,23 @@ func run() -> void:
 			var value:float=pulse.track_get_key_value(0,index)
 			if value>peak:peak=value;peak_time=pulse.track_get_key_time(0,index)
 			if value<dim:dim=value;dim_time=pulse.track_get_key_time(0,index)
-		for gi_enabled in [false,true]:
-			var mode:="gi-on" if gi_enabled else "gi-off"
-			quality.set_gi_quality(2 if gi_enabled else 0)
-			var bright:=world_red_level(await capture_phase(lighting,alarm,peak_time,mode+"-bright"))
-			var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
-			print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
-			check(dark<.03 and bright>dark+.01,"unpowered room has no global fill and retains a distinct alarm burst in "+mode+" mode")
-			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy),"power outage preserves the node's authored ambient in "+mode+" mode")
-			if gi_enabled:
-				actor.flashlight.malfunction_enabled=false
-				actor.pickup_world_item_authoritative(&"flashlight",{"battery_charge":1.0})
-				actor.update_character_animation(1.0/60.0)
-				var torch:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-flashlight"))
-				print("DARKNESS FLASHLIGHT luminance=",torch," beam=",actor.flashlight.beam.is_visible_in_tree())
-				check(actor.flashlight.beam.is_visible_in_tree() and torch>dark+.01,"player flashlight still illuminates the actual room during an alarm pause")
-				actor.toggle_flashlight_authoritative()
-			set_power(state,true)
-			var normal:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-normal"))
-			check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy) and normal>dark+.02,"restoring power illuminates the room through real lamps in "+mode+" mode")
-			set_power(state,false)
+		var mode := "direct"
+		var bright:=world_red_level(await capture_phase(lighting,alarm,peak_time,mode+"-bright"))
+		var dark:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-dark"))
+		print("DARKNESS ",mode," dark=",dark," bright=",bright," ambient=",actor.camera.environment.ambient_light_energy)
+		check(dark<.03 and bright>dark+.01,"unpowered room has no global fill and retains a distinct alarm burst in "+mode+" mode")
+		check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy),"power outage preserves the node's authored ambient in "+mode+" mode")
+		actor.flashlight.malfunction_enabled=false
+		actor.pickup_world_item_authoritative(&"flashlight",{"battery_charge":1.0})
+		actor.update_character_animation(1.0/60.0)
+		var torch:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-flashlight"))
+		print("DARKNESS FLASHLIGHT luminance=",torch," beam=",actor.flashlight.beam.is_visible_in_tree())
+		check(actor.flashlight.beam.is_visible_in_tree() and torch>dark+.01,"player flashlight still illuminates the actual room during an alarm pause")
+		actor.toggle_flashlight_authoritative()
+		set_power(state,true)
+		var normal:=world_red_level(await capture_phase(lighting,alarm,dim_time,mode+"-normal"))
+		check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.source_environment().ambient_light_energy) and normal>dark+.02,"restoring power illuminates the room through real lamps in "+mode+" mode")
+		set_power(state,false)
 		actor.teleport_authoritative(Vector3(180,60,180),0)
 		await capture_phase(lighting,alarm,dim_time,"exterior")
 		check(is_equal_approx(actor.camera.environment.ambient_light_energy,lighting.outdoor_ambient),"base power outage preserves outdoor ambient light")

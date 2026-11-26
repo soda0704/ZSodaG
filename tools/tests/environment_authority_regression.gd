@@ -29,28 +29,22 @@ func run():
  check(camera.environment!=source,"camera adjustments do not mutate the node's authored resource")
  check(is_equal_approx(lighting.outdoor_ambient,source.ambient_light_energy) and is_equal_approx(camera.environment.ambient_light_energy,source.ambient_light_energy),"exterior ambient follows the Environment node, without the former 1.0 override")
  var authored_ao:=source.ssao_enabled;var authored_glow:=source.glow_enabled;var authored_fog:=source.volumetric_fog_enabled
- quality.set_gi_quality(0);await settle()
- check(source.ssao_enabled==authored_ao and source.glow_enabled==authored_glow and source.volumetric_fog_enabled==authored_fog,"Basic mode leaves the authored WorldEnvironment untouched")
- check(camera.environment.ssao_enabled==authored_ao and camera.environment.glow_enabled==authored_glow,"disabling GI does not silently disable SSAO or Glow")
- quality.set_gi_quality(2);await settle()
- check(camera.environment.ssao_enabled==authored_ao and camera.environment.glow_enabled==authored_glow,"Advanced mode restores only the effects authored in the node")
+ check(source.ssao_enabled==authored_ao and source.glow_enabled==authored_glow and source.volumetric_fog_enabled==authored_fog,"The runtime copy leaves the authored WorldEnvironment untouched")
  var state:BaseGameplayController=base.get_node("BaseGameplayController")
  var stable_ambient:=true
- for gi_enabled in [false,true]:
-  quality.set_gi_quality(2 if gi_enabled else 0)
-  for powered in [true,false]:
-   var snapshot=state.get_snapshot();snapshot.main_breaker_on=powered;snapshot.fuel_delivered=true;snapshot.fuel_liters=30.0;state._broadcast_snapshot(snapshot)
-   for point in [Vector3(-39,1.7,3),Vector3(-35.6,1.7,3),Vector3(-5,1.75,0),Vector3(-30,-30,0)]:
-    camera.position=point
-    for frame in 8:lighting._process(.2);await process_frame
-    stable_ambient=stable_ambient and is_equal_approx(camera.environment.ambient_light_energy,source.ambient_light_energy) and is_equal_approx(camera.environment.adjustment_contrast,source.adjustment_contrast)
- check(stable_ambient,"entrance, hub, lower floor and power changes never darken the complete image in either quality mode")
+ for powered in [true,false]:
+  var snapshot=state.get_snapshot();snapshot.main_breaker_on=powered;snapshot.fuel_delivered=true;snapshot.fuel_liters=30.0;state._broadcast_snapshot(snapshot)
+  for point in [Vector3(-39,1.7,3),Vector3(-35.6,1.7,3),Vector3(-5,1.75,0),Vector3(-30,-30,0)]:
+   camera.position=point
+   for frame in 8:lighting._process(.2);await process_frame
+   stable_ambient=stable_ambient and is_equal_approx(camera.environment.ambient_light_energy,source.ambient_light_energy) and is_equal_approx(camera.environment.adjustment_contrast,source.adjustment_contrast)
+ check(stable_ambient,"entrance, hub, lower floor and power changes never darken the complete image")
  camera.position=Vector3(-55,2,12);await settle()
  source.ssao_enabled=false;source.glow_enabled=false;source.ambient_light_energy=.19
  source.adjustment_enabled=true;source.adjustment_brightness=.8;source.adjustment_contrast=1.12;source.adjustment_saturation=.73
  source.adjustment_color_correction=load("res://assets/environments/calibration/gamma_120.tres")
  source.emit_changed();await settle()
- check(not camera.environment.ssao_enabled and not camera.environment.glow_enabled,"turning effects off in the node takes precedence over Advanced")
+ check(not camera.environment.ssao_enabled and not camera.environment.glow_enabled,"turning effects off in the node takes precedence over quality settings")
  check(is_equal_approx(camera.environment.ambient_light_energy,.19),"live changes to authored ambient reach the active camera")
  check(is_equal_approx(camera.environment.adjustment_brightness,.8) and is_equal_approx(camera.environment.adjustment_contrast,1.12) and is_equal_approx(camera.environment.adjustment_saturation,.73),"neutral graphics settings preserve authored colour grading")
  check(camera.environment.adjustment_color_correction==source.adjustment_color_correction,"neutral gamma retains the node's colour correction")
@@ -60,9 +54,7 @@ func run():
  check(is_equal_approx(camera.environment.ambient_light_energy,.23) and camera.environment!=replacement,"replacing the Environment resource rebinds the current camera")
  var optional:=Environment.new();optional.ssr_enabled=true;optional.ssil_enabled=true;optional.sdfgi_enabled=true
  var runtime:Environment=quality.make_environment_copy(optional);quality.apply_environment(runtime)
- check(runtime.ssr_enabled and runtime.ssil_enabled and runtime.sdfgi_enabled,"Advanced honours explicitly authored reflection and GI effects")
- quality.set_gi_quality(0);quality.apply_environment(runtime)
- check(runtime.ssr_enabled and runtime.ssil_enabled and runtime.sdfgi_enabled and optional.ssr_enabled,"VoxelGI quality does not override other authored reflection techniques")
+ check(runtime.ssr_enabled and not runtime.ssil_enabled and not runtime.sdfgi_enabled,"runtime retains authored reflections and disables indirect effects")
  current_scene=null;base.queue_free()
  for i in 6:await process_frame
  print("ENVIRONMENT AUTHORITY CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

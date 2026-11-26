@@ -365,7 +365,6 @@ static func update_authoritative_flashlight_battery(player: GamePlayer, delta: f
 		0.0
 	)
 	player.flashlight.set_battery_charge(player._battery_charge, false)
-	player.update_battery_ui()
 	if player._battery_charge <= 0.0:
 		player._flashlight_enabled = false
 		player._publish_inventory()

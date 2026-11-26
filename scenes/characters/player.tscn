@@ -21,7 +21,6 @@
 
 
 
-[ext_resource type="PackedScene" path="res://scenes/ui/flashlight_shake_hint.tscn" id="shake_hint"]
 [ext_resource type="Script" path="res://scripts/characters/components/item_handoff.gd" id="handoff"]
 
 [ext_resource type="Script" path="res://scripts/characters/components/player_ladder_climb.gd" id="ladder"]
@@ -120,64 +119,6 @@ layer = 5
 
 [node name="CameraPostProcess" parent="PlayerUI" instance=ExtResource("camera_post_process")]
 
-[node name="Crosshair" type="CenterContainer" parent="PlayerUI" unique_id=1070768269]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="CrosshairLabel" type="Label" parent="PlayerUI/Crosshair" unique_id=176033322]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.72, 0.9)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 18
-text = "+"
-
-[node name="PromptContainer" type="CenterContainer" parent="PlayerUI" unique_id=625478007]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = 42.0
-offset_right = 260.0
-offset_bottom = 84.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="InteractionPromptLabel" type="Label" parent="PlayerUI/PromptContainer" unique_id=913580]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.72, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 18
-text = "[ E ] Взаимодействовать"
-horizontal_alignment = 1
-
-[node name="BatteryLabel" type="Label" parent="PlayerUI" unique_id=1461945325]
-unique_name_in_owner = true
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -260.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = 62.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 0.86, 0.58, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 18
-text = "БАТАРЕЯ: 100%"
-horizontal_alignment = 2
-
 [node name="FootstepAudio" parent="." unique_id=8281142 instance=ExtResource("foot_audio")]
 
 
@@ -186,8 +127,6 @@ horizontal_alignment = 2
 [node name="CorpseShoulder" type="Marker3D" parent="."]
 position = Vector3(0.28, 1.42, 0.08)
 rotation = Vector3(-1.5707963, 0, 0)
-
-[node name="FlashlightShakeHint" parent="PlayerUI" instance=ExtResource("shake_hint")]
 
 [node name="NorthernLabHUD" parent="PlayerUI" instance=ExtResource("northern_hud")]
 

@@ -12,6 +12,7 @@ var models: Array[Node3D] = []
 var activation_allowed: Callable
 var selected_variant := 0
 var _highlighted := -1
+var _highlight_strength := PackedFloat32Array([0.0, 0.0])
 var _committed := false
 var _picking_ready := false
 var _pointer_mode := true
@@ -111,8 +112,8 @@ func _process(delta: float) -> void:
 	if _pointer_mode: _update_hover()
 	for index in choices.size():
 		var material: ShaderMaterial = choices[index].material
-		var strength: float = material.get_shader_parameter("highlight")
-		material.set_shader_parameter("highlight", lerpf(strength, 1.0 if index == _highlighted else 0.0, 1.0 - exp(-delta * 16.0)))
+		_highlight_strength[index] = lerpf(_highlight_strength[index], 1.0 if index == _highlighted else 0.0, 1.0 - exp(-delta * 16.0))
+		material.set_shader_parameter("highlight", _highlight_strength[index])
 
 func select_variant(index: int) -> void:
 	if index not in [0, 1] or not _picking_ready or _committed or _exiting or choices[index].disabled:

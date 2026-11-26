@@ -97,6 +97,10 @@ func run() -> void:
 	aim(can.global_position); await settle()
 	# Render proof: one static object, same camera and lighting, on/off overlay.
 	focus.set_physics_process(false); focus.set_focus(null)
+	player.get_node("PlayerUI/CameraPostProcess").effect_enabled = false
+	var hud := player.get_node("PlayerUI/NorthernLabHUD")
+	hud.set_process(false)
+	hud.hide()
 	var plain := await capture("can-plain")
 	focus.set_focus(can)
 	var outlined := await capture("can-common")

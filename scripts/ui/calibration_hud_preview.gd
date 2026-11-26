@@ -9,16 +9,23 @@ func _ready() -> void:
 	resized.connect(queue_redraw)
 
 func _draw() -> void:
-	var safe := LAYOUT.safe_rect(size, margin_percent).grow(-8)
-	var ink := Color("efefe8")
-	for corner in [Vector2.ZERO, Vector2(1, 0), Vector2(0, 1), Vector2.ONE]:
-		var point: Vector2 = safe.position + safe.size * corner
-		var direction: Vector2 = Vector2.ONE - corner * 2
-		draw_line(point, point + Vector2(direction.x * 24, 0), ink, 2, true)
-		draw_line(point, point + Vector2(0, direction.y * 24), ink, 2, true)
-	draw_string(FONT, safe.position + Vector2(120, 68), "ТЕКУЩАЯ ЗАДАЧА", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("c3cbc9"))
-	draw_string(FONT, Vector2(safe.position.x + 24, safe.end.y - 110), "100", HORIZONTAL_ALIGNMENT_LEFT, -1, 26, ink)
-	draw_line(Vector2(safe.position.x + 80, safe.end.y - 118), Vector2(safe.position.x + 180, safe.end.y - 118), ink, 3)
-	draw_string(FONT, Vector2(safe.end.x - 75, safe.end.y - 110), "100%", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, ink)
-	draw_string(FONT, Vector2(size.x * .5 - 35, safe.position.y + 68), "N   NE", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ink)
-	draw_circle(size * .5, 2, ink)
+	var safe := LAYOUT.safe_rect(size, margin_percent)
+	var hud_scale := LAYOUT.scale_for(get_viewport())
+	var extent := safe.size / hud_scale
+	var ink := LAYOUT.CAMERA_INK
+	draw_set_transform(safe.position, 0.0, Vector2.ONE * hud_scale)
+	LAYOUT.draw_camera_corners(self, extent)
+	var inset := LAYOUT.content_inset(extent)
+	draw_circle(LAYOUT.RECORD_DOT + inset, 7.0, LAYOUT.RECORD_RED, true, -1.0, true)
+	draw_string(FONT, LAYOUT.RECORD_LABEL + inset, "ЗАПИСЬ", HORIZONTAL_ALIGNMENT_LEFT, -1, 30, ink)
+	draw_string(FONT, LAYOUT.RECORD_CLOCK + inset, "00:00:00", HORIZONTAL_ALIGNMENT_LEFT, -1, 27, ink)
+	var baseline := extent.y - LAYOUT.PRIMARY_STATUS_INSET - 16.0 - inset.y
+	var health_font_size := roundi(34 * LAYOUT.HEALTH_SCALE)
+	var health_x := 104 + 22 * LAYOUT.HEALTH_SCALE + inset.x
+	draw_string(FONT, Vector2(health_x, baseline), "100", HORIZONTAL_ALIGNMENT_LEFT, -1, health_font_size, ink)
+	var bar_x := health_x + 18 * LAYOUT.HEALTH_SCALE + FONT.get_string_size("100", HORIZONTAL_ALIGNMENT_LEFT, -1, health_font_size).x
+	var bar_y := baseline - 10 * LAYOUT.HEALTH_SCALE
+	draw_line(Vector2(bar_x, bar_y), Vector2(bar_x + 144 * LAYOUT.HEALTH_SCALE, bar_y), ink, 3 * LAYOUT.HEALTH_SCALE, true)
+	draw_string(FONT, Vector2(extent.x - 147 - inset.x, baseline), "100%", HORIZONTAL_ALIGNMENT_LEFT, -1, 30, ink)
+	draw_string(FONT, Vector2(extent.x * 0.5 - 48, 47 + inset.y), "N     NE", HORIZONTAL_ALIGNMENT_LEFT, -1, 26, ink)
+	LAYOUT.draw_reticle(self, extent * 0.5)

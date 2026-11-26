@@ -31,7 +31,6 @@ func run() -> void:
 	Engine.max_fps = 60
 	root.size = Vector2i(1280, 720)
 	var menu = root.get_node("GameMenu")
-	menu.get_node("GraphicsQuality").set_gi_quality(2)
 	for argument in OS.get_cmdline_user_args():
 		if not argument.begins_with("--without="): continue
 		var quality = menu.get_node("GraphicsQuality")
@@ -53,13 +52,9 @@ func run() -> void:
 	var level = session.get_node_or_null("V3Level")
 	check(level != null, "authored level attached")
 	check(session.world_items.get_child_count() > 0, "loot restored before reveal")
-	var gi = level.get_node("WorldIndirectLighting")
-	var loaded_probe := false
-	for probe: VoxelGI in gi.get_children():
-		loaded_probe = loaded_probe or probe.data != null
-	check(not gi._loading and loaded_probe, "authored arrival lighting resources restored")
-	check(gi.get_active_probe_count() == 0, "unpowered arrival does not display the neutral GI wash")
-	check(not gi._loading_data.size(), "temporary lighting references released")
+	check(level.find_children("*", "VoxelGI", true, false).is_empty(), "arrival does not load retired GI probes")
+	var power = level.get_node("BasePowerLightingController")
+	check(not power.is_standard_powered, "arrival starts with standard power off")
 	var state = level.get_node("BaseGameplayController")
 	check(state.day_index == 1, "arrival does not advance the campaign")
 	for path in ["Floor_0_Base_Blockout", "Floor_Minus1_Control_Security_Blockout", "Floor_Minus2_Life_Support_Blockout", "Floor_Minus3_Trials_Observation_Blockout", "Floor_Minus4_Biocontainment_Blockout", "Floor_Minus5_Expedition_Shaft_Blockout", "Cave_Day7"]:
@@ -95,7 +90,7 @@ func run() -> void:
 	powered_snapshot.fuel_liters = 20.0
 	state._broadcast_snapshot(powered_snapshot)
 	for frame in 4: await process_frame
-	check(gi.get_active_probe_count() > 0, "restoring standard power activates the authored GI probes")
+	check(power.is_standard_powered, "restoring standard power reaches the authored lighting controller")
 	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
 	for terminal in terminals:
 		for binding in [["screen_texture", "ScreenViewport"], ["error_texture", "ErrorViewport"]]:

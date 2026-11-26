@@ -37,6 +37,11 @@ func _ready() -> void:
 	_rest_position = position
 	_rest_rotation = rotation
 
+func get_hud_displacement() -> Vector3:
+	return position - _rest_position
+
+func get_hud_roll() -> float:
+	return angle_difference(_rest_rotation.z, rotation.z)
 
 func add_look_impulse(mouse_delta: Vector2) -> void:
 	var max_tilt := deg_to_rad(max_turn_tilt_degrees)

@@ -64,7 +64,9 @@ func run():
 			actor._input_pitch=pitch;Input.action_press("move_forward");await ticks(12)
 			check(not fp.overlay.visible,"empty stays clear while moving at pitch %.2f variant %d"%[pitch,id])
 		Input.action_release("move_forward");actor._input_pitch=0;await ticks(15)
-		var journal:QuestJournalUI=root.get_node("QuestJournal");journal.open_journal();await ticks(75)
+		var journal:QuestJournalUI=root.get_node("QuestJournal")
+		actor.has_journal = true
+		journal.open_journal();await ticks(75)
 		check(fp.overlay.visible,"journal works from empty %d"%id);await capture("%d-book"%id);journal.close_journal();await ticks(75)
 		check(not fp.overlay.visible,"journal returns to empty %d"%id)
 		actor.queue_free();await process_frame

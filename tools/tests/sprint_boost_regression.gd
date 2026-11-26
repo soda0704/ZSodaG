@@ -83,7 +83,7 @@ func run() -> void:
 	player.vehicle = vehicle
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.refresh_interaction_prompt()
-	check(not player.interaction_prompt_label.text.contains("Останов"), "driver HUD also removes the stop instruction")
+	check(not player.interaction_prompt.contains("Останов"), "driver HUD also removes the stop instruction")
 	player.vehicle = null
 	var boosted_fuel: float = 10.0 - vehicle.fuel_liters
 	vehicle.fuel_liters = 10.0

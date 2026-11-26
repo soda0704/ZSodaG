@@ -15,7 +15,8 @@ func run() -> void:
 	valid = valid and not "PackedByteArray" in text and "menu_brand_font.gd" in text
 	var restored := ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as FontVariation
 	valid = valid and restored != null and restored.get_font_name() == font.get_font_name()
-	valid = valid and restored.spacing_glyph == -4 and restored.spacing_top == -22
+	valid = valid and (restored.spacing_glyph == font.spacing_glyph
+		and restored.spacing_top == font.spacing_top and restored.spacing_bottom == font.spacing_bottom)
 	DirAccess.remove_absolute(path)
 	print("PASS" if valid else "FAIL", " menu font stays compact after editor save and retains its face (", text.length(), " bytes)")
 	quit(0 if valid else 1)

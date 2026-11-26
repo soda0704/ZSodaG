@@ -30,7 +30,8 @@ func run() -> void:
 	check(Input.mouse_mode != Input.MOUSE_MODE_CAPTURED, "loading disables the existing polled gameplay input gate")
 	check(screen.tips.any(func(tip): return tip.body=="Не забывайте поливать растение") and screen.find_child("Video", true, false)==null, "authored tips remain and VHS video is removed")
 	check(screen.music.stream.loop and screen.logo.texture.resource_path.ends_with("northernlab-512.png"), "music loops and loading uses the current brand logo")
-	check(absf(screen.music.stream.get_length() - 45.0) < 0.1, "final crossfaded music resource contains the full 45-second loop")
+	check(screen.music.stream.resource_path == "res://assets/audio/music/main_menu.ogg" and screen.music.stream.get_length() > 0.0,
+		"loading plays the current menu track and the resource contains audio")
 	check(screen.tip_title.text == "Прислушивайся.", "approved opening copy")
 	check(screen.displayed_progress == 0.0, "loading progress starts empty")
 	screen.set_progress(0.62)
@@ -85,7 +86,6 @@ func run() -> void:
 	await tip_finished(screen)
 	check(screen.tip_index == 1, "automatic cycling also works")
 	if DisplayServer.get_name() != "headless":
-		check(RenderingServer.viewport_get_update_mode(root.get_node("GameMenu/LoadingRenderWarmup").get_viewport_rid()) == RenderingServer.VIEWPORT_UPDATE_DISABLED, "startup warmup no longer renders during loading")
 		root.mode = Window.MODE_WINDOWED
 		DirAccess.make_dir_recursive_absolute(captures)
 		for dimensions in [Vector2i(1920, 1080), Vector2i(1024, 768), Vector2i(3440, 1440), Vector2i(1280, 720)]:

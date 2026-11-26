@@ -21,7 +21,6 @@ var respawn_remaining: float = 0.0
 var _fall_speed: float = 0.0
 var _air_time: float = 0.0
 var _spawn: Transform3D
-var _hud: Label
 var _cover: ColorRect
 var _death_text: Label
 var _sync_time: float = 0.0
@@ -46,11 +45,6 @@ func _ready() -> void:
 	_death_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_death_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_death_text.add_theme_font_size_override("font_size", 30)
-	_hud = Label.new()
-	layer.add_child(_hud)
-	_hud.position = Vector2(28, 110)
-	_hud.add_theme_font_size_override("font_size", 22)
-	_hud.add_theme_color_override("font_color", Color("ebc778"))
 	_refresh_ui()
 
 func capture_checkpoint() -> Dictionary:
@@ -193,7 +187,6 @@ func _sync(hp: float, dose: float, is_dead: bool, cause: String, remaining: floa
 	reason = cause
 	respawn_remaining = remaining
 	var player := get_parent()
-	player.refresh_crosshair_visibility()
 	player.body_animator.set_sleeping(dead or player.is_sleeping_in_bunk())
 	if dead:
 		player._server_consumed_jump_serial = player._server_jump_serial
@@ -210,7 +203,3 @@ func _refresh_ui() -> void:
 	var local_player: bool = get_parent().is_local_player()
 	_cover.visible = local_player and dead
 	_death_text.text = "ВЫ ПОГИБЛИ\n%s\n\nВозвращение на базу: %d" % [reason, ceili(respawn_remaining)]
-	_hud.visible = local_player and not dead and (health < 99.5 or radiation > 0.5)
-	_hud.text = "Здоровье: %d%%" % ceili(health)
-	if radiation > 0.5:
-		_hud.text += "\n☢ Радиация: %d%% — покиньте зону" % ceili(radiation)

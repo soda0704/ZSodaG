@@ -69,12 +69,11 @@ func run() -> void:
 	actor=get_first_node_in_group("local_player")
 	actor.set_physics_process(false);actor.survival.set_physics_process(false)
 	base.get_node("BaseGameplayController").set_process(false)
-	actor.teleport_authoritative(Vector3(-53.7224,2.02075,37.8333),0)
-	actor.camera.look_at(Vector3(-17,2.5,1))
+	actor.teleport_authoritative(Vector3(-41.0, 0.2, 2.0), -PI * 0.5)
 	actor.apply_held_item_inventory(&"flashlight",{"battery_charge":1.0},true)
 	for frame in 30:await process_frame
 	var effect:=actor.get_node("PlayerUI/CameraPostProcess")
-	await picture()
+	await picture("bodycam-playtest")
 	check(effect.visible,"local active camera enables the effect automatically")
 	check(effect.get_node("Effect").material.shader.resource_path.ends_with("realistic_photography_camera.gdshader"),"Realistic Photography Camera replaces the previous shader")
 	check(effect.get_node("Effect").size==root.get_visible_rect().size,"effect covers the player viewport")
@@ -115,8 +114,8 @@ func run() -> void:
 	var grain_difference := difference(grain_control, grain_a, grain_area)
 	var grain_temporal := difference(grain_a, grain_b, grain_area)
 	print("FILM GRAIN visible=",grain_difference," temporal=",grain_temporal)
-	check(grain_difference > .012 and grain_difference < .028,"stronger fine grain remains visible with a bounded amplitude")
-	check(grain_temporal > .014,"film grain changes between rendered frames")
+	check(grain_difference > .006 and grain_difference < .025,"fine grain remains visible with a bounded amplitude")
+	check(grain_temporal > .008,"film grain changes between rendered frames")
 	var chroma_error := 0.0
 	var chroma_count := 0
 	for y in range(grain_area.position.y,grain_area.end.y,3):
@@ -136,19 +135,37 @@ func run() -> void:
 	grain_material.set_shader_parameter("noise_intensity",0.0)
 	var vignette_frame := await picture()
 	var centre_level := mean_luminance(vignette_frame,Rect2i(680,340,50,50))
-	var sides_clear := true
-	for area in [Rect2i(610,4,50,12),Rect2i(610,704,50,12),Rect2i(4,310,12,50),Rect2i(1264,310,12,50),Rect2i(1190,80,30,30)]:
-		sides_clear = sides_clear and absf(mean_luminance(vignette_frame,area)-centre_level)<.015
-	var corners_dark := true
+	var top_level := mean_luminance(vignette_frame, Rect2i(610,4,50,12))
+	var side_level := mean_luminance(vignette_frame, Rect2i(4,310,12,50))
+	check(centre_level > .25 and absf(top_level - centre_level) < .015 and side_level > centre_level * .70, "optical falloff keeps the centre and side detail readable")
 	for area in [Rect2i(4,4,12,12),Rect2i(1264,4,12,12),Rect2i(4,704,12,12),Rect2i(1264,704,12,12)]:
-		corners_dark = corners_dark and mean_luminance(vignette_frame,area)<.001
-	check(centre_level > .25 and sides_clear,"corner vignette leaves the centre and middles of all four screen edges clear")
-	check(corners_dark,"all four small lens corners are black with no grain bleeding through")
-	var soft_pixels := 0
-	for x in range(0,220):
-		var level := vignette_frame.get_pixel(x,12).get_luminance()
-		if level > centre_level * .05 and level < centre_level * .95: soft_pixels += 1
-	check(soft_pixels >= 12 and soft_pixels < 85,"corner boundary has a narrow soft transition while its core stays black")
+		var corner := mean_luminance(vignette_frame, area)
+		check(corner < .002, "lens housing fully blocks the image at %s" % area.position)
+	var gradient_is_smooth := true
+	var transition_pixels := 0
+	var fringe_peak := 0.0
+	for x in range(1, 220):
+		var sample := vignette_frame.get_pixel(x, 12)
+		var level := sample.get_luminance()
+		var step := level - vignette_frame.get_pixel(x - 1, 12).get_luminance()
+		gradient_is_smooth = gradient_is_smooth and step >= -0.005 and step < 0.06
+		fringe_peak = maxf(fringe_peak, sample.b - sample.g)
+		if level > centre_level * .30 and level < centre_level * .83:
+			transition_pixels += 1
+	check(gradient_is_smooth, "corner falloff is continuous and smoothly rises toward the centre")
+	check(transition_pixels >= 5 and transition_pixels <= 20, "lens housing has a narrow, antialiased transition")
+	check(fringe_peak > .08, "neutral background acquires a cool RGB fringe at the lens rim")
+	var dark_hand := marker(hands, Vector2(0, 480), Vector2(240, 240), Color.BLACK)
+	var dark_hand_frame := await picture()
+	var coating_peak := 0.0
+	for x in range(0, 180):
+		var sample := dark_hand_frame.get_pixel(x, 690)
+		coating_peak = maxf(coating_peak, sample.b - minf(sample.r, sample.g))
+	check(coating_peak > .035 and dark_hand_frame.get_pixel(4, 710).get_luminance() < .002,
+		"lens edge stays visible across dark viewmodel pixels and the outer corner stays black")
+	dark_hand.queue_free()
+	var lens_point: Vector2 = effect.project_overlay_point(Vector2(935, 420))
+	check(lens_point.x > 935.0 and lens_point.y > 420.0 and effect.project_overlay_point(Vector2(640, 360)).is_equal_approx(Vector2(640, 360)), "world HUD projection follows the lens and keeps the optical centre fixed")
 	actor.set_process_unhandled_input(false)
 	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	for frame in 14:

@@ -66,7 +66,7 @@ func screenshot(name: String, during_water: bool = false) -> void:
 	if not capture or DisplayServer.get_name() == "headless": return
 	player.camera.global_position = container.global_position + Vector3(0.1, 0.8, 1.85)
 	player.camera.look_at(container.global_position + Vector3(0.095, 0.77, 0.35))
-	player.interaction_prompt_label.hide()
+	player.interaction_prompt = ""
 	if during_water:
 		for frame in 12: await process_frame
 	await RenderingServer.frame_post_draw

@@ -81,3 +81,31 @@
 «Поведение» описывает правила игры. «Настройка» указывает сцену или ресурс для редактирования. «Проверка» содержит воспроизводимые действия или существующий тест. Ограничения описываются отдельно. Числовые значения в таблицах — текущие настройки, а не обязательный баланс для будущих обновлений.
 
 - [Радиовышка, замок, лестница и ландшафт с высоты](technical/radio_tower.md).
+
+## Технические материалы
+
+- [Завершение архитектурного прохода — 14.11.2026](technical/architecture_completion_2026_11_14.md).
+- [Оболочка базы и освещение — 06.11.2026](technical/base_exterior_rebuild.md).
+- [Каталожные двери базы](technical/catalog_doors.md).
+- [Калибровка экрана и HUD](technical/display_calibration.md).
+- [Graphics settings documentation audit — 2026-11-19](technical/graphics_settings_audit_2026_11_19.md).
+- [Наружный свет и изоляция помещений — 06.11.2026](technical/interior_daylight.md).
+- [Фон главного меню](technical/menu_background.md).
+- [Экипировка и границы ответственности — 14.11.2026](technical/player_equipment_architecture_2026_11_14.md).
+- [Сетевые снимки персонажа — 14.11.2026](technical/player_replication_architecture_2026_11_14.md).
+- [Архитектура: запасы игрока — 14.11.2026](technical/player_supplies_architecture_2026_11_14.md).
+- [Операции запасов игрока — 14.11.2026](technical/player_supplies_operations_2026_11_14.md).
+- [Полярный дневной свет и метель — 15.11.2026](technical/polar_daylight_2026_11_15.md).
+- [Общая композиция полярной локации — 11.11.2026](technical/polar_location_2026_11_11.md).
+- [Текущий вариант: вода и семь ледяных образований](technical/polar_lowland_2026_11_11.md).
+- [Разломы, ручей и грубый лёд — 11.11.2026](technical/polar_waterways_2026_11_11.md).
+- [Очистка и рефакторинг NorthernLab — 14.11.2026](technical/refactor_cleanup_2026_11_14.md).
+- [Vulkan / Direct3D 12 и загрузка ресурсов — 14.11.2026](technical/render_loading_investigation_2026_11_14.md).
+- [Смягчение наружного света и сугробов — 11.11.2026](technical/soft_snow_lighting_2026_11_11.md).
+
+## Отчёты по датам
+
+- [Проверка обращений NorthernLab от 28–30 октября](reviews/2026_10_30_feedback_fixes.md).
+- [Второй набор исправлений обратной связи](reviews/2026_10_30_feedback_followup.md).
+- [Локальные доработки щитка, задач и журнала](reviews/2026_10_30_feedback_local.md).
+- [Звуки интерфейса, радиации, сигнализация и CSG-лампы](reviews/2026_10_31_audio_and_lamps.md).

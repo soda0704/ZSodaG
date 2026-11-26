@@ -77,7 +77,10 @@ func run() -> void:
 		check(torso_framing,"both heads and torsos are close, with working body picking at "+str(resolution))
 		await RenderingServer.frame_post_draw
 		var screen:=root.get_texture().get_image()
-		check(screen.get_pixel(screen.get_width()/2,4).is_equal_approx(Color.BLACK) and screen.get_pixel(screen.get_width()/2,screen.get_height()-5).is_equal_approx(Color.BLACK),"top and bottom bars stay black at "+str(resolution))
+		var top_edge := screen.get_pixel(screen.get_width() / 2, 4)
+		var bottom_edge := screen.get_pixel(screen.get_width() / 2, screen.get_height() - 5)
+		check(top_edge.get_luminance() > 0.005 and bottom_edge.get_luminance() > 0.005,
+			"the shared fog background reaches both edges of character selection at " + str(resolution))
 		root.get_texture().get_image().save_png("res://tools/.local/feedback-fixes-2026-10-30/character-choice-%dx%d.png"%[resolution.x,resolution.y])
 	selector.hide();root.size=Vector2i(1366,768);root.content_scale_size=root.size
 	for frame in 12:await process_frame
@@ -89,7 +92,7 @@ func run() -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://tools/.local/feedback-fixes-2026-10-30/character-close-hover.png")
 	var back_button:Button=main.shell.footer.get_node("CharacterBack")
-	check(back_button.is_visible_in_tree() and back_button.get_global_rect().get_center().y>root.size.y-87,"Back is visible in the bottom black bar")
+	check(back_button.is_visible_in_tree() and back_button.get_global_rect().get_center().y>root.size.y-87,"Back stays visible near the bottom edge")
 	var point:=back_button.get_global_rect().get_center()
 	for pressed in [true,false]:
 		var click:=InputEventMouseButton.new();click.position=point

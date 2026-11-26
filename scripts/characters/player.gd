@@ -112,10 +112,7 @@ var _sprint_active: bool:
 @export_range(0.5, 10.0) var interaction_reach := 3.0
 @onready var interaction_ray: RayCast3D = %InteractionRay
 @onready var item_focus: PlayerItemFocus = %ItemFocus
-@onready var interaction_prompt_label: Label = %InteractionPromptLabel
-@onready var battery_label: Label = %BatteryLabel
 @onready var player_audio: Node = $PlayerAudio
-@onready var crosshair: Control = %Crosshair
 
 var gravity: float = float(
 	ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -234,7 +231,7 @@ var _last_flashlight_shake_msec := -1000
 var _battery_charge: float:
 	get: return _equipment.charge
 	set(value): _equipment.charge = value
-var _displayed_battery_percent: int = -1
+var interaction_prompt := ""
 var _is_crouching: bool:
 	get: return _locomotion.is_crouching
 	set(value): _locomotion.is_crouching = value
@@ -332,10 +329,6 @@ func _ready() -> void:
 			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	name_label.visible = not local_player
 	call_deferred("restore_journal_ownership")
-	refresh_crosshair_visibility()
-	get_node("/root/GameMenu").menu_root.visibility_changed.connect(refresh_crosshair_visibility)
-	interaction_prompt_label.visible = false
-	battery_label.visible = false
 
 	if not multiplayer.is_server() and not local_player:
 		collision_shape.set_deferred("disabled", true)
@@ -364,14 +357,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	refresh_crosshair_visibility()
 	if survival.dead:
 		if multiplayer.is_server() and is_climbing(): $LadderClimb._set_route.rpc(NodePath(),$LadderClimb.revision+1,global_position)
 		if multiplayer.is_server() or is_local_player():
 			_update_sprint(delta)
 		velocity = Vector3.ZERO
-		interaction_prompt_label.hide()
-		battery_label.hide()
+		interaction_prompt = ""
 		if multiplayer.is_server():
 			send_snapshot_if_due(delta)
 		return
@@ -381,7 +372,6 @@ func _physics_process(delta: float) -> void:
 		_flight_vertical = (float(Input.is_action_pressed("jump")) - float(Input.is_action_pressed("crouch"))) if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not is_debug_free_camera_active() else 0.0
 		collect_local_look(delta)
 		refresh_interaction_prompt()
-		update_battery_ui()
 
 	if multiplayer.is_server():
 		if is_local_player():
@@ -407,8 +397,10 @@ func is_local_player() -> bool:
 	return owner_peer_id == multiplayer.get_unique_id()
 
 
-func refresh_crosshair_visibility() -> void:
-	crosshair.visible = is_local_player() and not survival.dead and not is_bunk_busy() and not is_debug_free_camera_active() and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open()
+func is_gameplay_view_active() -> bool:
+	return is_local_player() and camera.is_current() and not survival.dead and not is_bunk_busy() \
+		and not is_debug_free_camera_active() and not _is_journal_open() \
+		and not get_node("/root/GameMenu").is_menu_open()
 
 
 func _update_sprint(delta: float) -> void:
@@ -728,68 +720,40 @@ func try_authoritative_interaction() -> void:
 
 
 func refresh_interaction_prompt() -> void:
-	if (
-		not is_local_player()
-		or is_debug_free_camera_active()
-		or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
-		or is_bunk_busy()
-		or _is_journal_open()
-	):
-		interaction_prompt_label.visible = false
-		return
+	interaction_prompt = _get_interaction_prompt()
 
+
+func _get_interaction_prompt() -> String:
+	if not is_gameplay_view_active() or Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		return ""
 	if is_climbing():
-		interaction_prompt_label.show()
-		interaction_prompt_label.text = "Выход занят" if $LadderClimb.exit_blocked else "Вверх / вниз — движение по лестнице"
-		return
-
+		return "Выход занят" if $LadderClimb.exit_blocked else "Вверх / вниз — движение по лестнице"
 	if is_driving():
-		interaction_prompt_label.visible = true
-		interaction_prompt_label.text = "Бензин: %.0f%%" % (vehicle.fuel_liters / vehicle.tank_capacity * 100.0)
-		interaction_prompt_label.text += " · S — тормоз / назад"
-		if vehicle.get_driving_speed() <= vehicle.exit_max_speed:
-			interaction_prompt_label.text += " · E — выйти"
 		if vehicle.is_engine_starting():
-			interaction_prompt_label.text = "Двигатель заводится…"
-		return
-
+			return "Двигатель заводится…"
+		var fuel_hint := "Бензин: %.0f%% · S — тормоз / назад" % (vehicle.fuel_liters / vehicle.tank_capacity * 100.0)
+		if vehicle.get_driving_speed() <= vehicle.exit_max_speed:
+			fuel_hint += " · E — выйти"
+		return fuel_hint
+	var input := get_node("/root/SteamInput")
 	if handoff.is_offering():
-		interaction_prompt_label.visible = true
-		var offer_hint: String = get_node("/root/SteamInput").get_action_hint(&"offer_item")
-		interaction_prompt_label.text = "%s %s · %s" % [offer_hint, handoff.title(), "Нажать — отменить" if handoff.pocket_pose() else "Отпустить — убрать"]
-		return
+		return "%s %s · %s" % [input.get_action_hint(&"offer_item"), handoff.title(),
+			"Нажать — отменить" if handoff.pocket_pose() else "Отпустить — убрать"]
 	if needs_flashlight_shake():
-		interaction_prompt_label.hide()
-		return
+		return ""
 	if $ItemDrag.is_heavy_carrying():
-		interaction_prompt_label.visible = true
-		interaction_prompt_label.text = $ItemDrag.heavy_body.carry_hint()
-		return
+		return $ItemDrag.heavy_body.carry_hint()
 	if $ItemDrag.dragging:
-		interaction_prompt_label.visible = false
-		return
-
+		return ""
 	var target := get_interaction_target()
 	if target == null or not target.has_method("network_interact"):
-		interaction_prompt_label.visible = false
-		return
-
-	var prompt := "Взаимодействовать"
+		return ""
 	if target.has_method("get_interaction_hint_for"):
-		var hint := str(target.call("get_interaction_hint_for", self))
-		interaction_prompt_label.text = hint
-		interaction_prompt_label.visible = not hint.is_empty()
-		return
-	if target.has_method("get_interaction_prompt"):
-		prompt = str(target.call("get_interaction_prompt"))
+		return str(target.call("get_interaction_hint_for", self))
+	var prompt := str(target.call("get_interaction_prompt")) if target.has_method("get_interaction_prompt") else "Взаимодействовать"
 	if prompt.strip_edges().is_empty():
-		interaction_prompt_label.visible = false
-		return
-	if prompt.is_empty():
-		interaction_prompt_label.hide()
-		return
-	interaction_prompt_label.text = "%s %s" % [get_node("/root/SteamInput").get_action_hint(&"interact"), prompt]
-	interaction_prompt_label.visible = true
+		return ""
+	return "%s %s" % [input.get_action_hint(&"interact"), prompt]
 
 
 func _is_journal_open() -> bool:
@@ -1182,7 +1146,7 @@ func get_reload_or_battery_action() -> StringName:
 @rpc("authority", "call_local", "reliable")
 func _show_pocket_light_notice() -> void:
 	_equipment_notice_until = Time.get_ticks_msec() + 2200
-	update_battery_ui()
+
 
 
 @rpc("any_peer", "call_remote", "reliable", 0)
@@ -1439,7 +1403,7 @@ func _refresh_equipment_visuals() -> void:
 	var hidden: bool = is_climbing() or _journal_phase > 0 or (is_local_player() and _is_journal_open()) or handoff.pocket_pose() or $ItemDrag.is_heavy_carrying()
 	var hands_busy := survival.dead or is_bunk_busy() or is_driving() or is_carrying_corpse() or (weapon.reload_left > 0.0 and is_handheld_flashlight_drawn())
 	body_animator.refresh_equipment_visuals(self, _equipment, hidden, hands_busy, _battery_flashlight_presentation, is_wiring_view_active())
-	update_battery_ui()
+
 
 
 func clear_movement_correction() -> void:
@@ -1462,29 +1426,6 @@ func needs_flashlight_shake() -> bool:
 func shake_flashlight_authoritative() -> bool:
 	return INVENTORY_ACTIONS.shake_flashlight_authoritative(self)
 
-
-func update_battery_ui() -> void:
-	var shake_hint := $PlayerUI/FlashlightShakeHint
-	shake_hint.visible = is_local_player() and needs_flashlight_shake() and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and not is_debug_free_camera_active()
-	if shake_hint.visible:
-		shake_hint.get_node("Label").text = str(get_node("/root/SteamInput").get_action_hint(&"interact")).trim_prefix("[").trim_suffix("]").strip_edges()
-	if is_debug_free_camera_active():
-		battery_label.hide()
-		return
-	if is_local_player() and _has_flashlight and Time.get_ticks_msec() < _equipment_notice_until and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open():
-		battery_label.visible = true
-		battery_label.text = "Огнемёт занимает обе руки" if _held_item_type == &"flamethrower" else "Для M4A1 примотайте фонарик скотчем через журнал"
-		return
-	battery_label.visible = is_local_player() and _has_flashlight and not _is_journal_open() and not get_node("/root/GameMenu").is_menu_open() and (is_handheld_flashlight_drawn() or _battery_charge <= 0.0)
-	if not battery_label.visible:
-		_displayed_battery_percent = -1
-		return
-
-	var battery_percent := roundi(_battery_charge * 100.0)
-	_displayed_battery_percent = battery_percent
-	battery_label.text = "%d%%" % battery_percent
-	if _battery_charge <= 0.0:
-		battery_label.text = "Батарея разряжена" if not _spare_batteries.is_empty() else "Нет запасных батареек"
 
 
 func begin_vehicle_view(next_vehicle: Node3D) -> void:

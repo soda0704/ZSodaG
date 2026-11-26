@@ -40,6 +40,7 @@ func run() -> void:
 	var migrated: Dictionary = quality.migrate_saved(previous, 2)
 	check(not migrated.MotionBlur and migrated.MotionBlurStrength == 55 and migrated.Gamma == 110 and previous.MotionBlur, "previous automatic blur migrates off without changing calibration or its input")
 	check(quality.migrate_saved(previous, quality.PRESET_REVISION).MotionBlur, "a later deliberate enable survives loading")
+	quality.apply(legacy)
 	var arena = load("res://scenes/levels/base_blockout_v03.tscn").instantiate()
 	root.add_child(arena); current_scene = arena
 	for frame in 25: await physics_frame

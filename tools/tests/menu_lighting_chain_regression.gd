@@ -20,7 +20,7 @@ func run():
 	await process_frame
 	var menu=root.get_node("GameMenu")
 	var quality=menu.get_node("GraphicsQuality")
-	quality.set_gi_quality(2)
+	quality.apply(quality.PRESETS[3])
 	root.mode=Window.MODE_WINDOWED
 	root.size=Vector2i(1280,720)
 	Engine.max_fps=60
@@ -66,19 +66,23 @@ func run():
 	await settle()
 	var settings=menu.settings_panel
 	var env:Environment=player.camera.environment
+	var original_graphics: Dictionary = quality.values.duplicate()
+	var original_effects := [env.ssao_enabled, env.volumetric_fog_enabled, env.glow_enabled, fp.view_camera.environment.glow_enabled]
 	settings._set_value("Gamma",120,true)
 	settings._set_value("AOQuality",0,true)
 	settings._set_value("FogQuality",0,true)
 	settings._set_value("Bloom",false,true)
-	check(env.ssao_enabled and env.volumetric_fog_enabled and env.glow_enabled, "draft effects do not alter live light before Apply")
+	check([env.ssao_enabled, env.volumetric_fog_enabled, env.glow_enabled, fp.view_camera.environment.glow_enabled] == original_effects,
+		"draft effects do not alter live light before Apply")
 	settings.apply(false)
 	await frames(10)
 	check(not env.ssao_enabled and not env.volumetric_fog_enabled and not env.glow_enabled and power.is_standard_powered, "ESC Apply changes effects without resetting base power")
 	check(fp.view_camera.environment.adjustment_color_correction==env.adjustment_color_correction and not fp.view_camera.environment.glow_enabled, "hand presentation receives gamma and bloom changes without copying world fog")
-	settings.draft.Graphics=quality.normalized(quality.PRESETS[3])
+	settings.draft.Graphics = original_graphics.merged({"Gamma": 120}, true)
 	settings.apply(false)
 	await frames(10)
-	check(env.ssao_enabled and env.volumetric_fog_enabled and env.glow_enabled and fp.view_camera.environment.glow_enabled, "restoring High restores authored effects in both world and hands")
+	check([env.ssao_enabled, env.volumetric_fog_enabled, env.glow_enabled, fp.view_camera.environment.glow_enabled] == original_effects,
+		"restoring the previous graphics settings restores the authored effects of the world and hands")
 	check(not level.get_node("SnowExterior/Terrain3D/MouseViewport/MouseCamera").environment.ssao_enabled, "settings never contaminate the Terrain3D utility camera")
 	var notified=[0]
 	env.changed.connect(func(): notified[0]+=1)

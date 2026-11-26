@@ -26,10 +26,16 @@ $buildLogDirectory = Join-Path $PSScriptRoot ".local\launcher-logs"
 
 function Get-SteamLibraries {
     $libraries = @()
-    $steamInstall = Get-ItemPropertyValue `
-        -Path "HKCU:\Software\Valve\Steam" `
-        -Name "SteamPath" `
-        -ErrorAction SilentlyContinue
+    $steamInstall = $null
+    try {
+        $steamInstall = Get-ItemPropertyValue `
+            -Path "HKCU:\Software\Valve\Steam" `
+            -Name "SteamPath" `
+            -ErrorAction Stop
+    }
+    catch {
+        Write-Verbose "Steam registry lookup unavailable. $($_.Exception.Message)"
+    }
 
     if (-not [string]::IsNullOrWhiteSpace($steamInstall)) {
         $libraries += $steamInstall

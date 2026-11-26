@@ -42,29 +42,27 @@ func run() -> void:
 	var fill:DirectionalLight3D=fp._lighting_fill
 	check(journal.is_journal_open() and fp.model.visible,"real 3D journal is open in the player viewmodel")
 	var dark_ok:=true;var red_ok:=true;var observed_red:=false
-	for mode in [false,true]:
-		root.get_node("GameMenu/GraphicsQuality").set_gi_quality(2 if mode else 0)
-		for cycle in 3:
-			for pulse in [1.0,.5,.02,0.0,0.0,.001,.1,1.0]:
-				lighting.emergency_intensity=pulse
-				lighting.emergency_intensity_changed.emit(pulse)
-				lighting._update_lamps(actor.camera.global_position,1.0)
-				var target:=lighting.sample_view_light(actor.camera)
-				fp._update_lighting(1.0/60.0)
-				if maxf(target.r,maxf(target.g,target.b))<=.0001:
-					dark_ok=dark_ok and fill.light_energy==0.0
-				elif target.r>maxf(target.g,target.b)*4.0:
-					observed_red=true
-					red_ok=red_ok and fill.light_color.r>fill.light_color.g*4.0 and fill.light_color.r>fill.light_color.b*4.0
-				await RenderingServer.frame_post_draw
-		check(dark_ok,"journal lighting reaches black without white residual energy, advanced="+str(mode))
-		check(observed_red and red_ok,"every red-only lighting sample stays red before and during each burst, advanced="+str(mode))
-		lighting.emergency_intensity=1.0
-		lighting.emergency_intensity_changed.emit(1.0)
-		lighting._update_lamps(actor.camera.global_position,1.0)
-		for frame in 12:await process_frame
-		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png(output+"journal-red-"+str(mode)+".png")
+	for cycle in 3:
+		for pulse in [1.0,.5,.02,0.0,0.0,.001,.1,1.0]:
+			lighting.emergency_intensity=pulse
+			lighting.emergency_intensity_changed.emit(pulse)
+			lighting._update_lamps(actor.camera.global_position,1.0)
+			var target:=lighting.sample_view_light(actor.camera)
+			fp._update_lighting(1.0/60.0)
+			if maxf(target.r,maxf(target.g,target.b))<=.0001:
+				dark_ok=dark_ok and fill.light_energy==0.0
+			elif target.r>maxf(target.g,target.b)*4.0:
+				observed_red=true
+				red_ok=red_ok and fill.light_color.r>fill.light_color.g*4.0 and fill.light_color.r>fill.light_color.b*4.0
+			await RenderingServer.frame_post_draw
+	check(dark_ok,"journal lighting reaches black without white residual energy")
+	check(observed_red and red_ok,"every red-only lighting sample stays red before and during each burst")
+	lighting.emergency_intensity=1.0
+	lighting.emergency_intensity_changed.emit(1.0)
+	lighting._update_lamps(actor.camera.global_position,1.0)
+	for frame in 12:await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output+"journal-red.png")
 	journal.force_close();actor=null;current_scene=null;base.queue_free()
 	for frame in 6:await process_frame
 	print("JOURNAL RED CHECKS ",checks," FAILURES ",failures)

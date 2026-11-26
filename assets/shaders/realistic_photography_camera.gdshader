@@ -3,6 +3,7 @@
 // Screen effect from the published shader; project tuning lives in the scene.
 // NorthernLab bodycam adaptation: lens, sensor grain, response curve and shutter.
 shader_type canvas_item;
+render_mode unshaded, blend_disabled;
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform vec2 resolution = vec2(1920, 1080);
@@ -25,8 +26,9 @@ group_uniforms Bodycam;
 uniform float lens_amount : hint_range(0.0, 1.0) = 1.0;
 uniform float barrel_strength : hint_range(0.0, 0.2) = 0.12;
 uniform float chroma_pixels : hint_range(0.0, 2.0) = 0.65;
+uniform float rim_chroma_pixels : hint_range(0.0, 4.0) = 0.0;
 uniform float vignette_strength : hint_range(0.0, 1.0) = 1.0;
-uniform float vignette_corner_size : hint_range(0.1, 0.5) = 0.3;
+uniform float vignette_corner_size : hint_range(0.1, 1.0) = 0.81;
 uniform float vignette_softness : hint_range(0.005, 0.2) = 0.12;
 uniform vec2 vignette_offset = vec2(0.0);
 uniform float response_curve : hint_range(0.0, 0.5) = 0.18;
@@ -63,10 +65,13 @@ float noise(vec2 uv, float s) {
 void fragment() {
 	vec2 pixel = 1.0 / max(resolution, vec2(1.0));
 	vec2 p = (SCREEN_UV - 0.5) * 2.0;
-	float radius2 = dot(p, p);
+	// Use a circular lens in pixel space and normalize to the sensor diagonal.
+	float aspect = resolution.x / max(resolution.y, 1.0);
+	vec2 sensor = vec2(aspect, 1.0);
+	float radius2 = dot(p * sensor, p * sensor) / dot(sensor, sensor);
 	float lens = barrel_strength * lens_amount;
 	// Overscan prevents wrapping and bright/black borders at the curved corners.
-	vec2 uv = 0.5 + p * (1.0 + lens * radius2) / (1.0 + 2.0 * lens) * 0.5;
+	vec2 uv = 0.5 + p * (1.0 + lens * radius2) / (1.0 + lens) * 0.5;
 	uv = clamp(uv, pixel, 1.0 - pixel);
 	// Sub-pixel horizontal tape instability, without rolling tears.
 	uv.x += sin(SCREEN_UV.y * 130.0 + TIME * 5.0) * pixel.x * 0.45 * vhs_strength * lens_amount;
@@ -86,7 +91,20 @@ void fragment() {
 	} else {
 		pixel_color = centre;
 	}
-	vec2 fringe = p * pixel * chroma_pixels * radius2 * lens_amount;
+	vec2 rim_p = p - vignette_offset * vec2(2.0 / aspect, 2.0);
+	vec2 housing_aspect = vec2(mix(1.0, aspect, 0.88), 1.0);
+	vec2 rim_sensor = rim_p * housing_aspect;
+	float falloff = dot(rim_sensor, rim_sensor) / dot(housing_aspect, housing_aspect);
+	float rim_width = max(vignette_softness, fwidth(falloff) * 2.0);
+	// Offset the housing boundary per channel so the aperture itself has colour dispersion.
+	float rim_dispersion = length(vec2(dFdx(falloff), dFdy(falloff))) * rim_chroma_pixels * (resolution.y / 1080.0);
+	vec3 housing = smoothstep(vec3(vignette_corner_size), vec3(vignette_corner_size + rim_width),
+		vec3(falloff) + vec3(0.72, 0.28, -1.0) * rim_dispersion);
+	float rim_band = 1.0 - smoothstep(0.0, rim_width, abs(falloff - vignette_corner_size - rim_width * 0.5));
+	// Split RGB normal to the lens rim. Keep the fringe about the same visual size at different resolutions.
+	vec2 rim_normal = rim_sensor / max(length(rim_sensor), 0.0001);
+	vec2 rim_fringe = rim_normal * rim_chroma_pixels * rim_band * (resolution.y / 1080.0);
+	vec2 fringe = (p * chroma_pixels * radius2 + rim_fringe) * pixel * lens_amount;
 	pixel_color.r += texture(screen_texture, clamp(uv + fringe, pixel, 1.0 - pixel)).r - centre.r;
 	pixel_color.b += texture(screen_texture, clamp(uv - fringe, pixel, 1.0 - pixel)).b - centre.b;
 	uv.y *= resolution.y / resolution.x;
@@ -100,12 +118,6 @@ void fragment() {
 	pixel_color.rgb = mix(vec3(luminance), pixel_color.rgb, saturation);
 	// White balance and grading belong to WorldEnvironment. The sensor/lens
 	// pass must not add a second cyan cast on top of the scene lighting.
-	// Small rounded lens-housing corners: the middle of every edge stays clear.
-	// Follow the look input only near the corners, without introducing side bars.
-	float rim_follow = smoothstep(0.6, 0.85, abs(p.x)) * smoothstep(0.6, 0.85, abs(p.y));
-	vec2 rim_p = p - vignette_offset * vec2(2.0 * resolution.y / resolution.x, 2.0) * rim_follow;
-	vec2 corner = max(abs(rim_p) - vec2(1.0 - vignette_corner_size), vec2(0.0)) / vignette_corner_size;
-	float vignette = smoothstep(1.035, 1.035 + vignette_softness, length(corner));
 	float photon_noise_factor = sqrt(1.0 / max(light_gathering, 0.0001));
 	float read_noise_factor = sqrt(iso / 100.0);
 	float noise_amplifier = photon_noise_factor * read_noise_factor;
@@ -126,9 +138,18 @@ void fragment() {
 	float grain_mask = smoothstep(0.0, 0.035, max(luminance, 0.0));
 	grain_mask *= mix(1.0, 0.7, smoothstep(0.15, 0.85, luminance)) * mix(0.25, 1.0, lens_amount);
 	pixel_color.rgb = max(vec3(0.0), pixel_color.rgb + vec3(read_noise + grain) * grain_mask);
-	// The opaque lens rim covers grain as well as the scene.
 	float scanline = sin(SCREEN_UV.y * resolution.y * 3.14159265);
 	pixel_color.rgb *= 1.0 - (0.5 + 0.5 * scanline) * 0.035 * vhs_strength * lens_amount;
-	pixel_color.rgb *= 1.0 - vignette * vignette_strength;
-	COLOR = pixel_color;
+	vec3 scene_transmission = 1.0 - housing * vignette_strength * lens_amount;
+	pixel_color.rgb *= scene_transmission;
+	// A narrow coating reflection keeps the rim visible across dark foreground objects.
+	float coating_position = (falloff - vignette_corner_size) / rim_width;
+	float inner_coating = 1.0 - smoothstep(0.0, 0.30, abs(coating_position - 0.24));
+	float outer_coating = 1.0 - smoothstep(0.0, 0.32, abs(coating_position - 0.62));
+	vec3 coating = vec3(0.034, 0.076, 0.088) * inner_coating
+		+ vec3(0.042, 0.079, 0.112) * outer_coating;
+	vec3 reflected_rim = coating * clamp(rim_chroma_pixels / 3.8, 0.0, 1.0)
+		* vignette_strength * lens_amount * scene_transmission;
+	pixel_color.rgb = max(pixel_color.rgb, reflected_rim);
+	COLOR = vec4(pixel_color.rgb, 1.0);
 }

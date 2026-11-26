@@ -6,7 +6,6 @@ var base: Node3D
 var lighting: WorldLighting
 var camera: Camera3D
 var output := "res://tools/.local/base-lighting-2026-11-10/shadow-quality/"
-var energies: Dictionary = {}
 
 func _initialize() -> void:
 	var prefix := "user://base_shadow_surface_%d" % OS.get_process_id()
@@ -29,10 +28,6 @@ func capture(label: String, shadows: bool) -> Image:
 		lighting.emergency_intensity = 1.0
 		lighting.emergency_intensity_changed.emit(1.0)
 		lighting._update_lamps(camera.global_position, 1.0 / 60.0)
-		for probe in base.get_node("WorldIndirectLighting").get_children():
-			if probe.data == null: continue
-			if not energies.has(probe.data): energies[probe.data] = probe.data.energy
-			probe.data.energy = 0.0
 		await process_frame
 	await RenderingServer.frame_post_draw
 	var image := root.get_texture().get_image()
@@ -83,26 +78,24 @@ func run() -> void:
 	var quality = root.get_node("GameMenu/GraphicsQuality")
 	quality.set_process(false)
 	var last_shaded: Image
-	for gi_enabled in [true, false]:
-		quality.set_gi_quality(2 if gi_enabled else 0)
-		var mode := "gi-on" if gi_enabled else "gi-off"
-		var shaded := await capture(mode + "-surface-shadowed", true)
-		last_shaded = shaded
-		var reference := await capture(mode + "-surface-reference", false)
-		var loss := 0.0
-		var bad := 0
-		var count := 0
-		var reference_energy := 0.0
-		# Plain central panel excludes its frame, handles and neighbouring wall.
-		for x in range(220, 730, 4):
-			for y in range(180, 490, 4):
-				var difference := maxf(0.0, reference.get_pixel(x, y).r - shaded.get_pixel(x, y).r)
-				loss += difference
-				reference_energy += reference.get_pixel(x, y).r
-				if difference > 0.05: bad += 1
-				count += 1
-		print("SHADOW SURFACE ", mode, " reference=", reference_energy / count, " mean_loss=", loss / count, " bad_fraction=", float(bad) / count)
-		check(reference_energy / count > 0.15 and loss / count < 0.02 and float(bad) / count < 0.08, mode + " flat wall has no broad false self-shadow bands with GI excluded")
+	var mode := "direct"
+	var shaded := await capture(mode + "-surface-shadowed", true)
+	last_shaded = shaded
+	var reference := await capture(mode + "-surface-reference", false)
+	var loss := 0.0
+	var bad := 0
+	var count := 0
+	var reference_energy := 0.0
+	# Plain central panel excludes its frame, handles and neighbouring wall.
+	for x in range(220, 730, 4):
+		for y in range(180, 490, 4):
+			var difference := maxf(0.0, reference.get_pixel(x, y).r - shaded.get_pixel(x, y).r)
+			loss += difference
+			reference_energy += reference.get_pixel(x, y).r
+			if difference > 0.05: bad += 1
+			count += 1
+	print("SHADOW SURFACE ", mode, " reference=", reference_energy / count, " mean_loss=", loss / count, " bad_fraction=", float(bad) / count)
+	check(reference_energy / count > 0.15 and loss / count < 0.02 and float(bad) / count < 0.08, mode + " flat wall has no broad false self-shadow bands with GI excluded")
 	# A real off-screen caster halfway between the lamp and the panel must
 	# still shade the panel. Large bias or disabling shadows cannot pass this.
 	var receiver := Vector3(9.965328, 1.635818, -9.0)
@@ -121,10 +114,8 @@ func run() -> void:
 	print("CASTER CONTROL red_ratio=", after / maxf(before, 0.001))
 	check(before / 169.0 > 0.15 and after < before * 0.5, "a genuine caster still blocks the lamp after acne correction")
 	caster.free()
-	quality.set_gi_quality(2)
 	for lamp: Light3D in enabled_before: lighting.set_lamp_enabled(lamp, enabled_before[lamp])
 	await capture("authored-all-lamps", true)
-	for data in energies: data.energy = float(energies[data])
 	current_scene = null
 	base.queue_free()
 	for frame in 10: await process_frame

@@ -105,7 +105,10 @@ func run():
 		check((-actor.flashlight.beam.global_basis.z).dot(-lamp.global_basis.z)>.999,"variant %d flashlight beam follows actual lamp axis"%id)
 		await capture("%d-flashlight"%id)
 		actor._input_yaw=0; actor._input_pitch=0; await ticks(12)
-		var journal: QuestJournalUI=root.get_node("QuestJournal"); journal.open_journal(); await ticks(75)
+		var journal: QuestJournalUI=root.get_node("QuestJournal")
+		actor.has_journal = true
+		journal.open_journal(); await ticks(75)
+		check(journal._phase == journal.PresentationState.OPEN, "variant %d opens the journal before measuring wrist contact" % id)
 		for side in ["Left","Right"]:
 			var hand:=sk.to_global(final_poses[sk.find_bone(side+"Hand")].origin)
 			var grip: Node3D=actor.body_animator.first_person_model.get_node("Journal/"+side+"Grip")

@@ -79,23 +79,12 @@ func run():
  check(indoor_parts==0,"obsolete exterior brackets no longer hang inside the base")
  check(floating_steps==0,"suspended roof walkway has been removed")
  var camera:=Camera3D.new();base.add_child(camera);camera.current=true;camera.far=3000;camera.fov=65
- var indirect=base.get_node("WorldIndirectLighting");var gi_valid:=true
- for zone in ["Entrance","Hub","Living"]:
-  var data=load("res://assets/environments/base_gi/"+zone.to_snake_case()+".res") as VoxelGIData
-  gi_valid=gi_valid and data!=null and not data.get_octree_cells().is_empty()
- check(gi_valid,"all three rebaked surface GI volumes contain geometry")
- var power_before:bool=base.get_node("BaseGameplayController").main_breaker_on
- indirect.set_quality_enabled(false);indirect.update_floor(2)
- var no_gi:bool=indirect.get_active_probe_count()==0
- indirect.set_quality_enabled(true);indirect.update_floor(2)
- check(no_gi and indirect.get_active_probe_count()==5 and power_before==base.get_node("BaseGameplayController").main_breaker_on,"GI toggles independently of electrical power")
  for view in [["overview",Vector3(-65,23,38),Vector3(-8,4,0)],["entry",Vector3(-46,2.1,6),Vector3(-38.8,2.2,2.8)],["roof",Vector3(-28,12,12),Vector3(-22,8.7,0)],["side",Vector3(-25,2,-15),Vector3(-22,3,-10.5)],["west-corners",Vector3(-44,5.7,16),Vector3(-37,6.5,9)],["east-corners",Vector3(43,5.7,16),Vector3(34,6.5,9)],["north-corners",Vector3(16,5.7,-34),Vector3(9,6.5,-27)],["south-corners",Vector3(16,5.7,34),Vector3(9,6.5,27)]]:
   camera.position=view[1];camera.look_at(view[2]);await shot("rebuilt-"+view[0])
  var state:BaseGameplayController=base.get_node("BaseGameplayController")
+ var power_before := state.main_breaker_on
  var snapshot=state.get_snapshot();snapshot.main_breaker_on=true;snapshot.fuel_delivered=true;snapshot.fuel_liters=30.0;state._broadcast_snapshot(snapshot)
- camera.position=Vector3(-27,1.7,-2);camera.look_at(Vector3(-22,2,-6.6));await shot("rebuilt-interior-gi")
- indirect.set_debug_disabled(true);indirect.update_floor(2);await shot("rebuilt-interior-direct")
- indirect.set_debug_disabled(false);indirect.update_floor(2)
+ camera.position=Vector3(-27,1.7,-2);camera.look_at(Vector3(-22,2,-6.6));await shot("rebuilt-interior-powered")
  snapshot=state.get_snapshot();snapshot.main_breaker_on=power_before;state._broadcast_snapshot(snapshot)
  var gate=base.find_child("West_Vehicle_Exterior_Gate_Visual_Prototype",true,false)
  check(gate!=null,"existing vehicle gate remains in the level")

@@ -13,7 +13,7 @@
 | LOD | Viewport.mesh_lod_threshold | Only affects meshes with LOD data. 191 asset import files explicitly disable generation. Not a universal polygon-reduction slider. Do not bulk-enable on rigged assets without visual checks. |
 | DecalDistance | Decal.distance_fade_begin/length | Real fade and culling; new dynamically added footprint decals receive settings through node_added. |
 | TrackCount | SnowTracks.max_marks | Real bounded pool; visible difference only after enough footsteps. |
-| MotionBlur | camera_post_process.gd | Project-specific camera effect; off in all presets. Not built-in Godot motion blur. |
+| MotionBlur | camera_post_process.gd | Project-specific camera effect; enabled in all three presets. Not built-in Godot motion blur. |
 | FPS | Engine.max_fps | Frame cap; VSync may impose a second cap. |
 
 Exact previous presets migrate, while custom selections and display calibration remain intact.

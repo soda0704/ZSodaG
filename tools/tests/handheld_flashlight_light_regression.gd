@@ -54,6 +54,7 @@ func run() -> void:
 		check(can > dark + 0.04 and can > solo * 0.65, "canister transition keeps real world illumination")
 		check(player.flashlight.get_parent() == socket, "picking up canister never reparents the torch")
 		var charge := player._battery_charge
+		player.has_journal = true
 		root.get_node("QuestJournal").open_journal()
 		await create_timer(0.2).timeout
 		var book_dark := await sample("%d-journal" % variant)

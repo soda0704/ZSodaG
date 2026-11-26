@@ -185,7 +185,6 @@ func begin_terminal_interaction() -> void:
 	active = true
 	_sequence = 0
 	add_to_group("terminal_ui")
-	_local_player.refresh_crosshair_visibility()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	app_camera.make_current()
 	_opening_day = _controller.day_index
@@ -226,7 +225,6 @@ func close_terminal() -> void:
 	var console := get_node_or_null("/root/DeveloperConsole")
 	if is_instance_valid(_local_player) and _local_player.is_inside_tree():
 		if not _local_player.survival.dead and (menu == null or not menu.is_menu_open()) and (console == null or not console.opened): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		_local_player.refresh_crosshair_visibility()
 	ui.refresh_access()
 	refresh_app_display()
 	_local_player = null

@@ -37,7 +37,6 @@ func run():
 	arena.get_node("SnowExterior/Blizzard").enabled=false
 	var camera:=Camera3D.new();arena.add_child(camera);camera.position=Vector3(-27,1.7,-2);camera.look_at(Vector3(-22,2,-6.6));camera.current=true
 	var lighting:WorldLighting=arena.get_node("WorldLighting")
-	var gi=arena.get_node("WorldIndirectLighting")
 	await settle()
 	var authored_environment := lighting.source_environment().duplicate() as Environment
 	var managed_environment := camera.environment
@@ -63,9 +62,9 @@ func run():
 		check(quality.preset_index(quality.values)==index and quality.values.FPS==144 and quality.values.Gamma==110 and quality.values.MotionBlur and quality.values.MotionBlurStrength==55,"preset %d preserves calibration, frame cap and deliberate blur choices"%index)
 		menu.force_close_menu();await settle()
 		check(is_equal_approx(root.scaling_3d_scale,float(selected.Scale)/100.0) and root.msaa_3d==int(selected.MSAA) and root.screen_space_aa==(Viewport.SCREEN_SPACE_AA_FXAA if selected.FXAA else Viewport.SCREEN_SPACE_AA_DISABLED),"preset %d changes actual render resolution and anti-aliasing"%index)
-		check(root.positional_shadow_atlas_size==(2048 if index==1 else 4096) and is_equal_approx(lighting.quality_shadow_distance,float(selected.ShadowDistance)),"preset %d changes real shadow budgets"%index)
+		check(root.positional_shadow_atlas_size==[2048, 4096, 8192][index - 1] and is_equal_approx(lighting.quality_shadow_distance,float(selected.ShadowDistance)),"preset %d changes real shadow budgets"%index)
 		check(is_equal_approx(root.mesh_lod_threshold,float(selected.LOD)) and tracks!=null and tracks.max_marks==int(selected.TrackCount) and is_equal_approx(decal.distance_fade_begin,float(selected.DecalDistance)*.75),"preset %d updates LOD, snow capacity and existing decals"%index)
-		check(gi.get_active_probe_count()>0 and camera.environment.ssao_enabled and camera.environment.glow_enabled,"preset %d retains authored lighting and real effects"%index)
+		check(camera.environment.ssao_enabled == (authored_environment.ssao_enabled and int(selected.AOQuality) > 0) and camera.environment.glow_enabled == authored_environment.glow_enabled and not camera.environment.sdfgi_enabled,"preset %d retains authored lighting and real effects"%index)
 		Engine.max_fps=0
 		await capture("preset-%d"%index)
 		var samples:Array[float]=[]
@@ -97,7 +96,7 @@ func run():
 	menu.force_close_menu();Engine.max_fps=60
 	check(root.get_camera_3d()==camera,"fixed comparison camera remains the active world camera")
 	# Confirm Glow actually changes pixels around a bright emitter, not just a flag.
-	quality.apply({"GIQuality":0,"AOQuality":0,"Bloom":false,"Gamma":100,"Brightness":100})
+	quality.apply({"AOQuality":0,"Bloom":false,"Gamma":100,"Brightness":100})
 	var emitter:=MeshInstance3D.new();var sphere:=SphereMesh.new();sphere.radius=.016;sphere.height=.032;emitter.mesh=sphere
 	var material:=StandardMaterial3D.new();material.albedo_color=Color.BLACK;material.emission_enabled=true;material.emission=Color.WHITE;material.emission_energy_multiplier=8.0;emitter.material_override=material;arena.add_child(emitter);emitter.global_position=camera.global_transform*Vector3(0,0,-.4)
 	var no_glow:=await capture("glow-off")
@@ -111,13 +110,13 @@ func run():
 	print("GLOW RING DIFFERENCE ",difference/maxi(count,1))
 	check(difference/maxi(count,1)>.00001,"Glow creates an actual halo around a bright object")
 	var invalid:Dictionary=quality.normalized({"Brightness":999,"Gamma":-1,"Scale":0,"ShadowQuality":9,"GIQuality":-10,"LOD":-2,"TrackCount":9999,"MSAA":99,"HDRWhite":999,"FPS":-30,"MotionBlurStrength":999})
-	check(invalid.Brightness==140 and invalid.Gamma==70 and invalid.Scale==50 and invalid.ShadowQuality==3 and invalid.GIQuality==0 and invalid.LOD==1 and invalid.TrackCount==512 and invalid.MSAA==3 and invalid.HDRWhite==400 and invalid.FPS==0 and invalid.MotionBlurStrength==100,"out-of-range preferences normalize to the same legal values the renderer uses")
+	check(invalid.Brightness==140 and invalid.Gamma==70 and invalid.Scale==50 and invalid.ShadowQuality==3 and not invalid.has("GIQuality") and invalid.LOD==1 and invalid.TrackCount==512 and invalid.MSAA==3 and invalid.HDRWhite==400 and invalid.FPS==0 and invalid.MotionBlurStrength==100,"out-of-range preferences normalize to the same legal values the renderer uses")
 	var wrong_types:Dictionary=quality.normalized({"Scale":"broken","Bloom":{},"FPS":INF})
 	check(wrong_types.Scale==100 and wrong_types.Bloom and wrong_types.FPS==0,"damaged value types recover without invalid render settings")
 	var saved_file:=FileAccess.get_file_as_string(menu.get_settings_path())
 	FileAccess.open(menu.get_settings_path(),FileAccess.WRITE).store_string(JSON.stringify({"Graphics":"damaged"}))
 	var repaired:Dictionary=menu.load_settings_data()
-	check(repaired.Graphics is Dictionary and repaired.Graphics.Scale==100 and repaired.Graphics.GIQuality==2,"a damaged Graphics block loads safe defaults through GameMenu")
+	check(repaired.Graphics is Dictionary and repaired.Graphics.Scale==100 and not repaired.Graphics.has("GIQuality"),"a damaged Graphics block loads safe defaults through GameMenu")
 	FileAccess.open(menu.get_settings_path(),FileAccess.WRITE).store_string(saved_file)
 	FileAccess.open(output+"preset-render-results.json",FileAccess.WRITE).store_string(JSON.stringify(rows,"  "))
 	current_scene=null;arena.queue_free();await settle(8)

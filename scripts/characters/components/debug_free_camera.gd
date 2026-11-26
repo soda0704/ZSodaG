@@ -40,11 +40,9 @@ func set_enabled(value: bool) -> void:
 		player.collect_local_input()
 		if multiplayer.is_server():
 			player.copy_local_input_to_server()
-		player.interaction_prompt_label.hide()
-		player.battery_label.hide()
+		player.interaction_prompt = ""
 	else:
 		player.camera.make_current()
-	player.refresh_crosshair_visibility()
 
 
 func _can_control() -> bool:
@@ -69,7 +67,6 @@ func _process(delta: float) -> void:
 	if player.survival.dead or player.is_bunk_busy():
 		set_enabled(false)
 		return
-	player.crosshair.hide()
 	if not _can_control():
 		return
 	var sensitivity := float(get_node("/root/GameMenu").get_mouse_sensitivity_multiplier())

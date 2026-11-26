@@ -121,10 +121,10 @@ func run() -> void:
 	var cover_deadline := Time.get_ticks_msec() + 1500
 	while breaker.cover_animation.is_playing() and Time.get_ticks_msec() < cover_deadline: await process_frame
 	check(breaker._cover_open and breaker.get_node("Wiring/Board").visible and absf(breaker.cover.rotation.y + 1.95) < 0.05, "E opens the hinged physical cover")
-	player.refresh_crosshair_visibility()
+
 	Input.action_press("move_forward")
 	player.collect_local_input()
-	check(player._input_move == Vector2.ZERO and not player.crosshair.visible, "repair blocks movement and first-person crosshair")
+	check(player._input_move == Vector2.ZERO and not player.is_gameplay_view_active(), "repair blocks movement and first-person crosshair")
 	Input.action_release("move_forward")
 	await screenshot("repair-empty")
 	await click(breaker.wiring.get_node("Board/Source0"))

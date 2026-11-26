@@ -50,6 +50,7 @@ func run() -> void:
   player.setup(1,"",Vector3(0,0.1,0),Color.WHITE,0,variant)
   world.get_node("Players").add_child(player)
   player.survival.set_physics_process(false)
+  player.has_journal = true
   menu.force_close_menu()
   await create_timer(0.45).timeout
   var closed := await shot()

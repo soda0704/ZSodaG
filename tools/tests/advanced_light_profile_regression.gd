@@ -46,34 +46,29 @@ func run():
 	base.get_node("SnowExterior/Blizzard").enabled=false
 	lighting=base.get_node("WorldLighting");lighting.set_process(false)
 	quality=root.get_node("GameMenu/GraphicsQuality");quality.set_process(false)
-	var gi:=base.get_node("WorldIndirectLighting")
 	var isolation:=base.get_node("InteriorAmbientOcclusion")
 	var freecam=actor.debug_free_camera;freecam.set_enabled(true);freecam.set_process(false)
 	camera=freecam;camera.fov=80;camera.global_position=Vector3(-6,1.75,6);camera.look_at(Vector3(4,1.7,5.8));camera.reset_physics_interpolation()
 	var lamp_count:=lighting._lamps.size()
 	var floor_rect:=Rect2i(500,460,180,170)
-	for gi_enabled in [true,false]:
-		var mode:="gi-on" if gi_enabled else "gi-off"
-		quality.set_gi_quality(2 if gi_enabled else 0);power(false)
-		var flash:=await capture("alarm-after-"+mode,1.0)
-		var rgb:=mean(flash,floor_rect);print("ALARM FLOOR ",mode," ",rgb)
-		check(gi.get_active_probe_count()==0,"backup circuit never displays GI in "+mode)
-		check(isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR),"backup room rejects sky ambient in "+mode)
-		check(rgb.r>rgb.g*3.0 and rgb.g<.006 and rgb.b<.006,"alarm floor receives red light without neutral white wash in "+mode)
-		check(lighting._resident_lamps.any(func(lamp):return lamp.light_energy>.01),"real backup lights remain active in "+mode)
-		var dark:=await capture("alarm-pause-after-"+mode,0.0)
-		check(mean(dark,floor_rect).get_luminance()<.003,"alarm pause does not retain white GI in "+mode)
-		check(lighting._lamps.all(func(lamp):return is_zero_approx(lamp.light_energy)),"alarm pause zeros every pooled source in "+mode)
-	quality.set_gi_quality(2);power(true)
+	var mode := "direct"
+	power(false)
+	var flash:=await capture("alarm-after-"+mode,1.0)
+	var rgb:=mean(flash,floor_rect);print("ALARM FLOOR ",mode," ",rgb)
+	check(isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR),"backup room rejects sky ambient in "+mode)
+	check(rgb.r>rgb.g*3.0 and rgb.g<.006 and rgb.b<.006,"alarm floor receives red light without neutral white wash in "+mode)
+	check(lighting._resident_lamps.any(func(lamp):return lamp.light_energy>.01),"real backup lights remain active in "+mode)
+	var dark:=await capture("alarm-pause-after-"+mode,0.0)
+	check(mean(dark,floor_rect).get_luminance()<.003,"alarm pause does not retain neutral illumination in "+mode)
+	check(lighting._lamps.all(func(lamp):return is_zero_approx(lamp.light_energy)),"alarm pause zeros every pooled source in "+mode)
+	power(true)
 	camera.global_position=Vector3(-6,1.7,15.5);camera.look_at(Vector3(1,2,10.1));camera.reset_physics_interpolation()
 	await capture("powered-doorway-after",1.0)
-	check(gi.get_active_probe_count()>0,"real power restoration restores advanced GI")
-	check(isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_DISABLED),"powered room keeps diffuse bounce")
 	check(isolation.get_node("Connectors").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_DISABLED),"doorways no longer impose black diffuse rectangles")
 	power(true,true);await process_frame
-	check(not base.get_node("BasePowerLightingController").is_standard_powered and gi.get_active_probe_count()==0,"containment fault selects backup profile even with the main breaker on")
+	check(not base.get_node("BasePowerLightingController").is_standard_powered,"containment fault selects backup profile even with the main breaker on")
 	power(true);await process_frame
-	check(gi.get_active_probe_count()>0 and (int(quality.values.GIQuality) > 0),"fault recovery restores GI without overriding graphics choice")
+	check(base.get_node("BasePowerLightingController").is_standard_powered,"fault recovery restores normal power")
 	check(lighting._lamps.size()==lamp_count,"circuit transitions do not duplicate lamps")
 	freecam.set_enabled(false);current_scene=null;base.queue_free();for frame in 15:await process_frame
 	# The staged loader can attach rendering blocks after the controller.
@@ -82,13 +77,10 @@ func run():
 	for label in ["Standard","Emergency"]:
 		var group:=Node3D.new();group.name=label;circuits.add_child(group)
 	var controller:=BasePowerLightingController.new();controller.name="BasePowerLightingController";late.add_child(controller)
-	var late_gi=load("res://scenes/levels/world_indirect_lighting.tscn").instantiate();late.add_child(late_gi);late_gi.set_process(false);late_gi.update_floor(3.0)
 	var late_isolation=load("res://scenes/levels/interior_ambient_occlusion.tscn").instantiate();late.add_child(late_isolation)
 	for frame in 3:await process_frame
-	check(late_gi.get_active_probe_count()==0 and not late_gi._power_enabled,"late-loaded GI inherits the existing outage")
 	check(late_isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR),"late-loaded ambient isolation inherits the existing outage")
-	controller.apply_power_state(true);late_gi.update_floor(3.0)
-	check(late_gi.get_active_probe_count()>0,"late-loaded GI responds to subsequent power restoration")
-	check(late_isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_DISABLED),"late-loaded room releases the black diffuse override with power")
+	controller.apply_power_state(true)
+	check(late_isolation.get_node("Fallback").get_children().all(func(probe):return probe.ambient_mode==ReflectionProbe.AMBIENT_COLOR),"late-loaded room retains authored isolation after power restoration")
 	late.queue_free();for frame in 5:await process_frame
 	print("ADVANCED LIGHT PROFILE CHECKS ",checks," FAILURES ",failures);quit(1 if failures else 0)

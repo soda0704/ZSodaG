@@ -39,7 +39,7 @@ func run() -> void:
  fixture(player, &"fuel_can", 0.65)
  player.flashlight.begin_malfunction(true)
  check(player._flashlight_malfunctioning and not player._flashlight_enabled, "actual timer callback sets authoritative fault")
- check(player.get_node("PlayerUI/FlashlightShakeHint").visible, "fault displays shake hint for owner")
+ check(player.get_node("PlayerUI/NorthernLabHUD").current_prompt().contains("Встряхнуть фонарь"), "fault displays shake hint for owner")
  player.toggle_flashlight_authoritative()
  player.toggle_flashlight_authoritative()
  check(player._flashlight_malfunctioning and not player.flashlight.beam.visible, "stow/draw cannot repair fault")
@@ -74,7 +74,7 @@ func run() -> void:
    player._unhandled_input(event)
   check(player._flashlight_shake_presses == i + 2 or not player._flashlight_malfunctioning, "separate E press %d is accepted" % (i + 2))
  check(not player._flashlight_malfunctioning and player._flashlight_enabled and player.flashlight.beam.visible, "six separate E presses repair and restore beam")
- check(not player.get_node("PlayerUI/FlashlightShakeHint").visible, "repair dismisses hint")
+ check(not player.get_node("PlayerUI/NorthernLabHUD").current_prompt().contains("Встряхнуть фонарь"), "repair dismisses hint")
  var intervals: Array[float] = []
  for i in range(8):
   player.flashlight.set_enabled(false, false)
